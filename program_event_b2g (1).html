@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Программа корпоративного обучения ИИ — Event-компания B2G</title>
+<style>
+:root {
+  --bg:#0c0e14; --surface:#151821; --surface2:#1c2030; --border:#272d42;
+  --text:#e2e4ef; --text2:#8891ad; --accent:#6580ff; --accent2:#3edbc6;
+  --accent3:#ff6b8a; --accent4:#ffd166; --accent5:#a78bfa; --green:#3edbc6;
+  --orange:#ffa94d; --red:#ff6b8a; --radius:10px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.65}
+.page{max-width:1100px;margin:0 auto;padding:24px 20px}
+
+/* Header */
+.hero{text-align:center;padding:40px 20px 32px;border-bottom:1px solid var(--border);margin-bottom:32px}
+.hero h1{font-size:1.9em;font-weight:800;letter-spacing:-0.03em;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+.hero .sub{color:var(--text2);font-size:1em}
+.hero .badges{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.hero .badges span{background:var(--surface);padding:7px 16px;border-radius:20px;font-size:0.82em;color:var(--text2);border:1px solid var(--border)}
+.hero .badges span b{color:var(--accent)}
+
+/* Tabs */
+.tabs{display:flex;gap:4px;overflow-x:auto;border-bottom:1px solid var(--border);margin-bottom:28px;flex-wrap:wrap}
+.tab{padding:10px 18px;border:none;background:none;color:var(--text2);cursor:pointer;font-size:0.84em;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;font-family:inherit}
+.tab:hover{color:var(--text);background:var(--surface)}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent);background:var(--surface)}
+.tc{display:none;animation:fadeIn .3s ease}.tc.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* Cards */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px}
+.card h3{font-size:0.88em;color:var(--text2);margin-bottom:10px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+
+/* Day block */
+.day-block{margin-bottom:32px}
+.day-header{display:flex;align-items:center;gap:14px;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--accent)}
+.day-num{width:52px;height:52px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:1.3em;font-weight:800;color:#0c0e14;flex-shrink:0}
+.day-title{font-size:1.15em;font-weight:700;color:var(--text)}
+.day-subtitle{font-size:0.85em;color:var(--text2);margin-top:2px}
+.day-header.w2{border-bottom-color:var(--accent2)}.day-header.w2 .day-num{background:linear-gradient(135deg,var(--accent2),var(--accent4))}
+.day-header.w3{border-bottom-color:var(--accent5)}.day-header.w3 .day-num{background:linear-gradient(135deg,var(--accent5),var(--accent3))}
+.day-header.w4{border-bottom-color:var(--accent4)}.day-header.w4 .day-num{background:linear-gradient(135deg,var(--accent4),var(--orange))}
+
+/* Session */
+.session{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:10px;position:relative}
+.session-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.session-id{font-size:0.78em;font-weight:700;color:var(--accent);background:rgba(101,128,255,.12);padding:3px 10px;border-radius:8px}
+.session-dur{font-size:0.78em;color:var(--text2);background:var(--surface);padding:3px 10px;border-radius:8px}
+.session h4{font-size:1em;font-weight:700;margin-bottom:8px}
+.session ul{padding-left:18px;font-size:0.88em;color:var(--text)}
+.session ul li{margin-bottom:4px}
+
+/* Materials */
+.materials{background:rgba(62,219,198,.06);border:1px solid rgba(62,219,198,.15);border-radius:var(--radius);padding:14px 18px;margin-top:10px}
+.materials h5{font-size:0.8em;color:var(--green);margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.materials ul{padding-left:16px;font-size:0.84em;color:var(--text2)}
+.materials ul li{margin-bottom:3px}
+
+/* Homework */
+.homework{background:rgba(255,209,102,.06);border:1px solid rgba(255,209,102,.15);border-radius:var(--radius);padding:14px 18px;margin-top:10px}
+.homework h5{font-size:0.8em;color:var(--accent4);margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.homework ul,.homework ol{padding-left:16px;font-size:0.84em;color:var(--text2)}
+.homework ul li,.homework ol li{margin-bottom:3px}
+
+/* Break */
+.break-row{text-align:center;padding:6px;font-size:0.78em;color:var(--text2);opacity:0.6;margin-bottom:10px}
+
+/* Rationale */
+.rationale{background:rgba(101,128,255,.06);border-left:3px solid var(--accent);padding:12px 16px;border-radius:0 var(--radius) var(--radius) 0;margin:12px 0;font-size:0.84em;color:var(--text2)}
+.rationale b{color:var(--accent)}
+
+/* Table */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:0.85em}
+th{background:var(--surface2);color:var(--text2);font-weight:600;text-transform:uppercase;font-size:0.75em;letter-spacing:.04em}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--border)}
+td{color:var(--text)}
+
+/* Tags */
+.tag{display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.75em;font-weight:500;margin:2px}
+.tag-all{background:rgba(101,128,255,.12);color:var(--accent)}
+.tag-mgr{background:rgba(62,219,198,.12);color:var(--green)}
+.tag-lead{background:rgba(167,139,250,.12);color:var(--accent5)}
+.tag-tender{background:rgba(255,209,102,.12);color:var(--accent4)}
+.tag-adv{background:rgba(255,107,138,.12);color:var(--red)}
+
+/* Grid */
+.grid{display:grid;gap:16px}
+.grid-2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.grid-3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+
+/* Insight */
+.insight{background:rgba(101,128,255,.07);border-left:3px solid var(--accent);padding:12px 16px;border-radius:0 var(--radius) var(--radius) 0;margin:16px 0;font-size:0.88em}
+.insight.warn{background:rgba(255,107,138,.07);border-left-color:var(--red)}
+
+/* Summary bar */
+.summary-bar{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+.summary-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 20px;flex:1;min-width:140px;text-align:center}
+.summary-item .num{font-size:1.8em;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.summary-item .lbl{font-size:0.78em;color:var(--text2);margin-top:2px}
+
+@media(max-width:768px){
+  .hero h1{font-size:1.3em}
+  .day-header{flex-wrap:wrap}
+  .grid-2,.grid-3{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="hero">
+  <h1>🎓 Программа корпоративного обучения ИИ</h1>
+  <div class="sub">Event-компания (B2G) — Внедрение ИИ в бизнес-процессы</div>
+  <div class="badges">
+    <span><b>8</b> учебных дней</span>
+    <span><b>16</b> сессий × 60 мин</span>
+    <span><b>4</b> недели</span>
+    <span><b>2</b> встречи / неделю</span>
+    <span><b>24</b> сотрудника</span>
+  </div>
+</div>
+
+<div class="tabs" id="tabs">
+  <button class="tab active" data-tab="overview">Обзор программы</button>
+  <button class="tab" data-tab="week1">Неделя 1</button>
+  <button class="tab" data-tab="week2">Неделя 2</button>
+  <button class="tab" data-tab="week3">Неделя 3</button>
+  <button class="tab" data-tab="week4">Неделя 4</button>
+  <button class="tab" data-tab="logistics">Логистика и формат</button>
+  <button class="tab" data-tab="results">Результаты</button>
+</div>
+
+<!-- ============ OVERVIEW ============ -->
+<div class="tc active" id="overview">
+
+  <div class="summary-bar">
+    <div class="summary-item"><div class="num">6</div><div class="lbl">блоков</div></div>
+    <div class="summary-item"><div class="num">16</div><div class="lbl">сессий</div></div>
+    <div class="summary-item"><div class="num">16ч</div><div class="lbl">учебного времени</div></div>
+    <div class="summary-item"><div class="num">5</div><div class="lbl">домашних заданий</div></div>
+    <div class="summary-item"><div class="num">8+</div><div class="lbl">методичек и шаблонов</div></div>
+  </div>
+
+  <div class="card">
+    <h3>Архитектура программы: 6 блоков</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th style="width:5%">№</th><th style="width:22%">Блок</th><th style="width:8%">Дни</th><th style="width:30%">Закрывает боль</th><th style="width:20%">Из анкеты</th><th style="width:15%">Аудитория</th></tr>
+      <tr>
+        <td><strong style="color:var(--accent)">1</strong></td>
+        <td><strong>Фундамент ИИ и промпт-инженеринг</strong></td>
+        <td>1, 3</td>
+        <td>Низкая уверенность (2.5/5), не понимают промпты (63%), пользуются на базовом уровне</td>
+        <td>Барьер №1 по анкете</td>
+        <td><span class="tag tag-all">Все 24 чел.</span></td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--accent2)">2</strong></td>
+        <td><strong>Безопасность и конфиденциальность</strong></td>
+        <td>2</td>
+        <td>Работа с госзаказчиками, ИИ-фото в отчётах, утечка данных</td>
+        <td>17% опасения по ИБ; критический риск</td>
+        <td><span class="tag tag-all">Все 24 чел.</span></td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--accent5)">3</strong></td>
+        <td><strong>ИИ-ассистенты и агенты</strong></td>
+        <td>6, 7, 8</td>
+        <td>Автоматизация рутины (42%), контроль подрядчиков, ведение проектов</td>
+        <td>71% хотят автоматизацию; 88% хотят шаблоны</td>
+        <td><span class="tag tag-all">Все</span> <span class="tag tag-adv">Продвинутые</span></td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--accent4)">4</strong></td>
+        <td><strong>Глубокие исследования</strong></td>
+        <td>4</td>
+        <td>Аналитика НПА, тендеров, рынка; верификация данных</td>
+        <td>75% хотят аналитику; 29% жалуются на ошибки ИИ</td>
+        <td><span class="tag tag-all">Все</span> <span class="tag tag-tender">Тендеры/Юристы</span></td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--orange)">5</strong></td>
+        <td><strong>Креатив и мозговой штурм</strong></td>
+        <td>5</td>
+        <td>Сценарии мероприятий (42%), концепции (50%), визуализация</td>
+        <td>63% хотят ИИ как креативного помощника</td>
+        <td><span class="tag tag-mgr">Менеджеры</span> <span class="tag tag-lead">Руководство</span></td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--red)">6</strong></td>
+        <td><strong>Аудит и дорожная карта внедрения</strong></td>
+        <td>8</td>
+        <td>Нет единой стратегии ИИ; разнородность инструментов (8+ разных ИИ)</td>
+        <td>Запрос руководства на системность</td>
+        <td><span class="tag tag-lead">Руководство</span></td>
+      </tr>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Поденный план (обзор)</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th>Нед.</th><th>День</th><th>Сессия 1 (60 мин)</th><th>Сессия 2 (60 мин)</th><th>ДЗ</th></tr>
+      <tr style="background:rgba(101,128,255,.04)">
+        <td rowspan="2" style="font-weight:700;color:var(--accent)">1</td>
+        <td><strong>1</strong></td>
+        <td>Современные применения ИИ. Какой ИИ под какую задачу</td>
+        <td>Введение в LLM: мышление, ошибки, инсайты</td>
+        <td style="text-align:center">✅</td>
+      </tr>
+      <tr style="background:rgba(101,128,255,.04)">
+        <td><strong>2</strong></td>
+        <td>Безопасность ИИ: корпоративная + личная + B2G</td>
+        <td>Корпоративный аккаунт ChatGPT: настройка и старт</td>
+        <td style="text-align:center">✅</td>
+      </tr>
+      <tr>
+        <td rowspan="2" style="font-weight:700;color:var(--accent2)">2</td>
+        <td><strong>3</strong></td>
+        <td>Промпт-инженеринг: формула + техники + event-кейсы</td>
+        <td>Визуализация данных: таблицы, презентации, дашборды</td>
+        <td style="text-align:center">✅</td>
+      </tr>
+      <tr>
+        <td><strong>4</strong></td>
+        <td>Практика: разбор ДЗ + вопросы и ответы</td>
+        <td>Глубокие исследования: проведение и «прожарка»</td>
+        <td style="text-align:center">✅</td>
+      </tr>
+      <tr style="background:rgba(167,139,250,.04)">
+        <td rowspan="2" style="font-weight:700;color:var(--accent5)">3</td>
+        <td><strong>5</strong></td>
+        <td>Практика: разбор ДЗ + вопросы и ответы</td>
+        <td>Креатив и мозговой штурм с ИИ: сценарии, концепции</td>
+        <td style="text-align:center">—</td>
+      </tr>
+      <tr style="background:rgba(167,139,250,.04)">
+        <td><strong>6</strong></td>
+        <td>Работа с проектами в ChatGPT</td>
+        <td>ИИ-ассистенты: создание под свои задачи</td>
+        <td style="text-align:center">✅</td>
+      </tr>
+      <tr>
+        <td rowspan="2" style="font-weight:700;color:var(--accent4)">4</td>
+        <td><strong>7</strong></td>
+        <td>Хакатон: доработка ассистентов + обмен опытом</td>
+        <td>Продвинутые инструменты: Antigravity, Claude Code, агенты</td>
+        <td style="text-align:center">—</td>
+      </tr>
+      <tr>
+        <td><strong>8</strong></td>
+        <td>Автоматизация процессов: боты, фоллоапы, календарь</td>
+        <td>Аудит + дорожная карта внедрения ИИ в компании</td>
+        <td style="text-align:center">—</td>
+      </tr>
+    </table>
+    </div>
+  </div>
+
+  <div class="rationale">
+    <b>Логика программы:</b> Домашние задания в первой половине (дни 1–4, 6) — когда формируются базовые навыки и нужна практика между сессиями. Во второй половине (дни 5, 7, 8) — фокус на практику внутри сессий (хакатон, воркшоп), а домашние задания не нужны, т.к. участники уже применяют навыки в реальной работе.
+  </div>
+</div>
+
+<!-- ============ WEEK 1 ============ -->
+<div class="tc" id="week1">
+  <div style="font-size:0.85em;color:var(--text2);margin-bottom:20px">Фокус недели: <strong style="color:var(--accent)">Фундамент — ИИ-ландшафт, безопасность, корп. аккаунт</strong></div>
+
+  <!-- DAY 1 -->
+  <div class="day-block">
+    <div class="day-header">
+      <div class="day-num">1</div>
+      <div>
+        <div class="day-title">ИИ-ландшафт и введение в LLM</div>
+        <div class="day-subtitle">Блок 1: Фундамент ИИ — Какой инструмент под какую задачу</div>
+      </div>
+    </div>
+
+    <div class="session">
+      <div class="session-head">
+        <span class="session-id">1.1</span>
+        <span class="session-dur">⏱ 60 минут</span>
+      </div>
+      <h4>Современные применения ИИ: какой инструмент под какую задачу</h4>
+      <ul>
+        <li>Презентация программы и методологии обучения</li>
+        <li>Современные применения ИИ в работе и жизни — с фокусом на event-индустрию и B2G</li>
+        <li><strong>Карта инструментов:</strong> ChatGPT — для каких задач, Gemini — для каких, DeepSeek — для каких, GigaChat — для каких, специализированные (NanoBanana, Кандинский, Stable Diffusion) — для визуала</li>
+        <li>Демонстрация: одна и та же задача (написать сценарий мероприятия) в 3 разных ИИ — сравнение результатов</li>
+      </ul>
+      <div class="materials">
+        <h5>📚 Учебные материалы</h5>
+        <ul>
+          <li>Программа обучения</li>
+          <li>Информационная презентация «Современные применения ИИ в работе и жизни»</li>
+          <li>Карта инструментов: «Какой ИИ под какую задачу» (PDF / шаблон)</li>
+          <li>Скринкаст «Как настроить VPN от Amnezia на своём сервере»</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="break-row">☕ Перерыв — 5 минут</div>
+
+    <div class="session">
+      <div class="session-head">
+        <span class="session-id">1.2</span>
+        <span class="session-dur">⏱ 60 минут</span>
+      </div>
+      <h4>Введение в работу LLM: мышление, ошибки и инсайты</h4>
+      <ul>
+        <li>Что такое ИИ и большие языковые модели — простым языком</li>
+        <li>Разница между генеративными и дискриминантными моделями — когда какая нужна</li>
+        <li>Типичные ошибки ИИ: галлюцинации, путаница дат, недостоверные данные</li>
+        <li>«Прожарка» результатов выдачи — как отличить качественный ответ от мусора</li>
+        <li>Практика: участники проверяют ответ ИИ на реальном примере из своей работы</li>
+      </ul>
+      <div class="materials">
+        <h5>📚 Учебные материалы</h5>
+        <ul>
+          <li>Учебная презентация «LLM: введение в работу нейросетей, ошибки и инсайты использования»</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="homework">
+      <h5>📝 Домашнее задание (Подготовка ко всему обучению)</h5>
+      <ol>
+        <li>Настроить VPN (если из РФ) и сменить регион в Apple Store / Google Play для скачивания мобильного приложения ChatGPT</li>
+        <li>Пройти регистрацию на платформе chatgpt.com</li>
+        <li>Попробовать 3 разных ИИ (ChatGPT, DeepSeek, Gemini) на одной рабочей задаче — сравнить результаты (5–10 мин)</li>
+      </ol>
+    </div>
+
+    <div class="rationale">
+      <b>Почему так:</b> По анкете 8+ разных инструментов используются хаотично. 46% используют DeepSeek, 50% — ChatGPT, 17% — Gemini. Карта инструментов снимет проблему «не знаю, какой ИИ для чего». Тема ошибок ИИ — прямой ответ на 29% жалоб о недостоверности.
+    </div>
+  </div>
+
+  <!-- DAY 2 -->
+  <div class="day-block">
+    <div class="day-header">
+      <div class="day-num">2</div>
+      <div>
+        <div class="day-title">Безопасность и корпоративный аккаунт</div>
+        <div class="day-subtitle">Блок 2: Конфиденциальность при работе с госзаказчиками</div>
+      </div>
+    </div>
+
+    <div class="session">
+      <div class="session-head">
+        <span class="session-id">2.1</span>
+        <span class="session-dur">⏱ 60 минут</span>
+      </div>
+      <h4>Безопасность при работе с ИИ: корпоративная, личная и B2G</h4>
+      <ul>
+        <li>Корпоративная безопасность: что можно / нельзя загружать в ИИ</li>
+        <li>Личная безопасность: защита данных, 2FA</li>
+        <li><strong>Специальный блок B2G:</strong> границы использования ИИ при работе с госзаказчиками</li>
+        <li>Политика использования ИИ-генерированных изображений в отчётах — правовые риски</li>
+        <li>Разбор реального кейса: «Заказчик может понять, что фотографии поддельные» (из анкеты)</li>
+      </ul>
+      <div class="materials">
+        <h5>📚 Учебные материалы</h5>
+        <ul>
+          <li>Учебная презентация «Информационная безопасность при работе с нейросетями»</li>
+          <li>Памятка «Что можно / нельзя загружать в ИИ при работе с госзаказчиками» (PDF)</li>
+          <li>Шаблон корпоративной политики использования ИИ</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="break-row">☕ Перерыв — 5 минут</div>
+
+    <div class="session">
+      <div class="session-head">
+        <span class="session-id">2.2</span>
+        <span class="session-dur">⏱ 60 минут</span>
+      </div>
+      <h4>Начало работы в корпоративном аккаунте ChatGPT</h4>
+      <ul>
+        <li>Основные функции в корпоративном рабочем пространстве</li>
+        <li>Базовые настройки: профиль, память, персонализация</li>
+        <li>Работа с диалоговым окном — первые шаги</li>
+        <li>Практика: каждый участник настраивает аккаунт под свои задачи</li>
+      </ul>
+      <div class="materials">
+        <h5>📚 Учебные материалы</h5>
+        <ul>
+          <li>Скринкаст «Как настроить корпоративный аккаунт в ChatGPT»</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="homework">
+      <h5>📝 Домашнее задание</h5>
+      <ol>
+        <li>Настроить двухфакторную аутентификацию (2FA) во всех рабочих аккаунтах: GMAIL, рабочая почта, ChatGPT, Gemini</li>
+        <li>Для 2FA использовать Google Authenticator (iOS / Android)</li>
+        <li>Подготовить корпоративное пространство в ChatGPT по скринкасту</li>
+      </ol>
+    </div>
+
+    <div class="rationale">
+      <b>Почему так:</b> Критический риск из анкеты: сотрудники уже генерируют фото для отчётов госзаказчикам. Блок ИБ идёт ВТОРЫМ днём (до промптинга), чтобы установить правила ДО активного использования. 17% указали опасения по конфиденциальности — снимаем чёткими регламентами.
+    </div>
+  </div>
+</div>
+
+<!-- ============ WEEK 2 ============ -->
+<div class="tc" id="week2">
+  <div style="font-size:0.85em;color:var(--text2);margin-bottom:20px">Фокус недели: <strong style="color:var(--accent2)">Ключевые навыки — промптинг, визуализация, исследования</strong></div>
+
+  <!-- DAY 3 -->
+  <div class="day-block">
+    <div class="day-header w2">
+      <div class="day-num">3</div>
+      <div>
+        <div class="day-title">Промпт-инженеринг и визуализация</div>
+        <div class="day-subtitle">Блок 1 (продолжение): Ключевой навык — от запроса к результату</div>
+      </div>
+    </div>
+
+    <div class="session">
+      <div class="session-head">
+        <span class="session-id">3.1</span>
+        <span class="session-dur">⏱ 60 минут</span>
+      </div>
+      <h4>Промпт-инженеринг: от формулы до event-кейсов</h4>
+      <ul>
+        <li>Верхнеуровневый промптинг: общая настройка ответов ИИ</li>
+        <li><strong>Основная формула успешного промпта:</strong> Роль + Контекст + Задача + Формат + Ограничения</li>
+        <li>Техники продвинутого промптинга (цепочка рассуждений, few-shot, мета-промптинг)</li>
+        <li>Как избежать галлюцинаций при общении с ИИ</li>
+        <li><strong>Практика на 5 задачах event-компании:</strong> ТЗ, КП, сценарий, отчёт для госзаказчика, смета</li>
+      </ul>
+      <div class="materials">
+        <h5>📚 Учебные материалы</h5>
+        <ul>
+          <li>Методичка «Промпт-инженеринг»</li>
+          <li>Методичка «Техники промптинга»</li>
+          <li>Методичка «Промпты для работы с изображениями»</li>
+          <li>Шаблон-банк промптов для event-индустрии: 20+ готовых промптов под ТЗ, КП, сценарии, сметы, отчёты, письма</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="break-row">☕ Перерыв — 5 минут</div>
+
+    <div class="session">
+      <div class="session-head">
+        <span class="session-id">3.2</span>
+        <span class="session-dur">⏱ 60 минут</span>
+      </div>
+      <h4>Визуализация данных с помощью ИИ</h4>
+      <ul>
+        <li>Работа над визуализацией данных: таблицы, презентации, дашборды, графики</li>
+        <li>Режим Canvas в ChatGPT — интерактивное создание документов</li>
+        <li>Создание HTML-презентаций, лендингов, форм</li>
+        <li><strong>Практика:</strong> каждый участник создаёт визуализацию на основе реальной рабочей задачи</li>
+      </ul>
+    </div>
+
+    <div class="homework">
+      <h5>📝 Домашнее задание</h5>
+      <ol>
+        <li>Провести самоанализ своей экспертизы, личности и рабочих задач/проектов с помощью ИИ</li>
+        <li>Создать HTML-презентацию в режиме Canvas о своих целях, задачах, проектах и развитии, используя SMART и декомпозицию</li>
+      </ol>
+    </div>
+
+    <div class="rationale">
+      <b>Почему так:</b> Промпт-инженеринг — приоритет №1 по анкете: 42% не могут получить нужный результат + 21% не понимают промпты = 63%. Банк промптов под event-задачи — прямой ответ на запрос 88% «хотим шаблоны». Визуализация — 50% хотят ИИ для презентаций.
+    </div>
+  </div>
+
+  <!-- DAY 4 -->
+  <div class="day-block">
+    <div class="day-header w2">
+      <div class="day-num">4</div>
+      <div>
+        <div class="day-title">Практика + Глубокие исследования</div>
+        <div class="day-subtitle">Блок 4: Аналитика, верификация, Deep Research</div>
+      </div>
+    </div>
+
+    <div class="session">
+      <div class="session-head">
+        <span class="session-id">4.1</span>
+        <span class="session-dur">⏱ 60 минут</span>
+      </div>
+      <h4>Практика: обсуждение домашнего задания</h4>
+      <ul>
+        <li>Разбор HTML-презентаций участников — лучшие примеры</li>
+        <li>Типичные ошибки промптинга: разбор и исправление</li>
+        <li>Вопросы и ответы</li>
+      </ul>
+    </div>
+
+    <div class="break-row">☕ Перерыв — 5 минут</div>
+
+    <div class="session">
+      <div class="session-head">
+        <span class="session-id">4.2</span>
+        <span class="session-dur">⏱ 60 минут</span>
+      </div>
+      <h4>Глубокие исследования с ИИ</h4>
+      <ul>
+        <li>Проведение глубокого исследования (Deep Research) — пошаговая методология</li>
+        <li>«Прожарка» результатов глубокого исследования — как верифицировать</li>
+        <li>Использование результатов: преобразование в рабочий формат</li>
+        <li><strong>Кейсы для event-компании:</strong> анализ НПА (44-ФЗ), аналитика рынка подрядчиков, исследование конкурентных тендеров</li>
+      </ul>
+      <div class="materials">
+        <h5>📚 Учебные материалы</h5>
+        <ul>
+          <li>Методичка «Техника проведения глубоких исследований»</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="homework">
+      <h5>📝 Домашнее задание</h5>
+      <ol>
+        <li>Провести глубокое исследование по теме своей работы</li>
+        <li>«Прожарить» результаты — проверить достоверность</li>
+        <li>Обработать результаты в удобный и применимый формат (отчёт, таблица, презентация)</li>
+      </ol>
+    </div>
+
+    <div class="rationale">
+      <b>Почему так:</b> 75% хотят ИИ для аналитики/исследований. Юристы и тендерные специалисты (25% команды) напрямую запросили «подборку НПА, судебных решений». 29% жалуются на ошибки ИИ — блок верификации критичен.
+    </div>
+  </div>
+</div>
+
+<!-- ============ WEEK 3 ============ -->
+<div class="tc" id="week3">
+  <div style="font-size:0.85em;color:var(--text2);margin-bottom:20px">Фокус недели: <strong style="color:var(--accent5)">Применение — креатив, проекты, ассистенты</strong></div>
+
+  <!-- DAY 5 -->
+  <div class="day-block">
+    <div class="day-header w3">
+      <div class="day-num">5</div>
+      <div>
+        <div class="day-title">Практика + Креатив и мозговой штурм</div>
+        <div class="day-subtitle">Блок 5: Сценарии, концепции, визуализация мероприятий</div>
+      </div>
+    </div>
+
+    <div class="session">
+      <div class="session-head">
+        <span class="session-id">5.1</span>
+        <span class="session-dur">⏱ 60 минут</span>
+      </div>
+      <h4>Практика: обсуждение домашнего задания</h4>
+      <ul>
+        <li>Разбор глубоких исследований участников — лучшие примеры</li>
+        <li>Обсуждение находок: что сработало, что нет</li>
+        <li>Вопросы и ответы</li>
+      </ul>
+    </div>
+
+    <div class="break-row">☕ Перерыв — 5 минут</div>
+
+    <div class="session">
+      <div class="session-head">
+        <span class="session-id">5.2</span>
+        <span class="session-dur">⏱ 60 минут</span>
+      </div>
+      <h4>Креатив и мозговой штурм с ИИ</h4>
+      <ul>
+        <li><strong>Инструменты для штурма:</strong> Custom GPTs для брейнсторма, Gemini Brainstormer</li>
+        <li>Генерация сценариев мероприятий: от идеи до детального плана</li>
+        <li>Создание концепций и визуализаций площадок (3D-стенды, экспозиции, фотозоны)</li>
+        <li>Промпты для работы с изображениями: NanoBanana, Кандинский, генерация в ChatGPT</li>
+        <li><strong>Воркшоп:</strong> командный мозговой штурм — разработка концепции мероприятия за 30 минут с ИИ</li>
+      </ul>
+    </div>
+
+    <div class="rationale">
+      <b>Без ДЗ.</b> День 5 сфокусирован на практике внутри сессии: командный штурм даёт немедленный опыт. По анкете 42% хотят ИИ для сценариев, 50% — для презентаций и концепций. 25–30% сотрудников напрямую занимаются креативом.
+    </div>
+  </div>
+
+  <!-- DAY 6 -->
+  <div class="day-block">
+    <div class="day-header w3">
+      <div class="day-num">6</div>
+      <div>
+        <div class="day-title">Проекты и ИИ-ассистенты</div>
+        <div class="day-subtitle">Блок 3: Системная работа — от чатов к ассистентам</div>
+      </div>
+    </div>
+
+    <div class="session">
+      <div class="session-head">
+        <span class="session-id">6.1</span>
+        <span class="session-dur">⏱ 60 минут</span>
+      </div>
+      <h4>Работа с проектами в ChatGPT</h4>
+      <ul>
+        <li>Внедрение проектной работы: отдельный контекст, база данных, изолированная память, системные настройки</li>
+        <li>Кратное повышение эффективности: один проект = одна задача/клиент</li>
+        <li><strong>Пример из практики:</strong> «Википедия компании» — база знаний для новых сотрудников (кейс из анкеты)</li>
+        <li>Практика: каждый создаёт свой первый проект</li>
+      </ul>
+    </div>
+
+    <div class="break-row">☕ Перерыв — 5 минут</div>
+
+    <div class="session">
+      <div class="session-head">
+        <span class="session-id">6.2</span>
+        <span class="session-dur">⏱ 60 минут</span>
+      </div>
+      <h4>ИИ-ассистенты: создание под свои задачи</h4>
+      <ul>
+        <li>Создание Custom GPTs (ИИ-ассистентов): инструкции, база данных, подключение функций</li>
+        <li><strong>Примеры ассистентов для event-компании:</strong> анализатор ТЗ, генератор КП, помощник по сметам, ассистент для отчётности</li>
+        <li>Каждый участник начинает создание ассистента под свои задачи</li>
+      </ul>
+    </div>
+
+    <div class="homework">
+      <h5>📝 Домашнее задание</h5>
+      <ol>
+        <li>Доработать своего ИИ-ассистента: настроить инструкции, загрузить базу знаний</li>
+        <li>Протестировать ассистента на 3 реальных рабочих задачах</li>
+        <li>Подготовить 1-минутную демо для хакатона (День 7)</li>
+      </ol>
+    </div>
+
+    <div class="rationale">
+      <b>Почему так:</b> 71% очень заинтересованы в автоматизации без кода. По анкете один сотрудник уже создавал «Википедию компании» (потом удалил) — показываем, как сделать правильно. Custom GPTs — конкретный, измеримый результат обучения.
+    </div>
+  </div>
+</div>
+
+<!-- ============ WEEK 4 ============ -->
+<div class="tc" id="week4">
+  <div style="font-size:0.85em;color:var(--text2);margin-bottom:20px">Фокус недели: <strong style="color:var(--accent4)">Масштабирование — хакатон, продвинутые инструменты, стратегия</strong></div>
+
+  <!-- DAY 7 -->
+  <div class="day-block">
+    <div class="day-header w4">
+      <div class="day-num">7</div>
+      <div>
+        <div class="day-title">Хакатон + Продвинутые инструменты</div>
+        <div class="day-subtitle">Блок 3 (продолжение): От ассистентов к агентам и автоматизации</div>
+      </div>
+    </div>
+
+    <div class="session">
+      <div class="session-head">
+        <span class="session-id">7.1</span>
+        <span class="session-dur">⏱ 60 минут</span>
+      </div>
+      <h4>Хакатон: презентация и доработка ассистентов</h4>
+      <ul>
+        <li>Демо ассистентов каждого участника (1 мин на человека)</li>
+        <li>Обмен лучшими практиками и промптами</li>
+        <li>Коллективная доработка: улучшаем ассистентов друг друга</li>
+        <li>Формирование библиотеки ассистентов компании</li>
+      </ul>
+    </div>
+
+    <div class="break-row">☕ Перерыв — 5 минут</div>
+
+    <div class="session">
+      <div class="session-head">
+        <span class="session-id">7.2</span>
+        <span class="session-dur">⏱ 60 минут</span>
+      </div>
+      <h4>Продвинутые инструменты: Antigravity, Claude Code, агенты</h4>
+      <ul>
+        <li>Выход за стандартные интерфейсы: работа с большими данными, длинными таблицами, громоздкими документами</li>
+        <li>Antigravity — обработка нестандартных файлов и форматов</li>
+        <li><strong>Обзор возможностей Claude Code:</strong> агент на отдельном сервере, автоматизация задач 24/7</li>
+        <li>Демо: создание бота для фоллоапов, транскрибации звонков, расстановки задач по календарю</li>
+      </ul>
+    </div>
+
+    <div class="rationale">
+      <b>Без ДЗ.</b> Хакатон — это уже практика. Продвинутые инструменты — обзорная сессия для расширения горизонта. Сотрудники выберут, что внедрять дальше, на основе собственных потребностей.
+    </div>
+  </div>
+
+  <!-- DAY 8 -->
+  <div class="day-block">
+    <div class="day-header w4">
+      <div class="day-num">8</div>
+      <div>
+        <div class="day-title">Автоматизация + Аудит и дорожная карта</div>
+        <div class="day-subtitle">Блоки 3 + 6: Масштабирование ИИ на уровне компании</div>
+      </div>
+    </div>
+
+    <div class="session">
+      <div class="session-head">
+        <span class="session-id">8.1</span>
+        <span class="session-dur">⏱ 60 минут</span>
+      </div>
+      <h4>Автоматизация бизнес-процессов с ИИ</h4>
+      <ul>
+        <li>Практическая автоматизация: от простых ботов до комплексных агентов</li>
+        <li>Транскрибация встреч и ВКС → итоги + задачи в календарь</li>
+        <li>Автоматизация отчётности для госзаказчиков</li>
+        <li>Интеграция с Битрикс24 (по запросу бизнес-ассистента из анкеты)</li>
+        <li>Каждый участник составляет план автоматизации для своих 3 рутинных задач</li>
+      </ul>
+    </div>
+
+    <div class="break-row">☕ Перерыв — 5 минут</div>
+
+    <div class="session">
+      <div class="session-head">
+        <span class="session-id">8.2</span>
+        <span class="session-dur">⏱ 60 минут</span>
+      </div>
+      <h4>Аудит компании + дорожная карта внедрения ИИ</h4>
+      <ul>
+        <li>Результаты аудита: что получилось за месяц, какие процессы уже автоматизированы</li>
+        <li><strong>Диалог с руководством:</strong> индивидуальные рекомендации по каждому отделу</li>
+        <li>Дорожная карта внедрения ИИ на 6–12 месяцев: приоритеты, инструменты, бюджет</li>
+        <li>План по «ИИ-визации» компании: какие решения внедрить дальше</li>
+        <li>Финальный блок вопросов. Обратная связь. Сертификаты</li>
+      </ul>
+    </div>
+
+    <div class="rationale">
+      <b>Почему так:</b> Блок 6 (аудит + roadmap) — стратегическая сессия для руководства. По анкете: нет единого стандарта ИИ, 8+ инструментов, разнородность подходов. Эта сессия задаёт вектор на следующий год. Возможность перехода в долгосрочное сотрудничество.
+    </div>
+  </div>
+</div>
+
+<!-- ============ LOGISTICS ============ -->
+<div class="tc" id="logistics">
+  <div class="card">
+    <h3>Формат и логистика обучения</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th style="width:30%">Параметр</th><th style="width:40%">Решение</th><th style="width:30%">Основание (анкета)</th></tr>
+      <tr><td><strong>Длительность</strong></td><td>4 недели, 2 встречи в неделю</td><td>1 час/день медиана готовности</td></tr>
+      <tr><td><strong>Формат сессий</strong></td><td>Онлайн (живые вебинары) + записи</td><td>79% готовы онлайн; прямой запрос на записи</td></tr>
+      <tr><td><strong>Офлайн-блок</strong></td><td>День 8 (аудит + roadmap) — офлайн для руководства</td><td>13% (все руководители) хотят только офлайн</td></tr>
+      <tr><td><strong>Дни</strong></td><td>Будни (Вт + Чт рекомендуется)</td><td>92% выбрали будни; Вт и Ср — самые популярные</td></tr>
+      <tr><td><strong>Время</strong></td><td>Утро: 10:00–12:05</td><td>33% утро; записи закрывают остальных</td></tr>
+      <tr><td><strong>Длительность сессии</strong></td><td>60 мин + 5 мин перерыв + 60 мин</td><td>Медиана готовности — 1 час; 2 блока по 60</td></tr>
+      <tr><td><strong>Записи</strong></td><td>Доступ полгода ко всем видеозаписям</td><td>Прямой запрос: «длительный доступ»</td></tr>
+      <tr><td><strong>Соотношение</strong></td><td>70% практика / 30% теория</td><td>Топ-запрос: «максимум пользы, минимум воды, практика»</td></tr>
+      <tr><td><strong>Домашние задания</strong></td><td>5 из 8 дней (дни 1–4 и 6)</td><td>Базовые навыки → нужна практика между встречами</td></tr>
+      <tr><td><strong>Инструменты</strong></td><td>ChatGPT (корпоративный аккаунт), Gemini, DeepSeek, Antigravity</td><td>Уже используют; корп. доступ снимает барьер VPN/оплаты</td></tr>
+    </table>
+    </div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>Учебные материалы (полный список)</h3>
+      <ol style="font-size:0.85em;padding-left:18px">
+        <li>Программа обучения</li>
+        <li>Презентация «Современные применения ИИ»</li>
+        <li>Карта инструментов: «Какой ИИ под какую задачу»</li>
+        <li>Скринкаст «Настройка VPN»</li>
+        <li>Презентация «LLM: введение, ошибки, инсайты»</li>
+        <li>Презентация «Информационная безопасность»</li>
+        <li>Памятка «Что можно/нельзя в ИИ при B2G»</li>
+        <li>Шаблон корпоративной политики ИИ</li>
+        <li>Скринкаст «Корпоративный аккаунт ChatGPT»</li>
+        <li>Методичка «Промпт-инженеринг»</li>
+        <li>Методичка «Техники промптинга»</li>
+        <li>Методичка «Промпты для изображений»</li>
+        <li>Банк промптов для event-индустрии (20+ шт.)</li>
+        <li>Методичка «Глубокие исследования»</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>Требования к участникам</h3>
+      <ul style="font-size:0.85em;padding-left:18px">
+        <li>Ноутбук или ПК с доступом в интернет</li>
+        <li>Смартфон для 2FA и мобильного приложения ChatGPT</li>
+        <li>Настроенный VPN (инструкция предоставляется)</li>
+        <li>Аккаунт Google (для Gemini)</li>
+        <li>Готовность уделять 60–90 мин на ДЗ (5 раз за курс)</li>
+      </ul>
+      <h3 style="margin-top:16px">Требования к руководству</h3>
+      <ul style="font-size:0.85em;padding-left:18px">
+        <li>Обеспечить корпоративный доступ к ChatGPT (Team/Enterprise)</li>
+        <li>Выделить время сотрудников: 2 × 2 часа в неделю</li>
+        <li>Участвовать в Дне 8 (аудит + дорожная карта)</li>
+        <li>Утвердить политику использования ИИ до Дня 2</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ============ RESULTS ============ -->
+<div class="tc" id="results">
+  <div class="card">
+    <h3>Ожидаемые результаты программы</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th>Метрика</th><th>До обучения (из анкеты)</th><th>Целевой результат (День 30)</th></tr>
+      <tr><td>Уверенность при работе с ИИ</td><td style="color:var(--orange)">2.5 / 5</td><td style="color:var(--green)">≥ 3.8 / 5</td></tr>
+      <tr><td>Ежедневное использование ИИ</td><td>13%</td><td style="color:var(--green)">≥ 50%</td></tr>
+      <tr><td>Не используют ИИ совсем</td><td>17%</td><td style="color:var(--green)">0%</td></tr>
+      <tr><td>«Не понимают промпты»</td><td>21%</td><td style="color:var(--green)">≤ 5%</td></tr>
+      <tr><td>Созданные ИИ-ассистенты</td><td>0</td><td style="color:var(--green)">≥ 10 (на компанию)</td></tr>
+      <tr><td>Библиотека промптов</td><td>Нет</td><td style="color:var(--green)">20+ готовых промптов</td></tr>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Что получает каждый сотрудник по итогам</h3>
+    <div class="grid grid-3" style="margin-top:8px">
+      <div style="padding:12px;background:var(--surface2);border-radius:8px">
+        <div style="font-size:1.2em;margin-bottom:4px">🧠</div>
+        <div style="font-size:0.88em;font-weight:600">Навыки промптинга</div>
+        <div style="font-size:0.82em;color:var(--text2)">Формула, техники, 20+ шаблонов под event-задачи</div>
+      </div>
+      <div style="padding:12px;background:var(--surface2);border-radius:8px">
+        <div style="font-size:1.2em;margin-bottom:4px">🤖</div>
+        <div style="font-size:0.88em;font-weight:600">Личный ИИ-ассистент</div>
+        <div style="font-size:0.82em;color:var(--text2)">Custom GPT, настроенный под конкретные задачи</div>
+      </div>
+      <div style="padding:12px;background:var(--surface2);border-radius:8px">
+        <div style="font-size:1.2em;margin-bottom:4px">🔍</div>
+        <div style="font-size:0.88em;font-weight:600">Deep Research навыки</div>
+        <div style="font-size:0.82em;color:var(--text2)">Методология исследований + верификация</div>
+      </div>
+      <div style="padding:12px;background:var(--surface2);border-radius:8px">
+        <div style="font-size:1.2em;margin-bottom:4px">🔒</div>
+        <div style="font-size:0.88em;font-weight:600">ИБ-грамотность</div>
+        <div style="font-size:0.82em;color:var(--text2)">Правила для B2G, 2FA, политика ИИ</div>
+      </div>
+      <div style="padding:12px;background:var(--surface2);border-radius:8px">
+        <div style="font-size:1.2em;margin-bottom:4px">📚</div>
+        <div style="font-size:0.88em;font-weight:600">Библиотека материалов</div>
+        <div style="font-size:0.82em;color:var(--text2)">14+ методичек, скринкастов, шаблонов с бессрочным доступом</div>
+      </div>
+      <div style="padding:12px;background:var(--surface2);border-radius:8px">
+        <div style="font-size:1.2em;margin-bottom:4px">🗺️</div>
+        <div style="font-size:0.88em;font-weight:600">План автоматизации</div>
+        <div style="font-size:0.82em;color:var(--text2)">Личный план на 3 рутинных задачи</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Что получает компания по итогам</h3>
+    <div class="grid grid-2" style="margin-top:8px">
+      <div style="padding:14px;background:var(--surface2);border-radius:8px">
+        <div style="font-size:0.88em;font-weight:600;color:var(--accent);margin-bottom:6px">📋 Корпоративная политика ИИ</div>
+        <div style="font-size:0.82em;color:var(--text2)">Утверждённый документ: правила использования ИИ в B2G-проектах, границы допустимого, процедуры</div>
+      </div>
+      <div style="padding:14px;background:var(--surface2);border-radius:8px">
+        <div style="font-size:0.88em;font-weight:600;color:var(--accent2);margin-bottom:6px">🤖 Библиотека ИИ-ассистентов</div>
+        <div style="font-size:0.82em;color:var(--text2)">10+ Custom GPTs: анализатор ТЗ, генератор КП, помощник по сметам, бот для отчётности и др.</div>
+      </div>
+      <div style="padding:14px;background:var(--surface2);border-radius:8px">
+        <div style="font-size:0.88em;font-weight:600;color:var(--accent5);margin-bottom:6px">🗺️ Дорожная карта на 6–12 мес.</div>
+        <div style="font-size:0.82em;color:var(--text2)">Стратегия внедрения ИИ по отделам, приоритеты, бюджет, следующие шаги</div>
+      </div>
+      <div style="padding:14px;background:var(--surface2);border-radius:8px">
+        <div style="font-size:0.88em;font-weight:600;color:var(--accent4);margin-bottom:6px">⚡ Измеримый эффект</div>
+        <div style="font-size:0.82em;color:var(--text2)">-30–50% времени на подготовку ТЗ, КП, отчётов. -20–30% итераций с подрядчиками по креативу</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight">
+    <strong>Возможность масштабирования:</strong> День 8 (аудит + roadmap) — естественная точка перехода в долгосрочное сотрудничество: внедрение агентов, автоматизация под конкретные процессы, индивидуальные консультации для руководителей, обучение новых сотрудников.
+  </div>
+</div>
+
+</div><!-- /.page -->
+
+<script>
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tc').forEach(c => c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+</script>
+</body>
+</html>
