@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Анализ потребностей в обучении ИИ — Дашборд</title>
+<style>
+:root {
+  --bg: #0f1117;
+  --surface: #1a1d27;
+  --surface2: #232733;
+  --border: #2e3346;
+  --text: #e4e6f0;
+  --text2: #9399b2;
+  --accent: #6c8cff;
+  --accent2: #4ecdc4;
+  --accent3: #ff6b8a;
+  --accent4: #ffd166;
+  --accent5: #a78bfa;
+  --green: #4ecdc4;
+  --red: #ff6b8a;
+  --orange: #ffa94d;
+  --radius: 10px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font-family:'Segoe UI',system-ui,-apple-system,sans-serif; line-height:1.6; }
+.container { max-width:1280px; margin:0 auto; padding:20px; }
+
+/* Header */
+.header { text-align:center; padding:32px 20px 24px; border-bottom:1px solid var(--border); margin-bottom:24px; }
+.header h1 { font-size:1.8em; font-weight:700; letter-spacing:-0.02em; background:linear-gradient(135deg,var(--accent),var(--accent2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.header .subtitle { color:var(--text2); font-size:0.95em; margin-top:6px; }
+.header .meta { display:flex; gap:24px; justify-content:center; margin-top:14px; flex-wrap:wrap; }
+.header .meta span { background:var(--surface); padding:6px 14px; border-radius:20px; font-size:0.82em; color:var(--text2); border:1px solid var(--border); }
+.header .meta span b { color:var(--accent); }
+
+/* Tabs */
+.tabs { display:flex; gap:4px; overflow-x:auto; padding-bottom:4px; margin-bottom:24px; border-bottom:1px solid var(--border); flex-wrap:wrap; }
+.tab { padding:10px 16px; border:none; background:none; color:var(--text2); cursor:pointer; font-size:0.82em; border-bottom:2px solid transparent; transition:all .2s; white-space:nowrap; font-family:inherit; }
+.tab:hover { color:var(--text); background:var(--surface); }
+.tab.active { color:var(--accent); border-bottom-color:var(--accent); background:var(--surface); }
+
+/* Tab Content */
+.tab-content { display:none; animation:fadeIn .3s ease; }
+.tab-content.active { display:block; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+/* Cards */
+.grid { display:grid; gap:16px; }
+.grid-2 { grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); }
+.grid-3 { grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); }
+.grid-4 { grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); }
+.card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:20px; }
+.card h3 { font-size:0.92em; color:var(--text2); margin-bottom:12px; font-weight:500; text-transform:uppercase; letter-spacing:0.04em; }
+.card .big-num { font-size:2.4em; font-weight:700; line-height:1.1; }
+.card .big-num.blue { color:var(--accent); }
+.card .big-num.green { color:var(--green); }
+.card .big-num.red { color:var(--red); }
+.card .big-num.orange { color:var(--orange); }
+.card .big-num.purple { color:var(--accent5); }
+.card .label { font-size:0.82em; color:var(--text2); margin-top:4px; }
+
+/* Bar chart */
+.bar-row { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+.bar-label { min-width:180px; font-size:0.82em; color:var(--text2); text-align:right; flex-shrink:0; }
+.bar-track { flex:1; height:24px; background:var(--bg); border-radius:4px; overflow:hidden; position:relative; }
+.bar-fill { height:100%; border-radius:4px; transition:width .6s ease; display:flex; align-items:center; padding-left:8px; }
+.bar-fill span { font-size:0.75em; font-weight:600; color:#fff; white-space:nowrap; }
+.bar-value { min-width:40px; font-size:0.82em; color:var(--text); text-align:right; }
+
+/* Tables */
+.table-wrap { overflow-x:auto; }
+table { width:100%; border-collapse:collapse; font-size:0.85em; }
+th { background:var(--surface2); color:var(--text2); font-weight:600; text-transform:uppercase; font-size:0.75em; letter-spacing:0.05em; }
+th, td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--border); }
+td { color:var(--text); }
+tr:hover td { background:rgba(108,140,255,0.04); }
+
+/* Tags */
+.tag { display:inline-block; padding:3px 10px; border-radius:12px; font-size:0.75em; font-weight:500; margin:2px; }
+.tag-high { background:rgba(78,205,196,0.15); color:var(--green); }
+.tag-med { background:rgba(255,209,102,0.15); color:var(--accent4); }
+.tag-low { background:rgba(255,107,138,0.15); color:var(--red); }
+
+/* Confidence */
+.conf { display:inline-block; padding:2px 8px; border-radius:8px; font-size:0.72em; font-weight:600; }
+.conf-high { background:rgba(78,205,196,0.2); color:var(--green); }
+.conf-med { background:rgba(255,209,102,0.2); color:var(--accent4); }
+.conf-low { background:rgba(255,107,138,0.2); color:var(--red); }
+
+/* Roadmap */
+.roadmap-phase { border-left:3px solid var(--accent); padding-left:20px; margin-bottom:24px; position:relative; }
+.roadmap-phase::before { content:''; position:absolute; left:-7px; top:0; width:12px; height:12px; border-radius:50%; background:var(--accent); }
+.roadmap-phase h4 { color:var(--accent); font-size:1em; margin-bottom:8px; }
+.roadmap-phase.phase-2 { border-left-color:var(--accent2); }
+.roadmap-phase.phase-2::before { background:var(--accent2); }
+.roadmap-phase.phase-2 h4 { color:var(--accent2); }
+.roadmap-phase.phase-3 { border-left-color:var(--accent4); }
+.roadmap-phase.phase-3::before { background:var(--accent4); }
+.roadmap-phase.phase-3 h4 { color:var(--accent4); }
+
+/* Section titles */
+.section-title { font-size:1.15em; font-weight:700; margin:24px 0 16px; padding-bottom:8px; border-bottom:1px solid var(--border); }
+
+/* Insight box */
+.insight { background:rgba(108,140,255,0.08); border-left:3px solid var(--accent); padding:12px 16px; border-radius:0 var(--radius) var(--radius) 0; margin:12px 0; font-size:0.88em; }
+.insight.warn { background:rgba(255,107,138,0.08); border-left-color:var(--red); }
+.insight.ok { background:rgba(78,205,196,0.08); border-left-color:var(--green); }
+
+/* Presenter notes */
+.presenter-notes { background:var(--surface2); border:1px dashed var(--border); border-radius:var(--radius); padding:20px; margin-top:20px; }
+.presenter-notes h3 { color:var(--accent4); margin-bottom:12px; font-size:0.95em; }
+.presenter-notes p, .presenter-notes li { font-size:0.88em; color:var(--text2); margin-bottom:8px; }
+
+/* Matrix */
+.matrix-cell { text-align:center; font-weight:600; }
+.matrix-high { background:rgba(255,107,138,0.15); color:var(--red); }
+.matrix-med { background:rgba(255,209,102,0.15); color:var(--accent4); }
+.matrix-low { background:rgba(78,205,196,0.15); color:var(--green); }
+
+/* Module card */
+.module-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:20px; margin-bottom:16px; }
+.module-card h4 { color:var(--accent); margin-bottom:8px; }
+.module-card .module-meta { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:10px; }
+.module-card .module-meta span { font-size:0.78em; padding:3px 10px; background:var(--surface2); border-radius:12px; color:var(--text2); }
+
+/* Filter */
+.filter-bar { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.filter-btn { padding:6px 14px; border:1px solid var(--border); background:var(--surface); color:var(--text2); border-radius:16px; cursor:pointer; font-size:0.78em; font-family:inherit; transition:all .2s; }
+.filter-btn:hover, .filter-btn.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+
+/* SVG chart tooltip */
+.chart-container { position:relative; }
+.chart-container svg { width:100%; height:auto; }
+
+/* Responsive */
+@media(max-width:768px) {
+  .bar-label { min-width:100px; font-size:0.75em; }
+  .header h1 { font-size:1.3em; }
+  .grid-2, .grid-3, .grid-4 { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- HEADER -->
+<div class="header">
+  <h1>📊 Анализ потребностей в обучении ИИ</h1>
+  <div class="subtitle">Внутренняя анкета: Взаимодействие с ИИ — Аналитический дашборд</div>
+  <div class="meta">
+    <span>Респондентов: <b>24</b></span>
+    <span>Дата сбора: <b>10–11 фев 2026</b></span>
+    <span>Отрасль: <b>B2G Event-менеджмент</b></span>
+    <span>NPS анкеты: <b>62.5</b></span>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs" id="tabs">
+  <button class="tab active" data-tab="overview">Обзор</button>
+  <button class="tab" data-tab="quality">Качество данных</button>
+  <button class="tab" data-tab="questionnaire">Заполненная анкета</button>
+  <button class="tab" data-tab="segments">Сегменты</button>
+  <button class="tab" data-tab="needs">Потребности и боли</button>
+  <button class="tab" data-tab="gaps">Gap Analysis</button>
+  <button class="tab" data-tab="program">Рекомендованная программа</button>
+  <button class="tab" data-tab="roadmap">Roadmap</button>
+  <button class="tab" data-tab="metrics">Метрики</button>
+</div>
+
+<!-- ==================== TAB 1: OVERVIEW ==================== -->
+<div class="tab-content active" id="overview">
+  <div class="grid grid-4" style="margin-bottom:20px">
+    <div class="card">
+      <h3>Всего сотрудников</h3>
+      <div class="big-num blue">24</div>
+      <div class="label">из ≥6 подразделений</div>
+    </div>
+    <div class="card">
+      <h3>Используют ИИ</h3>
+      <div class="big-num green">83%</div>
+      <div class="label">постоянно или эпизодически</div>
+    </div>
+    <div class="card">
+      <h3>Ср. уверенность</h3>
+      <div class="big-num orange">2.5 <span style="font-size:0.4em;color:var(--text2)">/5</span></div>
+      <div class="label">медиана — низкий уровень</div>
+    </div>
+    <div class="card">
+      <h3>Хотят обучение</h3>
+      <div class="big-num purple">96%</div>
+      <div class="label">очень интересна / скорее</div>
+    </div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>Использование ИИ в работе</h3>
+      <div class="bar-row"><div class="bar-label">Да, постоянно</div><div class="bar-track"><div class="bar-fill" style="width:38%;background:var(--green)"><span>9</span></div></div><div class="bar-value">38%</div></div>
+      <div class="bar-row"><div class="bar-label">Да, эпизодически</div><div class="bar-track"><div class="bar-fill" style="width:46%;background:var(--accent)"><span>11</span></div></div><div class="bar-value">46%</div></div>
+      <div class="bar-row"><div class="bar-label">Нет, но планирую</div><div class="bar-track"><div class="bar-fill" style="width:17%;background:var(--orange)"><span>4</span></div></div><div class="bar-value">17%</div></div>
+      <div class="bar-row"><div class="bar-label">Нет и не интересно</div><div class="bar-track"><div class="bar-fill" style="width:0%;background:var(--red)"><span>0</span></div></div><div class="bar-value">0%</div></div>
+    </div>
+    <div class="card">
+      <h3>Частота использования</h3>
+      <div class="bar-row"><div class="bar-label">Каждый день</div><div class="bar-track"><div class="bar-fill" style="width:13%;background:var(--green)"><span>3</span></div></div><div class="bar-value">13%</div></div>
+      <div class="bar-row"><div class="bar-label">Несколько раз в неделю</div><div class="bar-track"><div class="bar-fill" style="width:46%;background:var(--accent)"><span>11</span></div></div><div class="bar-value">46%</div></div>
+      <div class="bar-row"><div class="bar-label">Раз в месяц</div><div class="bar-track"><div class="bar-fill" style="width:25%;background:var(--accent4)"><span>6</span></div></div><div class="bar-value">25%</div></div>
+      <div class="bar-row"><div class="bar-label">Пробовал(а) один раз</div><div class="bar-track"><div class="bar-fill" style="width:8%;background:var(--orange)"><span>2</span></div></div><div class="bar-value">8%</div></div>
+      <div class="bar-row"><div class="bar-label">Никогда</div><div class="bar-track"><div class="bar-fill" style="width:8%;background:var(--red)"><span>2</span></div></div><div class="bar-value">8%</div></div>
+    </div>
+  </div>
+
+  <div class="grid grid-2" style="margin-top:16px">
+    <div class="card">
+      <h3>Топ-3 инструмента</h3>
+      <div class="bar-row"><div class="bar-label">ChatGPT / GPT</div><div class="bar-track"><div class="bar-fill" style="width:50%;background:var(--accent)"><span>12</span></div></div><div class="bar-value">50%</div></div>
+      <div class="bar-row"><div class="bar-label">DeepSeek</div><div class="bar-track"><div class="bar-fill" style="width:46%;background:var(--accent2)"><span>11</span></div></div><div class="bar-value">46%</div></div>
+      <div class="bar-row"><div class="bar-label">Gemini</div><div class="bar-track"><div class="bar-fill" style="width:17%;background:var(--accent5)"><span>4</span></div></div><div class="bar-value">17%</div></div>
+      <div class="bar-row"><div class="bar-label">NanoBanana</div><div class="bar-track"><div class="bar-fill" style="width:13%;background:var(--accent4)"><span>3</span></div></div><div class="bar-value">13%</div></div>
+      <div class="bar-row"><div class="bar-label">GigaChat / Алиса / др.</div><div class="bar-track"><div class="bar-fill" style="width:25%;background:var(--orange)"><span>6</span></div></div><div class="bar-value">25%</div></div>
+    </div>
+    <div class="card">
+      <h3>Интерес к теме ИИ</h3>
+      <div class="bar-row"><div class="bar-label">Очень интересна</div><div class="bar-track"><div class="bar-fill" style="width:71%;background:var(--green)"><span>17</span></div></div><div class="bar-value">71%</div></div>
+      <div class="bar-row"><div class="bar-label">Скорее интересна</div><div class="bar-track"><div class="bar-fill" style="width:25%;background:var(--accent)"><span>6</span></div></div><div class="bar-value">25%</div></div>
+      <div class="bar-row"><div class="bar-label">Нейтрально</div><div class="bar-track"><div class="bar-fill" style="width:4%;background:var(--text2)"><span>1</span></div></div><div class="bar-value">4%</div></div>
+      <div class="bar-row"><div class="bar-label">Не интересна</div><div class="bar-track"><div class="bar-fill" style="width:0%"><span></span></div></div><div class="bar-value">0%</div></div>
+    </div>
+  </div>
+
+  <div class="insight" style="margin-top:16px">
+    <strong>Ключевой инсайт:</strong> Разрыв между интересом (96% заинтересованы) и уверенностью (медиана 2.5/5) — это «золотое окно» для обучения. Сотрудники мотивированы, но не владеют навыками. Никто не выбрал «не интересно» — нулевое сопротивление.
+  </div>
+
+  <div class="presenter-notes">
+    <h3>🎤 Presenter Notes — Обзор (1.5 мин)</h3>
+    <p>«24 сотрудника из более чем 6 подразделений прошли анкету за 2 дня. Главный вывод: 83% уже пробовали ИИ в работе, интерес практически 100%, но уверенность — всего 2.5 из 5. Это идеальный момент для обучения: высокая мотивация + низкий навык = максимальный ROI от программы. Важно: ни один сотрудник не выбрал «не интересно» — сопротивления нет.»</p>
+  </div>
+</div>
+
+<!-- ==================== TAB 2: DATA QUALITY ==================== -->
+<div class="tab-content" id="quality">
+  <div class="section-title">Качество данных</div>
+  <div class="grid grid-4" style="margin-bottom:20px">
+    <div class="card">
+      <h3>Заполняемость</h3>
+      <div class="big-num green">100%</div>
+      <div class="label">все обязательные поля</div>
+    </div>
+    <div class="card">
+      <h3>Время сбора</h3>
+      <div class="big-num blue">2 дня</div>
+      <div class="label">10–11 февраля 2026</div>
+    </div>
+    <div class="card">
+      <h3>Вопрос 5.7 (необяз.)</h3>
+      <div class="big-num green">92%</div>
+      <div class="label">22 из 24 ответили</div>
+    </div>
+    <div class="card">
+      <h3>NPS анкеты</h3>
+      <div class="big-num green">62.5</div>
+      <div class="label">высокий для внутр. опросов</div>
+    </div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>Пропуски и аномалии</h3>
+      <div class="table-wrap">
+      <table>
+        <tr><th>Вопрос</th><th>Проблема</th><th>Влияние</th></tr>
+        <tr><td>1.2 Отдел/Должность</td><td>Неструктурированный ввод, разные форматы</td><td><span class="conf conf-low">Низкое</span> — сегментировали вручную</td></tr>
+        <tr><td>2.2 Инструменты</td><td>3 респондента: «нет» / «—»</td><td><span class="conf conf-low">Ожидаемо</span> — коррелирует с 2.1</td></tr>
+        <tr><td>2.7 Кейсы ИИ</td><td>5 респондентов: «нет» / «.»</td><td><span class="conf conf-low">Низкое</span> — новые пользователи</td></tr>
+        <tr><td>3.2 Опасения</td><td>4 отв. «нет» / «никакие» / «---»</td><td><span class="conf conf-med">Среднее</span> — м.б. соц. желательность</td></tr>
+        <tr><td>1.5 / 3.1 / 4.2</td><td>Открытые вопросы: «.» или «-»</td><td><span class="conf conf-low">3 случая</span> — минимально</td></tr>
+      </table>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Кодбук: типы вопросов</h3>
+      <div class="table-wrap">
+      <table>
+        <tr><th>Тип</th><th>Кол-во</th><th>Примеры</th></tr>
+        <tr><td>Single choice</td><td>8</td><td>1.3, 2.1, 2.3, 3.3, 4.4, 4.6, 5.1, 5.5</td></tr>
+        <tr><td>Multi-choice + Other</td><td>6</td><td>1.4, 2.5, 2.6, 4.1, 4.3, 4.5</td></tr>
+        <tr><td>Open text</td><td>9</td><td>1.5, 2.2, 2.7, 3.1, 3.2, 3.2.1, 4.2, 5.7</td></tr>
+        <tr><td>Likert 1–5</td><td>2</td><td>2.4, 5.6</td></tr>
+        <tr><td>Multi-choice (без Other)</td><td>1</td><td>5.2</td></tr>
+        <tr><td>NPS 1–10</td><td>1</td><td>6.1</td></tr>
+      </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight ok" style="margin-top:16px">
+    <strong>Вывод по качеству:</strong> Данные высокого качества: 100% заполняемость обязательных полей, 92% необязательных, 2 дня сбора. NPS анкеты 62.5 — сотрудники оценили анкету позитивно. Открытые вопросы дали содержательные ответы у 85%+ респондентов. Для анализа используются все 24 анкеты без исключений.
+  </div>
+</div>
+
+<!-- ==================== TAB 3: FILLED QUESTIONNAIRE ==================== -->
+<div class="tab-content" id="questionnaire">
+  <div class="section-title">Заполненная анкета от лица компании</div>
+  <p style="color:var(--text2);font-size:0.88em;margin-bottom:16px;">Для каждого вопроса — консенсусный ответ (мода/медиана), распределение и инсайты. N=24.</p>
+
+  <div id="questionnaire-items">
+    <!-- Generated by JS below -->
+  </div>
+</div>
+
+<!-- ==================== TAB 4: SEGMENTS ==================== -->
+<div class="tab-content" id="segments">
+  <div class="section-title">Сегментация респондентов</div>
+
+  <div class="grid grid-2" style="margin-bottom:20px">
+    <div class="card">
+      <h3>По стажу в отрасли</h3>
+      <div class="bar-row"><div class="bar-label">Более 5 лет</div><div class="bar-track"><div class="bar-fill" style="width:46%;background:var(--accent)"><span>11</span></div></div><div class="bar-value">46%</div></div>
+      <div class="bar-row"><div class="bar-label">3–5 лет</div><div class="bar-track"><div class="bar-fill" style="width:17%;background:var(--accent2)"><span>4</span></div></div><div class="bar-value">17%</div></div>
+      <div class="bar-row"><div class="bar-label">1–3 года</div><div class="bar-track"><div class="bar-fill" style="width:17%;background:var(--accent4)"><span>4</span></div></div><div class="bar-value">17%</div></div>
+      <div class="bar-row"><div class="bar-label">Менее 1 года</div><div class="bar-track"><div class="bar-fill" style="width:21%;background:var(--accent5)"><span>5</span></div></div><div class="bar-value">21%</div></div>
+    </div>
+    <div class="card">
+      <h3>По функциональной роли</h3>
+      <div class="bar-row"><div class="bar-label">Проекты и менеджмент</div><div class="bar-track"><div class="bar-fill" style="width:29%;background:var(--accent)"><span>7</span></div></div><div class="bar-value">29%</div></div>
+      <div class="bar-row"><div class="bar-label">Тендеры и юристы</div><div class="bar-track"><div class="bar-fill" style="width:25%;background:var(--accent2)"><span>6</span></div></div><div class="bar-value">25%</div></div>
+      <div class="bar-row"><div class="bar-label">Руководство</div><div class="bar-track"><div class="bar-fill" style="width:25%;background:var(--accent5)"><span>6</span></div></div><div class="bar-value">25%</div></div>
+      <div class="bar-row"><div class="bar-label">HR и администрация</div><div class="bar-track"><div class="bar-fill" style="width:13%;background:var(--accent4)"><span>3</span></div></div><div class="bar-value">13%</div></div>
+      <div class="bar-row"><div class="bar-label">Бухгалтерия</div><div class="bar-track"><div class="bar-fill" style="width:8%;background:var(--orange)"><span>2</span></div></div><div class="bar-value">8%</div></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px">
+    <h3>Уверенность в ИИ по сегментам (ср. оценка, шкала 1–5)</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th>Сегмент</th><th>N</th><th>Ср. уверенность</th><th>Ср. интерес к автоматизации*</th><th>Ключевые барьеры</th></tr>
+      <tr><td><strong>Руководство</strong></td><td>6</td><td><span style="color:var(--orange)">2.3</span></td><td>Высокий</td><td>Нехватка времени, неизученные возможности</td></tr>
+      <tr><td><strong>Тендеры и юристы</strong></td><td>6</td><td><span style="color:var(--orange)">2.2</span></td><td>Смешанный</td><td>Сложно получить результат, этика, формулировка промптов</td></tr>
+      <tr><td><strong>Проекты и менеджмент</strong></td><td>7</td><td><span style="color:var(--accent4)">2.9</span></td><td>Высокий</td><td>Сложно получить результат, время</td></tr>
+      <tr><td><strong>HR и администрация</strong></td><td>3</td><td><span style="color:var(--accent4)">3.3</span></td><td>Высокий</td><td>Формулировка промптов, время</td></tr>
+      <tr><td><strong>Бухгалтерия</strong></td><td>2</td><td><span style="color:var(--red)">1.0</span></td><td>Высокий</td><td>Страх ошибки, время, нет опыта</td></tr>
+    </table>
+    </div>
+    <div class="label" style="margin-top:8px;">* «Да, очень интересно» / «Возможно» по вопросу 4.6</div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>Портрет: «Продвинутые» (уверенность 4–5)</h3>
+      <p style="font-size:0.88em;color:var(--text2)">6 чел. (25%)</p>
+      <ul style="font-size:0.85em;margin-top:8px;padding-left:16px;color:var(--text)">
+        <li>Используют ИИ ежедневно/часто; 5 из 6 — постоянно</li>
+        <li>Роли: менеджеры проектов, тендерный спец., директор</li>
+        <li>Инструменты: ChatGPT (платный), DeepSeek, NanoBanana, Stable Diffusion</li>
+        <li>Могут стать «амбассадорами» обучения</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Портрет: «Новички» (уверенность 1–2)</h3>
+      <p style="font-size:0.88em;color:var(--text2)">13 чел. (54%)</p>
+      <ul style="font-size:0.85em;margin-top:8px;padding-left:16px;color:var(--text)">
+        <li>Больше половины коллектива — требуют базового обучения</li>
+        <li>Главные барьеры: не понимают промпты, сложно получить результат</li>
+        <li>4 чел. вообще не использовали ИИ (но планируют)</li>
+        <li>Высокий интерес: 12 из 13 — «очень/скорее интересна»</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="insight" style="margin-top:16px">
+    <strong>Противоречие:</strong> Бухгалтерия (n=2) — самая низкая уверенность (1.0), но при этом «очень интересна тема» и «да, очень интересно» к автоматизации. Самый высокий латентный потенциал. Руководство (n=6) — тоже низкая уверенность (2.3), при этом это группа, принимающая решения. Их обучение критично для масштабирования ИИ в компании.
+  </div>
+</div>
+
+<!-- ==================== TAB 5: NEEDS & PAIN POINTS ==================== -->
+<div class="tab-content" id="needs">
+  <div class="section-title">Потребности, боли и барьеры</div>
+
+  <div class="grid grid-2" style="margin-bottom:20px">
+    <div class="card">
+      <h3>Топ-барьеры при работе с ИИ</h3>
+      <div class="bar-row"><div class="bar-label">Сложно получить результат</div><div class="bar-track"><div class="bar-fill" style="width:42%;background:var(--red)"><span>10</span></div></div><div class="bar-value">42%</div></div>
+      <div class="bar-row"><div class="bar-label">Не хватает времени</div><div class="bar-track"><div class="bar-fill" style="width:42%;background:var(--orange)"><span>10</span></div></div><div class="bar-value">42%</div></div>
+      <div class="bar-row"><div class="bar-label">Не понимаю промпты</div><div class="bar-track"><div class="bar-fill" style="width:21%;background:var(--accent4)"><span>5</span></div></div><div class="bar-value">21%</div></div>
+      <div class="bar-row"><div class="bar-label">Сомнения в этике</div><div class="bar-track"><div class="bar-fill" style="width:8%;background:var(--accent5)"><span>2</span></div></div><div class="bar-value">8%</div></div>
+      <div class="bar-row"><div class="bar-label">Страх ошибиться</div><div class="bar-track"><div class="bar-fill" style="width:4%;background:var(--text2)"><span>1</span></div></div><div class="bar-value">4%</div></div>
+    </div>
+    <div class="card">
+      <h3>Желаемые задачи для ИИ в мероприятиях</h3>
+      <div class="bar-row"><div class="bar-label">Сценарии мероприятий</div><div class="bar-track"><div class="bar-fill" style="width:42%;background:var(--accent)"><span>10</span></div></div><div class="bar-value">42%</div></div>
+      <div class="bar-row"><div class="bar-label">Презентации и концепции</div><div class="bar-track"><div class="bar-fill" style="width:50%;background:var(--accent2)"><span>12</span></div></div><div class="bar-value">50%</div></div>
+      <div class="bar-row"><div class="bar-label">Работа с ТЗ</div><div class="bar-track"><div class="bar-fill" style="width:33%;background:var(--accent4)"><span>8</span></div></div><div class="bar-value">33%</div></div>
+      <div class="bar-row"><div class="bar-label">Отчёты для заказчика</div><div class="bar-track"><div class="bar-fill" style="width:38%;background:var(--accent5)"><span>9</span></div></div><div class="bar-value">38%</div></div>
+      <div class="bar-row"><div class="bar-label">Сметы и бюджеты</div><div class="bar-track"><div class="bar-fill" style="width:29%;background:var(--orange)"><span>7</span></div></div><div class="bar-value">29%</div></div>
+      <div class="bar-row"><div class="bar-label">Коммерческие предложения</div><div class="bar-track"><div class="bar-fill" style="width:13%;background:var(--green)"><span>3</span></div></div><div class="bar-value">13%</div></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px">
+    <h3>Ожидаемые преимущества от ИИ (кодирование открытых ответов)</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th>Тема</th><th>Кол-во упоминаний</th><th>Доля</th><th>Типичные цитаты (обобщённые)</th></tr>
+      <tr><td>⏱ Экономия времени</td><td>18</td><td>75%</td><td>«Скорость анализа документов», «быстрый доступ к информации»</td></tr>
+      <tr><td>💡 Новые идеи / креатив</td><td>12</td><td>50%</td><td>«Неограниченный набор идей при разработке концептов»</td></tr>
+      <tr><td>🔄 Автоматизация рутины</td><td>10</td><td>42%</td><td>«Автоматизация однотипных процессов», «замена части подрядчиков»</td></tr>
+      <tr><td>📊 Аналитика</td><td>5</td><td>21%</td><td>«Аналитика результатов», «подборка НПА и суд. решений»</td></tr>
+      <tr><td>💰 Оптимизация расходов</td><td>3</td><td>13%</td><td>«Замена части подрядчиков», «оптимизация расходов компании»</td></tr>
+    </table>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px">
+    <h3>Опасения и сомнения (кодирование открытых ответов)</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th>Тема опасений</th><th>N</th><th>%</th><th>Контекст</th></tr>
+      <tr><td>⚠️ Недостоверность информации / ошибки ИИ</td><td>7</td><td>29%</td><td>«Необходимость проверки данных», «путает даты, мероприятия»</td></tr>
+      <tr><td>🎨 Снижение креативности</td><td>4</td><td>17%</td><td>«Хотелось бы, чтобы были живые мысли»</td></tr>
+      <tr><td>🙅 Нет опасений</td><td>7</td><td>29%</td><td>«Дайте знания, как использовать инструмент»</td></tr>
+      <tr><td>🔒 Конфиденциальность госзаказчиков</td><td>4</td><td>17%</td><td>Скорее да / «заказчик может понять, что фото поддельные»</td></tr>
+      <tr><td>💼 Обесценивание профессии</td><td>3</td><td>13%</td><td>Чаще у бухгалтерии и юристов</td></tr>
+      <tr><td>📝 Качество текстов ИИ</td><td>2</td><td>8%</td><td>«Однотипные легкоузнаваемые тексты»</td></tr>
+    </table>
+    </div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>Желаемые роли ChatGPT (Топ-5)</h3>
+      <div class="bar-row"><div class="bar-label">Создание документации</div><div class="bar-track"><div class="bar-fill" style="width:88%;background:var(--accent)"><span>21</span></div></div><div class="bar-value">88%</div></div>
+      <div class="bar-row"><div class="bar-label">Аналитика / исследования</div><div class="bar-track"><div class="bar-fill" style="width:75%;background:var(--accent2)"><span>18</span></div></div><div class="bar-value">75%</div></div>
+      <div class="bar-row"><div class="bar-label">Поисковая система</div><div class="bar-track"><div class="bar-fill" style="width:67%;background:var(--accent4)"><span>16</span></div></div><div class="bar-value">67%</div></div>
+      <div class="bar-row"><div class="bar-label">Планирование / управление</div><div class="bar-track"><div class="bar-fill" style="width:63%;background:var(--accent5)"><span>15</span></div></div><div class="bar-value">63%</div></div>
+      <div class="bar-row"><div class="bar-label">Креативный помощник</div><div class="bar-track"><div class="bar-fill" style="width:63%;background:var(--green)"><span>15</span></div></div><div class="bar-value">63%</div></div>
+    </div>
+    <div class="card">
+      <h3>Запрос на инструкции и шаблоны</h3>
+      <div style="text-align:center;padding:20px 0">
+        <div class="big-num green" style="font-size:3em">88%</div>
+        <div class="label" style="font-size:1em;margin-top:8px">«Да, это было бы очень полезно»</div>
+        <div style="margin-top:16px;font-size:0.85em;color:var(--text2)">Ещё 12% — «Возможно, если удобно»</div>
+        <div style="margin-top:4px;font-size:0.85em;color:var(--text2)">0% отказов</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight warn" style="margin-top:16px">
+    <strong>Критический барьер:</strong> 42% сотрудников не могут получить нужный результат от ИИ + 21% не понимают, как формулировать промпты = 63% нуждаются в базовом обучении промпт-инженирингу. Это приоритет №1 программы.
+  </div>
+</div>
+
+<!-- ==================== TAB 6: GAP ANALYSIS ==================== -->
+<div class="tab-content" id="gaps">
+  <div class="section-title">Gap Analysis: Навыки vs Потребности</div>
+
+  <div class="card" style="margin-bottom:20px">
+    <h3>Матрица навыковых разрывов (Impact × Urgency)</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th style="width:30%">Навык / Область</th><th style="width:10%">Текущий уровень</th><th style="width:10%">Целевой</th><th style="width:10%">Разрыв</th><th style="width:10%">Impact</th><th style="width:10%">Urgency</th><th style="width:20%">Приоритет</th></tr>
+      <tr>
+        <td><strong>Промпт-инженеринг</strong><br><span style="font-size:0.78em;color:var(--text2)">Формулировка запросов, итерации</span></td>
+        <td class="matrix-cell matrix-high">1.5</td>
+        <td class="matrix-cell">4.0</td>
+        <td class="matrix-cell matrix-high">2.5</td>
+        <td class="matrix-cell matrix-high">Высокий</td>
+        <td class="matrix-cell matrix-high">Высокая</td>
+        <td><span class="tag tag-high">🔴 P0 — критичный</span></td>
+      </tr>
+      <tr>
+        <td><strong>Работа с документами через ИИ</strong><br><span style="font-size:0.78em;color:var(--text2)">ТЗ, КП, отчёты, договоры</span></td>
+        <td class="matrix-cell matrix-high">1.8</td>
+        <td class="matrix-cell">4.0</td>
+        <td class="matrix-cell matrix-high">2.2</td>
+        <td class="matrix-cell matrix-high">Высокий</td>
+        <td class="matrix-cell matrix-high">Высокая</td>
+        <td><span class="tag tag-high">🔴 P0 — критичный</span></td>
+      </tr>
+      <tr>
+        <td><strong>Генерация визуального контента</strong><br><span style="font-size:0.78em;color:var(--text2)">Концепции, визуализации, отчётные фото</span></td>
+        <td class="matrix-cell matrix-med">2.0</td>
+        <td class="matrix-cell">3.5</td>
+        <td class="matrix-cell matrix-med">1.5</td>
+        <td class="matrix-cell matrix-high">Высокий</td>
+        <td class="matrix-cell matrix-med">Средняя</td>
+        <td><span class="tag tag-med">🟡 P1 — важный</span></td>
+      </tr>
+      <tr>
+        <td><strong>Аналитика и исследования</strong><br><span style="font-size:0.78em;color:var(--text2)">НПА, рынок, конкуренты, тендеры</span></td>
+        <td class="matrix-cell matrix-med">2.0</td>
+        <td class="matrix-cell">4.0</td>
+        <td class="matrix-cell matrix-high">2.0</td>
+        <td class="matrix-cell matrix-med">Средний</td>
+        <td class="matrix-cell matrix-med">Средняя</td>
+        <td><span class="tag tag-med">🟡 P1 — важный</span></td>
+      </tr>
+      <tr>
+        <td><strong>Создание ассистентов/автоматизаций</strong><br><span style="font-size:0.78em;color:var(--text2)">Custom GPTs, шаблоны, no-code</span></td>
+        <td class="matrix-cell matrix-high">0.5</td>
+        <td class="matrix-cell">3.0</td>
+        <td class="matrix-cell matrix-high">2.5</td>
+        <td class="matrix-cell matrix-high">Высокий</td>
+        <td class="matrix-cell matrix-low">Низкая</td>
+        <td><span class="tag tag-med">🟡 P1 — второй этап</span></td>
+      </tr>
+      <tr>
+        <td><strong>Информационная безопасность ИИ</strong><br><span style="font-size:0.78em;color:var(--text2)">Конфиденциальность, госданные, этика</span></td>
+        <td class="matrix-cell matrix-high">1.0</td>
+        <td class="matrix-cell">3.5</td>
+        <td class="matrix-cell matrix-high">2.5</td>
+        <td class="matrix-cell matrix-med">Средний</td>
+        <td class="matrix-cell matrix-high">Высокая</td>
+        <td><span class="tag tag-high">🔴 P0 — фундамент</span></td>
+      </tr>
+    </table>
+    </div>
+    <div class="label" style="margin-top:8px">Оценка текущего уровня — экспертная на основе ответов 2.4, 4.1, 4.3, 2.2. Шкала 0–5.</div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>Quick Wins (быстрые победы)</h3>
+      <ul style="font-size:0.88em;padding-left:16px">
+        <li style="margin-bottom:8px"><strong>Чек-лист промптов</strong> для 5 типовых задач (ТЗ, КП, сценарий, отчёт, смета) — эффект через 1 день</li>
+        <li style="margin-bottom:8px"><strong>Шаблоны системных инструкций</strong> для каждого отдела — эффект через 3 дня</li>
+        <li style="margin-bottom:8px"><strong>Памятка по ИБ</strong>: что можно / нельзя загружать в ИИ при работе с госзаказчиками — снимает 17% опасений</li>
+        <li style="margin-bottom:8px"><strong>Корпоративный доступ к ChatGPT</strong> — снимает барьер VPN/оплаты (отмечен несколькими сотрудниками)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Риски внедрения</h3>
+      <ul style="font-size:0.88em;padding-left:16px">
+        <li style="margin-bottom:8px"><span class="tag tag-high">Высокий</span> Нет единой политики ИИ + госзаказчики → репутационный риск при использовании ИИ-фото в отчётах</li>
+        <li style="margin-bottom:8px"><span class="tag tag-med">Средний</span> Руководство с низкой уверенностью (2.3/5) может тормозить внедрение</li>
+        <li style="margin-bottom:8px"><span class="tag tag-med">Средний</span> Разнородность инструментов (8+ разных ИИ) — нет стандарта</li>
+        <li style="margin-bottom:8px"><span class="tag tag-low">Низкий</span> «Обесценивание профессии» — всего 13%, управляемо через коммуникацию</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="insight warn" style="margin-top:16px">
+    <strong>⚠️ Риск №1:</strong> Несколько сотрудников упоминают генерацию «фотографий для отчёта» госзаказчику. Это создаёт серьёзные правовые и репутационные риски. Необходима чёткая политика использования ИИ-контента в отчётной документации на уровне компании ДО начала обучения.
+  </div>
+</div>
+
+<!-- ==================== TAB 7: RECOMMENDED PROGRAM ==================== -->
+<div class="tab-content" id="program">
+  <div class="section-title">Рекомендованная программа обучения</div>
+
+  <div class="card" style="margin-bottom:20px;border-left:3px solid var(--accent)">
+    <h3>Общая архитектура программы</h3>
+    <p style="font-size:0.88em;margin-bottom:12px">Формат: <strong>смешанный</strong> (видеоуроки в записи + живые воркшопы + индивидуальные консультации). 
+    Основано на: 33% выбрали видеоуроки, 29% — все форматы, 17% — индивидуальное, 13% — вебинары.</p>
+    <p style="font-size:0.88em">Длительность модуля: <strong>60–90 мин</strong> (медиана готовности — 1 час/день). Привязка к реальным задачам: <strong>обязательна</strong> (медиана важности — 4/5).</p>
+  </div>
+
+  <div class="module-card">
+    <h4>Модуль 0: Политика ИИ и информационная безопасность</h4>
+    <div class="module-meta">
+      <span>⏱ 45 мин</span><span>📍 До старта обучения</span><span>🎯 Все сотрудники</span><span>📋 Формат: документ + вебинар</span>
+    </div>
+    <p style="font-size:0.85em;color:var(--text2)"><strong>Результаты обучения:</strong> Понимание правил использования ИИ в компании. Границы допустимого при работе с госзаказчиками. Что можно/нельзя загружать. Политика в отношении ИИ-генерированных изображений в отчётах.</p>
+  </div>
+
+  <div class="module-card">
+    <h4>Модуль 1: Основы ИИ и промпт-инженеринг</h4>
+    <div class="module-meta">
+      <span>⏱ 3 × 90 мин</span><span>📍 Неделя 1–2</span><span>🎯 Все сотрудники</span><span>📋 Видео + практика</span>
+    </div>
+    <p style="font-size:0.85em;color:var(--text2)"><strong>Результаты обучения:</strong> Понимание типов ИИ (генеративные vs дискриминантные). Структура эффективного промпта (роль, контекст, задача, формат, ограничения). Итерационная работа: как «докручивать» ответ. Практика на 5 типовых задачах event-компании: ТЗ, КП, сценарий, отчёт, смета. Каждый сотрудник решает свою реальную задачу.</p>
+  </div>
+
+  <div class="module-card">
+    <h4>Модуль 2: ИИ для документооборота в B2G</h4>
+    <div class="module-meta">
+      <span>⏱ 2 × 90 мин</span><span>📍 Неделя 3–4</span><span>🎯 Юристы, тендеры, менеджеры</span><span>📋 Воркшоп + видео</span>
+    </div>
+    <p style="font-size:0.85em;color:var(--text2)"><strong>Результаты обучения:</strong> Анализ ТЗ и конкурсной документации (44-ФЗ). Генерация и проверка описаний услуг. Подготовка дорожных карт и отчётов. Работа с длинными документами в ChatGPT. Шаблоны промптов для каждого типа документа.</p>
+  </div>
+
+  <div class="module-card">
+    <h4>Модуль 3: Креатив и визуализация с ИИ</h4>
+    <div class="module-meta">
+      <span>⏱ 2 × 90 мин</span><span>📍 Неделя 5–6</span><span>🎯 Менеджеры, креатив, руководство</span><span>📋 Видео + практикум</span>
+    </div>
+    <p style="font-size:0.85em;color:var(--text2)"><strong>Результаты обучения:</strong> Генерация концепций мероприятий. Визуализация площадок и стендов. Создание презентаций. Генерация изображений (NanoBanana, Кандинский). Этика и правовые границы использования ИИ-изображений.</p>
+  </div>
+
+  <div class="module-card">
+    <h4>Модуль 4: Аналитика и исследования</h4>
+    <div class="module-meta">
+      <span>⏱ 2 × 60 мин</span><span>📍 Неделя 7–8</span><span>🎯 Руководство, юристы, бухгалтерия</span><span>📋 Видео + кейсы</span>
+    </div>
+    <p style="font-size:0.85em;color:var(--text2)"><strong>Результаты обучения:</strong> Анализ НПА и судебных решений. Рыночная аналитика. Работа с бюджетами и сметами. Верификация данных ИИ — как проверять достоверность.</p>
+  </div>
+
+  <div class="module-card">
+    <h4>Модуль 5: Автоматизация и собственные ассистенты</h4>
+    <div class="module-meta">
+      <span>⏱ 2 × 90 мин</span><span>📍 Неделя 9–10</span><span>🎯 Продвинутые + руководство</span><span>📋 Воркшоп</span>
+    </div>
+    <p style="font-size:0.85em;color:var(--text2)"><strong>Результаты обучения:</strong> Создание Custom GPTs для отдела. Мета-промптинг и системные инструкции. «Википедия компании» на основе ИИ (по кейсу из анкеты). Интеграция с Битрикс24 (по запросу бизнес-ассистента).</p>
+  </div>
+
+  <div class="card" style="margin-top:20px">
+    <h3>Сводка по формату и логистике</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th>Параметр</th><th>Рекомендация</th><th>Основание</th></tr>
+      <tr><td>Основной формат</td><td>Видеоуроки в записи + живые воркшопы</td><td>33% видео, 13% вебинары, 17% индивид. → комбинируем</td></tr>
+      <tr><td>Дни</td><td>Будни (Пн–Пт)</td><td>92% выбрали будни; Вт и Ср — самые популярные</td></tr>
+      <tr><td>Время</td><td>Утро (09:00–12:00) или гибкое</td><td>33% утро, 29% зависит от загрузки → видео в записи решает</td></tr>
+      <tr><td>Длительность сессии</td><td>60–90 мин</td><td>Медиана готовности — 1 час; 42% — 1–2+ часа</td></tr>
+      <tr><td>Доступ к записям</td><td>Бессрочный</td><td>Прямой запрос от руководителя: «длительный доступ»</td></tr>
+      <tr><td>Практика vs теория</td><td>70% / 30%</td><td>«Максимум пользы, минимум воды, практика» — топ-запрос</td></tr>
+    </table>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== TAB 8: ROADMAP ==================== -->
+<div class="tab-content" id="roadmap">
+  <div class="section-title">Дорожная карта 30 / 60 / 90 дней</div>
+
+  <div class="roadmap-phase">
+    <h4>📅 Фаза 1: Фундамент (Дни 1–30)</h4>
+    <div class="card" style="margin-top:8px">
+      <div class="table-wrap">
+      <table>
+        <tr><th>Неделя</th><th>Действие</th><th>Ответственные</th><th>Результат</th></tr>
+        <tr><td>0</td><td>Утвердить политику ИИ; обеспечить корпоративный доступ к ChatGPT</td><td>Руководство, IT</td><td>Документ + доступы</td></tr>
+        <tr><td>1</td><td>Рассылка Quick Win: чек-лист промптов + памятка ИБ</td><td>HR, тренер</td><td>Материалы у всех 24 чел.</td></tr>
+        <tr><td>1–2</td><td>Модуль 1: Основы промпт-инженеринга (3 сессии)</td><td>Тренер</td><td>24 чел. обучены базе</td></tr>
+        <tr><td>3–4</td><td>Модуль 2: Документооборот B2G (2 сессии)</td><td>Тренер + юристы</td><td>Шаблоны для ТЗ, КП, отчётов</td></tr>
+        <tr><td>4</td><td>Замер: мини-тест + опрос удовлетворённости</td><td>HR</td><td>Baseline → post-test данные</td></tr>
+      </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="roadmap-phase phase-2">
+    <h4>📅 Фаза 2: Углубление (Дни 31–60)</h4>
+    <div class="card" style="margin-top:8px">
+      <div class="table-wrap">
+      <table>
+        <tr><th>Неделя</th><th>Действие</th><th>Ответственные</th><th>Результат</th></tr>
+        <tr><td>5–6</td><td>Модуль 3: Креатив и визуализация</td><td>Тренер</td><td>Портфолио концепций у менеджеров</td></tr>
+        <tr><td>7–8</td><td>Модуль 4: Аналитика и исследования</td><td>Тренер</td><td>Кейсы по НПА, сметам</td></tr>
+        <tr><td>5–8</td><td>Еженедельные 15-мин stand-up: «ИИ-кейс недели»</td><td>Амбассадоры</td><td>Обмен опытом, культура</td></tr>
+        <tr><td>8</td><td>Замер: повторный тест уверенности + NPS программы</td><td>HR</td><td>Динамика уверенности</td></tr>
+      </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="roadmap-phase phase-3">
+    <h4>📅 Фаза 3: Масштабирование (Дни 61–90)</h4>
+    <div class="card" style="margin-top:8px">
+      <div class="table-wrap">
+      <table>
+        <tr><th>Неделя</th><th>Действие</th><th>Ответственные</th><th>Результат</th></tr>
+        <tr><td>9–10</td><td>Модуль 5: Автоматизация и собственные ассистенты</td><td>Тренер</td><td>Custom GPTs для ≥3 отделов</td></tr>
+        <tr><td>10–12</td><td>Индивидуальные консультации для руководителей</td><td>Тренер</td><td>Стратегия ИИ на уровне компании</td></tr>
+        <tr><td>11–12</td><td>Формирование внутренней базы знаний: «Википедия компании»</td><td>Амбассадоры + IT</td><td>Рабочий прототип</td></tr>
+        <tr><td>12</td><td>Финальный замер: тест + NPS + бизнес-метрики</td><td>HR + руководство</td><td>ROI-отчёт</td></tr>
+      </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h3>План коммуникаций</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th>Когда</th><th>Что</th><th>Канал</th><th>Цель</th></tr>
+      <tr><td>До старта</td><td>Письмо от руководства: «Зачем мы внедряем ИИ»</td><td>Email + совещание</td><td>Снять страхи, задать тон</td></tr>
+      <tr><td>Неделя 1</td><td>Quick Win: чек-лист + памятка ИБ</td><td>Рабочий чат / Битрикс</td><td>Быстрый результат</td></tr>
+      <tr><td>Каждую неделю</td><td>«ИИ-кейс недели» — 2–3 мин видео/текст</td><td>Рабочий чат</td><td>Поддержка вовлечённости</td></tr>
+      <tr><td>День 30, 60, 90</td><td>Отчёт о прогрессе с метриками</td><td>Совещание + email</td><td>Видимость результатов</td></tr>
+    </table>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== TAB 9: METRICS ==================== -->
+<div class="tab-content" id="metrics">
+  <div class="section-title">Метрики эффективности программы</div>
+
+  <div class="grid grid-3" style="margin-bottom:20px">
+    <div class="card">
+      <h3>До обучения (Baseline)</h3>
+      <div style="font-size:0.88em">
+        <p>Уверенность: <strong style="color:var(--orange)">2.5 / 5</strong></p>
+        <p>Ежедневно используют: <strong>13%</strong></p>
+        <p>Не используют: <strong>17%</strong></p>
+        <p>Не понимают промпты: <strong>21%</strong></p>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Целевые показатели (День 90)</h3>
+      <div style="font-size:0.88em">
+        <p>Уверенность: <strong style="color:var(--green)">≥ 3.5 / 5</strong></p>
+        <p>Ежедневно используют: <strong>≥ 50%</strong></p>
+        <p>Не используют: <strong>0%</strong></p>
+        <p>Не понимают промпты: <strong>≤ 5%</strong></p>
+      </div>
+    </div>
+    <div class="card">
+      <h3>KPI программы</h3>
+      <div style="font-size:0.88em">
+        <p>NPS программы: <strong style="color:var(--green)">≥ 50</strong></p>
+        <p>Completion rate: <strong>≥ 80%</strong></p>
+        <p>Практические задания: <strong>≥ 90% сдано</strong></p>
+        <p>Custom GPTs создано: <strong>≥ 3</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px">
+    <h3>Система оценки эффективности</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th>Уровень (Kirkpatrick)</th><th>Что измеряем</th><th>Инструмент</th><th>Когда</th></tr>
+      <tr><td><strong>1. Реакция</strong></td><td>Удовлетворённость, NPS модуля</td><td>Опрос после каждого модуля</td><td>После каждого модуля</td></tr>
+      <tr><td><strong>2. Обучение</strong></td><td>Знания: промпты, инструменты, ИБ</td><td>Мини-тест (10 вопросов)</td><td>День 0, 30, 90</td></tr>
+      <tr><td><strong>3. Поведение</strong></td><td>Частота использования ИИ, качество промптов</td><td>Повторный опрос (аналог 2.1–2.4)</td><td>День 60, 90</td></tr>
+      <tr><td><strong>4. Результат</strong></td><td>Время на типовые задачи, количество итераций</td><td>Трекинг + интервью руководителей</td><td>День 90</td></tr>
+    </table>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px">
+    <h3>Бизнес-метрики (ожидаемый эффект)</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th>Метрика</th><th>Текущая оценка</th><th>Целевая (90 дней)</th><th>Источник оценки</th></tr>
+      <tr><td>Время подготовки КП / сценария</td><td>Базовое</td><td>-30–40%</td><td>Опыт аналогичных программ</td></tr>
+      <tr><td>Время анализа ТЗ / документации</td><td>Базовое</td><td>-40–50%</td><td>Ответы о текущих задачах</td></tr>
+      <tr><td>Количество итераций с подрядчиками по креативу</td><td>Базовое</td><td>-20–30%</td><td>Визуализация через ИИ</td></tr>
+      <tr><td>Стоимость создания визуального контента</td><td>Базовое</td><td>-30–50%</td><td>Замена части подрядчиков</td></tr>
+    </table>
+    </div>
+    <div class="label" style="margin-top:8px">* «Базовое» — замерить перед стартом программы. Точные значения будут после входного аудита.</div>
+  </div>
+
+  <div class="card">
+    <h3>NPS анкеты — распределение оценок</h3>
+    <div style="display:flex;align-items:flex-end;gap:6px;height:160px;padding:10px 0;flex-wrap:wrap">
+      <div style="text-align:center;flex:1;min-width:40px">
+        <div style="background:var(--red);height:10px;border-radius:3px 3px 0 0;margin:0 4px"></div>
+        <div style="font-size:0.75em;color:var(--text2);margin-top:4px">4</div>
+        <div style="font-size:0.7em;color:var(--text2)">n=1</div>
+      </div>
+      <div style="text-align:center;flex:1;min-width:40px">
+        <div style="background:var(--red);height:10px;border-radius:3px 3px 0 0;margin:0 4px"></div>
+        <div style="font-size:0.75em;color:var(--text2);margin-top:4px">5</div>
+        <div style="font-size:0.7em;color:var(--text2)">n=1</div>
+      </div>
+      <div style="text-align:center;flex:1;min-width:40px">
+        <div style="background:var(--orange);height:0px;border-radius:3px 3px 0 0;margin:0 4px"></div>
+        <div style="font-size:0.75em;color:var(--text2);margin-top:4px">6</div>
+        <div style="font-size:0.7em;color:var(--text2)">n=0</div>
+      </div>
+      <div style="text-align:center;flex:1;min-width:40px">
+        <div style="background:var(--accent4);height:10px;border-radius:3px 3px 0 0;margin:0 4px"></div>
+        <div style="font-size:0.75em;color:var(--text2);margin-top:4px">7</div>
+        <div style="font-size:0.7em;color:var(--text2)">n=1</div>
+      </div>
+      <div style="text-align:center;flex:1;min-width:40px">
+        <div style="background:var(--accent4);height:50px;border-radius:3px 3px 0 0;margin:0 4px"></div>
+        <div style="font-size:0.75em;color:var(--text2);margin-top:4px">8</div>
+        <div style="font-size:0.7em;color:var(--text2)">n=4</div>
+      </div>
+      <div style="text-align:center;flex:1;min-width:40px">
+        <div style="background:var(--green);height:60px;border-radius:3px 3px 0 0;margin:0 4px"></div>
+        <div style="font-size:0.75em;color:var(--text2);margin-top:4px">9</div>
+        <div style="font-size:0.7em;color:var(--text2)">n=5</div>
+      </div>
+      <div style="text-align:center;flex:1;min-width:40px">
+        <div style="background:var(--accent);height:130px;border-radius:3px 3px 0 0;margin:0 4px"></div>
+        <div style="font-size:0.75em;color:var(--text2);margin-top:4px">10</div>
+        <div style="font-size:0.7em;color:var(--text2)">n=12</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:16px;margin-top:12px;font-size:0.78em">
+      <span><span style="display:inline-block;width:10px;height:10px;background:var(--red);border-radius:2px"></span> Детракторы (1–6): 2</span>
+      <span><span style="display:inline-block;width:10px;height:10px;background:var(--accent4);border-radius:2px"></span> Пассивные (7–8): 5</span>
+      <span><span style="display:inline-block;width:10px;height:10px;background:var(--green);border-radius:2px"></span> Промоутеры (9–10): 17</span>
+    </div>
+  </div>
+
+  <div class="presenter-notes" style="margin-top:20px">
+    <h3>🎤 Presenter Notes — Полный talk track (5–7 мин)</h3>
+    <ol style="font-size:0.88em;color:var(--text2);padding-left:20px">
+      <li style="margin-bottom:10px"><strong>Обзор (1 мин):</strong> «24 сотрудника из 6+ подразделений заполнили анкету. 83% уже используют ИИ, но уверенность — всего 2.5 из 5. Интерес максимальный — 96%. Идеальный момент для обучения.»</li>
+      <li style="margin-bottom:10px"><strong>Ключевые боли (1 мин):</strong> «Три главных барьера: не могут получить нужный результат (42%), нет времени разобраться (42%), не понимают промпты (21%). Всё решаемо обучением. 88% прямо просят чек-листы и инструкции.»</li>
+      <li style="margin-bottom:10px"><strong>Риск (30 сек):</strong> «Есть тревожный сигнал — некоторые сотрудники генерируют фото для отчётов госзаказчикам. Нужна политика ИИ ДО начала обучения.»</li>
+      <li style="margin-bottom:10px"><strong>Программа (1.5 мин):</strong> «5 модулей + вводная по ИБ. Смешанный формат: видеоуроки + воркшопы. 70% практики. Будни, утро или запись. Привязка к реальным задачам каждого отдела: ТЗ, КП, сценарии, сметы, отчёты.»</li>
+      <li style="margin-bottom:10px"><strong>Roadmap (1 мин):</strong> «30 дней — фундамент: промпты + документооборот. 60 дней — креатив + аналитика. 90 дней — автоматизация и масштабирование. Quick win — чек-листы и памятка ИБ с первого дня.»</li>
+      <li style="margin-bottom:10px"><strong>Метрики (1 мин):</strong> «Цель: уверенность с 2.5 до 3.5+, ежедневное использование с 13% до 50%+. Ожидаемый эффект: -30–50% времени на подготовку документов. Замеры на день 0, 30, 60, 90 по модели Kirkpatrick.»</li>
+      <li><strong>Призыв (30 сек):</strong> «Нулевое сопротивление, максимальный запрос. Вопрос не «нужно ли», а «как быстро стартуем». Рекомендую начать с Модуля 0 — политика ИБ — на этой неделе.»</li>
+    </ol>
+  </div>
+</div>
+
+</div><!-- /.container -->
+
+<script>
+// === TAB NAVIGATION ===
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+  });
+});
+
+// === QUESTIONNAIRE DATA ===
+const questions = [
+  {
+    id:"1.3", q:"Стаж в отрасли", type:"single",
+    consensus:"Более 5 лет (мода)",
+    dist:[{l:"Менее 1 года",n:5,p:21},{l:"1–3 года",n:4,p:17},{l:"3–5 лет",n:4,p:17},{l:"Более 5 лет",n:11,p:46}],
+    insights:["46% — опытные сотрудники (5+ лет): обучение должно уважать их экспертизу","21% — новички (<1 года): им нужна более подробная база"],
+    conf:"high", confR:"Чёткий вопрос, 0% пропусков"
+  },
+  {
+    id:"1.4", q:"Типы задач (топ-5)", type:"multi",
+    consensus:"Организация и координация (мода)",
+    dist:[{l:"Организация и координация",n:16,p:67},{l:"Бюджеты и сметы",n:12,p:50},{l:"Работа с заказчиком",n:12,p:50},{l:"Документы: ТЗ, КП, договоры",n:10,p:42},{l:"Управление подрядчиками",n:9,p:38},{l:"Креатив и концепции",n:5,p:21}],
+    insights:["Координация + бюджеты + клиентская работа — ядро задач, обучение строить вокруг них","Креатив — у 21%, но запрос на ИИ в креативе значительно выше (63%)"],
+    conf:"high", confR:"Закрытый multi-choice"
+  },
+  {
+    id:"2.1", q:"Используете ли вы ИИ?", type:"single",
+    consensus:"Да, эпизодически (мода, 46%)",
+    dist:[{l:"Да, постоянно",n:9,p:38},{l:"Да, эпизодически",n:11,p:46},{l:"Нет, но планирую",n:4,p:17},{l:"Нет и не интересно",n:0,p:0}],
+    insights:["0% категоричных отказов — нет сопротивления","83% уже пробовали → обучение «с нуля» не нужно, нужна прокачка"],
+    conf:"high", confR:"Закрытый вопрос"
+  },
+  {
+    id:"2.3", q:"Частота использования", type:"single",
+    consensus:"Несколько раз в неделю (мода, 46%)",
+    dist:[{l:"Каждый день",n:3,p:13},{l:"Несколько раз в неделю",n:11,p:46},{l:"Раз в месяц",n:6,p:25},{l:"Один раз",n:2,p:8},{l:"Никогда",n:2,p:8}],
+    insights:["59% используют регулярно (ежедневно/еженедельно)","16% никогда/один раз — целевая группа для вовлечения"],
+    conf:"high", confR:"Закрытый вопрос"
+  },
+  {
+    id:"2.4", q:"Уверенность при работе с ИИ (1–5)", type:"likert",
+    consensus:"Медиана: 2.5, Мода: 2, Среднее: 2.54",
+    dist:[{l:"1 — Совсем не уверенно",n:6,p:25},{l:"2",n:7,p:29},{l:"3",n:5,p:21},{l:"4",n:4,p:17},{l:"5 — Очень уверенно",n:2,p:8}],
+    insights:["54% оценивают себя на 1–2 — острый дефицит навыков","Только 8% чувствуют полную уверенность"],
+    conf:"high", confR:"Числовая шкала, 0% пропусков"
+  },
+  {
+    id:"3.3", q:"Интерес к теме ИИ", type:"single",
+    consensus:"Очень интересна (мода, 71%)",
+    dist:[{l:"Очень интересна",n:17,p:71},{l:"Скорее интересна",n:6,p:25},{l:"Нейтрально",n:1,p:4},{l:"Скорее не интересна",n:0,p:0},{l:"Совсем не интересна",n:0,p:0}],
+    insights:["96% заинтересованы — максимально благоприятная среда","Единственный «нейтральный» — HR-специалист, используюет ИИ эпизодически"],
+    conf:"high", confR:"Закрытый вопрос"
+  },
+  {
+    id:"4.3", q:"Барьеры при использовании ChatGPT", type:"multi",
+    consensus:"Сложно получить результат + нет времени (по 42%)",
+    dist:[{l:"Сложно получить результат",n:10,p:42},{l:"Не хватает времени",n:10,p:42},{l:"Не понимаю, как формулировать",n:5,p:21},{l:"Не уверен(а), что этично",n:2,p:8},{l:"Боюсь ошибиться",n:1,p:4},{l:"Нет барьеров",n:3,p:13}],
+    insights:["63% нуждаются в обучении промпт-инженерингу (результат + формулировка)","42% — нехватка времени: обучение должно быть компактным, с готовыми шаблонами"],
+    conf:"high", confR:"Закрытый multi-choice"
+  },
+  {
+    id:"4.4", q:"Хотите инструкции / шаблоны?", type:"single",
+    consensus:"Да, очень полезно (мода, 88%)",
+    dist:[{l:"Да, очень полезно",n:21,p:88},{l:"Возможно",n:3,p:12},{l:"Скорее нет",n:0,p:0},{l:"Нет",n:0,p:0}],
+    insights:["100% положительных ответов — абсолютный мандат на создание библиотеки шаблонов","Приоритет: шаблоны промптов под конкретные задачи отделов"],
+    conf:"high", confR:"Закрытый вопрос, 0% отказов"
+  },
+  {
+    id:"4.6", q:"Интерес к автоматизации (без кода)", type:"single",
+    consensus:"Да, очень интересно (мода, 71%)",
+    dist:[{l:"Да, очень интересно",n:17,p:71},{l:"Возможно, хочу примеры",n:7,p:29},{l:"Не понимаю пользу",n:0,p:0},{l:"Нет, не нужно",n:0,p:0}],
+    insights:["100% открыты к теме → включить модуль по автоматизации","29% просят примеры → начать с демонстрации кейсов, затем практика"],
+    conf:"high", confR:"Закрытый вопрос"
+  },
+  {
+    id:"5.1", q:"Готовность к онлайн-обучению", type:"single",
+    consensus:"Да, в любое время (мода, 50%)",
+    dist:[{l:"Да, в любое время",n:12,p:50},{l:"Да, в рабочее время",n:7,p:29},{l:"Только офлайн",n:3,p:13},{l:"Не уверен / зависит",n:2,p:8}],
+    insights:["79% готовы онлайн — основной формат доставки","13% только офлайн (все — руководители) → для них отдельные воркшопы"],
+    conf:"high", confR:"Закрытый вопрос"
+  },
+  {
+    id:"5.4", q:"Время на обучение в день", type:"single",
+    consensus:"1 час (мода, 42%)",
+    dist:[{l:"До 30 минут",n:2,p:8},{l:"1 час",n:10,p:42},{l:"1–2 часа",n:6,p:25},{l:"2–3 часа",n:4,p:17},{l:"Нерегулярно",n:2,p:8}],
+    insights:["Медиана — 1 час: оптимальная длина сессии 60 мин","42% готовы на 1–3 часа: возможны расширенные воркшопы по желанию"],
+    conf:"high", confR:"Закрытый вопрос"
+  },
+  {
+    id:"5.5", q:"Предпочитаемый формат", type:"single",
+    consensus:"Видеоуроки в записи (мода, 33%)",
+    dist:[{l:"Видеоуроки в записи",n:8,p:33},{l:"Всё вышеперечисленное",n:7,p:29},{l:"Индивидуальное",n:4,p:17},{l:"Живые вебинары",n:3,p:13},{l:"Командные воркшопы",n:1,p:4},{l:"Другое",n:1,p:4}],
+    insights:["Видео в записи — лидер, но 29% хотят все форматы → смешанная модель","4 чел. хотят индивидуальный формат — все руководители/замы"],
+    conf:"high", confR:"Закрытый вопрос"
+  },
+  {
+    id:"5.6", q:"Важность привязки к проектам (1–5)", type:"likert",
+    consensus:"Медиана: 4, Среднее: 3.8",
+    dist:[{l:"1",n:0,p:0},{l:"2",n:2,p:8},{l:"3",n:8,p:33},{l:"4",n:8,p:33},{l:"5 — Критически важно",n:6,p:25}],
+    insights:["58% оценивают 4–5: программа ОБЯЗАНА быть привязана к реальным задачам","0% выбрали «не важно» — чистая теория неприемлема"],
+    conf:"high", confR:"Числовая шкала"
+  }
+];
+
+// Render questionnaire
+const qContainer = document.getElementById('questionnaire-items');
+const colors = ['var(--accent)','var(--accent2)','var(--accent4)','var(--accent5)','var(--green)','var(--orange)'];
+questions.forEach((q,qi) => {
+  const maxP = Math.max(...q.dist.map(d=>d.p));
+  let html = `<div class="card" style="margin-bottom:16px">
+    <h3 style="color:var(--accent);text-transform:none;letter-spacing:0">${q.id}. ${q.q}</h3>
+    <div style="margin:8px 0;font-size:0.88em"><strong>Консенсус:</strong> ${q.consensus}</div>
+    <div style="margin-bottom:12px">`;
+  q.dist.forEach((d,di) => {
+    const w = maxP > 0 ? (d.p / 100 * 100) : 0;
+    const c = colors[di % colors.length];
+    html += `<div class="bar-row">
+      <div class="bar-label">${d.l}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${d.p}%;background:${c}"><span>${d.n}</span></div></div>
+      <div class="bar-value">${d.p}%</div>
+    </div>`;
+  });
+  html += `</div>`;
+  html += `<div style="display:flex;gap:12px;flex-wrap:wrap;align-items:start">
+    <div style="flex:1;min-width:200px">
+      <div style="font-size:0.82em;font-weight:600;color:var(--text2);margin-bottom:4px">Инсайты:</div>`;
+  q.insights.forEach(i => {
+    html += `<div style="font-size:0.82em;color:var(--text);margin-bottom:4px">• ${i}</div>`;
+  });
+  html += `</div>
+    <div><span class="conf conf-${q.conf}">${q.conf === 'high' ? '● Высокая уверенность' : q.conf === 'med' ? '● Средняя уверенность' : '● Низкая уверенность'}</span>
+    <div style="font-size:0.72em;color:var(--text2);margin-top:2px">${q.confR}</div></div>
+  </div></div>`;
+  qContainer.innerHTML += html;
+});
+</script>
+</body>
+</html>
