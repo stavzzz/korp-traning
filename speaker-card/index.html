@@ -6,18 +6,26 @@
     <title>Станислав Панков — Спикер по ИИ</title>
     
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Станислав Панков — Спикер по ИИ">
-    <meta property="og:description" content="Дипломированный педагог, профессиональный спикер и методолог корпоративного обучения по ИИ. Ко-фаундер школы «ИИ-визация».">
-    <meta property="og:image" content="https://stavzzz.github.io/speaker-card/avatar.jpg">
-    <meta property="og:url" content="https://stavzzz.github.io/speaker-card/">
+    <meta property="og:title" content="Станислав Панков — Спикер по внедрению ИИ в бизнес">
+    <meta property="og:description" content="Помогаю компаниям зарабатывать больше с помощью нейросетей — без хайпа и мифов. 30+ выступлений, 8 онлайн-курсов по ИИ.">
+    <meta property="og:image" content="https://stavzzz.github.io/open-sites/speaker-card/avatar.jpg">
+    <meta property="og:url" content="https://stavzzz.github.io/open-sites/speaker-card/">
     <meta property="og:type" content="profile">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Станислав Панков — Спикер по внедрению ИИ в бизнес">
+    <meta name="twitter:description" content="Помогаю компаниям зарабатывать больше с помощью нейросетей — без хайпа и мифов">
+    <meta name="twitter:image" content="https://stavzzz.github.io/open-sites/speaker-card/avatar.jpg">
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="favicon.png">
     
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap"
-        rel="stylesheet">
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --cream: #FBF8F3;
@@ -39,7 +47,7 @@
         }
 
         body {
-            font-family: 'Source Sans 3', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: var(--cream);
             color: var(--text);
             line-height: 1.6;
@@ -64,7 +72,7 @@
             z-index: 1;
             max-width: 960px;
             margin: 0 auto;
-            padding: 48px 40px 60px;
+            padding: 48px 40px 80px;
         }
 
         /* ─── HEADER ─── */
@@ -101,21 +109,21 @@
         }
 
         .header-text h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 34px;
-            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            font-size: 36px;
+            font-weight: 800;
             color: var(--dark);
             line-height: 1.15;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.8px;
         }
 
         .header-text .subtitle {
-            margin-top: 8px;
-            font-size: 15px;
+            margin-top: 10px;
+            font-size: 15.5px;
             font-weight: 400;
             color: var(--text-light);
-            max-width: 520px;
-            line-height: 1.55;
+            max-width: 540px;
+            line-height: 1.6;
         }
 
         .tags {
@@ -129,19 +137,27 @@
             display: inline-flex;
             align-items: center;
             gap: 5px;
-            padding: 5px 14px;
+            padding: 6px 16px;
             border-radius: 100px;
-            font-size: 12.5px;
-            font-weight: 500;
-            letter-spacing: 0.3px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.2px;
             background: var(--accent-soft);
             color: var(--accent);
             border: 1px solid rgba(184, 134, 11, 0.18);
+            transition: all 0.2s ease;
+            cursor: default;
+        }
+
+        .tag:hover {
+            transform: scale(1.05);
+            background: var(--accent);
+            color: white;
         }
 
         .tag svg {
-            width: 13px;
-            height: 13px;
+            width: 14px;
+            height: 14px;
         }
 
         /* ─── DIVIDER ─── */
@@ -213,12 +229,12 @@
         }
 
         .card h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 18px;
-            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            font-size: 19px;
+            font-weight: 700;
             color: var(--dark);
             margin-bottom: 14px;
-            letter-spacing: -0.2px;
+            letter-spacing: -0.3px;
         }
 
         .card ul {
@@ -229,9 +245,9 @@
         .card ul li {
             position: relative;
             padding-left: 18px;
-            margin-bottom: 9px;
-            font-size: 14px;
-            line-height: 1.55;
+            margin-bottom: 10px;
+            font-size: 14.5px;
+            line-height: 1.6;
             color: var(--text);
         }
 
@@ -239,11 +255,16 @@
             content: '';
             position: absolute;
             left: 0;
-            top: 8px;
+            top: 9px;
             width: 6px;
             height: 6px;
             border-radius: 50%;
             background: var(--taupe);
+        }
+
+        .card ul li strong {
+            font-weight: 600;
+            color: var(--dark);
         }
 
         /* ─── FULL-WIDTH CARD ─── */
@@ -267,11 +288,12 @@
             border: 1px solid rgba(232, 223, 208, 0.5);
             font-size: 14px;
             color: var(--text);
-            transition: background 0.2s ease;
+            transition: all 0.2s ease;
         }
 
         .format-item:hover {
             background: var(--accent-soft);
+            transform: translateX(3px);
         }
 
         .format-item svg {
@@ -298,17 +320,18 @@
         }
 
         .stat-number {
-            font-family: 'Playfair Display', serif;
-            font-size: 26px;
-            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
             color: var(--accent);
             line-height: 1;
+            letter-spacing: -0.5px;
         }
 
         .stat-label {
             font-size: 11.5px;
             color: var(--text-light);
-            margin-top: 4px;
+            margin-top: 5px;
             line-height: 1.3;
         }
 
@@ -324,13 +347,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            padding: 16px 24px;
+            gap: 10px;
+            padding: 16px 20px;
             border-radius: 12px;
             background: var(--accent);
             color: white;
             text-decoration: none;
-            font-size: 15px;
+            font-size: 14.5px;
             font-weight: 600;
             border: none;
             cursor: pointer;
@@ -342,6 +365,10 @@
             transform: translateY(-3px);
             box-shadow: 0 8px 24px rgba(184, 134, 11, 0.35);
             background: linear-gradient(135deg, var(--accent), var(--bronze));
+        }
+
+        .contact-btn:active {
+            transform: translateY(-1px) scale(0.98);
         }
 
         .contact-btn svg {
@@ -360,33 +387,45 @@
             box-shadow: 0 8px 24px rgba(156, 139, 116, 0.35);
         }
 
-        /* ─── FOOTER ─── */
-        .footer {
-            margin-top: 50px;
-            padding-top: 30px;
+        /* ─── FIXED FOOTER CTA ─── */
+        .footer-fixed {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 14px 20px;
+            background: rgba(251, 248, 243, 0.98);
+            backdrop-filter: blur(12px);
             border-top: 1px solid var(--sand);
-            text-align: center;
-            animation: fadeUp 0.7s ease 0.65s both;
+            z-index: 100;
+            animation: slideUp 0.5s ease 1s both;
             opacity: 0;
         }
 
-        .footer-line {
-            font-size: 13px;
-            color: var(--text-light);
-            letter-spacing: 0.3px;
-        }
-
-        .footer-brand {
-            font-family: 'Playfair Display', serif;
+        .cta-btn {
+            display: block;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 16px 24px;
+            background: linear-gradient(135deg, var(--accent), var(--bronze));
+            color: white;
+            text-align: center;
+            border-radius: 12px;
+            font-weight: 700;
             font-size: 16px;
-            font-weight: 600;
-            color: var(--dark);
-            margin-top: 6px;
-            letter-spacing: 1px;
+            text-decoration: none;
+            box-shadow: 0 6px 24px rgba(184, 134, 11, 0.3);
+            transition: all 0.3s ease;
         }
 
-        .footer-brand span {
-            color: var(--accent);
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 32px rgba(184, 134, 11, 0.4);
+        }
+
+        .cta-btn:active {
+            transform: scale(0.98);
         }
 
         /* ─── ANIMATIONS ─── */
@@ -395,7 +434,17 @@
                 opacity: 0;
                 transform: translateY(18px);
             }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(100%);
+            }
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -405,7 +454,7 @@
         /* ─── RESPONSIVE ─── */
         @media (max-width: 720px) {
             .page {
-                padding: 32px 20px 48px;
+                padding: 32px 20px 100px;
             }
 
             .header {
@@ -415,16 +464,30 @@
                 gap: 20px;
             }
 
+            .header-text h1 {
+                font-size: 30px;
+            }
+
+            .header-text .subtitle {
+                font-size: 15px;
+            }
+
             .tags {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+                width: 100%;
                 justify-content: center;
+            }
+
+            .tag {
+                justify-content: center;
+                padding: 8px 12px;
+                font-size: 12.5px;
             }
 
             .grid {
                 grid-template-columns: 1fr;
-            }
-
-            .header-text h1 {
-                font-size: 28px;
             }
 
             .formats-grid {
@@ -442,13 +505,26 @@
             .contact-buttons {
                 grid-template-columns: 1fr;
             }
+
+            .contact-btn {
+                font-size: 15px;
+            }
         }
 
-        /* Extra mobile optimization for small screens */
+        /* Extra mobile optimization */
         @media (max-width: 480px) {
+            .header-text h1 {
+                font-size: 26px;
+            }
+
             .contact-btn {
-                padding: 14px 20px;
+                padding: 14px 18px;
                 font-size: 14px;
+            }
+
+            .cta-btn {
+                font-size: 15px;
+                padding: 14px 20px;
             }
         }
 
@@ -472,6 +548,10 @@
                 box-shadow: none;
                 border: 1px solid var(--accent);
             }
+
+            .footer-fixed {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -487,8 +567,7 @@
             </div>
             <div class="header-text">
                 <h1>Станислав Панков</h1>
-                <p class="subtitle">Дипломированный педагог, профессиональный спикер и методолог корпоративного обучения
-                    по ИИ. Ко-фаундер школы «ИИ-визация».</p>
+                <p class="subtitle">Спикер и&nbsp;методолог по&nbsp;внедрению ИИ в&nbsp;бизнес. Ко-фаундер проекта «ИИ-визация». Помогаю компаниям зарабатывать больше с&nbsp;помощью нейросетей&nbsp;— без&nbsp;хайпа и&nbsp;мифов.</p>
                 <div class="tags">
                     <span class="tag">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -536,7 +615,7 @@
                         <path d="M2 12l10 5 10-5" />
                     </svg>
                 </div>
-                <h2>Опыт и достижения</h2>
+                <h2>Опыт и&nbsp;достижения</h2>
 
                 <div class="stats-row">
                     <div class="stat">
@@ -545,21 +624,18 @@
                     </div>
                     <div class="stat">
                         <div class="stat-number">8</div>
-                        <div class="stat-label">онлайн-курсов по ИИ</div>
+                        <div class="stat-label">онлайн-курсов по&nbsp;ИИ</div>
                     </div>
                     <div class="stat">
-                        <div class="stat-number">7</div>
-                        <div class="stat-label">офлайн-тренингов по ИИ</div>
+                        <div class="stat-number">30+</div>
+                        <div class="stat-label">выступлений на&nbsp;конференциях</div>
                     </div>
                 </div>
 
                 <ul>
-                    <li>Ex-CEO TTM ACADEMY — крупнейшая в СНГ лицензированная онлайн-школа по блокчейн-технологиям и
-                        продуктовому управлению</li>
-                    <li>Офлайн-тренинги по внедрению ИИ в бизнес-процессы компании для собственников бизнеса и
-                        ТОП-менеджеров (Дубай, Москва)</li>
-                    <li>Практика построения программ обучения: от вводных модулей «что такое LLM» до прикладного
-                        внедрения и регламентов безопасной работы</li>
+                    <li><strong>Ex-CEO TTM ACADEMY</strong>&nbsp;— крупнейшая в&nbsp;СНГ онлайн-школа по&nbsp;блокчейну и&nbsp;продуктовому управлению (15&nbsp;000+ выпускников)</li>
+                    <li><strong>Провел 30+ выступлений</strong> на&nbsp;офлайн-конференциях и&nbsp;корпоративных тренингах (Москва, Дубай) + онлайн-конференции</li>
+                    <li><strong>Автор 8&nbsp;онлайн-курсов по&nbsp;ИИ</strong>&nbsp;— от&nbsp;базовых навыков промптинга до&nbsp;полного внедрения в&nbsp;бизнес-процессы</li>
                 </ul>
             </div>
 
@@ -574,19 +650,15 @@
                 </div>
                 <h2>Ключевые темы</h2>
                 <ul>
-                    <li>ИИ и LLM без мифов: возможности, ограничения, типовые ошибки, контроль качества результата</li>
-                    <li>Прикладное внедрение ИИ в компании: автоматизация маркетинга, аналитики, финансов, коммуникаций,
-                        обучения</li>
-                    <li>Промптинг как управленческий навык: постановка задач, проверяемость, снижение «галлюцинаций»
-                    </li>
-                    <li>Информационная безопасность при работе с нейросетями: конфиденциальность, риски и цифровая
-                        ответственность</li>
-                    <li>Аудит и консалтинг бизнес-процессов перед внедрением ИИ в компанию</li>
-                    <li>Выстраиваю понятные траектории обучения для людей разного уровня подготовки</li>
+                    <li><strong>ИИ без мифов:</strong> как на&nbsp;самом деле работают LLM, где они&nbsp;бесполезны, а&nbsp;где дают 10x&nbsp;результат</li>
+                    <li><strong>Внедрение ИИ в&nbsp;бизнес:</strong> автоматизация маркетинга, аналитики, обучения и&nbsp;коммуникаций с&nbsp;измеримым ROI</li>
+                    <li><strong>Промптинг как навык управленца:</strong> как ставить задачи нейросети, чтобы она&nbsp;не&nbsp;«галлюцинировала» и&nbsp;давала проверяемый результат</li>
+                    <li><strong>Информационная безопасность:</strong> что можно, а&nbsp;что нельзя заливать в&nbsp;ChatGPT, чтобы не&nbsp;слить компанию конкурентам</li>
+                    <li><strong>Аудит бизнес-процессов:</strong> оцениваю, где ИИ даст реальную пользу, а&nbsp;где&nbsp;— пустая трата денег</li>
                 </ul>
             </div>
 
-            <!-- ABOUT SCHOOL -->
+            <!-- ABOUT PROJECT -->
             <div class="card">
                 <div class="card-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -594,11 +666,11 @@
                         <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
                     </svg>
                 </div>
-                <h2>Школа «ИИ-визация»</h2>
+                <h2>Проект «ИИ-визация»</h2>
                 <ul>
-                    <li>Обучение работе с ИИ и нейросетями для бизнеса и частных лиц</li>
-                    <li>ИИ-консалтинг и внедрение ИИ в информационные и бизнес-процессы компаний</li>
-                    <li>Рынок РФ и международный рынок</li>
+                    <li>Обучаем работе с&nbsp;ИИ&nbsp;— от&nbsp;новичков до&nbsp;руководителей отделов. Помогаем внедрять нейросети в&nbsp;реальные бизнес-процессы компаний.</li>
+                    <li>ИИ-консалтинг и&nbsp;внедрение ИИ в&nbsp;информационные и&nbsp;бизнес-процессы компаний</li>
+                    <li><strong>Рынки:</strong> Россия, СНГ, международный (English available)</li>
                 </ul>
             </div>
 
@@ -619,7 +691,7 @@
                             <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
                             <path d="M16 3.13a4 4 0 0 1 0 7.75" />
                         </svg>
-                        Лекции и воркшопы
+                        Лекции и&nbsp;воркшопы
                     </div>
                     <div class="format-item">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -628,21 +700,21 @@
                             <line x1="16" y1="13" x2="8" y2="13" />
                             <line x1="16" y1="17" x2="8" y2="17" />
                         </svg>
-                        Практикумы и мастермайнды
+                        Практикумы и&nbsp;мастермайнды
                     </div>
                     <div class="format-item">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <polyline points="9 11 12 14 22 4" />
                             <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
                         </svg>
-                        Чек-листы и шаблоны внедрения
+                        Чек-листы и&nbsp;шаблоны внедрения
                     </div>
                     <div class="format-item">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="12" cy="12" r="10" />
                             <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
                         </svg>
-                        Дорожные карты: от пилота до масштабирования
+                        Дорожные карты: от&nbsp;пилота до&nbsp;масштабирования
                     </div>
                     <div class="format-item">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -655,7 +727,7 @@
                             <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
                             <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
                         </svg>
-                        Анкеты и рабочие материалы
+                        Анкеты и&nbsp;рабочие материалы
                     </div>
                 </div>
             </div>
@@ -668,13 +740,13 @@
                         <path d="M8 10h.01M12 10h.01M16 10h.01" />
                     </svg>
                 </div>
-                <h2>Связаться со мной</h2>
+                <h2>Связаться со&nbsp;мной</h2>
                 <div class="contact-buttons">
                     <a href="https://t.me/stavzzz" target="_blank" rel="noopener noreferrer" class="contact-btn">
                         <svg viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18 1.897-.962 6.502-1.359 8.627-.168.9-.5 1.201-.82 1.23-.697.064-1.226-.461-1.901-.903-1.056-.692-1.653-1.123-2.678-1.799-1.185-.781-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.329-.913.489-1.302.481-.428-.008-1.252-.241-1.865-.44-.752-.244-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635.099-.002.321.023.465.141.122.1.155.234.171.329.016.095.036.311.02.479z"/>
                         </svg>
-                        Telegram @stavzzz
+                        Написать лично
                     </a>
                     <a href="https://t.me/+_tvrvMMgP9llOGY6" target="_blank" rel="noopener noreferrer" class="contact-btn secondary">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -683,20 +755,49 @@
                             <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
                             <path d="M16 3.13a4 4 0 0 1 0 7.75" />
                         </svg>
-                        Комьюнити «ИИ-визация»
+                        Присоединиться к&nbsp;комьюнити
                     </a>
                 </div>
             </div>
 
         </div>
 
-        <!-- FOOTER -->
-        <div class="footer">
-            <p class="footer-line">Профессиональный спикер по внедрению ИИ в бизнес</p>
-            <p class="footer-brand">Станислав <span>Панков</span></p>
-        </div>
-
     </div>
+
+    <!-- FIXED FOOTER CTA -->
+    <div class="footer-fixed">
+        <a href="https://t.me/stavzzz" class="cta-btn">
+            🎤 Пригласить спикером на&nbsp;конференцию
+        </a>
+    </div>
+
+    <!-- JSON-LD Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Станислав Панков",
+      "jobTitle": "Спикер и методолог по внедрению ИИ в бизнес",
+      "description": "Помогаю компаниям зарабатывать больше с помощью нейросетей — без хайпа и мифов",
+      "url": "https://stavzzz.github.io/open-sites/speaker-card/",
+      "image": "https://stavzzz.github.io/open-sites/speaker-card/avatar.jpg",
+      "sameAs": [
+        "https://t.me/stavzzz"
+      ],
+      "alumniOf": {
+        "@type": "Organization",
+        "name": "TTM ACADEMY"
+      },
+      "knowsAbout": [
+        "Искусственный интеллект",
+        "Large Language Models",
+        "Промптинг",
+        "Внедрение ИИ в бизнес",
+        "Корпоративное обучение",
+        "Информационная безопасность"
+      ]
+    }
+    </script>
 
 </body>
 </html>
