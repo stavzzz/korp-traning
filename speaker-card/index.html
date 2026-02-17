@@ -53,7 +53,6 @@
             line-height: 1.6;
             min-height: 100vh;
             overflow-x: hidden;
-            padding-top: 80px;
         }
 
         /* Subtle background texture */
@@ -73,10 +72,10 @@
             z-index: 1;
             max-width: 960px;
             margin: 0 auto;
-            padding: 20px 40px 60px;
+            padding: 48px 40px 60px;
         }
 
-        /* ─── STICKY HEADER ─── */
+        /* ─── STICKY HEADER (СКРЫТ ПО УМОЛЧАНИЮ) ─── */
         .header-sticky {
             position: fixed;
             top: 0;
@@ -87,7 +86,17 @@
             border-bottom: 1px solid var(--sand);
             z-index: 1000;
             padding: 12px 20px;
-            animation: slideDown 0.4s ease;
+            opacity: 0;
+            transform: translateY(-100%);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+        }
+
+        /* Класс для показа sticky header */
+        .header-sticky.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
         }
 
         .header-sticky-content {
@@ -457,25 +466,10 @@
             }
         }
 
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-100%);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         /* ─── RESPONSIVE ─── */
         @media (max-width: 720px) {
-            body {
-                padding-top: 70px;
-            }
-
             .page {
-                padding: 20px 20px 60px;
+                padding: 32px 20px 60px;
             }
 
             .header-sticky-text h1 {
@@ -562,10 +556,6 @@
                 display: none;
             }
 
-            body {
-                padding-top: 0;
-            }
-
             .card {
                 break-inside: avoid;
                 box-shadow: none;
@@ -586,8 +576,8 @@
 
 <body>
 
-    <!-- STICKY HEADER -->
-    <div class="header-sticky">
+    <!-- STICKY HEADER (СКРЫТ ПО УМОЛЧАНИЮ) -->
+    <div class="header-sticky" id="stickyHeader">
         <div class="header-sticky-content">
             <div class="avatar-ring">
                 <img src="avatar.jpg" alt="Станислав Панков" class="avatar">
@@ -601,8 +591,8 @@
 
     <div class="page">
 
-        <!-- HEADER -->
-        <div class="header">
+        <!-- MAIN HEADER -->
+        <div class="header" id="mainHeader">
             <div class="avatar-ring">
                 <img src="avatar.jpg" alt="Станислав Панков — Спикер по внедрению ИИ в бизнес" class="avatar">
             </div>
@@ -831,6 +821,39 @@
         "Информационная безопасность"
       ]
     }
+    </script>
+
+    <!-- INTERSECTION OBSERVER для показа/скрытия sticky header -->
+    <script>
+        // Ждем загрузки DOM
+        document.addEventListener('DOMContentLoaded', function() {
+            const mainHeader = document.getElementById('mainHeader');
+            const stickyHeader = document.getElementById('stickyHeader');
+
+            // Создаем Intersection Observer
+            const observer = new IntersectionObserver(
+                function(entries) {
+                    entries.forEach(function(entry) {
+                        // Если основной header НЕ видим в viewport
+                        if (!entry.isIntersecting) {
+                            // Показываем sticky header
+                            stickyHeader.classList.add('visible');
+                        } else {
+                            // Прячем sticky header
+                            stickyHeader.classList.remove('visible');
+                        }
+                    });
+                },
+                {
+                    // Настройки observer
+                    threshold: 0, // Срабатывает когда хотя бы 0% элемента видно
+                    rootMargin: '0px' // Без отступов
+                }
+            );
+
+            // Начинаем наблюдать за основным header
+            observer.observe(mainHeader);
+        });
     </script>
 
 </body>
