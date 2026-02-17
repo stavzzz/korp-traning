@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Станислав Панков — Спикер по ИИ</title>
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Станислав Панков — Спикер по ИИ">
+    <meta property="og:description" content="Дипломированный педагог, профессиональный спикер и методолог корпоративного обучения по ИИ. Ко-фаундер школы «ИИ-визация».">
+    <meta property="og:image" content="https://stavzzz.github.io/speaker-card/avatar.jpg">
+    <meta property="og:url" content="https://stavzzz.github.io/speaker-card/">
+    <meta property="og:type" content="profile">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --cream: #FBF8F3;
+            --warm-white: #F5F0E8;
+            --sand: #E8DFD0;
+            --taupe: #C4B5A0;
+            --bronze: #9C8B74;
+            --dark: #3A352E;
+            --accent: #B8860B;
+            --accent-soft: rgba(184, 134, 11, 0.12);
+            --text: #4A443B;
+            --text-light: #7A7268;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            background: var(--cream);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Subtle background texture */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 0%, rgba(184, 134, 11, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 100%, rgba(196, 181, 160, 0.15) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .page {
+            position: relative;
+            z-index: 1;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 48px 40px 60px;
+        }
+
+        /* ─── HEADER ─── */
+        .header {
+            display: flex;
+            align-items: flex-start;
+            gap: 36px;
+            margin-bottom: 44px;
+            animation: fadeUp 0.8s ease both;
+        }
+
+        .avatar-ring {
+            flex-shrink: 0;
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--taupe));
+            padding: 3px;
+            box-shadow: 0 8px 32px rgba(156, 139, 116, 0.2);
+        }
+
+        .avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: var(--warm-white);
+            object-fit: cover;
+            object-position: center 25%;
+            display: block;
+        }
+
+        .header-text {
+            padding-top: 6px;
+        }
+
+        .header-text h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 34px;
+            font-weight: 700;
+            color: var(--dark);
+            line-height: 1.15;
+            letter-spacing: -0.5px;
+        }
+
+        .header-text .subtitle {
+            margin-top: 8px;
+            font-size: 15px;
+            font-weight: 400;
+            color: var(--text-light);
+            max-width: 520px;
+            line-height: 1.55;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 14px;
+            border-radius: 100px;
+            font-size: 12.5px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            border: 1px solid rgba(184, 134, 11, 0.18);
+        }
+
+        .tag svg {
+            width: 13px;
+            height: 13px;
+        }
+
+        /* ─── DIVIDER ─── */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--sand), transparent);
+            margin: 4px 0 40px;
+        }
+
+        /* ─── GRID ─── */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px 36px;
+        }
+
+        /* ─── SECTION CARD ─── */
+        .card {
+            background: rgba(255, 255, 255, 0.65);
+            border: 1px solid rgba(232, 223, 208, 0.7);
+            border-radius: 16px;
+            padding: 28px 26px;
+            backdrop-filter: blur(6px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0;
+            animation: fadeUp 0.7s ease both;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(156, 139, 116, 0.12);
+        }
+
+        .card:nth-child(1) {
+            animation-delay: 0.15s;
+        }
+
+        .card:nth-child(2) {
+            animation-delay: 0.25s;
+        }
+
+        .card:nth-child(3) {
+            animation-delay: 0.35s;
+        }
+
+        .card:nth-child(4) {
+            animation-delay: 0.45s;
+        }
+
+        .card:nth-child(5) {
+            animation-delay: 0.55s;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: var(--accent-soft);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .card-icon svg {
+            width: 20px;
+            height: 20px;
+            color: var(--accent);
+        }
+
+        .card h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 14px;
+            letter-spacing: -0.2px;
+        }
+
+        .card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .card ul li {
+            position: relative;
+            padding-left: 18px;
+            margin-bottom: 9px;
+            font-size: 14px;
+            line-height: 1.55;
+            color: var(--text);
+        }
+
+        .card ul li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--taupe);
+        }
+
+        /* ─── FULL-WIDTH CARD ─── */
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .formats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .format-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            background: var(--cream);
+            border: 1px solid rgba(232, 223, 208, 0.5);
+            font-size: 14px;
+            color: var(--text);
+            transition: background 0.2s ease;
+        }
+
+        .format-item:hover {
+            background: var(--accent-soft);
+        }
+
+        .format-item svg {
+            width: 16px;
+            height: 16px;
+            color: var(--bronze);
+            flex-shrink: 0;
+        }
+
+        /* ─── HIGHLIGHT STAT ─── */
+        .stats-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 18px;
+        }
+
+        .stat {
+            text-align: center;
+            flex: 1;
+            padding: 14px 8px;
+            border-radius: 12px;
+            background: var(--cream);
+            border: 1px solid rgba(232, 223, 208, 0.5);
+        }
+
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 11.5px;
+            color: var(--text-light);
+            margin-top: 4px;
+            line-height: 1.3;
+        }
+
+        /* ─── CONTACT BUTTONS ─── */
+        .contact-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .contact-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 16px 24px;
+            border-radius: 12px;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(184, 134, 11, 0.2);
+        }
+
+        .contact-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(184, 134, 11, 0.35);
+            background: linear-gradient(135deg, var(--accent), var(--bronze));
+        }
+
+        .contact-btn svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        .contact-btn.secondary {
+            background: var(--bronze);
+            box-shadow: 0 4px 16px rgba(156, 139, 116, 0.2);
+        }
+
+        .contact-btn.secondary:hover {
+            background: linear-gradient(135deg, var(--bronze), var(--accent));
+            box-shadow: 0 8px 24px rgba(156, 139, 116, 0.35);
+        }
+
+        /* ─── FOOTER ─── */
+        .footer {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid var(--sand);
+            text-align: center;
+            animation: fadeUp 0.7s ease 0.65s both;
+            opacity: 0;
+        }
+
+        .footer-line {
+            font-size: 13px;
+            color: var(--text-light);
+            letter-spacing: 0.3px;
+        }
+
+        .footer-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-top: 6px;
+            letter-spacing: 1px;
+        }
+
+        .footer-brand span {
+            color: var(--accent);
+        }
+
+        /* ─── ANIMATIONS ─── */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 720px) {
+            .page {
+                padding: 32px 20px 48px;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 20px;
+            }
+
+            .tags {
+                justify-content: center;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-text h1 {
+                font-size: 28px;
+            }
+
+            .formats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-row {
+                flex-wrap: wrap;
+            }
+
+            .stat {
+                min-width: calc(50% - 10px);
+            }
+
+            .contact-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Extra mobile optimization for small screens */
+        @media (max-width: 480px) {
+            .contact-btn {
+                padding: 14px 20px;
+                font-size: 14px;
+            }
+        }
+
+        /* ─── PRINT ─── */
+        @media print {
+            body::before {
+                display: none;
+            }
+
+            .card {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+
+            .card:hover {
+                transform: none;
+            }
+
+            .contact-btn {
+                box-shadow: none;
+                border: 1px solid var(--accent);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page">
+
+        <!-- HEADER -->
+        <div class="header">
+            <div class="avatar-ring">
+                <img src="avatar.jpg" alt="Станислав Панков — Спикер по внедрению ИИ в бизнес" class="avatar">
+            </div>
+            <div class="header-text">
+                <h1>Станислав Панков</h1>
+                <p class="subtitle">Дипломированный педагог, профессиональный спикер и методолог корпоративного обучения
+                    по ИИ. Ко-фаундер школы «ИИ-визация».</p>
+                <div class="tags">
+                    <span class="tag">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                            <path d="M6 12v5c3 3 9 3 12 0v-5" />
+                        </svg>
+                        Преподаватель
+                    </span>
+                    <span class="tag">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 20V10" />
+                            <path d="M18 20V4" />
+                            <path d="M6 20v-4" />
+                        </svg>
+                        Методолог
+                    </span>
+                    <span class="tag">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                        </svg>
+                        Спикер
+                    </span>
+                    <span class="tag">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" />
+                            <rect x="9" y="3" width="6" height="4" rx="2" />
+                        </svg>
+                        Аудитор
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- GRID -->
+        <div class="grid">
+
+            <!-- EXPERIENCE -->
+            <div class="card">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                        <path d="M2 17l10 5 10-5" />
+                        <path d="M2 12l10 5 10-5" />
+                    </svg>
+                </div>
+                <h2>Опыт и достижения</h2>
+
+                <div class="stats-row">
+                    <div class="stat">
+                        <div class="stat-number">15+</div>
+                        <div class="stat-label">онлайн-курсов по различным направлениям</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">8</div>
+                        <div class="stat-label">онлайн-курсов по ИИ</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">7</div>
+                        <div class="stat-label">офлайн-тренингов по ИИ</div>
+                    </div>
+                </div>
+
+                <ul>
+                    <li>Ex-CEO TTM ACADEMY — крупнейшая в СНГ лицензированная онлайн-школа по блокчейн-технологиям и
+                        продуктовому управлению</li>
+                    <li>Офлайн-тренинги по внедрению ИИ в бизнес-процессы компании для собственников бизнеса и
+                        ТОП-менеджеров (Дубай, Москва)</li>
+                    <li>Практика построения программ обучения: от вводных модулей «что такое LLM» до прикладного
+                        внедрения и регламентов безопасной работы</li>
+                </ul>
+            </div>
+
+            <!-- KEY TOPICS -->
+            <div class="card">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3" />
+                        <path
+                            d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                    </svg>
+                </div>
+                <h2>Ключевые темы</h2>
+                <ul>
+                    <li>ИИ и LLM без мифов: возможности, ограничения, типовые ошибки, контроль качества результата</li>
+                    <li>Прикладное внедрение ИИ в компании: автоматизация маркетинга, аналитики, финансов, коммуникаций,
+                        обучения</li>
+                    <li>Промптинг как управленческий навык: постановка задач, проверяемость, снижение «галлюцинаций»
+                    </li>
+                    <li>Информационная безопасность при работе с нейросетями: конфиденциальность, риски и цифровая
+                        ответственность</li>
+                    <li>Аудит и консалтинг бизнес-процессов перед внедрением ИИ в компанию</li>
+                    <li>Выстраиваю понятные траектории обучения для людей разного уровня подготовки</li>
+                </ul>
+            </div>
+
+            <!-- ABOUT SCHOOL -->
+            <div class="card">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                    </svg>
+                </div>
+                <h2>Школа «ИИ-визация»</h2>
+                <ul>
+                    <li>Обучение работе с ИИ и нейросетями для бизнеса и частных лиц</li>
+                    <li>ИИ-консалтинг и внедрение ИИ в информационные и бизнес-процессы компаний</li>
+                    <li>Рынок РФ и международный рынок</li>
+                </ul>
+            </div>
+
+            <!-- FORMATS -->
+            <div class="card">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" />
+                        <path d="M8 21h8m-4-4v4" />
+                    </svg>
+                </div>
+                <h2>Форматы работы</h2>
+                <div class="formats-grid">
+                    <div class="format-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                        </svg>
+                        Лекции и воркшопы
+                    </div>
+                    <div class="format-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                            <polyline points="14 2 14 8 20 8" />
+                            <line x1="16" y1="13" x2="8" y2="13" />
+                            <line x1="16" y1="17" x2="8" y2="17" />
+                        </svg>
+                        Практикумы и мастермайнды
+                    </div>
+                    <div class="format-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9 11 12 14 22 4" />
+                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                        </svg>
+                        Чек-листы и шаблоны внедрения
+                    </div>
+                    <div class="format-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
+                        </svg>
+                        Дорожные карты: от пилота до масштабирования
+                    </div>
+                    <div class="format-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                        </svg>
+                        Разборы кейсов
+                    </div>
+                    <div class="format-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                        </svg>
+                        Анкеты и рабочие материалы
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTACT SECTION -->
+            <div class="card full-width">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                        <path d="M8 10h.01M12 10h.01M16 10h.01" />
+                    </svg>
+                </div>
+                <h2>Связаться со мной</h2>
+                <div class="contact-buttons">
+                    <a href="https://t.me/stavzzz" target="_blank" rel="noopener noreferrer" class="contact-btn">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18 1.897-.962 6.502-1.359 8.627-.168.9-.5 1.201-.82 1.23-.697.064-1.226-.461-1.901-.903-1.056-.692-1.653-1.123-2.678-1.799-1.185-.781-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.329-.913.489-1.302.481-.428-.008-1.252-.241-1.865-.44-.752-.244-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635.099-.002.321.023.465.141.122.1.155.234.171.329.016.095.036.311.02.479z"/>
+                        </svg>
+                        Telegram @stavzzz
+                    </a>
+                    <a href="https://t.me/+_tvrvMMgP9llOGY6" target="_blank" rel="noopener noreferrer" class="contact-btn secondary">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                        </svg>
+                        Комьюнити «ИИ-визация»
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <p class="footer-line">Профессиональный спикер по внедрению ИИ в бизнес</p>
+            <p class="footer-brand">Станислав <span>Панков</span></p>
+        </div>
+
+    </div>
+
+</body>
+</html>
