@@ -212,14 +212,7 @@
             background: var(--accent-soft);
             color: var(--accent);
             border: 1px solid rgba(184, 134, 11, 0.18);
-            transition: all 0.2s ease;
             cursor: default;
-        }
-
-        .tag:hover {
-            transform: scale(1.05);
-            background: var(--accent);
-            color: white;
         }
 
         .tag svg {
@@ -276,6 +269,10 @@
 
         .card:nth-child(5) {
             animation-delay: 0.55s;
+        }
+
+        .card:nth-child(6) {
+            animation-delay: 0.65s;
         }
 
         .card-icon {
@@ -384,6 +381,10 @@
             border-radius: 12px;
             background: var(--cream);
             border: 1px solid rgba(232, 223, 208, 0.5);
+            min-height: 90px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .stat-number {
@@ -400,6 +401,25 @@
             color: var(--text-light);
             margin-top: 5px;
             line-height: 1.3;
+        }
+
+        /* ─── EDUCATION HIGHLIGHT ─── */
+        .education-card {
+            background: linear-gradient(135deg, rgba(184, 134, 11, 0.08) 0%, rgba(255, 255, 255, 0.65) 100%);
+            border: 1px solid rgba(184, 134, 11, 0.3);
+        }
+
+        .education-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
         }
 
         /* ─── CONTACT BUTTONS ─── */
@@ -637,6 +657,26 @@
         <!-- GRID -->
         <div class="grid">
 
+            <!-- EDUCATION -->
+            <div class="card education-card">
+                <div class="card-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                        <path d="M6 12v5c3 3 9 3 12 0v-5" />
+                    </svg>
+                </div>
+                <h2>Образование</h2>
+                <ul>
+                    <li>
+                        <span class="education-badge">МФТИ</span><br>
+                        <strong>Магистр прикладной математики и&nbsp;физики</strong><br>
+                        Московский физико-технический институт
+                    </li>
+                    <li><strong>MBA РОСНАНО</strong>&nbsp;— кафедра технологического предпринимательства</li>
+                    <li><strong>Диплом педагога</strong> дополнительного образования</li>
+                </ul>
+            </div>
+
             <!-- EXPERIENCE -->
             <div class="card">
                 <div class="card-icon">
@@ -651,27 +691,26 @@
                 <div class="stats-row">
                     <div class="stat">
                         <div class="stat-number">15+</div>
-                        <div class="stat-label">онлайн-курсов по различным направлениям</div>
+                        <div class="stat-label">онлайн-курсов<br>по&nbsp;различным<br>направлениям</div>
                     </div>
                     <div class="stat">
                         <div class="stat-number">8</div>
-                        <div class="stat-label">онлайн-курсов по&nbsp;ИИ</div>
+                        <div class="stat-label">онлайн-курсов<br>по&nbsp;ИИ<br>&nbsp;</div>
                     </div>
                     <div class="stat">
                         <div class="stat-number">30+</div>
-                        <div class="stat-label">выступлений на&nbsp;конференциях</div>
+                        <div class="stat-label">выступлений<br>на&nbsp;конференциях<br>&nbsp;</div>
                     </div>
                 </div>
 
                 <ul>
-                    <li><strong>Образование:</strong> Магистр прикладной математики и&nbsp;физики (МФТИ), MBA РОСНАНО (кафедра технологического предпринимательства), диплом педагога дополнительного образования</li>
                     <li><strong>Ex-CEO TTM ACADEMY</strong>&nbsp;— крупнейшая в&nbsp;СНГ онлайн-школа по&nbsp;блокчейну и&nbsp;продуктовому управлению. 5+ лет в&nbsp;EdTech, обучил 10+ тысяч людей работе с&nbsp;блокчейн-технологиями и&nbsp;ИИ</li>
                     <li><strong>Провел 30+ выступлений</strong> на&nbsp;офлайн-конференциях и&nbsp;корпоративных тренингах (Москва, Дубай) + онлайн-конференции</li>
                     <li><strong>Автор 8&nbsp;онлайн-курсов по&nbsp;ИИ</strong>&nbsp;— от&nbsp;базовых навыков промптинга до&nbsp;полного внедрения в&nbsp;бизнес-процессы</li>
                 </ul>
             </div>
 
-            <!-- KEY TOPICS -->
+            <!-- EXPERTISE -->
             <div class="card">
                 <div class="card-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -680,7 +719,7 @@
                             d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
                     </svg>
                 </div>
-                <h2>Ключевые темы</h2>
+                <h2>Моя экспертиза</h2>
                 <ul>
                     <li><strong>ИИ без мифов:</strong> как на&nbsp;самом деле работают нейросети, где они&nbsp;бесполезны, а&nbsp;где дают десятикратный результат</li>
                     <li><strong>Внедрение ИИ в&nbsp;бизнес:</strong> автоматизация маркетинга, аналитики, продаж, звонков, обучения, коммуникаций и&nbsp;других процессов с&nbsp;измеримым ROI</li>
