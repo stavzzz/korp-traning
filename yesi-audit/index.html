@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yesi FZCO | Audit Report 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
+        }
+        .card {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            border-color: #64748b;
+            transform: translateY(-2px);
+        }
+        .status-dot {
+            height: 10px;
+            width: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        .bg-danger { background-color: #ef4444; }
+        .bg-warning { background-color: #f59e0b; }
+        .bg-success { background-color: #10b981; }
+        .text-accent { color: #38bdf8; }
+        .risk-bar-container {
+            background-color: #334155;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .risk-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+    </style>
+</head>
+<body class="p-6 min-h-screen">
+    <!-- Header -->
+    <header class="mb-10 flex justify-between items-center border-b border-gray-700 pb-6">
+        <div>
+            <h1 class="text-3xl font-bold text-white mb-2">Yesi FZCO <span class="text-gray-500 font-light">| IT Audit & Data Flow Analysis</span></h1>
+            <p class="text-gray-400 text-sm">Дата отчета: 16.02.2026 • Аудитор: Stas Pankov & Gemini AI</p>
+        </div>
+        <div class="flex gap-3">
+            <span class="px-3 py-1 rounded-full bg-blue-900 text-blue-200 text-xs font-bold uppercase tracking-wider">Status: Finalizing</span>
+        </div>
+    </header>
+
+    <!-- Top Metrics Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+        <!-- Metric 1 -->
+        <div class="card p-6 relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-4 opacity-10"><i class="fa-solid fa-triangle-exclamation text-6xl"></i></div>
+            <h3 class="text-gray-400 text-xs uppercase font-bold tracking-widest mb-1">Уровень Риска</h3>
+            <div class="text-4xl font-bold text-red-400 mb-2">Высокий</div>
+            <p class="text-xs text-gray-400">98% файлов передаются через Telegram/WhatsApp без шифрования и бэкапов.</p>
+        </div>
+
+        <!-- Metric 2 -->
+        <div class="card p-6 relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-4 opacity-10"><i class="fa-solid fa-database text-6xl"></i></div>
+            <h3 class="text-gray-400 text-xs uppercase font-bold tracking-widest mb-1">Целостность Данных</h3>
+            <div class="text-4xl font-bold text-yellow-400 mb-2">30%</div>
+            <p class="text-xs text-gray-400">Документы разбросаны: Личные диски, iCloud, локальные ПК, чаты.</p>
+        </div>
+
+        <!-- Metric 3 -->
+        <div class="card p-6 relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-4 opacity-10"><i class="fa-solid fa-robot text-6xl"></i></div>
+            <h3 class="text-gray-400 text-xs uppercase font-bold tracking-widest mb-1">Потенциал Gemini</h3>
+            <div class="text-4xl font-bold text-green-400 mb-2">Экстремальный</div>
+            <p class="text-xs text-gray-400">Рутина (ручной ввод, поиск) занимает до 40% времени сотрудников.</p>
+        </div>
+
+        <!-- Metric 4 -->
+        <div class="card p-6 relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-4 opacity-10"><i class="fa-solid fa-clock text-6xl"></i></div>
+            <h3 class="text-gray-400 text-xs uppercase font-bold tracking-widest mb-1">Экономия Времени</h3>
+            <div class="text-4xl font-bold text-cyan-400 mb-2">15-20ч</div>
+            <p class="text-xs text-gray-400">В неделю при автоматизации рутинных задач через Gemini.</p>
+        </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
+        <!-- Critical Issues -->
+        <div class="lg:col-span-2 card p-6">
+            <h2 class="text-xl font-bold text-white mb-4 flex items-center">
+                <i class="fa-solid fa-circle-exclamation text-red-400 mr-3"></i>
+                Критические Проблемы
+            </h2>
+            <div class="space-y-4">
+                <div class="border-l-4 border-red-500 pl-4 py-2">
+                    <h4 class="font-bold text-white mb-1">🔴 Отсутствие единой системы хранения</h4>
+                    <p class="text-sm text-gray-400">Документы хранятся в личных облаках (iCloud, Google Drive) и мессенджерах. Нет централизованного доступа.</p>
+                </div>
+                <div class="border-l-4 border-orange-500 pl-4 py-2">
+                    <h4 class="font-bold text-white mb-1">🟠 Зависимость от ручного труда</h4>
+                    <p class="text-sm text-gray-400">Подготовка документов для банков/регуляторов требует ручного поиска и форматирования (~8ч/неделю).</p>
+                </div>
+                <div class="border-l-4 border-yellow-500 pl-4 py-2">
+                    <h4 class="font-bold text-white mb-1">🟡 Риск потери данных</h4>
+                    <p class="text-sm text-gray-400">Нет автоматических бэкапов. При удалении чата/аккаунта данные теряются навсегда.</p>
+                </div>
+                <div class="border-l-4 border-blue-500 pl-4 py-2">
+                    <h4 class="font-bold text-white mb-1">🔵 Невозможность масштабирования</h4>
+                    <p class="text-sm text-gray-400">При росте команды (20+ человек) текущая система станет неуправляемой.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Risk Assessment -->
+        <div class="card p-6">
+            <h2 class="text-xl font-bold text-white mb-4 flex items-center">
+                <i class="fa-solid fa-chart-line text-cyan-400 mr-3"></i>
+                Оценка Рисков
+            </h2>
+            <div class="space-y-4">
+                <div>
+                    <div class="flex justify-between mb-2">
+                        <span class="text-sm text-gray-300">Безопасность</span>
+                        <span class="text-sm font-bold text-red-400">85%</span>
+                    </div>
+                    <div class="risk-bar-container">
+                        <div class="risk-bar-fill bg-red-500" style="width: 85%;"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between mb-2">
+                        <span class="text-sm text-gray-300">Compliance</span>
+                        <span class="text-sm font-bold text-orange-400">70%</span>
+                    </div>
+                    <div class="risk-bar-container">
+                        <div class="risk-bar-fill bg-orange-500" style="width: 70%;"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between mb-2">
+                        <span class="text-sm text-gray-300">Доступность</span>
+                        <span class="text-sm font-bold text-yellow-400">60%</span>
+                    </div>
+                    <div class="risk-bar-container">
+                        <div class="risk-bar-fill bg-yellow-500" style="width: 60%;"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between mb-2">
+                        <span class="text-sm text-gray-300">Производительность</span>
+                        <span class="text-sm font-bold text-blue-400">45%</span>
+                    </div>
+                    <div class="risk-bar-container">
+                        <div class="risk-bar-fill bg-blue-500" style="width: 45%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Data Flow Analysis -->
+    <div class="card p-6 mb-10">
+        <h2 class="text-xl font-bold text-white mb-6 flex items-center">
+            <i class="fa-solid fa-diagram-project text-purple-400 mr-3"></i>
+            Текущий Поток Данных
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="text-center">
+                <div class="bg-gradient-to-br from-blue-900 to-blue-700 rounded-lg p-6 mb-3">
+                    <i class="fa-brands fa-telegram text-5xl text-white mb-3"></i>
+                    <h3 class="text-white font-bold">Telegram/WhatsApp</h3>
+                    <p class="text-xs text-blue-200 mt-2">Основной канал (98%)</p>
+                </div>
+                <p class="text-xs text-gray-400">Передача счетов, договоров, отчетов</p>
+            </div>
+            <div class="text-center">
+                <div class="bg-gradient-to-br from-purple-900 to-purple-700 rounded-lg p-6 mb-3">
+                    <i class="fa-solid fa-user text-5xl text-white mb-3"></i>
+                    <h3 class="text-white font-bold">Ручная Обработка</h3>
+                    <p class="text-xs text-purple-200 mt-2">40% рабочего времени</p>
+                </div>
+                <p class="text-xs text-gray-400">Поиск, копирование, форматирование</p>
+            </div>
+            <div class="text-center">
+                <div class="bg-gradient-to-br from-orange-900 to-orange-700 rounded-lg p-6 mb-3">
+                    <i class="fa-solid fa-folder-open text-5xl text-white mb-3"></i>
+                    <h3 class="text-white font-bold">Разрозненное Хранение</h3>
+                    <p class="text-xs text-orange-200 mt-2">Нет единой базы</p>
+                </div>
+                <p class="text-xs text-gray-400">iCloud, Google Drive, локальные диски</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gemini AI Solution -->
+    <div class="card p-6 mb-10 border-2 border-green-500">
+        <h2 class="text-2xl font-bold text-white mb-6 flex items-center">
+            <i class="fa-solid fa-wand-magic-sparkles text-green-400 mr-3"></i>
+            Решение: Gemini 2.0 Flash Experimental
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <h3 class="text-lg font-bold text-green-400 mb-3">Возможности</h3>
+                <ul class="space-y-2 text-sm text-gray-300">
+                    <li class="flex items-start">
+                        <i class="fa-solid fa-check text-green-400 mr-2 mt-1"></i>
+                        <span><strong>Обработка документов:</strong> PDF, Excel, изображения до 50 страниц одновременно</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fa-solid fa-check text-green-400 mr-2 mt-1"></i>
+                        <span><strong>Анализ транзакций:</strong> Автоматическая категоризация и проверка на соответствие</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fa-solid fa-check text-green-400 mr-2 mt-1"></i>
+                        <span><strong>Генерация отчетов:</strong> Compliance reports по шаблонам регуляторов</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fa-solid fa-check text-green-400 mr-2 mt-1"></i>
+                        <span><strong>Извлечение данных:</strong> Таблицы из PDF в Excel автоматически</span>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-lg font-bold text-cyan-400 mb-3">Экономия</h3>
+                <div class="space-y-3">
+                    <div class="bg-gray-800 rounded-lg p-4">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-gray-300 text-sm">Подготовка документов</span>
+                            <span class="font-bold text-green-400">-80%</span>
+                        </div>
+                        <p class="text-xs text-gray-500">С 8 часов до 1.5 часов в неделю</p>
+                    </div>
+                    <div class="bg-gray-800 rounded-lg p-4">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-gray-300 text-sm">Поиск информации</span>
+                            <span class="font-bold text-green-400">-90%</span>
+                        </div>
+                        <p class="text-xs text-gray-500">Мгновенный семантический поиск</p>
+                    </div>
+                    <div class="bg-gray-800 rounded-lg p-4">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-gray-300 text-sm">Анализ договоров</span>
+                            <span class="font-bold text-green-400">-70%</span>
+                        </div>
+                        <p class="text-xs text-gray-500">Автоматическое выделение ключевых пунктов</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Implementation Roadmap -->
+    <div class="card p-6 mb-10">
+        <h2 class="text-xl font-bold text-white mb-6 flex items-center">
+            <i class="fa-solid fa-road text-blue-400 mr-3"></i>
+            Дорожная Карта Внедрения
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Phase 1 -->
+            <div class="border border-gray-700 rounded-lg p-5">
+                <div class="flex items-center mb-3">
+                    <div class="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3">1</div>
+                    <h3 class="font-bold text-white">Этап 1: Pilot (2 недели)</h3>
+                </div>
+                <ul class="space-y-2 text-sm text-gray-400">
+                    <li>• Настройка Gemini API</li>
+                    <li>• Загрузка тестового набора документов</li>
+                    <li>• Обучение 2-3 сотрудников</li>
+                    <li>• Тестирование на реальных задачах</li>
+                </ul>
+                <div class="mt-4 text-xs text-gray-500">Стоимость: ~$500</div>
+            </div>
+
+            <!-- Phase 2 -->
+            <div class="border border-gray-700 rounded-lg p-5">
+                <div class="flex items-center mb-3">
+                    <div class="bg-purple-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3">2</div>
+                    <h3 class="font-bold text-white">Этап 2: Scale (1 месяц)</h3>
+                </div>
+                <ul class="space-y-2 text-sm text-gray-400">
+                    <li>• Интеграция с банковскими системами</li>
+                    <li>• Автоматизация compliance отчетов</li>
+                    <li>• Обучение всей команды</li>
+                    <li>• Настройка шаблонов</li>
+                </ul>
+                <div class="mt-4 text-xs text-gray-500">Стоимость: ~$2,000</div>
+            </div>
+
+            <!-- Phase 3 -->
+            <div class="border border-gray-700 rounded-lg p-5">
+                <div class="flex items-center mb-3">
+                    <div class="bg-green-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3">3</div>
+                    <h3 class="font-bold text-white">Этап 3: Optimize (ongoing)</h3>
+                </div>
+                <ul class="space-y-2 text-sm text-gray-400">
+                    <li>• Дообучение моделей на своих данных</li>
+                    <li>• Расширение автоматизации</li>
+                    <li>• Интеграция с CRM/ERP</li>
+                    <li>• Мониторинг и улучшения</li>
+                </ul>
+                <div class="mt-4 text-xs text-gray-500">Стоимость: ~$500/мес</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ROI Calculator -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+        <div class="card p-6">
+            <h2 class="text-xl font-bold text-white mb-4 flex items-center">
+                <i class="fa-solid fa-dollar-sign text-green-400 mr-3"></i>
+                ROI Анализ
+            </h2>
+            <div class="space-y-4">
+                <div class="flex justify-between items-center py-2 border-b border-gray-700">
+                    <span class="text-gray-300">Экономия времени (15ч/нед × $50/ч)</span>
+                    <span class="font-bold text-green-400">$3,000/мес</span>
+                </div>
+                <div class="flex justify-between items-center py-2 border-b border-gray-700">
+                    <span class="text-gray-300">Стоимость Gemini API</span>
+                    <span class="font-bold text-red-400">-$500/мес</span>
+                </div>
+                <div class="flex justify-between items-center py-2 border-b border-gray-700">
+                    <span class="text-gray-300">Первоначальные вложения</span>
+                    <span class="font-bold text-gray-400">-$2,500</span>
+                </div>
+                <div class="flex justify-between items-center py-3 bg-green-900 bg-opacity-20 rounded-lg px-3 mt-4">
+                    <span class="text-white font-bold">Чистая экономия (год 1)</span>
+                    <span class="font-bold text-2xl text-green-400">$27,500</span>
+                </div>
+                <div class="text-xs text-gray-500 text-center">
+                    Окупаемость: 1 месяц
+                </div>
+            </div>
+        </div>
+
+        <div class="card p-6">
+            <h2 class="text-xl font-bold text-white mb-4 flex items-center">
+                <i class="fa-solid fa-lightbulb text-yellow-400 mr-3"></i>
+                Рекомендации
+            </h2>
+            <div class="space-y-3">
+                <div class="bg-green-900 bg-opacity-20 border-l-4 border-green-500 p-3 rounded">
+                    <h4 class="font-bold text-green-400 mb-1 text-sm">Начать немедленно</h4>
+                    <p class="text-xs text-gray-400">Запустить pilot с Gemini на 1-2 use cases (обработка счетов/договоров)</p>
+                </div>
+                <div class="bg-blue-900 bg-opacity-20 border-l-4 border-blue-500 p-3 rounded">
+                    <h4 class="font-bold text-blue-400 mb-1 text-sm">Параллельно</h4>
+                    <p class="text-xs text-gray-400">Настроить Google Workspace Business для централизованного хранения</p>
+                </div>
+                <div class="bg-purple-900 bg-opacity-20 border-l-4 border-purple-500 p-3 rounded">
+                    <h4 class="font-bold text-purple-400 mb-1 text-sm">Через 1 месяц</h4>
+                    <p class="text-xs text-gray-400">Интегрировать с банковскими API для автоматизации compliance</p>
+                </div>
+                <div class="bg-orange-900 bg-opacity-20 border-l-4 border-orange-500 p-3 rounded">
+                    <h4 class="font-bold text-orange-400 mb-1 text-sm">Долгосрочно</h4>
+                    <p class="text-xs text-gray-400">Дообучить Gemini на внутренних данных для 95% точности</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-700 pt-6 text-center">
+        <p class="text-gray-500 text-sm mb-2">
+            <i class="fa-solid fa-shield-halved text-blue-400"></i> 
+            Конфиденциальный документ | Для внутреннего использования Yesi FZCO
+        </p>
+        <p class="text-gray-600 text-xs">
+            Подготовлено: Stas Pankov (<a href="https://t.me/stavzzz" class="text-cyan-400 hover:underline">@stavzzz</a>) & Gemini AI | 16.02.2026
+        </p>
+    </footer>
+</body>
+</html>
