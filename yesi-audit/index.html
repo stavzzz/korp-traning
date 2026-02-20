@@ -138,6 +138,63 @@
                 </div>
             </section>
 
+            <!-- Department Analysis -->
+            <section>
+                <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-sitemap text-cyan-400"></i>
+                    Анализ по Департаментам
+                </h2>
+                <div class="space-y-4">
+                    <!-- Finance -->
+                    <div class="card p-5 border-l-4 border-l-yellow-500">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="font-bold text-lg">Finance (Rashid)</h3>
+                            <span class="text-xs text-gray-500">Manual Load: High</span>
+                        </div>
+                        <p class="text-sm text-gray-300 mb-3">
+                            <i class="fa-solid fa-triangle-exclamation text-yellow-500 mr-2"></i>
+                            <b>Проблема:</b> 10 часов в неделю уходит на ручную сверку (Reconciliation). Документы хранятся в личных папках. Пароли передаются в мессенджерах.
+                        </p>
+                        <div class="bg-slate-900/50 p-3 rounded text-sm text-green-400">
+                            <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>
+                            <b>Решение Gemini:</b> Автоматическая сверка инвойсов с банковскими выписками. P&L в реальном времени. Хранилище паролей перенести в менеджер паролей, а доки — в Shared Drive [01].
+                        </div>
+                    </div>
+
+                    <!-- Warehouse -->
+                    <div class="card p-5 border-l-4 border-l-blue-500">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="font-bold text-lg">Warehouse & Ops (Artur, Ree, Said)</h3>
+                            <span class="text-xs text-gray-500">Manual Load: Extreme</span>
+                        </div>
+                        <p class="text-sm text-gray-300 mb-3">
+                            <i class="fa-solid fa-triangle-exclamation text-yellow-500 mr-2"></i>
+                            <b>Проблема:</b> Ручной ввод данных (Manual picking). Фото грузов в iCloud или телефонах. Нет связи "Физический груз — Цифровой след".
+                        </p>
+                        <div class="bg-slate-900/50 p-3 rounded text-sm text-green-400">
+                            <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>
+                            <b>Решение Gemini:</b> Загрузка фото сразу на Диск через приложение. Gemini анализирует фото и сам называет файл (Naming Convention).
+                        </div>
+                    </div>
+
+                    <!-- Sales & HCS -->
+                    <div class="card p-5 border-l-4 border-l-purple-500">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="font-bold text-lg">Sales & HCS (Andrei, Yulia)</h3>
+                            <span class="text-xs text-gray-500">Search Load: High</span>
+                        </div>
+                        <p class="text-sm text-gray-300 mb-3">
+                            <i class="fa-solid fa-triangle-exclamation text-yellow-500 mr-2"></i>
+                            <b>Проблема:</b> "Зоопарк" каналов связи. Долгая подготовка КП (до 1 часа на нестандарт). Сложный поиск истории по клиенту.
+                        </p>
+                        <div class="bg-slate-900/50 p-3 rounded text-sm text-green-400">
+                            <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>
+                            <b>Решение Gemini:</b> Генерация черновиков ответов. Поиск "Все документы по клиенту X" за 5 секунд.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- Critical Issues -->
             <section>
                 <h2 class="text-xl font-bold text-white mb-4 flex items-center">
