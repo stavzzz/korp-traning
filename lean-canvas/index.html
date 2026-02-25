@@ -23,7 +23,7 @@
   --border:rgba(255,255,255,.12);
   --shadow:0 12px 40px rgba(0,0,0,.4);
   --radius:20px;
-  --gap:14px;
+  --gap:20px;
   --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
   --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
@@ -47,40 +47,40 @@ a{color:inherit; text-decoration:none;}
 a:hover{color:var(--accent);}
 
 .wrap{
-  max-width:1500px;
+  max-width:1400px;
   margin:0 auto;
-  padding:28px 20px 36px;
+  padding:32px 24px 40px;
 }
 
 /* Header */
 header{
   display:flex;
-  gap:16px;
+  gap:18px;
   align-items:flex-start;
   justify-content:space-between;
   flex-wrap:wrap;
-  margin-bottom:20px;
+  margin-bottom:24px;
   animation: fadeInDown 0.6s ease;
 }
 
 .brand{
   display:flex;
-  gap:16px;
+  gap:18px;
   align-items:flex-start;
-  min-width:300px;
+  min-width:320px;
 }
 
 .badge{
-  width:52px;
-  height:52px;
-  border-radius:16px;
+  width:56px;
+  height:56px;
+  border-radius:18px;
   background:linear-gradient(135deg, rgba(139,92,246,1), rgba(34,197,94,.85));
   box-shadow:0 8px 24px rgba(139,92,246,.35);
   display:grid;
   place-items:center;
   font-weight:900;
-  font-size:18px;
-  letter-spacing:.8px;
+  font-size:20px;
+  letter-spacing:.9px;
   position:relative;
   overflow:hidden;
 }
@@ -100,8 +100,8 @@ header{
 
 .titleblock h1{
   margin:0;
-  font-size:24px;
-  line-height:1.25;
+  font-size:26px;
+  line-height:1.3;
   letter-spacing:.3px;
   background:linear-gradient(135deg, var(--ink), var(--accent2));
   -webkit-background-clip:text;
@@ -110,16 +110,16 @@ header{
 }
 
 .titleblock p{
-  margin:8px 0 0;
+  margin:10px 0 0;
   color:var(--muted);
-  font-size:14px;
-  line-height:1.5;
-  max-width:880px;
+  font-size:15px;
+  line-height:1.6;
+  max-width:920px;
 }
 
 .meta{
   display:flex;
-  gap:12px;
+  gap:14px;
   align-items:center;
   flex-wrap:wrap;
   justify-content:flex-end;
@@ -128,12 +128,12 @@ header{
 .pill{
   border:1px solid var(--border);
   background:rgba(255,255,255,.05);
-  padding:9px 13px;
+  padding:10px 15px;
   border-radius:999px;
-  font-size:12.5px;
+  font-size:13.5px;
   color:var(--muted);
   display:flex;
-  gap:9px;
+  gap:10px;
   align-items:center;
   transition:all .2s ease;
 }
@@ -145,16 +145,16 @@ header{
 
 .pill b{color:var(--ink); font-weight:700;}
 
-.btns{display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
+.btns{display:flex; gap:12px; align-items:center; flex-wrap:wrap;}
 
 button{
   border:1px solid var(--border);
   background:rgba(255,255,255,.07);
   color:var(--ink);
-  padding:10px 14px;
+  padding:11px 16px;
   border-radius:14px;
   cursor:pointer;
-  font-size:13px;
+  font-size:13.5px;
   font-weight:600;
   transition:all .2s ease;
   position:relative;
@@ -180,16 +180,17 @@ button:hover::before{opacity:1;}
 button:active{transform:translateY(0);}
 button > *{position:relative;}
 
-/* Canvas Grid */
+/* Canvas Grid - 2 COLUMNS */
 .canvas{
   display:grid;
   gap:var(--gap);
-  grid-template-columns: 1.15fr 1fr 1.6fr 1fr 1.15fr;
-  grid-template-rows: auto auto auto;
+  grid-template-columns: 1fr 1fr;
   grid-template-areas:
-    "problem solution uvp unfair segments"
-    "problem metrics uvp channels segments"
-    "cost cost revenue revenue revenue";
+    "uvp uvp"
+    "problem solution"
+    "segments unfair"
+    "metrics channels"
+    "cost revenue";
 }
 
 /* Card */
@@ -226,36 +227,49 @@ button > *{position:relative;}
 
 .card > *{position:relative;}
 
+/* UVP Hero - Full Width */
+.uvp{
+  grid-area:uvp;
+  background:linear-gradient(135deg, rgba(139,92,246,.25), rgba(34,197,94,.15));
+  border:2px solid rgba(139,92,246,.5);
+}
+
+.uvp::before{
+  background:
+    radial-gradient(800px 300px at 30% 0%, rgba(139,92,246,.3), transparent 70%),
+    radial-gradient(800px 300px at 70% 0%, rgba(34,197,94,.2), transparent 70%);
+}
+
 /* Header */
 .hd{
-  padding:14px 16px 12px;
+  padding:16px 20px 14px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:12px;
+  gap:14px;
   border-bottom:1px solid rgba(255,255,255,.1);
   background:rgba(0,0,0,.15);
 }
 
 .hd h2{
   margin:0;
-  font-size:13.5px;
-  letter-spacing:.5px;
+  font-size:14.5px;
+  letter-spacing:.6px;
   text-transform:uppercase;
   color:#dde0f0;
   display:flex;
   align-items:center;
-  gap:8px;
+  gap:10px;
 }
 
 .hd h2 .icon{
-  font-size:18px;
+  font-size:24px;
   filter:drop-shadow(0 2px 4px rgba(0,0,0,.3));
 }
 
 .tag{
-  font-size:11px;
-  padding:6px 10px;
+  font-size:11.5px;
+  padding:7px 12px;
   border-radius:999px;
   border:1px solid rgba(255,255,255,.12);
   color:var(--muted);
@@ -264,47 +278,47 @@ button > *{position:relative;}
 }
 
 /* Body */
-.bd{padding:14px 16px 16px;}
+.bd{padding:20px 20px 22px;}
 
 .bd p{
-  margin:0 0 12px;
+  margin:0 0 14px;
   color:var(--muted);
-  font-size:13px;
-  line-height:1.5;
+  font-size:14px;
+  line-height:1.6;
 }
 
-ul{margin:0; padding-left:20px;}
+ul{margin:0; padding-left:22px;}
 
 li{
-  margin:0 0 9px;
+  margin:0 0 11px;
   color:var(--ink);
-  font-size:13.5px;
-  line-height:1.4;
+  font-size:14px;
+  line-height:1.6;
 }
 
 li:last-child{margin-bottom:0;}
 
 .sub{
-  margin-top:12px;
+  margin-top:16px;
   border-top:1px dashed rgba(255,255,255,.14);
-  padding-top:12px;
+  padding-top:16px;
 }
 
 .sub h3{
-  margin:0 0 9px;
-  font-size:12.5px;
-  letter-spacing:.4px;
+  margin:0 0 11px;
+  font-size:13px;
+  letter-spacing:.5px;
   text-transform:uppercase;
   color:#d0d5ea;
 }
 
-/* UVP Hero */
+/* UVP Hero Content */
 .uvp-hero{
-  border:1px solid rgba(139,92,246,.45);
-  background:linear-gradient(135deg, rgba(139,92,246,.22), rgba(34,197,94,.12));
-  border-radius:16px;
-  padding:14px 14px;
-  margin-bottom:14px;
+  border:2px solid rgba(139,92,246,.6);
+  background:linear-gradient(135deg, rgba(139,92,246,.28), rgba(34,197,94,.16));
+  border-radius:18px;
+  padding:20px 20px;
+  margin-bottom:18px;
   position:relative;
   overflow:hidden;
 }
@@ -316,7 +330,7 @@ li:last-child{margin-bottom:0;}
   right:-50%;
   width:200%;
   height:200%;
-  background:radial-gradient(circle, rgba(255,255,255,.08), transparent 60%);
+  background:radial-gradient(circle, rgba(255,255,255,.1), transparent 60%);
   animation:heroGlow 4s ease-in-out infinite;
 }
 
@@ -326,8 +340,8 @@ li:last-child{margin-bottom:0;}
 }
 
 .uvp-hero .one{
-  font-size:14.5px;
-  line-height:1.4;
+  font-size:16px;
+  line-height:1.5;
   margin:0;
   color:var(--ink);
   font-weight:700;
@@ -335,9 +349,9 @@ li:last-child{margin-bottom:0;}
 }
 
 .uvp-hero .two{
-  margin:10px 0 0;
-  font-size:13px;
-  line-height:1.5;
+  margin:12px 0 0;
+  font-size:14px;
+  line-height:1.6;
   color:var(--muted);
   position:relative;
 }
@@ -346,15 +360,15 @@ li:last-child{margin-bottom:0;}
 .kv{
   display:grid;
   grid-template-columns: 1fr 1fr;
-  gap:12px;
-  margin-top:12px;
+  gap:14px;
+  margin-top:16px;
 }
 
 .mini{
   border:1px solid rgba(255,255,255,.12);
   background:rgba(255,255,255,.05);
   border-radius:16px;
-  padding:12px 12px;
+  padding:14px 14px;
   transition:all .2s ease;
 }
 
@@ -365,24 +379,23 @@ li:last-child{margin-bottom:0;}
 
 .mini b{
   display:block;
-  font-size:12px;
-  letter-spacing:.4px;
+  font-size:12.5px;
+  letter-spacing:.5px;
   text-transform:uppercase;
   color:#d0d5ea;
-  margin-bottom:8px;
+  margin-bottom:10px;
 }
 
 .mini p{
   margin:0;
-  font-size:13px;
+  font-size:14px;
   color:var(--muted);
-  line-height:1.5;
+  line-height:1.6;
 }
 
 /* Grid Areas */
 .problem{grid-area:problem;}
 .solution{grid-area:solution;}
-.uvp{grid-area:uvp;}
 .unfair{grid-area:unfair;}
 .segments{grid-area:segments;}
 .metrics{grid-area:metrics;}
@@ -391,11 +404,11 @@ li:last-child{margin-bottom:0;}
 .revenue{grid-area:revenue;}
 
 /* Staggered Animations */
-.problem{animation-delay:0.1s;}
-.solution{animation-delay:0.15s;}
-.uvp{animation-delay:0.2s;}
-.unfair{animation-delay:0.25s;}
-.segments{animation-delay:0.3s;}
+.uvp{animation-delay:0.1s;}
+.problem{animation-delay:0.15s;}
+.solution{animation-delay:0.2s;}
+.segments{animation-delay:0.25s;}
+.unfair{animation-delay:0.3s;}
 .metrics{animation-delay:0.35s;}
 .channels{animation-delay:0.4s;}
 .cost{animation-delay:0.45s;}
@@ -403,12 +416,12 @@ li:last-child{margin-bottom:0;}
 
 /* Footer */
 footer{
-  margin-top:20px;
+  margin-top:28px;
   color:var(--muted);
-  font-size:12.5px;
-  line-height:1.5;
+  font-size:13px;
+  line-height:1.6;
   display:flex;
-  gap:14px;
+  gap:18px;
   flex-wrap:wrap;
   align-items:flex-start;
   justify-content:space-between;
@@ -418,35 +431,35 @@ footer{
 .footnote{
   border:1px dashed rgba(255,255,255,.16);
   background:rgba(255,255,255,.04);
-  padding:12px 14px;
-  border-radius:16px;
+  padding:16px 18px;
+  border-radius:18px;
   flex:1;
-  min-width:280px;
+  min-width:320px;
 }
 
 .footnote b{color:var(--ink);}
 
 .stamp{
   text-align:right;
-  min-width:240px;
+  min-width:260px;
   color:var(--muted);
 }
 
-.stamp div{margin-bottom:6px;}
+.stamp div{margin-bottom:7px;}
 .stamp code{
   font-family:var(--mono);
-  font-size:11.5px;
+  font-size:12px;
   color:rgba(232,234,240,.9);
   background:rgba(255,255,255,.06);
-  padding:3px 7px;
-  border-radius:6px;
+  padding:4px 8px;
+  border-radius:7px;
 }
 
 /* Compact Mode */
-body.compact li{margin-bottom:6px; font-size:13px;}
-body.compact .bd{padding:12px 14px 14px;}
-body.compact .hd{padding:12px 14px 11px;}
-body.compact .uvp-hero{padding:12px;}
+body.compact li{margin-bottom:8px; font-size:13.5px;}
+body.compact .bd{padding:16px 18px 18px;}
+body.compact .hd{padding:14px 18px 13px;}
+body.compact .uvp-hero{padding:16px;}
 
 /* Animations */
 @keyframes fadeInDown{
@@ -464,7 +477,7 @@ body.compact .uvp-hero{padding:12px;}
   :root{--bg:#ffffff; --ink:#111827; --muted:#374151; --border:rgba(17,24,39,.22); --shadow:none;}
   body{background:#ffffff;}
   .wrap{max-width:none; padding:0;}
-  header{margin:0 0 12px;}
+  header{margin:0 0 14px;}
   .btns{display:none;}
   .pill{border-color:rgba(17,24,39,.2); background:rgba(17,24,39,.04);}
   .card{break-inside:avoid; animation:none; box-shadow:0 2px 8px rgba(0,0,0,.1);}
@@ -476,19 +489,7 @@ body.compact .uvp-hero{padding:12px;}
 }
 
 /* Responsive */
-@media (max-width: 1280px){
-  .canvas{
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas:
-      "uvp uvp"
-      "problem solution"
-      "segments unfair"
-      "metrics channels"
-      "cost revenue";
-  }
-}
-
-@media (max-width: 768px){
+@media (max-width: 900px){
   .canvas{
     grid-template-columns: 1fr;
     grid-template-areas:
@@ -503,8 +504,13 @@ body.compact .uvp-hero{padding:12px;}
       "revenue";
   }
   .kv{grid-template-columns:1fr;}
-  .titleblock h1{font-size:20px;}
-  .badge{width:46px; height:46px; font-size:16px;}
+}
+
+@media (max-width: 600px){
+  .titleblock h1{font-size:22px;}
+  .badge{width:50px; height:50px; font-size:18px;}
+  .wrap{padding:24px 18px 32px;}
+  .gap{--gap:16px;}
 }
 </style>
 </head>
@@ -535,6 +541,38 @@ body.compact .uvp-hero{padding:12px;}
 </header>
 
 <main class="canvas" aria-label="Lean Canvas">
+
+  <!-- UVP - FULL WIDTH HERO -->
+  <section class="card uvp">
+    <div class="hd">
+      <h2><span class="icon">⚡</span>Уникальная ценность</h2>
+      <span class="tag">Одним предложением</span>
+    </div>
+    <div class="bd">
+      <div class="uvp-hero">
+        <p class="one">«Помогаю людям и командам получить финансовую самостоятельность через биткоин и практическую эффективность от ИИ — без магии, без обещаний заработка, с протоколами безопасности и измеримыми результатами».</p>
+        <p class="two">Ключевая идея: свобода без ответственности — это хаос. Здесь свобода опирается на навыки, правила и дисциплину.</p>
+      </div>
+
+      <ul>
+        <li>Практика важнее теории: каждое обучение заканчивается настроенными инструментами и повторяемыми шагами.</li>
+        <li>Безопасность встроена в продукт: модель угроз, антифишинг, хранение ключей, сценарии «что делать если».</li>
+        <li>Методология обучения взрослых: ясные уровни, домашние задания, обратная связь, контроль понимания.</li>
+        <li>Комбинация Crypto × AI: человек получает и финансовую, и цифровую самостоятельность в одном контуре.</li>
+      </ul>
+
+      <div class="kv">
+        <div class="mini">
+          <b>Артефакты результата</b>
+          <p>Личный протокол безопасности. Индивидуальный учебный план. Чек‑листы операций. SOP для команды. Набор проверенных инструментов. Карта рисков.</p>
+        </div>
+        <div class="mini">
+          <b>Почему это «работает»</b>
+          <p>Люди перестают полагаться на удачу и начинают опираться на процедуру. Процедура снижает ошибки. Ошибок меньше — свободы больше.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- PROBLEM -->
   <section class="card problem">
@@ -581,55 +619,6 @@ body.compact .uvp-hero{padding:12px;}
     </div>
   </section>
 
-  <!-- UVP -->
-  <section class="card uvp">
-    <div class="hd">
-      <h2><span class="icon">⚡</span>Уникальная ценность</h2>
-      <span class="tag">Одним предложением</span>
-    </div>
-    <div class="bd">
-      <div class="uvp-hero">
-        <p class="one">«Помогаю людям и командам получить финансовую самостоятельность через биткоин и практическую эффективность от ИИ — без магии, без обещаний заработка, с протоколами безопасности и измеримыми результатами».</p>
-        <p class="two">Ключевая идея: свобода без ответственности — это хаос. Здесь свобода опирается на навыки, правила и дисциплину.</p>
-      </div>
-
-      <ul>
-        <li>Практика важнее теории: каждое обучение заканчивается настроенными инструментами и повторяемыми шагами.</li>
-        <li>Безопасность встроена в продукт: модель угроз, антифишинг, хранение ключей, сценарии «что делать если».</li>
-        <li>Методология обучения взрослых: ясные уровни, домашние задания, обратная связь, контроль понимания.</li>
-        <li>Комбинация Crypto × AI: человек получает и финансовую, и цифровую самостоятельность в одном контуре.</li>
-      </ul>
-
-      <div class="kv">
-        <div class="mini">
-          <b>Артефакты результата</b>
-          <p>Личный протокол безопасности. Индивидуальный учебный план. Чек‑листы операций. SOP для команды. Набор проверенных инструментов. Карта рисков.</p>
-        </div>
-        <div class="mini">
-          <b>Почему это «работает»</b>
-          <p>Люди перестают полагаться на удачу и начинают опираться на процедуру. Процедура снижает ошибки. Ошибок меньше — свободы больше.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- UNFAIR ADVANTAGE -->
-  <section class="card unfair">
-    <div class="hd">
-      <h2><span class="icon">🛡️</span>Нерыночное преимущество</h2>
-      <span class="tag">Сложно скопировать</span>
-    </div>
-    <div class="bd">
-      <ul>
-        <li>Сильная комбинация компетенций: крипто‑безопасность, EdTech‑методология, AI‑внедрение и упаковка эксперта.</li>
-        <li>Доказанный трек‑рекорд обучения: тысячи обученных людей и высокие метрики качества обучения.</li>
-        <li>Публичный бренд и нарратив «Биткоин‑Апостол / Биткоин‑Церковь», который формирует доверие и комьюнити.</li>
-        <li>Практика «без опасных обещаний»: акцент на навыки, ответственность и долгосрочное мышление.</li>
-        <li>Система контента + комьюнити как «механизм удержания»: люди возвращаются за поддержкой и апгрейдом навыков.</li>
-      </ul>
-    </div>
-  </section>
-
   <!-- CUSTOMER SEGMENTS -->
   <section class="card segments">
     <div class="hd">
@@ -654,6 +643,23 @@ body.compact .uvp-hero{padding:12px;}
           <li>Компании, где руководитель лично вовлечен в внедрение ИИ и измеряет результат в деньгах и времени.</li>
         </ul>
       </div>
+    </div>
+  </section>
+
+  <!-- UNFAIR ADVANTAGE -->
+  <section class="card unfair">
+    <div class="hd">
+      <h2><span class="icon">🛡️</span>Нерыночное преимущество</h2>
+      <span class="tag">Сложно скопировать</span>
+    </div>
+    <div class="bd">
+      <ul>
+        <li>Сильная комбинация компетенций: крипто‑безопасность, EdTech‑методология, AI‑внедрение и упаковка эксперта.</li>
+        <li>Доказанный трек‑рекорд обучения: тысячи обученных людей и высокие метрики качества обучения.</li>
+        <li>Публичный бренд и нарратив «Биткоин‑Апостол / Биткоин‑Церковь», который формирует доверие и комьюнити.</li>
+        <li>Практика «без опасных обещаний»: акцент на навыки, ответственность и долгосрочное мышление.</li>
+        <li>Система контента + комьюнити как «механизм удержания»: люди возвращаются за поддержкой и апгрейдом навыков.</li>
+      </ul>
     </div>
   </section>
 
@@ -743,7 +749,7 @@ body.compact .uvp-hero{padding:12px;}
     Регуляторика и комплаенс зависят от юрисдикции и могут влиять на платежи, рекламу и партнерства. Репутационный риск растет при любых «обещаниях доходности», поэтому продукт держится на навыках и безопасности. Масштабирование требует системной воронки и команды, иначе эксперт снова упирается в ограничение времени.
   </div>
   <div class="stamp">
-    <div>Версия: <code>lean-canvas-v2.0</code></div>
+    <div>Версия: <code>lean-canvas-v2.1</code></div>
     <div>Обновлено: <code id="stampDate">—</code></div>
     <div>Автор: <code>Стас Панков</code></div>
   </div>
