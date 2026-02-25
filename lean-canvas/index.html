@@ -1,0 +1,776 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lean Canvas — ОС Эксперта: Crypto × AI × Brand | Стас Панков</title>
+<meta name="description" content="Бизнес-модель ОС Эксперта: крипто-наставничество, корпоративное обучение ИИ, медиа-воронка Биткоин-Церковь. Практика, безопасность, методология." />
+<meta property="og:title" content="Lean Canvas — ОС Эксперта: Crypto × AI × Brand" />
+<meta property="og:description" content="Одностраничная бизнес-модель: крипто-безопасность, AI-аудит, обучение взрослых. Без обещаний, с протоколами." />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+<style>
+:root{
+  --bg:#0a0b0f;
+  --card:#13141c;
+  --card2:#0f1117;
+  --ink:#e8eaf0;
+  --muted:#a0a6ba;
+  --accent:#8b5cf6;
+  --accent2:#22c55e;
+  --warn:#f59e0b;
+  --cyan:#06b6d4;
+  --border:rgba(255,255,255,.12);
+  --shadow:0 12px 40px rgba(0,0,0,.4);
+  --radius:20px;
+  --gap:14px;
+  --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+*{box-sizing:border-box;}
+html,body{height:100%;}
+
+body{
+  margin:0;
+  font-family:var(--font);
+  background: 
+    radial-gradient(1400px 900px at 15% 0%, rgba(139,92,246,.28), transparent 65%),
+    radial-gradient(1000px 700px at 90% 15%, rgba(34,197,94,.18), transparent 60%),
+    radial-gradient(1000px 700px at 50% 115%, rgba(245,158,11,.12), transparent 55%),
+    var(--bg);
+  color:var(--ink);
+  overflow-x:hidden;
+}
+
+a{color:inherit; text-decoration:none;}
+a:hover{color:var(--accent);}
+
+.wrap{
+  max-width:1500px;
+  margin:0 auto;
+  padding:28px 20px 36px;
+}
+
+/* Header */
+header{
+  display:flex;
+  gap:16px;
+  align-items:flex-start;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  margin-bottom:20px;
+  animation: fadeInDown 0.6s ease;
+}
+
+.brand{
+  display:flex;
+  gap:16px;
+  align-items:flex-start;
+  min-width:300px;
+}
+
+.badge{
+  width:52px;
+  height:52px;
+  border-radius:16px;
+  background:linear-gradient(135deg, rgba(139,92,246,1), rgba(34,197,94,.85));
+  box-shadow:0 8px 24px rgba(139,92,246,.35);
+  display:grid;
+  place-items:center;
+  font-weight:900;
+  font-size:18px;
+  letter-spacing:.8px;
+  position:relative;
+  overflow:hidden;
+}
+
+.badge::before{
+  content:"";
+  position:absolute;
+  inset:-50%;
+  background:linear-gradient(45deg, transparent, rgba(255,255,255,.2), transparent);
+  animation: badgeShine 3s infinite;
+}
+
+@keyframes badgeShine{
+  0%, 100%{transform:translateX(-100%) rotate(45deg);}
+  50%{transform:translateX(100%) rotate(45deg);}
+}
+
+.titleblock h1{
+  margin:0;
+  font-size:24px;
+  line-height:1.25;
+  letter-spacing:.3px;
+  background:linear-gradient(135deg, var(--ink), var(--accent2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+.titleblock p{
+  margin:8px 0 0;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.5;
+  max-width:880px;
+}
+
+.meta{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+
+.pill{
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.05);
+  padding:9px 13px;
+  border-radius:999px;
+  font-size:12.5px;
+  color:var(--muted);
+  display:flex;
+  gap:9px;
+  align-items:center;
+  transition:all .2s ease;
+}
+
+.pill:hover{
+  background:rgba(255,255,255,.08);
+  border-color:rgba(139,92,246,.4);
+}
+
+.pill b{color:var(--ink); font-weight:700;}
+
+.btns{display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
+
+button{
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.07);
+  color:var(--ink);
+  padding:10px 14px;
+  border-radius:14px;
+  cursor:pointer;
+  font-size:13px;
+  font-weight:600;
+  transition:all .2s ease;
+  position:relative;
+  overflow:hidden;
+}
+
+button::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg, rgba(139,92,246,.15), rgba(34,197,94,.1));
+  opacity:0;
+  transition:opacity .2s ease;
+}
+
+button:hover{
+  background:rgba(255,255,255,.12);
+  border-color:var(--accent);
+  transform:translateY(-1px);
+}
+
+button:hover::before{opacity:1;}
+button:active{transform:translateY(0);}
+button > *{position:relative;}
+
+/* Canvas Grid */
+.canvas{
+  display:grid;
+  gap:var(--gap);
+  grid-template-columns: 1.15fr 1fr 1.6fr 1fr 1.15fr;
+  grid-template-rows: auto auto auto;
+  grid-template-areas:
+    "problem solution uvp unfair segments"
+    "problem metrics uvp channels segments"
+    "cost cost revenue revenue revenue";
+}
+
+/* Card */
+.card{
+  background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  position:relative;
+  transition:transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+  animation: fadeInUp 0.6s ease backwards;
+}
+
+.card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 16px 48px rgba(0,0,0,.5);
+  border-color:rgba(139,92,246,.4);
+}
+
+.card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(500px 220px at 20% 0%, rgba(139,92,246,.22), transparent 65%),
+    radial-gradient(500px 220px at 80% 0%, rgba(34,197,94,.15), transparent 65%);
+  opacity:.9;
+  transition:opacity .3s ease;
+}
+
+.card:hover::before{opacity:1;}
+
+.card > *{position:relative;}
+
+/* Header */
+.hd{
+  padding:14px 16px 12px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  border-bottom:1px solid rgba(255,255,255,.1);
+  background:rgba(0,0,0,.15);
+}
+
+.hd h2{
+  margin:0;
+  font-size:13.5px;
+  letter-spacing:.5px;
+  text-transform:uppercase;
+  color:#dde0f0;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.hd h2 .icon{
+  font-size:18px;
+  filter:drop-shadow(0 2px 4px rgba(0,0,0,.3));
+}
+
+.tag{
+  font-size:11px;
+  padding:6px 10px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.12);
+  color:var(--muted);
+  background:rgba(255,255,255,.05);
+  white-space:nowrap;
+}
+
+/* Body */
+.bd{padding:14px 16px 16px;}
+
+.bd p{
+  margin:0 0 12px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.5;
+}
+
+ul{margin:0; padding-left:20px;}
+
+li{
+  margin:0 0 9px;
+  color:var(--ink);
+  font-size:13.5px;
+  line-height:1.4;
+}
+
+li:last-child{margin-bottom:0;}
+
+.sub{
+  margin-top:12px;
+  border-top:1px dashed rgba(255,255,255,.14);
+  padding-top:12px;
+}
+
+.sub h3{
+  margin:0 0 9px;
+  font-size:12.5px;
+  letter-spacing:.4px;
+  text-transform:uppercase;
+  color:#d0d5ea;
+}
+
+/* UVP Hero */
+.uvp-hero{
+  border:1px solid rgba(139,92,246,.45);
+  background:linear-gradient(135deg, rgba(139,92,246,.22), rgba(34,197,94,.12));
+  border-radius:16px;
+  padding:14px 14px;
+  margin-bottom:14px;
+  position:relative;
+  overflow:hidden;
+}
+
+.uvp-hero::before{
+  content:"";
+  position:absolute;
+  top:-50%;
+  right:-50%;
+  width:200%;
+  height:200%;
+  background:radial-gradient(circle, rgba(255,255,255,.08), transparent 60%);
+  animation:heroGlow 4s ease-in-out infinite;
+}
+
+@keyframes heroGlow{
+  0%, 100%{transform:translate(0,0);}
+  50%{transform:translate(-10%, 10%);}
+}
+
+.uvp-hero .one{
+  font-size:14.5px;
+  line-height:1.4;
+  margin:0;
+  color:var(--ink);
+  font-weight:700;
+  position:relative;
+}
+
+.uvp-hero .two{
+  margin:10px 0 0;
+  font-size:13px;
+  line-height:1.5;
+  color:var(--muted);
+  position:relative;
+}
+
+/* Key-Value Grid */
+.kv{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:12px;
+  margin-top:12px;
+}
+
+.mini{
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.05);
+  border-radius:16px;
+  padding:12px 12px;
+  transition:all .2s ease;
+}
+
+.mini:hover{
+  background:rgba(255,255,255,.08);
+  border-color:rgba(34,197,94,.3);
+}
+
+.mini b{
+  display:block;
+  font-size:12px;
+  letter-spacing:.4px;
+  text-transform:uppercase;
+  color:#d0d5ea;
+  margin-bottom:8px;
+}
+
+.mini p{
+  margin:0;
+  font-size:13px;
+  color:var(--muted);
+  line-height:1.5;
+}
+
+/* Grid Areas */
+.problem{grid-area:problem;}
+.solution{grid-area:solution;}
+.uvp{grid-area:uvp;}
+.unfair{grid-area:unfair;}
+.segments{grid-area:segments;}
+.metrics{grid-area:metrics;}
+.channels{grid-area:channels;}
+.cost{grid-area:cost;}
+.revenue{grid-area:revenue;}
+
+/* Staggered Animations */
+.problem{animation-delay:0.1s;}
+.solution{animation-delay:0.15s;}
+.uvp{animation-delay:0.2s;}
+.unfair{animation-delay:0.25s;}
+.segments{animation-delay:0.3s;}
+.metrics{animation-delay:0.35s;}
+.channels{animation-delay:0.4s;}
+.cost{animation-delay:0.45s;}
+.revenue{animation-delay:0.5s;}
+
+/* Footer */
+footer{
+  margin-top:20px;
+  color:var(--muted);
+  font-size:12.5px;
+  line-height:1.5;
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+  align-items:flex-start;
+  justify-content:space-between;
+  animation: fadeInUp 0.6s ease 0.6s backwards;
+}
+
+.footnote{
+  border:1px dashed rgba(255,255,255,.16);
+  background:rgba(255,255,255,.04);
+  padding:12px 14px;
+  border-radius:16px;
+  flex:1;
+  min-width:280px;
+}
+
+.footnote b{color:var(--ink);}
+
+.stamp{
+  text-align:right;
+  min-width:240px;
+  color:var(--muted);
+}
+
+.stamp div{margin-bottom:6px;}
+.stamp code{
+  font-family:var(--mono);
+  font-size:11.5px;
+  color:rgba(232,234,240,.9);
+  background:rgba(255,255,255,.06);
+  padding:3px 7px;
+  border-radius:6px;
+}
+
+/* Compact Mode */
+body.compact li{margin-bottom:6px; font-size:13px;}
+body.compact .bd{padding:12px 14px 14px;}
+body.compact .hd{padding:12px 14px 11px;}
+body.compact .uvp-hero{padding:12px;}
+
+/* Animations */
+@keyframes fadeInDown{
+  from{opacity:0; transform:translateY(-20px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+@keyframes fadeInUp{
+  from{opacity:0; transform:translateY(20px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+/* Print */
+@media print{
+  :root{--bg:#ffffff; --ink:#111827; --muted:#374151; --border:rgba(17,24,39,.22); --shadow:none;}
+  body{background:#ffffff;}
+  .wrap{max-width:none; padding:0;}
+  header{margin:0 0 12px;}
+  .btns{display:none;}
+  .pill{border-color:rgba(17,24,39,.2); background:rgba(17,24,39,.04);}
+  .card{break-inside:avoid; animation:none; box-shadow:0 2px 8px rgba(0,0,0,.1);}
+  .card::before{display:none;}
+  .card:hover{transform:none;}
+  .hd{background:rgba(17,24,39,.04);}
+  .uvp-hero{border-color:rgba(139,92,246,.4);}
+  .uvp-hero::before{display:none;}
+}
+
+/* Responsive */
+@media (max-width: 1280px){
+  .canvas{
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "uvp uvp"
+      "problem solution"
+      "segments unfair"
+      "metrics channels"
+      "cost revenue";
+  }
+}
+
+@media (max-width: 768px){
+  .canvas{
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "uvp"
+      "problem"
+      "solution"
+      "segments"
+      "unfair"
+      "metrics"
+      "channels"
+      "cost"
+      "revenue";
+  }
+  .kv{grid-template-columns:1fr;}
+  .titleblock h1{font-size:20px;}
+  .badge{width:46px; height:46px; font-size:16px;}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<header>
+  <div class="brand">
+    <div class="badge">LC</div>
+    <div class="titleblock">
+      <h1>Lean Canvas: «ОС Эксперта: Crypto × AI × Brand»</h1>
+      <p>
+        Одностраничная бизнес-модель продукта/бренда, который объединяет крипто-наставничество с фокусом на безопасность, корпоративное обучение ИИ и аудит процессов, а также медиа‑воронку «Биткоин‑Церковь».
+      </p>
+    </div>
+  </div>
+
+  <div class="meta">
+    <div class="pill"><b>Фокус</b> Практика, безопасность, методология.</div>
+    <div class="pill"><b>ICP</b> B2C + B2B.</div>
+    <div class="pill"><b>Гипотеза</b> Модульность → масштаб без выгорания.</div>
+    <div class="btns">
+      <button id="btnCompact" type="button">Компактный режим</button>
+      <button id="btnPrint" type="button">Печать / PDF</button>
+    </div>
+  </div>
+</header>
+
+<main class="canvas" aria-label="Lean Canvas">
+
+  <!-- PROBLEM -->
+  <section class="card problem">
+    <div class="hd">
+      <h2><span class="icon">🔴</span>Проблема</h2>
+      <span class="tag">3–5 ключевых болей</span>
+    </div>
+    <div class="bd">
+      <ul>
+        <li>Люди хотят купить и хранить биткоин, но боятся потери средств из‑за ошибок, фишинга и мошенничества.</li>
+        <li>У взрослых часто низкая цифровая и финансовая грамотность, из‑за чего любые операции кажутся «минным полем».</li>
+        <li>Информационный шум и «культ быстрых денег» подменяют обучение: вместо навыков — эмоции и риск.</li>
+        <li>Бизнесу нужно внедрять ИИ, но нет системной схемы: от выбора кейсов до безопасной эксплуатации и контроля качества.</li>
+        <li>Эксперту сложно масштабировать консультации без выгорания: нужна продуктовая упаковка, воронка и комьюнити.</li>
+      </ul>
+
+      <div class="sub">
+        <h3>Существующие альтернативы</h3>
+        <ul>
+          <li>Бесплатные гайды и ролики, которые не учитывают контекст человека и почти не закрывают безопасность.</li>
+          <li>Инфо‑продукты с обещаниями доходности, которые усиливают риск и приводят к импульсивным решениям.</li>
+          <li>Разрозненные консультации без методологии: «помогли сейчас», но навыка и протокола не появилось.</li>
+          <li>Корпоративные «лекции про ИИ» без аудита процессов, измеримых метрик и внедрения в реальную работу.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOLUTION -->
+  <section class="card solution">
+    <div class="hd">
+      <h2><span class="icon">💡</span>Решение</h2>
+      <span class="tag">MVP + упаковка</span>
+    </div>
+    <div class="bd">
+      <ul>
+        <li>Модульные программы для частных лиц: «Crypto Security → Self‑custody → Практика операций».</li>
+        <li>Личный протокол безопасности: ключи, пароли, устройства, антифишинг, правила больших сумм.</li>
+        <li>Наставничество с индивидуальным учебным планом и разбором реальных сценариев человека.</li>
+        <li>Комьюнити «Биткоин‑Церковь»: регулярные Q&amp;A, разборы кейсов, поддержка дисциплины и ответственности.</li>
+        <li>Для B2B: обучение ИИ + аудит процессов + SOP + политика безопасной работы с LLM.</li>
+        <li>Воронка роста: лид‑магниты, диагностика, короткие офферы, апсейл в сопровождение и корпоративные контракты.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- UVP -->
+  <section class="card uvp">
+    <div class="hd">
+      <h2><span class="icon">⚡</span>Уникальная ценность</h2>
+      <span class="tag">Одним предложением</span>
+    </div>
+    <div class="bd">
+      <div class="uvp-hero">
+        <p class="one">«Помогаю людям и командам получить финансовую самостоятельность через биткоин и практическую эффективность от ИИ — без магии, без обещаний заработка, с протоколами безопасности и измеримыми результатами».</p>
+        <p class="two">Ключевая идея: свобода без ответственности — это хаос. Здесь свобода опирается на навыки, правила и дисциплину.</p>
+      </div>
+
+      <ul>
+        <li>Практика важнее теории: каждое обучение заканчивается настроенными инструментами и повторяемыми шагами.</li>
+        <li>Безопасность встроена в продукт: модель угроз, антифишинг, хранение ключей, сценарии «что делать если».</li>
+        <li>Методология обучения взрослых: ясные уровни, домашние задания, обратная связь, контроль понимания.</li>
+        <li>Комбинация Crypto × AI: человек получает и финансовую, и цифровую самостоятельность в одном контуре.</li>
+      </ul>
+
+      <div class="kv">
+        <div class="mini">
+          <b>Артефакты результата</b>
+          <p>Личный протокол безопасности. Индивидуальный учебный план. Чек‑листы операций. SOP для команды. Набор проверенных инструментов. Карта рисков.</p>
+        </div>
+        <div class="mini">
+          <b>Почему это «работает»</b>
+          <p>Люди перестают полагаться на удачу и начинают опираться на процедуру. Процедура снижает ошибки. Ошибок меньше — свободы больше.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- UNFAIR ADVANTAGE -->
+  <section class="card unfair">
+    <div class="hd">
+      <h2><span class="icon">🛡️</span>Нерыночное преимущество</h2>
+      <span class="tag">Сложно скопировать</span>
+    </div>
+    <div class="bd">
+      <ul>
+        <li>Сильная комбинация компетенций: крипто‑безопасность, EdTech‑методология, AI‑внедрение и упаковка эксперта.</li>
+        <li>Доказанный трек‑рекорд обучения: тысячи обученных людей и высокие метрики качества обучения.</li>
+        <li>Публичный бренд и нарратив «Биткоин‑Апостол / Биткоин‑Церковь», который формирует доверие и комьюнити.</li>
+        <li>Практика «без опасных обещаний»: акцент на навыки, ответственность и долгосрочное мышление.</li>
+        <li>Система контента + комьюнити как «механизм удержания»: люди возвращаются за поддержкой и апгрейдом навыков.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CUSTOMER SEGMENTS -->
+  <section class="card segments">
+    <div class="hd">
+      <h2><span class="icon">👥</span>Сегменты клиентов</h2>
+      <span class="tag">Кому больнее всего</span>
+    </div>
+    <div class="bd">
+      <ul>
+        <li>Частные лица с доходом и мотивацией: сохранить капитал и освоить самокастодиальное хранение.</li>
+        <li>Люди, у которых уже есть криптоактивы на бирже, но нет навыков безопасного хранения и операций.</li>
+        <li>Предприниматели и цифровые кочевники, которым важны международные расчеты и независимость.</li>
+        <li>Семьи, которые хотят выстроить наследование цифровых активов без потерь.</li>
+        <li>Компании: собственники и C‑level, которым нужен рост эффективности через ИИ и снижение рисков.</li>
+        <li>Команды 21–50 человек: маркетинг, финансы, аналитика, креатив, обучение и back‑office.</li>
+      </ul>
+
+      <div class="sub">
+        <h3>Ранние последователи</h3>
+        <ul>
+          <li>Аудитория Telegram/Instagram/YouTube, которая уже доверяет эксперту и готова к практическим шагам.</li>
+          <li>Выпускники прошлых программ, которым нужен «второй уровень»: безопасность, процессы, автономность.</li>
+          <li>Компании, где руководитель лично вовлечен в внедрение ИИ и измеряет результат в деньгах и времени.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- KEY METRICS -->
+  <section class="card metrics">
+    <div class="hd">
+      <h2><span class="icon">📊</span>Ключевые метрики</h2>
+      <span class="tag">AARRR + качество</span>
+    </div>
+    <div class="bd">
+      <ul>
+        <li>Acquisition: лиды, цена лида, конверсия в диагностику/созвон, доля органики.</li>
+        <li>Activation: доля людей, которые дошли до первых практических действий и настроили базовую безопасность.</li>
+        <li>Retention: удержание в комьюнити, повторные покупки модулей, возвраты на Q&amp;A.</li>
+        <li>Revenue: ARPU/ARPPU, валовая маржа, доля B2B‑выручки, LTV по подписке.</li>
+        <li>Referral: доля рекомендаций, реферальная конверсия, качество входящих лидов.</li>
+        <li>Quality: доходимость, COR/NPS, доля людей, у которых сформирован персональный протокол безопасности.</li>
+        <li>B2B‑эффект: измеримая экономия времени, число внедренных кейсов, снижение ошибок/рисков.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CHANNELS -->
+  <section class="card channels">
+    <div class="hd">
+      <h2><span class="icon">📢</span>Каналы</h2>
+      <span class="tag">Путь клиента</span>
+    </div>
+    <div class="bd">
+      <ul>
+        <li>Telegram: канал «Биткоин‑Церковь» + чат «Биткоин‑Паства» + личный профиль как витрина.</li>
+        <li>Instagram: Reels, сторис, карусели, короткие разборы ошибок и мифов.</li>
+        <li>YouTube и TikTok: образовательные видео, кейсы, разборы мошеннических схем, интервью.</li>
+        <li>Вебинары и воркшопы: регулярные события как точка входа и прогрева.</li>
+        <li>Офлайн: корпоративные тренинги, конференции, комьюнити‑встречи, выступления.</li>
+        <li>B2B‑продажи: личные связи, партнёрства, лидогенерация через кейсы и аудит‑диагностику.</li>
+        <li>Рефералы: выпускники, партнеры, рекомендательные программы с прозрачным disclosure.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- COST STRUCTURE -->
+  <section class="card cost">
+    <div class="hd">
+      <h2><span class="icon">💰</span>Структура расходов</h2>
+      <span class="tag">Что «ест» маржу</span>
+    </div>
+    <div class="bd">
+      <ul>
+        <li>Производство контента: сценарии, съемка, монтаж, дизайн, субтитры, обложки.</li>
+        <li>Инфраструктура: сайт/лендинги, CRM, рассылки, платежи, хостинг, аналитика.</li>
+        <li>Инструменты ИИ: подписки на LLM, генерацию медиа, автоматизации, хранение данных.</li>
+        <li>Команда: кураторы, ассистент, дизайнер, монтажер, техподдержка, B2B‑продажи.</li>
+        <li>Маркетинг: реклама, партнерские комиссии, продакшн под кампании, PR.</li>
+        <li>Операционные расходы: налоги, бухгалтерия, юридические консультации, поездки, оборудование.</li>
+        <li>Безопасность: резервное копирование, защищенные устройства, обучение команды, антифишинг‑гигиена.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- REVENUE STREAMS -->
+  <section class="card revenue">
+    <div class="hd">
+      <h2><span class="icon">💵</span>Потоки выручки</h2>
+      <span class="tag">Как делаются деньги</span>
+    </div>
+    <div class="bd">
+      <ul>
+        <li>B2C: индивидуальное наставничество (4–8 недель) с планом, протоколом безопасности и сопровождением.</li>
+        <li>B2C: групповая программа «Криптовалюты от А до Я» и тематические модули (кошельки, безопасность, операции).</li>
+        <li>B2C: подписка комьюнити (Q&amp;A, разборы, обновления, поддержка, «второй уровень» обучения).</li>
+        <li>B2B: корпоративные тренинги 1–2 дня и программы 4–8 недель по внедрению ИИ в роли и процессы.</li>
+        <li>B2B: AI‑аудит процессов + дорожная карта внедрения + SOP + обучение безопасной работе с LLM.</li>
+        <li>Ретейнер: сопровождение внедрения (ежемесячный контракт, контроль метрик и качества).</li>
+        <li>Цифровые продукты: методички, чек‑листы, шаблоны, библиотеки промптов, пакеты SOP.</li>
+        <li>Публичные выступления: конференции, корпоративные ивенты, спикерские пакеты.</li>
+        <li>Партнерства: аккуратные рекомендации сервисов/железа при явном раскрытии интереса и без давления.</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footnote">
+    <b>Критичные допущения и риски.</b>
+    Регуляторика и комплаенс зависят от юрисдикции и могут влиять на платежи, рекламу и партнерства. Репутационный риск растет при любых «обещаниях доходности», поэтому продукт держится на навыках и безопасности. Масштабирование требует системной воронки и команды, иначе эксперт снова упирается в ограничение времени.
+  </div>
+  <div class="stamp">
+    <div>Версия: <code>lean-canvas-v2.0</code></div>
+    <div>Обновлено: <code id="stampDate">—</code></div>
+    <div>Автор: <code>Стас Панков</code></div>
+  </div>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  const stamp = document.getElementById('stampDate');
+  const now = new Date();
+  const pad = (n)=> String(n).padStart(2,'0');
+  stamp.textContent = `${pad(now.getDate())}.${pad(now.getMonth()+1)}.${now.getFullYear()}`;
+
+  const btnPrint = document.getElementById('btnPrint');
+  const btnCompact = document.getElementById('btnCompact');
+
+  btnPrint.addEventListener('click', ()=> window.print());
+
+  btnCompact.addEventListener('click', ()=> {
+    document.body.classList.toggle('compact');
+    btnCompact.textContent = document.body.classList.contains('compact')
+      ? 'Обычный режим'
+      : 'Компактный режим';
+  });
+})();
+</script>
+
+</body>
+</html>
