@@ -742,6 +742,280 @@ td{color:var(--text)}
 
 <!-- ============ LOGISTICS ============ -->
 <div class="tc" id="logistics">
+  <!-- ═══ РАСПИСАНИЕ ЗАНЯТИЙ ═══ -->
+  <div class="card" style="margin-bottom:24px">
+    <h3 style="margin-bottom:20px">📅 Расписание занятий</h3>
+    <p style="font-size:0.875em;color:var(--text-light);margin-bottom:20px">
+      Каждый учебный день: <strong>14:00 – 15:00</strong> &nbsp;☕&nbsp; <strong>15:05 – 16:05</strong> &nbsp;(МСК)
+    </p>
+
+    <style>
+      .sched-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 14px;
+      }
+      .sched-day {
+        border: 1px solid var(--sand);
+        border-radius: 10px;
+        overflow: hidden;
+        font-size: 0.82em;
+        transition: box-shadow 0.2s;
+      }
+      .sched-day:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+      .sched-day-head {
+        background: var(--accent-soft);
+        border-bottom: 1px solid var(--sand);
+        padding: 10px 14px;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+      }
+      .sched-day-num {
+        font-weight: 700;
+        color: var(--accent);
+        font-size: 0.85em;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+      }
+      .sched-day-date {
+        font-size: 1.15em;
+        font-weight: 700;
+        color: var(--dark);
+      }
+      .sched-day-dow {
+        font-size: 0.78em;
+        color: var(--text-light);
+        margin-top: 1px;
+      }
+      .sched-slots {
+        padding: 10px 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .sched-slot {
+        display: flex;
+        gap: 8px;
+        align-items: flex-start;
+      }
+      .sched-time {
+        font-weight: 600;
+        color: var(--bronze);
+        min-width: 75px;
+        flex-shrink: 0;
+        font-size: 0.9em;
+        padding-top: 1px;
+      }
+      .sched-topic {
+        color: var(--text);
+        line-height: 1.35;
+      }
+      .sched-break {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--text-light);
+        font-size: 0.8em;
+        padding: 2px 0;
+      }
+      .sched-break-line {
+        flex: 1;
+        height: 1px;
+        background: var(--sand);
+      }
+    </style>
+
+    <div class="sched-grid">
+
+      <!-- День 1 -->
+      <div class="sched-day">
+        <div class="sched-day-head">
+          <div>
+            <div class="sched-day-num">День 1</div>
+            <div class="sched-day-date">2 марта</div>
+            <div class="sched-day-dow">понедельник</div>
+          </div>
+          <div style="font-size:0.75em;color:var(--text-light);text-align:right">Неделя 1</div>
+        </div>
+        <div class="sched-slots">
+          <div class="sched-slot">
+            <div class="sched-time">14:00–15:00</div>
+            <div class="sched-topic">Современные применения ИИ. Какой инструмент под какую задачу</div>
+          </div>
+          <div class="sched-break"><div class="sched-break-line"></div>☕ 5 мин<div class="sched-break-line"></div></div>
+          <div class="sched-slot">
+            <div class="sched-time">15:05–16:05</div>
+            <div class="sched-topic">Введение в LLM: мышление, ошибки, инсайты</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- День 2 -->
+      <div class="sched-day">
+        <div class="sched-day-head">
+          <div>
+            <div class="sched-day-num">День 2</div>
+            <div class="sched-day-date">6 марта</div>
+            <div class="sched-day-dow">пятница</div>
+          </div>
+          <div style="font-size:0.75em;color:var(--text-light);text-align:right">Неделя 1</div>
+        </div>
+        <div class="sched-slots">
+          <div class="sched-slot">
+            <div class="sched-time">14:00–15:00</div>
+            <div class="sched-topic">Безопасность при работе с ИИ: корпоративная, личная и B2G</div>
+          </div>
+          <div class="sched-break"><div class="sched-break-line"></div>☕ 5 мин<div class="sched-break-line"></div></div>
+          <div class="sched-slot">
+            <div class="sched-time">15:05–16:05</div>
+            <div class="sched-topic">Начало работы в корпоративном аккаунте ChatGPT</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- День 3 -->
+      <div class="sched-day">
+        <div class="sched-day-head">
+          <div>
+            <div class="sched-day-num">День 3</div>
+            <div class="sched-day-date">10 марта</div>
+            <div class="sched-day-dow">вторник</div>
+          </div>
+          <div style="font-size:0.75em;color:var(--text-light);text-align:right">Неделя 2</div>
+        </div>
+        <div class="sched-slots">
+          <div class="sched-slot">
+            <div class="sched-time">14:00–15:00</div>
+            <div class="sched-topic">Промпт-инженеринг: формула, техники, event-кейсы</div>
+          </div>
+          <div class="sched-break"><div class="sched-break-line"></div>☕ 5 мин<div class="sched-break-line"></div></div>
+          <div class="sched-slot">
+            <div class="sched-time">15:05–16:05</div>
+            <div class="sched-topic">Визуализация данных: таблицы, презентации, дашборды</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- День 4 -->
+      <div class="sched-day">
+        <div class="sched-day-head">
+          <div>
+            <div class="sched-day-num">День 4</div>
+            <div class="sched-day-date">16 марта</div>
+            <div class="sched-day-dow">понедельник</div>
+          </div>
+          <div style="font-size:0.75em;color:var(--text-light);text-align:right">Неделя 2</div>
+        </div>
+        <div class="sched-slots">
+          <div class="sched-slot">
+            <div class="sched-time">14:00–15:00</div>
+            <div class="sched-topic">Практика: разбор ДЗ + вопросы и ответы</div>
+          </div>
+          <div class="sched-break"><div class="sched-break-line"></div>☕ 5 мин<div class="sched-break-line"></div></div>
+          <div class="sched-slot">
+            <div class="sched-time">15:05–16:05</div>
+            <div class="sched-topic">Глубокие исследования: методология и «прожарка» результатов</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- День 5 -->
+      <div class="sched-day">
+        <div class="sched-day-head">
+          <div>
+            <div class="sched-day-num">День 5</div>
+            <div class="sched-day-date">19 марта</div>
+            <div class="sched-day-dow">среда</div>
+          </div>
+          <div style="font-size:0.75em;color:var(--text-light);text-align:right">Неделя 3</div>
+        </div>
+        <div class="sched-slots">
+          <div class="sched-slot">
+            <div class="sched-time">14:00–15:00</div>
+            <div class="sched-topic">Практика: разбор ДЗ + вопросы и ответы</div>
+          </div>
+          <div class="sched-break"><div class="sched-break-line"></div>☕ 5 мин<div class="sched-break-line"></div></div>
+          <div class="sched-slot">
+            <div class="sched-time">15:05–16:05</div>
+            <div class="sched-topic">Креатив и мозговой штурм с ИИ: сценарии, концепции</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- День 6 -->
+      <div class="sched-day">
+        <div class="sched-day-head">
+          <div>
+            <div class="sched-day-num">День 6</div>
+            <div class="sched-day-date">23 марта</div>
+            <div class="sched-day-dow">воскресенье</div>
+          </div>
+          <div style="font-size:0.75em;color:var(--text-light);text-align:right">Неделя 3</div>
+        </div>
+        <div class="sched-slots">
+          <div class="sched-slot">
+            <div class="sched-time">14:00–15:00</div>
+            <div class="sched-topic">Работа с проектами в ChatGPT</div>
+          </div>
+          <div class="sched-break"><div class="sched-break-line"></div>☕ 5 мин<div class="sched-break-line"></div></div>
+          <div class="sched-slot">
+            <div class="sched-time">15:05–16:05</div>
+            <div class="sched-topic">ИИ-ассистенты: создание под свои задачи</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- День 7 -->
+      <div class="sched-day">
+        <div class="sched-day-head">
+          <div>
+            <div class="sched-day-num">День 7</div>
+            <div class="sched-day-date">26 марта</div>
+            <div class="sched-day-dow">среда</div>
+          </div>
+          <div style="font-size:0.75em;color:var(--text-light);text-align:right">Неделя 4</div>
+        </div>
+        <div class="sched-slots">
+          <div class="sched-slot">
+            <div class="sched-time">14:00–15:00</div>
+            <div class="sched-topic">Хакатон: презентация и доработка ассистентов</div>
+          </div>
+          <div class="sched-break"><div class="sched-break-line"></div>☕ 5 мин<div class="sched-break-line"></div></div>
+          <div class="sched-slot">
+            <div class="sched-time">15:05–16:05</div>
+            <div class="sched-topic">Продвинутые инструменты: Antigravity, Claude Code, агенты</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- День 8 -->
+      <div class="sched-day">
+        <div class="sched-day-head">
+          <div>
+            <div class="sched-day-num">День 8</div>
+            <div class="sched-day-date">30 марта</div>
+            <div class="sched-day-dow">воскресенье</div>
+          </div>
+          <div style="font-size:0.75em;color:var(--text-light);text-align:right">Неделя 4 · <strong>Офлайн</strong></div>
+        </div>
+        <div class="sched-slots">
+          <div class="sched-slot">
+            <div class="sched-time">14:00–15:00</div>
+            <div class="sched-topic">Автоматизация бизнес-процессов с ИИ</div>
+          </div>
+          <div class="sched-break"><div class="sched-break-line"></div>☕ 5 мин<div class="sched-break-line"></div></div>
+          <div class="sched-slot">
+            <div class="sched-time">15:05–16:05</div>
+            <div class="sched-topic">Аудит + дорожная карта внедрения ИИ в компании</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /sched-grid -->
+  </div>
+  <!-- ═══ /РАСПИСАНИЕ ═══ -->
+
   <div class="card">
     <h3>Формат и логистика обучения</h3>
     <div class="table-wrap">
