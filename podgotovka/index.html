@@ -477,7 +477,7 @@
                     <div class="progress-bar">
                         <div class="progress-fill" id="stickyProgressFill"></div>
                     </div>
-                    <span class="progress-count" id="stickyProgressCount">0 / 10</span>
+                    <span class="progress-count" id="stickyProgressCount">0 / 9</span>
                 </div>
             </div>
         </div>
@@ -485,17 +485,7 @@
         <div class="header">
             <div class="badge">Корпоративное обучение ИИ</div>
             <h1>Инструкция по <span>подготовке</span> к обучению</h1>
-            <p class="subtitle">Выполните все шаги до 6 марта, чтобы на первом занятии всё работало. Отмечайте галочками — прогресс сохраняется.</p>
-        </div>
-
-        <div class="progress-wrap">
-            <div class="progress-top">
-                <span class="progress-label">Прогресс подготовки</span>
-                <span class="progress-count" id="progressCount">0 / 10</span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
+            <p class="subtitle">Выполните все шаги до 6 марта, чтобы на втором учебном дне всё работало. Отмечайте галочками — прогресс сохраняется.</p>
         </div>
 
         <!-- ФАЗА 1 -->
@@ -537,7 +527,7 @@
                                 2. Страна или регион → Изменить → выберите <strong>Нидерланды</strong> (или США)<br>
                                 3. Способ оплаты → выберите <strong>«Нет»</strong> (если нужны только бесплатные приложения) или укажите виртуальную карту<br>
                                 4. Адрес → любой адрес выбранной страны (загуглите адрес отеля, Apple строго не проверяет, но индекс должен быть реальным)<br>
-                                5. Телефон → можно ввести любой, проверка не приходит
+                                5. Телефон — можно ввести любой, проверка не приходит
                             </div>
                             <div class="step-links">
                                 <a href="https://apps.apple.com/ru/app/defaultvpn/id6744725017" target="_blank" class="step-link">
@@ -549,7 +539,7 @@
                                     Поддержка Apple (отмена подписок)
                                 </a>
                             </div>
-                            <div class="tip">VPN не нужен. Перед сменой региона нужно отменить подписки и потратить баланс. Если подписок много — откройте ссылку «Поддержка Apple» выше → залогиньтесь → Подписки и покупки → Управление подписками → выберите чат → напишите: «Хочу сменить регион, помогите отменить все подписки». Обычно решают за 5–10 минут.</div>
+                            <div class="tip">VPN не нужен. Перед сменой региона нужно отменить подписки и потратить баланс. Если подписок много — откройте ссылку «Поддержка Apple» выше, залогиньтесь, выберите «Подписки и покупки», затем «Управление подписками», выберите чат и напишите: «Хочу сменить регион, помогите отменить все подписки». Обычно решают за 5–10 минут.</div>
                         </div>
 
                         <div style="margin-top:10px; padding:16px; background:rgba(52,211,153,0.05); border:1px solid rgba(52,211,153,0.12); border-radius:10px;">
@@ -597,7 +587,7 @@
                             </a>
                             <a href="https://t.me/stavzzz" target="_blank" class="step-link">
                                 <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                                Нужна помощь? Напишите
+                                Написать Станиславу Панкову
                             </a>
                         </div>
                     </div>
@@ -609,7 +599,11 @@
                     <div class="step-checkbox" onclick="toggleStep(this.closest('.step'))"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
                     <div class="step-content">
                         <div class="step-title">Проверить, что IP нероссийский</div>
-                        <div class="step-desc">Включите VPN → откройте сайт 2ip.ru или Яндекс Интернет → убедитесь, что отображается НЕ российский IP-адрес.</div>
+                        <div class="step-desc">
+                            1. Включите VPN<br>
+                            2. Откройте 2ip.ru или Яндекс Интернет<br>
+                            3. Убедитесь, что отображается НЕ российский IP-адрес
+                        </div>
                         <div class="step-links">
                             <a href="https://2ip.ru/" target="_blank" class="step-link">
                                 <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
@@ -638,7 +632,14 @@
                     <div class="step-checkbox" onclick="toggleStep(this.closest('.step'))"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
                     <div class="step-content">
                         <div class="step-title">Создать новый Gmail</div>
-                        <div class="step-desc">Откройте Chrome (VPN включён, Нидерланды) → создайте новый аккаунт Google. Когда Google попросит верификацию по номеру телефона — напишите мне в Telegram, я выдам виртуальный номер для получения SMS. После создания аккаунта — сразу включите двухфакторную аутентификацию (2FA) через Google Authenticator.</div>
+                        <div class="step-desc">
+                            1. Откройте Chrome (VPN включён, Нидерланды)<br>
+                            2. Перейдите на accounts.google.com<br>
+                            3. Нажмите «Создать аккаунт»<br>
+                            4. Если Google попросит номер телефона — напишите Станиславу Панкову в Telegram, он выдаст виртуальный номер<br>
+                            5. Введите номер, получите SMS-код, завершите регистрацию<br>
+                            6. Сразу включите двухфакторную аутентификацию (2FA) через Google Authenticator
+                        </div>
                         <div class="step-links">
                             <a href="https://accounts.google.com/" target="_blank" class="step-link">
                                 <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
@@ -654,7 +655,7 @@
                             </a>
                             <a href="https://t.me/stavzzz" target="_blank" class="step-link">
                                 <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                                Написать для получения номера
+                                Написать Станиславу Панкову
                             </a>
                         </div>
                     </div>
@@ -666,7 +667,12 @@
                     <div class="step-checkbox" onclick="toggleStep(this.closest('.step'))"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
                     <div class="step-content">
                         <div class="step-title">Регистрация в ChatGPT</div>
-                        <div class="step-desc">Перейдите на chatgpt.com → Sign up → войдите через новый Google-аккаунт. Отправьте тестовое сообщение — убедитесь, что работает.</div>
+                        <div class="step-desc">
+                            1. Перейдите на chatgpt.com<br>
+                            2. Нажмите Sign up<br>
+                            3. Войдите через новый Google-аккаунт<br>
+                            4. Отправьте тестовое сообщение — убедитесь, что работает
+                        </div>
                         <div class="step-links">
                             <a href="https://chatgpt.com/" target="_blank" class="step-link">
                                 <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
@@ -682,7 +688,11 @@
                     <div class="step-checkbox" onclick="toggleStep(this.closest('.step'))"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
                     <div class="step-content">
                         <div class="step-title">Регистрация в Gemini</div>
-                        <div class="step-desc">Перейдите на gemini.google.com → войдите через тот же Google-аккаунт. Отправьте тестовый запрос.</div>
+                        <div class="step-desc">
+                            1. Перейдите на gemini.google.com<br>
+                            2. Войдите через тот же Google-аккаунт<br>
+                            3. Отправьте тестовый запрос — убедитесь, что работает
+                        </div>
                         <div class="step-links">
                             <a href="https://gemini.google.com/" target="_blank" class="step-link">
                                 <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
@@ -698,7 +708,12 @@
                     <div class="step-checkbox" onclick="toggleStep(this.closest('.step'))"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
                     <div class="step-content">
                         <div class="step-title">Регистрация в Claude</div>
-                        <div class="step-desc">Перейдите на claude.ai → Sign up → введите новый Gmail. Для верификации по номеру (только США или UK) — напишите мне в Telegram.</div>
+                        <div class="step-desc">
+                            1. Перейдите на claude.ai<br>
+                            2. Нажмите Sign up, введите новый Gmail<br>
+                            3. Claude потребует номер телефона (только США или UK) — напишите Станиславу Панкову в Telegram для получения номера<br>
+                            4. Введите номер, получите код, завершите регистрацию
+                        </div>
                         <div class="step-links">
                             <a href="https://claude.ai/" target="_blank" class="step-link">
                                 <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
@@ -706,10 +721,10 @@
                             </a>
                             <a href="https://t.me/stavzzz" target="_blank" class="step-link">
                                 <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                                Написать в Telegram
+                                Написать Станиславу Панкову
                             </a>
                         </div>
-                        <div class="tip">Номер покупайте только когда уже открыта страница регистрации — аренда ~20 минут!</div>
+                        <div class="tip">После получения номера от Станислава Панкова — используйте его в течение 10 минут, иначе номер сгорит!</div>
                     </div>
                 </div>
             </div>
@@ -719,46 +734,26 @@
         <div class="phase">
             <div class="phase-header">
                 <div class="phase-number orange">03</div>
-                <div class="phase-title">Виртуальная карта для оплаты</div>
+                <div class="phase-title">Оплата подписки ChatGPT Plus</div>
             </div>
 
             <div class="step" data-step="9">
                 <div class="step-top">
                     <div class="step-checkbox" onclick="toggleStep(this.closest('.step'))"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
                     <div class="step-content">
-                        <div class="step-title">Открыть виртуальную карту для оплаты сервисов</div>
-                        <div class="step-desc">
-                            Пошагово:<br>
-                            1. Откройте бота в Telegram по ссылке ниже<br>
-                            2. Нажмите кнопку <strong>«Старт»</strong><br>
-                            3. Пополните баланс через <strong>СБП</strong> на сумму ~$70<br>
-                            4. Пройдите <strong>верификацию</strong> (следуйте инструкциям бота)<br>
-                            5. Создайте <strong>виртуальную карту</strong><br>
-                            6. Используйте эту карту для оплаты подписок ИИ-сервисов
-                        </div>
-                        <div class="step-links">
-                            <a href="https://t.me/Cashinout_bot" target="_blank" class="step-link">
-                                <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                                Cashinout — бот для карты
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="step" data-step="10">
-                <div class="step-top">
-                    <div class="step-checkbox" onclick="toggleStep(this.closest('.step'))"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-                    <div class="step-content">
                         <div class="step-title">Оплатить подписку ChatGPT Plus</div>
-                        <div class="step-desc">Откройте chatgpt.com → войдите в аккаунт → перейдите в Settings → Subscription → Upgrade to Plus. Оплатите виртуальной картой из предыдущего шага.</div>
+                        <div class="step-desc">
+                            1. Откройте сайт by.oplatym.ru по ссылке ниже<br>
+                            2. Свяжитесь со специалистом в Telegram (кнопка на сайте)<br>
+                            3. Напишите: «Хочу оплатить ChatGPT Plus»<br>
+                            4. Следуйте инструкциям — всё просто и быстро
+                        </div>
                         <div class="step-links">
-                            <a href="https://chatgpt.com/" target="_blank" class="step-link">
+                            <a href="https://by.oplatym.ru/" target="_blank" class="step-link">
                                 <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                                chatgpt.com
+                                Оплатым — оплата зарубежных сервисов
                             </a>
                         </div>
-                        <div class="tip">VPN должен быть включён при оплате!</div>
                     </div>
                 </div>
             </div>
@@ -770,7 +765,7 @@
         </div>
 
         <div class="footer">
-            <p>Возникли проблемы? Напишите в учебный чат или свяжитесь со мной</p>
+            <p>Возникли проблемы? Напишите в учебный чат или свяжитесь со Станиславом Панковым</p>
             <a href="https://t.me/stavzzz">@stavzzz в Telegram</a>
             <br>
             <button class="reset-btn" onclick="resetAll()">Сбросить прогресс</button>
@@ -779,7 +774,7 @@
 
     <script>
         const STORAGE_KEY = 'malibu-checklist';
-        const TOTAL_STEPS = 10;
+        const TOTAL_STEPS = 9;
 
         function loadState() {
             try {
@@ -840,8 +835,6 @@
             const pct = (checked / TOTAL_STEPS * 100) + '%';
             const label = `${checked} / ${TOTAL_STEPS}`;
 
-            document.getElementById('progressCount').textContent = label;
-            document.getElementById('progressFill').style.width = pct;
             document.getElementById('stickyProgressCount').textContent = label;
             document.getElementById('stickyProgressFill').style.width = pct;
 
