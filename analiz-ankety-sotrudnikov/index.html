@@ -1,0 +1,855 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ИИ-обучение: Анализ потребностей | Строительная компания</title>
+<style>
+:root {
+  --bg: #0f1923;
+  --bg2: #162230;
+  --bg3: #1c2d3f;
+  --card: #1a2b3d;
+  --border: #2a3f55;
+  --text: #e0e8f0;
+  --text2: #8fa3b8;
+  --accent: #3b9eff;
+  --accent2: #00d68f;
+  --accent3: #ff6b6b;
+  --accent4: #ffd93d;
+  --accent5: #c084fc;
+  --radius: 10px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.3);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: 'Segoe UI', 'Helvetica Neue', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+.header { background: linear-gradient(135deg, #0d2137 0%, #1a3a5c 50%, #0f2840 100%); padding: 28px 32px 20px; border-bottom: 2px solid var(--accent); }
+.header h1 { font-size: 22px; font-weight: 700; letter-spacing: 0.5px; }
+.header .sub { color: var(--text2); font-size: 13px; margin-top: 4px; }
+.header .meta { display: flex; gap: 24px; margin-top: 12px; flex-wrap: wrap; }
+.header .meta span { background: var(--bg3); padding: 4px 12px; border-radius: 20px; font-size: 12px; color: var(--accent); border: 1px solid var(--border); }
+
+.tabs { display: flex; background: var(--bg2); border-bottom: 1px solid var(--border); overflow-x: auto; padding: 0 16px; }
+.tab { padding: 12px 18px; cursor: pointer; font-size: 13px; color: var(--text2); white-space: nowrap; border-bottom: 2px solid transparent; transition: all 0.2s; }
+.tab:hover { color: var(--text); background: var(--bg3); }
+.tab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+
+.content { padding: 24px; max-width: 1400px; margin: 0 auto; }
+.page { display: none; }
+.page.active { display: block; }
+
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+.grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+@media(max-width:900px) { .grid2,.grid3,.grid4 { grid-template-columns: 1fr; } }
+
+.card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
+.card h3 { font-size: 14px; color: var(--text2); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
+.card .big { font-size: 36px; font-weight: 700; color: var(--accent); }
+.card .big.green { color: var(--accent2); }
+.card .big.red { color: var(--accent3); }
+.card .big.yellow { color: var(--accent4); }
+.card .big.purple { color: var(--accent5); }
+
+.kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.kpi { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; text-align: center; }
+.kpi .label { font-size: 11px; color: var(--text2); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+.kpi .value { font-size: 32px; font-weight: 700; }
+.kpi .detail { font-size: 12px; color: var(--text2); margin-top: 4px; }
+
+.bar-chart { margin-top: 8px; }
+.bar-row { display: flex; align-items: center; margin-bottom: 8px; }
+.bar-label { width: 200px; font-size: 12px; color: var(--text2); flex-shrink: 0; text-align: right; padding-right: 12px; }
+.bar-wrap { flex: 1; height: 24px; background: var(--bg); border-radius: 4px; overflow: hidden; position: relative; }
+.bar-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; display: flex; align-items: center; padding-left: 8px; font-size: 11px; font-weight: 600; color: #fff; min-width: 30px; }
+.bar-fill.blue { background: linear-gradient(90deg, #2563eb, #3b82f6); }
+.bar-fill.green { background: linear-gradient(90deg, #059669, #10b981); }
+.bar-fill.red { background: linear-gradient(90deg, #dc2626, #ef4444); }
+.bar-fill.yellow { background: linear-gradient(90deg, #d97706, #f59e0b); }
+.bar-fill.purple { background: linear-gradient(90deg, #7c3aed, #a78bfa); }
+
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+table th { background: var(--bg2); color: var(--text2); text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; padding: 10px 12px; text-align: left; border-bottom: 2px solid var(--border); cursor: pointer; user-select: none; }
+table th:hover { color: var(--accent); }
+table td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table tr:hover { background: var(--bg3); }
+
+.badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+.badge.high { background: rgba(0,214,143,0.15); color: #00d68f; }
+.badge.medium { background: rgba(255,217,61,0.15); color: #ffd93d; }
+.badge.low { background: rgba(255,107,107,0.15); color: #ff6b6b; }
+
+.insight { background: var(--bg3); border-left: 3px solid var(--accent); padding: 12px 16px; margin: 12px 0; border-radius: 0 var(--radius) var(--radius) 0; font-size: 13px; }
+.insight.warn { border-left-color: var(--accent4); }
+.insight.danger { border-left-color: var(--accent3); }
+.insight.success { border-left-color: var(--accent2); }
+
+.section-title { font-size: 18px; font-weight: 700; margin: 24px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.section-title:first-child { margin-top: 0; }
+
+.tag { display: inline-block; background: var(--bg3); border: 1px solid var(--border); padding: 3px 10px; border-radius: 14px; font-size: 11px; margin: 2px 4px 2px 0; color: var(--text2); }
+
+.timeline { position: relative; padding-left: 30px; }
+.timeline::before { content: ''; position: absolute; left: 10px; top: 0; bottom: 0; width: 2px; background: var(--border); }
+.timeline-item { position: relative; margin-bottom: 24px; }
+.timeline-item::before { content: ''; position: absolute; left: -24px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); border: 2px solid var(--bg); }
+.timeline-item.phase2::before { background: var(--accent2); }
+.timeline-item.phase3::before { background: var(--accent5); }
+.timeline-item h4 { font-size: 14px; margin-bottom: 4px; }
+.timeline-item p { font-size: 13px; color: var(--text2); }
+
+.matrix { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.matrix-cell { padding: 14px; font-size: 12px; text-align: center; }
+.matrix-header { background: var(--bg2); color: var(--text2); font-weight: 600; font-size: 11px; text-transform: uppercase; }
+.matrix-high-high { background: rgba(255,107,107,0.15); }
+.matrix-high-med { background: rgba(255,217,61,0.15); }
+.matrix-med-high { background: rgba(255,217,61,0.12); }
+.matrix-med-med { background: rgba(59,158,255,0.1); }
+
+.progress-ring { display: inline-flex; align-items: center; gap: 10px; margin: 4px 0; }
+
+.legend { display: flex; gap: 16px; flex-wrap: wrap; margin: 8px 0; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text2); }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+.confidence { display: inline-flex; align-items: center; gap: 6px; }
+.conf-dot { width: 8px; height: 8px; border-radius: 50%; }
+.conf-high { background: var(--accent2); }
+.conf-med { background: var(--accent4); }
+.conf-low { background: var(--accent3); }
+
+.filter-bar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.filter-btn { padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--text2); font-size: 12px; cursor: pointer; transition: all 0.2s; }
+.filter-btn:hover, .filter-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+.donut-container { display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: wrap; }
+.donut-legend { font-size: 12px; }
+.donut-legend div { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.donut-legend .dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+
+.gap-meter { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
+.gap-track { flex: 1; height: 8px; background: var(--bg); border-radius: 4px; overflow: hidden; }
+.gap-fill { height: 100%; border-radius: 4px; }
+.gap-label { font-size: 11px; color: var(--text2); width: 40px; text-align: right; }
+
+.module-card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 12px; }
+.module-card h4 { color: var(--accent); font-size: 15px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.module-card .module-meta { display: flex; gap: 16px; margin-bottom: 8px; font-size: 12px; color: var(--text2); }
+.module-card .outcomes { font-size: 12px; }
+.module-card .outcomes li { margin-bottom: 4px; color: var(--text2); }
+.module-num { background: var(--accent); color: #fff; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📊 Анализ потребностей в обучении ИИ</h1>
+  <div class="sub">Строительная компания • B2G/B2B • Корпоративное обучение</div>
+  <div class="meta">
+    <span>📋 N = 10 респондентов</span>
+    <span>📅 26 февраля 2026</span>
+    <span>📝 28 вопросов • 6 блоков</span>
+    <span>✅ 100% completion rate</span>
+  </div>
+</div>
+
+<div class="tabs" id="tabs">
+  <div class="tab active" data-tab="overview">Overview</div>
+  <div class="tab" data-tab="quality">Data Quality</div>
+  <div class="tab" data-tab="filled">Анкета (синтез)</div>
+  <div class="tab" data-tab="segments">Сегменты</div>
+  <div class="tab" data-tab="needs">Потребности и боли</div>
+  <div class="tab" data-tab="gaps">Gap Analysis</div>
+
+  <div class="tab" data-tab="metrics">Метрики</div>
+</div>
+
+<div class="content">
+
+<!-- ==================== OVERVIEW ==================== -->
+<div class="page active" id="page-overview">
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="label">Используют ИИ</div>
+      <div class="value" style="color:var(--accent2)">90%</div>
+      <div class="detail">9 из 10 (вкл. «планирую»)</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Уверенность (ср.)</div>
+      <div class="value" style="color:var(--accent4)">3.5</div>
+      <div class="detail">из 5 баллов</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Интерес к ИИ</div>
+      <div class="value" style="color:var(--accent)">90%</div>
+      <div class="detail">«очень» или «скорее» интересна</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Опасения конфиденц.</div>
+      <div class="value" style="color:var(--accent3)">70%</div>
+      <div class="detail">«да» или «скорее да»</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Хотят чек-листы</div>
+      <div class="value" style="color:var(--accent2)">70%</div>
+      <div class="detail">«очень полезно»</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Готовность онлайн</div>
+      <div class="value" style="color:var(--accent)">80%</div>
+      <div class="detail">«в любое время» или «в рабочее»</div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>🔧 Используемые ИИ-инструменты</h3>
+      <div class="bar-chart">
+        <div class="bar-row"><div class="bar-label">Qwen / QWEN</div><div class="bar-wrap"><div class="bar-fill blue" style="width:40%">4</div></div></div>
+        <div class="bar-row"><div class="bar-label">DeepSeek</div><div class="bar-wrap"><div class="bar-fill green" style="width:30%">3</div></div></div>
+        <div class="bar-row"><div class="bar-label">ChatGPT</div><div class="bar-wrap"><div class="bar-fill purple" style="width:20%">2</div></div></div>
+        <div class="bar-row"><div class="bar-label">Grok</div><div class="bar-wrap"><div class="bar-fill yellow" style="width:10%">1</div></div></div>
+        <div class="bar-row"><div class="bar-label">GigaChat</div><div class="bar-wrap"><div class="bar-fill red" style="width:10%">1</div></div></div>
+        <div class="bar-row"><div class="bar-label">Noroots</div><div class="bar-wrap"><div class="bar-fill blue" style="width:10%">1</div></div></div>
+        <div class="bar-row"><div class="bar-label">Google AI Search</div><div class="bar-wrap"><div class="bar-fill green" style="width:10%">1</div></div></div>
+      </div>
+      <div class="insight">Ключевой инсайт: команда предпочитает бесплатные и доступные в РФ модели (Qwen, DeepSeek). ChatGPT используют лишь 20%, при этом 30% с ним «не знакомы». Высокий потенциал обучения на ChatGPT / Claude.</div>
+    </div>
+
+    <div class="card">
+      <h3>📈 Частота использования ИИ</h3>
+      <div class="bar-chart">
+        <div class="bar-row"><div class="bar-label">Каждый день</div><div class="bar-wrap"><div class="bar-fill blue" style="width:30%">3</div></div></div>
+        <div class="bar-row"><div class="bar-label">Неск. раз в неделю</div><div class="bar-wrap"><div class="bar-fill green" style="width:50%">5</div></div></div>
+        <div class="bar-row"><div class="bar-label">Раз в месяц</div><div class="bar-wrap"><div class="bar-fill yellow" style="width:10%">1</div></div></div>
+        <div class="bar-row"><div class="bar-label">Никогда</div><div class="bar-wrap"><div class="bar-fill red" style="width:10%">1</div></div></div>
+      </div>
+      <div class="insight success">80% используют ИИ еженедельно или чаще — сильная база для масштабирования навыков.</div>
+    </div>
+  </div>
+
+  <div style="margin-top:20px" class="grid2">
+    <div class="card">
+      <h3>⚠️ Главные барьеры</h3>
+      <div class="bar-chart">
+        <div class="bar-row"><div class="bar-label">Нет времени на изучение</div><div class="bar-wrap"><div class="bar-fill red" style="width:50%">5</div></div></div>
+        <div class="bar-row"><div class="bar-label">Сложно сформулировать запрос</div><div class="bar-wrap"><div class="bar-fill yellow" style="width:20%">2</div></div></div>
+        <div class="bar-row"><div class="bar-label">Сложно получить результат</div><div class="bar-wrap"><div class="bar-fill yellow" style="width:10%">1</div></div></div>
+        <div class="bar-row"><div class="bar-label">Не использовали</div><div class="bar-wrap"><div class="bar-fill purple" style="width:20%">2</div></div></div>
+        <div class="bar-row"><div class="bar-label">Нет барьеров</div><div class="bar-wrap"><div class="bar-fill green" style="width:30%">3</div></div></div>
+      </div>
+      <div class="insight warn">Барьер №1 — нехватка времени (50%). Обучение должно быть компактным и сразу применимым к рабочим задачам.</div>
+    </div>
+
+    <div class="card">
+      <h3>🎯 Интерес к автоматизациям (no-code)</h3>
+      <div class="bar-chart">
+        <div class="bar-row"><div class="bar-label">Очень интересно</div><div class="bar-wrap"><div class="bar-fill green" style="width:50%">5</div></div></div>
+        <div class="bar-row"><div class="bar-label">Хочу примеры</div><div class="bar-wrap"><div class="bar-fill blue" style="width:20%">2</div></div></div>
+        <div class="bar-row"><div class="bar-label">Не понимаю пользу</div><div class="bar-wrap"><div class="bar-fill yellow" style="width:10%">1</div></div></div>
+        <div class="bar-row"><div class="bar-label">Не нужно</div><div class="bar-wrap"><div class="bar-fill red" style="width:20%">2</div></div></div>
+      </div>
+      <div class="insight success">70% заинтересованы в no-code автоматизациях — модуль по автоматизации будет востребован.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ==================== DATA QUALITY ==================== -->
+<div class="page" id="page-quality">
+  <div class="section-title">Качество данных</div>
+  
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="label">Всего ответов</div>
+      <div class="value" style="color:var(--accent)">10</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Completion rate</div>
+      <div class="value" style="color:var(--accent2)">100%</div>
+      <div class="detail">Все обязательные поля заполнены</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Дата сбора</div>
+      <div class="value" style="color:var(--accent);font-size:20px">26.02.26</div>
+      <div class="detail">Один день</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Открытые вопросы</div>
+      <div class="value" style="color:var(--accent4)">10</div>
+      <div class="detail">из 28 вопросов</div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>✅ Сильные стороны данных</h3>
+      <ul style="font-size:13px;padding-left:18px;color:var(--text2)">
+        <li style="margin-bottom:6px">100% completion rate — все обязательные поля заполнены</li>
+        <li style="margin-bottom:6px">Развёрнутые ответы на открытые вопросы (особенно Q1.5, Q2.2, Q2.6)</li>
+        <li style="margin-bottom:6px">Разнообразие отделов: юристы, финансисты, сметчики, ПТО, кадры, делопроизводство</li>
+        <li style="margin-bottom:6px">Все ответы собраны в один день — единая точка среза</li>
+        <li style="margin-bottom:6px">Поле Q5.7 (пожелания) заполнено 9 из 10 — высокая вовлечённость</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>⚠️ Ограничения и риски</h3>
+      <ul style="font-size:13px;padding-left:18px;color:var(--text2)">
+        <li style="margin-bottom:6px"><strong style="color:var(--accent3)">Малая выборка (N=10)</strong> — выводы требуют осторожной интерпретации</li>
+        <li style="margin-bottom:6px"><strong style="color:var(--accent4)">Нет производственного блока:</strong> прорабы, мастера, бригадиры не представлены</li>
+        <li style="margin-bottom:6px"><strong style="color:var(--accent4)">Смещение выборки:</strong> преобладают офисные сотрудники (юристы, экономисты)</li>
+        <li style="margin-bottom:6px">Нет данных о руководстве (CEO, CFO, CTO) — нет стратегического контекста</li>
+        <li style="margin-bottom:6px">Некоторые открытые ответы слишком краткие (Q2.7: «нет», Q3.1: «не применяла»)</li>
+        <li style="margin-bottom:6px">Агрегация по сегментам невозможна (все группы n&lt;5) — только индивидуальный анализ</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:20px">
+    <h3>📊 Покрытие вопросов</h3>
+    <table>
+      <thead>
+        <tr><th>Блок</th><th>Вопросов</th><th>Заполняемость</th><th>Качество ответов</th><th>Комментарий</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1. Базовая информация</td><td>6</td><td>100%</td><td><span class="badge high">Высокое</span></td><td>Развёрнутые описания задач и ПО</td></tr>
+        <tr><td>2. Использование ИИ</td><td>7</td><td>100%</td><td><span class="badge high">Высокое</span></td><td>Конкретные инструменты и кейсы</td></tr>
+        <tr><td>3. Восприятие ИИ</td><td>4</td><td>100%</td><td><span class="badge medium">Среднее</span></td><td>Некоторые ответы формальные</td></tr>
+        <tr><td>4. ChatGPT</td><td>6</td><td>100%</td><td><span class="badge medium">Среднее</span></td><td>30% не знакомы с ChatGPT</td></tr>
+        <tr><td>5. Формат обучения</td><td>7</td><td>100%</td><td><span class="badge high">Высокое</span></td><td>Чёткие предпочтения</td></tr>
+        <tr><td>6. Финальный блок</td><td>1</td><td>100%</td><td><span class="badge high">Высокое</span></td><td>Средний балл 7.4/10</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ==================== FILLED QUESTIONNAIRE ==================== -->
+<div class="page" id="page-filled">
+  <div class="section-title">Синтезированные ответы по компании</div>
+  <p style="font-size:13px;color:var(--text2);margin-bottom:16px">Для каждого вопроса — консенсус, распределение, инсайты и уверенность.</p>
+
+  <div class="card" style="margin-bottom:16px">
+    <h3>Q1.3 — Стаж в отрасли</h3>
+    <div class="bar-chart">
+      <div class="bar-row"><div class="bar-label">Более 5 лет</div><div class="bar-wrap"><div class="bar-fill blue" style="width:70%">7 (70%)</div></div></div>
+      <div class="bar-row"><div class="bar-label">3–5 лет</div><div class="bar-wrap"><div class="bar-fill green" style="width:20%">2 (20%)</div></div></div>
+      <div class="bar-row"><div class="bar-label">1–3 года</div><div class="bar-wrap"><div class="bar-fill yellow" style="width:10%">1 (10%)</div></div></div>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:10px;align-items:center">
+      <span class="badge high">Уверенность: HIGH</span>
+      <span style="font-size:12px;color:var(--text2)">Мода: Более 5 лет. Зрелая команда с глубоким отраслевым опытом.</span>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <h3>Q1.4 — Типы задач (top-5)</h3>
+    <div class="bar-chart">
+      <div class="bar-row"><div class="bar-label">Работа с заказчиками</div><div class="bar-wrap"><div class="bar-fill blue" style="width:50%">5</div></div></div>
+      <div class="bar-row"><div class="bar-label">Сметы, КС-2, КС-3</div><div class="bar-wrap"><div class="bar-fill green" style="width:40%">4</div></div></div>
+      <div class="bar-row"><div class="bar-label">Финансы и учёт</div><div class="bar-wrap"><div class="bar-fill purple" style="width:40%">4</div></div></div>
+      <div class="bar-row"><div class="bar-label">Планирование и сроки</div><div class="bar-wrap"><div class="bar-fill yellow" style="width:30%">3</div></div></div>
+      <div class="bar-row"><div class="bar-label">Проектная документация</div><div class="bar-wrap"><div class="bar-fill blue" style="width:20%">2</div></div></div>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:10px;align-items:center">
+      <span class="badge high">Уверенность: HIGH</span>
+      <span style="font-size:12px;color:var(--text2)">Документоориентированная культура: КС-2/3, договоры, переписка — ключевые процессы.</span>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <h3>Q1.6 — Используемое ПО</h3>
+    <div class="bar-chart">
+      <div class="bar-row"><div class="bar-label">MS Excel</div><div class="bar-wrap"><div class="bar-fill blue" style="width:90%">9 (90%)</div></div></div>
+      <div class="bar-row"><div class="bar-label">Битрикс24</div><div class="bar-wrap"><div class="bar-fill green" style="width:90%">9 (90%)</div></div></div>
+      <div class="bar-row"><div class="bar-label">1С</div><div class="bar-wrap"><div class="bar-fill purple" style="width:50%">5 (50%)</div></div></div>
+      <div class="bar-row"><div class="bar-label">Гранд-смета</div><div class="bar-wrap"><div class="bar-fill yellow" style="width:10%">1</div></div></div>
+      <div class="bar-row"><div class="bar-label">AutoCAD/Revit/BIM</div><div class="bar-wrap"><div class="bar-fill red" style="width:10%">1</div></div></div>
+    </div>
+    <div class="insight">Excel + Битрикс24 = universal stack (90%). Интеграции ИИ в эту пару инструментов дадут максимальный охват.</div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <h3>Q2.1 — Используете ли ИИ?</h3>
+    <div class="bar-chart">
+      <div class="bar-row"><div class="bar-label">Да, постоянно</div><div class="bar-wrap"><div class="bar-fill green" style="width:40%">4 (40%)</div></div></div>
+      <div class="bar-row"><div class="bar-label">Да, ограниченно</div><div class="bar-wrap"><div class="bar-fill blue" style="width:40%">4 (40%)</div></div></div>
+      <div class="bar-row"><div class="bar-label">Нет, но планирую</div><div class="bar-wrap"><div class="bar-fill yellow" style="width:10%">1 (10%)</div></div></div>
+      <div class="bar-row"><div class="bar-label">Нет и не интересно</div><div class="bar-wrap"><div class="bar-fill red" style="width:10%">1 (10%)</div></div></div>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:10px;align-items:center">
+      <span class="badge high">Уверенность: HIGH</span>
+      <span style="font-size:12px;color:var(--text2)">Большинство (80%) уже пробовали ИИ в работе. Есть 1 «сопротивляющийся» — нужен индивидуальный подход.</span>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <h3>Q2.4 — Уверенность при работе с ИИ (1–5)</h3>
+    <div class="bar-chart">
+      <div class="bar-row"><div class="bar-label">5 — очень уверенно</div><div class="bar-wrap"><div class="bar-fill green" style="width:30%">3</div></div></div>
+      <div class="bar-row"><div class="bar-label">4</div><div class="bar-wrap"><div class="bar-fill blue" style="width:20%">2</div></div></div>
+      <div class="bar-row"><div class="bar-label">3</div><div class="bar-wrap"><div class="bar-fill yellow" style="width:30%">3</div></div></div>
+      <div class="bar-row"><div class="bar-label">2</div><div class="bar-wrap"><div class="bar-fill red" style="width:10%">1</div></div></div>
+      <div class="bar-row"><div class="bar-label">1 — совсем нет</div><div class="bar-wrap"><div class="bar-fill red" style="width:10%">1</div></div></div>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:10px;align-items:center">
+      <span class="badge medium">Уверенность: MEDIUM</span>
+      <span style="font-size:12px;color:var(--text2)">Медиана: 3. Среднее: 3.5. Разброс велик (1–5). 40% оценивают себя ≤3 — зона роста.</span>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <h3>Q2.5 — Желаемые области применения ИИ (top)</h3>
+    <div class="bar-chart">
+      <div class="bar-row"><div class="bar-label">Договоры и юр. документы</div><div class="bar-wrap"><div class="bar-fill blue" style="width:50%">5</div></div></div>
+      <div class="bar-row"><div class="bar-label">Работа с НПА, СНиПы</div><div class="bar-wrap"><div class="bar-fill green" style="width:30%">3</div></div></div>
+      <div class="bar-row"><div class="bar-label">Сметная документация</div><div class="bar-wrap"><div class="bar-fill purple" style="width:30%">3</div></div></div>
+      <div class="bar-row"><div class="bar-label">Контроль сроков</div><div class="bar-wrap"><div class="bar-fill yellow" style="width:30%">3</div></div></div>
+      <div class="bar-row"><div class="bar-label">Отчёты заказчику</div><div class="bar-wrap"><div class="bar-fill blue" style="width:20%">2</div></div></div>
+      <div class="bar-row"><div class="bar-label">Аналитика проектов</div><div class="bar-wrap"><div class="bar-fill green" style="width:20%">2</div></div></div>
+      <div class="bar-row"><div class="bar-label">Коммуникация с субподр.</div><div class="bar-wrap"><div class="bar-fill yellow" style="width:20%">2</div></div></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <h3>Q3.2.1 — Опасения: конфиденциальность и госзаказчики</h3>
+    <div class="bar-chart">
+      <div class="bar-row"><div class="bar-label">Да</div><div class="bar-wrap"><div class="bar-fill red" style="width:40%">4 (40%)</div></div></div>
+      <div class="bar-row"><div class="bar-label">Скорее да</div><div class="bar-wrap"><div class="bar-fill yellow" style="width:30%">3 (30%)</div></div></div>
+      <div class="bar-row"><div class="bar-label">Скорее нет</div><div class="bar-wrap"><div class="bar-fill green" style="width:20%">2 (20%)</div></div></div>
+      <div class="bar-row"><div class="bar-label">Затрудняюсь</div><div class="bar-wrap"><div class="bar-fill purple" style="width:10%">1 (10%)</div></div></div>
+    </div>
+    <div class="insight danger">КРИТИЧНО: 70% имеют опасения о безопасности данных при работе с ИИ. Программа обучения ОБЯЗАНА включать модуль по информационной безопасности и правилам работы с конфиденциальной документацией в ИИ-инструментах.</div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <h3>Q3.3 — Интерес к теме ИИ</h3>
+    <div class="bar-chart">
+      <div class="bar-row"><div class="bar-label">Очень интересна</div><div class="bar-wrap"><div class="bar-fill green" style="width:60%">6 (60%)</div></div></div>
+      <div class="bar-row"><div class="bar-label">Скорее интересна</div><div class="bar-wrap"><div class="bar-fill blue" style="width:30%">3 (30%)</div></div></div>
+      <div class="bar-row"><div class="bar-label">Нейтрально</div><div class="bar-wrap"><div class="bar-fill yellow" style="width:10%">1 (10%)</div></div></div>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:10px;align-items:center">
+      <span class="badge high">Уверенность: HIGH</span>
+      <span style="font-size:12px;color:var(--text2)">0% ответили «не интересна» — отличная база для внедрения.</span>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <h3>Q5.4 — Время на обучение в день</h3>
+    <div class="bar-chart">
+      <div class="bar-row"><div class="bar-label">1–2 часа</div><div class="bar-wrap"><div class="bar-fill blue" style="width:50%">5 (50%)</div></div></div>
+      <div class="bar-row"><div class="bar-label">1 час</div><div class="bar-wrap"><div class="bar-fill green" style="width:20%">2 (20%)</div></div></div>
+      <div class="bar-row"><div class="bar-label">Нерегулярно</div><div class="bar-wrap"><div class="bar-fill yellow" style="width:20%">2 (20%)</div></div></div>
+      <div class="bar-row"><div class="bar-label">3–5 часов</div><div class="bar-wrap"><div class="bar-fill green" style="width:10%">1 (10%)</div></div></div>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:10px;align-items:center">
+      <span class="badge high">Уверенность: HIGH</span>
+      <span style="font-size:12px;color:var(--text2)">Оптимальная длительность модуля: 60–90 минут. Для 20% — микроформат (15 мин).</span>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <h3>Q5.6 — Важность привязки к реальным задачам (1–5)</h3>
+    <div class="bar-chart">
+      <div class="bar-row"><div class="bar-label">5 — критически важно</div><div class="bar-wrap"><div class="bar-fill green" style="width:30%">3</div></div></div>
+      <div class="bar-row"><div class="bar-label">4</div><div class="bar-wrap"><div class="bar-fill blue" style="width:40%">4</div></div></div>
+      <div class="bar-row"><div class="bar-label">3</div><div class="bar-wrap"><div class="bar-fill yellow" style="width:20%">2</div></div></div>
+      <div class="bar-row"><div class="bar-label">1</div><div class="bar-wrap"><div class="bar-fill red" style="width:10%">1</div></div></div>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:10px;align-items:center">
+      <span class="badge high">Уверенность: HIGH</span>
+      <span style="font-size:12px;color:var(--text2)">Медиана: 4. Среднее: 3.8. 70% оценивают на 4–5. Обучение должно быть на реальных кейсах компании.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SEGMENTS ==================== -->
+<div class="page" id="page-segments">
+  <div class="section-title">Сегментация респондентов</div>
+  <div class="insight warn" style="margin-bottom:16px">⚠️ Все сегменты имеют n&lt;5. Данные показаны для качественного анализа, не для статистических обобщений. Имена анонимизированы (R1–R10).</div>
+
+  <div class="card" style="margin-bottom:20px">
+    <h3>👥 Профили по отделам</h3>
+    <table id="segmentTable">
+      <thead>
+        <tr><th>ID</th><th>Отдел / Роль</th><th>Стаж</th><th>Исп. ИИ</th><th>Уверенность</th><th>Инструменты</th><th>Интерес</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>R1</td><td>Юрист</td><td>5+ лет</td><td>Постоянно</td><td>3</td><td>QWEN</td><td>Очень</td></tr>
+        <tr><td>R2</td><td>Вед. сметчик</td><td>5+ лет</td><td>Ограниченно</td><td>3</td><td>DeepSeek</td><td>Скорее</td></tr>
+        <tr><td>R3</td><td>Делопроизводитель</td><td>5+ лет</td><td>Ограниченно</td><td>4</td><td>Qwen</td><td>Скорее</td></tr>
+        <tr><td>R4</td><td>Нач. отдела кадров</td><td>1–3 г.</td><td>Никогда</td><td>1</td><td>—</td><td>Нейтр.</td></tr>
+        <tr><td>R5</td><td>Финансист</td><td>5+ лет</td><td>Ограниченно</td><td>3</td><td>DeepSeek</td><td>Очень</td></tr>
+        <tr><td>R6</td><td>Юрист</td><td>3–5 лет</td><td>Постоянно</td><td>5</td><td>Qwen, Noroots</td><td>Очень</td></tr>
+        <tr><td>R7</td><td>Экономист (ФЭО)</td><td>5+ лет</td><td>Планирует</td><td>4</td><td>ChatGPT</td><td>Очень</td></tr>
+        <tr><td>R8</td><td>Фин.-экон. служба</td><td>5+ лет</td><td>Ограниченно</td><td>2</td><td>ChatGPT, GigaChat</td><td>Скорее</td></tr>
+        <tr><td>R9</td><td>Юрист</td><td>5+ лет</td><td>Постоянно</td><td>5</td><td>DeepSeek</td><td>Очень</td></tr>
+        <tr><td>R10</td><td>Инженер ПТО</td><td>3–5 лет</td><td>Постоянно</td><td>5</td><td>Grok, Qwen, Google AI</td><td>Очень</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>🏗️ Кластер «Продвинутые» (R1, R6, R9, R10)</h3>
+      <div style="font-size:13px;color:var(--text2)">
+        <p><strong style="color:var(--accent2)">Профиль:</strong> Юристы + Инженер ПТО. Используют ИИ ежедневно. Уверенность 3–5. Интерес «очень».</p>
+        <p style="margin-top:8px"><strong style="color:var(--accent)">Потребности:</strong> Продвинутый промптинг, работа с длинными документами, создание ассистентов, автоматизации.</p>
+        <p style="margin-top:8px"><strong style="color:var(--accent4)">Роль в программе:</strong> Амбассадоры и наставники. Могут тянуть за собой остальных.</p>
+      </div>
+    </div>
+    <div class="card">
+      <h3>🌱 Кластер «Начинающие» (R2, R3, R5, R7, R8)</h3>
+      <div style="font-size:13px;color:var(--text2)">
+        <p><strong style="color:var(--accent4)">Профиль:</strong> Финансисты, сметчик, делопроизводитель, экономист. ИИ — эпизодически или планируют. Уверенность 2–4.</p>
+        <p style="margin-top:8px"><strong style="color:var(--accent)">Потребности:</strong> Базовый промптинг, шаблоны запросов, безопасность данных, конкретные кейсы под свои задачи.</p>
+        <p style="margin-top:8px"><strong style="color:var(--accent4)">Рекомендация:</strong> Основная целевая группа обучения. Максимальный ROI.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:20px">
+    <h3>🔴 Кластер «Скептик» (R4)</h3>
+    <div style="font-size:13px;color:var(--text2)">
+      <p><strong style="color:var(--accent3)">Профиль:</strong> Начальник отдела кадров. ИИ — «не интересно». Уверенность 1/5. Стаж 1–3 года. Опасение: «обесценивание профессии».</p>
+      <p style="margin-top:8px"><strong style="color:var(--accent)">Стратегия:</strong> Не давить. Показать конкретные кейсы автоматизации кадровых документов (приказы, положения) с минимальными усилиями. Микроформат: 10–15 мин/день.</p>
+      <p style="margin-top:8px"><strong style="color:var(--accent4)">Риск:</strong> Если проигнорировать — может стать «тормозом» внедрения. Если вовлечь — станет кейсом трансформации.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- ==================== NEEDS ==================== -->
+<div class="page" id="page-needs">
+  <div class="section-title">Потребности и болевые точки</div>
+
+  <div class="grid2" style="margin-bottom:20px">
+    <div class="card">
+      <h3>🔥 ТОП рутинных задач (Q2.6)</h3>
+      <div style="font-size:13px;color:var(--text2)">
+        <div style="margin-bottom:10px">
+          <div style="display:flex;justify-content:space-between"><strong style="color:var(--text)">Подготовка писем и переписка</strong><span class="tag">4 чел.</span></div>
+          <div class="gap-meter"><div class="gap-track"><div class="gap-fill" style="width:70%;background:var(--accent3)"></div></div><div class="gap-label">High</div></div>
+        </div>
+        <div style="margin-bottom:10px">
+          <div style="display:flex;justify-content:space-between"><strong style="color:var(--text)">Подготовка отчётов и документов</strong><span class="tag">3 чел.</span></div>
+          <div class="gap-meter"><div class="gap-track"><div class="gap-fill" style="width:60%;background:var(--accent4)"></div></div><div class="gap-label">High</div></div>
+        </div>
+        <div style="margin-bottom:10px">
+          <div style="display:flex;justify-content:space-between"><strong style="color:var(--text)">Заполнение форм / таблиц</strong><span class="tag">3 чел.</span></div>
+          <div class="gap-meter"><div class="gap-track"><div class="gap-fill" style="width:55%;background:var(--accent4)"></div></div><div class="gap-label">Med</div></div>
+        </div>
+        <div style="margin-bottom:10px">
+          <div style="display:flex;justify-content:space-between"><strong style="color:var(--text)">Сверка объёмов / документов</strong><span class="tag">2 чел.</span></div>
+          <div class="gap-meter"><div class="gap-track"><div class="gap-fill" style="width:40%;background:var(--accent)"></div></div><div class="gap-label">Med</div></div>
+        </div>
+        <div style="margin-bottom:10px">
+          <div style="display:flex;justify-content:space-between"><strong style="color:var(--text)">Ведение таблиц / реестров</strong><span class="tag">2 чел.</span></div>
+          <div class="gap-meter"><div class="gap-track"><div class="gap-fill" style="width:35%;background:var(--accent)"></div></div><div class="gap-label">Med</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>😟 Опасения и сомнения (Q3.2)</h3>
+      <div style="font-size:13px;color:var(--text2)">
+        <div style="margin-bottom:10px">
+          <div style="display:flex;justify-content:space-between"><strong style="color:var(--text)">ИИ выдумывает / привирает</strong><span class="tag">4 чел.</span></div>
+          <div class="gap-meter"><div class="gap-track"><div class="gap-fill" style="width:70%;background:var(--accent3)"></div></div><div class="gap-label">🔴</div></div>
+        </div>
+        <div style="margin-bottom:10px">
+          <div style="display:flex;justify-content:space-between"><strong style="color:var(--text)">Конфиденциальность данных</strong><span class="tag">7 чел.</span></div>
+          <div class="gap-meter"><div class="gap-track"><div class="gap-fill" style="width:90%;background:var(--accent3)"></div></div><div class="gap-label">🔴🔴</div></div>
+        </div>
+        <div style="margin-bottom:10px">
+          <div style="display:flex;justify-content:space-between"><strong style="color:var(--text)">Потеря рабочих мест</strong><span class="tag">2 чел.</span></div>
+          <div class="gap-meter"><div class="gap-track"><div class="gap-fill" style="width:30%;background:var(--accent4)"></div></div><div class="gap-label">⚠️</div></div>
+        </div>
+        <div style="margin-bottom:10px">
+          <div style="display:flex;justify-content:space-between"><strong style="color:var(--text)">Обесценивание профессии</strong><span class="tag">1 чел.</span></div>
+          <div class="gap-meter"><div class="gap-track"><div class="gap-fill" style="width:15%;background:var(--accent)"></div></div><div class="gap-label">ℹ️</div></div>
+        </div>
+        <div style="margin-bottom:10px">
+          <div style="display:flex;justify-content:space-between"><strong style="color:var(--text)">Нет опасений</strong><span class="tag">2 чел.</span></div>
+          <div class="gap-meter"><div class="gap-track"><div class="gap-fill" style="width:20%;background:var(--accent2)"></div></div><div class="gap-label">✅</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px">
+    <h3>📋 Матрица Impact × Urgency</h3>
+    <table>
+      <thead>
+        <tr><th>Потребность</th><th>Impact</th><th>Urgency</th><th>Приоритет</th><th>Обоснование</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Промптинг: формулировка запросов</td><td>🔴 Высокий</td><td>🔴 Высокая</td><td><span class="badge high">P1</span></td><td>50% не умеют формулировать, 50% не получают результат → блокирует всё остальное</td></tr>
+        <tr><td>Безопасность данных в ИИ</td><td>🔴 Высокий</td><td>🔴 Высокая</td><td><span class="badge high">P1</span></td><td>70% с опасениями → без этого не будут использовать ИИ для реальных задач</td></tr>
+        <tr><td>Генерация писем и документов</td><td>🔴 Высокий</td><td>🟡 Средняя</td><td><span class="badge high">P1</span></td><td>Самая частая рутина: 4 чел. тратят время на переписку → быстрый ROI</td></tr>
+        <tr><td>Работа с длинными документами</td><td>🟡 Средний</td><td>🟡 Средняя</td><td><span class="badge medium">P2</span></td><td>Актуально для юристов и сметчиков → анализ договоров, ПД</td></tr>
+        <tr><td>Шаблоны и чек-листы</td><td>🟡 Средний</td><td>🔴 Высокая</td><td><span class="badge medium">P2</span></td><td>70% хотят готовые инструменты → снижает порог входа</td></tr>
+        <tr><td>No-code автоматизации</td><td>🟡 Средний</td><td>🟢 Низкая</td><td><span class="badge low">P3</span></td><td>50% «очень интересно», но нет опыта → нужна демонстрация value</td></tr>
+        <tr><td>Создание собственных ассистентов</td><td>🔴 Высокий</td><td>🟢 Низкая</td><td><span class="badge low">P3</span></td><td>Высокий потенциал, но только для продвинутых → Phase 3</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>✨ Позитивные кейсы использования ИИ (Q2.7)</h3>
+    <div style="font-size:13px;color:var(--text2)">
+      <div style="margin-bottom:10px;padding:10px;background:var(--bg);border-radius:6px">
+        <strong style="color:var(--accent2)">R1 (юрист):</strong> «ИИ помог при выборке из Локального сметного расчёта необходимых позиций и формировании из них расчёта» — кросс-функциональное применение
+      </div>
+      <div style="margin-bottom:10px;padding:10px;background:var(--bg);border-radius:6px">
+        <strong style="color:var(--accent2)">R10 (ПТО):</strong> «Помог освоить документацию ППР, не было опыта. Благодаря ИИ появился порядок и видение рабочего процесса» — обучение через ИИ
+      </div>
+      <div style="margin-bottom:10px;padding:10px;background:var(--bg);border-radius:6px">
+        <strong style="color:var(--accent2)">R6 (юрист):</strong> «Всегда помогает, при грамотном использовании» — подтверждает важность навыков промптинга
+      </div>
+      <div style="padding:10px;background:var(--bg);border-radius:6px">
+        <strong style="color:var(--accent2)">R9 (юрист):</strong> «Быстро производил расчёты» — экономия времени на аналитике
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ==================== GAP ANALYSIS ==================== -->
+<div class="page" id="page-gaps">
+  <div class="section-title">Gap Analysis: текущие навыки vs. целевое состояние</div>
+
+  <div class="card" style="margin-bottom:20px">
+    <h3>📊 Skill Gaps по компетенциям</h3>
+    <table>
+      <thead>
+        <tr><th>Компетенция</th><th>Текущий уровень</th><th>Целевой уровень</th><th>Gap</th><th>Приоритет</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Базовый промптинг</td>
+          <td><div class="gap-meter"><div class="gap-track"><div class="gap-fill" style="width:35%;background:var(--accent4)"></div></div><div class="gap-label">35%</div></div></td>
+          <td><div class="gap-meter"><div class="gap-track"><div class="gap-fill" style="width:80%;background:var(--accent2)"></div></div><div class="gap-label">80%</div></div></td>
+          <td style="color:var(--accent3);font-weight:700">45%</td>
+          <td><span class="badge high">P1</span></td>
+        </tr>
+        <tr>
+          <td>Информационная безопасность при работе с ИИ</td>
+          <td><div class="gap-meter"><div class="gap-track"><div class="gap-fill" style="width:15%;background:var(--accent3)"></div></div><div class="gap-label">15%</div></div></td>
+          <td><div class="gap-meter"><div class="gap-track"><div class="gap-fill" style="width:90%;background:var(--accent2)"></div></div><div class="gap-label">90%</div></div></td>
+          <td style="color:var(--accent3);font-weight:700">75%</td>
+          <td><span class="badge high">P1</span></td>
+        </tr>
+        <tr>
+          <td>Генерация документов (письма, отчёты)</td>
+          <td><div class="gap-meter"><div class="gap-track"><div class="gap-fill" style="width:45%;background:var(--accent4)"></div></div><div class="gap-label">45%</div></div></td>
+          <td><div class="gap-meter"><div class="gap-track"><div class="gap-fill" style="width:85%;background:var(--accent2)"></div></div><div class="gap-label">85%</div></div></td>
+          <td style="color:var(--accent4);font-weight:700">40%</td>
+          <td><span class="badge high">P1</span></td>
+        </tr>
+        <tr>
+          <td>Работа с длинными документами / анализ</td>
+          <td><div class="gap-meter"><div class="gap-track"><div class="gap-fill" style="width:20%;background:var(--accent3)"></div></div><div class="gap-label">20%</div></div></td>
+          <td><div class="gap-meter"><div class="gap-track"><div class="gap-fill" style="width:70%;background:var(--accent2)"></div></div><div class="gap-label">70%</div></div></td>
+          <td style="color:var(--accent3);font-weight:700">50%</td>
+          <td><span class="badge medium">P2</span></td>
+        </tr>
+        <tr>
+          <td>Мета-промптинг и системные инструкции</td>
+          <td><div class="gap-meter"><div class="gap-track"><div class="gap-fill" style="width:10%;background:var(--accent3)"></div></div><div class="gap-label">10%</div></div></td>
+          <td><div class="gap-meter"><div class="gap-track"><div class="gap-fill" style="width:60%;background:var(--accent2)"></div></div><div class="gap-label">60%</div></div></td>
+          <td style="color:var(--accent3);font-weight:700">50%</td>
+          <td><span class="badge medium">P2</span></td>
+        </tr>
+        <tr>
+          <td>No-code автоматизации</td>
+          <td><div class="gap-meter"><div class="gap-track"><div class="gap-fill" style="width:5%;background:var(--accent3)"></div></div><div class="gap-label">5%</div></div></td>
+          <td><div class="gap-meter"><div class="gap-track"><div class="gap-fill" style="width:50%;background:var(--accent2)"></div></div><div class="gap-label">50%</div></div></td>
+          <td style="color:var(--accent3);font-weight:700">45%</td>
+          <td><span class="badge low">P3</span></td>
+        </tr>
+        <tr>
+          <td>Создание кастомных ассистентов</td>
+          <td><div class="gap-meter"><div class="gap-track"><div class="gap-fill" style="width:5%;background:var(--accent3)"></div></div><div class="gap-label">5%</div></div></td>
+          <td><div class="gap-meter"><div class="gap-track"><div class="gap-fill" style="width:40%;background:var(--accent2)"></div></div><div class="gap-label">40%</div></div></td>
+          <td style="color:var(--accent3);font-weight:700">35%</td>
+          <td><span class="badge low">P3</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>🎯 Цели обучения (Learning Objectives)</h3>
+      <div style="font-size:13px;color:var(--text2)">
+        <p style="margin-bottom:8px"><strong style="color:var(--accent2)">LO1:</strong> Каждый сотрудник формулирует запросы к ИИ с первого раза, получая релевантный результат в 80%+ случаев</p>
+        <p style="margin-bottom:8px"><strong style="color:var(--accent2)">LO2:</strong> 100% команды знают правила безопасной работы с конфиденциальными данными в ИИ-инструментах</p>
+        <p style="margin-bottom:8px"><strong style="color:var(--accent2)">LO3:</strong> Каждый участник имеет ≥3 рабочих шаблона промптов для своих ежедневных задач</p>
+        <p style="margin-bottom:8px"><strong style="color:var(--accent2)">LO4:</strong> Минимум 60% участников используют ИИ для анализа документов и генерации отчётов</p>
+        <p style="margin-bottom:8px"><strong style="color:var(--accent2)">LO5:</strong> Продвинутая группа (4 чел.) создаёт хотя бы по одному кастомному ассистенту для своего отдела</p>
+      </div>
+    </div>
+    <div class="card">
+      <h3>⚡ Quick Wins (первые 2 недели)</h3>
+      <div style="font-size:13px;color:var(--text2)">
+        <div style="margin-bottom:10px;padding:10px;background:var(--bg);border-radius:6px">
+          <strong style="color:var(--accent4)">QW1:</strong> Шаблон промпта «Деловое письмо подрядчику» — охватит 100% команды, экономия ~20 мин/день
+        </div>
+        <div style="margin-bottom:10px;padding:10px;background:var(--bg);border-radius:6px">
+          <strong style="color:var(--accent4)">QW2:</strong> Чек-лист «Что НЕЛЬЗЯ загружать в ИИ» — снимает 70% тревог о безопасности
+        </div>
+        <div style="margin-bottom:10px;padding:10px;background:var(--bg);border-radius:6px">
+          <strong style="color:var(--accent4)">QW3:</strong> Промпт «Проверка договора на юридические риски» — юристам сразу в работу
+        </div>
+        <div style="padding:10px;background:var(--bg);border-radius:6px">
+          <strong style="color:var(--accent4)">QW4:</strong> Промпт «Протокол совещания из заметок» — делопроизводитель запрашивала именно это
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:20px">
+    <h3>🚨 Риски внедрения</h3>
+    <table>
+      <thead>
+        <tr><th>Риск</th><th>Вероятность</th><th>Влияние</th><th>Митигация</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Утечка конфиденциальных данных через ИИ</td><td><span class="badge high">Высокая</span></td><td><span class="badge high">Критич.</span></td><td>Модуль по ИБ в первый день + внутренний регламент + whitelist инструментов</td></tr>
+        <tr><td>Сопротивление отдельных сотрудников</td><td><span class="badge medium">Средняя</span></td><td><span class="badge medium">Средн.</span></td><td>Микроформат для скептиков + кейсы коллег + поддержка руководства</td></tr>
+        <tr><td>«Галлюцинации» ИИ в критических документах</td><td><span class="badge high">Высокая</span></td><td><span class="badge high">Критич.</span></td><td>Обязательный модуль верификации + правило «ИИ = черновик, человек = финал»</td></tr>
+        <tr><td>Нехватка времени на обучение</td><td><span class="badge high">Высокая</span></td><td><span class="badge medium">Средн.</span></td><td>Микро-модули 15 мин + интеграция в рабочий процесс</td></tr>
+        <tr><td>Разрыв между продвинутыми и начинающими</td><td><span class="badge medium">Средняя</span></td><td><span class="badge low">Низк.</span></td><td>Два трека + наставничество продвинутых над начинающими</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ==================== PROGRAM ==================== -->
+
+<!-- ==================== ROADMAP ==================== -->
+
+<!-- ==================== METRICS ==================== -->
+<div class="page" id="page-metrics">
+  <div class="section-title">Метрики эффективности программы</div>
+
+  <div class="grid2" style="margin-bottom:20px">
+    <div class="card">
+      <h3>📊 KPI: до / после</h3>
+      <table>
+        <thead>
+          <tr><th>Метрика</th><th>До (текущее)</th><th>Цель (90 дней)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Используют ИИ еженедельно</td><td>80%</td><td style="color:var(--accent2)">100%</td></tr>
+          <tr><td>Уверенность (средн. 1–5)</td><td>3.5</td><td style="color:var(--accent2)">4.2+</td></tr>
+          <tr><td>Знают правила ИБ</td><td>~15%</td><td style="color:var(--accent2)">100%</td></tr>
+          <tr><td>Имеют рабочие промпт-шаблоны</td><td>~10%</td><td style="color:var(--accent2)">90%+</td></tr>
+          <tr><td>Используют ИИ ежедневно</td><td>30%</td><td style="color:var(--accent2)">70%+</td></tr>
+          <tr><td>Время на подготовку писем (мин)</td><td>~30</td><td style="color:var(--accent2)">~10</td></tr>
+          <tr><td>Время на подготовку отчётов (мин)</td><td>~60</td><td style="color:var(--accent2)">~25</td></tr>
+          <tr><td>Кастомные ассистенты (всего)</td><td>0</td><td style="color:var(--accent2)">4+</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>📐 Модель Киркпатрика</h3>
+      <div style="font-size:13px;color:var(--text2)">
+        <div style="margin-bottom:12px;padding:12px;background:var(--bg);border-radius:6px;border-left:3px solid var(--accent)">
+          <strong style="color:var(--accent)">Уровень 1 — Реакция:</strong><br>
+          NPS после каждого модуля (цель ≥ 8/10). Краткий опрос «полезно / не полезно / что улучшить».
+        </div>
+        <div style="margin-bottom:12px;padding:12px;background:var(--bg);border-radius:6px;border-left:3px solid var(--accent2)">
+          <strong style="color:var(--accent2)">Уровень 2 — Обучение:</strong><br>
+          Практический тест: формулировка промпта + получение результата. Чек-лист освоенных инструментов.
+        </div>
+        <div style="margin-bottom:12px;padding:12px;background:var(--bg);border-radius:6px;border-left:3px solid var(--accent4)">
+          <strong style="color:var(--accent4)">Уровень 3 — Поведение:</strong><br>
+          Трекинг частоты использования ИИ (еженедельный чек-ин). Peer review шаблонов.
+        </div>
+        <div style="padding:12px;background:var(--bg);border-radius:6px;border-left:3px solid var(--accent5)">
+          <strong style="color:var(--accent5)">Уровень 4 — Результаты:</strong><br>
+          Замер времени на рутинные задачи (до/после). Количество ошибок в документах. Экономия ФОТ (расчётная).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px">
+    <h3>💰 ROI-прогноз (консервативный)</h3>
+    <div style="font-size:13px;color:var(--text2)">
+      <div class="grid3">
+        <div style="padding:14px;background:var(--bg);border-radius:6px;text-align:center">
+          <div style="font-size:11px;color:var(--text2);text-transform:uppercase">Экономия времени / чел. / день</div>
+          <div style="font-size:28px;font-weight:700;color:var(--accent2);margin:6px 0">30–45 мин</div>
+          <div style="font-size:11px">на письма, отчёты, поиск информации</div>
+        </div>
+        <div style="padding:14px;background:var(--bg);border-radius:6px;text-align:center">
+          <div style="font-size:11px;color:var(--text2);text-transform:uppercase">Экономия / 10 чел. / месяц</div>
+          <div style="font-size:28px;font-weight:700;color:var(--accent4);margin:6px 0">~100 ч</div>
+          <div style="font-size:11px">при 30 мин × 10 чел. × 20 дней</div>
+        </div>
+        <div style="padding:14px;background:var(--bg);border-radius:6px;text-align:center">
+          <div style="font-size:11px;color:var(--text2);text-transform:uppercase">Окупаемость программы</div>
+          <div style="font-size:28px;font-weight:700;color:var(--accent);margin:6px 0">1–2 мес.</div>
+          <div style="font-size:11px">после завершения обучения</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📋 Оценка анкеты участниками (NPS)</h3>
+    <div style="font-size:13px;color:var(--text2);margin-bottom:12px">Средний балл: <strong style="color:var(--accent);font-size:18px">7.4</strong> / 10</div>
+    <div class="bar-chart">
+      <div class="bar-row"><div class="bar-label">10</div><div class="bar-wrap"><div class="bar-fill green" style="width:10%">1</div></div></div>
+      <div class="bar-row"><div class="bar-label">9</div><div class="bar-wrap"><div class="bar-fill green" style="width:10%">1</div></div></div>
+      <div class="bar-row"><div class="bar-label">8</div><div class="bar-wrap"><div class="bar-fill blue" style="width:30%">3</div></div></div>
+      <div class="bar-row"><div class="bar-label">7</div><div class="bar-wrap"><div class="bar-fill blue" style="width:30%">3</div></div></div>
+      <div class="bar-row"><div class="bar-label">5</div><div class="bar-wrap"><div class="bar-fill yellow" style="width:20%">2</div></div></div>
+    </div>
+    <div class="insight">Promoters (9–10): 2, Passives (7–8): 6, Detractors (≤6): 2. NPS = +0%. Анкета воспринята нейтрально-позитивно. Два низких балла (5) могут объясняться длиной анкеты.</div>
+  </div>
+
+</div>
+
+</div><!-- /content -->
+
+<script>
+// Tab navigation
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('page-' + tab.dataset.tab).classList.add('active');
+  });
+});
+
+// Simple table sorting
+document.querySelectorAll('table th').forEach(th => {
+  th.addEventListener('click', function() {
+    const table = this.closest('table');
+    const tbody = table.querySelector('tbody');
+    if (!tbody) return;
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+    const idx = Array.from(this.parentNode.children).indexOf(this);
+    const asc = this.dataset.sort !== 'asc';
+    this.dataset.sort = asc ? 'asc' : 'desc';
+    
+    rows.sort((a, b) => {
+      const aText = a.children[idx]?.textContent?.trim() || '';
+      const bText = b.children[idx]?.textContent?.trim() || '';
+      const aNum = parseFloat(aText);
+      const bNum = parseFloat(bText);
+      if (!isNaN(aNum) && !isNaN(bNum)) return asc ? aNum - bNum : bNum - aNum;
+      return asc ? aText.localeCompare(bText, 'ru') : bText.localeCompare(aText, 'ru');
+    });
+    rows.forEach(r => tbody.appendChild(r));
+  });
+});
+</script>
+</body>
+</html>
