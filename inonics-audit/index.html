@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inonics — IT & AI Audit 2026</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg0:#07091a;--bg1:#0c1023;--bg2:#10162e;--bg3:#161e3a;--bg4:#1d2847;
+  --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);
+  --t1:#eef1ff;--t2:#8996bb;--t3:#3d4f78;
+  --red:#ff4566;--orange:#ff9040;--blue:#4d8fff;--green:#00d68f;--purple:#a876ff;
+  --red-a:rgba(255,69,102,0.12);--orange-a:rgba(255,144,64,0.12);
+  --blue-a:rgba(77,143,255,0.12);--green-a:rgba(0,214,143,0.10);
+}
+[data-theme="light"]{
+  --bg0:#edf0fa;--bg1:#e4e9f8;--bg2:#fff;--bg3:#f5f8ff;--bg4:#edf0fa;
+  --border:rgba(0,0,0,0.07);--border2:rgba(0,0,0,0.13);
+  --t1:#0c1228;--t2:#4a5878;--t3:#9aaacb;
+  --red-a:rgba(255,69,102,0.08);--orange-a:rgba(255,144,64,0.08);
+  --blue-a:rgba(77,143,255,0.08);--green-a:rgba(0,214,143,0.07);
+}
+
+html{scroll-behavior:smooth}
+body{font-family:'Montserrat',sans-serif;background:var(--bg0);color:var(--t1);min-height:100vh}
+
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:radial-gradient(circle,rgba(255,255,255,0.045) 1px,transparent 1px);
+  background-size:28px 28px;
+}
+.page{position:relative;z-index:1;max-width:1380px;margin:0 auto;padding:0 20px 60px}
+
+/* ── HEADER ── */
+.hdr{
+  position:sticky;top:0;z-index:200;
+  background:rgba(7,9,26,0.9);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border2);
+  height:56px;display:flex;align-items:center;padding:0 20px;gap:12px;
+}
+[data-theme="light"] .hdr{background:rgba(228,233,248,0.92)}
+.hdr-brand{display:flex;flex-direction:column;gap:1px;min-width:0}
+.hdr-title{font-size:12px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;white-space:nowrap}
+.hdr-sub{font-size:9px;font-weight:600;color:var(--t3);letter-spacing:0.08em;white-space:nowrap}
+.hdr-spacer{flex:1}
+.hdr-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
+
+.chip{
+  display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:6px;
+  font-size:9px;font-weight:800;letter-spacing:0.07em;text-transform:uppercase;white-space:nowrap;
+}
+.chip-red{background:var(--red-a);color:var(--red);border:1px solid rgba(255,69,102,0.22)}
+.chip-blue{background:var(--blue-a);color:var(--blue);border:1px solid rgba(77,143,255,0.22)}
+.chip-green{background:var(--green-a);color:var(--green);border:1px solid rgba(0,214,143,0.2)}
+.chip-orange{background:var(--orange-a);color:var(--orange);border:1px solid rgba(255,144,64,0.22)}
+.chip-dim{background:var(--border);color:var(--t2);border:1px solid var(--border2)}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.blink{animation:blink 1.8s ease infinite}
+
+.tbtn{
+  font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;
+  background:var(--bg3);border:1px solid var(--border2);
+  color:var(--t2);border-radius:7px;padding:5px 12px;cursor:pointer;
+  transition:.18s;letter-spacing:0.04em;flex-shrink:0;
+}
+.tbtn:hover{color:var(--blue);border-color:var(--blue)}
+
+/* ── SECTION LABEL ── */
+.slabel{display:flex;align-items:center;gap:12px;margin:36px 0 16px}
+.slabel-text{white-space:nowrap;font-size:9px;font-weight:800;letter-spacing:0.13em;text-transform:uppercase;color:var(--t3)}
+.slabel-line{flex:1;height:1px;background:var(--border2)}
+
+/* ── GRIDS ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px}
+.dyn-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+
+@media(max-width:1080px){
+  .g4{grid-template-columns:1fr 1fr}
+  .g3{grid-template-columns:1fr 1fr}
+  .dyn-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:680px){
+  .g3,.g2,.g4,.dyn-grid{grid-template-columns:1fr}
+  .page{padding:0 12px 48px}
+}
+
+/* ── CARD BASE ── */
+.card{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:20px}
+
+/* ── KPI ── */
+.kpi{border-radius:16px;padding:22px;border:1px solid var(--border2);position:relative;overflow:hidden}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.kpi-red{background:linear-gradient(160deg,rgba(255,69,102,.14) 0%,var(--bg2) 55%);border-color:rgba(255,69,102,.25)}
+.kpi-red::before{background:linear-gradient(90deg,var(--red),transparent)}
+.kpi-orange{background:linear-gradient(160deg,rgba(255,144,64,.13) 0%,var(--bg2) 55%);border-color:rgba(255,144,64,.25)}
+.kpi-orange::before{background:linear-gradient(90deg,var(--orange),transparent)}
+.kpi-blue{background:linear-gradient(160deg,rgba(77,143,255,.13) 0%,var(--bg2) 55%);border-color:rgba(77,143,255,.25)}
+.kpi-blue::before{background:linear-gradient(90deg,var(--blue),transparent)}
+
+.kpi-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.kpi-icon{font-size:22px;opacity:.75;flex-shrink:0}
+.kpi-big{font-size:52px;font-weight:900;line-height:1;letter-spacing:-0.04em;margin-bottom:8px}
+.kpi-red .kpi-big{color:var(--red)}
+.kpi-orange .kpi-big{color:var(--orange)}
+.kpi-blue .kpi-big{color:var(--blue)}
+.kpi-desc{font-size:12px;font-weight:500;color:var(--t2);line-height:1.55}
+.kpi-desc b{color:var(--t1);font-weight:700}
+
+.divider{height:1px;background:var(--border);margin:14px 0}
+.pb-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.pb-lbl{font-size:10px;font-weight:600;color:var(--t3)}
+.pb-val{font-size:10px;font-weight:800}
+.pb{height:5px;border-radius:3px;background:var(--bg4);margin-bottom:9px;overflow:hidden}
+.pb-fill{height:100%;border-radius:3px}
+.kpi-foot{font-size:10px;color:var(--t3);font-weight:600;margin-top:4px}
+
+/* ── ALERT ── */
+.alert{
+  background:var(--red-a);border:1px solid rgba(255,69,102,.28);
+  border-radius:13px;padding:14px 18px;
+  display:flex;align-items:flex-start;gap:12px;margin-top:14px;
+}
+.alert-ico{font-size:20px;flex-shrink:0;padding-top:2px}
+.alert-head{font-size:12px;font-weight:800;color:var(--red);line-height:1.4}
+.alert-body{font-size:10px;color:var(--t2);font-weight:500;margin-top:4px;line-height:1.5}
+
+/* ── CHART CARD ── */
+.cc-title{font-size:13px;font-weight:800;margin-bottom:3px}
+.cc-sub{font-size:10px;color:var(--t3);font-weight:600;margin-bottom:14px}
+
+/* ── VPN LIST ── */
+.vr{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
+.vr:last-child{border:none}
+.vr-dept{flex:1;font-size:11px;font-weight:600;min-width:0}
+.vr-bar-wrap{width:80px;flex-shrink:0}
+.vr-risk{font-size:9px;font-weight:800;width:62px;text-align:right;flex-shrink:0;letter-spacing:.04em}
+.vr-n{font-size:13px;font-weight:900;width:28px;text-align:right;flex-shrink:0}
+
+/* ── RESPONDENTS ── */
+.rr{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.rr:last-child{border:none}
+.ava{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;flex-shrink:0}
+.rr-info{flex:1;min-width:120px}
+.rr-name{font-size:12px;font-weight:700;line-height:1.3}
+.rr-role{font-size:10px;color:var(--t3);font-weight:500;margin-top:1px}
+.rr-scores{display:flex;gap:5px;flex-shrink:0}
+.sc{font-size:9px;font-weight:700;padding:3px 7px;border-radius:5px;background:var(--bg4);color:var(--t2)}
+
+/* ── GEMINI CARDS ── */
+.gc{
+  background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:18px;
+  transition:.2s transform,.2s border-color;
+}
+.gc:hover{transform:translateY(-3px);border-color:rgba(77,143,255,.35)}
+.gc-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.gc-ico{font-size:24px;flex-shrink:0}
+.gc-dept{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em}
+.gc-sub{font-size:9px;color:var(--t3);font-weight:600;margin-top:2px}
+.gt{display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid var(--border)}
+.gt:last-child{border:none;padding-bottom:0}
+.gt-num{width:20px;height:20px;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;margin-top:1px}
+.gt-title{font-size:11px;font-weight:700;line-height:1.4}
+.gt-detail{font-size:10px;color:var(--t3);font-weight:500;margin-top:2px}
+
+/* ── QUOTES ── */
+.qc{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:18px}
+.q-mark{font-size:32px;line-height:.8;color:var(--blue);opacity:.4;margin-bottom:8px;font-weight:900}
+.q-text{font-size:12px;font-weight:500;color:var(--t2);line-height:1.65;font-style:italic}
+.q-author{font-size:11px;font-weight:800;margin-top:12px}
+.q-role{font-size:9px;color:var(--t3);font-weight:600;margin-top:2px;text-transform:uppercase;letter-spacing:.05em}
+
+/* ── BIG SCORE ── */
+.big-score{font-size:60px;font-weight:900;color:var(--green);line-height:1;letter-spacing:-.04em}
+.stars{font-size:20px;letter-spacing:3px;margin-top:6px}
+.score-label{font-size:11px;color:var(--t2);font-weight:600;margin-top:6px;line-height:1.5}
+
+/* ── MOBILE KPI ── */
+@media(max-width:680px){
+  .kpi-big{font-size:40px}
+  .hdr-sub,.chip-dim{display:none}
+  .hdr{height:50px;padding:0 14px}
+  .kpi{padding:16px}
+  .card{padding:16px}
+  .slabel{margin:28px 0 12px}
+  .vr-bar-wrap{width:60px}
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.fu{animation:fadeUp .5s ease forwards;opacity:0}
+.d1{animation-delay:.05s}.d2{animation-delay:.1s}.d3{animation-delay:.15s}
+.d4{animation-delay:.2s}.d5{animation-delay:.25s}.d6{animation-delay:.3s}
+
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:4px}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-brand">
+    <div class="hdr-title">Inonics Trading LLC</div>
+    <div class="hdr-sub">IT &amp; AI Audit Dashboard — Март 2026</div>
+  </div>
+  <div class="hdr-spacer"></div>
+  <div class="hdr-right">
+    <span class="chip chip-red blink">● Live Audit</span>
+    <span class="chip chip-blue">8 / 10 отделов</span>
+    <span class="chip chip-dim">48 сотрудников</span>
+    <button class="tbtn" onclick="toggleTheme()">☀ / ☾</button>
+  </div>
+</header>
+
+<div class="page">
+
+<div class="slabel fu d1">
+  <span class="slabel-text">⚠ Красная зона — критические риски безопасности</span>
+  <div class="slabel-line"></div>
+</div>
+
+<div class="g3 fu d1">
+  <div class="kpi kpi-red">
+    <div class="kpi-top"><span class="chip chip-red">Критично</span><span class="kpi-icon">🔓</span></div>
+    <div class="kpi-big">54%</div>
+    <div class="kpi-desc">Сотрудников в РФ/РБ работают <b>без корпоративного VPN</b> или через бесплатный — риск утечки данных</div>
+    <div class="divider"></div>
+    <div class="pb-row"><span class="pb-lbl">Без VPN / бесплатный VPN</span><span class="pb-val" style="color:var(--red)">26 чел.</span></div>
+    <div class="pb"><div class="pb-fill" style="width:54%;background:var(--red)"></div></div>
+    <div class="pb-row"><span class="pb-lbl">Корпоративный VPN</span><span class="pb-val" style="color:var(--green)">22 чел.</span></div>
+    <div class="pb"><div class="pb-fill" style="width:46%;background:var(--green)"></div></div>
+    <div class="kpi-foot">Домен Google Workspace под риском блокировки</div>
+  </div>
+
+  <div class="kpi kpi-orange">
+    <div class="kpi-top"><span class="chip chip-orange">Shadow IT</span><span class="kpi-icon">📤</span></div>
+    <div class="kpi-big">8/8</div>
+    <div class="kpi-desc">Отделов пересылают <b>инвойсы, SWIFT и контракты</b> через Telegram или WhatsApp вместо корп. диска</div>
+    <div class="divider"></div>
+    <div class="pb-row"><span class="pb-lbl">Инвойсы в мессенджерах</span><span class="pb-val" style="color:var(--orange)">8 / 8</span></div>
+    <div class="pb"><div class="pb-fill" style="width:100%;background:var(--orange)"></div></div>
+    <div class="pb-row"><span class="pb-lbl">Контракты / AWB в чатах</span><span class="pb-val" style="color:var(--orange)">6 / 8</span></div>
+    <div class="pb"><div class="pb-fill" style="width:75%;background:var(--orange)"></div></div>
+    <div class="kpi-foot">Google Drive не используется как основное хранилище</div>
+  </div>
+
+  <div class="kpi kpi-blue">
+    <div class="kpi-top"><span class="chip chip-blue">Внимание</span><span class="kpi-icon">💻</span></div>
+    <div class="kpi-big">0/8</div>
+    <div class="kpi-desc">Сотрудников используют <b>Google Drive Desktop</b>. Вся команда работает только через браузер — медленно и неудобно</div>
+    <div class="divider"></div>
+    <div class="pb-row"><span class="pb-lbl">Drive for Desktop установлен</span><span class="pb-val" style="color:var(--t3)">0 чел.</span></div>
+    <div class="pb"><div class="pb-fill" style="width:0%"></div></div>
+    <div class="pb-row"><span class="pb-lbl">Только браузер</span><span class="pb-val" style="color:var(--blue)">8 / 8</span></div>
+    <div class="pb"><div class="pb-fill" style="width:100%;background:var(--blue)"></div></div>
+    <div class="kpi-foot">Первое действие после аудита — установить всем Desktop</div>
+  </div>
+</div>
+
+<div class="alert fu d2">
+  <div class="alert-ico">🚨</div>
+  <div>
+    <div class="alert-head">Коммерческий директор ELNU работает с личного Gmail — не корпоративный аккаунт</div>
+    <div class="alert-body">tehhouse.limited@gmail.com · Вся переписка, файлы и доступы находятся вне контроля компании. Критичный риск при уходе сотрудника — данные уйдут вместе с ним.</div>
+  </div>
+</div>
+
+<div class="slabel fu d2">
+  <span class="slabel-text">📊 Визуализация процессов</span>
+  <div class="slabel-line"></div>
+</div>
+
+<div class="g3 fu d2">
+  <div class="card">
+    <div class="cc-title">Каналы связи внутри команды</div>
+    <div class="cc-sub">Количество отделов, использующих канал (из 8)</div>
+    <div style="height:210px;position:relative"><canvas id="chChart"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="cc-title">Главные пожиратели времени</div>
+    <div class="cc-sub">Часов в неделю на ручной труд (по данным анкет)</div>
+    <div style="height:210px;position:relative"><canvas id="tmChart"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="cc-title">Типы файлов в работе</div>
+    <div class="cc-sub">Упоминания по отделам (кол-во из 8)</div>
+    <div style="height:210px;position:relative"><canvas id="ftChart"></canvas></div>
+  </div>
+</div>
+
+<div class="slabel fu d3">
+  <span class="slabel-text">👥 Команда и санкционные зоны</span>
+  <div class="slabel-line"></div>
+</div>
+
+<div class="g2 fu d3">
+  <div class="card">
+    <div class="cc-title">Сотрудники в РФ / РБ — по отделам</div>
+    <div class="cc-sub" style="margin-bottom:4px">Статус VPN и количество человек</div>
+    <div id="vpnList"></div>
+  </div>
+  <div class="card">
+    <div class="cc-title">Участники аудита</div>
+    <div class="cc-sub" style="margin-bottom:4px">ИИ — опыт с нейросетями · 📝 — оценка анкеты</div>
+    <div id="respList"></div>
+  </div>
+</div>
+
+<div class="slabel fu d3">
+  <span class="slabel-text">📁 Осведомлённость о сроках хранения — VAT Law ОАЭ</span>
+  <div class="slabel-line"></div>
+</div>
+
+<div class="card fu d3">
+  <div class="cc-title">Как команда понимает сроки хранения ключевых документов</div>
+  <div class="cc-sub">5 лет — верный ответ по закону ОАЭ · «Вечно» и «Не знаю» — ошибка</div>
+  <div style="height:240px;position:relative"><canvas id="stChart"></canvas></div>
+</div>
+
+<div class="slabel fu d4">
+  <span class="slabel-text">🤖 Roadmap Gemini — матрица делегирования ИИ</span>
+  <div class="slabel-line"></div>
+</div>
+<div id="gemGrid" class="dyn-grid fu d4"></div>
+
+<div class="slabel fu d5">
+  <span class="slabel-text">💬 Прямая речь команды</span>
+  <div class="slabel-line"></div>
+</div>
+<div id="quoteGrid" class="dyn-grid fu d5"></div>
+
+<div class="slabel fu d5">
+  <span class="slabel-text">⭐ Оценки анкеты и опыт с ИИ</span>
+  <div class="slabel-line"></div>
+</div>
+<div class="g3 fu d5">
+  <div class="card">
+    <div class="cc-title">Удобство анкеты</div>
+    <div class="cc-sub">Оценка 1–5 от каждого респондента</div>
+    <div style="height:165px;position:relative"><canvas id="npsChart"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="cc-title">Опыт работы с ИИ</div>
+    <div class="cc-sub">ChatGPT, Gemini и другие — самооценка</div>
+    <div style="height:165px;position:relative"><canvas id="aiChart"></canvas></div>
+  </div>
+  <div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:0">
+    <div class="big-score">4.0</div>
+    <div class="stars">★★★★<span style="opacity:.2">★</span></div>
+    <div class="score-label">Средний балл<br>удобства анкеты</div>
+    <div style="margin-top:14px" class="chip chip-dim">8 ответов · Март 2026</div>
+  </div>
+</div>
+
+<div style="text-align:center;padding:28px 0 0;border-top:1px solid var(--border);margin-top:40px">
+  <div style="font-size:10px;color:var(--t3);font-weight:600;letter-spacing:.04em">
+    Inonics Trading LLC · IT &amp; AI Audit · Март 2026 · Powered by Gemini AI Initiative
+  </div>
+</div>
+
+</div>
+
+<script>
+function toggleTheme(){
+  const h=document.documentElement;
+  h.setAttribute('data-theme',h.getAttribute('data-theme')==='dark'?'light':'dark');
+  setTimeout(rebuildCharts,80);
+}
+
+const respData=[
+  {name:'Дмитрий Тузик',    role:'CEO',                      country:'ОАЭ + РБ',initials:'ДТ',color:'#4d8fff',ai:3,nps:5,warn:false},
+  {name:'Ольга Окрут',      role:'Финансовый менеджер',      country:'ОАЭ + РБ',initials:'ОО',color:'#ff4566',ai:4,nps:5,warn:false},
+  {name:'Дмитрий Карнейчик',role:'Отдел продаж',             country:'РБ',      initials:'ДК',color:'#ff9040',ai:3,nps:5,warn:false},
+  {name:'Татьяна Тумас',    role:'Руков. закупок',           country:'РБ',      initials:'ТТ',color:'#a876ff',ai:2,nps:3,warn:false},
+  {name:'Анна Фоменко',     role:'Перестановка денег',       country:'РБ',      initials:'АФ',color:'#00d68f',ai:2,nps:5,warn:false},
+  {name:'А. Терешковец',    role:'Комдир Inonics',           country:'РБ',      initials:'АТ',color:'#ff4566',ai:3,nps:5,warn:false},
+  {name:'Комдир ELNU ⚠',   role:'Gmail — не корп. почта!',  country:'ОАЭ + РБ',initials:'!', color:'#ff4566',ai:4,nps:3,warn:true},
+  {name:'Наталья Бавдей',   role:'Руков. маркетплейсов',     country:'РБ',      initials:'НБ',color:'#4d8fff',ai:2,nps:2,warn:false},
+];
+
+const vpnData=[
+  {dept:'CEO (РБ)',               n:23,risk:'med'},
+  {dept:'Комдир Inonics (РБ)',    n:9, risk:'high'},
+  {dept:'ELNU (РБ)',              n:4, risk:'high'},
+  {dept:'Закупки (РБ)',           n:4, risk:'med'},
+  {dept:'Отдел продаж (РБ)',      n:3, risk:'high'},
+  {dept:'Финансы (РБ)',           n:3, risk:'high'},
+  {dept:'Маркетплейсы (РБ)',      n:2, risk:'high'},
+  {dept:'Перестановка денег',     n:0, risk:'ok'},
+];
+
+const gemData=[
+  {dept:'Финансы & Бухгалтерия',icon:'💰',color:'#4d8fff',tasks:[
+    {t:'Извлечение PDF-инвойсов → 1С',d:'20 ч/нед ручного труда'},
+    {t:'Формирование драфта P&L отчёта',d:'3 источника данных вручную'},
+    {t:'Поиск SWIFT по реестру клиентов',d:'Сейчас — скролл в Telegram'},
+  ]},
+  {dept:'Закупки & Комдир Inonics',icon:'📦',color:'#a876ff',tasks:[
+    {t:'Сведение прайсов Excel/PDF в таблицу',d:'До 3 ч/день, каждый день'},
+    {t:'Анализ маржинальности по категориям',d:'Еженедельно вручную'},
+    {t:'Перевод спецификаций с китайского',d:'Критично для закупок в Азии'},
+  ]},
+  {dept:'Логистика & Склад Дубай',icon:'🚢',color:'#ff9040',tasks:[
+    {t:'Распознавание Packing Lists → 1С',d:'OCR + автозаполнение'},
+    {t:'Быстрый поиск AWB по запросу',d:'Сейчас — до часа поиска'},
+    {t:'Сверка IMEI-реестров',d:'Человеческий фактор сейчас'},
+  ]},
+  {dept:'Продажи & Маркетплейсы',icon:'🛒',color:'#00d68f',tasks:[
+    {t:'Автогенерация коммерческих предложений',d:'Сейчас 30 мин — 4 ч на КП'},
+    {t:'SEO-описания + ответы на отзывы',d:'Готовы делегировать полностью'},
+    {t:'Прогноз профита по сделке',d:'Тройной пересчёт вручную'},
+  ]},
+  {dept:'ELNU (бренд)',icon:'🏷',color:'#ff4566',tasks:[
+    {t:'Мониторинг цен конкурентов (Zoomos)',d:'Выгрузка + анализ 2× в неделю'},
+    {t:'Генерация маркетинговых материалов',d:'Инструкции, офферы, вакансии'},
+  ]},
+  {dept:'Перестановка денег',icon:'🔐',color:'#ff9040',tasks:[
+    {t:'Занесение SWIFT в реестр клиентов',d:'Сейчас — хештеги в Telegram'},
+    {t:'Безопасное хранилище паролей/ключей',d:'Сейчас — Telegram Избранное ⚠'},
+    {t:'Сверка сделок финансов и трейдинга',d:'Ручной Excel каждый месяц'},
+  ]},
+];
+
+const quoteData=[
+  {text:'Я хочу сам за 10 секунд находить любой файл, не спрашивая никого.',author:'Дмитрий Тузик',role:'CEO'},
+  {text:'Логистов приходится дёргать по 20 раз в день — они сами ничего не сообщают.',author:'Дмитрий Карнейчик',role:'Отдел продаж'},
+  {text:'Весь документооборот с арабами, китайцами и индусами — только мессенджеры. Договорённости нигде не фиксируются.',author:'Татьяна Тумас',role:'Руков. закупок'},
+  {text:'Хочу, чтобы ИИ собирал реестр подтверждённых SWIFT за день и соотносил их с клиентами по номерам инвойсов.',author:'Анна Фоменко',role:'Перестановка денег'},
+  {text:'Никак не контролирую, кто имеет доступ к чувствительным данным. Права есть у многих, контроля почти нет.',author:'Дмитрий Тузик',role:'CEO'},
+  {text:'Все файлы — инвойсы, контракты, IMEI — передаются через Telegram и WhatsApp. Корп. диск не используется.',author:'А. Терешковец',role:'Комдир Inonics'},
+];
+
+function renderVPN(){
+  const c=document.getElementById('vpnList');
+  vpnData.forEach(r=>{
+    const col=r.risk==='high'?'var(--red)':r.risk==='med'?'var(--orange)':'var(--green)';
+    const lbl=r.risk==='high'?'⚠ Высокий':r.risk==='med'?'⚡ Средний':'✓ OK';
+    const pct=Math.min(r.n/12*100,100);
+    c.innerHTML+=`<div class="vr">
+      <div class="vr-dept">${r.dept}</div>
+      <div class="vr-bar-wrap"><div class="pb" style="margin:0"><div class="pb-fill" style="width:${pct}%;background:${col}"></div></div></div>
+      <div class="vr-risk" style="color:${col}">${lbl}</div>
+      <div class="vr-n" style="color:${r.n>0?col:'var(--t3)'}">${r.n}</div>
+    </div>`;
+  });
+}
+
+function renderResp(){
+  const c=document.getElementById('respList');
+  respData.forEach(r=>{
+    c.innerHTML+=`<div class="rr">
+      <div class="ava" style="background:${r.color}22;color:${r.color}">${r.initials}</div>
+      <div class="rr-info">
+        <div class="rr-name" style="${r.warn?'color:var(--red)':''}">${r.name}</div>
+        <div class="rr-role">${r.role} · ${r.country}</div>
+      </div>
+      <div class="rr-scores">
+        <span class="sc">ИИ ${r.ai}/5</span>
+        <span class="sc">📝 ${r.nps}/5</span>
+      </div>
+    </div>`;
+  });
+}
+
+function renderGem(){
+  const c=document.getElementById('gemGrid');
+  gemData.forEach(d=>{
+    const tasks=d.tasks.map((t,i)=>`
+      <div class="gt">
+        <div class="gt-num" style="background:${d.color}22;color:${d.color}">${i+1}</div>
+        <div><div class="gt-title">${t.t}</div><div class="gt-detail">${t.d}</div></div>
+      </div>`).join('');
+    c.innerHTML+=`<div class="gc">
+      <div class="gc-head">
+        <span class="gc-ico">${d.icon}</span>
+        <div><div class="gc-dept" style="color:${d.color}">${d.dept}</div>
+        <div class="gc-sub">${d.tasks.length} задачи для Gemini</div></div>
+      </div>${tasks}</div>`;
+  });
+}
+
+function renderQuotes(){
+  const c=document.getElementById('quoteGrid');
+  quoteData.forEach(q=>{
+    c.innerHTML+=`<div class="qc">
+      <div class="q-mark">"</div>
+      <div class="q-text">${q.text}</div>
+      <div class="q-author">${q.author}</div>
+      <div class="q-role">${q.role}</div>
+    </div>`;
+  });
+}
+
+let _charts={};
+function rebuildCharts(){Object.values(_charts).forEach(c=>c.destroy());_charts={};buildCharts()}
+
+function buildCharts(){
+  const dark=document.documentElement.getAttribute('data-theme')==='dark';
+  const t2=dark?'#8996bb':'#4a5878';
+  const gr=dark?'rgba(255,255,255,0.05)':'rgba(0,0,0,0.06)';
+  const mf={family:'Montserrat',size:10};
+
+  _charts.ch=new Chart(document.getElementById('chChart'),{
+    type:'doughnut',
+    data:{labels:['Telegram','Bitrix24','Email','WhatsApp','Порталы'],
+      datasets:[{data:[7,6,5,5,2],backgroundColor:['#4d8fff','#a876ff','#00d68f','#ff9040','#ff4566'],
+        borderWidth:2,borderColor:dark?'#10162e':'#fff',hoverOffset:7}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'64%',
+      plugins:{legend:{position:'bottom',labels:{padding:8,boxWidth:9,color:t2,font:mf}},
+        tooltip:{callbacks:{label:ctx=>` ${ctx.label}: ${ctx.parsed} / 8`}}}}
+  });
+
+  _charts.tm=new Chart(document.getElementById('tmChart'),{
+    type:'bar',
+    data:{labels:['Ввод инвойсов','Сведение прайсов','Поиск SWIFT','Перенос данных','Отчёты CEO'],
+      datasets:[{label:'ч/нед',data:[20,15,8,6,5],
+        backgroundColor:['#ff4566','#ff9040','#ff9040','#4d8fff','#4d8fff'],
+        borderRadius:6,borderSkipped:false}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{x:{grid:{color:gr},ticks:{color:t2,font:mf}},
+        y:{grid:{display:false},ticks:{color:t2,font:{family:'Montserrat',size:9,weight:'600'}}}}}
+  });
+
+  _charts.ft=new Chart(document.getElementById('ftChart'),{
+    type:'pie',
+    data:{labels:['Excel / Sheets','PDF','JPG / PNG','Word / Docs','1С / Zoho'],
+      datasets:[{data:[8,7,5,4,4],backgroundColor:['#4d8fff','#ff4566','#ff9040','#a876ff','#00d68f'],
+        borderWidth:2,borderColor:dark?'#10162e':'#fff',hoverOffset:7}]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom',labels:{padding:8,boxWidth:9,color:t2,font:mf}}}}
+  });
+
+  _charts.st=new Chart(document.getElementById('stChart'),{
+    type:'bar',
+    data:{labels:['Договоры','Инвойсы','Packing Lists','AWB','Таможня','SWIFT','Фин. сверки','Уч. докты','Регламенты'],
+      datasets:[
+        {label:'5 лет — верно ✓',data:[4,5,5,5,6,4,3,5,4],backgroundColor:'#00d68f',borderRadius:4},
+        {label:'Вечно — ошибка', data:[3,2,2,2,1,0,0,3,4],backgroundColor:'#a876ff',borderRadius:4},
+        {label:'Не знаю ⚠',     data:[0,0,0,0,0,1,2,0,0],backgroundColor:'#ff4566',borderRadius:4},
+      ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'top',labels:{boxWidth:10,color:t2,font:mf}}},
+      scales:{x:{stacked:true,grid:{display:false},ticks:{color:t2,font:mf}},
+        y:{stacked:true,grid:{color:gr},ticks:{color:t2,stepSize:1,font:{family:'Montserrat'}}}}}
+  });
+
+  _charts.np=new Chart(document.getElementById('npsChart'),{
+    type:'bar',
+    data:{labels:['1★','2★','3★','4★','5★'],
+      datasets:[{data:[0,1,2,0,5],backgroundColor:['#ff4566','#ff4566','#ff9040','#4d8fff','#00d68f'],
+        borderRadius:6,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+      scales:{x:{grid:{display:false},ticks:{color:t2,font:mf}},
+        y:{grid:{color:gr},ticks:{color:t2,stepSize:1,font:{family:'Montserrat'}},beginAtZero:true}}}
+  });
+
+  _charts.ai=new Chart(document.getElementById('aiChart'),{
+    type:'bar',
+    data:{labels:['1★','2★','3★','4★','5★'],
+      datasets:[{data:[0,3,3,2,0],backgroundColor:['#ff4566','#ff9040','#ff9040','#4d8fff','#00d68f'],
+        borderRadius:6,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+      scales:{x:{grid:{display:false},ticks:{color:t2,font:mf}},
+        y:{grid:{color:gr},ticks:{color:t2,stepSize:1,font:{family:'Montserrat'}},beginAtZero:true}}}
+  });
+}
+
+renderVPN();renderResp();renderGem();renderQuotes();buildCharts();
+</script>
+</body>
+</html>
