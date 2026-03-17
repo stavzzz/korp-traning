@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Станислав Валерьевич Панков — Спикер по ИИ</title>
+<meta property="og:title" content="Станислав Валерьевич Панков — Спикер по внедрению ИИ в бизнес">
+<meta property="og:description" content="Помогаю компаниям зарабатывать больше с помощью нейросетей — конкретно и по делу. 30+ выступлений, 8 онлайн-курсов по ИИ.">
+<meta property="og:image" content="https://stavzzz.github.io/open-sites/speaker-card/avatar.jpg">
+<meta property="og:url" content="https://stavzzz.github.io/open-sites/speaker-card-v2/">
+<meta property="og:type" content="profile">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#07070F;
+  --surface:rgba(255,255,255,0.04);
+  --surface-hover:rgba(255,255,255,0.07);
+  --border:rgba(255,255,255,0.08);
+  --border-hover:rgba(255,255,255,0.18);
+  --text:#F1F5F9;
+  --text-muted:#94A3B8;
+  --text-dim:#64748B;
+  --accent:#818CF8;
+  --accent2:#A78BFA;
+  --accent3:#38BDF8;
+  --cta:#F97316;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;min-height:100vh}
+
+/* ANIMATED BACKGROUND */
+.bg-canvas{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.18;animation:drift 18s ease-in-out infinite}
+.orb-1{width:600px;height:600px;background:radial-gradient(circle,#4F46E5,transparent);top:-200px;left:-150px;animation-duration:20s}
+.orb-2{width:500px;height:500px;background:radial-gradient(circle,#7C3AED,transparent);top:30%;right:-200px;animation-duration:25s;animation-delay:-8s}
+.orb-3{width:400px;height:400px;background:radial-gradient(circle,#0EA5E9,transparent);bottom:10%;left:20%;animation-duration:22s;animation-delay:-4s}
+.orb-4{width:350px;height:350px;background:radial-gradient(circle,#EC4899,transparent);bottom:-100px;right:10%;animation-duration:28s;animation-delay:-12s}
+.orb-5{width:280px;height:280px;background:radial-gradient(circle,#10B981,transparent);top:60%;left:50%;animation-duration:30s;animation-delay:-6s;opacity:0.10}
+@keyframes drift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(40px,-60px) scale(1.1)}66%{transform:translate(-30px,40px) scale(0.95)}}
+.bg-canvas::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.015) 1px,transparent 1px);background-size:60px 60px}
+
+/* LAYOUT */
+.page{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:60px 24px 80px}
+
+/* GLASS */
+.glass{background:var(--surface);border:1px solid var(--border);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:20px;transition:background 0.3s ease,border-color 0.3s ease,transform 0.3s ease,box-shadow 0.3s ease}
+.glass:hover{background:var(--surface-hover);border-color:var(--border-hover)}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.7s ease,transform 0.7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* HERO */
+.hero{text-align:center;padding:60px 40px 50px;margin-bottom:24px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(129,140,248,0.06) 0%,rgba(167,139,250,0.04) 50%,rgba(56,189,248,0.06) 100%);border-radius:20px}
+
+.avatar-wrap{position:relative;display:inline-block;margin-bottom:28px}
+.avatar-ring{position:absolute;inset:-6px;border-radius:50%;background:conic-gradient(from 0deg,#818CF8,#A78BFA,#38BDF8,#EC4899,#818CF8);animation:spin 6s linear infinite;opacity:0.7}
+.avatar-ring-inner{position:absolute;inset:-3px;border-radius:50%;background:var(--bg)}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.avatar{position:relative;z-index:1;width:110px;height:110px;border-radius:50%;object-fit:cover;display:block}
+
+.hero-name{font-size:clamp(2rem,5vw,3.2rem);font-weight:900;letter-spacing:-0.02em;line-height:1.1;background:linear-gradient(135deg,#F1F5F9 0%,#818CF8 40%,#A78BFA 70%,#38BDF8 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:12px}
+.hero-role{font-size:1.1rem;font-weight:500;color:var(--text-muted);margin-bottom:16px;line-height:1.5}
+.hero-desc{font-size:1rem;color:var(--text-muted);max-width:560px;margin:0 auto 24px;line-height:1.7}
+
+.tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:36px}
+.tag{padding:6px 16px;border-radius:100px;font-size:0.78rem;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;border:1px solid var(--border);background:rgba(255,255,255,0.04);color:var(--text-muted);transition:all 0.25s ease}
+.tag:nth-child(1){border-color:rgba(129,140,248,0.4);color:#818CF8}
+.tag:nth-child(2){border-color:rgba(167,139,250,0.4);color:#A78BFA}
+.tag:nth-child(3){border-color:rgba(56,189,248,0.4);color:#38BDF8}
+.tag:nth-child(4){border-color:rgba(251,191,36,0.4);color:#FBBF24}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px}
+.stat{padding:20px 12px;border-radius:16px;background:rgba(255,255,255,0.03);border:1px solid var(--border);text-align:center;transition:all 0.3s ease;cursor:default}
+.stat:hover{background:rgba(255,255,255,0.06);border-color:rgba(129,140,248,0.3);transform:translateY(-3px)}
+.stat-num{font-size:2.2rem;font-weight:900;letter-spacing:-0.02em;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:6px}
+.stat-label{font-size:0.75rem;color:var(--text-dim);font-weight:500;line-height:1.4}
+
+/* SECTION LABEL */
+.section{margin-bottom:20px}
+.section-label{font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.section-label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(129,140,248,0.3),transparent)}
+
+/* EDUCATION */
+.edu-grid{display:flex;flex-direction:column;gap:10px}
+.edu-item{padding:20px 24px;display:flex;gap:16px;align-items:flex-start;cursor:default}
+.edu-dot{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,rgba(129,140,248,0.2),rgba(167,139,250,0.2));border:1px solid rgba(129,140,248,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:0.7rem;color:var(--accent);font-weight:700}
+.edu-title{font-weight:700;font-size:0.95rem;color:var(--text);margin-bottom:3px}
+.edu-sub{font-size:0.82rem;color:var(--text-dim)}
+
+/* EXPERIENCE */
+.exp-list{display:flex;flex-direction:column;gap:4px}
+.exp-item{padding:16px 24px;display:flex;gap:14px;align-items:flex-start;cursor:default}
+.exp-marker{width:6px;height:6px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));flex-shrink:0;margin-top:8px;box-shadow:0 0 8px rgba(129,140,248,0.5)}
+.exp-text{font-size:0.9rem;color:var(--text-muted);line-height:1.6}
+.exp-text strong{color:var(--text);font-weight:600}
+
+/* EXPERTISE */
+.expertise-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.expertise-card{padding:24px;cursor:default;position:relative;overflow:hidden}
+.expertise-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity 0.3s ease}
+.expertise-card:hover::before{opacity:1}
+.expertise-card:hover{transform:translateY(-4px);box-shadow:0 20px 60px rgba(129,140,248,0.08)}
+.exp-num{font-size:0.7rem;font-weight:700;color:var(--accent);letter-spacing:0.1em;margin-bottom:8px;opacity:0.6}
+.exp-title{font-size:0.9rem;font-weight:700;color:var(--text);margin-bottom:6px;line-height:1.4}
+.exp-desc{font-size:0.8rem;color:var(--text-dim);line-height:1.55}
+
+/* PROJECT */
+.project-card{padding:32px;position:relative;overflow:hidden}
+.project-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(129,140,248,0.05),rgba(56,189,248,0.03));pointer-events:none}
+.project-accent{font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent3);margin-bottom:10px}
+.project-title{font-size:1.6rem;font-weight:900;margin-bottom:14px;background:linear-gradient(135deg,#38BDF8,#818CF8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.project-desc{font-size:0.9rem;color:var(--text-muted);line-height:1.7;margin-bottom:8px}
+.project-tag{display:inline-block;padding:5px 14px;border-radius:100px;font-size:0.75rem;font-weight:600;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.22);color:#38BDF8;margin-top:10px}
+
+/* FORMATS */
+.formats-grid{display:flex;flex-wrap:wrap;gap:10px}
+.format-chip{padding:10px 18px;border-radius:100px;font-size:0.83rem;font-weight:500;background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--text-muted);cursor:default;transition:all 0.25s ease;display:flex;align-items:center;gap:8px}
+.format-chip:hover{background:rgba(129,140,248,0.08);border-color:rgba(129,140,248,0.3);color:var(--text);transform:translateY(-2px)}
+.format-chip-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0}
+
+/* CTA */
+.cta-section{padding:40px 32px;text-align:center;position:relative;overflow:hidden}
+.cta-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 100%,rgba(249,115,22,0.07),transparent 70%)}
+.cta-title{font-size:1.4rem;font-weight:800;color:var(--text);margin-bottom:8px}
+.cta-sub{font-size:0.9rem;color:var(--text-dim);margin-bottom:28px}
+.cta-buttons{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn{padding:14px 28px;border-radius:100px;font-size:0.9rem;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all 0.3s ease}
+.btn-primary{background:linear-gradient(135deg,#F97316,#EA580C);color:#fff;box-shadow:0 8px 30px rgba(249,115,22,0.3)}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(249,115,22,0.45)}
+.btn-secondary{background:rgba(255,255,255,0.05);color:var(--text-muted);border:1px solid var(--border)}
+.btn-secondary:hover{background:rgba(255,255,255,0.09);color:var(--text);border-color:var(--border-hover);transform:translateY(-3px)}
+
+@media(max-width:640px){
+  .page{padding:32px 16px 60px}
+  .hero{padding:36px 20px 32px}
+  .stat-num{font-size:1.7rem}
+  .expertise-grid{grid-template-columns:1fr}
+  .cta-buttons{flex-direction:column;align-items:center}
+  .btn{width:100%;justify-content:center;max-width:300px}
+}
+@media(max-width:768px){.expertise-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="bg-canvas">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="orb orb-4"></div>
+  <div class="orb orb-5"></div>
+</div>
+
+<div class="page">
+
+  <div class="hero glass reveal">
+    <div class="avatar-wrap">
+      <div class="avatar-ring"></div>
+      <div class="avatar-ring-inner"></div>
+      <img class="avatar" src="https://stavzzz.github.io/open-sites/speaker-card/avatar.jpg" alt="Станислав Панков" loading="eager">
+    </div>
+    <h1 class="hero-name">Станислав Валерьевич Панков</h1>
+    <p class="hero-role">Спикер и&nbsp;методолог по&nbsp;внедрению ИИ в&nbsp;бизнес<br>Ко-фаундер проекта «ИИ-визация»</p>
+    <p class="hero-desc">Помогаю компаниям зарабатывать больше с&nbsp;помощью нейросетей&nbsp;— конкретно и&nbsp;по&nbsp;делу.</p>
+    <div class="tags">
+      <span class="tag">Преподаватель</span>
+      <span class="tag">Методолог</span>
+      <span class="tag">Спикер</span>
+      <span class="tag">Аудитор</span>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="stat-num">15+</div><div class="stat-label">онлайн-курсов по различным направлениям</div></div>
+      <div class="stat"><div class="stat-num">8</div><div class="stat-label">онлайн-курсов по ИИ</div></div>
+      <div class="stat"><div class="stat-num">30+</div><div class="stat-label">выступлений на конференциях</div></div>
+    </div>
+  </div>
+
+  <div class="section reveal">
+    <div class="section-label">Образование</div>
+    <div class="edu-grid">
+      <div class="edu-item glass">
+        <div class="edu-dot">М</div>
+        <div><div class="edu-title">МФТИ — Московский физико-технический институт</div><div class="edu-sub">Магистр прикладной математики и физики</div></div>
+      </div>
+      <div class="edu-item glass">
+        <div class="edu-dot">MBA</div>
+        <div><div class="edu-title">MBA РОСНАНО</div><div class="edu-sub">Кафедра технологического предпринимательства</div></div>
+      </div>
+      <div class="edu-item glass">
+        <div class="edu-dot">П</div>
+        <div><div class="edu-title">Диплом педагога дополнительного образования</div><div class="edu-sub">&nbsp;</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section reveal">
+    <div class="section-label">Опыт и достижения</div>
+    <div class="exp-list glass" style="padding:16px 8px">
+      <div class="exp-item"><div class="exp-marker"></div><div class="exp-text"><strong>Ex-CEO TTM ACADEMY</strong>&nbsp;— крупнейшая в СНГ онлайн-школа по блокчейну и продуктовому управлению</div></div>
+      <div class="exp-item"><div class="exp-marker"></div><div class="exp-text"><strong>5+ лет в EdTech</strong>&nbsp;— обучил 10+ тысяч человек работе с блокчейн-технологиями и ИИ</div></div>
+      <div class="exp-item"><div class="exp-marker"></div><div class="exp-text">Провёл <strong>30+ выступлений</strong> на офлайн-конференциях и корпоративных тренингах (Москва, Дубай) + онлайн-конференции</div></div>
+      <div class="exp-item"><div class="exp-marker"></div><div class="exp-text">Автор <strong>8 онлайн-курсов по ИИ</strong>&nbsp;— от базовых навыков промптинга до полного внедрения в бизнес-процессы</div></div>
+    </div>
+  </div>
+
+  <div class="section reveal">
+    <div class="section-label">Моя экспертиза</div>
+    <div class="expertise-grid">
+      <div class="expertise-card glass"><div class="exp-num">01</div><div class="exp-title">ИИ без мифов</div><div class="exp-desc">Как на самом деле работают нейросети, где они бесполезны, а где дают десятикратный результат</div></div>
+      <div class="expertise-card glass"><div class="exp-num">02</div><div class="exp-title">Внедрение ИИ в бизнес</div><div class="exp-desc">Автоматизация маркетинга, аналитики, продаж, звонков, обучения, коммуникаций с измеримым ROI</div></div>
+      <div class="expertise-card glass"><div class="exp-num">03</div><div class="exp-title">Промптинг — главный навык XXI века</div><div class="exp-desc">Как ставить задачи нейросетям, чтобы они не галлюцинировали и давали релевантный результат</div></div>
+      <div class="expertise-card glass"><div class="exp-num">04</div><div class="exp-title">Информационная безопасность</div><div class="exp-desc">Что можно, а что нельзя отправлять в ChatGPT, чтобы не слить компанию конкурентам</div></div>
+      <div class="expertise-card glass" style="grid-column:1/-1"><div class="exp-num">05</div><div class="exp-title">Аудит бизнес-процессов</div><div class="exp-desc">Оцениваю, где нейросети дадут реальную пользу, а где не принесут никакой выгоды</div></div>
+    </div>
+  </div>
+
+  <div class="section reveal">
+    <div class="section-label">Проект</div>
+    <div class="project-card glass">
+      <div class="project-accent">Текущий проект</div>
+      <div class="project-title">«ИИ-визация»</div>
+      <p class="project-desc">Обучаем работе с ИИ — от новичков до руководителей отделов. Помогаем внедрять нейросети в реальные бизнес-процессы компаний.</p>
+      <p class="project-desc">ИИ-консалтинг и внедрение искусственного интеллекта в информационные и бизнес-процессы компаний</p>
+      <div class="project-tag">Рынки: Россия · СНГ · Международный (English available)</div>
+    </div>
+  </div>
+
+  <div class="section reveal">
+    <div class="section-label">Форматы работы</div>
+    <div class="formats-grid glass" style="padding:24px">
+      <div class="format-chip"><span class="format-chip-dot"></span>Выступления и воркшопы</div>
+      <div class="format-chip"><span class="format-chip-dot"></span>Практические тренинги</div>
+      <div class="format-chip"><span class="format-chip-dot"></span>Шаблоны и чек-листы внедрения</div>
+      <div class="format-chip"><span class="format-chip-dot"></span>Стратегии внедрения: от пилота до масштабирования</div>
+      <div class="format-chip"><span class="format-chip-dot"></span>Анализ практических кейсов</div>
+      <div class="format-chip"><span class="format-chip-dot"></span>Рабочие материалы и методички</div>
+    </div>
+  </div>
+
+  <div class="cta-section glass reveal">
+    <div class="cta-title">Связаться со мной</div>
+    <div class="cta-sub">Обсудим выступление, тренинг или внедрение ИИ в вашу компанию</div>
+    <div class="cta-buttons">
+      <a href="https://t.me/stavzzz" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Написать лично</a>
+      <a href="https://t.me/+_tvrvMMgP9llOGY6" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">ИИ в бизнесе | чат для своих</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)} });
+},{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+document.querySelector('.reveal').classList.add('visible');
+</script>
+</body>
+</html>
