@@ -146,9 +146,35 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-
   .btn{width:100%;justify-content:center;max-width:300px}
 }
 @media(max-width:768px){.expertise-grid{grid-template-columns:1fr}}
+
+/* STICKY HEADER */
+.sticky-header{position:fixed;top:0;left:0;right:0;z-index:1000;padding:10px 24px;background:rgba(7,7,15,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.08);opacity:0;transform:translateY(-100%);transition:opacity 0.35s ease,transform 0.35s ease;pointer-events:none}
+.sticky-header.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+.sticky-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:14px}
+.sticky-avatar-wrap{position:relative;flex-shrink:0;width:40px;height:40px}
+.sticky-ring{position:absolute;inset:-2px;border-radius:50%;background:conic-gradient(from 0deg,#818CF8,#A78BFA,#38BDF8,#EC4899,#818CF8);animation:spin 6s linear infinite;opacity:0.8}
+.sticky-ring-inner{position:absolute;inset:-1px;border-radius:50%;background:rgba(7,7,15,0.9)}
+.sticky-avatar{position:relative;z-index:1;width:40px;height:40px;border-radius:50%;object-fit:cover;object-position:center 20%;display:block}
+.sticky-name{font-size:0.92rem;font-weight:700;color:var(--text);line-height:1.2}
+.sticky-role{font-size:0.75rem;color:var(--text-dim);margin-top:1px}
 </style>
 </head>
 <body>
+
+
+<div class="sticky-header" id="stickyHeader">
+  <div class="sticky-inner">
+    <div class="sticky-avatar-wrap">
+      <div class="sticky-ring"></div>
+      <div class="sticky-ring-inner"></div>
+      <img class="sticky-avatar" src="https://stavzzz.github.io/open-sites/speaker-card/avatar.jpg" alt="Станислав Панков">
+    </div>
+    <div>
+      <div class="sticky-name">Станислав Валерьевич Панков</div>
+      <div class="sticky-role">Эксперт и методолог по внедрению ИИ в бизнес</div>
+    </div>
+  </div>
+</div>
 
 <div class="bg-canvas">
   <div class="orb orb-1"></div>
@@ -260,6 +286,18 @@ const obs = new IntersectionObserver((entries) => {
 },{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
 document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 document.querySelector('.reveal').classList.add('visible');
+
+// Sticky header
+const hero = document.querySelector('.hero');
+const stickyEl = document.getElementById('stickyHeader');
+const heroObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(!e.isIntersecting) stickyEl.classList.add('visible');
+    else stickyEl.classList.remove('visible');
+  });
+},{threshold:0.1});
+heroObs.observe(hero);
+
 </script>
 </body>
 </html>
