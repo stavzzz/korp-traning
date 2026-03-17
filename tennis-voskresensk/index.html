@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Теннисный центр в Воскресенске — тренировки для детей и взрослых</title>
+<meta name="description" content="Теннисный центр в Воскресенске. 4 корта (хард и грунт), профессиональные тренеры, группы для детей и взрослых. Можно прийти без опыта. Запишитесь на пробное занятие.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --green:#16A34A;--green-dark:#15803D;--green-light:#DCFCE7;
+  --lime:#84CC16;--lime-light:#F7FEE7;
+  --orange:#F97316;--orange-dark:#EA580C;
+  --dark:#0F172A;--text:#334155;--muted:#64748B;
+  --border:#E2E8F0;--bg:#F8FAFC;--white:#FFFFFF;
+  --radius:12px;--shadow:0 4px 24px rgba(0,0,0,0.08);--shadow-lg:0 8px 40px rgba(0,0,0,0.12);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;color:var(--text);background:var(--white);line-height:1.6;overflow-x:hidden}
+
+/* ── STICKY NAV ── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 24px;background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:20px}
+.nav-logo{font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:700;color:var(--dark);text-decoration:none;letter-spacing:0.02em}
+.nav-logo span{color:var(--green)}
+.nav-cta{padding:10px 22px;background:var(--orange);color:#fff;border-radius:100px;font-size:0.85rem;font-weight:600;text-decoration:none;transition:all 0.2s ease;white-space:nowrap}
+.nav-cta:hover{background:var(--orange-dark);transform:translateY(-1px)}
+
+/* ── HERO ── */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;padding-top:70px}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0D1F14 0%,#1A3D24 40%,#16A34A 100%);z-index:0}
+.hero-bg::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 59px,rgba(255,255,255,0.04) 60px),repeating-linear-gradient(90deg,transparent,transparent 59px,rgba(255,255,255,0.04) 60px);z-index:1}
+.hero-bg::after{content:'';position:absolute;bottom:0;right:-100px;width:600px;height:600px;background:radial-gradient(circle,rgba(132,204,22,0.25) 0%,transparent 70%);z-index:1}
+.hero-content{position:relative;z-index:2;max-width:1100px;margin:0 auto;padding:80px 24px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(132,204,22,0.15);border:1px solid rgba(132,204,22,0.3);border-radius:100px;font-size:0.78rem;font-weight:600;color:#A3E635;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:20px}
+.hero-badge-dot{width:7px;height:7px;border-radius:50%;background:#A3E635;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.85)}}
+.hero h1{font-family:'Barlow Condensed',sans-serif;font-size:clamp(2.4rem,5vw,3.8rem);font-weight:800;color:#FFFFFF;line-height:1.05;letter-spacing:-0.01em;margin-bottom:20px}
+.hero h1 em{font-style:normal;color:#A3E635}
+.hero-sub{font-size:1.05rem;color:rgba(255,255,255,0.75);margin-bottom:32px;line-height:1.7;max-width:480px}
+.hero-btns{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:40px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 26px;border-radius:100px;font-size:0.9rem;font-weight:600;text-decoration:none;transition:all 0.25s ease;cursor:pointer;border:none}
+.btn-primary{background:var(--orange);color:#fff;box-shadow:0 8px 24px rgba(249,115,22,0.35)}
+.btn-primary:hover{background:var(--orange-dark);transform:translateY(-2px);box-shadow:0 12px 32px rgba(249,115,22,0.45)}
+.btn-outline{background:transparent;color:#fff;border:2px solid rgba(255,255,255,0.4)}
+.btn-outline:hover{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.7);transform:translateY(-2px)}
+.hero-facts{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.hero-fact{padding:14px 16px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:10px;backdrop-filter:blur(8px)}
+.hero-fact-num{font-family:'Barlow Condensed',sans-serif;font-size:1.6rem;font-weight:700;color:#A3E635;line-height:1}
+.hero-fact-label{font-size:0.78rem;color:rgba(255,255,255,0.6);margin-top:2px}
+.hero-visual{position:relative;display:flex;align-items:center;justify-content:center}
+.hero-court{width:100%;max-width:400px;aspect-ratio:3/4;border-radius:20px;background:linear-gradient(180deg,rgba(22,163,74,0.4) 0%,rgba(22,163,74,0.15) 100%);border:2px solid rgba(132,204,22,0.3);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.hero-court::before{content:'';position:absolute;inset:20px;border:2px solid rgba(255,255,255,0.2);border-radius:10px}
+.hero-court-inner{text-align:center;z-index:1}
+.hero-court-label{font-family:'Barlow Condensed',sans-serif;font-size:3rem;font-weight:800;color:rgba(255,255,255,0.15);line-height:1}
+.hero-novice{margin-top:24px;padding:16px 20px;background:rgba(132,204,22,0.12);border:1px solid rgba(132,204,22,0.25);border-radius:12px;display:flex;gap:12px;align-items:flex-start}
+.hero-novice-icon{width:36px;height:36px;border-radius:10px;background:rgba(132,204,22,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.1rem}
+.hero-novice-text{font-size:0.85rem;color:rgba(255,255,255,0.75);line-height:1.5}
+.hero-novice-text strong{color:#A3E635;display:block;font-size:0.9rem;margin-bottom:3px}
+
+/* ── SECTIONS ── */
+section{padding:80px 24px}
+.container{max-width:1100px;margin:0 auto}
+.section-tag{display:inline-block;padding:4px 14px;background:var(--green-light);color:var(--green-dark);border-radius:100px;font-size:0.75rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:14px}
+.section-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(2rem,4vw,2.8rem);font-weight:800;color:var(--dark);line-height:1.1;margin-bottom:12px;letter-spacing:-0.01em}
+.section-sub{font-size:1rem;color:var(--muted);max-width:580px;line-height:1.7}
+.section-header{margin-bottom:48px}
+
+/* ── DIRECTIONS ── */
+.directions{background:var(--bg)}
+.directions-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.dir-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:28px 24px;cursor:pointer;transition:all 0.3s ease;position:relative;overflow:hidden}
+.dir-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--green);transform:scaleX(0);transform-origin:left;transition:transform 0.3s ease}
+.dir-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-4px);border-color:transparent}
+.dir-card:hover::before{transform:scaleX(1)}
+.dir-card.featured{border-color:var(--green);background:linear-gradient(135deg,#F0FDF4,#DCFCE7)}
+.dir-card.featured::before{transform:scaleX(1)}
+.dir-icon{width:48px;height:48px;border-radius:12px;background:var(--green-light);display:flex;align-items:center;justify-content:center;margin-bottom:18px;font-size:1.4rem}
+.dir-card.featured .dir-icon{background:rgba(22,163,74,0.15)}
+.dir-badge{display:inline-block;padding:3px 10px;background:var(--orange);color:#fff;border-radius:100px;font-size:0.7rem;font-weight:700;margin-bottom:10px}
+.dir-title{font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:700;color:var(--dark);margin-bottom:8px}
+.dir-desc{font-size:0.88rem;color:var(--muted);line-height:1.6;margin-bottom:16px}
+.dir-link{font-size:0.85rem;font-weight:600;color:var(--green);display:flex;align-items:center;gap:6px}
+.dir-link svg{transition:transform 0.2s ease}
+.dir-card:hover .dir-link svg{transform:translateX(4px)}
+
+/* ── ADVANTAGES ── */
+.adv-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.adv-item{padding:28px 22px;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);transition:all 0.3s ease}
+.adv-item:hover{box-shadow:var(--shadow);transform:translateY(-3px)}
+.adv-icon{width:52px;height:52px;border-radius:14px;background:var(--green-light);display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:1.5rem}
+.adv-title{font-family:'Barlow Condensed',sans-serif;font-size:1.15rem;font-weight:700;color:var(--dark);margin-bottom:6px}
+.adv-desc{font-size:0.83rem;color:var(--muted);line-height:1.6}
+.adv-benefit{font-size:0.8rem;font-weight:600;color:var(--green);margin-top:8px}
+
+/* ── COACHES ── */
+.coaches{background:var(--bg)}
+.coaches-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.coach-card{background:var(--white);border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);transition:all 0.3s ease}
+.coach-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-4px)}
+.coach-photo{height:260px;background:linear-gradient(135deg,#1A3D24,#16A34A);display:flex;align-items:center;justify-content:center;position:relative}
+.coach-photo-placeholder{width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,0.15);border:3px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;font-size:2.5rem;color:rgba(255,255,255,0.5)}
+.coach-body{padding:24px}
+.coach-name{font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:700;color:var(--dark);margin-bottom:4px}
+.coach-role{font-size:0.82rem;font-weight:600;color:var(--green);margin-bottom:14px}
+.coach-exp{font-size:0.85rem;color:var(--muted);line-height:1.6;margin-bottom:16px}
+.coach-tags{display:flex;flex-wrap:wrap;gap:6px}
+.coach-tag{padding:4px 10px;background:var(--green-light);color:var(--green-dark);border-radius:100px;font-size:0.73rem;font-weight:600}
+.coach-cta{display:block;margin-top:18px;padding:11px 20px;background:var(--green);color:#fff;border-radius:100px;font-size:0.85rem;font-weight:600;text-align:center;text-decoration:none;transition:all 0.2s ease}
+.coach-cta:hover{background:var(--green-dark)}
+
+/* ── REVIEWS ── */
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.review-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:28px 24px}
+.review-stars{color:#FBBF24;font-size:1rem;margin-bottom:14px;letter-spacing:2px}
+.review-text{font-size:0.9rem;color:var(--text);line-height:1.7;margin-bottom:20px;font-style:italic}
+.review-author{display:flex;align-items:center;gap:12px}
+.review-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--lime));display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:700;color:#fff;font-size:1.1rem;flex-shrink:0}
+.review-name{font-weight:600;font-size:0.88rem;color:var(--dark)}
+.review-status{font-size:0.78rem;color:var(--muted)}
+
+/* ── FORM ── */
+.form-section{background:linear-gradient(135deg,#0D1F14 0%,#1A3D24 100%);position:relative;overflow:hidden}
+.form-section::before{content:'';position:absolute;right:-150px;top:-150px;width:500px;height:500px;background:radial-gradient(circle,rgba(132,204,22,0.15),transparent 70%);pointer-events:none}
+.form-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.form-left .section-tag{background:rgba(132,204,22,0.15);color:#A3E635}
+.form-left .section-title{color:#fff}
+.form-left .section-sub{color:rgba(255,255,255,0.65)}
+.form-list{margin-top:28px;display:flex;flex-direction:column;gap:12px}
+.form-list-item{display:flex;align-items:center;gap:12px;font-size:0.9rem;color:rgba(255,255,255,0.75)}
+.form-list-check{width:22px;height:22px;border-radius:50%;background:rgba(132,204,22,0.2);border:1px solid rgba(132,204,22,0.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#A3E635;font-size:0.75rem;font-weight:700}
+.form-card{background:#fff;border-radius:20px;padding:36px;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+.form-title{font-family:'Barlow Condensed',sans-serif;font-size:1.6rem;font-weight:700;color:var(--dark);margin-bottom:6px}
+.form-sub{font-size:0.85rem;color:var(--muted);margin-bottom:24px}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:0.82rem;font-weight:600;color:var(--dark);margin-bottom:6px}
+.form-group input,.form-group select{width:100%;padding:13px 16px;border:1.5px solid var(--border);border-radius:10px;font-size:0.9rem;font-family:'Inter',sans-serif;color:var(--dark);background:#fff;transition:border-color 0.2s ease;outline:none;appearance:none}
+.form-group input:focus,.form-group select:focus{border-color:var(--green)}
+.form-submit{width:100%;padding:15px;background:var(--orange);color:#fff;border:none;border-radius:100px;font-size:1rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.25s ease;margin-top:4px}
+.form-submit:hover{background:var(--orange-dark);transform:translateY(-2px);box-shadow:0 8px 24px rgba(249,115,22,0.35)}
+.form-note{text-align:center;font-size:0.75rem;color:var(--muted);margin-top:12px}
+
+/* ── FOOTER ── */
+.footer{padding:32px 24px;background:var(--dark);text-align:center}
+.footer-logo{font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:700;color:#fff;margin-bottom:8px}
+.footer-logo span{color:#A3E635}
+.footer-text{font-size:0.82rem;color:rgba(255,255,255,0.4)}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.6s ease,transform 0.6s ease}
+.reveal.visible{opacity:1;transform:none}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .hero-content{grid-template-columns:1fr;gap:40px}
+  .hero-visual{display:none}
+  .directions-grid{grid-template-columns:1fr 1fr}
+  .adv-grid{grid-template-columns:1fr 1fr}
+  .coaches-grid{grid-template-columns:1fr 1fr}
+  .reviews-grid{grid-template-columns:1fr}
+  .form-wrapper{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .directions-grid{grid-template-columns:1fr}
+  .coaches-grid{grid-template-columns:1fr}
+  .adv-grid{grid-template-columns:1fr 1fr}
+  .nav-logo span:last-child{display:none}
+  section{padding:60px 16px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a class="nav-logo" href="#"><span>ТЕННИС</span> ВОСКРЕСЕНСК</a>
+  <a class="nav-cta" href="#zapisi">Записаться</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div>
+      <div class="hero-badge"><span class="hero-badge-dot"></span>Воскресенск · Московская область</div>
+      <h1>Теннис для детей и взрослых — <em>с нуля до первых побед</em></h1>
+      <p class="hero-sub">4 современных корта, профессиональные тренеры, форматы для любого уровня. Никогда не играли? Это лучший момент начать.</p>
+      <div class="hero-btns">
+        <a href="#zapisi" class="btn btn-primary">Записаться на пробное</a>
+        <a href="#zapisi" class="btn btn-outline">Забронировать корт</a>
+      </div>
+      <div class="hero-facts">
+        <div class="hero-fact"><div class="hero-fact-num">4</div><div class="hero-fact-label">теннисных корта</div></div>
+        <div class="hero-fact"><div class="hero-fact-num">3+</div><div class="hero-fact-label">года работаем</div></div>
+        <div class="hero-fact"><div class="hero-fact-num">2</div><div class="hero-fact-label">покрытия: хард и грунт</div></div>
+        <div class="hero-fact"><div class="hero-fact-num">∞</div><div class="hero-fact-label">уровень не важен</div></div>
+      </div>
+      <div class="hero-novice">
+        <div class="hero-novice-icon">👋</div>
+        <div class="hero-novice-text"><strong>Никогда не играли в теннис?</strong>Это нормально — большинство наших клиентов начинали с нуля. Первое занятие — это знакомство с тренером, а не экзамен.</div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-court">
+        <div class="hero-court-inner">
+          <div class="hero-court-label">TENNIS<br>CENTER</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIRECTIONS -->
+<section class="directions" id="directions">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">Форматы тренировок</div>
+      <h2 class="section-title">Выберите удобный формат под ваш уровень и цель</h2>
+      <p class="section-sub">Не знаете с чего начать? Индивидуальная тренировка — самый комфортный старт: тренер работает только с вами в удобном темпе.</p>
+    </div>
+    <div class="directions-grid">
+      <div class="dir-card featured reveal">
+        <div class="dir-badge">Лучший старт</div>
+        <div class="dir-icon">🎾</div>
+        <div class="dir-title">Индивидуальные тренировки</div>
+        <div class="dir-desc">Тренер работает только с вами — удобный темп, чёткая программа, быстрый прогресс. Идеально для новичков и тех, кто хочет серьёзно вырасти в игре.</div>
+        <a href="#zapisi" class="dir-link">Записаться <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+      <div class="dir-card reveal">
+        <div class="dir-icon">👧</div>
+        <div class="dir-title">Детская школа тенниса</div>
+        <div class="dir-desc">Группы от 5 лет. Тренеры умеют работать с детьми: весело, безопасно и с реальным результатом. Можно прийти совсем без опыта.</div>
+        <a href="#zapisi" class="dir-link">Записать ребёнка <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+      <div class="dir-card reveal">
+        <div class="dir-icon">👥</div>
+        <div class="dir-title">Взрослые групповые тренировки</div>
+        <div class="dir-desc">Тренируйтесь в группе людей своего уровня. Живая игра, поддержка, хорошая атмосфера и прогресс в технике.</div>
+        <a href="#zapisi" class="dir-link">Записаться <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+      <div class="dir-card reveal">
+        <div class="dir-icon">👫</div>
+        <div class="dir-title">Сплит-тренировки</div>
+        <div class="dir-desc">Тренировка вдвоём с партнёром — пара, друзья или коллеги. Экономия на стоимости, личный тренер и работа в паре.</div>
+        <a href="#zapisi" class="dir-link">Записаться <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+      <div class="dir-card reveal">
+        <div class="dir-icon">⚡</div>
+        <div class="dir-title">Спарринг-тренировки</div>
+        <div class="dir-desc">Для тех, кто хочет живой игровой практики. Подбираем партнёра вашего уровня. Реальный теннис — не упражнения.</div>
+        <a href="#zapisi" class="dir-link">Записаться <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+      <div class="dir-card reveal">
+        <div class="dir-icon">🏟️</div>
+        <div class="dir-title">Аренда корта</div>
+        <div class="dir-desc">Хотите просто поиграть самостоятельно? Бронируйте корт на удобное время. Хард и грунт — выбирайте покрытие под свой стиль игры.</div>
+        <a href="#zapisi" class="dir-link">Забронировать <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ADVANTAGES -->
+<section id="advantages">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">Почему мы</div>
+      <h2 class="section-title">Современный центр, где комфортно всем</h2>
+      <p class="section-sub">Мы создавали центр так, чтобы сюда хотелось приходить снова — и детям, и взрослым, и новичкам, и опытным игрокам.</p>
+    </div>
+    <div class="adv-grid">
+      <div class="adv-item reveal">
+        <div class="adv-icon">🏟️</div>
+        <div class="adv-title">4 теннисных корта</div>
+        <div class="adv-desc">Просторные, современные корты без очередей и ожидания</div>
+        <div class="adv-benefit">→ Вы всегда получите своё время на корте</div>
+      </div>
+      <div class="adv-item reveal">
+        <div class="adv-icon">🌿</div>
+        <div class="adv-title">Хард и грунт</div>
+        <div class="adv-desc">Два типа покрытия: хард — понятный старт для новичков, грунт — контроль мяча и комфортная игра</div>
+        <div class="adv-benefit">→ Выбирайте под свой стиль и задачи</div>
+      </div>
+      <div class="adv-item reveal">
+        <div class="adv-icon">🏠</div>
+        <div class="adv-title">Крытый формат</div>
+        <div class="adv-desc">Крытые корты позволяют тренироваться независимо от погоды и сезона — зимой, летом, в дождь</div>
+        <div class="adv-benefit">→ Занятия без перерывов весь год</div>
+      </div>
+      <div class="adv-item reveal">
+        <div class="adv-icon">🎓</div>
+        <div class="adv-title">Профессиональные тренеры</div>
+        <div class="adv-desc">Работают с детьми и взрослыми, с новичками и любителями. Тренер — это не просто «подавальщик мячей»</div>
+        <div class="adv-benefit">→ Реальный прогресс уже с первых занятий</div>
+      </div>
+      <div class="adv-item reveal">
+        <div class="adv-icon">🚗</div>
+        <div class="adv-title">Собственная парковка</div>
+        <div class="adv-desc">Большая парковка прямо у центра — не нужно искать место и беспокоиться о машине</div>
+        <div class="adv-benefit">→ Удобно приехать в любое время</div>
+      </div>
+      <div class="adv-item reveal">
+        <div class="adv-icon">☕</div>
+        <div class="adv-title">Кафе в центре</div>
+        <div class="adv-desc">Пока ребёнок тренируется — родители могут выпить кофе и отдохнуть в уютном кафе</div>
+        <div class="adv-benefit">→ Удобно для всей семьи</div>
+      </div>
+      <div class="adv-item reveal">
+        <div class="adv-icon">🛋️</div>
+        <div class="adv-title">Зона ожидания</div>
+        <div class="adv-desc">Комфортная зона для родителей и сопровождающих — можно подождать, поработать или просто отдохнуть</div>
+        <div class="adv-benefit">→ Никто не стоит на улице</div>
+      </div>
+      <div class="adv-item reveal">
+        <div class="adv-icon">🏢</div>
+        <div class="adv-title">Отдельное здание</div>
+        <div class="adv-desc">Свой корпус — не подвал в школе, не арендованный зал. Настоящий теннисный центр, построенный для тенниса</div>
+        <div class="adv-benefit">→ Это сразу чувствуется</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COACHES -->
+<section class="coaches" id="coaches">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">Тренеры</div>
+      <h2 class="section-title">Тренеры, которым можно доверять</h2>
+      <p class="section-sub">Все тренеры работают с детьми и взрослыми, с новичками и любителями. Первая тренировка — это знакомство, без оценок и страха.</p>
+    </div>
+    <div class="coaches-grid">
+      <div class="coach-card reveal">
+        <div class="coach-photo"><div class="coach-photo-placeholder">А</div></div>
+        <div class="coach-body">
+          <div class="coach-name">Алексей Смирнов</div>
+          <div class="coach-role">Главный тренер · Детские и взрослые группы</div>
+          <div class="coach-exp">Опыт работы 10+ лет. Специализация — детская школа тенниса и работа с новичками. Воспитал более 50 юных теннисистов. Умеет объяснить технику понятно и без сложных терминов.</div>
+          <div class="coach-tags">
+            <span class="coach-tag">Дети</span><span class="coach-tag">Новички</span><span class="coach-tag">Группы</span>
+          </div>
+          <a href="#zapisi" class="coach-cta">Записаться к тренеру</a>
+        </div>
+      </div>
+      <div class="coach-card reveal">
+        <div class="coach-photo"><div class="coach-photo-placeholder">М</div></div>
+        <div class="coach-body">
+          <div class="coach-name">Мария Козлова</div>
+          <div class="coach-role">Тренер · Взрослые и индивидуальные тренировки</div>
+          <div class="coach-exp">8 лет в профессиональном теннисе. Специализация — взрослые любители и индивидуальная работа. Подбирает программу под каждого игрока: цели, уровень, физические возможности.</div>
+          <div class="coach-tags">
+            <span class="coach-tag">Взрослые</span><span class="coach-tag">Индивидуально</span><span class="coach-tag">Сплит</span>
+          </div>
+          <a href="#zapisi" class="coach-cta">Записаться к тренеру</a>
+        </div>
+      </div>
+      <div class="coach-card reveal">
+        <div class="coach-photo"><div class="coach-photo-placeholder">Д</div></div>
+        <div class="coach-body">
+          <div class="coach-name">Дмитрий Волков</div>
+          <div class="coach-role">Тренер · Спарринг и продвинутый уровень</div>
+          <div class="coach-exp">Бывший профессиональный игрок, 7 лет тренерского опыта. Работает с любителями и спортсменами, готовит к соревнованиям. Специализация — тактика и игровая практика.</div>
+          <div class="coach-tags">
+            <span class="coach-tag">Любители</span><span class="coach-tag">Спарринг</span><span class="coach-tag">Соревнования</span>
+          </div>
+          <a href="#zapisi" class="coach-cta">Записаться к тренеру</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">Отзывы</div>
+      <h2 class="section-title">Что говорят наши клиенты</h2>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card reveal">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">«Привела дочку 6 лет — совсем без опыта. Боялась, что будет неловко и скучно. Оказалось наоборот: Алексей нашёл к ней подход с первого занятия. Ходим уже полгода, дочь в восторге. Рекомендую всем родителям, которые думают — не рано ли начинать.»</div>
+        <div class="review-author">
+          <div class="review-avatar">Н</div>
+          <div><div class="review-name">Наталья, мама Маши (7 лет)</div><div class="review-status">Клиент детской школы тенниса</div></div>
+        </div>
+      </div>
+      <div class="review-card reveal">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">«Никогда в жизни не держал ракетку. Пришёл в 38 лет — немного стеснялся. Мария объяснила всё с нуля, без снисхождения и без насмешек. Через месяц индивидуальных тренировок уже нормально контролирую мяч. Центр шикарный — парковка, кафе, всё удобно.»</div>
+        <div class="review-author">
+          <div class="review-avatar">С</div>
+          <div><div class="review-name">Сергей, 38 лет</div><div class="review-status">Взрослый новичок · Индивидуальные тренировки</div></div>
+        </div>
+      </div>
+      <div class="review-card reveal">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">«Играю в теннис несколько лет, ищу хорошие корты и спарринг-партнёров. Нашёл этот центр — и остался. Грунтовый корт в отличном состоянии, Дмитрий классно работает по тактике. Удобная парковка — это мелочь, но приятная.»</div>
+        <div class="review-author">
+          <div class="review-avatar">А</div>
+          <div><div class="review-name">Андрей, 31 год</div><div class="review-status">Любитель · Спарринг и аренда корта</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORM -->
+<section class="form-section" id="zapisi">
+  <div class="container">
+    <div class="form-wrapper">
+      <div class="form-left reveal">
+        <div class="section-tag">Запись</div>
+        <h2 class="section-title">Сделайте первый шаг прямо сейчас</h2>
+        <p class="section-sub">Оставьте заявку — мы свяжемся, ответим на вопросы и подберём удобное время для первого занятия.</p>
+        <div class="form-list">
+          <div class="form-list-item"><div class="form-list-check">✓</div>Можно прийти без опыта и снаряжения</div>
+          <div class="form-list-item"><div class="form-list-check">✓</div>Первое занятие — знакомство, не экзамен</div>
+          <div class="form-list-item"><div class="form-list-check">✓</div>Тренеры работают с детьми и взрослыми</div>
+          <div class="form-list-item"><div class="form-list-check">✓</div>Корты, парковка, кафе — всё на месте</div>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="form-card">
+          <div class="form-title">Записаться на занятие</div>
+          <div class="form-sub">Заполните форму — ответим в течение часа</div>
+          <form onsubmit="handleSubmit(event)">
+            <div class="form-group">
+              <label>Ваше имя</label>
+              <input type="text" placeholder="Иван Иванов" required>
+            </div>
+            <div class="form-group">
+              <label>Номер телефона</label>
+              <input type="tel" placeholder="+7 (999) 000-00-00" required>
+            </div>
+            <div class="form-group">
+              <label>Интересующий формат</label>
+              <select>
+                <option value="">Выберите формат</option>
+                <option>Детские тренировки</option>
+                <option>Взрослые тренировки</option>
+                <option>Индивидуальные занятия</option>
+                <option>Сплит-тренировки</option>
+                <option>Спарринг</option>
+                <option>Аренда корта</option>
+                <option>Нужна консультация</option>
+              </select>
+            </div>
+            <button type="submit" class="form-submit">Оставить заявку →</button>
+          </form>
+          <p class="form-note">Нажимая кнопку, вы соглашаетесь на обработку персональных данных</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-logo"><span>ТЕННИС</span> ВОСКРЕСЕНСК</div>
+  <p class="footer-text">Воскресенск, Московская область · Теннисный центр</p>
+</footer>
+
+<script>
+// Reveal on scroll
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)} });
+},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// Form submit
+function handleSubmit(e){
+  e.preventDefault();
+  const btn = e.target.querySelector('.form-submit');
+  btn.textContent = '✓ Заявка отправлена!';
+  btn.style.background = '#16A34A';
+  btn.disabled = true;
+}
+</script>
+</body>
+</html>
