@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ИИ-ВИЗАЦИЯ: OPENCLAW — Подготовка к обучению</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #0a0a0f;
+    --bg-card: #12121a;
+    --bg-card-hover: #181825;
+    --border: #1e1e2e;
+    --border-accent: #2a2a3e;
+    --text-primary: #e8e6f0;
+    --text-secondary: #8b879e;
+    --text-muted: #5a5670;
+    --accent: #7c5bf5;
+    --accent-glow: #9d7cff;
+    --accent-soft: rgba(124, 91, 245, 0.12);
+    --green: #34d399;
+    --green-glow: #6ee7b7;
+    --green-soft: rgba(52, 211, 153, 0.1);
+    --amber: #fbbf24;
+    --amber-soft: rgba(251, 191, 36, 0.1);
+    --red-soft: rgba(248, 113, 113, 0.1);
+    --red: #f87171;
+    --radius: 14px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Onest', sans-serif; background: var(--bg-deep); color: var(--text-primary); line-height: 1.65; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+  body::before { content: ''; position: fixed; inset: 0; background-image: radial-gradient(circle at 20% 20%, rgba(124,91,245,0.04) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(52,211,153,0.03) 0%, transparent 50%); pointer-events: none; z-index: 0; }
+  .wrapper { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; padding: 40px 20px 80px; }
+
+  /* HEADER */
+  .header { text-align: center; margin-bottom: 48px; }
+  .header__badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-glow); background: var(--accent-soft); border: 1px solid rgba(124,91,245,0.2); padding: 6px 16px; border-radius: 100px; margin-bottom: 24px; animation: fadeDown .6s ease both; }
+  .header__title { font-size: clamp(28px,6vw,40px); font-weight: 800; line-height: 1.15; letter-spacing: -0.5px; margin-bottom: 12px; animation: fadeDown .6s ease .1s both; }
+  .header__title span { background: linear-gradient(135deg, var(--accent-glow), var(--green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .header__subtitle { font-size: 15px; color: var(--text-secondary); max-width: 500px; margin: 0 auto; animation: fadeDown .6s ease .2s both; }
+
+  /* PROGRESS */
+  .progress-wrap { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 36px; position: sticky; top: 12px; z-index: 10; backdrop-filter: blur(16px); background: rgba(18,18,26,0.92); animation: fadeDown .6s ease .3s both; }
+  .progress-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .progress-label { font-size: 13px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; font-family: 'JetBrains Mono', monospace; }
+  .progress-count { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 700; color: var(--accent-glow); }
+  .progress-bar { width: 100%; height: 8px; background: var(--border); border-radius: 100px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--green)); border-radius: 100px; transition: width .5s cubic-bezier(.34,1.56,.64,1); width: 0%; }
+
+  /* SECTION */
+  .section { margin-bottom: 28px; }
+  .section__header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; padding-left: 2px; }
+  .section__num { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: var(--accent); background: var(--accent-soft); width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 8px; flex-shrink: 0; }
+  .section__title { font-size: 17px; font-weight: 700; letter-spacing: -0.2px; }
+  .section__card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: border-color .3s; }
+  .section__card:hover { border-color: var(--border-accent); }
+
+  /* ITEM */
+  .item { display: flex; align-items: flex-start; gap: 14px; padding: 16px 20px; border-bottom: 1px solid var(--border); transition: background .2s; cursor: pointer; user-select: none; }
+  .item:last-child { border-bottom: none; }
+  .item:hover { background: var(--bg-card-hover); }
+  .item.checked .item__text { color: var(--text-muted); text-decoration: line-through; }
+  .item.checked .item__link { opacity: 0.4; }
+  .item__check { position: relative; width: 22px; height: 22px; flex-shrink: 0; margin-top: 1px; }
+  .item__check input { position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; z-index: 2; }
+  .item__check .cm { width: 22px; height: 22px; border: 2px solid var(--border-accent); border-radius: 6px; display: flex; align-items: center; justify-content: center; transition: all .25s cubic-bezier(.34,1.56,.64,1); }
+  .item__check .cm svg { width: 12px; height: 12px; opacity: 0; transform: scale(0); transition: all .25s cubic-bezier(.34,1.56,.64,1); }
+  .item__check input:checked + .cm { background: var(--green); border-color: var(--green); }
+  .item__check input:checked + .cm svg { opacity: 1; transform: scale(1); }
+  .item__body { flex: 1; min-width: 0; }
+  .item__text { font-size: 14.5px; font-weight: 500; color: var(--text-primary); transition: all .3s; }
+  .item__hint { font-size: 13px; color: var(--text-secondary); margin-top: 4px; line-height: 1.6; }
+  .item__hint a { color: var(--accent-glow); text-decoration: none; font-weight: 600; }
+  .item__hint a.tg { color: #2dd4bf; text-decoration: underline; text-decoration-color: rgba(45,212,191,0.4); text-underline-offset: 2px; }
+  .item__hint a.tg:hover { color: #5eead4; text-decoration-color: #5eead4; }
+  .item__hint a:hover { text-decoration: underline; }
+  .item__hint strong { color: var(--text-primary); }
+  .item__link { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-family: 'JetBrains Mono', monospace; color: var(--accent-glow); text-decoration: none; margin-top: 5px; transition: all .2s; word-break: break-all; }
+  .item__link:hover { color: #bba4ff; text-decoration: underline; }
+  .item__link svg { width: 13px; height: 13px; flex-shrink: 0; }
+  .lnk { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-family: 'JetBrains Mono', monospace; color: var(--accent-glow); text-decoration: none; word-break: break-all; }
+  .lnk:hover { color: #bba4ff; text-decoration: underline; }
+
+  /* NOTE */
+  .note { display: flex; align-items: flex-start; gap: 10px; padding: 14px 20px; font-size: 13px; color: var(--text-secondary); line-height: 1.6; border-bottom: 1px solid var(--border); }
+  .note:last-child { border-bottom: none; }
+  .note--warn { background: var(--amber-soft); color: var(--amber); }
+  .note--info { background: var(--accent-soft); }
+  .note--alert { background: var(--red-soft); color: var(--red); }
+  .note--green { background: var(--green-soft); color: var(--green-glow); }
+  .note__icon { flex-shrink: 0; font-size: 15px; }
+  .note a { color: var(--accent-glow); text-decoration: none; font-weight: 600; }
+  .note a:hover { text-decoration: underline; }
+  .note strong { color: inherit; }
+  .tg { color: #2dd4bf !important; font-weight: 700; text-decoration: underline; text-decoration-color: rgba(45,212,191,0.4); text-underline-offset: 2px; transition: all .2s; }
+  .tg:hover { color: #5eead4 !important; text-decoration-color: #5eead4; }
+
+  /* SPOILER */
+  .spoiler { border-bottom: 1px solid var(--border); }
+  .spoiler:last-child { border-bottom: none; }
+  .spoiler summary { padding: 14px 20px; font-size: 13.5px; font-weight: 600; color: var(--text-secondary); cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px; transition: color .2s; }
+  .spoiler summary:hover { color: var(--text-primary); }
+  .spoiler summary::before { content: '▸'; font-size: 12px; transition: transform .2s; }
+  .spoiler[open] summary::before { transform: rotate(90deg); }
+  .spoiler__content { padding: 0 20px 16px 34px; font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+  .spoiler__content p { margin-bottom: 8px; }
+  .spoiler__content strong { color: var(--text-primary); font-weight: 600; }
+
+  /* TABLE */
+  .os-table { width: 100%; font-size: 13px; border-collapse: collapse; margin: 8px 0; }
+  .os-table th { text-align: left; font-weight: 600; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; padding: 6px 0; border-bottom: 1px solid var(--border); }
+  .os-table td { padding: 8px 0; border-bottom: 1px solid var(--border); color: var(--text-secondary); vertical-align: top; }
+  .os-table tr:last-child td { border-bottom: none; }
+  .os-table td:first-child { color: var(--text-primary); font-weight: 500; }
+
+  /* FOOTER */
+  .footer { text-align: center; margin-top: 48px; }
+  .footer__done { display: none; background: var(--green-soft); border: 1px solid rgba(52,211,153,0.25); border-radius: var(--radius); padding: 32px 24px; margin-bottom: 24px; }
+  .footer__done.visible { display: block; animation: popIn .5s cubic-bezier(.34,1.56,.64,1) both; }
+  .footer__done-emoji { font-size: 48px; margin-bottom: 10px; }
+  .footer__done-text { font-size: 22px; font-weight: 800; color: var(--green); margin-bottom: 6px; }
+  .footer__done-sub { font-size: 15px; color: var(--text-secondary); }
+  .footer__schedule { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 20px; font-size: 14px; }
+  .footer__schedule-title { font-weight: 700; margin-bottom: 8px; font-size: 15px; }
+  .footer__schedule-row { display: flex; justify-content: space-between; padding: 4px 0; color: var(--text-secondary); }
+  .footer__schedule-row span:first-child { color: var(--text-primary); font-weight: 500; }
+  .footer__contact { font-size: 14px; color: var(--text-secondary); margin-bottom: 20px; }
+  .footer__contact a { color: #2dd4bf; text-decoration: underline; text-decoration-color: rgba(45,212,191,0.4); font-weight: 700; }
+  .footer__contact a:hover { text-decoration: underline; }
+  .btn-reset { background: none; border: 1px solid var(--border); color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 8px 20px; border-radius: 100px; cursor: pointer; transition: all .2s; }
+  .btn-reset:hover { border-color: var(--red); color: var(--red); }
+
+  /* CONFETTI CANVAS */
+  #confetti-canvas { position: fixed; inset: 0; z-index: 9999; pointer-events: none; }
+
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+
+  @media (max-width: 480px) {
+    .wrapper { padding: 28px 14px 60px; }
+    .item { padding: 14px 16px; gap: 12px; }
+    .note { padding: 12px 16px; }
+    .spoiler summary { padding: 12px 16px; }
+    .spoiler__content { padding: 0 16px 14px 28px; }
+    .progress-wrap { padding: 16px 18px; top: 8px; }
+    .footer__schedule-row { flex-direction: column; gap: 2px; }
+  }
+</style>
+</head>
+<body>
+<canvas id="confetti-canvas"></canvas>
+<div class="wrapper">
+
+  <header class="header">
+    <div class="header__badge">ИИ-ВИЗАЦИЯ: OPENCLAW</div>
+    <h1 class="header__title">Подготовка <span>к обучению</span></h1>
+    <p class="header__subtitle">Выполните все шаги до первой онлайн-встречи. Отмечайте галочками — прогресс сохраняется в&nbsp;вашем браузере.</p>
+  </header>
+
+  <div class="progress-wrap">
+    <div class="progress-top">
+      <span class="progress-label">Прогресс</span>
+      <span class="progress-count" id="progressCount">0 / 0</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <div id="sections">
+
+<!-- ====== 01 CHROME ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">01</div><div class="section__title">Google Chrome</div></div>
+  <div class="section__card">
+    <label class="item" data-key="chrome-dl"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Скачать и установить Google Chrome</div>
+        <div class="item__hint">Если уже установлен — отметьте галочку и идите дальше.</div>
+        <a href="https://www.google.com/chrome/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> google.com/chrome — скачать браузер Google Chrome</a>
+      </div>
+    </label>
+
+    <label class="item" data-key="chrome-default"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Сделать Chrome браузером по умолчанию</div>
+        <div class="item__hint"><strong>macOS:</strong> Системные настройки → Рабочий стол и Dock → внизу найдите «Веб-браузер по умолчанию» → выберите Google Chrome.<br>
+        <strong>Windows:</strong> Параметры → Приложения → Приложения по умолчанию → найдите Google Chrome → нажмите «Использовать по умолчанию».</div>
+      </div>
+    </label>
+
+    <label class="item" data-key="chrome-login"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Войти в свой Google-аккаунт в Chrome</div>
+        <div class="item__hint">Вернитесь к этому пункту после шага 05 (Gmail), когда у вас уже будет работающий VPN и Google-аккаунт.<br>Откройте Chrome → нажмите на иконку профиля (кружок в правом верхнем углу) → «Включить синхронизацию» → введите свой Gmail и пароль.</div>
+      </div>
+    </label>
+  </div>
+</div>
+
+<!-- ====== 02 VPS ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">02</div><div class="section__title">VPS-сервер для VPN</div></div>
+  <div class="section__card">
+    <div class="note note--info"><span class="note__icon">💡</span><span>VPS — это удалённый компьютер (сервер) в другой стране, который работает 24/7. Мы купим его в Нидерландах, чтобы через него выходить в интернет с европейским IP. Это нужно для доступа к Claude и другим сервисам.</span></div>
+
+    <label class="item" data-key="aeza-reg"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Зарегистрироваться на Aeza</div>
+        <div class="item__hint">Откройте сайт → нажмите «Регистрация» → введите email и пароль → подтвердите email (придёт письмо — проверьте «Входящие» и папку «Спам»).</div>
+        <a href="https://aeza.net/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> aeza.net — хостинг для покупки VPS-сервера</a>
+      </div>
+    </label>
+
+    <label class="item" data-key="aeza-buy"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Купить VPS-сервер</div>
+        <div class="item__hint">В личном кабинете: «Виртуальные серверы» → «Создать».<br>
+        • <strong>Локация:</strong> Нидерланды (нужен европейский IP — ближе к России, быстрее работает)<br>
+        • <strong>Тариф:</strong> самый дешёвый Shared — 1 vCPU, 1–2 ГБ RAM<br>
+        • <strong>Система:</strong> Ubuntu 24.04</div>
+      </div>
+    </label>
+
+    <label class="item" data-key="aeza-pay"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Оплатить сервер удобным способом</div>
+        <div class="item__hint">Карта (МИР, Visa, MC), СБП (QR-код), криптовалюта — выберите что удобнее и оплатите.</div>
+      </div>
+    </label>
+
+    <label class="item" data-key="aeza-wait"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Дождаться активации сервера</div>
+        <div class="item__hint">Обычно 1–3 минуты. Статус изменится на «Активен» (зелёный). Если дольше 10 минут — проверьте почту или пишите в поддержку Aeza.</div>
+      </div>
+    </label>
+
+    <label class="item" data-key="aeza-creds"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Сохранить IP-адрес и root-пароль</div>
+        <div class="item__hint">Откройте карточку сервера. Там будут:<br>
+        • <strong>IP-адрес</strong> — набор цифр, например 185.123.45.67<br>
+        • <strong>Пароль</strong> — длинная строка из букв и цифр<br>
+        Скопируйте оба в заметки. Также проверьте почту — Aeza присылает письмо с данными сервера после покупки.</div>
+      </div>
+    </label>
+
+    <div class="note note--warn"><span class="note__icon">⚡</span><span><strong>Не закрывайте эти данные!</strong> IP и пароль нужны прямо сейчас — для настройки VPN.</span></div>
+  </div>
+</div>
+
+<!-- ====== 03 AMNEZIA ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">03</div><div class="section__title">Amnezia VPN</div></div>
+  <div class="section__card">
+    <div class="note note--info"><span class="note__icon">💡</span><span>Amnezia — бесплатная программа, которая превращает ваш VPS в персональный VPN. Вводите IP и пароль сервера — она сама всё настроит. Никакого кода, никакой командной строки.</span></div>
+
+    <label class="item" data-key="amnezia-dl"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Скачать Amnezia VPN на компьютер</div>
+        <div class="item__hint">Выберите файл для вашей ОС из таблицы ниже.</div>
+      </div>
+    </label>
+
+    <details class="spoiler" open>
+      <summary>Файлы для скачивания — выберите свою ОС</summary>
+      <div class="spoiler__content">
+        <table class="os-table">
+          <tr><th>Ваша ОС</th><th>Скачать</th></tr>
+          <tr><td><strong>macOS 13+</strong><br><span style="color:var(--text-muted)">Ventura, Sonoma, Sequoia, Tahoe</span></td><td><a href="https://drive.google.com/file/d/1Ej2g_9nIn0XnBGBrLe8ON1_uMCscxeBd/view?usp=drive_link" target="_blank" class="lnk">📦 скачать .pkg</a></td></tr>
+          <tr><td><strong>macOS 10.15–12</strong><br><span style="color:var(--text-muted)">Catalina → Monterey</span></td><td><a href="https://drive.google.com/file/d/1vW4QXp2xY3Z8BoltofoiETOO5PJiVpPz/view?usp=drive_link" target="_blank" class="lnk">📦 скачать .zip</a></td></tr>
+          <tr><td><strong>Windows 10/11</strong></td><td><a href="https://drive.google.com/file/d/1LvzA2T7T91AuOPjDro11-pPL0P-rS_ps/view?usp=drive_link" target="_blank" class="lnk">📦 скачать .exe</a></td></tr>
+        </table>
+        <p style="margin-top:10px"><strong>Не знаете версию macOS?</strong> Нажмите  (яблоко) в левом верхнем углу → «Об этом Mac».<br>
+        <strong>Не знаете версию Windows?</strong> Нажмите Win + I → «Система» → «О системе» — там будет написана версия (Windows 10 или 11).</p>
+      </div>
+    </details>
+
+    <div class="note note--alert"><span class="note__icon">⚠</span><span>macOS 12 и ниже или Windows 8 — <strong>обновите систему</strong>. Старые ОС = проблемы с безопасностью. Мы не сможем гарантировать, что всё заработает.</span></div>
+
+    <label class="item" data-key="amnezia-install"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Установить Amnezia на компьютер</div>
+        <div class="item__hint"><strong>macOS:</strong> откройте .pkg → следуйте инструкциям → если система попросит разрешение — разрешите в «Системных настройках».<br><strong>Windows:</strong> откройте .exe → «Далее» → «Установить» → «Готово».</div>
+      </div>
+    </label>
+
+    <label class="item" data-key="amnezia-connect"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Подключить Amnezia к вашему серверу</div>
+        <div class="item__hint">1. Откройте Amnezia<br>2. Выберите «Настроить свой сервер» (Self-hosted VPN)<br>3. Введите <strong>IP-адрес</strong> сервера (из шага 02)<br>4. Введите <strong>root-пароль</strong> (из шага 02)<br>5. Нажмите «Подключиться»<br>6. Подождите 2–3 минуты — Amnezia всё сделает сама<br>7. Когда увидите «Подключено» — VPN работает!</div>
+      </div>
+    </label>
+
+    <details class="spoiler">
+      <summary>🛠 Ошибка 103: «Background service is not running»</summary>
+      <div class="spoiler__content">
+        <p>Это частая ошибка. Amnezia не может запустить свою фоновую службу. Вот что делать:</p>
+        <p><strong>macOS:</strong> Откройте «Системные настройки» → «Основные» → «Объекты входа и расширения». Найдите <strong>Privacy Technologies OU</strong> и разрешите ему работать в фоне. Перезапустите Amnezia.</p>
+        <p><strong>Windows:</strong> Нажмите Ctrl+Alt+Del → «Диспетчер задач» → вкладка «Службы» → найдите <strong>AmneziaVPN-service</strong>. Если остановлена — нажмите правой кнопкой → «Запустить». Перезапустите Amnezia.</p>
+        <p>Если не помогло — напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a>, разберёмся вместе.</p>
+      </div>
+    </details>
+
+    <div class="note note--info"><span class="note__icon">🔗</span><span>Сайт Amnezia не открывается или возникают ошибки? Используйте зеркала:<br>
+      <a href="https://m-1-14-3w5hsuiikq-ez.a.run.app/ru" target="_blank" class="lnk" style="display:block;margin-top:6px;margin-bottom:4px">🌐 Зеркало сайта Amnezia (на русском) — скачивание и информация о сервисе</a>
+      <a href="https://m-docs-3w5hsuiikq-ez.a.run.app/ru/" target="_blank" class="lnk" style="display:block">📚 Зеркало документации Amnezia (на русском) — инструкции, коды ошибок, решение проблем</a>
+    </span></div>
+
+    <div class="note note--warn"><span class="note__icon">🆘</span><span>Любые ошибки при установке или запуске VPN — <strong>сразу пишите</strong> <a href="https://t.me/stavzzz" target="_blank" class="tg" style="color:#2dd4bf">@stavzzz</a> в Telegram. Поможем!</span></div>
+  </div>
+</div>
+
+<!-- ====== 04 CHECK VPN ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">04</div><div class="section__title">Проверка VPN</div></div>
+  <div class="section__card">
+    <label class="item" data-key="vpn-check"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить, что IP нероссийский</div>
+        <div class="item__hint">1. Убедитесь, что VPN включён (в Amnezia написано «Подключено»)<br>2. Откройте любой из сайтов ниже в Chrome<br>3. Посмотрите на страну — она должна быть <strong>Нидерланды</strong> (Netherlands)</div>
+        <div style="padding-top:6px">
+          <a href="https://2ip.ru/" target="_blank" class="item__link" onclick="event.stopPropagation()" style="display:block;margin-bottom:4px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> 2ip.ru — покажет ваш IP и страну</a>
+          <a href="https://yandex.ru/internet/" target="_blank" class="item__link" onclick="event.stopPropagation()" style="display:block"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Яндекс Интернетометр — альтернативная проверка</a>
+        </div>
+      </div>
+    </label>
+    <div class="note note--warn"><span class="note__icon">🔒</span><span><strong>С этого момента VPN не выключаем!</strong> Все дальнейшие шаги — с включённым VPN.</span></div>
+  </div>
+</div>
+
+<!-- ====== 05 GMAIL ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">05</div><div class="section__title">Gmail</div></div>
+  <div class="section__card">
+    <div class="note note--info"><span class="note__icon">💡</span><span>Google-аккаунт нужен для интеграций с ИИ-агентом: Календарь, Диск, Таблицы. Если есть Gmail — можно использовать его. Но лучше создать отдельный, чисто под проект.</span></div>
+
+    <label class="item" data-key="gmail-create"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Создать Gmail или подготовить имеющийся</div>
+        <div class="item__hint">1. VPN включён!<br>2. Откройте accounts.google.com<br>3. «Создать аккаунт» → заполните имя, придумайте адрес и пароль<br>4. Если просит номер телефона — см. подсказку ниже<br>5. Завершите регистрацию</div>
+        <a href="https://accounts.google.com/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> accounts.google.com — создание и управление Google-аккаунтом</a>
+      </div>
+    </label>
+
+    <div class="note note--info"><span class="note__icon">📱</span><span>Google просит номер телефона? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в Telegram — даст виртуальный номер. <strong>Используйте его за 10 минут</strong> — потом сгорит!</span></div>
+
+    <label class="item" data-key="gmail-2fa"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Включить двухфакторную аутентификацию (2FA)</div>
+        <div class="item__hint"><strong>Что это?</strong> Двухфакторная аутентификация — дополнительная защита. При входе кроме пароля нужно ввести код из приложения на телефоне. Даже если кто-то узнает пароль — без телефона в аккаунт не зайдёт.<br><br>
+        <strong>Как включить:</strong><br>
+        1. Скачайте Google Authenticator на телефон (ссылки ниже)<br>
+        2. В Gmail: иконка профиля → «Управление аккаунтом Google» → «Безопасность» → «Двухэтапная аутентификация» → включите<br>
+        3. Отсканируйте QR-код приложением Authenticator</div>
+        <div style="padding:4px 0 0 0">
+          <a href="https://apps.apple.com/am/app/google-authenticator/id388497605" target="_blank" class="item__link" onclick="event.stopPropagation()" style="display:block;margin-bottom:4px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Google Authenticator для iPhone (App Store)</a>
+          <a href="https://play.google.com/store/search?q=google+authenticator&c=apps" target="_blank" class="item__link" onclick="event.stopPropagation()" style="display:block"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Google Authenticator для Android (Google Play)</a>
+        </div>
+      </div>
+    </label>
+  </div>
+</div>
+
+<!-- ====== 06 CLAUDE ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">06</div><div class="section__title">Claude</div></div>
+  <div class="section__card">
+    <div class="note note--info"><span class="note__icon">🧠</span><span>Claude — языковая модель от компании Anthropic. Именно Claude станет «мозгом» вашего ИИ-директора в OpenClaw. Мы используем Claude, а не ChatGPT и не Gemini.</span></div>
+
+    <label class="item" data-key="claude-open"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Открыть Claude и начать регистрацию</div>
+        <div class="item__hint">1. VPN включён!<br>2. Откройте claude.ai<br>3. Нажмите «Sign up»<br>4. Введите ваш Gmail</div>
+        <a href="https://claude.ai/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> claude.ai — сайт для регистрации и работы с Claude</a>
+      </div>
+    </label>
+
+    <label class="item" data-key="claude-phone"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Подтвердить номер телефона</div>
+        <div class="item__hint">Claude попросит номер (только США или UK). Российский не подойдёт!<br><br><strong>Что делать:</strong> напишите <a href="https://t.me/stavzzz" target="_blank" onclick="event.stopPropagation()" class="tg">@stavzzz</a> в Telegram — он даст виртуальный номер. Введите, получите SMS-код, завершите.<br><br><strong>Номер работает 10 минут. Не откладывайте!</strong></div>
+      </div>
+    </label>
+
+    <label class="item" data-key="claude-test"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Отправить тестовое сообщение</div>
+        <div class="item__hint">Напишите что-нибудь, например «Привет! Расскажи о себе». Получили ответ? Работает!</div>
+      </div>
+    </label>
+
+    <div class="note note--alert"><span class="note__icon">🚨</span><span><strong>ВАЖНО: не экспериментируйте с аккаунтом!</strong> Компания Anthropic (создатели Claude) может заблокировать ваш аккаунт, если вы:<br>
+    • Часто меняете VPN и страны подключения<br>
+    • Привязываете и отвязываете разные карты<br>
+    • Создаёте много аккаунтов с одного устройства<br><br>
+    Используйте <strong>один VPN, одну карту, один аккаунт</strong>. Не меняйте страну VPN без необходимости. Если аккаунт заблокируют — восстановить его крайне сложно.</span></div>
+  </div>
+</div>
+
+<!-- ====== 07 CLAUDE MAX ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">07</div><div class="section__title">Оплата Claude Max</div></div>
+  <div class="section__card">
+    <div class="note note--info"><span class="note__icon">💎</span><span>Claude Max ($100/мес) — полный доступ ко всем моделям без ограничений. Эта подписка обязательна для работы на интенсиве.</span></div>
+
+    <label class="item" data-key="claude-pay"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body"><div class="item__text">Оплатить подписку Claude Max ($100/мес)</div></div>
+    </label>
+
+    <details class="spoiler" open>
+      <summary>Способ А — Виртуальная карта «Плати по миру» (рекомендуем)</summary>
+      <div class="spoiler__content">
+        <p>«Плати по миру» — крупнейший российский сервис виртуальных карт (185 000+ пользователей). Вы выпускаете карту Mastercard в долларах прямо в Telegram за 2 минуты, без паспорта. Пополняете рублями через СБП с любого банка. Картой оплачиваете Claude Max напрямую — как обычной зарубежной картой.</p>
+
+        <p><strong>💰 Стоимость:</strong></p>
+        <p>• Выпуск карты «Для путешествий» (USD) — 3 990 ₽<br>
+        • Срок действия — <strong>2 года</strong><br>
+        • Обслуживание 1-й год — бесплатно, 2-й год — 3 990 ₽<br>
+        • Комиссия за пополнение — 0%<br>
+        • Комиссия за транзакцию — $0,25 (включая отклонённые)<br>
+        • Курс конвертации RUB → USD немного выше рыночного (проверяйте перед оплатой)</p>
+
+        <p><strong>📋 Пошаговая инструкция:</strong></p>
+
+        <p><strong>Шаг 1 — Запустить бота</strong><br>
+        Откройте Telegram → перейдите по ссылке на бота «Плати по миру» (ниже) → нажмите «Запустить».</p>
+
+        <p><strong>Шаг 2 — Выпустить карту</strong><br>
+        В мини-приложении бота выберите <strong>«Карта для путешествий»</strong> (это долларовая карта — именно она нужна для Claude). Не пугайтесь названия — она подходит и для подписок, и для любых онлайн-платежей. Название — просто маркетинг.<br>
+        Укажите email и придумайте PIN-код. Паспорт не нужен.</p>
+
+        <p><strong>Шаг 3 — Оплатить выпуск</strong><br>
+        Бот сгенерирует ссылку или QR-код. Оплатите 3 990 ₽ через СБП с любого российского банка. После оплаты на карту зачислится $1 в качестве бонуса.</p>
+
+        <p><strong>Шаг 4 — Получить реквизиты</strong><br>
+        Сразу после оплаты в боте появятся:<br>
+        • Номер карты (16 цифр)<br>
+        • Срок действия (MM/YY)<br>
+        • CVV (3 цифры)<br>
+        • Биллинг-адрес<br>
+        Сохраните всё!</p>
+
+        <p><strong>Шаг 5 — Пополнить карту на $105+</strong><br>
+        В боте нажмите «Пополнить» → выберите СБП → введите сумму в рублях. Для Claude Max нужно $100 + запас на комиссию. Рекомендуем пополнить на ~$105. Деньги зачисляются за несколько минут.</p>
+
+        <p><strong>Шаг 6 — Оплатить Claude Max</strong><br>
+        Перейдите в Claude → иконка профиля → Settings → Billing → Upgrade → Max → введите реквизиты карты из Шага 4. Готово!</p>
+
+        <p style="background:var(--amber-soft);padding:10px 14px;border-radius:8px;color:var(--amber);margin:8px 0"><strong>💡 Совет:</strong> перед оплатой Claude за $100 — сделайте тестовый платёж на маленькую сумму (например, пополните карту на $2 и попробуйте что-нибудь мелкое), чтобы убедиться, что всё работает. Но учтите: каждая попытка оплаты стоит $0,25, даже неудачная.</p>
+
+        <p><strong>🔗 Ссылки:</strong></p>
+        <p style="margin-top:4px">
+          <a href="https://t.me/platipomiru_bot/platipomiru" target="_blank" class="lnk" style="display:block;margin-bottom:6px">🤖 Telegram-бот «Плати по миру» — выпуск и управление картой</a>
+          <a href="https://platipomiru.com/" target="_blank" class="lnk" style="display:block;margin-bottom:6px">🌐 platipomiru.com — официальный сайт сервиса</a>
+          <a href="https://help.platipomiru.com/razdely/populyarnye-voprosy" target="_blank" class="lnk" style="display:block;margin-bottom:6px">❓ FAQ — ответы на частые вопросы</a>
+          <a href="https://t.me/platipomiru_sup_bot" target="_blank" class="lnk" style="display:block">🛟 @platipomiru_sup_bot — бот техподдержки</a>
+        </p>
+      </div>
+    </details>
+
+    <details class="spoiler" open>
+      <summary>Способ Б — Карта РФ через МТС</summary>
+      <div class="spoiler__content">
+        <p>Сервис-посредник от МТС: вы платите российской картой, МТС активирует подписку Claude на ваш аккаунт.</p>
+        <p style="background:var(--red-soft);padding:10px 14px;border-radius:8px;color:var(--red);margin:8px 0"><strong>⚠ Внимание:</strong> для активации через МТС ваш VPN должен показывать IP-адрес в <strong>США</strong>. Если ваш сервер в Нидерландах — этот способ может не сработать. Используйте Способ А («Плати по миру») — он работает с любым нероссийским IP.</p>
+        <p>1. Откройте сайт по ссылке ниже</p>
+        <p>2. Введите <strong>email</strong>, на который зарегистрирован Claude</p>
+        <p>3. Выберите <strong>Max</strong> ($100/мес)</p>
+        <p>4. Оплатите российской картой в рублях</p>
+        <p>5. Подписка активируется автоматически</p>
+        <p><a href="https://payment.mts.ru/tools/claude" target="_blank" class="lnk">📎 payment.mts.ru/tools/claude — оплата подписки Claude через МТС</a></p>
+      </div>
+    </details>
+
+    <details class="spoiler">
+      <summary>Способ В — Сервис «Оплатым» (запасной вариант)</summary>
+      <div class="spoiler__content">
+        <p>Сервис-посредник для оплаты зарубежных подписок российскими картами. Может быть временно недоступен — проверьте перед использованием.</p>
+        <p>1. Откройте сайт по ссылке ниже</p>
+        <p>2. Свяжитесь со специалистом через Telegram (кнопка на сайте)</p>
+        <p>3. Напишите: «Хочу оплатить Claude Max»</p>
+        <p>4. Следуйте инструкциям оператора</p>
+        <p><a href="https://oplatym.ru/" target="_blank" class="lnk">📎 oplatym.ru — сервис оплаты зарубежных подписок</a></p>
+      </div>
+    </details>
+
+    <details class="spoiler">
+      <summary>Способ Г — Зарубежная карта (если есть Visa/MC не из РФ)</summary>
+      <div class="spoiler__content">
+        <p>Если у вас уже есть карта иностранного банка — это самый простой способ.</p>
+        <p>1. В Claude: иконка профиля → <strong>Settings</strong> → <strong>Billing</strong></p>
+        <p>2. <strong>Upgrade</strong> → выберите <strong>Max</strong></p>
+        <p>3. Введите данные карты → оплатите</p>
+      </div>
+    </details>
+
+    <label class="item" data-key="claude-verify"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить, что подписка активна</div>
+        <div class="item__hint">В Claude → иконка профиля → Settings → Billing. Должно быть написано <strong>«Max»</strong>.</div>
+      </div>
+    </label>
+
+    <label class="item" data-key="claude-platform"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Войти на платформу Claude</div>
+        <div class="item__hint">Это обязательный шаг! Откройте ссылку ниже и войдите в свой аккаунт Claude. Без этого не будет работать API-токен, который понадобится для подключения к OpenClaw.</div>
+        <a href="https://platform.claude.com/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> platform.claude.com — платформа Claude для получения API-токена</a>
+      </div>
+    </label>
+
+    <div class="note note--alert"><span class="note__icon">🚨</span><span><strong>Напоминание:</strong> используйте один VPN, одну карту, один аккаунт. Не переключайте страны VPN и не создавайте дублирующие аккаунты — Anthropic может заблокировать.</span></div>
+  </div>
+</div>
+
+  </div><!-- /sections -->
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer__done" id="doneBlock">
+      <div class="footer__done-emoji">🎉</div>
+      <div class="footer__done-text">Всё готово! Вы — огонь!</div>
+      <div class="footer__done-sub">Полная готовность к обучению. Увидимся на онлайн-встрече!</div>
+    </div>
+    <div class="footer__schedule">
+      <div class="footer__schedule-title">Первая онлайн-встреча</div>
+      <div class="footer__schedule-row"><span>Стандарт</span><span>27.03, ПТ, 17:00 МСК</span></div>
+      <div class="footer__schedule-row"><span>VIP (Премиум)</span><span>28.03, СБ, 17:00 МСК</span></div>
+    </div>
+    <div class="footer__contact">Возникли проблемы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
+    <button class="btn-reset" onclick="resetProgress()">Сбросить прогресс</button>
+  </div>
+
+</div>
+
+<script>
+// ====== CONFETTI ENGINE ======
+const C = document.getElementById('confetti-canvas');
+const ctx = C.getContext('2d');
+let particles = [];
+let confettiActive = false;
+let animFrame;
+
+function resizeCanvas() { C.width = window.innerWidth; C.height = window.innerHeight; }
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+const COLORS = ['#7c5bf5','#9d7cff','#34d399','#6ee7b7','#fbbf24','#f87171','#fb7185','#38bdf8','#facc15','#a78bfa','#f472b6','#4ade80'];
+
+function rand(a,b){ return Math.random()*(b-a)+a; }
+
+function createBurst(x, y, count) {
+  for(let i=0; i<count; i++){
+    const angle = rand(0, Math.PI*2);
+    const speed = rand(4, 14);
+    const size = rand(4, 10);
+    const shape = Math.random() > 0.4 ? 'rect' : 'circle';
+    particles.push({
+      x, y,
+      vx: Math.cos(angle)*speed + rand(-2,2),
+      vy: Math.sin(angle)*speed*-0.8 - rand(2,6),
+      size,
+      color: COLORS[Math.floor(Math.random()*COLORS.length)],
+      rotation: rand(0, Math.PI*2),
+      rotSpeed: rand(-0.2, 0.2),
+      gravity: rand(0.12, 0.25),
+      friction: rand(0.97, 0.995),
+      opacity: 1,
+      fadeSpeed: rand(0.005, 0.015),
+      shape,
+      life: 1
+    });
+  }
+}
+
+function launchConfetti() {
+  if(confettiActive) return;
+  confettiActive = true;
+  particles = [];
+
+  // Massive bursts from multiple positions
+  const W = C.width, H = C.height;
+  const bursts = [
+    [W*0.5, H*0.3, 120],  // top center
+    [W*0.15, H*0.2, 80],  // top left
+    [W*0.85, H*0.2, 80],  // top right
+    [W*0.5, H*0.1, 100],  // very top
+    [W*0.3, H*0.5, 60],   // mid left
+    [W*0.7, H*0.5, 60],   // mid right
+    [0, H*0.6, 50],       // left edge
+    [W, H*0.6, 50],       // right edge
+    [W*0.5, H*0.6, 80],   // center
+  ];
+
+  // Stagger the bursts
+  bursts.forEach(([x,y,count], i) => {
+    setTimeout(() => createBurst(x, y, count), i * 150);
+  });
+
+  // Second wave
+  setTimeout(() => {
+    createBurst(W*0.2, H*0.15, 90);
+    createBurst(W*0.8, H*0.15, 90);
+    createBurst(W*0.5, H*0.05, 100);
+  }, 1500);
+
+  // Third wave
+  setTimeout(() => {
+    createBurst(W*0.5, H*0.25, 120);
+    createBurst(W*0.1, H*0.4, 60);
+    createBurst(W*0.9, H*0.4, 60);
+  }, 2500);
+
+  animate();
+  setTimeout(() => { confettiActive = false; }, 8000);
+}
+
+function animate() {
+  ctx.clearRect(0, 0, C.width, C.height);
+
+  for(let i = particles.length - 1; i >= 0; i--){
+    const p = particles[i];
+    p.vx *= p.friction;
+    p.vy *= p.friction;
+    p.vy += p.gravity;
+    p.x += p.vx;
+    p.y += p.vy;
+    p.rotation += p.rotSpeed;
+    p.opacity -= p.fadeSpeed;
+
+    if(p.opacity <= 0){ particles.splice(i, 1); continue; }
+
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.rotation);
+    ctx.globalAlpha = p.opacity;
+    ctx.fillStyle = p.color;
+
+    if(p.shape === 'rect'){
+      ctx.fillRect(-p.size/2, -p.size/4, p.size, p.size/2);
+    } else {
+      ctx.beginPath();
+      ctx.arc(0, 0, p.size/2, 0, Math.PI*2);
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  if(particles.length > 0 || confettiActive){
+    animFrame = requestAnimationFrame(animate);
+  } else {
+    ctx.clearRect(0, 0, C.width, C.height);
+  }
+}
+
+// ====== CHECKLIST LOGIC ======
+const STORAGE_KEY = 'iivizaciya_checklist_v3';
+const items = document.querySelectorAll('.item[data-key]');
+const totalCount = items.length;
+let wasComplete = false;
+
+function loadState() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    let checkedCount = 0;
+    items.forEach(item => {
+      const cb = item.querySelector('input[type="checkbox"]');
+      if (saved[item.dataset.key]) { cb.checked = true; item.classList.add('checked'); checkedCount++; }
+    });
+    wasComplete = checkedCount === totalCount;
+  } catch(e) {}
+  updateProgress(false);
+}
+
+function saveState() {
+  const state = {};
+  items.forEach(item => { state[item.dataset.key] = item.querySelector('input[type="checkbox"]').checked; });
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+function updateProgress(canCelebrate = true) {
+  let checked = 0;
+  items.forEach(item => { if (item.querySelector('input[type="checkbox"]').checked) checked++; });
+  document.getElementById('progressCount').textContent = `${checked} / ${totalCount}`;
+  document.getElementById('progressFill').style.width = (totalCount > 0 ? (checked/totalCount)*100 : 0) + '%';
+
+  const done = document.getElementById('doneBlock');
+  if (checked === totalCount) {
+    done.classList.add('visible');
+    if (canCelebrate && !wasComplete) { launchConfetti(); }
+    wasComplete = true;
+  } else {
+    done.classList.remove('visible');
+    wasComplete = false;
+  }
+}
+
+items.forEach(item => {
+  item.querySelector('input[type="checkbox"]').addEventListener('change', function() {
+    item.classList.toggle('checked', this.checked);
+    saveState();
+    updateProgress(true);
+  });
+});
+
+function resetProgress() {
+  if (!confirm('Сбросить весь прогресс? Все галочки будут сняты.')) return;
+  items.forEach(item => { const cb = item.querySelector('input[type="checkbox"]'); cb.checked = false; item.classList.remove('checked'); });
+  wasComplete = false;
+  saveState();
+  updateProgress(false);
+}
+
+loadState();
+</script>
+</body>
+</html>
