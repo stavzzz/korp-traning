@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ИИ-ВИЗАЦИЯ: OPENCLAW — Подготовка к обучению</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -127,6 +128,16 @@
     .progress-wrap { padding: 16px 18px; top: 8px; }
     .footer__schedule-row { flex-direction: column; gap: 2px; }
   }
+
+  /* Checkbox only clickable on the checkbox itself */
+  .item { cursor: default; }
+  .item__body { pointer-events: none; }
+  .item__body * { pointer-events: none; }
+  .item__body a { pointer-events: auto !important; }
+  .item__check { cursor: pointer; pointer-events: auto; }
+  .item__check input[type="checkbox"] { cursor: pointer; }
+  .cm { cursor: pointer; }
+
 </style>
 </head>
 <body>
@@ -595,5 +606,18 @@ items.forEach(item=>{
 function resetProgress(){if(!confirm('Сбросить весь прогресс?'))return;items.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasComplete=false;saveState();updateProgress(false)}
 loadState();
 </script>
+
+<script>
+// Override: only checkbox area triggers toggle
+document.querySelectorAll('.item').forEach(function(item) {
+  item.addEventListener('click', function(e) {
+    if (!e.target.closest('.item__check')) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }, true);
+});
+</script>
+
 </body>
 </html>
