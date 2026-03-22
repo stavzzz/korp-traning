@@ -129,14 +129,12 @@
     .footer__schedule-row { flex-direction: column; gap: 2px; }
   }
 
-  /* Checkbox only clickable on the checkbox itself */
-  .item { cursor: default; }
+
+  /* Only checkbox circle is clickable for toggle */
+  .item { pointer-events: none; }
+  .item__check { pointer-events: auto; cursor: pointer; }
   .item__body { pointer-events: none; }
-  .item__body * { pointer-events: none; }
-  .item__body a { pointer-events: auto !important; }
-  .item__check { cursor: pointer; pointer-events: auto; }
-  .item__check input[type="checkbox"] { cursor: pointer; }
-  .cm { cursor: pointer; }
+  .item__body a, .item__body button, .item__link, .lnk, .tg { pointer-events: auto !important; }
 
 </style>
 </head>
@@ -605,18 +603,6 @@ items.forEach(item=>{
 });
 function resetProgress(){if(!confirm('Сбросить весь прогресс?'))return;items.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasComplete=false;saveState();updateProgress(false)}
 loadState();
-</script>
-
-<script>
-// Override: only checkbox area triggers toggle
-document.querySelectorAll('.item').forEach(function(item) {
-  item.addEventListener('click', function(e) {
-    if (!e.target.closest('.item__check')) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-  }, true);
-});
 </script>
 
 </body>
