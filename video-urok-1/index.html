@@ -487,11 +487,41 @@
     <div class="item" data-key="tello-activate"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Активировать eSIM и включить Wi-Fi Calling</div>
-        <div class="item__hint"><strong>Активация:</strong><br>1. После оплаты на экране появится QR-код<br>2. На телефоне: отсканируйте QR камерой (или Настройки → Сотовая связь → Добавить eSIM)<br>3. Дождитесь установки (~1 минута)<br><br>
-        <strong>Включение Wi-Fi Calling (обязательно!):</strong><br>Без этого SMS от Claude и Google <strong>не придут</strong> без мобильной сети США. Wi-Fi Calling позволяет принимать SMS через обычный домашний Wi-Fi.<br><br>
-        <strong>iOS:</strong> Настройки → Сотовая связь → выберите SIM-карту Tello → «Вызовы по Wi-Fi» → <strong>включить</strong>. Появится окно «Emergency 911 Address» → введите <strong>биллинг-адрес карты из шага 05</strong>.<br><br>
-        <strong>Android:</strong> Настройки → Сеть и интернет → SIM-карты → Tello → «Вызовы по Wi-Fi» → <strong>включить</strong> → ввести <strong>биллинг-адрес карты из шага 05</strong>.<br><br>
-        <strong>Проверка:</strong> в шторке уведомлений рядом с делениями связи должно быть <strong>«Tello Wi-Fi»</strong>. Если видите — SMS будут приходить через Wi-Fi!</div>
+        <div class="item__hint">
+          <strong>Установка eSIM:</strong><br>
+          1. После оплаты на экране Tello появится QR-код<br>
+          2. На телефоне: <strong>Настройки → Сотовая связь → Добавить eSIM</strong><br>
+          3. Выберите «Отсканировать QR-код» → отсканируйте код с экрана компьютера<br>
+          4. Следуйте инструкциям от Tello на экране телефона<br>
+          5. Дождитесь установки eSIM (~1–2 минуты)<br><br>
+
+          <div style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:10px;padding:12px 16px;margin:8px 0;line-height:1.7">
+            <strong style="color:#fca5a5;display:block;margin-bottom:6px">⚠️ Wi-Fi Calling — включить обязательно!</strong>
+            Вы находитесь не в США, рядом нет американской вышки. Без Wi-Fi Calling SMS-коды от Claude и Google <strong>не придут</strong>. Wi-Fi Calling позволяет принимать звонки и SMS через домашний Wi-Fi — это единственный способ получать коды подтверждения.
+          </div>
+
+          <strong>Включение Wi-Fi Calling:</strong><br>
+          <strong>🍎 iPhone:</strong> Настройки → Сотовая связь → нажмите на SIM Tello → «Вызовы по Wi-Fi» → включить<br>
+          Появится окно «Emergency 911 Address» — введите американский адрес:<br>
+          &nbsp;&nbsp;→ биллинг-адрес карты из шага 05 <em>или</em> адрес с генератора:<br>
+          <a href="https://www.real-generator.com/address" target="_blank" class="lnk" style="display:inline-block;margin:4px 0">🌐 real-generator.com/address</a><br><br>
+
+          <strong>🤖 Android:</strong> Настройки → Сеть и интернет → SIM-карты → Tello → «Вызовы по Wi-Fi» → включить<br>
+          При запросе адреса — введите американский адрес (карты или с генератора выше)<br><br>
+
+          <strong>✅ Проверка:</strong> в шторке уведомлений рядом с делениями связи должно появиться <strong>«Tello Wi-Fi»</strong> — значит всё работает!<br><br>
+
+          <div style="background:var(--accent-soft);border:1px solid rgba(124,91,245,0.2);border-radius:10px;padding:12px 16px;margin:8px 0;line-height:1.7">
+            <strong style="display:block;margin-bottom:6px">💡 Лайфхак: если eSIM не активируется</strong>
+            1. Включите <strong>режим полёта</strong> на телефоне<br>
+            2. Подождите <strong>1–2 минуты</strong><br>
+            3. Выключите режим полёта → включите Wi-Fi → подключитесь<br>
+            4. Активация должна пройти автоматически<br><br>
+            <strong>Если всё ещё не активируется — подтвердите на сайте:</strong><br>
+            Зайдите на <a href="https://tello.com" target="_blank" class="lnk">tello.com</a> → личный кабинет → раздел <strong>My Tello</strong> или <strong>Dashboard</strong><br>
+            Проверьте статус линии — если есть кнопка <strong>«Activate»</strong> или <strong>«Confirm»</strong> → нажмите её
+          </div>
+        </div>
       </div>
     </div>
   </div>
