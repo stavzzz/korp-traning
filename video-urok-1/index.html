@@ -138,6 +138,25 @@
   .item__body .tg { pointer-events: auto !important; cursor: pointer !important; }
   .item__check { pointer-events: auto; cursor: pointer; }
 
+
+  /* Pointer cursor on checkbox hover */
+  .item__check:hover { cursor: pointer; }
+  .cm { cursor: pointer; }
+
+  /* Flexy support link — purple like other links */
+  .support-link {
+    color: var(--accent-glow) !important;
+    font-weight: 600;
+    pointer-events: auto !important;
+    display: inline-block;
+    margin-top: 6px;
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    transition: color .2s;
+  }
+  .support-link:hover { color: #bba4ff !important; text-decoration: underline; }
+
 </style>
 </head>
 <body>
@@ -312,10 +331,10 @@
     
     <div class="note" style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);border-radius:12px;padding:16px 18px;margin:16px 0 4px;display:flex;gap:12px;align-items:flex-start;">
       <span style="font-size:1.2rem;flex-shrink:0;">🆘</span>
-      <div style="font-size:14px;color:#f87171;line-height:1.6;">
-        <strong style="display:block;margin-bottom:4px;color:#fca5a5;">Карта не выпускается или возникли проблемы?</strong>
+      <div style="font-size:14px;color:var(--text-secondary);line-height:1.6;">
+        <strong style="display:block;margin-bottom:4px;color:var(--text-primary);">Карта не выпускается или возникли проблемы?</strong>
         Если не удаётся выпустить карту, не проходит верификация или возникли любые трудности с CardyMemBot — напишите в официальную поддержку сервиса:<br>
-        <a href="http://t.me/flexy_sup" target="_blank" style="color:#f87171;font-weight:600;pointer-events:auto !important;display:inline-block;margin-top:6px;">👉 @flexy_sup — официальная поддержка</a>
+        <a href="http://t.me/flexy_sup" target="_blank" class="support-link">👉 @flexy_sup — официальная поддержка</a>
       </div>
     </div>
 
