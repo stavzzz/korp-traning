@@ -39,7 +39,7 @@
   .header__title { font-size: clamp(28px,6vw,40px); font-weight: 800; line-height: 1.15; letter-spacing: -0.5px; margin-bottom: 12px; animation: fadeDown .6s ease .1s both; }
   .header__title span { background: linear-gradient(135deg, var(--accent-glow), var(--green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
   .header__subtitle { font-size: 15px; color: var(--text-secondary); max-width: 500px; margin: 0 auto; animation: fadeDown .6s ease .2s both; }
-  .progress-wrap { background: rgba(18,18,26,0.96); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 36px; position: sticky; top: 12px; z-index: 100; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+  .progress-wrap { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 36px; position: sticky; top: 12px; z-index: 10; backdrop-filter: blur(16px); background: rgba(18,18,26,0.92); animation: fadeDown .6s ease .3s both; }
   .progress-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
   .progress-label { font-size: 13px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; font-family: 'JetBrains Mono', monospace; }
   .progress-count { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 700; color: var(--accent-glow); }
@@ -125,16 +125,18 @@
     .note { padding: 12px 16px; }
     .spoiler summary { padding: 12px 16px; }
     .spoiler__content { padding: 0 16px 14px 28px; }
-    .progress-wrap { padding: 14px 18px; }
+    .progress-wrap { padding: 16px 18px; top: 8px; }
     .footer__schedule-row { flex-direction: column; gap: 2px; }
   }
 
-
-  /* Only checkbox circle is clickable for toggle */
-  .item { pointer-events: none; }
-  .item__check { pointer-events: auto; cursor: pointer; }
+  /* Only checkbox circle triggers toggle */
   .item__body { pointer-events: none; }
-  .item__body a, .item__body button, .item__link, .lnk, .tg { pointer-events: auto !important; }
+  .item__body a,
+  .item__body .item__link,
+  .item__body .lnk,
+  .item__body .tg,
+  .item__body button { pointer-events: auto !important; }
+  .item__check { pointer-events: auto; cursor: pointer; }
 
 </style>
 </head>
@@ -293,27 +295,34 @@
   </div>
 </div>
 
-<!-- ====== 05 CARDYMEMBOT ====== -->
+<!-- ====== 05 ПЛАТИ ПО МИРУ ====== -->
 <div class="section">
-  <div class="section__header"><div class="section__num">05</div><div class="section__title">Виртуальная карта (CardyMemBot)</div></div>
+  <div class="section__header"><div class="section__num">05</div><div class="section__title">Виртуальная карта «Плати по миру»</div></div>
   <div class="section__card">
-    <div class="note note--info"><span class="note__icon">💳</span><span>Виртуальная долларовая карта с американским биллинг-адресом. Она нужна для оплаты Tello (симка США) и Claude Max ($100/мес). Делаем на компьютере через Telegram.</span></div>
-    <div class="item" data-key="cardy-create"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+    <div class="note note--info"><span class="note__icon">💳</span><span>Виртуальная карта Mastercard для оплаты зарубежных сервисов. Она нужна для оплаты Tello (симка США) и Claude Max ($100/мес). Оформляется за 2 минуты через Telegram-бот, пополняется рублями через СБП.</span></div>
+    <div class="item" data-key="ppm-create"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Оформить виртуальную карту</div>
-        <div class="item__hint">1. Откройте бота в Telegram по ссылке ниже → «Запустить»<br>2. Зарегистрируйтесь<br>3. Пополните баланс на <strong>$120</strong> (СБП с верификацией — комиссия 5%, без верификации — 7%, крипта — 1%)<br>4. Перейдите в «Виртуальные карты» → выберите <strong>«Flexy Virtual» USA</strong> (Mastercard)<br>5. Нажмите «Выпустить» (стоимость $14, на карту зачислится $5 бонус)<br>6. Пополните карту на <strong>~$115</strong> (Tello $8 + Claude $100 + запас на комиссии)</div>
+        <div class="item__hint">1. Откройте Telegram-бот «Плати по миру» по ссылке ниже → нажмите «Запустить»<br>2. Выберите <strong>«Карта для подписок»</strong> (2 990 ₽, валюта EUR, срок действия 4 года)<br>3. Укажите email и придумайте PIN-код. Паспорт не нужен<br>4. Оплатите выпуск 2 990 ₽ через СБП с любого российского банка<br>5. Получите реквизиты карты: номер, срок, CVV</div>
         <div style="padding-top:4px">
-          <a href="https://t.me/CardyMemBot?start=ref_667973987" target="_blank" class="item__link" onclick="event.stopPropagation()" style="display:block"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> @CardyMemBot — Telegram-бот для выпуска виртуальных карт</a>
+          <a href="https://t.me/platipomiru_bot/platipomiru" target="_blank" class="item__link" onclick="event.stopPropagation()" style="display:block;margin-bottom:4px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Telegram-бот «Плати по миру» — выпуск и управление картой</a>
+          <a href="https://platipomiru.com/" target="_blank" class="item__link" onclick="event.stopPropagation()" style="display:block"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> platipomiru.com — официальный сайт сервиса</a>
         </div>
       </div>
     </div>
-    <div class="item" data-key="cardy-save"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+    <div class="item" data-key="ppm-topup"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Сохранить реквизиты карты</div>
-        <div class="item__hint">Запишите и сохраните: <strong>номер карты</strong> (16 цифр), <strong>срок действия</strong> (MM/YY), <strong>CVV</strong> (3 цифры), <strong>биллинг-адрес</strong> (USA). Эти данные понадобятся на следующих шагах.</div>
+        <div class="item__text">Пополнить карту</div>
+        <div class="item__hint">В боте нажмите «Пополнить» → выберите СБП → введите сумму. Пополните карту на <strong>~$125</strong> в рублях (Tello $8 + Claude $100 + запас на комиссии). Деньги зачисляются за несколько минут.</div>
       </div>
     </div>
-    <div class="note note--info"><span class="note__icon">💰</span><span><strong>Комиссии карты:</strong> пополнение — 7,5%, транзакция — $0,50, отказ — $0,50. Не делайте лишних попыток оплаты!</span></div>
+    <div class="item" data-key="ppm-save"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Сохранить реквизиты карты</div>
+        <div class="item__hint">Запишите: <strong>номер карты</strong> (16 цифр), <strong>срок действия</strong> (MM/YY), <strong>CVV</strong> (3 цифры). Эти данные понадобятся для Tello и Claude.</div>
+      </div>
+    </div>
+    <div class="note note--info"><span class="note__icon">💰</span><span><strong>Условия:</strong> выпуск — 2 990 ₽, срок — 4 года, 1-й год обслуживания бесплатно, комиссия за пополнение — 0%, комиссия за транзакцию — ~€0,25. Карта в евро — при оплате в долларах будет небольшая конвертация (~3%).</span></div>
   </div>
 </div>
 
@@ -348,8 +357,8 @@
     </details>
     <div class="item" data-key="phone-vpn-connect"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Подключить VPN на смартфоне к серверу</div>
-        <div class="item__hint">Откройте приложение → «Self-hosted VPN» → введите <strong>IP</strong> и <strong>пароль</strong> из шага 02 → «Подключиться». Подождите пару минут → «Подключено».</div>
+        <div class="item__text">Подключить VPN на смартфоне</div>
+        <div class="item__hint"><strong>Шаг A — на компьютере</strong> (Amnezia уже подключена к серверу):<br>1. Откройте Amnezia → нажмите иконку <strong>«Поделиться»</strong> (вторая иконка в нижнем меню)<br>2. Выберите сервер и протокол<br>3. Нажмите <strong>«Поделиться»</strong> → на экране появится <strong>QR-код</strong><br><br><strong>Шаг B — на смартфоне:</strong><br>1. Откройте AmneziaVPN (или DefaultVPN на iPhone РФ)<br>2. Нажмите <strong>➕</strong> (плюсик) или кнопку «Начать»<br>3. Выберите <strong>«QR-код»</strong> → наведите камеру на экран компьютера<br>4. «Continue» → «Подключиться»<br>5. Готово — VPN на смартфоне работает!</div>
       </div>
     </div>
   </div>
@@ -359,14 +368,23 @@
 <div class="section">
   <div class="section__header"><div class="section__num">07</div><div class="section__title">Смена региона на смартфоне</div></div>
   <div class="section__card">
-    <div class="note note--info"><span class="note__icon">🌍</span><span>Чтобы скачивать зарубежные приложения, нужно сменить регион магазина на телефоне.</span></div>
+    <div class="note note--info"><span class="note__icon">🌍</span><span>Чтобы скачивать зарубежные приложения, нужно сменить регион магазина на телефоне. Но сначала — сгенерируем американский адрес, который будет нужен на всех дальнейших шагах.</span></div>
+
+    <div class="item" data-key="address-gen"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Сгенерировать и сохранить американский адрес</div>
+        <div class="item__hint">1. Откройте генератор адресов по ссылке ниже<br>2. Нажмите <strong>Generate</strong><br>3. Скопируйте и <strong>сохраните в заметках</strong> следующие данные:<br>&nbsp;&nbsp;&nbsp;• <strong>Street</strong> — улица (например, 1000 N West St)<br>&nbsp;&nbsp;&nbsp;• <strong>City</strong> — город (например, Wilmington)<br>&nbsp;&nbsp;&nbsp;• <strong>State</strong> — штат (например, Delaware)<br>&nbsp;&nbsp;&nbsp;• <strong>ZIP</strong> — индекс (например, 19801)<br>&nbsp;&nbsp;&nbsp;• <strong>Country</strong> — United States<br><br>⚠ <strong>Этот адрес вы будете использовать во ВСЕХ дальнейших шагах:</strong> смена региона, покупка Tello, Wi-Fi Calling, оплата Claude. Генерируем один раз — используем везде. Биллинг виртуальной карты (Гонконг) не подходит!</div>
+        <a href="https://www.real-generator.com/address/united-states" target="_blank" class="item__link" onclick="event.stopPropagation()" style="display:block;margin-top:4px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> real-generator.com — генератор американских адресов</a>
+      </div>
+    </div>
+
     <details class="spoiler" open>
       <summary>🍎 iPhone (Apple ID)</summary>
       <div class="spoiler__content">
         <p>1. Настройки → ваше имя → Медиаматериалы и покупки → Просмотреть</p>
         <p>2. Страна или регион → Изменить → выберите <strong>США</strong></p>
         <p>3. Способ оплаты → выберите «Нет» (для бесплатных приложений) или укажите виртуальную карту из шага 05</p>
-        <p>4. Адрес → <strong>Delaware</strong>, ZIP <strong>19801</strong>, улица с биллинга вашей карты</p>
+        <p>4. Адрес → введите <strong>сохранённый американский адрес</strong> (сгенерирован выше)</p>
         <p>5. Телефон — можно ввести любой, проверка не приходит</p>
         <p style="background:var(--amber-soft);padding:10px 14px;border-radius:8px;color:var(--amber);margin:8px 0"><strong>⚠</strong> VPN не нужен для смены региона iPhone. Но перед сменой нужно <strong>отменить подписки</strong> и потратить баланс. Если подписок много — напишите в поддержку Apple и попросите помочь.</p>
       </div>
@@ -403,7 +421,7 @@
     <div class="item" data-key="tello-buy"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Купить Tello eSIM</div>
-        <div class="item__hint"><strong>VPN включён (США)!</strong><br>1. Откройте <a href="https://tello.com" target="_blank" onclick="event.stopPropagation()">tello.com</a> на компьютере → «Build Your Own Plan»<br>2. Зарегистрируйтесь на сайте: нажмите «Sign Up» → введите <strong>имя</strong>, <strong>email</strong> (любой рабочий — mail.ru, yandex.ru, gmail.com) и <strong>пароль</strong><br>3. Вставьте IMEI → нажмите Check (должно быть «Excellent!»)<br>4. Data → <strong>No data</strong> | Minutes → <strong>100 minutes</strong> (SMS безлимит включён). Цена: $5/мес<br>5. «I Want This Plan»<br>6. Billing: Country → <strong>United States</strong>, State → <strong>Delaware</strong>, ZIP → <strong>19801</strong>, Street → адрес с биллинга карты (шаг 05)<br>7. Нажмите Check ZIP → система присвоит американский номер телефона<br>8. Оплатите картой из шага 05. Итого: <strong>$8</strong> ($5 тариф + $3 eSIM)</div>
+        <div class="item__hint"><strong>VPN включён (США)!</strong><br>1. Откройте <a href="https://tello.com" target="_blank" onclick="event.stopPropagation()">tello.com</a> на компьютере → «Build Your Own Plan»<br>2. Зарегистрируйтесь на сайте: нажмите «Sign Up» → введите <strong>имя</strong>, <strong>email</strong> (любой рабочий — mail.ru, yandex.ru, gmail.com) и <strong>пароль</strong><br>3. Вставьте IMEI → нажмите Check (должно быть «Excellent!»)<br>4. Data → <strong>No data</strong> | Minutes → <strong>100 minutes</strong> (SMS безлимит включён). Цена: $5/мес<br>5. «I Want This Plan»<br>6. Billing → введите <strong>сохранённый американский адрес из шага 07</strong> (Country, State, City, ZIP, Street)<br>7. Нажмите Check ZIP → система присвоит американский номер телефона<br>8. Оплатите картой из шага 05. Итого: <strong>$8</strong> ($5 тариф + $3 eSIM)</div>
         <a href="https://tello.com" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> tello.com — американский мобильный оператор</a>
       </div>
     </div>
@@ -412,8 +430,8 @@
         <div class="item__text">Активировать eSIM и включить Wi-Fi Calling</div>
         <div class="item__hint"><strong>Активация:</strong><br>1. После оплаты на экране появится QR-код<br>2. На телефоне: отсканируйте QR камерой (или Настройки → Сотовая связь → Добавить eSIM)<br>3. Дождитесь установки (~1 минута)<br><br>
         <strong>Включение Wi-Fi Calling (обязательно!):</strong><br>Без этого SMS от Claude и Google <strong>не придут</strong> без мобильной сети США. Wi-Fi Calling позволяет принимать SMS через обычный домашний Wi-Fi.<br><br>
-        <strong>iOS:</strong> Настройки → Сотовая связь → выберите SIM-карту Tello → «Вызовы по Wi-Fi» → <strong>включить</strong>. Появится окно «Emergency 911 Address» → введите: State → Delaware, ZIP → 19801, Street → адрес с биллинга карты.<br><br>
-        <strong>Android:</strong> Настройки → Сеть и интернет → SIM-карты → Tello → «Вызовы по Wi-Fi» → <strong>включить</strong> → ввести тот же адрес.<br><br>
+        <strong>iOS:</strong> Настройки → Сотовая связь → выберите SIM-карту Tello → «Вызовы по Wi-Fi» → <strong>включить</strong>. Появится окно «Emergency 911 Address» → введите <strong>сохранённый американский адрес из шага 07</strong>.<br><br>
+        <strong>Android:</strong> Настройки → Сеть и интернет → SIM-карты → Tello → «Вызовы по Wi-Fi» → <strong>включить</strong> → ввести <strong>сохранённый американский адрес из шага 07</strong>.<br><br>
         <strong>Проверка:</strong> в шторке уведомлений рядом с делениями связи должно быть <strong>«Tello Wi-Fi»</strong>. Если видите — SMS будут приходить через Wi-Fi!</div>
       </div>
     </div>
@@ -465,7 +483,7 @@
     <div class="item" data-key="claude-open"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Зарегистрироваться в Claude</div>
-        <div class="item__hint">1. VPN включён!<br>2. Откройте claude.ai → «Sign up»<br>3. <strong>Введите Gmail вручную</strong> (НЕ нажимайте «Continue with Google» — вводите email и пароль отдельно, так безопаснее)</div>
+        <div class="item__hint">1. VPN включён!<br>2. Откройте claude.ai → «Sign up»<br>3. <strong>Введите Gmail вручную</strong> (НЕ нажимайте «Continue with Google» — вводите email и пароль отдельно, так безопаснее)<br>4. <strong>Важно:</strong> используйте почту с доменом .com (например, gmail.com). Почта на .ru-домене может вызвать проблемы</div>
         <a href="https://claude.ai/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> claude.ai — сайт для регистрации и работы с Claude</a>
       </div>
     </div>
@@ -493,7 +511,7 @@
     <div class="item" data-key="claude-pay"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Оплатить Claude Max</div>
-        <div class="item__hint">1. В Claude: иконка профиля → <strong>Settings</strong> → <strong>Billing</strong><br>2. <strong>Upgrade</strong> → выберите <strong>Max</strong><br>3. Введите реквизиты виртуальной карты из шага 05 (номер, срок, CVV)<br>4. Оплатите → готово!</div>
+        <div class="item__hint">Оплата по <a href="https://help.platipomiru.com/razdely/karta-dlya-podpisok/spisok-servisov-i-instrukcii-po-oplate-po-karte-dlya-podpisok/instrukciya-po-oplate-claude-ai" target="_blank" onclick="event.stopPropagation()">официальной инструкции «Плати по миру»</a>:<br><br>1. VPN включён (США)<br>2. В Claude: иконка профиля → <strong>Settings</strong> → <strong>Billing</strong><br>3. <strong>Upgrade</strong> → выберите <strong>Max</strong><br>4. Введите реквизиты карты «Плати по миру» из шага 05 (номер, срок, CVV)<br>5. <strong>Номер телефона</strong> → введите ваш <strong>номер Tello</strong> из шага 08<br>6. Адрес для оплаты: введите <strong>сохранённый американский адрес из шага 07</strong><br>7. Оплатите → готово!</div>
       </div>
     </div>
     <div class="item" data-key="claude-verify"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
@@ -603,6 +621,23 @@ items.forEach(item=>{
 });
 function resetProgress(){if(!confirm('Сбросить весь прогресс?'))return;items.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasComplete=false;saveState();updateProgress(false)}
 loadState();
+</script>
+
+<script>
+// Ensure only checkbox circle area toggles the check
+(function() {
+  document.querySelectorAll('.item').forEach(function(item) {
+    // Remove any existing click listeners by replacing with clone... 
+    // Instead intercept at capture phase
+    item.addEventListener('click', function(e) {
+      var check = item.querySelector('.item__check');
+      if (check && !check.contains(e.target)) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }
+    }, true);
+  });
+})();
 </script>
 
 </body>
