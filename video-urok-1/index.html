@@ -129,14 +129,25 @@
     .footer__schedule-row { flex-direction: column; gap: 2px; }
   }
 
-  /* Only checkbox circle triggers toggle */
-  .item__body { pointer-events: none; }
-  .item__body a,
+
+  /* Checkbox fix: only the check circle is clickable for toggling */
+  .item { cursor: default; }
+  .item__check {
+    pointer-events: auto;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .item > .item__body {
+    pointer-events: none;
+    user-select: text;
+  }
   .item__body .item__link,
   .item__body .lnk,
   .item__body .tg,
-  .item__body button { pointer-events: auto !important; }
-  .item__check { pointer-events: auto; cursor: pointer; }
+  .item__body a {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+  }
 
 </style>
 </head>
@@ -623,18 +634,24 @@ function resetProgress(){if(!confirm('Сбросить весь прогресс
 loadState();
 </script>
 
+
 <script>
-// Ensure only checkbox circle area toggles the check
 (function() {
+  // For each item: clicking on .item__check toggles; links work normally
   document.querySelectorAll('.item').forEach(function(item) {
-    // Remove any existing click listeners by replacing with clone... 
-    // Instead intercept at capture phase
+    var cb = item.querySelector('input[type="checkbox"]');
+    var check = item.querySelector('.item__check');
+    if (!cb || !check) return;
+
+    // Intercept clicks on item at capture phase
     item.addEventListener('click', function(e) {
-      var check = item.querySelector('.item__check');
-      if (check && !check.contains(e.target)) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-      }
+      // If clicked on a link — let it through
+      if (e.target.closest('a')) return;
+      // If clicked on check area — let checkbox handle it naturally
+      if (check.contains(e.target)) return;
+      // Otherwise — prevent toggle
+      e.preventDefault();
+      e.stopPropagation();
     }, true);
   });
 })();
