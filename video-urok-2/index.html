@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ИИ-ВИЗАЦИЯ: OPENCLAW — Обзор AI-мира</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #0a0a0f; --bg-card: #12121a; --bg-card-hover: #181825;
+    --border: #1e1e2e; --border-accent: #2a2a3e;
+    --text-primary: #e8e6f0; --text-secondary: #8b879e; --text-muted: #5a5670;
+    --accent: #7c5bf5; --accent-glow: #9d7cff; --accent-soft: rgba(124,91,245,0.12);
+    --green: #34d399; --green-glow: #6ee7b7; --green-soft: rgba(52,211,153,0.1);
+    --amber: #fbbf24; --amber-soft: rgba(251,191,36,0.1);
+    --red-soft: rgba(248,113,113,0.1); --red: #f87171;
+    --radius: 14px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Onest',sans-serif; background:var(--bg-deep); color:var(--text-primary); line-height:1.65; min-height:100vh; -webkit-font-smoothing:antialiased; }
+  body::before { content:''; position:fixed; inset:0; background-image:radial-gradient(circle at 20% 20%,rgba(124,91,245,0.04) 0%,transparent 50%),radial-gradient(circle at 80% 80%,rgba(52,211,153,0.03) 0%,transparent 50%); pointer-events:none; z-index:0; }
+  .wrapper { position:relative; z-index:1; max-width:680px; margin:0 auto; padding:40px 20px 80px; }
+
+  /* ─── HEADER ─── */
+  .header { text-align:center; margin-bottom:48px; }
+  .header__badge { display:inline-block; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:var(--accent-glow); background:var(--accent-soft); border:1px solid rgba(124,91,245,0.2); padding:6px 16px; border-radius:100px; margin-bottom:24px; animation:fadeDown .6s ease both; }
+  .header__title { font-size:clamp(22px,5vw,34px); font-weight:800; line-height:1.2; letter-spacing:-0.5px; margin-bottom:20px; animation:fadeDown .6s ease .1s both; }
+  .header__title span { background:linear-gradient(135deg,var(--accent-glow),var(--green)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .header__topics { list-style:none; display:flex; flex-direction:column; gap:7px; max-width:460px; margin:0 auto; animation:fadeDown .6s ease .2s both; }
+  .header__topics li { font-size:13.5px; color:var(--text-secondary); display:flex; align-items:flex-start; gap:8px; text-align:left; }
+  .header__topics li::before { content:'→'; color:var(--accent); flex-shrink:0; font-family:'JetBrains Mono',monospace; font-size:11px; margin-top:3px; }
+
+  /* ─── PROGRESS ─── */
+  .progress-wrap { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:20px 24px; margin-bottom:36px; position:sticky; top:12px; z-index:10; backdrop-filter:blur(16px); background:rgba(18,18,26,0.92); animation:fadeDown .6s ease .3s both; }
+  .progress-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+  .progress-label { font-size:13px; font-weight:600; color:var(--text-secondary); text-transform:uppercase; letter-spacing:1px; font-family:'JetBrains Mono',monospace; }
+  .progress-count { font-family:'JetBrains Mono',monospace; font-size:14px; font-weight:700; color:var(--accent-glow); }
+  .progress-bar { width:100%; height:8px; background:var(--border); border-radius:100px; overflow:hidden; }
+  .progress-fill { height:100%; background:linear-gradient(90deg,var(--accent),var(--green)); border-radius:100px; transition:width .5s cubic-bezier(.34,1.56,.64,1); width:0%; }
+
+  /* ─── SECTION ─── */
+  .section { margin-bottom:28px; }
+  .section__header { display:flex; align-items:flex-start; gap:12px; margin-bottom:14px; padding-left:2px; }
+  .section__num { font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; color:var(--accent); background:var(--accent-soft); width:32px; height:32px; display:flex; align-items:center; justify-content:center; border-radius:8px; flex-shrink:0; margin-top:2px; }
+  .section__title { font-size:16px; font-weight:700; letter-spacing:-0.2px; line-height:1.35; }
+  .section__card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; transition:border-color .3s; }
+  .section__card:hover { border-color:var(--border-accent); }
+
+  /* ─── CHECKLIST ITEM ─── */
+  .item { display:flex; align-items:flex-start; gap:14px; padding:16px 20px; border-bottom:1px solid var(--border); transition:background .2s; cursor:default; }
+  .item:last-child { border-bottom:none; }
+  .item:hover { background:var(--bg-card-hover); }
+  .item.checked .item__text { color:var(--text-muted); text-decoration:line-through; }
+  .item__check { position:relative; width:22px; height:22px; flex-shrink:0; margin-top:1px; pointer-events:auto; cursor:pointer; }
+  .item__check input { position:absolute; opacity:0; width:100%; height:100%; cursor:pointer; z-index:2; }
+  .item__check .cm { width:22px; height:22px; border:2px solid var(--border-accent); border-radius:6px; display:flex; align-items:center; justify-content:center; transition:all .25s cubic-bezier(.34,1.56,.64,1); cursor:pointer; }
+  .item__check .cm svg { width:12px; height:12px; opacity:0; transform:scale(0); transition:all .25s cubic-bezier(.34,1.56,.64,1); }
+  .item__check input:checked + .cm { background:var(--green); border-color:var(--green); }
+  .item__check input:checked + .cm svg { opacity:1; transform:scale(1); }
+  .item__body { flex:1; min-width:0; pointer-events:none; user-select:text; }
+  .item__body a, .item__body .lnk { pointer-events:auto !important; cursor:pointer !important; }
+  .item__text { font-size:14.5px; font-weight:500; color:var(--text-primary); transition:all .3s; }
+  .item__hint { font-size:13px; color:var(--text-secondary); margin-top:5px; line-height:1.65; }
+  .item__hint strong { color:var(--text-primary); }
+
+  /* ─── LNK — единый стиль всех ссылок ─── */
+  .lnk { display:inline-flex; align-items:center; gap:5px; font-size:13px; font-family:'JetBrains Mono',monospace; color:var(--accent-glow); text-decoration:none; transition:color .2s; word-break:break-all; }
+  .lnk:hover { color:#bba4ff; text-decoration:underline; }
+  .lnk svg { width:13px; height:13px; flex-shrink:0; }
+
+  /* ─── RES-BLOCK — ресурсный блок с lnk ─── */
+  .res-block { padding:14px 20px; border-bottom:1px solid var(--border); transition:background .2s; }
+  .res-block:last-child { border-bottom:none; }
+  .res-block:hover { background:var(--bg-card-hover); }
+  .res-block__title { font-size:14px; font-weight:600; color:var(--text-primary); margin-bottom:3px; }
+  .res-block__sub { font-size:13px; color:var(--text-secondary); margin-bottom:7px; line-height:1.5; }
+
+  /* ─── NOTE ─── */
+  .note { display:flex; align-items:flex-start; gap:10px; padding:14px 20px; font-size:13px; color:var(--text-secondary); line-height:1.65; border-bottom:1px solid var(--border); }
+  .note:last-child { border-bottom:none; }
+  .note--warn { background:var(--amber-soft); color:var(--amber); }
+  .note--info { background:var(--accent-soft); }
+  .note--alert { background:var(--red-soft); color:var(--red); }
+  .note--green { background:var(--green-soft); color:var(--green-glow); }
+  .note__icon { flex-shrink:0; font-size:15px; }
+  .note strong { color:inherit; }
+  .note .lnk { color:var(--accent-glow); }
+
+  /* ─── INFO BLOCK ─── */
+  .info-block { padding:14px 20px; border-bottom:1px solid var(--border); font-size:13.5px; color:var(--text-secondary); line-height:1.7; }
+  .info-block:last-child { border-bottom:none; }
+  .info-block strong { color:var(--text-primary); font-weight:600; }
+  .info-block p { margin-bottom:8px; }
+  .info-block p:last-child { margin-bottom:0; }
+
+  /* ─── TERM ─── */
+  .term { padding:16px 20px; border-bottom:1px solid var(--border); }
+  .term:last-child { border-bottom:none; }
+  .term__name { font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; color:var(--accent-glow); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:7px; }
+  .term__def { font-size:14px; color:var(--text-primary); font-weight:500; margin-bottom:8px; line-height:1.55; }
+  .term__example { font-size:13px; color:var(--text-secondary); line-height:1.65; padding:10px 14px; background:rgba(124,91,245,0.06); border-left:2px solid rgba(124,91,245,0.3); border-radius:0 6px 6px 0; }
+  .mono { font-family:'JetBrains Mono',monospace; color:var(--accent-glow); font-size:12px; }
+
+  /* ─── TABLE ─── */
+  .data-table { width:100%; font-size:13px; border-collapse:collapse; }
+  .data-table th { text-align:left; font-weight:600; color:var(--text-muted); font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:1.2px; padding:10px 20px; border-bottom:1px solid var(--border); background:rgba(0,0,0,0.2); }
+  .data-table td { padding:11px 20px; border-bottom:1px solid var(--border); color:var(--text-secondary); vertical-align:top; line-height:1.5; }
+  .data-table tr:last-child td { border-bottom:none; }
+  .data-table td:first-child { color:var(--text-primary); font-weight:600; }
+  .tag-free { display:inline-block; font-family:'JetBrains Mono',monospace; font-size:9px; font-weight:700; color:var(--green); background:var(--green-soft); border:1px solid rgba(52,211,153,0.25); padding:1px 6px; border-radius:100px; margin-left:5px; vertical-align:middle; }
+  .model-string { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--accent-glow); display:block; margin-top:3px; }
+
+  /* ─── CONCEPT GRID ─── */
+  .concept-grid { display:grid; grid-template-columns:1fr 1fr; }
+  .concept-card { padding:16px 20px; border-bottom:1px solid var(--border); border-right:1px solid var(--border); }
+  .concept-card:nth-child(even) { border-right:none; }
+  .concept-card:nth-last-child(-n+2) { border-bottom:none; }
+  .concept-card:last-child:nth-child(odd) { border-bottom:none; grid-column:1/-1; border-right:none; }
+  .concept-card__emoji { font-size:20px; margin-bottom:8px; }
+  .concept-card__name { font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700; color:var(--accent-glow); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; }
+  .concept-card__desc { font-size:13px; color:var(--text-secondary); line-height:1.6; }
+  .concept-card__desc strong { color:var(--text-primary); }
+
+  /* ─── ARCH BOX ─── */
+  .arch-box { background:rgba(0,0,0,0.3); border:1px solid var(--border-accent); border-radius:10px; padding:18px 22px; margin:12px 20px; font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--text-secondary); line-height:2.2; }
+
+  /* ─── RESULT LIST ─── */
+  .result-list { list-style:none; }
+  .result-list li { display:flex; align-items:flex-start; gap:10px; padding:10px 20px; border-bottom:1px solid var(--border); font-size:14px; color:var(--text-secondary); }
+  .result-list li:last-child { border-bottom:none; }
+  .result-list li::before { content:'✓'; color:var(--green); font-weight:700; flex-shrink:0; margin-top:1px; font-family:'JetBrains Mono',monospace; }
+
+  /* ─── FOOTER ─── */
+  .footer { text-align:center; margin-top:48px; }
+  .footer__done { display:none; background:var(--green-soft); border:1px solid rgba(52,211,153,0.25); border-radius:var(--radius); padding:32px 24px; margin-bottom:24px; }
+  .footer__done.visible { display:block; animation:popIn .5s cubic-bezier(.34,1.56,.64,1) both; }
+  .footer__done-emoji { font-size:48px; margin-bottom:10px; }
+  .footer__done-text { font-size:22px; font-weight:800; color:var(--green); margin-bottom:6px; }
+  .footer__done-sub { font-size:15px; color:var(--text-secondary); }
+  .footer__schedule { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:20px 24px; margin-bottom:20px; font-size:14px; }
+  .footer__schedule-title { font-weight:700; margin-bottom:8px; font-size:15px; }
+  .footer__schedule-row { display:flex; justify-content:space-between; padding:4px 0; color:var(--text-secondary); }
+  .footer__schedule-row span:first-child { color:var(--text-primary); font-weight:500; }
+  .footer__contact { font-size:14px; color:var(--text-secondary); margin-bottom:20px; }
+  .footer__contact a { color:#2dd4bf; text-decoration:underline; text-decoration-color:rgba(45,212,191,0.4); font-weight:700; }
+  .btn-reset { background:none; border:1px solid var(--border); color:var(--text-muted); font-family:'JetBrains Mono',monospace; font-size:12px; padding:8px 20px; border-radius:100px; cursor:pointer; transition:all .2s; }
+  .btn-reset:hover { border-color:var(--red); color:var(--red); }
+  .tg { color:#2dd4bf !important; font-weight:700; text-decoration:underline; text-decoration-color:rgba(45,212,191,0.4); }
+  #confetti-canvas { position:fixed; inset:0; z-index:9999; pointer-events:none; }
+  @keyframes fadeDown { from{opacity:0;transform:translateY(-12px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes popIn { from{opacity:0;transform:scale(0.8)} to{opacity:1;transform:scale(1)} }
+
+  @media (max-width:480px) {
+    .wrapper { padding:28px 14px 60px; }
+    .item,.note,.term,.info-block,.res-block { padding:12px 16px; }
+    .progress-wrap { padding:16px 18px; top:8px; }
+    .concept-grid { grid-template-columns:1fr; }
+    .concept-card { border-right:none !important; }
+    .concept-card:nth-last-child(-n+2) { border-bottom:1px solid var(--border); }
+    .concept-card:last-child { border-bottom:none !important; }
+    .footer__schedule-row { flex-direction:column; gap:2px; }
+    .data-table th,.data-table td { padding:8px 14px; }
+    .arch-box { margin:10px 14px; font-size:12px; }
+    .header__title { font-size:22px; }
+  }
+</style>
+</head>
+<body>
+<canvas id="confetti-canvas"></canvas>
+<div class="wrapper">
+
+<!-- ═══ HEADER ═══ -->
+<header class="header">
+  <div class="header__badge">ИИ-ВИЗАЦИЯ: OPENCLAW · Урок 2</div>
+  <h1 class="header__title">Обзор AI-мира +<br><span>архитектура командного пункта</span></h1>
+  <ul class="header__topics">
+    <li>Разберёмся, что существует сейчас в мире ИИ</li>
+    <li>Claude vs ChatGPT vs Gemini — когда что использовать</li>
+    <li>Зачем нужен OpenRouter и как на нём экономить</li>
+    <li>Как работают бесплатные модели для «мозгов» OpenClaw</li>
+    <li>Рассмотрим архитектуру OpenClaw и что с его помощью можно делать</li>
+    <li>Создадим первый Claude Project под ваш бизнес</li>
+  </ul>
+</header>
+
+<!-- ═══ PROGRESS ═══ -->
+<div class="progress-wrap">
+  <div class="progress-top">
+    <span class="progress-label">Прогресс</span>
+    <span class="progress-count" id="progressCount">0 / 0</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div id="sections">
+
+<!-- ═══════════════════════════════════════════
+     01 — ЧТО СЕЙЧАС ЕСТЬ
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">01</div>
+    <div class="section__title">Что сейчас есть: нейронки, агенты, инструменты для бизнеса</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">📖</span>
+      <span>Этот блок смотрим вместе с видеоуроком. Здесь собраны ключевые термины с примерами — возвращайтесь к ним в любой момент.</span>
+    </div>
+
+    <div class="term">
+      <div class="term__name">LLM — Large Language Model</div>
+      <div class="term__def">«Мозг» искусственного интеллекта. Принимает текст на входе — возвращает текст на выходе. Сам по себе ничего не делает: только думает и отвечает.</div>
+      <div class="term__example">📌 Примеры LLM: Claude, GPT-4o, Gemini, DeepSeek. Вы пишете Claude «составь коммерческое предложение» — он думает и выдаёт текст. Никакого кода — просто разговор.</div>
+    </div>
+
+    <div class="term">
+      <div class="term__name">API — Application Programming Interface</div>
+      <div class="term__def">Способ, которым программы общаются друг с другом. Вы отправляете запрос — получаете ответ. Не через браузер и кнопки, а напрямую, программно.</div>
+      <div class="term__example">📌 Представьте ресторан. Вы — гость, кухня — это Claude. API — официант. Вы говорите заказ, он передаёт на кухню, приносит результат. OpenClaw общается с моделью именно через API — автоматически, за доли секунды.</div>
+    </div>
+
+    <div class="term">
+      <div class="term__name">API-ключ</div>
+      <div class="term__def">Уникальный пароль-строка, который подтверждает, что именно вы обращаетесь к сервису. Выглядит примерно так: <span class="mono">sk-ant-api03-...</span></div>
+      <div class="term__example">📌 Как ключ-карта в отеле. Без неё не откроешь дверь. Дал кому-то — он может заходить от вашего имени и тратить ваши деньги. Никогда не публикуйте API-ключи в открытом доступе.</div>
+    </div>
+
+    <div class="term">
+      <div class="term__name">Токены</div>
+      <div class="term__def">Единица измерения текста для языковых моделей. Примерно 1 токен ≈ 0,75 слова. Модели работают и считают стоимость именно в токенах — не в словах и не в символах.</div>
+      <div class="term__example">📌 Как минуты в тарифе оператора. Написали короткое сообщение — потратили мало. Отправили большой документ — потратили много. Чем дольше работает агент, тем больше токенов расходуется в фоне.</div>
+    </div>
+
+    <div class="term">
+      <div class="term__name">Токенизатор</div>
+      <div class="term__def">Инструмент, который показывает, как именно модель «нарезает» ваш текст на токены. Помогает понять точный расход и оптимизировать промпты.</div>
+      <div class="term__example">📌 Вставляете текст — видите цветную разбивку на токены и их точное количество. Полезно при написании длинных системных инструкций для агентов.</div>
+    </div>
+
+    <div class="res-block">
+      <div class="res-block__title">🔢 Токенизатор для Claude</div>
+      <div class="res-block__sub">Community-инструмент — не официальный от Anthropic</div>
+      <a href="https://www.claudetokenizer.com/" target="_blank" class="lnk"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> claudetokenizer.com — открыть токенизатор</a>
+    </div>
+
+    <div class="res-block">
+      <div class="res-block__title">📘 Официальная документация Anthropic по токенам</div>
+      <div class="res-block__sub">Официально от Anthropic — token counting</div>
+      <a href="https://docs.anthropic.com/en/docs/build-with-claude/token-counting" target="_blank" class="lnk"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> docs.anthropic.com — открыть документацию</a>
+    </div>
+
+    <div class="res-block">
+      <div class="res-block__title">🔢 Токенизатор от OpenAI</div>
+      <div class="res-block__sub">Официальный инструмент от OpenAI — работает для моделей GPT и tiktoken</div>
+      <a href="https://platform.openai.com/tokenizer" target="_blank" class="lnk"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> platform.openai.com/tokenizer — открыть токенизатор</a>
+    </div>
+
+    <div class="term">
+      <div class="term__name">AI-агент</div>
+      <div class="term__def">LLM + инструменты + память + цикл действий. Агент не просто отвечает — он планирует шаги, вызывает инструменты, проверяет результат и сам движется к цели.</div>
+      <div class="term__example">📌 Вы говорите: «Запиши встречу с Иваном на пятницу в 15:00». Чат-бот скажет «ок». Агент сам откроет Google Календарь, создаст событие, пришлёт Ивану приглашение и напомнит вам утром в пятницу.</div>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">🤖</span>
+      <span><strong>Примеры конкретных AI-агентов для бизнеса:</strong><br><br>
+      <strong>Агент-секретарь.</strong> Управляет расписанием: принимает запросы на встречи через Telegram, проверяет Google Calendar, создаёт события, рассылает напоминания команде. Работает 24/7, не пропускает ни одного запроса.<br><br>
+      <strong>Агент по квалификации лидов.</strong> Отвечает на первичные вопросы клиентов в Telegram, квалифицирует по критериям (бюджет, потребность, срок), записывает в Google Таблицу, передаёт горячих в CRM.<br><br>
+      <strong>Агент-операционист.</strong> Каждое утро собирает задачи из Notion или Google Sheets, формирует дайджест дня и отправляет в Telegram. Напоминает о дедлайнах, фиксирует статусы задач по голосовой команде.<br><br>
+      <strong>Агент-маркетолог.</strong> Мониторит упоминания бренда, собирает аналитику из таблиц, генерирует черновики постов по контент-плану и отправляет на согласование.<br><br>
+      <strong>Агент-HR.</strong> Принимает заявки от кандидатов через Telegram-бот, задаёт квалификационные вопросы, записывает ответы в таблицу, отправляет приглашения на интервью нужным кандидатам.</span>
+    </div>
+
+    <div class="term">
+      <div class="term__name">Инструменты / Skills — навыки агента</div>
+      <div class="term__def">Готовые функции, которые агент может вызывать: написать в Telegram, создать событие в календаре, сохранить файл, сделать HTTP-запрос к любому API.</div>
+      <div class="term__example">📌 Как приложения на смартфоне. Телефон — это агент. Навигатор, камера, банк — это скиллы. Установили приложение — телефон умеет новое. В OpenClaw так же: установили скилл — агент работает с новым сервисом.</div>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">💡</span>
+      <span>Три года назад ChatGPT умел только отвечать в чате. Сегодня AI-агент может сам открыть браузер, зайти в CRM, создать задачу, отправить письмо и написать отчёт — без вашего участия. <strong>Мы живём в момент перехода от чат-ботов к автономным AI-сотрудникам.</strong></span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     02 — CLAUDE VS CHATGPT VS GEMINI
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">02</div>
+    <div class="section__title">Claude vs ChatGPT vs Gemini — когда что использовать</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🗺️</span>
+      <span>Смотрим методичку «Карта инструментов» вместе с этим блоком — там подробные кейсы по каждому сервису с конкретными примерами.</span>
+    </div>
+
+    <div class="res-block">
+      <div class="res-block__title">📄 Методичка: Карта инструментов</div>
+      <div class="res-block__sub">6 AI-инструментов для работы и жизни</div>
+      <a href="https://drive.google.com/file/d/1CYKWLKjjvh_K_3RNlTVtUsDgqSRw4-6J/view?usp=drive_link" target="_blank" class="lnk"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Google Drive — открыть методичку</a>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Нет идеального инструмента.</strong> Всё решает насмотренность — знание, что каждый сервис делает лучше всего. Мы не выбираем один навсегда — собираем арсенал.</p>
+    </div>
+
+    <table class="data-table">
+      <tr><th>Инструмент</th><th>Сильная сторона</th><th>Когда использовать</th></tr>
+      <tr><td>🟠 Claude</td><td>Код, документы, аналитика, длинный контекст, точность</td><td>Разработка агентов, вайб-кодинг, сложные задачи с файлами</td></tr>
+      <tr><td>🧠 ChatGPT</td><td>Память между сессиями, Projects, широкая экосистема</td><td>Личный ассистент, повторяющиеся задачи, генерация изображений</td></tr>
+      <tr><td>💎 Gemini</td><td>Нативная интеграция с Google Workspace, Deep Research</td><td>Google Таблицы, Docs, исследования, прототипирование</td></tr>
+      <tr><td>🔍 DeepSeek</td><td>Бесплатно, открытая цепочка рассуждений</td><td>Проверка ответов других моделей, математика, код</td></tr>
+      <tr><td>🇷🇺 GigaChat</td><td>Русский язык, данные в РФ, 152-ФЗ</td><td>Юридические тексты, РФ-аудитория, корпоративный контур</td></tr>
+    </table>
+
+    <div class="note note--green">
+      <span class="note__icon">💎</span>
+      <span><strong>Gemini + Google Workspace — что умеет:</strong><br><br>
+      <strong>Gmail.</strong> Gemini читает вашу почту и помогает писать ответы в вашем стиле. «Ответь на это письмо — вежливо откажи и предложи перенести на следующую неделю».<br><br>
+      <strong>Google Docs.</strong> Выделяете текст → «Помоги улучшить» → Gemini редактирует прямо внутри документа. Или генерирует целый раздел по запросу.<br><br>
+      <strong>Google Sheets.</strong> «Объясни эту формулу», «Создай скрипт для автоматической сортировки» — Gemini пишет Apps Script прямо в таблице.<br><br>
+      <strong>Google Meet.</strong> Автоматически транскрибирует встречу, делает саммари с ключевыми решениями и задачами — всё сразу после завершения звонка.<br><br>
+      <strong>Для кого это ценно:</strong> если ваш бизнес уже работает на Google Workspace — Gemini встраивается без дополнительных интеграций.</span>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">🧠</span>
+      <span><strong>ChatGPT — тарифы и корпоративные планы:</strong><br><br>
+      <strong>Free.</strong> Базовый доступ к GPT-4o mini, ограниченный GPT-4o. Для знакомства.<br><br>
+      <strong>Plus ($20/мес).</strong> Полный доступ к GPT-4o, o1, генерация изображений DALL·E, расширенная память. Для личного использования.<br><br>
+      <strong>Team ($30/мес за пользователя).</strong> Всё как в Plus + общие Projects для команды + данные не используются для обучения модели. Для малого бизнеса.<br><br>
+      <strong>Enterprise (по запросу).</strong> Кастомные GPT, SSO, расширенная безопасность, приоритетный доступ к новым моделям. Для крупных компаний.<br><br>
+      <strong>Для нашего интенсива:</strong> достаточно Free или Plus — как дополнительный инструмент рядом с Claude Max.</span>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">🟠</span>
+      <span><strong>Claude — тарифы:</strong><br><br>
+      <strong>Free.</strong> Ограниченный доступ к Claude Sonnet. Для знакомства.<br><br>
+      <strong>Pro ($20/мес).</strong> Расширенные лимиты, доступ к Claude Opus и Sonnet, Projects, приоритет в пиковые часы.<br><br>
+      <strong>Max ($100/мес).</strong> Максимальные лимиты — в 5 раз больше чем Pro, полный доступ ко всем моделям включая Opus. <strong>Именно его мы купили в уроке 1 — это основа нашего обучения.</strong><br><br>
+      <strong>Team ($30/мес за пользователя).</strong> Общие Projects для команды, данные не используются для обучения, централизованное управление.<br><br>
+      <strong>Enterprise (по запросу).</strong> Кастомные лимиты, SSO, расширенная безопасность, приоритетный API-доступ. Для крупных компаний с требованиями к данным.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     03 — OPENROUTER
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">03</div>
+    <div class="section__title">OpenRouter: зачем нужен, как работает, как экономить на моделях</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span>OpenRouter — агрегатор языковых моделей. Один аккаунт и один API-ключ открывают доступ к десяткам моделей: Claude, GPT, Gemini, Mistral, DeepSeek и другим. Как Авиасейлс — только вместо авиабилетов здесь AI-модели.</span>
+    </div>
+
+    <div class="term">
+      <div class="term__name">OpenRouter</div>
+      <div class="term__def">Сервис-агрегатор: вы пополняете баланс один раз → он маршрутизирует запросы к нужной модели → списывает стоимость по фактическому использованию. Один ключ — все модели.</div>
+      <div class="term__example">📌 Вместо отдельной регистрации в Anthropic, OpenAI и Google — открываете один OpenRouter. Вставляете один ключ в OpenClaw — и переключаетесь между любыми моделями одним изменением в конфиге.</div>
+    </div>
+
+    <div class="term">
+      <div class="term__name">Контекстное окно (Context Window)</div>
+      <div class="term__def">Максимальный объём текста, который модель «видит» в одном разговоре одновременно. Всё, что выходит за это окно — модель не помнит и не учитывает.</div>
+      <div class="term__example">📌 Стол, на котором раскладываете бумаги. Стол ограничен. Влезло 50 листов — отлично. Нужно 200 — часть упадёт на пол и пропадёт. Поэтому в OpenClaw есть MEMORY.md: важные данные хранятся отдельно и не теряются.</div>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">⚡</span>
+      <span><strong>VPN включён + отдельный профиль Chrome!</strong> Все действия с OpenRouter — с подключённым VPN (США) и в том же профиле Chrome из урока 1. Так вся ваша цифровая инфраструктура живёт в единой «личности»: один Google-аккаунт, один IP, один профиль.</span>
+    </div>
+
+    <div class="item" data-key="openrouter-reg">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Зарегистрироваться на OpenRouter</div>
+        <div class="item__hint">VPN включён, профиль Chrome из урока 1 открыт.<br>Перейдите на сайт → <strong>«Sign In»</strong> → <strong>«Continue with Google»</strong> — используйте Gmail из урока 1.<br>
+        <a href="https://openrouter.ai" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> openrouter.ai — сайт агрегатора моделей</a></div>
+      </div>
+    </div>
+
+    <div class="item" data-key="openrouter-key">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Создать API-ключ</div>
+        <div class="item__hint">1. Перейдите в <strong>Settings → Keys</strong><br>2. Нажмите <strong>«Create Key»</strong> → название: <span class="mono">openclaw</span><br>3. Ключ появится один раз — <strong>сразу скопируйте и сохраните в заметках!</strong><br>
+        <a href="https://openrouter.ai/settings/keys" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> openrouter.ai/settings/keys — управление ключами</a></div>
+      </div>
+    </div>
+
+    <div class="item" data-key="openrouter-balance">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Пополнить баланс на $15</div>
+        <div class="item__hint">Бесплатные модели работают и без баланса — нужен только API-ключ. Но есть важный нюанс по лимитам:<br><br>
+        • <strong>Без пополнения (баланс $0):</strong> до 50 запросов в день к бесплатным моделям<br>
+        • <strong>После пополнения от $10:</strong> до 1000 запросов в день — в 20 раз больше<br><br>
+        50 запросов израсходуется за час активной работы с агентом. Для обучения этого не хватит. <strong>Пополняйте $15 — с запасом на весь интенсив.</strong><br><br>
+        Перейдите в <strong>Settings → Credits</strong>. Оплата: виртуальная карта из урока 1 (CardyMemBot Flexy) или крипта.<br>
+        <a href="https://openrouter.ai/settings/credits" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> openrouter.ai/settings/credits — пополнение баланса</a>
+        <a href="https://openrouter.ai/docs/api/reference/limits" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> openrouter.ai/docs — официальная документация по лимитам</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-key="openrouter-save">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Сохранить API-ключ в надёжное место</div>
+        <div class="item__hint">Запишите ключ в заметки (Notion, Apple Notes, Google Keep). Он понадобится в уроке 3 при настройке OpenClaw. <strong>Никому не передавайте — это ваш кошелёк.</strong></div>
+      </div>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">💰</span>
+      <span><strong>Как экономить на OpenRouter:</strong> для тестов и разработки — бесплатные модели (смотри следующий блок). Для продакшн-задач — Claude или GPT. Переключаться между моделями можно в любой момент без пересоздания ключа.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     04 — БЕСПЛАТНЫЕ МОДЕЛИ
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">04</div>
+    <div class="section__title">Бесплатные модели для «мозгов» OpenClaw</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🆓</span>
+      <span>На этапе обучения и настройки агента тратить деньги на API необязательно. Бесплатные модели достаточно умны для большинства задач интенсива. Переходить на платные стоит, когда нужна максимальная точность в продакшне.</span>
+    </div>
+
+    <div class="term">
+      <div class="term__name">Model String — строка модели</div>
+      <div class="term__def">Точное название модели в системе OpenRouter. Используется в конфигурации OpenClaw, чтобы он знал, к какой именно модели обращаться. Суффикс <span style="font-family:'JetBrains Mono',monospace;color:var(--green)">:free</span> — модель бесплатная.</div>
+      <div class="term__example">📌 Как артикул товара. «Кроссовки Nike» — слишком размыто. «Nike Air Max 90, размер 42» — точный артикул. Model string нужно вставлять без единой ошибки.</div>
+    </div>
+
+    <table class="data-table">
+      <tr><th>Модель</th><th>Model String</th><th>Контекст</th></tr>
+      <tr><td>Google Gemma 3 27B <span class="tag-free">FREE</span></td><td><span class="model-string">google/gemma-3-27b-it:free</span></td><td>131K</td></tr>
+      <tr><td>Meta Llama 3.3 70B <span class="tag-free">FREE</span></td><td><span class="model-string">meta-llama/llama-3.3-70b-instruct:free</span></td><td>66K</td></tr>
+      <tr><td>Nous Hermes 3 405B <span class="tag-free">FREE</span></td><td><span class="model-string">nousresearch/hermes-3-llama-3.1-405b:free</span></td><td>131K</td></tr>
+      <tr><td>Google Gemma 3 12B <span class="tag-free">FREE</span></td><td><span class="model-string">google/gemma-3-12b-it:free</span></td><td>33K</td></tr>
+    </table>
+
+    <div class="res-block">
+      <div class="res-block__title">🔍 Все бесплатные модели на OpenRouter</div>
+      <div class="res-block__sub">Актуальный фильтр — обновляется в реальном времени</div>
+      <a href="https://openrouter.ai/models?max_price=0&fmt=cards&output_modalities=text" target="_blank" class="lnk"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> openrouter.ai — открыть фильтр бесплатных моделей</a>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">⚠️</span>
+      <span>Список бесплатных моделей обновляется. Перед подключением модели в OpenClaw — сверьтесь с актуальным фильтром по ссылке выше. Model string должен совпадать точно до символа.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     05 — OPENCLAW КАК КОМАНДНЫЙ ПУНКТ
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">05</div>
+    <div class="section__title">OpenClaw как «командный пункт» — концепция и архитектура</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🏗️</span>
+      <span>Главный концептуальный блок урока. Здесь нет чек-листа — только понимание. Без него следующие уроки будут набором непонятных действий.</span>
+    </div>
+
+    <div class="term">
+      <div class="term__name">Self-hosted — собственный сервер</div>
+      <div class="term__def">Установка и запуск программы на своём сервере, а не в чужом облаке. Вы контролируете данные, расходы и доступность — никто другой.</div>
+      <div class="term__example">📌 Разница между арендой квартиры и покупкой своей. Аренда — правила хозяина, могут выселить, могут поднять цену. Своя — ваши правила, ваша свобода. OpenClaw стоит на вашем сервере: никто не может его отключить.</div>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Как работает OpenClaw — простая схема:</strong></p>
+    </div>
+
+    <div class="arch-box">
+      Вы &nbsp;→&nbsp; <span style="color:var(--accent-glow)">Telegram-бот</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#fbbf24">OpenClaw</span> &nbsp;— командный пункт на вашем VPS (Aeza, США)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+      &nbsp;&nbsp;&nbsp;<span style="color:var(--green)">LLM-модель</span> &nbsp;— мозг, подключён через OpenRouter<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+      <span style="color:var(--text-muted)">Skills / Инструменты:<br>
+      Telegram · Google Calendar · Google Drive · GitHub<br>
+      n8n на отдельном сервере · свой домен · любой API</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Ключевые концепции OpenClaw, которые мы будем настраивать:</strong></p>
+    </div>
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <div class="concept-card__emoji">💛</div>
+        <div class="concept-card__name">SOUL.md</div>
+        <div class="concept-card__desc">«Личность» агента: кто он, как общается, что для него важно. <strong>Без SOUL.md — безликий бот. С ним — ваш персональный сотрудник с характером.</strong></div>
+      </div>
+      <div class="concept-card">
+        <div class="concept-card__emoji">🗂️</div>
+        <div class="concept-card__name">MEMORY.md</div>
+        <div class="concept-card__desc">Долгосрочная память: факты о вас, бизнесе, договорённостях. <strong>Агент читает её при каждом диалоге — не нужно объяснять контекст заново.</strong></div>
+      </div>
+      <div class="concept-card">
+        <div class="concept-card__emoji">💓</div>
+        <div class="concept-card__name">Heartbeats</div>
+        <div class="concept-card__desc">Проактивность: агент сам пишет первым, проверяет календарь, напоминает. <strong>Как хороший секретарь — сам приходит с дайджестом в 9:00.</strong></div>
+      </div>
+      <div class="concept-card">
+        <div class="concept-card__emoji">🛠️</div>
+        <div class="concept-card__name">Skills</div>
+        <div class="concept-card__desc">Готовые навыки из маркета. <strong>Установили скилл → агент умеет новое. Как приложения на телефоне — без программирования.</strong></div>
+      </div>
+      <div class="concept-card">
+        <div class="concept-card__emoji">⏰</div>
+        <div class="concept-card__name">Cron Jobs</div>
+        <div class="concept-card__desc">Задачи по расписанию внутри агента. <strong>«Каждый пн в 8:00 — пришли список задач» — написали один раз, работает каждую неделю.</strong></div>
+      </div>
+      <div class="concept-card">
+        <div class="concept-card__emoji">🏢</div>
+        <div class="concept-card__name">AI-офис</div>
+        <div class="concept-card__desc">Несколько агентов под разные роли из единого центра. <strong>Агент-маркетолог, операционист, аналитик — каждый делает своё.</strong></div>
+      </div>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">🎯</span>
+      <span>Представьте: сотрудник, который работает 24/7, не устаёт, не болеет, помнит всё, что вы ему говорили, и сам напоминает о важном. <strong>Это и есть OpenClaw.</strong> Установлен на вашем сервере. Принадлежит только вам.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     06 — ДЕМО РЕЗУЛЬТАТА
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">06</div>
+    <div class="section__title">Демо финального результата — что будет у каждого через 3 недели</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p>Через 3 недели у каждого из вас будет собственный <strong>AI-директор в Telegram</strong>. Вы напишете ему голосом: «напомни мне про встречу завтра в 10» — и он запишет в Google Календарь, напомнит утром и пришлёт дайджест дня.</p>
+      <p>Это не демо из YouTube. Это <strong>ваш сервер, ваш агент, ваши данные.</strong></p>
+    </div>
+    <ul class="result-list">
+      <li>OpenClaw развёрнут на собственном VPS-сервере в США — работает 24/7</li>
+      <li>Telegram-бот с голосовым вводом через Whisper Free Model</li>
+      <li>Подключены Google Calendar, Google Drive и другие сервисы Google</li>
+      <li>Подключён GitHub — деплой сайтов и лендингов через вайб-кодинг</li>
+      <li>Развёрнут n8n на отдельном сервере — автоматизации и интеграции</li>
+      <li>Куплен и подключён свой домен — для сайтов и личного бренда</li>
+      <li>Создан минимум 1 специализированный AI-агент под ваш бизнес</li>
+      <li>Автоматизирован минимум 1 реальный бизнес-процесс</li>
+      <li>Персональная дорожная карта: каких ещё агентов добавить и когда</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     07 — CLAUDE PROJECTS
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">07</div>
+    <div class="section__title">Практика: создаём Claude Project под свой бизнес</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">📁</span>
+      <span>Projects в Claude — рабочее пространство с постоянным контекстом. Один раз описали свой бизнес и правила — Claude помнит это во всех диалогах внутри проекта. Именно здесь мы будем писать SOUL.md и MEMORY.md для будущего агента.</span>
+    </div>
+
+    <div class="term">
+      <div class="term__name">Claude Projects</div>
+      <div class="term__def">Рабочее пространство в Claude с постоянной системной инструкцией и базой знаний. Один раз описали свой бизнес — больше не повторяетесь в каждом чате. Экономит токены и повышает точность ответов.</div>
+      <div class="term__example">📌 Как папка на рабочем столе под конкретный проект. Открыли — и уже в контексте. Claude знает, кто вы и чем занимаетесь. Больше не нужно каждый раз писать «я предприниматель, у меня онлайн-школа, пиши кратко».</div>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Ресурсы для выполнения задания:</strong></p>
+    </div>
+
+    <div class="res-block">
+      <div class="res-block__title">📝 Шаблон системной инструкции для Claude Project</div>
+      <div class="res-block__sub">Заполните под свой бизнес — Google Docs</div>
+      <a href="https://docs.google.com/document/d/1AlIh45lH-JbOiGJSvBQ3I-F0PIu4wCqB9Wqlfd9oWZk/edit?usp=drive_link" target="_blank" class="lnk"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Google Drive — открыть шаблон</a>
+    </div>
+
+    <div class="res-block">
+      <div class="res-block__title">🗃️ Пример базы знаний проекта</div>
+      <div class="res-block__sub">На примере ИИ-ВИЗАЦИЯ: OPENCLAW</div>
+      <a href="https://drive.google.com/file/d/1FoNg4KXQKtGTq6myNPY1Ot4kExno7yOc/view?usp=drive_link" target="_blank" class="lnk"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Google Drive — открыть пример</a>
+    </div>
+
+    <div class="item" data-key="project-create">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Создать новый проект в Claude</div>
+        <div class="item__hint">Откройте claude.ai → в левом меню <strong>«Projects»</strong> → <strong>«New Project»</strong>.<br>Название: <span class="mono">[Ваш бизнес] — AI</span><br>
+        <a href="https://claude.ai" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> claude.ai — войти в аккаунт</a></div>
+      </div>
+    </div>
+
+    <div class="item" data-key="project-instruction">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Заполнить и вставить системную инструкцию</div>
+        <div class="item__hint">1. Откройте шаблон по ссылке выше<br>2. Заполните под свой бизнес: кто вы, чем занимаетесь, в каком стиле отвечать<br>3. В проекте Claude: <strong>«Project Instructions»</strong> → вставьте текст → сохраните</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="project-knowledge">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Создать и загрузить базу знаний о своём бизнесе</div>
+        <div class="item__hint">1. Посмотрите пример базы знаний по ссылке выше — ориентир по структуре<br>2. Создайте аналогичный документ: продукты, клиенты, процессы, ключевые данные<br>3. В проекте Claude: <strong>«Add Content»</strong> → загрузите документ или вставьте текст</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="project-test">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Отправить тестовый запрос в проекте</div>
+        <div class="item__hint">Откройте новый чат <strong>внутри проекта</strong> → напишите: «Кратко опиши наш продукт и нашу аудиторию».<br><strong>Если Claude отвечает в контексте вашего бизнеса — проект настроен правильно. ✅</strong></div>
+      </div>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">💡</span>
+      <span>Этот проект — ваша рабочая база до конца интенсива. Здесь будем писать SOUL.md и MEMORY.md для агента, хранить промпты, готовить инструкции. <strong>Чем качественнее заполните сейчас — тем умнее будет ваш агент.</strong></span>
+    </div>
+  </div>
+</div>
+
+</div><!-- /sections -->
+
+<!-- ═══ FOOTER ═══ -->
+<div class="footer">
+  <div class="footer__done" id="doneBlock">
+    <div class="footer__done-emoji">🚀</div>
+    <div class="footer__done-text">Фундамент заложен!</div>
+    <div class="footer__done-sub">OpenRouter подключён, Claude Project создан. Увидимся на встрече!</div>
+  </div>
+  <div class="footer__schedule">
+    <div class="footer__schedule-title">Онлайн-встреча 2</div>
+    <div class="footer__schedule-row"><span>Стандарт</span><span>31.03, ВТ, 17:00 МСК</span></div>
+    <div class="footer__schedule-row"><span>VIP (Премиум)</span><span>01.04, СР, 17:00 МСК</span></div>
+  </div>
+  <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
+  <button class="btn-reset" onclick="resetProgress()">Сбросить прогресс</button>
+</div>
+
+</div><!-- /wrapper -->
+
+<script>
+const C=document.getElementById('confetti-canvas'),ctx=C.getContext('2d');
+let particles=[],confettiActive=false;
+function resizeCanvas(){C.width=window.innerWidth;C.height=window.innerHeight;}
+window.addEventListener('resize',resizeCanvas);resizeCanvas();
+const COLORS=['#7c5bf5','#9d7cff','#34d399','#6ee7b7','#fbbf24','#f87171','#fb7185','#38bdf8','#facc15','#a78bfa','#f472b6','#4ade80'];
+function rand(a,b){return Math.random()*(b-a)+a;}
+function createBurst(x,y,count){for(let i=0;i<count;i++){const angle=rand(0,Math.PI*2),speed=rand(4,14),size=rand(4,10);particles.push({x,y,vx:Math.cos(angle)*speed+rand(-2,2),vy:Math.sin(angle)*speed*-0.8-rand(2,6),size,color:COLORS[Math.floor(Math.random()*COLORS.length)],rotation:rand(0,Math.PI*2),rotSpeed:rand(-0.2,0.2),gravity:rand(0.12,0.25),friction:rand(0.97,0.995),opacity:1,fadeSpeed:rand(0.005,0.015),shape:Math.random()>0.4?'rect':'circle'});}}
+function launchConfetti(){if(confettiActive)return;confettiActive=true;particles=[];const W=C.width,H=C.height;[[W*.5,H*.3,120],[W*.15,H*.2,80],[W*.85,H*.2,80],[W*.5,H*.1,100],[W*.3,H*.5,60],[W*.7,H*.5,60],[0,H*.6,50],[W,H*.6,50],[W*.5,H*.6,80]].forEach(([x,y,c],i)=>{setTimeout(()=>createBurst(x,y,c),i*150)});setTimeout(()=>{createBurst(W*.2,H*.15,90);createBurst(W*.8,H*.15,90);createBurst(W*.5,H*.05,100)},1500);setTimeout(()=>{createBurst(W*.5,H*.25,120);createBurst(W*.1,H*.4,60);createBurst(W*.9,H*.4,60)},2500);animate();setTimeout(()=>{confettiActive=false},8000);}
+function animate(){ctx.clearRect(0,0,C.width,C.height);for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.vx*=p.friction;p.vy*=p.friction;p.vy+=p.gravity;p.x+=p.vx;p.y+=p.vy;p.rotation+=p.rotSpeed;p.opacity-=p.fadeSpeed;if(p.opacity<=0){particles.splice(i,1);continue}ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rotation);ctx.globalAlpha=p.opacity;ctx.fillStyle=p.color;if(p.shape==='rect'){ctx.fillRect(-p.size/2,-p.size/4,p.size,p.size/2)}else{ctx.beginPath();ctx.arc(0,0,p.size/2,0,Math.PI*2);ctx.fill()}ctx.restore();}if(particles.length>0||confettiActive){requestAnimationFrame(animate)}else{ctx.clearRect(0,0,C.width,C.height);}}
+const STORAGE_KEY='iivizaciya_checklist_urok2_v4';
+const items=document.querySelectorAll('.item[data-key]');
+const totalCount=items.length;
+let wasComplete=false;
+function loadState(){try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');let c=0;items.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');if(s[item.dataset.key]){cb.checked=true;item.classList.add('checked');c++}});wasComplete=c===totalCount}catch(e){}updateProgress(false);}
+function saveState(){const s={};items.forEach(item=>{s[item.dataset.key]=item.querySelector('input[type="checkbox"]').checked});try{localStorage.setItem(STORAGE_KEY,JSON.stringify(s))}catch(e){}}
+function updateProgress(canCelebrate=true){let c=0;items.forEach(item=>{if(item.querySelector('input[type="checkbox"]').checked)c++});document.getElementById('progressCount').textContent=`${c} / ${totalCount}`;document.getElementById('progressFill').style.width=(totalCount>0?(c/totalCount)*100:0)+'%';const done=document.getElementById('doneBlock');if(c===totalCount){done.classList.add('visible');if(canCelebrate&&!wasComplete){launchConfetti()}wasComplete=true}else{done.classList.remove('visible');wasComplete=false;}}
+items.forEach(item=>{
+  const cb=item.querySelector('input[type="checkbox"]');
+  item.addEventListener('click',function(e){if(e.target.closest('a')||e.target.closest('.lnk'))return;if(e.target!==cb){cb.checked=!cb.checked;cb.dispatchEvent(new Event('change'));}});
+  cb.addEventListener('change',function(){item.classList.toggle('checked',this.checked);saveState();updateProgress(true);});
+});
+function resetProgress(){if(!confirm('Сбросить весь прогресс?'))return;items.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasComplete=false;saveState();updateProgress(false);}
+loadState();
+</script>
+</body>
+</html>
