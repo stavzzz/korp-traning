@@ -113,7 +113,7 @@
   <header class="header">
     <div class="header__badge">ИИ-ВИЗАЦИЯ: OPENCLAW</div>
     <h1 class="header__title">Супермощный <span>путь</span></h1>
-    <p class="header__subtitle">Максимальная защита аккаунта: антидетект-браузер, резидентный прокси, физический номер США, белая карта. Для тех, кто делает на совесть.</p>
+    <p class="header__subtitle">Максимальная защита аккаунта: антидетект-браузер, резидентский прокси, физический номер США, белая карта. Для тех, кто делает на совесть.</p>
   </header>
 
   <div class="progress-wrap">
@@ -168,16 +168,36 @@
   </div>
 </div>
 
-<!-- ====== 03 PROXY (ПОДНЯТ ПРИОРИТЕТ) ====== -->
+<!-- ====== 03 EMAIL ====== -->
 <div class="section">
-  <div class="section__header"><div class="section__num">03</div><div class="section__title">Резидентный прокси США</div></div>
+  <div class="section__header"><div class="section__num">03</div><div class="section__title">Почта: Gmail или Hotmail</div></div>
+  <div class="section__card">
+    <div class="note note--info"><span class="note__icon">✉️</span><span>Подготовка «белого» ящика. Используйте чистый Gmail или новый Hotmail (<strong>@hotmail.com</strong>). Обязательно включите 2FA. <strong>Proton Mail запрещён</strong> — высокий риск блокировки платежа. Регистрация почты — только после настройки прокси (следующий этап).</span></div>
+    <div class="item" data-key="email-reg"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Зарегистрировать Gmail или Hotmail</div>
+        <div class="item__hint">1. <strong>Запустите профиль Dolphin</strong> с подключённым резидентским прокси<br>2. Откройте <a href="https://outlook.live.com/owa/?nlp=1&signup=1" target="_blank" onclick="event.stopPropagation()">Hotmail</a> или <a href="https://accounts.google.com/signup" target="_blank" onclick="event.stopPropagation()">Gmail</a><br>3. Если Hotmail — выберите домен <strong>@hotmail.com</strong> в выпадающем списке<br>4. Придумайте адрес и пароль → сохраните</div>
+      </div>
+    </div>
+    <div class="item" data-key="email-2fa"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Включить двухфакторную аутентификацию (2FA)</div>
+        <div class="item__hint">Зайдите в настройки безопасности почты → включите <strong>2FA</strong> → сохраните <strong>Recovery Code</strong> в надёжном месте.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 04 PROXY ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">04</div><div class="section__title">Резидентский прокси США</div></div>
   <div class="section__card">
     <div class="note note--warn"><span class="note__icon">🌐</span><span>Получаем <strong>домашний IP (Comcast)</strong>. Это фундамент. Без этого этапа все остальные шаги бессмысленны. Claude, Stripe и другие сервисы должны видеть обычного пользователя дома в США.</span></div>
     <div class="item" data-key="proxy-buy"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Купить статический резидентский прокси США (Comcast)</div>
         <div class="item__hint">Зайдите в CyberYozh → <strong>Резидентские прокси → Статические → США (Comcast)</strong>. Скопируйте SOCKS5 данные (IP:Port:Login:Password).</div>
-        <a href="https://cyberyozh.com/proxies/residential" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> cyberyozh.com — резидентные прокси</a>
+        <a href="https://cyberyozh.com/proxies/residential" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> cyberyozh.com — резидентские прокси</a>
       </div>
     </div>
     <div class="item" data-key="proxy-connect-new"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
@@ -189,30 +209,24 @@
   </div>
 </div>
 
-<!-- ====== 04 PROXY ====== -->
+<!-- ====== 05 PIXELSCAN ====== -->
 <div class="section">
-  <div class="section__header"><div class="section__num">04</div><div class="section__title">Резидентный прокси США</div></div>
+  <div class="section__header"><div class="section__num">05</div><div class="section__title">Проверка геосоответствия (PixelScan)</div></div>
   <div class="section__card">
-    <div class="note note--info"><span class="note__icon">🌐</span><span>Третий слой: получаем <strong>домашний IP</strong> настоящего американского провайдера (не дата-центровый). Claude, Stripe и другие сервисы видят обычного пользователя дома в США.</span></div>
-    <div class="item" data-key="proxy-buy"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+    <div class="note note--info"><span class="note__icon">🎯</span><span>Получение данных о городе, штате и ZIP-коде для вашей легенды. Зайдите на PixelScan <strong>строго внутри Dolphin</strong>. Выпишите: <strong>City, State, ZIP Code</strong> — эти данные станут основой Billing Address.</span></div>
+    <div class="item" data-key="pixelscan-geo"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Купить резидентный прокси США на CyberYozh</div>
-        <div class="item__hint">Зайдите в CyberYozh → <strong>Резидентские прокси → Статические → США</strong> → выберите провайдера <strong>US Comcast</strong>. Скопируйте SOCKS5 данные (IP:Port:Login:Password).</div>
-        <a href="https://cyberyozh.com/proxies/residential" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> app.cyberyozh.com — резидентные прокси</a>
-      </div>
-    </div>
-    <div class="item" data-key="proxy-connect"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Подключить прокси к профилю Dolphin</div>
-        <div class="item__hint">В Dolphin: откройте настройки профиля (создан на шаге 02) → в разделе <strong>Proxy</strong> вставьте SOCKS5 данные → сохраните → перезапустите профиль. Теперь весь трафик Dolphin идёт через домашний IP в США.</div>
+        <div class="item__text">Открыть PixelScan и выписать гео-данные</div>
+        <div class="item__hint">1. В Dolphin с резидентским прокси откройте <a href="https://pixelscan.net/" target="_blank" onclick="event.stopPropagation()">pixelscan.net</a><br>2. Выпишите: <strong>City</strong> (город), <strong>State</strong> (штат), <strong>ZIP Code</strong> (индекс)<br>3. Убедитесь что статус — <strong>зелёный (Consistent)</strong></div>
+        <a href="https://pixelscan.net/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> pixelscan.net — проверка отпечатков</a>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ====== 05 BILLING ADDRESS ====== -->
+<!-- ====== 06 BILLING ADDRESS ====== -->
 <div class="section">
-  <div class="section__header"><div class="section__num">05</div><div class="section__title">Генерация «белой» личности (Billing Address)</div></div>
+  <div class="section__header"><div class="section__num">06</div><div class="section__title">Генерация «белой» личности (Billing Address)</div></div>
   <div class="section__card">
     <div class="note note--warn"><span class="note__icon">🏠</span><span>Критически важный шаг! Нужно найти <strong>реально существующий адрес в США</strong>, который совпадает с локацией вашего прокси. Без этого Stripe отклонит оплату.</span></div>
     <div class="item" data-key="addr-ipinfo"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
@@ -237,41 +251,11 @@
   </div>
 </div>
 
-<!-- ====== 06 CHECK ====== -->
-<div class="section">
-  <div class="section__header"><div class="section__num">06</div><div class="section__title">Проверка отпечатков (Pre-flight)</div></div>
-  <div class="section__card">
-    <div class="note note--warn"><span class="note__icon">🎯</span><span>Перед регистрацией в Claude убедитесь, что защита работает идеально. Все проверки — <strong>внутри профиля Dolphin!</strong></span></div>
-    <div class="item" data-key="check-scam"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Scamalytics — Fraud Score от 0 до 15</div>
-        <div class="item__hint">Откройте сайт в Dolphin → проверьте свой IP. Fraud Score должен быть <strong>0–15</strong> (зелёный). Если больше 30 — смените прокси.</div>
-        <a href="https://scamalytics.com/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> scamalytics.com — проверка Fraud Score IP</a>
-      </div>
-    </div>
-    <div class="item" data-key="check-pixel"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Pixelscan — надпись «Consistent»</div>
-        <div class="item__hint">Проверяет, совпадают ли отпечатки браузера с IP. Должна быть <strong>зелёная надпись Consistent</strong>. Если красная — пересоздайте профиль в Dolphin.</div>
-        <a href="https://pixelscan.net/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> pixelscan.net — проверка отпечатков браузера</a>
-      </div>
-    </div>
-    <div class="item" data-key="check-whoer"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Whoer — анонимность 100%</div>
-        <div class="item__hint">Должен показывать <strong>100% анонимность</strong>. Если меньше — проверьте, что Dolphin запущен с прокси и VPN не конфликтует.</div>
-        <a href="https://whoer.net/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> whoer.net — проверка анонимности</a>
-      </div>
-    </div>
-    <div class="note note--green"><span class="note__icon">✅</span><span>Все три проверки прошли? Отлично — ваша «капсула» готова. Все дальнейшие действия выполняем <strong>только внутри Dolphin</strong>.</span></div>
-  </div>
-</div>
-
 <!-- ====== 07 PHONE ====== -->
 <div class="section">
-  <div class="section__header"><div class="section__num">07</div><div class="section__title">Номер телефона США</div></div>
+  <div class="section__header"><div class="section__num">07</div><div class="section__title">Резидентский номер телефона США</div></div>
   <div class="section__card">
-    <div class="note note--info"><span class="note__icon">📱</span><span>Физическая американская SIM-карта (Non-VoIP). Такие номера проходят верификацию Claude без проблем, в отличие от виртуальных.</span></div>
+    <div class="note note--info"><span class="note__icon">📱</span><span>Резидентская физическая SIM-карта США (Non-VoIP). Такие номера проходят верификацию Claude без проблем, в отличие от виртуальных.</span></div>
     <div class="item" data-key="sms-rent"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Арендовать номер США на MobileSMS.io</div>
@@ -372,7 +356,7 @@
         <a href="https://platform.claude.com/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> platform.claude.com — платформа для API-токена</a>
       </div>
     </div>
-    <div class="note note--alert"><span class="note__icon">🚨</span><span><strong>Памятка по безопасности:</strong><br>• <strong>Принцип 1:1:1:</strong> Один профиль Dolphin = Один индивидуальный прокси = Один уникальный Billing Address = Одна карта<br>• <strong>Гео-замок:</strong> Если PixelScan показывает определённый город — адрес должен быть в этом же городе. Любое расхождение (Geo-Mismatch) — повод для Stripe отклонить транзакцию<br>• <strong>Чистота почты:</strong> Gmail/Hotmail должны быть либо новыми, либо никогда не использованными в сервисах Anthropic<br>• <strong>Никаких утечек:</strong> Проверка 2FA на почте и вход в Claude — только при включенном прокси и зелёном статусе в PixelScan<br>• Держите на Capitalist запас $5 на обслуживание карты</span></div>
+    <div class="note note--alert"><span class="note__icon">🚨</span><span><strong>Памятка по безопасности:</strong><br>• <strong>Принцип 1:1:1:</strong> Один профиль Dolphin = Один резидентский прокси = Один уникальный Billing Address = Одна карта<br>• <strong>Гео-замок:</strong> Если PixelScan показывает определённый город — адрес должен быть в этом же городе. Любое расхождение (Geo-Mismatch) — повод для Stripe отклонить транзакцию<br>• <strong>Чистота почты:</strong> Gmail/Hotmail должны быть либо новыми, либо никогда не использованными в сервисах Anthropic<br>• <strong>Никаких утечек:</strong> Проверка 2FA на почте и вход в Claude — только при включенном прокси и зелёном статусе в PixelScan<br>• Держите на Capitalist запас $5 на обслуживание карты</span></div>
   </div>
 </div>
 
@@ -382,7 +366,7 @@
     <div class="footer__done" id="doneBlock">
       <div class="footer__done-emoji">🛡️</div>
       <div class="footer__done-text">Защита максимальная!</div>
-      <div class="footer__done-sub">Антидетект, резидентный прокси, физический номер, белая карта. Вы — невидимка.</div>
+      <div class="footer__done-sub">Антидетект, резидентский прокси, физический номер, белая карта. Вы — невидимка.</div>
     </div>
     <div class="footer__contact">Возникли проблемы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
     <button class="btn-reset" onclick="resetProgress()">Сбросить прогресс</button>
