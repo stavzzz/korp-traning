@@ -168,16 +168,22 @@
   </div>
 </div>
 
-<!-- ====== 03 PROTON ====== -->
+<!-- ====== 03 PROXY (ПОДНЯТ ПРИОРИТЕТ) ====== -->
 <div class="section">
-  <div class="section__header"><div class="section__num">03</div><div class="section__title">Почта Proton Mail</div></div>
+  <div class="section__header"><div class="section__num">03</div><div class="section__title">Резидентный прокси США</div></div>
   <div class="section__card">
-    <div class="note note--info"><span class="note__icon">✉️</span><span>Анонимный почтовый ящик. Регистрация <strong>строго внутри</strong> запущенного профиля Dolphin — так почта привязывается к чистому отпечатку, а не к вашему обычному браузеру.</span></div>
-    <div class="item" data-key="proton-reg"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+    <div class="note note--warn"><span class="note__icon">🌐</span><span>Получаем <strong>домашний IP (Comcast)</strong>. Это фундамент. Без этого этапа все остальные шаги бессмысленны. Claude, Stripe и другие сервисы должны видеть обычного пользователя дома в США.</span></div>
+    <div class="item" data-key="proxy-buy"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Зарегистрировать Proton Mail</div>
-        <div class="item__hint">1. <strong>Запустите профиль Dolphin</strong> (не обычный Chrome!)<br>2. Откройте <a href="https://proton.me/mail" target="_blank" onclick="event.stopPropagation()">proton.me/mail</a> → «Create account»<br>3. Придумайте адрес (имя@proton.me) и пароль<br>4. Сохраните данные</div>
-        <a href="https://proton.me/mail" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> proton.me/mail — защищённая почта</a>
+        <div class="item__text">Купить статический резидентский прокси США (Comcast)</div>
+        <div class="item__hint">Зайдите в CyberYozh → <strong>Резидентские прокси → Статические → США (Comcast)</strong>. Скопируйте SOCKS5 данные (IP:Port:Login:Password).</div>
+        <a href="https://cyberyozh.com/proxies/residential" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> cyberyozh.com — резидентные прокси</a>
+      </div>
+    </div>
+    <div class="item" data-key="proxy-connect-new"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Подключить прокси к профилю Dolphin</div>
+        <div class="item__hint">В Dolphin: откройте настройки профиля → <strong>Proxy → SOCKS5</strong> → вставьте данные прокси → сохраните → запустите профиль.</div>
       </div>
     </div>
   </div>
@@ -192,7 +198,7 @@
       <div class="item__body">
         <div class="item__text">Купить резидентный прокси США на CyberYozh</div>
         <div class="item__hint">Зайдите в CyberYozh → <strong>Резидентские прокси → Статические → США</strong> → выберите провайдера <strong>US Comcast</strong>. Скопируйте SOCKS5 данные (IP:Port:Login:Password).</div>
-        <a href="https://app.cyberyozh.com/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> app.cyberyozh.com — резидентные прокси</a>
+        <a href="https://cyberyozh.com/proxies/residential" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> app.cyberyozh.com — резидентные прокси</a>
       </div>
     </div>
     <div class="item" data-key="proxy-connect"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
@@ -225,7 +231,7 @@
     <div class="item" data-key="addr-save"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Сохранить адрес в блокнот</div>
-        <div class="item__hint">Запишите: <strong>Street, City, State, ZIP</strong>. Этот адрес вы введёте:<br>&nbsp;&nbsp;&nbsp;• В <strong>Capitalist</strong> при создании карты (шаг 08)<br>&nbsp;&nbsp;&nbsp;• В <strong>Claude</strong> при оплате подписки в поле «Billing Address» (шаг 10)<br><br>⚠ <strong>Адрес должен на 100% совпадать с городом прокси.</strong> Прокси в Jersey City — адрес в Jersey City. Не Нью-Йорк, не Делавер.</div>
+        <div class="item__hint">Найдите реальный жилой дом в <strong>Google Maps</strong>, используя <strong>Город и ZIP из PixelScan</strong> (шаг 04). Этот адрес станет вашим официальным биллингом для банка и Claude.<br><br>Запишите: <strong>Street, City, State, ZIP</strong>. Этот адрес вы введёте:<br>&nbsp;&nbsp;&nbsp;• В <strong>Capitalist</strong> при создании карты (шаг 08)<br>&nbsp;&nbsp;&nbsp;• В <strong>Claude</strong> при оплате подписки в поле «Billing Address» (шаг 10)<br><br>⚠ <strong>Адрес должен быть индивидуальным для каждого прокси.</strong> Данные из PixelScan — ваш ориентир.</div>
       </div>
     </div>
   </div>
@@ -323,7 +329,7 @@
     <div class="item" data-key="claude-signup"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Зарегистрироваться в Claude</div>
-        <div class="item__hint">1. В Dolphin откройте <a href="https://claude.ai/" target="_blank" onclick="event.stopPropagation()">claude.ai</a> → «Sign up»<br>2. Введите <strong>почту Proton</strong> из шага 03 (email + пароль отдельно, НЕ «Continue with Google»)<br>3. Подтвердите email — код придёт на Proton Mail</div>
+        <div class="item__hint">1. В Dolphin откройте <a href="https://claude.ai/" target="_blank" onclick="event.stopPropagation()">claude.ai</a> → «Sign up»<br>2. Введите <strong>почту Gmail/Hotmail</strong> из шага 06 (email + пароль отдельно, НЕ «Continue with Google»)<br>3. Подтвердите email — код придёт на вашу почту</div>
         <a href="https://claude.ai/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> claude.ai — регистрация</a>
       </div>
     </div>
@@ -366,7 +372,7 @@
         <a href="https://platform.claude.com/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> platform.claude.com — платформа для API-токена</a>
       </div>
     </div>
-    <div class="note note--alert"><span class="note__icon">🚨</span><span><strong>Памятка по безопасности:</strong><br>• Никогда не открывайте Claude вне Dolphin — только через профиль с прокси<br>• Не меняйте прокси, карту и номер — один профиль, одна карта, один номер<br>• Держите на Capitalist запас $5 на обслуживание карты<br>• Проверяйте BIN карты на <a href="https://binlist.net/" target="_blank">binlist.net</a> — должно быть Debit</span></div>
+    <div class="note note--alert"><span class="note__icon">🚨</span><span><strong>Памятка по безопасности:</strong><br>• <strong>Принцип 1:1:1:</strong> Один профиль Dolphin = Один индивидуальный прокси = Один уникальный Billing Address = Одна карта<br>• <strong>Гео-замок:</strong> Если PixelScan показывает определённый город — адрес должен быть в этом же городе. Любое расхождение (Geo-Mismatch) — повод для Stripe отклонить транзакцию<br>• <strong>Чистота почты:</strong> Gmail/Hotmail должны быть либо новыми, либо никогда не использованными в сервисах Anthropic<br>• <strong>Никаких утечек:</strong> Проверка 2FA на почте и вход в Claude — только при включенном прокси и зелёном статусе в PixelScan<br>• Держите на Capitalist запас $5 на обслуживание карты</span></div>
   </div>
 </div>
 
