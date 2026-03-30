@@ -209,18 +209,33 @@
   </div>
 </div>
 
-<!-- ====== 05 PIXELSCAN ====== -->
+<!-- ====== 05 TRIPLE CHECK ====== -->
 <div class="section">
-  <div class="section__header"><div class="section__num">05</div><div class="section__title">Проверка геосоответствия (PixelScan)</div></div>
+  <div class="section__header"><div class="section__num">05</div><div class="section__title">Глубокий аудит и сбор данных (Triple Check)</div></div>
   <div class="section__card">
-    <div class="note note--info"><span class="note__icon">🎯</span><span>Получение данных о городе, штате и ZIP-коде для вашей легенды. Зайдите на PixelScan <strong>строго внутри Dolphin</strong>. Выпишите: <strong>City, State, ZIP Code</strong> — эти данные станут основой Billing Address.</span></div>
-    <div class="item" data-key="pixelscan-geo"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+    <div class="note note--warn"><span class="note__icon">🎯</span><span>Финальная проверка «капсулы» на герметичность и сбор гео-данных. Все проверки — <strong>внутри профиля Dolphin</strong> с подключённым резидентским прокси!</span></div>
+    <div class="item" data-key="check-whoer"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Открыть PixelScan и выписать гео-данные</div>
-        <div class="item__hint">1. В Dolphin с резидентским прокси откройте <a href="https://pixelscan.net/" target="_blank" onclick="event.stopPropagation()">pixelscan.net</a><br>2. Выпишите: <strong>City</strong> (город), <strong>State</strong> (штат), <strong>ZIP Code</strong> (индекс)<br>3. Убедитесь что статус — <strong>зелёный (Consistent)</strong></div>
+        <div class="item__text">Whoer.net — анонимность 100%</div>
+        <div class="item__hint">Убедитесь, что анонимность <strong>100%</strong>. Если меньше — проверьте настройки времени в профиле Dolphin (должно быть <strong>Auto</strong>).</div>
+        <a href="https://whoer.net/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> whoer.net — проверка анонимности</a>
+      </div>
+    </div>
+    <div class="item" data-key="check-pixel"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">PixelScan.net — статус Consistent + сбор гео-данных</div>
+        <div class="item__hint">Статус должен быть <strong>Consistent (зелёный)</strong>.<br><br>⚠️ <strong>ВАЖНО:</strong> Найдите раздел <strong>Location</strong> и выпишите в блокнот три параметра:<br>&nbsp;&nbsp;&nbsp;• <strong>City</strong> — Город<br>&nbsp;&nbsp;&nbsp;• <strong>State</strong> — Штат<br>&nbsp;&nbsp;&nbsp;• <strong>ZIP Code</strong> — Индекс<br><br>Эти данные понадобятся на следующем шаге!</div>
         <a href="https://pixelscan.net/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> pixelscan.net — проверка отпечатков</a>
       </div>
     </div>
+    <div class="item" data-key="check-scam"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Scamalytics.com — Fraud Score ниже 20</div>
+        <div class="item__hint">Проверьте Fraud Score вашего IP. Допустимое значение — <strong>ниже 20</strong>. Если индикатор красный — ваш резидентский прокси скомпрометирован, его нужно <strong>заменить</strong>.</div>
+        <a href="https://scamalytics.com/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> scamalytics.com — проверка Fraud Score</a>
+      </div>
+    </div>
+    <div class="note note--green"><span class="note__icon">✅</span><span>Все три проверки прошли и гео-данные записаны? Отлично — «капсула» герметична. Переходим к созданию легенды.</span></div>
   </div>
 </div>
 
@@ -228,18 +243,18 @@
 <div class="section">
   <div class="section__header"><div class="section__num">06</div><div class="section__title">Генерация «белой» личности (Billing Address)</div></div>
   <div class="section__card">
-    <div class="note note--warn"><span class="note__icon">🏠</span><span>Критически важный шаг! Нужно найти <strong>реально существующий адрес в США</strong>, который совпадает с локацией вашего прокси. Без этого Stripe отклонит оплату.</span></div>
+    <div class="note note--info"><span class="note__icon">🏠</span><span>Создание физического адреса вашей легенды на основе данных резидентского прокси. <strong>Stripe сравнивает локацию прокси с адресом карты</strong> — если данные из PixelScan и Google Maps совпадут, транзакция пройдёт без подозрений.</span></div>
     <div class="item" data-key="addr-maps"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Найти реальный жилой дом в Google Maps</div>
-        <div class="item__hint">1. Не закрывая Dolphin, откройте <strong>Google Maps</strong><br>2. Введите в поиск свой город и штат (например: <em>Jersey City, NJ</em>)<br>3. Найдите любой жилой квартал — лучше одноэтажную застройку или апартаменты<br>4. Кликните на здание → скопируйте полный адрес<br><br>Пример:<br>&nbsp;&nbsp;&nbsp;• <strong>Street:</strong> 155 Montgomery St<br>&nbsp;&nbsp;&nbsp;• <strong>City:</strong> Jersey City<br>&nbsp;&nbsp;&nbsp;• <strong>State:</strong> NJ (New Jersey)<br>&nbsp;&nbsp;&nbsp;• <strong>ZIP Code:</strong> 07302</div>
+        <div class="item__text">Найти жилой дом в Google Maps по данным PixelScan</div>
+        <div class="item__hint">1. Внутри Dolphin откройте <strong>Google Maps</strong><br>2. <strong>Связка с PixelScan:</strong> в строке поиска введите <strong>Город и ZIP-код</strong>, которые вы получили на этапе 05<br>3. <strong>Поиск дома:</strong> выберите на карте любой жилой дом (Residential building). Избегайте бизнес-центров, почтовых отделений и парков<br>4. <strong>Фиксация данных:</strong> кликните на здание и скопируйте полный адрес</div>
         <a href="https://www.google.com/maps" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Google Maps — открыть карту</a>
       </div>
     </div>
     <div class="item" data-key="addr-save"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Сохранить адрес в блокнот</div>
-        <div class="item__hint">Найдите реальный жилой дом в <strong>Google Maps</strong>, используя <strong>Город и ZIP из PixelScan</strong> (шаг 04). Этот адрес станет вашим официальным биллингом для банка и Claude.<br><br>Запишите: <strong>Street, City, State, ZIP</strong>. Этот адрес вы введёте:<br>&nbsp;&nbsp;&nbsp;• В <strong>Capitalist</strong> при создании карты (шаг 08)<br>&nbsp;&nbsp;&nbsp;• В <strong>Claude</strong> при оплате подписки в поле «Billing Address» (шаг 10)<br><br>⚠ <strong>Адрес должен быть индивидуальным для каждого прокси.</strong> Данные из PixelScan — ваш ориентир.</div>
+        <div class="item__hint">Запишите полный адрес:<br>&nbsp;&nbsp;&nbsp;• <strong>Street + House number</strong> — улица и номер дома<br>&nbsp;&nbsp;&nbsp;• <strong>City</strong> — город (должен совпадать с PixelScan!)<br>&nbsp;&nbsp;&nbsp;• <strong>State</strong> — штат<br>&nbsp;&nbsp;&nbsp;• <strong>ZIP Code</strong> — индекс (должен совпадать с PixelScan!)<br><br>Этот адрес вы введёте:<br>&nbsp;&nbsp;&nbsp;• В <strong>Capitalist</strong> при создании карты (шаг 08)<br>&nbsp;&nbsp;&nbsp;• В <strong>Claude</strong> при оплате подписки (шаг 10)</div>
       </div>
     </div>
   </div>
