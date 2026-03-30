@@ -51,7 +51,7 @@
   .section__title { font-size: 17px; font-weight: 700; letter-spacing: -0.2px; }
   .section__card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: border-color .3s; }
   .section__card:hover { border-color: var(--border-accent); }
-  .item { display: flex; align-items: flex-start; gap: 14px; padding: 16px 20px; border-bottom: 1px solid var(--border); transition: background .2s; user-select: none; }
+  .item { display: flex; align-items: flex-start; gap: 14px; padding: 16px 20px; border-bottom: 1px solid var(--border); transition: background .2s; user-select: text; }
   .item:last-child { border-bottom: none; }
   .item:hover { background: var(--bg-card-hover); }
   .item.checked .item__text { color: var(--text-muted); text-decoration: line-through; }
@@ -110,6 +110,14 @@
   @keyframes pulse { 0%{transform:scale(1)} 50%{transform:scale(1.05)} 100%{transform:scale(1)} }
   .item .cm { transition: transform 0.15s cubic-bezier(0.34,1.56,0.64,1); }
   input[type="checkbox"]:checked + .cm { transform: scale(1.2); }
+
+  /* ─── TEXT SELECTION ─── */
+  .item__body, .item__text, .item__hint, .note, .note span, .term, .term__def, .term__example {
+    user-select: text !important;
+    -webkit-user-select: text !important;
+    cursor: text;
+  }
+  .item__check { cursor: pointer; }
 </style>
 </head>
 <body>
@@ -412,7 +420,7 @@ const STORAGE_KEY='iivizaciya_superpath_v1';const items=document.querySelectorAl
 function loadState(){try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');let c=0;items.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');if(s[item.dataset.key]){cb.checked=true;item.classList.add('checked');c++}});wasComplete=c===totalCount}catch(e){}updateProgress(false)}
 function saveState(){const s={};items.forEach(item=>{s[item.dataset.key]=item.querySelector('input[type="checkbox"]').checked});try{localStorage.setItem(STORAGE_KEY,JSON.stringify(s))}catch(e){}}
 function updateProgress(canCelebrate=true){let c=0;items.forEach(item=>{if(item.querySelector('input[type="checkbox"]').checked)c++});document.getElementById('progressCount').textContent=`${c} / ${totalCount}`;document.getElementById('progressFill').style.width=(totalCount>0?(c/totalCount)*100:0)+'%';const done=document.getElementById('doneBlock');if(c===totalCount){done.classList.add('visible');if(canCelebrate&&!wasComplete){launchConfetti()}wasComplete=true}else{done.classList.remove('visible');wasComplete=false}}
-items.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');item.addEventListener('click',function(e){if(e.target.closest('a'))return;if(e.target!==cb){cb.checked=!cb.checked;cb.dispatchEvent(new Event('change'))}});cb.addEventListener('change',function(){item.classList.toggle('checked',this.checked);saveState();updateProgress(true)})});
+items.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');item.querySelector('.item__check').addEventListener('click',function(e){if(e.target!==cb){cb.checked=!cb.checked;cb.dispatchEvent(new Event('change'))}});cb.addEventListener('change',function(){item.classList.toggle('checked',this.checked);saveState();updateProgress(true)})});
 function resetProgress(){if(!confirm('Сбросить весь прогресс?'))return;items.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasComplete=false;saveState();updateProgress(false)}
 loadState();
 </script>
