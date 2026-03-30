@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Терминал и CLI — Краткая инструкция</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--card:#12121a;--border:#1e1e2e;--text:#e8e6f0;--muted:#8b879e;--accent:#7c5bf5;--accent-glow:#9d7cff;--accent-soft:rgba(124,91,245,.12);--green:#34d399;--radius:14px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Onest',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(circle at 20% 20%,rgba(124,91,245,.04) 0%,transparent 50%),radial-gradient(circle at 80% 80%,rgba(52,211,153,.03) 0%,transparent 50%);pointer-events:none;z-index:0}
+.wrap{position:relative;z-index:1;max-width:640px;margin:0 auto;padding:48px 20px 80px}
+.header{text-align:center;margin-bottom:40px}
+.badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--accent-glow);background:var(--accent-soft);border:1px solid rgba(124,91,245,.2);padding:6px 16px;border-radius:100px;margin-bottom:20px}
+h1{font-size:clamp(22px,5vw,32px);font-weight:800;line-height:1.2;letter-spacing:-.5px;margin-bottom:12px}
+h1 span{background:linear-gradient(135deg,var(--accent-glow),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.subtitle{font-size:15px;color:var(--muted);max-width:480px;margin:0 auto}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:20px;transition:border-color .3s}
+.card:hover{border-color:#2a2a3e}
+.card h2{font-size:16px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.card h2 .icon{font-size:20px}
+.card p{font-size:14px;color:var(--muted);margin-bottom:12px}
+.card p strong{color:var(--text)}
+.card p em{color:var(--muted);font-style:italic}
+.steps{list-style:none;counter-reset:step}
+.steps li{counter-increment:step;font-size:14px;color:var(--muted);padding:6px 0 6px 32px;position:relative}
+.steps li::before{content:counter(step);position:absolute;left:0;top:6px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--accent);background:var(--accent-soft);width:22px;height:22px;display:flex;align-items:center;justify-content:center;border-radius:6px}
+.mono{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--accent-glow);background:var(--accent-soft);padding:2px 8px;border-radius:6px}
+.or{text-align:center;font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:2px;padding:8px 0}
+.footer{text-align:center;margin-top:40px;font-size:13px;color:var(--muted)}
+.footer a{color:var(--accent-glow);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="header">
+  <div class="badge">ИИ-ВИЗАЦИЯ: OPENCLAW</div>
+  <h1>Что такое <span>Терминал</span> и CLI</h1>
+  <div class="subtitle">Краткая инструкция для участников интенсива</div>
+</div>
+<div class="card">
+  <h2><span class="icon">💻</span> Определения</h2>
+  <p><strong>Терминал</strong> — это программа, где ты вводишь текстовые команды компьютеру.</p>
+  <p><strong>CLI</strong> (<em>Command Line Interface</em>) — это способ работать с программой через команды в терминале, без кнопок и окон сайта.</p>
+</div>
+<div class="card">
+  <h2><span class="icon">🪟</span> Windows</h2>
+  <ol class="steps">
+    <li>Нажми <span class="mono">Win + R</span></li>
+    <li>Введи <span class="mono">cmd</span> или <span class="mono">powershell</span></li>
+    <li>Нажми <span class="mono">Enter</span></li>
+  </ol>
+  <div class="or">— или —</div>
+  <ol class="steps">
+    <li>Открой <strong>Пуск</strong></li>
+    <li>Найди <strong>PowerShell</strong> или <strong>Windows Terminal</strong></li>
+  </ol>
+</div>
+<div class="card">
+  <h2><span class="icon">🍎</span> macOS</h2>
+  <ol class="steps">
+    <li>Нажми <span class="mono">Cmd + Space</span></li>
+    <li>Введи <span class="mono">Terminal</span></li>
+    <li>Нажми <span class="mono">Enter</span></li>
+  </ol>
+  <div class="or">— или —</div>
+  <ol class="steps">
+    <li>Открой <strong>Applications → Utilities → Terminal</strong></li>
+  </ol>
+</div>
+<div class="card">
+  <h2><span class="icon">💡</span> Что дальше?</h2>
+  <p>Если хочешь, дальше можно так же коротко объяснить разницу между терминалом, PowerShell, cmd и Windows Terminal.</p>
+</div>
+<div class="footer">
+  Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank">@stavzzz</a> в Telegram
+</div>
+</div>
+</body>
+</html>
