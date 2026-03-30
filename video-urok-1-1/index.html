@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ИИ-ВИЗАЦИЯ: OPENCLAW — Супермощный путь</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #0a0a0f;
+    --bg-card: #12121a;
+    --bg-card-hover: #181825;
+    --border: #1e1e2e;
+    --border-accent: #2a2a3e;
+    --text-primary: #e8e6f0;
+    --text-secondary: #8b879e;
+    --text-muted: #5a5670;
+    --accent: #7c5bf5;
+    --accent-glow: #9d7cff;
+    --accent-soft: rgba(124, 91, 245, 0.12);
+    --green: #34d399;
+    --green-glow: #6ee7b7;
+    --green-soft: rgba(52, 211, 153, 0.1);
+    --amber: #fbbf24;
+    --amber-soft: rgba(251, 191, 36, 0.1);
+    --red-soft: rgba(248, 113, 113, 0.1);
+    --red: #f87171;
+    --radius: 14px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Onest', sans-serif; background: var(--bg-deep); color: var(--text-primary); line-height: 1.65; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+  body::before { content: ''; position: fixed; inset: 0; background-image: radial-gradient(circle at 20% 20%, rgba(124,91,245,0.04) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(52,211,153,0.03) 0%, transparent 50%); pointer-events: none; z-index: 0; }
+  .wrapper { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; padding: 40px 20px 80px; }
+  .header { text-align: center; margin-bottom: 48px; }
+  .header__badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-glow); background: var(--accent-soft); border: 1px solid rgba(124,91,245,0.2); padding: 6px 16px; border-radius: 100px; margin-bottom: 24px; animation: fadeDown .6s ease both; }
+  .header__title { font-size: clamp(28px,6vw,40px); font-weight: 800; line-height: 1.15; letter-spacing: -0.5px; margin-bottom: 12px; animation: fadeDown .6s ease .1s both; }
+  .header__title span { background: linear-gradient(135deg, var(--accent-glow), var(--green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .header__subtitle { font-size: 15px; color: var(--text-secondary); max-width: 520px; margin: 0 auto; animation: fadeDown .6s ease .2s both; }
+  .progress-wrap { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 36px; position: sticky; top: 12px; z-index: 10; backdrop-filter: blur(16px); background: rgba(18,18,26,0.92); animation: fadeDown .6s ease .3s both; }
+  .progress-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .progress-label { font-size: 13px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; font-family: 'JetBrains Mono', monospace; }
+  .progress-count { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 700; color: var(--accent-glow); }
+  .progress-bar { width: 100%; height: 8px; background: var(--border); border-radius: 100px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--green)); border-radius: 100px; transition: width .5s cubic-bezier(.34,1.56,.64,1); width: 0%; }
+  .section { margin-bottom: 28px; }
+  .section__header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; padding-left: 2px; }
+  .section__num { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: var(--accent); background: var(--accent-soft); width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 8px; flex-shrink: 0; }
+  .section__title { font-size: 17px; font-weight: 700; letter-spacing: -0.2px; }
+  .section__card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: border-color .3s; }
+  .section__card:hover { border-color: var(--border-accent); }
+  .item { display: flex; align-items: flex-start; gap: 14px; padding: 16px 20px; border-bottom: 1px solid var(--border); transition: background .2s; user-select: none; }
+  .item:last-child { border-bottom: none; }
+  .item:hover { background: var(--bg-card-hover); }
+  .item.checked .item__text { color: var(--text-muted); text-decoration: line-through; }
+  .item.checked .item__link { opacity: 0.4; }
+  .item__check { position: relative; width: 22px; height: 22px; flex-shrink: 0; margin-top: 1px; cursor: pointer; }
+  .item__check input { position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; z-index: 2; }
+  .item__check .cm { width: 22px; height: 22px; border: 2px solid var(--border-accent); border-radius: 6px; display: flex; align-items: center; justify-content: center; transition: all .25s cubic-bezier(.34,1.56,.64,1); cursor: pointer; }
+  .item__check .cm svg { width: 12px; height: 12px; opacity: 0; transform: scale(0); transition: all .25s cubic-bezier(.34,1.56,.64,1); }
+  .item__check input:checked + .cm { background: var(--green); border-color: var(--green); }
+  .item__check input:checked + .cm svg { opacity: 1; transform: scale(1); }
+  .item__body { flex: 1; min-width: 0; }
+  .item__text { font-size: 14.5px; font-weight: 500; color: var(--text-primary); transition: all .3s; }
+  .item__hint { font-size: 13px; color: var(--text-secondary); margin-top: 4px; line-height: 1.6; }
+  .item__hint a { color: var(--accent-glow); text-decoration: none; font-weight: 600; }
+  .item__hint a:hover { text-decoration: underline; }
+  .item__hint strong { color: var(--text-primary); }
+  .item__link { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-family: 'JetBrains Mono', monospace; color: var(--accent-glow); text-decoration: none; margin-top: 5px; transition: all .2s; word-break: break-all; }
+  .item__link:hover { color: #bba4ff; text-decoration: underline; }
+  .item__link svg { width: 13px; height: 13px; flex-shrink: 0; }
+  .lnk { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-family: 'JetBrains Mono', monospace; color: var(--accent-glow); text-decoration: none; word-break: break-all; }
+  .lnk:hover { color: #bba4ff; text-decoration: underline; }
+  .note { display: flex; align-items: flex-start; gap: 10px; padding: 14px 20px; font-size: 13px; color: var(--text-secondary); line-height: 1.6; border-bottom: 1px solid var(--border); }
+  .note:last-child { border-bottom: none; }
+  .note--warn { background: var(--amber-soft); color: var(--amber); }
+  .note--info { background: var(--accent-soft); }
+  .note--alert { background: var(--red-soft); color: var(--red); }
+  .note--green { background: var(--green-soft); color: var(--green-glow); }
+  .note__icon { flex-shrink: 0; font-size: 15px; }
+  .note a { color: var(--accent-glow); text-decoration: none; font-weight: 600; }
+  .note a:hover { text-decoration: underline; }
+  .note strong { color: inherit; }
+  .tg { color: #2dd4bf !important; font-weight: 700; text-decoration: underline; text-decoration-color: rgba(45,212,191,0.4); text-underline-offset: 2px; transition: all .2s; }
+  .tg:hover { color: #5eead4 !important; text-decoration-color: #5eead4; }
+  .footer { text-align: center; margin-top: 48px; }
+  .footer__done { display: none; background: var(--green-soft); border: 1px solid rgba(52,211,153,0.25); border-radius: var(--radius); padding: 32px 24px; margin-bottom: 24px; }
+  .footer__done.visible { display: block; animation: popIn .5s cubic-bezier(.34,1.56,.64,1) both; }
+  .footer__done-emoji { font-size: 48px; margin-bottom: 10px; }
+  .footer__done-text { font-size: 22px; font-weight: 800; color: var(--green); margin-bottom: 6px; }
+  .footer__done-sub { font-size: 15px; color: var(--text-secondary); }
+  .footer__contact { font-size: 14px; color: var(--text-secondary); margin-bottom: 20px; }
+  .footer__contact a { color: #2dd4bf; text-decoration: underline; text-decoration-color: rgba(45,212,191,0.4); font-weight: 700; }
+  .btn-reset { background: none; border: 1px solid var(--border); color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 8px 20px; border-radius: 100px; cursor: pointer; transition: all .2s; }
+  .btn-reset:hover { border-color: var(--red); color: var(--red); }
+  #confetti-canvas { position: fixed; inset: 0; z-index: 9999; pointer-events: none; }
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+  @media (max-width: 480px) {
+    .wrapper { padding: 28px 14px 60px; }
+    .item { padding: 14px 16px; gap: 12px; }
+    .note { padding: 12px 16px; }
+    .progress-wrap { padding: 16px 18px; top: 8px; }
+  }
+</style>
+</head>
+<body>
+<canvas id="confetti-canvas"></canvas>
+<div class="wrapper">
+
+  <header class="header">
+    <div class="header__badge">ИИ-ВИЗАЦИЯ: OPENCLAW</div>
+    <h1 class="header__title">Супермощный <span>путь</span></h1>
+    <p class="header__subtitle">Максимальная защита аккаунта: антидетект-браузер, резидентный прокси, физический номер США, белая карта. Для тех, кто делает на совесть.</p>
+  </header>
+
+  <div class="progress-wrap">
+    <div class="progress-top">
+      <span class="progress-label">Прогресс</span>
+      <span class="progress-count" id="progressCount">0 / 0</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <div id="sections">
+
+<!-- ====== 01 VPN ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">01</div><div class="section__title">VPN — базовый туннель</div></div>
+  <div class="section__card">
+    <div class="note note--info"><span class="note__icon">🔒</span><span>Первый слой защиты: шифруем трафик и скрываем реальное местоположение. VPS в США → Amnezia VPN → KillSwitch включён.</span></div>
+    <div class="item" data-key="vpn-aeza"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Купить VPS-сервер в США на AEZA</div>
+        <div class="item__hint">Тариф: <strong>2 vCPU / 4 ГБ RAM / 60 ГБ SSD</strong>, Ubuntu 24.04, локация <strong>США</strong>. Сохраните IP и root-пароль.</div>
+        <a href="https://aeza.net/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> aeza.net — покупка VPS-сервера</a>
+      </div>
+    </div>
+    <div class="item" data-key="vpn-amnezia"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Установить Amnezia VPN и подключиться к серверу</div>
+        <div class="item__hint">Скачайте Amnezia (файлы из основного чеклиста) → введите IP и пароль → подключитесь → включите <strong>KillSwitch</strong> (защита от утечек при разрыве VPN).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 02 ANTIDETECT ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">02</div><div class="section__title">Антидетект-браузер</div></div>
+  <div class="section__card">
+    <div class="note note--info"><span class="note__icon">🕶</span><span>Второй слой: подменяем аппаратные отпечатки браузера. Dolphin{anty} создаёт «чистый» профиль с уникальными характеристиками — сайты не увидят ваш настоящий браузер.</span></div>
+    <div class="item" data-key="dolphin-install"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Скачать и установить Dolphin{anty}</div>
+        <div class="item__hint">Бесплатный тариф. Зарегистрируйтесь → скачайте приложение → установите.</div>
+        <a href="https://dolphin-anty.com/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> dolphin-anty.com — антидетект-браузер</a>
+      </div>
+    </div>
+    <div class="item" data-key="dolphin-profile"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Создать профиль в Dolphin</div>
+        <div class="item__hint">В Dolphin: «Создать профиль» → Таймзона и Язык — <strong>Auto</strong> → сохраните → запустите профиль. Прокси пока не подключаем — добавим на шаге 04.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 03 PROTON ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">03</div><div class="section__title">Почта Proton Mail</div></div>
+  <div class="section__card">
+    <div class="note note--info"><span class="note__icon">✉️</span><span>Анонимный почтовый ящик. Регистрация <strong>строго внутри</strong> запущенного профиля Dolphin — так почта привязывается к чистому отпечатку, а не к вашему обычному браузеру.</span></div>
+    <div class="item" data-key="proton-reg"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Зарегистрировать Proton Mail</div>
+        <div class="item__hint">1. <strong>Запустите профиль Dolphin</strong> (не обычный Chrome!)<br>2. Откройте <a href="https://proton.me/mail" target="_blank" onclick="event.stopPropagation()">proton.me/mail</a> → «Create account»<br>3. Придумайте адрес (имя@proton.me) и пароль<br>4. Сохраните данные</div>
+        <a href="https://proton.me/mail" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> proton.me/mail — защищённая почта</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 04 PROXY ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">04</div><div class="section__title">Резидентный прокси США</div></div>
+  <div class="section__card">
+    <div class="note note--info"><span class="note__icon">🌐</span><span>Третий слой: получаем <strong>домашний IP</strong> настоящего американского провайдера (не дата-центровый). Claude, Stripe и другие сервисы видят обычного пользователя дома в США.</span></div>
+    <div class="item" data-key="proxy-buy"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Купить резидентный прокси США на CyberYozh</div>
+        <div class="item__hint">Зайдите в CyberYozh → <strong>Резидентские прокси → Статические → США</strong> → выберите провайдера <strong>US Comcast</strong>. Скопируйте SOCKS5 данные (IP:Port:Login:Password).</div>
+        <a href="https://app.cyberyozh.com/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> app.cyberyozh.com — резидентные прокси</a>
+      </div>
+    </div>
+    <div class="item" data-key="proxy-connect"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Подключить прокси к профилю Dolphin</div>
+        <div class="item__hint">В Dolphin: откройте настройки профиля (создан на шаге 02) → в разделе <strong>Proxy</strong> вставьте SOCKS5 данные → сохраните → перезапустите профиль. Теперь весь трафик Dolphin идёт через домашний IP в США.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 05 BILLING ADDRESS ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">05</div><div class="section__title">Генерация «белой» личности (Billing Address)</div></div>
+  <div class="section__card">
+    <div class="note note--warn"><span class="note__icon">🏠</span><span>Критически важный шаг! Нужно найти <strong>реально существующий адрес в США</strong>, который совпадает с локацией вашего прокси. Без этого Stripe отклонит оплату.</span></div>
+    <div class="item" data-key="addr-ipinfo"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Узнать точную локацию прокси</div>
+        <div class="item__hint">1. <strong>Запустите профиль Dolphin</strong> с подключённым прокси US Comcast<br>2. Откройте <a href="https://ipinfo.io/" target="_blank" onclick="event.stopPropagation()">ipinfo.io</a><br>3. Запишите три параметра:<br>&nbsp;&nbsp;&nbsp;• <strong>City</strong> — город (например, Jersey City)<br>&nbsp;&nbsp;&nbsp;• <strong>Region/State</strong> — штат (например, New Jersey)<br>&nbsp;&nbsp;&nbsp;• <strong>Postal/ZIP</strong> — индекс (например, 07302)</div>
+        <a href="https://ipinfo.io/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> ipinfo.io — определение локации IP</a>
+      </div>
+    </div>
+    <div class="item" data-key="addr-maps"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Найти реальный жилой дом в Google Maps</div>
+        <div class="item__hint">1. Не закрывая Dolphin, откройте <strong>Google Maps</strong><br>2. Введите в поиск свой город и штат (например: <em>Jersey City, NJ</em>)<br>3. Найдите любой жилой квартал — лучше одноэтажную застройку или апартаменты<br>4. Кликните на здание → скопируйте полный адрес<br><br>Пример:<br>&nbsp;&nbsp;&nbsp;• <strong>Street:</strong> 155 Montgomery St<br>&nbsp;&nbsp;&nbsp;• <strong>City:</strong> Jersey City<br>&nbsp;&nbsp;&nbsp;• <strong>State:</strong> NJ (New Jersey)<br>&nbsp;&nbsp;&nbsp;• <strong>ZIP Code:</strong> 07302</div>
+      </div>
+    </div>
+    <div class="item" data-key="addr-save"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Сохранить адрес в блокнот</div>
+        <div class="item__hint">Запишите: <strong>Street, City, State, ZIP</strong>. Этот адрес вы введёте:<br>&nbsp;&nbsp;&nbsp;• В <strong>Capitalist</strong> при создании карты (шаг 08)<br>&nbsp;&nbsp;&nbsp;• В <strong>Claude</strong> при оплате подписки в поле «Billing Address» (шаг 10)<br><br>⚠ <strong>Адрес должен на 100% совпадать с городом прокси.</strong> Прокси в Jersey City — адрес в Jersey City. Не Нью-Йорк, не Делавер.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 06 CHECK ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">06</div><div class="section__title">Проверка отпечатков (Pre-flight)</div></div>
+  <div class="section__card">
+    <div class="note note--warn"><span class="note__icon">🎯</span><span>Перед регистрацией в Claude убедитесь, что защита работает идеально. Все проверки — <strong>внутри профиля Dolphin!</strong></span></div>
+    <div class="item" data-key="check-scam"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Scamalytics — Fraud Score от 0 до 15</div>
+        <div class="item__hint">Откройте сайт в Dolphin → проверьте свой IP. Fraud Score должен быть <strong>0–15</strong> (зелёный). Если больше 30 — смените прокси.</div>
+        <a href="https://scamalytics.com/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> scamalytics.com — проверка Fraud Score IP</a>
+      </div>
+    </div>
+    <div class="item" data-key="check-pixel"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Pixelscan — надпись «Consistent»</div>
+        <div class="item__hint">Проверяет, совпадают ли отпечатки браузера с IP. Должна быть <strong>зелёная надпись Consistent</strong>. Если красная — пересоздайте профиль в Dolphin.</div>
+        <a href="https://pixelscan.net/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> pixelscan.net — проверка отпечатков браузера</a>
+      </div>
+    </div>
+    <div class="item" data-key="check-whoer"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Whoer — анонимность 100%</div>
+        <div class="item__hint">Должен показывать <strong>100% анонимность</strong>. Если меньше — проверьте, что Dolphin запущен с прокси и VPN не конфликтует.</div>
+        <a href="https://whoer.net/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> whoer.net — проверка анонимности</a>
+      </div>
+    </div>
+    <div class="note note--green"><span class="note__icon">✅</span><span>Все три проверки прошли? Отлично — ваша «капсула» готова. Все дальнейшие действия выполняем <strong>только внутри Dolphin</strong>.</span></div>
+  </div>
+</div>
+
+<!-- ====== 07 PHONE ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">07</div><div class="section__title">Номер телефона США</div></div>
+  <div class="section__card">
+    <div class="note note--info"><span class="note__icon">📱</span><span>Физическая американская SIM-карта (Non-VoIP). Такие номера проходят верификацию Claude без проблем, в отличие от виртуальных.</span></div>
+    <div class="item" data-key="sms-rent"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Арендовать номер США на MobileSMS.io</div>
+        <div class="item__hint">1. Откройте MobileSMS.io → зарегистрируйтесь<br>2. Перейдите в <strong>Long Term Rentals → USA</strong><br>3. Тип: строго <strong>Physical / Non-VoIP</strong><br>4. Выберите сервис: <strong>Claude / Anthropic</strong><br>5. Арендуйте номер → сохраните его</div>
+        <a href="https://mobilesms.io/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> mobilesms.io — аренда физических номеров США</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 08 CARD ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">08</div><div class="section__title">Виртуальная карта Capitalist</div></div>
+  <div class="section__card">
+    <div class="note note--info"><span class="note__icon">💳</span><span>Белая дебетовая карта USD с американским биллинг-адресом. Требует верификацию по паспорту (KYC) — именно поэтому она надёжнее «серых» карт и не вызывает подозрений у Stripe.</span></div>
+    <div class="item" data-key="cap-reg"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Зарегистрироваться на Capitalist</div>
+        <div class="item__hint">Откройте <a href="https://capitalist.net/" target="_blank" onclick="event.stopPropagation()">capitalist.net</a> → создайте аккаунт.</div>
+        <a href="https://capitalist.net/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> capitalist.net — платёжная платформа</a>
+      </div>
+    </div>
+    <div class="item" data-key="cap-kyc"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Пройти верификацию (KYC)</div>
+        <div class="item__hint">В личном кабинете: загрузите <strong>скан загранпаспорта</strong> (или ID) + сделайте <strong>селфи</strong>. Без верификации выпуск карт недоступен. Обычно занимает 1–2 рабочих дня.</div>
+      </div>
+    </div>
+    <div class="item" data-key="cap-card"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Выпустить виртуальную карту USD</div>
+        <div class="item__hint">После KYC: выберите <strong>виртуальную карту USD</strong> (Debit/Corporate) → выпустите.</div>
+      </div>
+    </div>
+    <div class="item" data-key="cap-address"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Указать биллинг-адрес США</div>
+        <div class="item__hint">Укажите <strong>американский адрес из шага 05</strong> как биллинг-адрес при выпуске карты. Город и штат должны совпадать с локацией прокси.</div>
+      </div>
+    </div>
+    <div class="item" data-key="cap-topup"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Пополнить карту на ~$110</div>
+        <div class="item__hint">Claude Max $100 + запас $10 на обслуживание карты. Проверьте тип карты на <a href="https://binlist.net/" target="_blank" onclick="event.stopPropagation()">binlist.net</a> — должно быть <strong>Debit</strong>.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 09 CLAUDE REG ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">09</div><div class="section__title">Регистрация Claude</div></div>
+  <div class="section__card">
+    <div class="note note--warn"><span class="note__icon">⚡</span><span>Всё делаем <strong>внутри Dolphin</strong> — не в обычном Chrome! Держите вкладку MobileSMS открытой для приёма кода.</span></div>
+    <div class="item" data-key="claude-signup"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Зарегистрироваться в Claude</div>
+        <div class="item__hint">1. В Dolphin откройте <a href="https://claude.ai/" target="_blank" onclick="event.stopPropagation()">claude.ai</a> → «Sign up»<br>2. Введите <strong>почту Proton</strong> из шага 03 (email + пароль отдельно, НЕ «Continue with Google»)<br>3. Подтвердите email — код придёт на Proton Mail</div>
+        <a href="https://claude.ai/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> claude.ai — регистрация</a>
+      </div>
+    </div>
+    <div class="item" data-key="claude-verify"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Верифицировать номер телефона</div>
+        <div class="item__hint">Claude попросит номер → введите <strong>номер из MobileSMS</strong> (шаг 07). Перейдите в MobileSMS и скопируйте пришедший SMS-код → вставьте в Claude.</div>
+      </div>
+    </div>
+    <div class="item" data-key="claude-test"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Отправить тестовое сообщение</div>
+        <div class="item__hint">Напишите «Привет! Расскажи о себе». Получили ответ — аккаунт работает!</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 10 PAYMENT ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">10</div><div class="section__title">Оплата Claude Max ($100/мес)</div></div>
+  <div class="section__card">
+    <div class="note note--info"><span class="note__icon">💎</span><span>Claude Max — полный доступ ко всем моделям без ограничений. Очень важная подписка для интенсива. Если вы её не купите, то ваш OpenClaw будет работать менее эффективно.</span></div>
+    <div class="item" data-key="claude-pay"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Оплатить Claude Max</div>
+        <div class="item__hint">1. В Dolphin (Claude открыт) → иконка профиля → <strong>Settings → Billing</strong><br>2. <strong>Upgrade</strong> → выберите <strong>Max</strong><br>3. Введите реквизиты карты Capitalist из шага 08<br>4. Биллинг-адрес — <strong>тот же американский адрес</strong>, что сохранили на шаге 05<br>5. Номер телефона — <strong>номер из MobileSMS</strong> (шаг 07)<br>6. Оплатите → готово!</div>
+      </div>
+    </div>
+    <div class="item" data-key="claude-check"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить подписку</div>
+        <div class="item__hint">Settings → Billing → должно быть написано <strong>«Max»</strong>.</div>
+      </div>
+    </div>
+    <div class="item" data-key="claude-platform"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Войти на платформу Claude</div>
+        <div class="item__hint">Обязательный шаг для API-токена и подключения к OpenClaw.</div>
+        <a href="https://platform.claude.com/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> platform.claude.com — платформа для API-токена</a>
+      </div>
+    </div>
+    <div class="note note--alert"><span class="note__icon">🚨</span><span><strong>Памятка по безопасности:</strong><br>• Никогда не открывайте Claude вне Dolphin — только через профиль с прокси<br>• Не меняйте прокси, карту и номер — один профиль, одна карта, один номер<br>• Держите на Capitalist запас $5 на обслуживание карты<br>• Проверяйте BIN карты на <a href="https://binlist.net/" target="_blank">binlist.net</a> — должно быть Debit</span></div>
+  </div>
+</div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer__done" id="doneBlock">
+      <div class="footer__done-emoji">🛡️</div>
+      <div class="footer__done-text">Защита максимальная!</div>
+      <div class="footer__done-sub">Антидетект, резидентный прокси, физический номер, белая карта. Вы — невидимка.</div>
+    </div>
+    <div class="footer__contact">Возникли проблемы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
+    <button class="btn-reset" onclick="resetProgress()">Сбросить прогресс</button>
+  </div>
+
+</div>
+
+<script>
+const C=document.getElementById('confetti-canvas'),ctx=C.getContext('2d');let particles=[],confettiActive=false;function resizeCanvas(){C.width=window.innerWidth;C.height=window.innerHeight}window.addEventListener('resize',resizeCanvas);resizeCanvas();
+const COLORS=['#7c5bf5','#9d7cff','#34d399','#6ee7b7','#fbbf24','#f87171','#fb7185','#38bdf8','#facc15','#a78bfa','#f472b6','#4ade80'];function rand(a,b){return Math.random()*(b-a)+a}
+function createBurst(x,y,count){for(let i=0;i<count;i++){const angle=rand(0,Math.PI*2),speed=rand(4,14),size=rand(4,10);particles.push({x,y,vx:Math.cos(angle)*speed+rand(-2,2),vy:Math.sin(angle)*speed*-0.8-rand(2,6),size,color:COLORS[Math.floor(Math.random()*COLORS.length)],rotation:rand(0,Math.PI*2),rotSpeed:rand(-0.2,0.2),gravity:rand(0.12,0.25),friction:rand(0.97,0.995),opacity:1,fadeSpeed:rand(0.005,0.015),shape:Math.random()>0.4?'rect':'circle'})}}
+function launchConfetti(){if(confettiActive)return;confettiActive=true;particles=[];const W=C.width,H=C.height;[[W*0.5,H*0.3,120],[W*0.15,H*0.2,80],[W*0.85,H*0.2,80],[W*0.5,H*0.1,100],[W*0.3,H*0.5,60],[W*0.7,H*0.5,60]].forEach(([x,y,c],i)=>{setTimeout(()=>createBurst(x,y,c),i*150)});setTimeout(()=>{createBurst(W*0.2,H*0.15,90);createBurst(W*0.8,H*0.15,90)},1500);animate();setTimeout(()=>{confettiActive=false},8000)}
+function animate(){ctx.clearRect(0,0,C.width,C.height);for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.vx*=p.friction;p.vy*=p.friction;p.vy+=p.gravity;p.x+=p.vx;p.y+=p.vy;p.rotation+=p.rotSpeed;p.opacity-=p.fadeSpeed;if(p.opacity<=0){particles.splice(i,1);continue}ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rotation);ctx.globalAlpha=p.opacity;ctx.fillStyle=p.color;if(p.shape==='rect'){ctx.fillRect(-p.size/2,-p.size/4,p.size,p.size/2)}else{ctx.beginPath();ctx.arc(0,0,p.size/2,0,Math.PI*2);ctx.fill()}ctx.restore()}if(particles.length>0||confettiActive){requestAnimationFrame(animate)}else{ctx.clearRect(0,0,C.width,C.height)}}
+
+const STORAGE_KEY='iivizaciya_superpath_v1';const items=document.querySelectorAll('.item[data-key]');const totalCount=items.length;let wasComplete=false;
+function loadState(){try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');let c=0;items.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');if(s[item.dataset.key]){cb.checked=true;item.classList.add('checked');c++}});wasComplete=c===totalCount}catch(e){}updateProgress(false)}
+function saveState(){const s={};items.forEach(item=>{s[item.dataset.key]=item.querySelector('input[type="checkbox"]').checked});try{localStorage.setItem(STORAGE_KEY,JSON.stringify(s))}catch(e){}}
+function updateProgress(canCelebrate=true){let c=0;items.forEach(item=>{if(item.querySelector('input[type="checkbox"]').checked)c++});document.getElementById('progressCount').textContent=`${c} / ${totalCount}`;document.getElementById('progressFill').style.width=(totalCount>0?(c/totalCount)*100:0)+'%';const done=document.getElementById('doneBlock');if(c===totalCount){done.classList.add('visible');if(canCelebrate&&!wasComplete){launchConfetti()}wasComplete=true}else{done.classList.remove('visible');wasComplete=false}}
+items.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');item.addEventListener('click',function(e){if(e.target.closest('a'))return;if(e.target!==cb){cb.checked=!cb.checked;cb.dispatchEvent(new Event('change'))}});cb.addEventListener('change',function(){item.classList.toggle('checked',this.checked);saveState();updateProgress(true)})});
+function resetProgress(){if(!confirm('Сбросить весь прогресс?'))return;items.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasComplete=false;saveState();updateProgress(false)}
+loadState();
+</script>
+</body>
+</html>
