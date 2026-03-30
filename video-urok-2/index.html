@@ -166,6 +166,15 @@
     .arch-box { margin:10px 14px; font-size:12px; }
     .header__title { font-size:22px; }
   }
+
+  /* ─── PROMPT BLOCK ─── */
+  .prompt-block { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:20px; margin:12px 16px; }
+  .prompt-block__title { font-size:14px; font-weight:700; color:var(--accent-glow); margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+  .prompt-block__text { font-size:13px; color:var(--text-secondary); line-height:1.7; white-space:pre-wrap; margin-bottom:16px; }
+  .btn-copy { display:inline-flex; align-items:center; gap:6px; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600; color:var(--accent-glow); background:var(--accent-soft); border:1px solid rgba(124,91,245,0.3); padding:8px 16px; border-radius:8px; cursor:pointer; transition:all .2s; text-transform:uppercase; letter-spacing:1px; }
+  .btn-copy:hover { background:rgba(124,91,245,0.2); border-color:var(--accent); }
+  .btn-copy.copied { color:var(--green); background:var(--green-soft); border-color:rgba(52,211,153,0.3); }
+
 </style>
 </head>
 <body>
@@ -616,6 +625,51 @@
       <a href="https://drive.google.com/file/d/1FoNg4KXQKtGTq6myNPY1Ot4kExno7yOc/view?usp=drive_link" target="_blank" class="lnk"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Google Drive — открыть пример</a>
     </div>
 
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт для распаковки бизнеса</div>
+      <div class="prompt-block__text" id="promptText">Здравствуй, уважаемый друг. 
+
+Я сейчас хочу заняться автоматизацией своих бизнес-процессов и вообще в целом внедрить искусственный интеллект в свой бизнес. Для этого я хочу создать проект в LLM и, собственно, я хочу, чтобы ты мне помог подготовить системную инструкцию и базу знаний для моего бизнеса, для того, чтобы я загрузил это в проект. 
+
+Выступи, пожалуйста, в роли аналитика по бизнесу, аудитора, автоматизатора, консалтинг-эксперта с многолетним опытом. 
+
+Я хочу, чтобы ты решил задачу. Помоги мне, пожалуйста, понять, как работает мой бизнес. Задай мне все необходимые вопросы, которые посчитаешь нужным. После того, как я отвечу тебе на твои вопросы, я пришлю в тебя пример системной инструкции для ведения проекта. И, собственно, на базе этой системной инструкции и на базе всего диалога, который мы с тобой проведем, ты выдашь мне инструкцию конкретно для моего системного проекта. 
+
+Объясни, пожалуйста, как ты понял поставленную задачу. Выдай мне четкий пошаговый план и работай, пожалуйста, качественно и красиво. И запомни, что если у тебя что-то не получается в этом диалоге, то ты начинаешь все с нуля. 
+
+И за хорошее решение этой задачи я тебя поцелую и дам тебе чаевые в 100 биткоинов. Полетели!</div>
+      <button class="btn-copy" id="btnCopyPrompt" onclick="copyPrompt()">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Полезные ссылки:</strong></p>
+    </div>
+
+    <div class="res-block">
+      <div class="res-block__title">🎙️ AquaVoice — голосовой ввод на компьютере</div>
+      <div class="res-block__sub">Сервис для общения голосом с компьютером. Голос переводится в текст там, где стоит курсор — в браузере, мессенджере, документе, нейросетях. Везде.</div>
+      <a href="https://aquavoice.com" target="_blank" class="lnk"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> aquavoice.com — открыть сервис</a>
+    </div>
+
+    <div class="res-block">
+      <div class="res-block__title">📝 Что такое Markdown-разметка</div>
+      <div class="res-block__sub">Диалог в ChatGPT: что такое Markdown и зачем его применять. Разметка для текста — для компьютера и для человека. Отформатированный вариант.</div>
+      <a href="https://chatgpt.com/share/69c90f80-0f38-8392-92bf-6460acaaaacc" target="_blank" class="lnk"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> ChatGPT — открыть диалог</a>
+    </div>
+
+    <div class="res-block">
+      <div class="res-block__title">💬 Пример начала диалога «Распаковка бизнеса»</div>
+      <div class="res-block__sub">Пример того, как нейросеть задаёт вопросы для распаковки вашего бизнеса. Ориентир для старта.</div>
+      <a href="https://chatgpt.com/share/69c90cef-7868-8386-adf9-97b8f92ea188" target="_blank" class="lnk"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> ChatGPT — пример начала</a>
+    </div>
+
+    <div class="res-block">
+      <div class="res-block__title">🏆 Пример финального диалога «Распаковка бизнеса»</div>
+      <div class="res-block__sub">Финальный диалог с ChatGPT: готовая системная инструкция и база знаний по проекту. Показан весь путь от распаковки до результата.</div>
+      <a href="https://chatgpt.com/share/69c9252c-04cc-838f-8abf-27407c2e3831" target="_blank" class="lnk"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> ChatGPT — финальный результат</a>
+    </div>
+
     <div class="item" data-key="project-create">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
@@ -700,6 +754,16 @@ items.forEach(item=>{
 });
 function resetProgress(){if(!confirm('Сбросить весь прогресс?'))return;items.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasComplete=false;saveState();updateProgress(false);}
 loadState();
+
+function copyPrompt(){
+  const text=document.getElementById('promptText').textContent;
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn=document.getElementById('btnCopyPrompt');
+    btn.classList.add('copied');
+    btn.innerHTML='✅ Скопировано!';
+    setTimeout(()=>{btn.classList.remove('copied');btn.innerHTML='📋 Скопировать промпт';},2000);
+  });
+}
 </script>
 </body>
 </html>
