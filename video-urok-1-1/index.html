@@ -38,6 +38,9 @@
   .header__badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-glow); background: var(--accent-soft); border: 1px solid rgba(124,91,245,0.2); padding: 6px 16px; border-radius: 100px; margin-bottom: 24px; animation: fadeDown .6s ease both; }
   .header__title { font-size: clamp(28px,6vw,40px); font-weight: 800; line-height: 1.15; letter-spacing: -0.5px; margin-bottom: 12px; animation: fadeDown .6s ease .1s both; }
   .header__title span { background: linear-gradient(135deg, var(--accent-glow), var(--green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .header__topics { list-style:none; display:flex; flex-direction:column; gap:7px; max-width:460px; margin:0 auto; animation:fadeDown .6s ease .2s both; }
+  .header__topics li { font-size:13.5px; color:var(--text-secondary); display:flex; align-items:flex-start; gap:8px; text-align:left; }
+  .header__topics li::before { content:'→'; color:var(--accent); flex-shrink:0; font-family:'JetBrains Mono',monospace; font-size:11px; margin-top:3px; }
   .header__subtitle { font-size: 15px; color: var(--text-secondary); max-width: 520px; margin: 0 auto; animation: fadeDown .6s ease .2s both; }
   .progress-wrap { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 36px; position: sticky; top: 12px; z-index: 10; backdrop-filter: blur(16px); background: rgba(18,18,26,0.92); animation: fadeDown .6s ease .3s both; }
   .progress-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
