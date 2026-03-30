@@ -179,13 +179,14 @@
   <div class="section__header"><div class="section__num">03</div><div class="section__title">Почта: Gmail или Hotmail</div></div>
   <div class="section__card">
     <div class="note note--warn"><span class="note__icon">✉️</span><span><strong>⚠️ Ни в коем случае не используйте Gmail, который вы когда-либо подключали к Claude!</strong> Нужен чистый, свежий Gmail или Hotmail, который никогда не использовался для регистрации в аккаунте Claude. <strong>Proton Mail запрещён</strong> — высокий риск блокировки платежа.</span></div>
-    <div class="note note--alert"><span class="note__icon">🚫</span><span><strong>Запрещено:</strong> Proton Mail, Tutanota и другие «анонимные» почтовые сервисы. Только Gmail или Hotmail.</span></div>
+    <div class="note note--alert" style="border:1px solid rgba(248,113,113,0.4);background:rgba(248,113,113,0.08)"><span class="note__icon">🚫</span><span><strong>Запрещено:</strong> Proton Mail, Tutanota и другие «анонимные» почтовые сервисы. Только Gmail или Hotmail.</span></div>
     <div class="item" data-key="email-reg"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Зарегистрировать Gmail или Hotmail</div>
         <div class="item__hint">1. Зарегистрируйте новую почту в антидетект-браузере с включённым <strong>VPN США</strong><br>2. Откройте <a href="https://accounts.google.com/signup" target="_blank" onclick="event.stopPropagation()">Gmail</a> или <a href="https://outlook.live.com/owa/?nlp=1&signup=1" target="_blank" onclick="event.stopPropagation()">Hotmail</a><br>3. Если Hotmail — выберите домен <strong>@hotmail.com</strong> в выпадающем списке<br>4. Придумайте адрес и пароль → сохраните</div>
       </div>
     </div>
+        <div class="note note--warn"><span class="note__icon">⚠️</span><span>Если Google или Microsoft блокирует регистрацию — <strong>сначала выполните Шаг 04</strong> (подключите резидентский прокси) и только потом создавайте почту.</span></div>
     <div class="item" data-key="email-2fa"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Включить двухфакторную аутентификацию (2FA)</div>
@@ -224,14 +225,14 @@
     <div class="item" data-key="check-whoer"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Whoer.net — анонимность 100%</div>
-        <div class="item__hint">Убедитесь, что анонимность <strong>100%</strong>. Если меньше — проверьте настройки времени в профиле Dolphin (должно быть <strong>Auto</strong>).</div>
+        <div class="item__hint">Убедитесь, что анонимность <strong style="color:var(--green)">100%</strong>. Если меньше — проверьте настройки времени в профиле Dolphin (должно быть <strong>Auto</strong>).</div>
         <a href="https://whoer.net/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> whoer.net — проверка анонимности</a>
       </div>
     </div>
     <div class="item" data-key="check-pixel"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">PixelScan.net — статус Consistent + сбор гео-данных</div>
-        <div class="item__hint">Статус должен быть <strong>Consistent (зелёный)</strong>.<br><br>⚠️ <strong>ВАЖНО:</strong> Найдите раздел <strong>Location</strong> и выпишите в блокнот три параметра:<br>&nbsp;&nbsp;&nbsp;• <strong>City</strong> — Город<br>&nbsp;&nbsp;&nbsp;• <strong>State</strong> — Штат<br>&nbsp;&nbsp;&nbsp;• <strong>ZIP Code</strong> — Индекс<br><br>Эти данные понадобятся на следующем шаге!</div>
+        <div class="item__hint">Статус должен быть <strong style="color:var(--green)">Consistent (зелёный)</strong>.<br><br>⚠️ <strong>ВАЖНО:</strong> Найдите раздел <strong>Location</strong> и выпишите в блокнот три параметра:<br>&nbsp;&nbsp;&nbsp;• <strong>City</strong> — Город<br>&nbsp;&nbsp;&nbsp;• <strong>State</strong> — Штат<br>&nbsp;&nbsp;&nbsp;• <strong>ZIP Code</strong> — Индекс<br><br>Эти данные понадобятся на следующем шаге!</div>
         <a href="https://pixelscan.net/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> pixelscan.net — проверка отпечатков</a>
       </div>
     </div>
@@ -366,7 +367,7 @@
     <div class="item" data-key="claude-pay"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Оплатить Claude Max</div>
-        <div class="item__hint">1. В Dolphin (Claude открыт) → иконка профиля → <strong>Settings → Billing</strong><br>2. <strong>Upgrade</strong> → выберите <strong>Max</strong><br>3. Введите реквизиты карты Capitalist из шага 08<br>4. Биллинг-адрес — <strong>тот же американский адрес</strong>, что сохранили на шаге 05<br>5. Номер телефона — <strong>номер из MobileSMS</strong> (шаг 07)<br>6. Оплатите → готово!</div>
+        <div class="item__hint">1. В Dolphin (Claude открыт) → иконка профиля → <strong>Settings → Billing</strong><br>2. <strong>Upgrade</strong> → выберите <strong>Max</strong><br>3. Введите реквизиты карты Capitalist из шага 08<br>4. Биллинг-адрес — <strong>тот же американский адрес</strong>, что сохранили на шаге 06<br>5. Номер телефона — <strong>номер из MobileSMS</strong> (шаг 07)<br>6. Оплатите → готово!</div>
       </div>
     </div>
     <div class="item" data-key="claude-check"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
@@ -382,7 +383,7 @@
         <a href="https://platform.claude.com/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> platform.claude.com — платформа для API-токена</a>
       </div>
     </div>
-    <div class="note note--alert"><span class="note__icon">🚨</span><span><strong>Памятка по безопасности:</strong><br>• <strong>⚡ Принцип 1:1:1:</strong> Один профиль Dolphin = Один резидентский прокси = Один уникальный Billing Address = Одна карта<br>• <strong>Гео-замок:</strong> Если PixelScan показывает определённый город — адрес должен быть в этом же городе. Любое расхождение (Geo-Mismatch) — повод для Stripe отклонить транзакцию<br>• <strong>Чистота почты:</strong> Gmail/Hotmail должны быть либо новыми, либо никогда не использованными в сервисах Anthropic<br>• <strong>Никаких утечек:</strong> Проверка 2FA на почте и вход в Claude — только при включенном прокси и зелёном статусе в PixelScan<br>• Держите на Capitalist запас $5 на обслуживание карты</span></div>
+    <div class="note note--alert"><span class="note__icon">🚨</span><span><strong style="font-size:15px">🚨 ПАМЯТКА ПО БЕЗОПАСНОСТИ:</strong><br>• <strong>⚡ ПРИНЦИП 1:1:1:</strong> <strong>ОДИН ПРОФИЛЬ DOLPHIN = ОДИН РЕЗИДЕНТСКИЙ ПРОКСИ = ОДИН УНИКАЛЬНЫЙ BILLING ADDRESS = ОДНА КАРТА</strong><br>• <strong>Гео-замок:</strong> Если PixelScan показывает определённый город — адрес должен быть в этом же городе. Любое расхождение (Geo-Mismatch) — повод для Stripe отклонить транзакцию<br>• <strong>Чистота почты:</strong> Gmail/Hotmail должны быть либо новыми, либо никогда не использованными в сервисах Anthropic<br>• <strong>Никаких утечек:</strong> Проверка 2FA на почте и вход в Claude — только при включенном прокси и зелёном статусе в PixelScan<br>• Держите на Capitalist запас $5 на обслуживание карты</span></div>
   </div>
 </div>
 
