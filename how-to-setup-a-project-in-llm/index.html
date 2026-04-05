@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Как создать Claude Project — пошаговый гайд</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📁</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Onest:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f6ff;
+    --white: #ffffff;
+    --border: #e8e4ff;
+    --border-dark: #d4ccff;
+    --text: #18172b;
+    --text-2: #5a567a;
+    --text-3: #9b97b8;
+    --accent: #7c5bf5;
+    --accent-light: #f0ecff;
+    --accent-glow: #9d7cff;
+    --green: #22c55e;
+    --green-light: #f0fdf4;
+    --green-border: #bbf7d0;
+    --amber: #d97706;
+    --amber-light: #fffbeb;
+    --amber-border: #fde68a;
+    --step-size: 48px;
+    --radius: 16px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Onest',sans-serif; background:var(--bg); color:var(--text); line-height:1.7; -webkit-font-smoothing:antialiased; }
+
+  /* HERO */
+  .hero { background:linear-gradient(135deg,#1a0f3c 0%,#2d1b69 45%,#1a2e4a 100%); padding:56px 24px 48px; text-align:center; position:relative; overflow:hidden; }
+  .hero::before { content:''; position:absolute; top:-60px;right:-60px;width:280px;height:280px;background:radial-gradient(circle,rgba(124,91,245,0.3) 0%,transparent 70%);pointer-events:none; }
+  .hero::after { content:''; position:absolute; bottom:-40px;left:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(52,211,153,0.2) 0%,transparent 70%);pointer-events:none; }
+  .hero__tag { display:inline-block; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#9d7cff; background:rgba(124,91,245,0.15); border:1px solid rgba(157,124,255,0.3); padding:5px 16px; border-radius:100px; margin-bottom:20px; }
+  .hero__title { font-size:clamp(26px,6vw,42px); font-weight:900; color:#fff; line-height:1.15; letter-spacing:-0.5px; margin-bottom:14px; }
+  .hero__title span { background:linear-gradient(135deg,#9d7cff,#6ee7b7); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .hero__sub { font-size:16px; color:rgba(255,255,255,0.65); max-width:480px; margin:0 auto; line-height:1.6; }
+
+  /* WRAPPER */
+  .wrapper { max-width:680px; margin:0 auto; padding:40px 20px 80px; }
+
+  /* INTRO CARD */
+  .intro { background:var(--white); border:2px solid var(--border); border-radius:var(--radius); padding:24px 28px; margin-bottom:36px; }
+  .intro__title { font-size:15px; font-weight:700; color:var(--text); margin-bottom:8px; }
+  .intro__text { font-size:14px; color:var(--text-2); line-height:1.7; }
+  .intro__text strong { color:var(--text); font-weight:700; }
+
+  /* STEP */
+  .step { margin-bottom:24px; }
+  .step__header { display:flex; align-items:flex-start; gap:16px; margin-bottom:14px; }
+  .step__num { width:var(--step-size); height:var(--step-size); flex-shrink:0; background:var(--accent); border-radius:14px; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-size:18px; font-weight:700; color:#fff; box-shadow:0 4px 16px rgba(124,91,245,0.35); }
+  .step__meta { flex:1; }
+  .step__label { font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--accent-glow); margin-bottom:4px; }
+  .step__title { font-size:18px; font-weight:800; color:var(--text); line-height:1.25; letter-spacing:-0.2px; }
+  .step__card { background:var(--white); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; }
+
+  /* STEP BLOCK TYPES */
+  .block { padding:18px 22px; border-bottom:1px solid var(--border); font-size:14px; color:var(--text-2); line-height:1.7; }
+  .block:last-child { border-bottom:none; }
+  .block strong { color:var(--text); font-weight:700; }
+  .block p { margin-bottom:8px; }
+  .block p:last-child { margin-bottom:0; }
+
+  /* NOTE VARIANTS */
+  .note { display:flex; align-items:flex-start; gap:10px; padding:14px 22px; border-bottom:1px solid var(--border); font-size:13.5px; line-height:1.65; }
+  .note:last-child { border-bottom:none; }
+  .note__icon { flex-shrink:0; font-size:16px; margin-top:1px; }
+  .note--tip { background:#f5f3ff; color:#5b4fb5; border-left:3px solid var(--accent); }
+  .note--warn { background:var(--amber-light); color:var(--amber); border-left:3px solid var(--amber); }
+  .note--success { background:var(--green-light); color:#15803d; border-left:3px solid var(--green); }
+  .note strong { color:inherit; font-weight:700; }
+
+  /* NUMBERED LIST */
+  .num-list { list-style:none; padding:0; }
+  .num-list li { display:flex; align-items:flex-start; gap:12px; padding:12px 22px; border-bottom:1px solid var(--border); font-size:14px; color:var(--text-2); }
+  .num-list li:last-child { border-bottom:none; }
+  .num-list__n { font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; color:#fff; background:var(--accent); width:24px; height:24px; border-radius:6px; flex-shrink:0; display:flex; align-items:center; justify-content:center; margin-top:1px; }
+  .num-list li strong { color:var(--text); font-weight:700; }
+
+  /* LINK ROW */
+  .lnk-row { display:flex; align-items:center; gap:14px; padding:14px 22px; border-bottom:1px solid var(--border); text-decoration:none; transition:background .2s; }
+  .lnk-row:last-child { border-bottom:none; }
+  .lnk-row:hover { background:#faf9ff; }
+  .lnk-row__icon { font-size:22px; flex-shrink:0; }
+  .lnk-row__body { flex:1; }
+  .lnk-row__title { font-size:14px; font-weight:700; color:var(--text); margin-bottom:2px; }
+  .lnk-row__sub { font-size:12px; color:var(--text-3); font-family:'JetBrains Mono',monospace; }
+  .lnk-row__arrow { color:var(--accent-glow); flex-shrink:0; }
+  .lnk-row__arrow svg { width:16px; height:16px; }
+
+  /* INLINE LINK */
+  .lnk { display:inline-flex; align-items:center; gap:4px; color:var(--accent); font-family:'JetBrains Mono',monospace; font-size:12.5px; text-decoration:none; font-weight:600; word-break:break-all; }
+  .lnk:hover { text-decoration:underline; color:var(--accent-glow); }
+  .lnk svg { width:12px; height:12px; flex-shrink:0; }
+
+  /* PROMPT BOX */
+  .prompt-wrap { margin:0; }
+  .prompt-header { display:flex; align-items:center; justify-content:space-between; padding:12px 22px; background:#f5f3ff; border-bottom:1px solid var(--border); }
+  .prompt-header__label { font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--accent); }
+  .prompt-copy { display:flex; align-items:center; gap:6px; background:var(--accent); color:#fff; border:none; padding:7px 14px; border-radius:8px; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; cursor:pointer; transition:all .2s; }
+  .prompt-copy:hover { background:#6b4de6; }
+  .prompt-copy.copied { background:var(--green); }
+  .prompt-body { padding:18px 22px; font-size:13px; color:var(--text-2); line-height:1.8; white-space:pre-wrap; font-family:'Onest',sans-serif; background:#fdfcff; max-height:280px; overflow-y:auto; }
+
+  /* CODE INLINE */
+  code { font-family:'JetBrains Mono',monospace; font-size:12px; background:#f0ecff; color:var(--accent); padding:2px 8px; border-radius:5px; }
+
+  /* DONE CARD */
+  .done-card { background:linear-gradient(135deg,#f0fdf4,#dcfce7); border:2px solid #86efac; border-radius:var(--radius); padding:32px 28px; text-align:center; margin-top:16px; }
+  .done-card__emoji { font-size:48px; margin-bottom:12px; }
+  .done-card__title { font-size:22px; font-weight:900; color:#15803d; margin-bottom:8px; }
+  .done-card__text { font-size:14px; color:#166534; line-height:1.6; }
+
+  /* DIVIDER */
+  .divider { height:1px; background:var(--border); margin:8px 0; }
+
+  @media (max-width:480px) {
+    .hero { padding:40px 20px 36px; }
+    .wrapper { padding:28px 16px 60px; }
+    .step__num { width:40px; height:40px; font-size:16px; border-radius:12px; }
+    .step__title { font-size:16px; }
+    .block,.note,.lnk-row { padding:12px 16px; }
+    .num-list li { padding:10px 16px; }
+    .prompt-header,.prompt-body { padding:12px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <h1 class="hero__title">Как создать<br><span>Claude Project</span></h1>
+  <p class="hero__sub">Пошаговый гайд. Просто повторяйте по шагам — всё получится.</p>
+</div>
+
+<div class="wrapper">
+
+  <!-- INTRO -->
+  <div class="intro">
+    <div class="intro__title">📋 Что мы будем делать?</div>
+    <div class="intro__text">
+      <p>Создадим рабочее пространство в Claude, которое будет <strong>помнить ваш бизнес</strong>. После этого не придётся каждый раз объяснять нейросети, кто вы и чем занимаетесь — она будет знать это сама.</p>
+      <p>Всего <strong>7 шагов</strong>. Примерное время: <strong>30–40 минут</strong>.</p>
+    </div>
+  </div>
+
+  <!-- ШАГ 1 -->
+  <div class="step">
+    <div class="step__header">
+      <div class="step__num">1</div>
+      <div class="step__meta">
+        <div class="step__label">Шаг первый</div>
+        <div class="step__title">Открываем Claude и копируем промпт</div>
+      </div>
+    </div>
+    <div class="step__card">
+      <div class="block">
+        <p>Промпт — это специальное сообщение, которое мы отправим Claude. Он поможет нейросети понять вашу задачу и начать задавать вам вопросы о вашем бизнесе.</p>
+        <p><strong>Сначала откройте Claude:</strong></p>
+      </div>
+
+      <a href="https://claude.ai" target="_blank" class="lnk-row">
+        <span class="lnk-row__icon">🟠</span>
+        <span class="lnk-row__body">
+          <span class="lnk-row__title">claude.ai — открыть Claude</span>
+          <span class="lnk-row__sub">Войдите в свой аккаунт</span>
+        </span>
+        <span class="lnk-row__arrow"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg></span>
+      </a>
+
+      <div class="block">
+        <p>Теперь скопируйте промпт ниже — нажмите кнопку <strong>«Скопировать»</strong>:</p>
+      </div>
+
+      <div class="prompt-wrap">
+        <div class="prompt-header">
+          <span class="prompt-header__label">📋 Промпт для распаковки бизнеса</span>
+          <button class="prompt-copy" id="copyBtn" onclick="copyPrompt()">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>
+            Скопировать
+          </button>
+        </div>
+        <div class="prompt-body" id="promptText">Здравствуй, уважаемый друг.
+
+Я сейчас хочу заняться автоматизацией своих бизнес-процессов и вообще в целом внедрить искусственный интеллект в свой бизнес. Для этого я хочу создать проект в LLM и, собственно, я хочу, чтобы ты мне помог подготовить системную инструкцию и базу знаний для моего бизнеса, для того, чтобы я загрузил это в проект.
+
+Выступи, пожалуйста, в роли аналитика по бизнесу, аудитора, автоматизатора, консалтинг-эксперта с многолетним опытом.
+
+Я хочу, чтобы ты решил задачу. Помоги мне, пожалуйста, понять, как работает мой бизнес. Задай мне все необходимые вопросы, которые посчитаешь нужным. После того, как я отвечу тебе на твои вопросы, я пришлю в тебя пример системной инструкции для ведения проекта. И, собственно, на базе этой системной инструкции и на базе всего диалога, который мы с тобой проведем, ты выдашь мне инструкцию конкретно для моего системного проекта.
+
+Объясни, пожалуйста, как ты понял поставленную задачу. Выдай мне четкий пошаговый план и работай, пожалуйста, качественно и красиво. И запомни, что если у тебя что-то не получается в этом диалоге, то ты начинаешь все с нуля.</div>
+      </div>
+
+      <div class="note note--tip">
+        <span class="note__icon">💡</span>
+        <span>После того как скопировали — вставьте промпт в <strong>обычный новый чат</strong> с Claude (не в Project, это будет позже) и нажмите отправить.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ШАГ 2 -->
+  <div class="step">
+    <div class="step__header">
+      <div class="step__num">2</div>
+      <div class="step__meta">
+        <div class="step__label">Шаг второй</div>
+        <div class="step__title">Отвечаем на вопросы Claude о вашем бизнесе</div>
+      </div>
+    </div>
+    <div class="step__card">
+      <div class="block">
+        <p>После отправки промпта Claude начнёт задавать вам вопросы о вашем бизнесе. Это нормально — он хочет понять, чем вы занимаетесь.</p>
+        <p><strong>Отвечайте честно и подробно.</strong> Чем больше расскажете — тем лучше получится результат.</p>
+      </div>
+
+      <ul class="num-list">
+        <li><span class="num-list__n">1</span><span>Отвечайте на каждый вопрос — можно писать как угодно, хоть голосом через <a href="https://aquavoice.com" target="_blank" style="color:var(--accent);font-weight:700;">AquaVoice</a></span></li>
+        <li><span class="num-list__n">2</span><span>Если вопрос непонятен — напишите Claude: <strong>«Объясни этот вопрос проще»</strong></span></li>
+        <li><span class="num-list__n">3</span><span>Когда ответили на все вопросы — переходите к шагу 3</span></li>
+      </ul>
+
+      <a href="https://aquavoice.com" target="_blank" class="lnk-row">
+        <span class="lnk-row__icon">🎙️</span>
+        <span class="lnk-row__body">
+          <span class="lnk-row__title">AquaVoice — говорите вместо того чтобы печатать</span>
+          <span class="lnk-row__sub">aquavoice.com — голосовой ввод на компьютере</span>
+        </span>
+        <span class="lnk-row__arrow"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg></span>
+      </a>
+
+      <div class="note note--tip">
+        <span class="note__icon">👀</span>
+        <span>Посмотрите пример того, как выглядит этот диалог — так будет понятнее что происходит:</span>
+      </div>
+
+      <a href="https://chatgpt.com/share/69c90cef-7868-8386-adf9-97b8f92ea188" target="_blank" class="lnk-row">
+        <span class="lnk-row__icon">💬</span>
+        <span class="lnk-row__body">
+          <span class="lnk-row__title">Пример начала диалога «Распаковка бизнеса»</span>
+          <span class="lnk-row__sub">Посмотрите как нейросеть задаёт вопросы — ориентир для старта</span>
+        </span>
+        <span class="lnk-row__arrow"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg></span>
+      </a>
+    </div>
+  </div>
+
+  <!-- ШАГ 3 -->
+  <div class="step">
+    <div class="step__header">
+      <div class="step__num">3</div>
+      <div class="step__meta">
+        <div class="step__label">Шаг третий</div>
+        <div class="step__title">Отправляем шаблон и получаем системную инструкцию</div>
+      </div>
+    </div>
+    <div class="step__card">
+      <div class="block">
+        <p>После того как ответили на все вопросы Claude — нужно отправить ему шаблон системной инструкции. Это образец того, как должен выглядеть конечный документ.</p>
+      </div>
+
+      <ul class="num-list">
+        <li><span class="num-list__n">1</span><span>Откройте шаблон по ссылке ниже</span></li>
+        <li><span class="num-list__n">2</span><span>Выделите и скопируйте шаблон или пример, который вам понравился</span></li>
+        <li><span class="num-list__n">3</span><span>Вернитесь в чат с Claude и напишите: <strong>«Вот пример шаблона системной инструкции — создай мою на его основе»</strong> и вставьте скопированный текст</span></li>
+        <li><span class="num-list__n">4</span><span>Claude выдаст готовую системную инструкцию под ваш бизнес — <strong>скопируйте её и сохраните</strong> в отдельный документ или заметку</span></li>
+      </ul>
+
+      <a href="https://docs.google.com/document/d/1AlIh45lH-JbOiGJSvBQ3I-F0PIu4wCqB9Wqlfd9oWZk/edit?usp=drive_link" target="_blank" class="lnk-row">
+        <span class="lnk-row__icon">📝</span>
+        <span class="lnk-row__body">
+          <span class="lnk-row__title">Шаблон системной инструкции</span>
+          <span class="lnk-row__sub">Google Drive — открыть шаблон</span>
+        </span>
+        <span class="lnk-row__arrow"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg></span>
+      </a>
+
+      <div class="note note--tip">
+        <span class="note__icon">🏆</span>
+        <span>Хотите посмотреть как это выглядит в финале? Вот пример полностью готового диалога от начала до конца:</span>
+      </div>
+
+      <a href="https://chatgpt.com/share/69c9252c-04cc-838f-8abf-27407c2e3831" target="_blank" class="lnk-row">
+        <span class="lnk-row__icon">🏆</span>
+        <span class="lnk-row__body">
+          <span class="lnk-row__title">Пример финального диалога «Распаковка бизнеса»</span>
+          <span class="lnk-row__sub">Весь путь от распаковки до готовой инструкции — смотрите результат</span>
+        </span>
+        <span class="lnk-row__arrow"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg></span>
+      </a>
+    </div>
+  </div>
+
+  <!-- ШАГ 4 -->
+  <div class="step">
+    <div class="step__header">
+      <div class="step__num">4</div>
+      <div class="step__meta">
+        <div class="step__label">Шаг четвёртый</div>
+        <div class="step__title">Создаём новый Project в Claude</div>
+      </div>
+    </div>
+    <div class="step__card">
+      <div class="block">
+        <p><strong>Project</strong> — это как отдельная папка в Claude. Всё, что вы туда положите, Claude будет помнить и использовать в каждом разговоре внутри этой папки.</p>
+      </div>
+
+      <ul class="num-list">
+        <li><span class="num-list__n">1</span><span>Откройте <strong>claude.ai</strong> и войдите в аккаунт</span></li>
+        <li><span class="num-list__n">2</span><span>В левом меню найдите раздел <strong>«Projects»</strong> и нажмите на него</span></li>
+        <li><span class="num-list__n">3</span><span>Нажмите кнопку <strong>«New Project»</strong> — появится новая пустая папка</span></li>
+        <li><span class="num-list__n">4</span><span>Дайте проекту название — например: <code>Мой бизнес — AI</code></span></li>
+      </ul>
+
+      <a href="https://claude.ai" target="_blank" class="lnk-row">
+        <span class="lnk-row__icon">🟠</span>
+        <span class="lnk-row__body">
+          <span class="lnk-row__title">claude.ai — открыть и создать Project</span>
+          <span class="lnk-row__sub">Войдите в аккаунт → Projects → New Project</span>
+        </span>
+        <span class="lnk-row__arrow"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg></span>
+      </a>
+    </div>
+  </div>
+
+  <!-- ШАГ 5 -->
+  <div class="step">
+    <div class="step__header">
+      <div class="step__num">5</div>
+      <div class="step__meta">
+        <div class="step__label">Шаг пятый</div>
+        <div class="step__title">Вставляем системную инструкцию в проект</div>
+      </div>
+    </div>
+    <div class="step__card">
+      <div class="block">
+        <p>Системная инструкция — это то, что Claude будет читать <strong>перед каждым вашим сообщением</strong>. Именно здесь он узнаёт, кто вы и как с вами работать.</p>
+      </div>
+
+      <ul class="num-list">
+        <li><span class="num-list__n">1</span><span>Откройте только что созданный проект</span></li>
+        <li><span class="num-list__n">2</span><span>Найдите раздел <strong>«Instructions»</strong> — обычно он справа или сверху внутри проекта</span></li>
+        <li><span class="num-list__n">3</span><span>Вставьте туда системную инструкцию, которую Claude написал для вас на шаге 3</span></li>
+        <li><span class="num-list__n">4</span><span>Нажмите <strong>«Save»</strong> — сохранить</span></li>
+      </ul>
+
+      <div class="note note--warn">
+        <span class="note__icon">⚠️</span>
+        <span>Убедитесь, что нажали <strong>Save / Сохранить</strong> после вставки. Иначе инструкция не применится.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ШАГ 6 -->
+  <div class="step">
+    <div class="step__header">
+      <div class="step__num">6</div>
+      <div class="step__meta">
+        <div class="step__label">Шаг шестой</div>
+        <div class="step__title">Создаём и загружаем базу знаний о бизнесе</div>
+      </div>
+    </div>
+    <div class="step__card">
+      <div class="block">
+        <p><strong>База знаний</strong> — это документ с информацией о вашем бизнесе. Claude будет читать его и использовать когда отвечает на ваши вопросы. Чем подробнее — тем умнее будут ответы.</p>
+        <p>Мы не будем писать её руками. Claude напишет её сам — на основе вашего диалога и готового шаблона.</p>
+      </div>
+
+      <ul class="num-list">
+        <li><span class="num-list__n">1</span><span>Откройте <a href="https://drive.google.com/file/d/1FoNg4KXQKtGTq6myNPY1Ot4kExno7yOc/view?usp=drive_link" target="_blank" style="color:var(--accent);font-weight:700;">пример базы знаний</a> → скачайте файл в формате <strong>Markdown (.md)</strong></span></li>
+        <li><span class="num-list__n">2</span><span>Вернитесь в чат с Claude, где был диалог о вашем бизнесе (шаг 2)</span></li>
+        <li><span class="num-list__n">3</span><span>Прикрепите скачанный файл к сообщению и напишите:<br><br><strong>«Вот пример базы знаний в формате Markdown. Используй эту структуру как шаблон и создай точно такую же базу знаний для моего бизнеса на основе нашего диалога. Выдай результат в формате Markdown»</strong></span></li>
+        <li><span class="num-list__n">4</span><span>Claude напишет готовую базу знаний под ваш бизнес — скачайте её как файл <strong>.md</strong>, нажав на иконку скачивания над ответом</span></li>
+        <li><span class="num-list__n">5</span><span>Откройте ваш проект в Claude → в разделе <strong>«Files»</strong> нажмите кнопку <strong>«+»</strong> → загрузите скачанный <strong>.md</strong> файл</span></li>
+      </ul>
+
+      <a href="https://drive.google.com/file/d/1FoNg4KXQKtGTq6myNPY1Ot4kExno7yOc/view?usp=drive_link" target="_blank" class="lnk-row">
+        <span class="lnk-row__icon">🗃️</span>
+        <span class="lnk-row__body">
+          <span class="lnk-row__title">Пример базы знаний проекта</span>
+          <span class="lnk-row__sub">Google Drive — скачайте в формате Markdown</span>
+        </span>
+        <span class="lnk-row__arrow"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg></span>
+      </a>
+
+      <div class="note note--warn">
+        <span class="note__icon">⚠️</span>
+        <span>Если что-то в базе знаний неточно — скажите Claude: <strong>«Исправь вот это…»</strong> — он переделает нужный раздел. Потом сохраните обновлённый файл и загрузите заново через <strong>«+» → Files</strong>.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ШАГ 7 -->
+  <div class="step">
+    <div class="step__header">
+      <div class="step__num">7</div>
+      <div class="step__meta">
+        <div class="step__label">Шаг седьмой</div>
+        <div class="step__title">Проверяем — всё ли работает</div>
+      </div>
+    </div>
+    <div class="step__card">
+      <div class="block">
+        <p>Теперь нужно убедиться, что Claude правильно понял ваш бизнес. Для этого открываем новый чат <strong>внутри проекта</strong> и отправляем одно тестовое сообщение.</p>
+      </div>
+
+      <ul class="num-list">
+        <li><span class="num-list__n">1</span><span>Откройте ваш проект в Claude</span></li>
+        <li><span class="num-list__n">2</span><span>Нажмите <strong>«New Chat»</strong> или <strong>«Новый чат»</strong> — именно внутри проекта, не в обычном чате!</span></li>
+        <li><span class="num-list__n">3</span><span>Напишите: <strong>«Кратко опиши наш продукт и нашу аудиторию»</strong></span></li>
+        <li><span class="num-list__n">4</span><span>Прочитайте ответ — Claude должен описать <strong>именно ваш бизнес</strong>, а не что-то абстрактное</span></li>
+      </ul>
+
+      <div class="note note--success">
+        <span class="note__icon">✅</span>
+        <span><strong>Если Claude ответил про ваш бизнес конкретно — всё настроено правильно!</strong> Проект готов к работе.</span>
+      </div>
+
+      <div class="note note--warn">
+        <span class="note__icon">❌</span>
+        <span>Если ответ непонятный или не про ваш бизнес — проверьте, сохранились ли системная инструкция и база знаний. Вернитесь к шагам 5–6.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DONE -->
+  <div class="done-card">
+    <div class="done-card__emoji">🎉</div>
+    <div class="done-card__title">Claude Project готов!</div>
+    <div class="done-card__text">Теперь у вас есть рабочее пространство, которое помнит ваш бизнес. Используйте его для всех задач — написания текстов, анализа, подготовки SOUL.md и MEMORY.md для агента.</div>
+  </div>
+
+  <!-- ДОПОЛНИТЕЛЬНЫЕ ССЫЛКИ -->
+  <div style="margin-top:32px;">
+    <div style="font-size:13px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;font-family:'JetBrains Mono',monospace;">Полезные ссылки</div>
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;">
+      <a href="https://chatgpt.com/share/69c90f80-0f38-8392-92bf-6460acaaaacc" target="_blank" class="lnk-row">
+        <span class="lnk-row__icon">📝</span>
+        <span class="lnk-row__body">
+          <span class="lnk-row__title">Что такое Markdown-разметка</span>
+          <span class="lnk-row__sub">Объяснение в ChatGPT — зачем и как применять</span>
+        </span>
+        <span class="lnk-row__arrow"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg></span>
+      </a>
+      <a href="https://docs.google.com/document/d/1AlIh45lH-JbOiGJSvBQ3I-F0PIu4wCqB9Wqlfd9oWZk/edit?usp=drive_link" target="_blank" class="lnk-row">
+        <span class="lnk-row__icon">📝</span>
+        <span class="lnk-row__body">
+          <span class="lnk-row__title">Шаблон системной инструкции для Claude Project</span>
+          <span class="lnk-row__sub">Google Drive — открыть шаблон</span>
+        </span>
+        <span class="lnk-row__arrow"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg></span>
+      </a>
+      <a href="https://drive.google.com/file/d/1FoNg4KXQKtGTq6myNPY1Ot4kExno7yOc/view?usp=drive_link" target="_blank" class="lnk-row">
+        <span class="lnk-row__icon">🗃️</span>
+        <span class="lnk-row__body">
+          <span class="lnk-row__title">Пример базы знаний проекта</span>
+          <span class="lnk-row__sub">Google Drive — открыть пример</span>
+        </span>
+        <span class="lnk-row__arrow"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg></span>
+      </a>
+    </div>
+  </div>
+
+</div><!-- /wrapper -->
+
+<script>
+function copyPrompt() {
+  const text = document.getElementById('promptText').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.classList.add('copied');
+    btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.75.75 0 0 1 1.06-1.06L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"/></svg> Скопировано!`;
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg> Скопировать`;
+    }, 2500);
+  });
+}
+</script>
+
+</body>
+</html>
