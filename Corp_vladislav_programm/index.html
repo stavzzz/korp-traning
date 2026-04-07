@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Программа обучения — Строительная компания В. Рагулина</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a0a;
+    color: #e8e8e8;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.6;
+  }
+
+  .hero {
+    background: linear-gradient(135deg, #0a0a0a 0%, #111827 50%, #0a0a0a 100%);
+    border-bottom: 1px solid #1f2937;
+    padding: 60px 24px 50px;
+    text-align: center;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: #1a2744;
+    color: #60a5fa;
+    border: 1px solid #2563eb;
+    border-radius: 100px;
+    padding: 6px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .hero h1 {
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  .hero h1 span {
+    background: linear-gradient(90deg, #60a5fa, #34d399);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-sub {
+    font-size: 17px;
+    color: #9ca3af;
+    max-width: 600px;
+    margin: 0 auto 40px;
+  }
+
+  .stats { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
+  .stat { text-align: center; }
+  .stat-num { font-size: 36px; font-weight: 700; color: #60a5fa; display: block; }
+  .stat-label { font-size: 13px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+  .week-divider { display: flex; align-items: center; gap: 16px; padding: 48px 0 28px; }
+  .week-divider::before, .week-divider::after { content: ''; flex: 1; height: 1px; background: #1f2937; }
+  .week-divider span { font-size: 13px; font-weight: 600; color: #60a5fa; text-transform: uppercase; letter-spacing: 0.1em; white-space: nowrap; }
+
+  .overview { background: #111827; border: 1px solid #1f2937; border-radius: 16px; padding: 28px; margin: 40px 0; }
+  .overview h3 { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  .overview .ov-sub { font-size: 13px; color: #6b7280; margin-bottom: 20px; }
+  .overview table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .overview th { font-size: 11px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 0.08em; text-align: left; padding: 10px 12px; border-bottom: 1px solid #374151; background: #0f172a; }
+  .overview th:first-child { border-radius: 8px 0 0 0; }
+  .overview th:last-child { border-radius: 0 8px 0 0; }
+  .overview td { padding: 10px 12px; border-bottom: 1px solid #1f2937; color: #d1d5db; vertical-align: top; }
+  .overview tr:last-child td { border-bottom: none; }
+  .td-day { font-weight: 600; color: #60a5fa; white-space: nowrap; }
+  .td-time { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; color: #6b7280; white-space: nowrap; }
+
+  .day { background: #111827; border: 1px solid #1f2937; border-radius: 16px; margin-bottom: 20px; overflow: hidden; transition: border-color 0.2s; }
+  .day:hover { border-color: #374151; }
+
+  .day-header { padding: 28px 28px 0; display: flex; align-items: flex-start; gap: 20px; }
+  .day-badge { background: #1a2744; color: #60a5fa; border: 1px solid #2563eb; border-radius: 8px; min-width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; flex-shrink: 0; margin-top: 2px; padding: 0 10px; }
+  .day-meta { flex: 1; }
+  .day-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+  .tag { background: #1f2937; color: #9ca3af; border-radius: 6px; padding: 3px 10px; font-size: 12px; }
+  .tag.green { background: #052e16; color: #34d399; }
+  .tag.blue { background: #1a2744; color: #60a5fa; }
+  .day-title { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  .day-desc { font-size: 14px; color: #6b7280; }
+
+  .day-body { padding: 24px 28px 28px 88px; }
+
+  .session-label { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1f2937; }
+  .s-id { background: #0f172a; color: #60a5fa; border: 1px solid #1e2d45; border-radius: 6px; padding: 2px 10px; font-size: 12px; font-weight: 700; font-family: 'SF Mono', 'Fira Code', monospace; }
+  .s-name { font-size: 16px; font-weight: 700; color: #fff; flex: 1; }
+  .s-time { font-size: 12px; color: #6b7280; font-family: 'SF Mono', 'Fira Code', monospace; white-space: nowrap; }
+
+  .topics { list-style: none; margin-bottom: 20px; }
+  .topics li { padding: 8px 0; padding-left: 24px; position: relative; font-size: 14px; color: #d1d5db; border-bottom: 1px solid #1f2937; }
+  .topics li:last-child { border-bottom: none; }
+  .topics li::before { content: '✓'; position: absolute; left: 0; color: #34d399; font-size: 13px; font-weight: 600; }
+
+  .materials { background: #0f172a; border: 1px solid #1e2d45; border-radius: 10px; padding: 14px 16px; margin-top: 12px; font-size: 13px; color: #9ca3af; line-height: 1.7; }
+  .materials strong { color: #60a5fa; display: block; margin-bottom: 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; }
+
+  .break-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; margin: 4px 0; color: #6b7280; font-size: 13px; }
+  .break-row::before, .break-row::after { content: ''; flex: 1; height: 1px; background: #1f2937; opacity: 0.5; }
+
+  .sb { margin-bottom: 24px; }
+  .sb:last-of-type { margin-bottom: 0; }
+
+  .homework { background: #1c1007; border: 1px solid #431407; border-radius: 10px; padding: 16px 18px; margin-top: 20px; font-size: 13px; line-height: 1.7; }
+  .homework strong { color: #fbbf24; display: block; margin-bottom: 6px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .homework ol { padding-left: 18px; margin: 0; }
+  .homework li { padding: 3px 0; color: #fde68a; }
+
+  .prework { background: #0f172a; border: 1px solid #1e2d45; border-radius: 10px; padding: 16px 18px; margin-bottom: 20px; font-size: 13px; line-height: 1.7; }
+  .prework strong { color: #60a5fa; display: block; margin-bottom: 6px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .prework ol, .prework ul { padding-left: 18px; margin: 0; }
+  .prework li { padding: 3px 0; color: #93c5fd; }
+
+  footer { border-top: 1px solid #1f2937; padding: 40px 24px; text-align: center; color: #4b5563; font-size: 13px; }
+
+  @media (max-width: 600px) {
+    .day-body { padding-left: 28px; }
+    .day-header { flex-wrap: wrap; }
+    .stats { gap: 24px; }
+    .session-label { flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">🤖 ИИ-ВИЗАЦИЯ · Корпоративная программа</div>
+  <h1>Искусственный интеллект<br><span>для команды Владислава Рагулина</span></h1>
+  <p class="hero-sub">Практическое обучение под задачи бэк-офиса строительной компании — от базовых инструментов до реального внедрения в работу</p>
+  <div class="stats">
+    <div class="stat"><span class="stat-num">9</span><span class="stat-label">Учебных дней</span></div>
+    <div class="stat"><span class="stat-num">6</span><span class="stat-label">Модулей</span></div>
+    <div class="stat"><span class="stat-num">3</span><span class="stat-label">Участника</span></div>
+    <div class="stat"><span class="stat-num">~19</span><span class="stat-label">Часов</span></div>
+    <div class="stat"><span class="stat-num">5</span><span class="stat-label">ДЗ</span></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="overview">
+    <h3>Обзор программы</h3>
+    <p class="ov-sub">Формат: онлайн · Старт 14:00 МСК · 60 мин + 5 мин перерыв + 60 мин · 14 апреля — 12 мая 2026</p>
+    <table>
+      <thead><tr><th>День</th><th>Дата</th><th>Модуль</th><th>Тема</th><th>ДЗ</th></tr></thead>
+      <tbody>
+        <tr><td class="td-day">День 1</td><td>14.04 вт</td><td>1</td><td>ИИ-инструменты под задачи вашей команды</td><td>✅</td></tr>
+        <tr><td class="td-day">День 2</td><td>16.04 чт</td><td>2</td><td>Конфиденциальность и безопасность данных</td><td>✅</td></tr>
+        <tr><td class="td-day">День 3</td><td>21.04 вт</td><td>3a</td><td>Промпт-инжиниринг: формула и техники</td><td>✅</td></tr>
+        <tr><td class="td-day">День 4</td><td>23.04 чт</td><td>3b</td><td>Визуализация данных и создание документов с Claude</td><td>✅</td></tr>
+        <tr><td class="td-day">День 5</td><td>28.04 вт</td><td>4a</td><td>Практика: разбор ДЗ + юридический блок</td><td>—</td></tr>
+        <tr><td class="td-day">День 6</td><td>30.04 чт</td><td>4b</td><td>Практика: финансовый + HR блоки</td><td>✅</td></tr>
+        <tr><td class="td-day">День 7</td><td>05.05 вт</td><td>5a</td><td>OpenClaw: установка и настройка</td><td>—</td></tr>
+        <tr><td class="td-day">День 8</td><td>07.05 чт</td><td>5b</td><td>Агенты OpenClaw + Claude Code</td><td>—</td></tr>
+        <tr><td class="td-day">День 9</td><td>12.05 вт</td><td>6</td><td>Итоги и дорожная карта внедрения</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="week-divider"><span>Неделя 1 · 14–16 апреля · Фундамент</span></div>
+
+  <!-- DAY 1 -->
+  <div class="day">
+    <div class="day-header">
+      <div class="day-badge">1</div>
+      <div class="day-meta">
+        <div class="day-tags"><span class="tag blue">14 апреля · вторник · 14:00 МСК</span><span class="tag">⏱ 125 минут</span><span class="tag">👥 Все участники</span><span class="tag green">Вебинар + демо</span></div>
+        <div class="day-title">ИИ-инструменты под задачи вашей команды</div>
+        <div class="day-desc">Модуль 1</div>
+      </div>
+    </div>
+    <div class="day-body">
+      <div class="sb">
+        <div class="session-label"><span class="s-id">1.1</span><span class="s-name">Современные ИИ-инструменты: какой под какую задачу</span><span class="s-time">60 мин</span></div>
+        <ul class="topics">
+          <li>Презентация программы и методологии обучения</li>
+          <li>Современные применения ИИ — с фокусом на строительную отрасль, документооборот и B2G</li>
+          <li>Карта инструментов: ChatGPT / Claude — документы, письма, анализ; DeepSeek / Qwen — бесплатные альтернативы; GigaChat — российское законодательство и ГОСТы; Perplexity — поиск по НПА и СНиПам; NotebookLM — база знаний</li>
+          <li>Демонстрация: одна задача (проверка пункта договора подряда) в 3 разных ИИ — сравнение результатов</li>
+        </ul>
+        <div class="materials"><strong>Учебные материалы</strong>1. Программа обучения<br>2. Презентация «Современные применения ИИ в работе и жизни»<br>3. Карта инструментов: «Какой ИИ под какую задачу»</div>
+      </div>
+      <div class="break-row">☕ Перерыв · 5 минут</div>
+      <div class="sb">
+        <div class="session-label"><span class="s-id">1.2</span><span class="s-name">Введение в работу ИИ и LLM: мышление, ошибки и инсайты</span><span class="s-time">60 мин</span></div>
+        <ul class="topics">
+          <li>Что такое ИИ и большие языковые модели — простым языком</li>
+          <li>Мышление и типичные ошибки: галлюцинации, путаница дат, ненадёжные ссылки</li>
+          <li>«Прожарка» результатов — как отличить качественный ответ от мусора</li>
+          <li>Кейс: ИИ «придумывает» несуществующий пункт 44-ФЗ — как поймать</li>
+          <li>Практика: разбираем ответ ИИ — участники вместе находят ошибки и оценивают качество</li>
+        </ul>
+        <div class="materials"><strong>Учебные материалы</strong>1. Презентация «LLM: введение в работу нейросетей, ошибки и инсайты»<br>2. Чек-лист: Инструкция по подготовке к обучению<br>3. Скринкасты «Подготовка к обучению»: настройка VPN, регистрация на сервисах</div>
+      </div>
+      <div class="homework"><strong>📝 Домашнее задание</strong><ol><li>Пройти регистрацию: chatgpt.com и claude.ai</li><li>Настроить Amnezia VPN на своём сервере по инструкции</li><li>Оплатить подписки: ChatGPT Plus ($20) и Claude Max ($100)</li></ol></div>
+    </div>
+  </div>
+
+  <!-- DAY 2 -->
+  <div class="day">
+    <div class="day-header">
+      <div class="day-badge">2</div>
+      <div class="day-meta">
+        <div class="day-tags"><span class="tag blue">16 апреля · четверг · 14:00 МСК</span><span class="tag">⏱ 125 минут</span><span class="tag">👥 Все участники</span><span class="tag green">Воркшоп + регламент</span></div>
+        <div class="day-title">Конфиденциальность и безопасность данных</div>
+        <div class="day-desc">Модуль 2</div>
+      </div>
+    </div>
+    <div class="day-body">
+      <div class="sb">
+        <div class="session-label"><span class="s-id">2.1</span><span class="s-name">Красные и зелёные зоны: что можно загружать в ИИ</span><span class="s-time">60 мин</span></div>
+        <ul class="topics">
+          <li>Разбор ДЗ: кто какие ИИ попробовал, первые впечатления</li>
+          <li>Специфика работы с Норникелем и госконтрактами: правила и ограничения</li>
+          <li>Что можно: общие вопросы, шаблоны, публичная информация</li>
+          <li>Что нельзя: суммы контрактов, персональные данные, внутренние документы без анонимизации</li>
+          <li>Техника анонимизации: замена [КОМПАНИЯ], [СУММА], [АДРЕС] перед загрузкой</li>
+          <li>Чек-лист из 5 вопросов перед загрузкой любого документа</li>
+        </ul>
+        <div class="materials"><strong>Учебные материалы</strong>1. Презентация «Информационная безопасность при работе с нейросетями»<br>2. Памятка «Что можно и что нельзя загружать в ИИ при работе с госзаказчиками»</div>
+      </div>
+      <div class="break-row">☕ Перерыв · 5 минут</div>
+      <div class="sb">
+        <div class="session-label"><span class="s-id">2.2</span><span class="s-name">Whitelist инструментов и внутренний регламент</span><span class="s-time">60 мин</span></div>
+        <ul class="topics">
+          <li>Утверждаем whitelist: какие ИИ-сервисы разрешены для работы</li>
+          <li>Разработка внутреннего регламента компании: кто, что, когда может использовать</li>
+          <li>Защита аккаунтов: настройка 2FA вместе</li>
+          <li>Практика: каждый участник проходит чек-лист на своём реальном документе</li>
+        </ul>
+        <div class="materials"><strong>Учебные материалы</strong>1. Шаблон корпоративной политики использования ИИ</div>
+      </div>
+      <div class="homework"><strong>📝 Домашнее задание</strong><ol><li>Настроить 2FA во всех аккаунтах (Google Authenticator)</li><li>Довести регламент до финала (если не успели на сессии)</li><li>Настроить базовый профиль в ChatGPT и Claude</li></ol></div>
+    </div>
+  </div>
+
+  <div class="week-divider"><span>Неделя 2 · 21–23 апреля · Навыки</span></div>
+
+  <!-- DAY 3 -->
+  <div class="day">
+    <div class="day-header">
+      <div class="day-badge">3</div>
+      <div class="day-meta">
+        <div class="day-tags"><span class="tag blue">21 апреля · вторник · 14:00 МСК</span><span class="tag">⏱ 125 минут</span><span class="tag">👥 Все участники</span><span class="tag green">Воркшоп + практикум</span></div>
+        <div class="day-title">Промпт-инжиниринг: формула и техники</div>
+        <div class="day-desc">Модуль 3a</div>
+      </div>
+    </div>
+    <div class="day-body">
+      <div class="sb">
+        <div class="session-label"><span class="s-id">3.1</span><span class="s-name">Промпт-инжиниринг: от формулы до строительных кейсов</span><span class="s-time">60 мин</span></div>
+        <ul class="topics">
+          <li>Разбор ДЗ: настройка аккаунтов, метапромпт, 2FA — вопросы</li>
+          <li>Верхнеуровневый промптинг: как настроить ИИ на свой стиль работы</li>
+          <li>Формула сильного промпта: Роль + Контекст + Задача + Формат + Ограничения</li>
+          <li>Демо: одна задача с промптом и без — разница в качестве</li>
+          <li>Техники продвинутого промптинга: цепочка рассуждений, few-shot, мета-промптинг</li>
+          <li>Как избежать галлюцинаций при работе с ИИ — конкретные приёмы</li>
+        </ul>
+        <div class="materials"><strong>Учебные материалы</strong>1. Методичка «Промпт-инжиниринг»<br>2. Методичка «Техники промптинга»<br>3. Памятка «Как избежать галлюцинаций при общении с ИИ»</div>
+      </div>
+      <div class="break-row">☕ Перерыв · 5 минут</div>
+      <div class="sb">
+        <div class="session-label"><span class="s-id">3.2</span><span class="s-name">Практика на задачах строительной компании</span><span class="s-time">60 мин</span></div>
+        <ul class="topics">
+          <li>Практика: каждый участник решает 3–5 задач из своего блока, используя формулу промпта</li>
+          <li>⚖️ Юрист: проверка договора подряда, анализ рисков, протокол разногласий</li>
+          <li>💰 Финансист: пояснительная записка к КС-2, письмо заказчику, управленческий отчёт</li>
+          <li>📋 HR: приказ о назначении, должностная инструкция, деловое письмо</li>
+          <li>Разбор промптов в реальном времени — тренер ходит между участниками</li>
+          <li>Создание промпт-инженера в диалоге с ChatGPT: ИИ пишет промпты за тебя</li>
+        </ul>
+        <div class="materials"><strong>Учебные материалы</strong>1. Банк шаблонов-промптов для строительной компании (15+ промптов по 3 блокам)</div>
+      </div>
+      <div class="homework"><strong>📝 Домашнее задание</strong><ol><li>Настроить персонализацию в ChatGPT и Claude</li><li>Подключить метапромпт в ChatGPT и Claude</li><li>Настроить работу памяти в ChatGPT и Claude</li><li>Использовать банк шаблонов-промптов для решения 2–3 рабочих задач</li></ol></div>
+    </div>
+  </div>
+
+  <!-- DAY 4 -->
+  <div class="day">
+    <div class="day-header">
+      <div class="day-badge">4</div>
+      <div class="day-meta">
+        <div class="day-tags"><span class="tag blue">23 апреля · четверг · 14:00 МСК</span><span class="tag">⏱ 125 минут</span><span class="tag">👥 Все участники</span><span class="tag green">Воркшоп + практикум</span></div>
+        <div class="day-title">Визуализация данных и создание документов с Claude</div>
+        <div class="day-desc">Модуль 3b</div>
+      </div>
+    </div>
+    <div class="day-body">
+      <div class="sb">
+        <div class="session-label"><span class="s-id">4.1</span><span class="s-name">Визуализация данных с помощью ИИ</span><span class="s-time">60 мин</span></div>
+        <ul class="topics">
+          <li>Режим Canvas в ChatGPT — интерактивная работа с документами</li>
+          <li>Работа с таблицами, графиками, дашбордами из данных</li>
+          <li>Создание HTML-отчётов, лендингов, форм</li>
+          <li>Практика по блокам: 💰 Финансист: визуализация данных из Excel, дашборд по проекту · ⚖️ Юрист: сравнительная таблица условий договоров · 📋 HR: структура отдела, визуальный отчёт</li>
+        </ul>
+      </div>
+      <div class="break-row">☕ Перерыв · 5 минут</div>
+      <div class="sb">
+        <div class="session-label"><span class="s-id">4.2</span><span class="s-name">Claude: создание документов, презентаций и файлов со скиллами</span><span class="s-time">60 мин</span></div>
+        <ul class="topics">
+          <li>Введение в Claude: чем отличается от ChatGPT, когда использовать</li>
+          <li>Скиллы Claude: подключение специализированных навыков для создания файлов</li>
+          <li>Создание PPTX-презентаций, DOCX-документов, PDF-отчётов прямо в Claude</li>
+          <li>Практика по блокам: 💰 Финансист: отчёт из данных Excel → готовая презентация · ⚖️ Юрист: анализ договора → структурированный DOCX · 📋 HR: должностная инструкция → оформленный PDF</li>
+          <li>Сравнение подходов: Canvas в ChatGPT vs. файлы в Claude — когда что лучше</li>
+        </ul>
+      </div>
+      <div class="homework"><strong>📝 Домашнее задание</strong><ol><li>Создать визуализацию по рабочим данным: HTML-отчёт или дашборд в Canvas</li><li>Создать один рабочий документ (презентация, отчёт или памятка) в Claude с использованием скиллов</li><li>Сравнить результаты ChatGPT и Claude на одной задаче — зафиксировать выводы</li></ol></div>
+    </div>
+  </div>
+
+  <div class="week-divider"><span>Неделя 3 · 28–30 апреля · Практика на реальных задачах</span></div>
+
+  <!-- DAY 5 -->
+  <div class="day">
+    <div class="day-header">
+      <div class="day-badge">5</div>
+      <div class="day-meta">
+        <div class="day-tags"><span class="tag blue">28 апреля · вторник · 14:00 МСК</span><span class="tag">⏱ 125 минут</span><span class="tag">👥 Разбивка по блокам</span><span class="tag green">Практикум</span></div>
+        <div class="day-title">Практика: разбор ДЗ + юридический блок</div>
+        <div class="day-desc">Модуль 4a</div>
+      </div>
+    </div>
+    <div class="day-body">
+      <div class="sb">
+        <div class="session-label"><span class="s-id">5.1</span><span class="s-name">Разбор домашних заданий: визуализации и документы</span><span class="s-time">60 мин</span></div>
+        <ul class="topics">
+          <li>Каждый участник показывает свою визуализацию и документ из Claude</li>
+          <li>Обсуждение: ChatGPT Canvas vs. Claude — когда что сработало лучше</li>
+          <li>Типичные ошибки промптинга — разбор и исправление вместе</li>
+          <li>Вопросы и ответы по модулю 3</li>
+        </ul>
+      </div>
+      <div class="break-row">☕ Перерыв · 5 минут</div>
+      <div class="sb">
+        <div class="session-label"><span class="s-id">5.2</span><span class="s-name">⚖️ Юридический блок: ИИ в работе юриста</span><span class="s-time">60 мин</span></div>
+        <ul class="topics">
+          <li>Загружаем анонимизированный договор подряда → полный анализ рисков с ИИ</li>
+          <li>Работа с НПА через Perplexity: поиск по 44-ФЗ/223-ФЗ, ГОСТам</li>
+          <li>Генерация протоколов разногласий из списка замечаний</li>
+          <li>Шаблонные письма контрагентам: претензии, запросы, уведомления</li>
+          <li>Анализ изменений в законодательстве: автоматический мониторинг</li>
+          <li>Поиск по НПА и ГОСТам с верификацией источников</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 6 -->
+  <div class="day">
+    <div class="day-header">
+      <div class="day-badge">6</div>
+      <div class="day-meta">
+        <div class="day-tags"><span class="tag blue">30 апреля · четверг · 14:00 МСК</span><span class="tag">⏱ 125 минут</span><span class="tag">👥 Разбивка по блокам</span><span class="tag green">Практикум</span></div>
+        <div class="day-title">Практика: финансовый + HR блоки</div>
+        <div class="day-desc">Модуль 4b</div>
+      </div>
+    </div>
+    <div class="day-body">
+      <div class="sb">
+        <div class="session-label"><span class="s-id">6.1</span><span class="s-name">💰 Финансово-экономический блок</span><span class="s-time">60 мин</span></div>
+        <ul class="topics">
+          <li>Анализ данных из Excel через ИИ: загрузка таблиц, формулы, сводки</li>
+          <li>Проверка структуры КС-2 и КС-3 — автоматическое выявление расхождений</li>
+          <li>Письма-пояснения для заказчика: от шаблона до готового документа</li>
+          <li>Подготовка управленческих отчётов: визуализация, выводы, рекомендации</li>
+          <li>Интеграция ИИ в работу с 1С — возможности и ограничения</li>
+        </ul>
+      </div>
+      <div class="break-row">☕ Перерыв · 5 минут</div>
+      <div class="sb">
+        <div class="session-label"><span class="s-id">6.2</span><span class="s-name">📋 HR и делопроизводство</span><span class="s-time">60 мин</span></div>
+        <ul class="topics">
+          <li>Приказы, положения, должностные инструкции — генерация и доработка</li>
+          <li>Ответы на обращения сотрудников: типовые шаблоны</li>
+          <li>Протоколы совещаний из заметок — от сырого текста к структуре</li>
+          <li>Деловые письма и ответы на входящую корреспонденцию</li>
+          <li>Кадровые документы: трудовые договоры, дополнительные соглашения</li>
+          <li>Итоги модуля 4: каждый фиксирует топ-5 задач, которые теперь решает с ИИ</li>
+        </ul>
+      </div>
+      <div class="homework"><strong>📝 Домашнее задание</strong><ol><li>Выполнить 3–5 реальных рабочих задач с помощью ИИ по своему блоку</li><li>Зафиксировать: какие промпты использовали, что получилось, что нет</li><li>Подготовить рабочий файл (таблица, договор, документ) для демо на дне 7</li></ol></div>
+    </div>
+  </div>
+
+  <div class="week-divider"><span>Неделя 4 · 5–7 мая · ИИ-агенты и внедрение</span></div>
+
+  <!-- DAY 7 -->
+  <div class="day">
+    <div class="day-header">
+      <div class="day-badge">7</div>
+      <div class="day-meta">
+        <div class="day-tags"><span class="tag blue">5 мая · вторник · 14:00 МСК</span><span class="tag">⏱ 125 минут</span><span class="tag">👥 Все участники</span><span class="tag green">Установка + настройка</span></div>
+        <div class="day-title">OpenClaw: установка и настройка</div>
+        <div class="day-desc">Модуль 5a</div>
+      </div>
+    </div>
+    <div class="day-body">
+      <div class="prework"><strong>⚡ Подготовка заранее</strong><ol><li>Купить VPS (сервер) по инструкции из скринкаста</li><li>Скачать и установить Visual Studio Code</li><li>Установить Claude Code в Visual Studio Code</li><li>Подключить Claude Code к серверу — всё по скринкасту</li><li>Подготовить вопросы, если что-то не понятно или не получилось</li></ol></div>
+      <div class="sb">
+        <div class="session-label"><span class="s-id">7.1</span><span class="s-name">Что такое ИИ-агенты + установка OpenClaw</span><span class="s-time">60 мин</span></div>
+        <ul class="topics">
+          <li>Разница между чат-ботом и автономным агентом: агент помнит контекст, выполняет задачи сам, работает 24/7</li>
+          <li>Что такое OpenClaw: платформа для ИИ-агентов с памятью и инструментами</li>
+          <li>Регистрация и оплата — проходим все шаги вместе</li>
+          <li>Установка на VPS-сервер (план Б: предустановленный сервер тренера)</li>
+          <li>Подключение к Telegram — управление через привычный интерфейс</li>
+          <li>Проверка работоспособности: первое сообщение агенту</li>
+        </ul>
+        <div class="materials"><strong>Учебные материалы</strong>1. Скринкаст «Установка и настройка OpenClaw, подключение к Telegram, подключение к Claude Code»</div>
+      </div>
+      <div class="break-row">☕ Перерыв · 5 минут</div>
+      <div class="sb">
+        <div class="session-label"><span class="s-id">7.2</span><span class="s-name">Настройка корпоративного агента</span><span class="s-time">60 мин</span></div>
+        <ul class="topics">
+          <li>Структура инструкций (soul.md): роль, контекст, задачи, ограничения, формат</li>
+          <li>Создание корпоративного агента: знает специфику компании, задачи, ограничения</li>
+          <li>Подключение базы знаний к агенту</li>
+          <li>Настройка поведения: тон, формат ответов, границы компетенции</li>
+          <li>Тестирование на 2–3 задачах: проверяем качество ответов</li>
+        </ul>
+        <div class="materials"><strong>Учебные материалы</strong>1. Примеры soul.md (инструкции) для AI-агентов</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 8 -->
+  <div class="day">
+    <div class="day-header">
+      <div class="day-badge">8</div>
+      <div class="day-meta">
+        <div class="day-tags"><span class="tag blue">7 мая · четверг · 14:00 МСК</span><span class="tag">⏱ 125 минут</span><span class="tag">👥 Все участники</span><span class="tag green">Практикум</span></div>
+        <div class="day-title">Агенты OpenClaw + Claude Code</div>
+        <div class="day-desc">Модуль 5b</div>
+      </div>
+    </div>
+    <div class="day-body">
+      <div class="sb">
+        <div class="session-label"><span class="s-id">8.1</span><span class="s-name">Создание агентов под роли участников</span><span class="s-time">60 мин</span></div>
+        <ul class="topics">
+          <li>👤 Личный ассистент: задачи в Google Calendar, транскрибация голосовых, напоминания, саммари звонков</li>
+          <li>⚖️ Агент юридического блока: первичный анализ договоров, поиск по НПА и ГОСТам, шаблоны типовых документов</li>
+          <li>📋 Агент HR и делопроизводство: черновики приказов, ответы на типовые вопросы, ведение протоколов</li>
+          <li>Каждый участник пишет soul.md для своего агента</li>
+          <li>Тестирование агентов на 3 реальных задачах, доработка инструкций</li>
+        </ul>
+      </div>
+      <div class="break-row">☕ Перерыв · 5 минут</div>
+      <div class="sb">
+        <div class="session-label"><span class="s-id">8.2</span><span class="s-name">Claude Code: агент на сервере и автоматизация</span><span class="s-time">60 мин</span></div>
+        <ul class="topics">
+          <li>Что такое Claude Code: агент, который работает с файлами, кодом и серверами напрямую</li>
+          <li>Когда Claude Code, когда OpenClaw — сравнение инструментов</li>
+          <li>Демо: создание Telegram-бота через Claude Code</li>
+          <li>Автоматизация бизнес-процессов: фоллоапы, транскрибация, задачи в календарь</li>
+          <li>Работа с серверами и доменами: базовая настройка</li>
+          <li>Обмен лучшими практиками между участниками</li>
+        </ul>
+        <div class="materials"><strong>Учебные материалы</strong>1. Памятка «Сравнение OpenClaw и Claude Code: когда какой инструмент использовать»</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="week-divider"><span>Финал · 12 мая · Стратегия</span></div>
+
+  <!-- DAY 9 -->
+  <div class="day">
+    <div class="day-header">
+      <div class="day-badge">9</div>
+      <div class="day-meta">
+        <div class="day-tags"><span class="tag blue">12 мая · вторник · 14:00 МСК</span><span class="tag">⏱ 125 минут</span><span class="tag">👥 Все участники</span><span class="tag blue">Стратегия + дорожная карта</span></div>
+        <div class="day-title">Итоги и план внедрения</div>
+        <div class="day-desc">Модуль 6</div>
+      </div>
+    </div>
+    <div class="day-body">
+      <div class="prework"><strong>⚡ Подготовка заранее</strong><ol><li>Заполнить анкету: что было сделано за 8 дней обучения, что получилось внедрить, что ещё предстоит сделать</li></ol></div>
+      <div class="sb">
+        <div class="session-label"><span class="s-id">9.1</span><span class="s-name">Демо результатов + топ-5 задач для внедрения</span><span class="s-time">60 мин</span></div>
+        <ul class="topics">
+          <li>Каждый участник показывает: что автоматизировал, какие агенты работают, что дало наибольший эффект</li>
+          <li>Обмен лучшими практиками и промптами</li>
+          <li>Топ-5 задач для немедленного внедрения в каждом отделе</li>
+          <li>Как масштабировать на других сотрудников без отдельного обучения</li>
+        </ul>
+      </div>
+      <div class="break-row">☕ Перерыв · 5 минут</div>
+      <div class="sb">
+        <div class="session-label"><span class="s-id">9.2</span><span class="s-name">Дорожная карта 30 / 60 / 90 дней</span><span class="s-time">60 мин</span></div>
+        <ul class="topics">
+          <li>30 дней: закрепление навыков, ежедневное использование ИИ в рутине</li>
+          <li>60 дней: агенты в боевом режиме, автоматизация типовых процессов</li>
+          <li>90 дней: вовлечение производственников (прорабы, ПТО) — план этапа 2</li>
+          <li>Работа с сопротивлением: как объяснить команде зачем это нужно</li>
+          <li>Приоритеты, инструменты, бюджет на ближайший год</li>
+          <li>Финальный блок вопросов, обратная связь, доступ к чату поддержки</li>
+        </ul>
+        <div class="materials"><strong>Учебные материалы</strong>1. Анкета «Итоги обучения: что сделано, что предстоит»<br>2. Дорожная карта внедрения ИИ на 30/60/90 дней</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div>🤖 ИИ-ВИЗАЦИЯ · Корпоративное обучение · ii-vizaciya.ru</div>
+  <div style="margin-top:8px">Программа подготовлена индивидуально для команды Владислава Рагулина</div>
+</footer>
+
+</body>
+</html>
