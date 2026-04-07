@@ -194,6 +194,39 @@
   }
   .gcal-btn:hover { background: rgba(52,211,153,0.2); border-color: rgba(52,211,153,0.4); color: #6ee7b7; text-decoration: none; }
   .gcal-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+  /* === BUTTON HIERARCHY === */
+  .event__actions { display: flex; gap: 10px; margin-top: 8px; flex-wrap: wrap; }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700;
+    padding: 8px 16px; border-radius: 8px; text-decoration: none;
+    transition: opacity .2s; cursor: pointer; border: none;
+  }
+  .btn-primary:hover { opacity: 0.85; text-decoration: none; }
+  .btn-primary--video { background: #7c5bf5; color: #fff; }
+  .btn-primary--meet { background: #34d399; color: #0a0a0f; }
+  .btn-primary--workshop { background: #fbbf24; color: #0a0a0f; }
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700;
+    padding: 8px 16px; border-radius: 8px; text-decoration: none;
+    background: transparent; color: #5a5670; border: 1px solid #5a5670;
+    transition: all .2s; cursor: pointer;
+  }
+  .btn-secondary:hover { color: #8b879e; border-color: #8b879e; text-decoration: none; }
+  .link-util {
+    display: inline-block; font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 600; color: #5a5670;
+    text-decoration: none; margin-top: 8px; transition: color .2s; cursor: pointer;
+  }
+  .link-util:hover { color: #8b879e; text-decoration: none; }
+  @media (max-width: 480px) {
+    .event__actions { flex-direction: column; }
+    .event__actions .btn-primary,
+    .event__actions .btn-secondary { width: 100%; justify-content: center; }
+  }
+
 </style>
 </head>
 <body>
@@ -322,7 +355,7 @@
           <div class="event__name">Онлайн-встреча 3</div>
           <div class="event__topic">Консультация по изученному материалу, помощь с заданиями</div>
           <div class="event__duration">⏱ 2 часа: 1 ч / 5 мин перерыв / 1 ч</div>
-          <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=%D0%98%D0%98-%D0%92%D0%98%D0%97%D0%90%D0%A6%D0%98%D0%AF%3A%20OPENCLAW%20%7C%20%D0%9E%D0%BD%D0%BB%D0%B0%D0%B9%D0%BD-%D0%B2%D1%81%D1%82%D1%80%D0%B5%D1%87%D0%B0%203&dates=20260413T140000Z/20260413T163000Z&details=%D0%9A%D0%BE%D0%BD%D1%81%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%86%D0%B8%D1%8F%20%D0%BF%D0%BE%20%D0%B8%D0%B7%D1%83%D1%87%D0%B5%D0%BD%D0%BD%D0%BE%D0%BC%D1%83%20%D0%BC%D0%B0%D1%82%D0%B5%D1%80%D0%B8%D0%B0%D0%BB%D1%83%2C%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%20%D1%81%20%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F%D0%BC%D0%B8" target="_blank" class="gcal-btn" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Добавить в Google Календарь</a>
+          <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=%D0%98%D0%98-%D0%92%D0%98%D0%97%D0%90%D0%A6%D0%98%D0%AF%3A%20OPENCLAW%20%7C%20%D0%9E%D0%BD%D0%BB%D0%B0%D0%B9%D0%BD-%D0%B2%D1%81%D1%82%D1%80%D0%B5%D1%87%D0%B0%203&dates=20260413T140000Z/20260413T163000Z&details=%D0%9A%D0%BE%D0%BD%D1%81%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%86%D0%B8%D1%8F%20%D0%BF%D0%BE%20%D0%B8%D0%B7%D1%83%D1%87%D0%B5%D0%BD%D0%BD%D0%BE%D0%BC%D1%83%20%D0%BC%D0%B0%D1%82%D0%B5%D1%80%D0%B8%D0%B0%D0%BB%D1%83%2C%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%20%D1%81%20%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F%D0%BC%D0%B8" target="_blank" class="link-util" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Добавить в Google Календарь</a>
 
         </div>
         <div class="event__tag event__tag--meet">Встреча</div>
@@ -368,7 +401,7 @@
           <div class="event__name">Онлайн-встреча 4</div>
           <div class="event__topic">Консультация по изученному материалу, помощь с заданиями</div>
           <div class="event__duration">⏱ 2 часа: 1 ч / 5 мин перерыв / 1 ч</div>
-          <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=%D0%98%D0%98-%D0%92%D0%98%D0%97%D0%90%D0%A6%D0%98%D0%AF%3A%20OPENCLAW%20%7C%20%D0%9E%D0%BD%D0%BB%D0%B0%D0%B9%D0%BD-%D0%B2%D1%81%D1%82%D1%80%D0%B5%D1%87%D0%B0%204&dates=20260417T140000Z/20260417T163000Z&details=%D0%9A%D0%BE%D0%BD%D1%81%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%86%D0%B8%D1%8F%20%D0%BF%D0%BE%20%D0%B8%D0%B7%D1%83%D1%87%D0%B5%D0%BD%D0%BD%D0%BE%D0%BC%D1%83%20%D0%BC%D0%B0%D1%82%D0%B5%D1%80%D0%B8%D0%B0%D0%BB%D1%83%2C%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%20%D1%81%20%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F%D0%BC%D0%B8" target="_blank" class="gcal-btn" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Добавить в Google Календарь</a>
+          <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=%D0%98%D0%98-%D0%92%D0%98%D0%97%D0%90%D0%A6%D0%98%D0%AF%3A%20OPENCLAW%20%7C%20%D0%9E%D0%BD%D0%BB%D0%B0%D0%B9%D0%BD-%D0%B2%D1%81%D1%82%D1%80%D0%B5%D1%87%D0%B0%204&dates=20260417T140000Z/20260417T163000Z&details=%D0%9A%D0%BE%D0%BD%D1%81%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%86%D0%B8%D1%8F%20%D0%BF%D0%BE%20%D0%B8%D0%B7%D1%83%D1%87%D0%B5%D0%BD%D0%BD%D0%BE%D0%BC%D1%83%20%D0%BC%D0%B0%D1%82%D0%B5%D1%80%D0%B8%D0%B0%D0%BB%D1%83%2C%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%20%D1%81%20%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F%D0%BC%D0%B8" target="_blank" class="link-util" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Добавить в Google Календарь</a>
 
         </div>
         <div class="event__tag event__tag--meet">Встреча</div>
@@ -381,7 +414,7 @@
           <div class="event__name">Онлайн-встреча 5</div>
           <div class="event__topic">Консультация по изученному материалу, помощь с заданиями</div>
           <div class="event__duration">⏱ 2 часа: 1 ч / 5 мин перерыв / 1 ч</div>
-          <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=%D0%98%D0%98-%D0%92%D0%98%D0%97%D0%90%D0%A6%D0%98%D0%AF%3A%20OPENCLAW%20%7C%20%D0%9E%D0%BD%D0%BB%D0%B0%D0%B9%D0%BD-%D0%B2%D1%81%D1%82%D1%80%D0%B5%D1%87%D0%B0%205&dates=20260422T140000Z/20260422T163000Z&details=%D0%9A%D0%BE%D0%BD%D1%81%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%86%D0%B8%D1%8F%20%D0%BF%D0%BE%20%D0%B8%D0%B7%D1%83%D1%87%D0%B5%D0%BD%D0%BD%D0%BE%D0%BC%D1%83%20%D0%BC%D0%B0%D1%82%D0%B5%D1%80%D0%B8%D0%B0%D0%BB%D1%83%2C%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%20%D1%81%20%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F%D0%BC%D0%B8" target="_blank" class="gcal-btn" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Добавить в Google Календарь</a>
+          <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=%D0%98%D0%98-%D0%92%D0%98%D0%97%D0%90%D0%A6%D0%98%D0%AF%3A%20OPENCLAW%20%7C%20%D0%9E%D0%BD%D0%BB%D0%B0%D0%B9%D0%BD-%D0%B2%D1%81%D1%82%D1%80%D0%B5%D1%87%D0%B0%205&dates=20260422T140000Z/20260422T163000Z&details=%D0%9A%D0%BE%D0%BD%D1%81%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%86%D0%B8%D1%8F%20%D0%BF%D0%BE%20%D0%B8%D0%B7%D1%83%D1%87%D0%B5%D0%BD%D0%BD%D0%BE%D0%BC%D1%83%20%D0%BC%D0%B0%D1%82%D0%B5%D1%80%D0%B8%D0%B0%D0%BB%D1%83%2C%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%20%D1%81%20%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F%D0%BC%D0%B8" target="_blank" class="link-util" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Добавить в Google Календарь</a>
 
         </div>
         <div class="event__tag event__tag--meet">Встреча</div>
@@ -427,7 +460,7 @@
           <div class="event__name">Онлайн-встреча 6</div>
           <div class="event__topic">Консультация по изученному материалу, помощь с заданиями</div>
           <div class="event__duration">⏱ 2 часа: 1 ч / 5 мин перерыв / 1 ч</div>
-          <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=%D0%98%D0%98-%D0%92%D0%98%D0%97%D0%90%D0%A6%D0%98%D0%AF%3A%20OPENCLAW%20%7C%20%D0%9E%D0%BD%D0%BB%D0%B0%D0%B9%D0%BD-%D0%B2%D1%81%D1%82%D1%80%D0%B5%D1%87%D0%B0%206&dates=20260427T140000Z/20260427T163000Z&details=%D0%9A%D0%BE%D0%BD%D1%81%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%86%D0%B8%D1%8F%20%D0%BF%D0%BE%20%D0%B8%D0%B7%D1%83%D1%87%D0%B5%D0%BD%D0%BD%D0%BE%D0%BC%D1%83%20%D0%BC%D0%B0%D1%82%D0%B5%D1%80%D0%B8%D0%B0%D0%BB%D1%83%2C%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%20%D1%81%20%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F%D0%BC%D0%B8" target="_blank" class="gcal-btn" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Добавить в Google Календарь</a>
+          <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=%D0%98%D0%98-%D0%92%D0%98%D0%97%D0%90%D0%A6%D0%98%D0%AF%3A%20OPENCLAW%20%7C%20%D0%9E%D0%BD%D0%BB%D0%B0%D0%B9%D0%BD-%D0%B2%D1%81%D1%82%D1%80%D0%B5%D1%87%D0%B0%206&dates=20260427T140000Z/20260427T163000Z&details=%D0%9A%D0%BE%D0%BD%D1%81%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%86%D0%B8%D1%8F%20%D0%BF%D0%BE%20%D0%B8%D0%B7%D1%83%D1%87%D0%B5%D0%BD%D0%BD%D0%BE%D0%BC%D1%83%20%D0%BC%D0%B0%D1%82%D0%B5%D1%80%D0%B8%D0%B0%D0%BB%D1%83%2C%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%20%D1%81%20%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F%D0%BC%D0%B8" target="_blank" class="link-util" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Добавить в Google Календарь</a>
 
         </div>
         <div class="event__tag event__tag--meet">Встреча</div>
@@ -440,7 +473,7 @@
           <div class="event__name">Онлайн-встреча 7 — финальная</div>
           <div class="event__topic">Демо участников (5–10 мин каждый) + дорожная карта на 3 месяца</div>
           <div class="event__duration">⏱ 2 часа: 1 ч / 5 мин перерыв / 1 ч</div>
-          <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=%D0%98%D0%98-%D0%92%D0%98%D0%97%D0%90%D0%A6%D0%98%D0%AF%3A%20OPENCLAW%20%7C%20%D0%9E%D0%BD%D0%BB%D0%B0%D0%B9%D0%BD-%D0%B2%D1%81%D1%82%D1%80%D0%B5%D1%87%D0%B0%207%20%E2%80%94%20%D1%84%D0%B8%D0%BD%D0%B0%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F&dates=20260430T140000Z/20260430T163000Z&details=%D0%94%D0%B5%D0%BC%D0%BE%20%D1%83%D1%87%D0%B0%D1%81%D1%82%D0%BD%D0%B8%D0%BA%D0%BE%D0%B2%20%2B%20%D0%B4%D0%BE%D1%80%D0%BE%D0%B6%D0%BD%D0%B0%D1%8F%20%D0%BA%D0%B0%D1%80%D1%82%D0%B0%20%D0%BD%D0%B0%203%20%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B0" target="_blank" class="gcal-btn" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Добавить в Google Календарь</a>
+          <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=%D0%98%D0%98-%D0%92%D0%98%D0%97%D0%90%D0%A6%D0%98%D0%AF%3A%20OPENCLAW%20%7C%20%D0%9E%D0%BD%D0%BB%D0%B0%D0%B9%D0%BD-%D0%B2%D1%81%D1%82%D1%80%D0%B5%D1%87%D0%B0%207%20%E2%80%94%20%D1%84%D0%B8%D0%BD%D0%B0%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F&dates=20260430T140000Z/20260430T163000Z&details=%D0%94%D0%B5%D0%BC%D0%BE%20%D1%83%D1%87%D0%B0%D1%81%D1%82%D0%BD%D0%B8%D0%BA%D0%BE%D0%B2%20%2B%20%D0%B4%D0%BE%D1%80%D0%BE%D0%B6%D0%BD%D0%B0%D1%8F%20%D0%BA%D0%B0%D1%80%D1%82%D0%B0%20%D0%BD%D0%B0%203%20%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B0" target="_blank" class="link-util" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Добавить в Google Календарь</a>
 
         </div>
         <div class="event__tag event__tag--meet">Встреча</div>
@@ -466,7 +499,7 @@
           <div class="event__name">VIP-воркшоп 1</div>
           <div class="event__topic">Создание индивидуальных ИИ-сотрудников и агентов под запрос, групповая работа и обмен опытом</div>
           <div class="event__duration">⏱ 2 часа: 1 ч / 5 мин перерыв / 1 ч</div>
-          <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=%D0%98%D0%98-%D0%92%D0%98%D0%97%D0%90%D0%A6%D0%98%D0%AF%3A%20OPENCLAW%20%7C%20VIP-%D0%B2%D0%BE%D1%80%D0%BA%D1%88%D0%BE%D0%BF%201&dates=20260504T140000Z/20260504T163000Z&details=%D0%9F%D1%80%D0%B0%D0%BA%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B9%20VIP-%D0%B2%D0%BE%D1%80%D0%BA%D1%88%D0%BE%D0%BF" target="_blank" class="gcal-btn" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Добавить в Google Календарь</a>
+          <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=%D0%98%D0%98-%D0%92%D0%98%D0%97%D0%90%D0%A6%D0%98%D0%AF%3A%20OPENCLAW%20%7C%20VIP-%D0%B2%D0%BE%D1%80%D0%BA%D1%88%D0%BE%D0%BF%201&dates=20260504T140000Z/20260504T163000Z&details=%D0%9F%D1%80%D0%B0%D0%BA%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B9%20VIP-%D0%B2%D0%BE%D1%80%D0%BA%D1%88%D0%BE%D0%BF" target="_blank" class="link-util" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Добавить в Google Календарь</a>
 
         </div>
         <div class="event__tag event__tag--workshop">Воркшоп</div>
@@ -479,7 +512,7 @@
           <div class="event__name">VIP-воркшоп 2</div>
           <div class="event__topic">Создание индивидуальных ИИ-сотрудников и агентов под запрос, групповая работа и обмен опытом</div>
           <div class="event__duration">⏱ 2 часа: 1 ч / 5 мин перерыв / 1 ч</div>
-          <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=%D0%98%D0%98-%D0%92%D0%98%D0%97%D0%90%D0%A6%D0%98%D0%AF%3A%20OPENCLAW%20%7C%20VIP-%D0%B2%D0%BE%D1%80%D0%BA%D1%88%D0%BE%D0%BF%202&dates=20260507T140000Z/20260507T163000Z&details=%D0%9F%D1%80%D0%B0%D0%BA%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B9%20VIP-%D0%B2%D0%BE%D1%80%D0%BA%D1%88%D0%BE%D0%BF" target="_blank" class="gcal-btn" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Добавить в Google Календарь</a>
+          <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=%D0%98%D0%98-%D0%92%D0%98%D0%97%D0%90%D0%A6%D0%98%D0%AF%3A%20OPENCLAW%20%7C%20VIP-%D0%B2%D0%BE%D1%80%D0%BA%D1%88%D0%BE%D0%BF%202&dates=20260507T140000Z/20260507T163000Z&details=%D0%9F%D1%80%D0%B0%D0%BA%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B9%20VIP-%D0%B2%D0%BE%D1%80%D0%BA%D1%88%D0%BE%D0%BF" target="_blank" class="link-util" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Добавить в Google Календарь</a>
 
         </div>
         <div class="event__tag event__tag--workshop">Воркшоп</div>
