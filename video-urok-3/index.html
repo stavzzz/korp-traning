@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ИИ-ВИЗАЦИЯ: OPENCLAW — Инфраструктура OpenClaw</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #0a0a0f; --bg-card: #12121a; --bg-card-hover: #181825;
+    --border: #1e1e2e; --border-accent: #2a2a3e;
+    --text-primary: #e8e6f0; --text-secondary: #8b879e; --text-muted: #5a5670;
+    --accent: #7c5bf5; --accent-glow: #9d7cff; --accent-soft: rgba(124,91,245,0.12);
+    --green: #34d399; --green-glow: #6ee7b7; --green-soft: rgba(52,211,153,0.1);
+    --amber: #fbbf24; --amber-soft: rgba(251,191,36,0.1);
+    --red-soft: rgba(248,113,113,0.1); --red: #f87171;
+    --radius: 14px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Onest',sans-serif; background:var(--bg-deep); color:var(--text-primary); line-height:1.65; min-height:100vh; -webkit-font-smoothing:antialiased; }
+  body::before { content:''; position:fixed; inset:0; background-image:radial-gradient(circle at 20% 20%,rgba(124,91,245,0.04) 0%,transparent 50%),radial-gradient(circle at 80% 80%,rgba(52,211,153,0.03) 0%,transparent 50%); pointer-events:none; z-index:0; }
+  .wrapper { position:relative; z-index:1; max-width:680px; margin:0 auto; padding:40px 20px 80px; }
+
+  /* ─── HEADER ─── */
+  .header { text-align:center; margin-bottom:48px; }
+  .header__badge { display:inline-block; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:var(--accent-glow); background:var(--accent-soft); border:1px solid rgba(124,91,245,0.2); padding:6px 16px; border-radius:100px; margin-bottom:24px; animation:fadeDown .6s ease both; }
+  .header__title { font-size:clamp(22px,5vw,34px); font-weight:800; line-height:1.2; letter-spacing:-0.5px; margin-bottom:20px; animation:fadeDown .6s ease .1s both; }
+  .header__title span { background:linear-gradient(135deg,var(--accent-glow),var(--green)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .header__topics { list-style:none; display:flex; flex-direction:column; gap:7px; max-width:460px; margin:0 auto; animation:fadeDown .6s ease .2s both; }
+  .header__topics li { font-size:13.5px; color:var(--text-secondary); display:flex; align-items:flex-start; gap:8px; text-align:left; }
+  .header__topics li::before { content:'→'; color:var(--accent); flex-shrink:0; font-family:'JetBrains Mono',monospace; font-size:11px; margin-top:3px; }
+
+  /* ─── PROGRESS ─── */
+  .progress-wrap { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:20px 24px; margin-bottom:36px; position:sticky; top:12px; z-index:10; backdrop-filter:blur(16px); background:rgba(18,18,26,0.92); animation:fadeDown .6s ease .3s both; }
+  .progress-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+  .progress-label { font-size:13px; font-weight:600; color:var(--text-secondary); text-transform:uppercase; letter-spacing:1px; font-family:'JetBrains Mono',monospace; }
+  .progress-count { font-family:'JetBrains Mono',monospace; font-size:14px; font-weight:700; color:var(--accent-glow); }
+  .progress-bar { width:100%; height:8px; background:var(--border); border-radius:100px; overflow:hidden; }
+  .progress-fill { height:100%; background:linear-gradient(90deg,var(--accent),var(--green)); border-radius:100px; transition:width .5s cubic-bezier(.34,1.56,.64,1); width:0%; }
+
+  /* ─── SECTION ─── */
+  .section { margin-bottom:28px; }
+  .section__header { display:flex; align-items:center; gap:12px; margin-bottom:14px; padding-left:2px; }
+  .section__num { font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; color:var(--accent); background:var(--accent-soft); width:32px; height:32px; display:flex; align-items:center; justify-content:center; border-radius:8px; flex-shrink:0; }
+  .section__title { font-size:16px; font-weight:700; letter-spacing:-0.2px; line-height:1.35; }
+  .section__card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; transition:border-color .3s; }
+  .section__card:hover { border-color:var(--border-accent); }
+
+  /* ─── CHECKLIST ITEM ─── */
+  .item { display:flex; align-items:flex-start; gap:14px; padding:16px 20px; border-bottom:1px solid var(--border); transition:background .2s;  }
+  .item:last-child { border-bottom:none; }
+  .item:hover { background:var(--bg-card-hover); }
+  .item.checked .item__text { color:var(--text-muted); text-decoration:line-through; }
+  .item__check { position:relative; width:22px; height:22px; flex-shrink:0; margin-top:1px; pointer-events:auto; cursor:pointer; }
+  .item__check input { position:absolute; opacity:0; width:100%; height:100%; cursor:pointer; z-index:2; }
+  .item__check .cm { width:22px; height:22px; border:2px solid var(--border-accent); border-radius:6px; display:flex; align-items:center; justify-content:center; transition:all .25s cubic-bezier(.34,1.56,.64,1); cursor:pointer; }
+  .item__check .cm svg { width:12px; height:12px; opacity:0; transform:scale(0); transition:all .25s cubic-bezier(.34,1.56,.64,1); }
+  .item__check input:checked + .cm { background:var(--green); border-color:var(--green); }
+  .item__check input:checked + .cm svg { opacity:1; transform:scale(1); }
+  .item__body { flex:1; min-width:0; pointer-events:none; user-select:text; }
+  .item__body a, .item__body .lnk, .item__body .cmd-copy, .item__body .btn-copy { pointer-events:auto !important; cursor:pointer !important; }
+  .item__text { font-size:14.5px; font-weight:500; color:var(--text-primary); transition:all .3s; }
+  .item__hint { font-size:13px; color:var(--text-secondary); margin-top:5px; line-height:1.65; }
+  .item__hint strong { color:var(--text-primary); }
+
+  /* ─── LNK ─── */
+  .lnk { display:inline-flex; align-items:center; gap:5px; font-size:13px; font-family:'JetBrains Mono',monospace; color:var(--accent-glow); text-decoration:none; transition:color .2s; word-break:break-all; }
+  .lnk:hover { color:#bba4ff; text-decoration:underline; }
+  .lnk svg { width:13px; height:13px; flex-shrink:0; }
+  .ext-svg { display:inline; width:13px; height:13px; vertical-align:middle; }
+
+  /* ─── RES-BLOCK ─── */
+  .res-block { padding:14px 20px; border-bottom:1px solid var(--border); transition:background .2s; }
+  .res-block:last-child { border-bottom:none; }
+  .res-block:hover { background:var(--bg-card-hover); }
+  .res-block__title { font-size:14px; font-weight:600; color:var(--text-primary); margin-bottom:3px; }
+  .res-block__sub { font-size:13px; color:var(--text-secondary); margin-bottom:7px; line-height:1.5; }
+
+  /* ─── NOTE ─── */
+  .note { display:flex; align-items:flex-start; gap:10px; padding:14px 20px; font-size:13px; color:var(--text-secondary); line-height:1.65; border-bottom:1px solid var(--border); }
+  .note:last-child { border-bottom:none; }
+  .note--warn { background:var(--amber-soft); color:var(--amber); }
+  .note--info { background:var(--accent-soft); }
+  .note--alert { background:var(--red-soft); color:var(--red); }
+  .note--green { background:var(--green-soft); color:var(--green-glow); }
+  .note__icon { flex-shrink:0; font-size:15px; }
+  .note strong { color:inherit; }
+  .note .lnk { color:var(--accent-glow); }
+
+  /* ─── INFO BLOCK ─── */
+  .info-block { padding:14px 20px; border-bottom:1px solid var(--border); font-size:13.5px; color:var(--text-secondary); line-height:1.7; }
+  .info-block:last-child { border-bottom:none; }
+  .info-block strong { color:var(--text-primary); font-weight:600; }
+  .info-block p { margin-bottom:8px; }
+  .info-block p:last-child { margin-bottom:0; }
+
+  /* ─── TERM ─── */
+  .term { padding:16px 20px; border-bottom:1px solid var(--border); }
+  .term:last-child { border-bottom:none; }
+  .term__name { font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; color:var(--accent-glow); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:7px; }
+  .term__def { font-size:14px; color:var(--text-primary); font-weight:500; margin-bottom:8px; line-height:1.55; }
+  .term__example { font-size:13px; color:var(--text-secondary); line-height:1.65; padding:10px 14px; background:rgba(124,91,245,0.06); border-left:2px solid rgba(124,91,245,0.3); border-radius:0 6px 6px 0; }
+  .mono { font-family:'JetBrains Mono',monospace; color:var(--accent-glow); font-size:12px; }
+
+  /* ─── TABLE ─── */
+  .data-table { width:100%; font-size:13px; border-collapse:collapse; }
+  .data-table th { text-align:left; font-weight:600; color:var(--text-muted); font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:1.2px; padding:10px 20px; border-bottom:1px solid var(--border); background:rgba(0,0,0,0.2); }
+  .data-table td { padding:11px 20px; border-bottom:1px solid var(--border); color:var(--text-secondary); vertical-align:top; line-height:1.5; }
+  .data-table tr:last-child td { border-bottom:none; }
+  .data-table td:first-child { color:var(--text-primary); font-weight:600; }
+
+  /* ─── ARCH BOX ─── */
+  .arch-box { background:rgba(0,0,0,0.3); border:1px solid var(--border-accent); border-radius:10px; padding:18px 22px; margin:12px 20px; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text-secondary); line-height:2; white-space:pre; overflow-x:auto; }
+
+  /* ─── PROMPT BLOCK ─── */
+  .prompt-block { background:rgba(0,0,0,0.25); border:1px solid var(--border-accent); border-radius:10px; padding:18px 20px; margin:12px 16px; }
+  .prompt-block__title { font-size:13px; font-weight:700; color:var(--accent-glow); margin-bottom:10px; display:flex; align-items:center; gap:8px; font-family:'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:1px; }
+  .prompt-block__text { font-size:13px; color:var(--text-secondary); line-height:1.7; white-space:pre-wrap; margin-bottom:14px; word-break:break-word; }
+  .btn-copy { display:inline-flex; align-items:center; gap:6px; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600; color:var(--accent-glow); background:var(--accent-soft); border:1px solid rgba(124,91,245,0.3); padding:8px 16px; border-radius:8px; cursor:pointer; transition:all .2s; text-transform:uppercase; letter-spacing:1px; }
+  .btn-copy:hover { background:rgba(124,91,245,0.2); border-color:var(--accent); }
+  .btn-copy.copied { color:var(--green); background:var(--green-soft); border-color:rgba(52,211,153,0.3); }
+
+  /* ─── CODE BLOCK ─── */
+  .code-block { background:rgba(0,0,0,0.4); border:1px solid var(--border-accent); border-radius:10px; padding:16px 20px; margin:12px 16px; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--green-glow); line-height:1.8; white-space:pre-wrap; word-break:break-all; overflow-x:auto; }
+  .code-block__label { font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:8px; display:block; }
+  .code-block .btn-copy { margin-top:12px; }
+
+  /* ─── CMD COPY — inline copyable bash command ─── */
+  .cmd-copy { background:rgba(0,0,0,0.35); border:1px solid var(--border-accent); border-radius:8px; padding:10px 14px; margin:8px 0; display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  .cmd-copy__text { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--green-glow); line-height:1.6; word-break:break-all; flex:1; white-space:pre-wrap; }
+  .cmd-copy .btn-copy { flex-shrink:0; padding:5px 12px; font-size:10px; }
+
+  /* ─── SPOILER ─── */
+  .spoiler { border-bottom:1px solid var(--border); }
+  .spoiler:last-child { border-bottom:none; }
+  .spoiler summary { padding:14px 20px; font-size:13.5px; font-weight:600; color:var(--text-secondary); cursor:pointer; list-style:none; display:flex; align-items:center; gap:8px; transition:color .2s; }
+  .spoiler summary:hover { color:var(--text-primary); }
+  .spoiler summary::before { content:'▸'; font-size:12px; transition:transform .2s; }
+  .spoiler[open] summary::before { transform:rotate(90deg); }
+  .spoiler__content { padding:0 20px 16px 34px; font-size:13px; color:var(--text-secondary); line-height:1.7; }
+  .spoiler__content p { margin-bottom:8px; }
+  .spoiler__content strong { color:var(--text-primary); font-weight:600; }
+
+  /* ─── FOOTER ─── */
+  .footer { text-align:center; margin-top:48px; }
+  .footer__done { display:none; background:var(--green-soft); border:1px solid rgba(52,211,153,0.25); border-radius:var(--radius); padding:32px 24px; margin-bottom:24px; }
+  .footer__done.visible { display:block; animation:popIn .5s cubic-bezier(.34,1.56,.64,1) both; }
+  .footer__done-emoji { font-size:48px; margin-bottom:10px; }
+  .footer__done-text { font-size:22px; font-weight:800; color:var(--green); margin-bottom:6px; }
+  .footer__done-sub { font-size:15px; color:var(--text-secondary); }
+  .footer__schedule { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:20px 24px; margin-bottom:20px; font-size:14px; }
+  .footer__schedule-title { font-weight:700; margin-bottom:8px; font-size:15px; }
+  .footer__schedule-row { display:flex; justify-content:space-between; padding:4px 0; color:var(--text-secondary); }
+  .footer__schedule-row span:first-child { color:var(--text-primary); font-weight:500; }
+  .footer__contact { font-size:14px; color:var(--text-secondary); margin-bottom:20px; }
+  .footer__contact a { color:#2dd4bf; text-decoration:underline; text-decoration-color:rgba(45,212,191,0.4); font-weight:700; }
+  .btn-reset { background:none; border:1px solid var(--border); color:var(--text-muted); font-family:'JetBrains Mono',monospace; font-size:12px; padding:8px 20px; border-radius:100px; cursor:pointer; transition:all .2s; }
+  .btn-reset:hover { border-color:var(--red); color:var(--red); }
+  .tg { color:#2dd4bf !important; font-weight:700; text-decoration:underline; text-decoration-color:rgba(45,212,191,0.4); }
+  #confetti-canvas { position:fixed; inset:0; z-index:9999; pointer-events:none; }
+  @keyframes fadeDown { from{opacity:0;transform:translateY(-12px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes popIn { from{opacity:0;transform:scale(0.8)} to{opacity:1;transform:scale(1)} }
+
+  @media (max-width:480px) {
+    .wrapper { padding:28px 14px 60px; }
+    .item,.note,.term,.info-block,.res-block { padding:12px 16px; }
+    .cmd-copy { padding:8px 12px; flex-direction:column; align-items:flex-start; }
+    .progress-wrap { padding:16px 18px; top:8px; }
+    .footer__schedule-row { flex-direction:column; gap:2px; }
+    .data-table th,.data-table td { padding:8px 14px; }
+    .arch-box { margin:10px 14px; font-size:11px; padding:14px 16px; }
+    .prompt-block { margin:10px 12px; }
+    .code-block { margin:10px 12px; font-size:11px; }
+    .header__title { font-size:22px; }
+  }
+</style>
+</head>
+<body>
+<canvas id="confetti-canvas"></canvas>
+<div class="wrapper">
+
+<!-- ═══ HEADER ═══ -->
+<header class="header">
+  <div class="header__badge">ИИ-ВИЗАЦИЯ: OPENCLAW · Урок 3</div>
+  <h1 class="header__title">Инфраструктура <span>OpenClaw</span></h1>
+  <ul class="header__topics">
+    <li>Вайб-кодинг и терминал — зачем нейросетям CLI</li>
+    <li>VS Code + Claude Code — установка и настройка</li>
+    <li>4 must-have скилла и «Режим бога»</li>
+    <li>Покупка VPS и автоматическая установка OpenClaw</li>
+    <li>Подключение LLM-провайдеров: ChatGPT Codex и OpenRouter</li>
+    <li>Создание Telegram-бота и голосовые сообщения</li>
+    <li>SSH-туннель, Web UI и диагностика</li>
+  </ul>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-top">
+    <span class="progress-label">Прогресс</span>
+    <span class="progress-count" id="progressCount">0 / 0</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div id="sections">
+
+<!-- ═══════════════════════════════════════════
+     00 — ЧТО НУЖНО ДО НАЧАЛА УРОКА
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">00</div>
+    <div class="section__title">Что нужно до начала урока 3</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--warn">
+      <span class="note__icon">⏱️</span>
+      <span><strong>Ориентировочное время на урок: 3–5 часов</strong> — зависит от компьютерной грамотности и от того, всё ли было подготовлено заранее по урокам 1 и 2.</span>
+    </div>
+
+    <div class="item" data-key="prereq-lesson1">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Урок 1 пройден полностью</div>
+        <div class="item__hint">VPN настроен, отдельный профиль Chrome создан, аккаунт Aeza зарегистрирован, Claude Max подключён.<br>
+        <a href="https://stavzzz.github.io/open-sites/video-urok-1/" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Чек-лист урока 1</a></div>
+      </div>
+    </div>
+
+    <div class="item" data-key="prereq-lesson2">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Урок 2 пройден полностью</div>
+        <div class="item__hint">Claude Project создан, база знаний загружена, системная инструкция написана.<br>
+        <a href="https://stavzzz.github.io/open-sites/video-urok-2/" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Чек-лист урока 2</a></div>
+      </div>
+    </div>
+
+    <div class="item" data-key="prereq-chatgpt">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Подписка ChatGPT Plus ($20/мес) или Pro ($200/мес)</div>
+        <div class="item__hint"><strong>Обязательно для этого урока.</strong> Через ChatGPT подписку работает OpenAI Codex — основная модель для вашего бота.<br>
+        <a href="https://chatgpt.com" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> chatgpt.com — оформить подписку</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     01 — ВАЙБ-КОДИНГ И CLI
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">01</div>
+    <div class="section__title">Введение: вайб-кодинг и CLI (Терминал)</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">📖</span>
+      <span>Теоретический блок — смотрим вместе с видеоуроком. Здесь собраны ключевые понятия, к которым можно вернуться в любой момент.</span>
+    </div>
+
+    <div class="term">
+      <div class="term__name">Вайб-кодинг (Vibe Coding)</div>
+      <div class="term__def">Современный подход к разработке: вы выступаете не как программист, а как архитектор. Передаёте идею и логику текстом, а всю работу по написанию, тестированию и отладке кода делает ИИ-агент.</div>
+      <div class="term__example">📌 Вы описываете, что хотите получить, — агент сам пишет код, исправляет ошибки и выдаёт готовый результат. Вы направляете процесс и принимаете работу.</div>
+    </div>
+
+    <div class="term">
+      <div class="term__name">CLI — Command Line Interface</div>
+      <div class="term__def">Текстовый способ взаимодействия с компьютером или сервером. Вместо кликов мышкой — чёткие текстовые команды в Терминале.</div>
+      <div class="term__example">📌 Команда <span class="mono">mkdir new_folder</span> мгновенно создаст новую папку. Для нейросетей Терминал — идеальная среда: чистый текстовый ввод и вывод. Агент может сам запустить скрипт, прочитать ошибку и тут же исправить её.</div>
+    </div>
+
+    <div class="term">
+      <div class="term__name">Markdown</div>
+      <div class="term__def">Язык разметки текста с помощью простых символов: # для заголовков, - для списков, | для таблиц, ``` для кода.</div>
+      <div class="term__example">📌 Нейросети обожают Markdown: он позволяет структурировать мысли без траты токенов на сложную вёрстку, а результат получается предсказуемым и легко читаемым для человека.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     02 — АРХИТЕКТУРА СИСТЕМЫ
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">02</div>
+    <div class="section__title">Архитектура системы — как всё связано</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🗺️</span>
+      <span>Это «карта» того, как все компоненты будут взаимодействовать друг с другом после успешной настройки. Сверяйтесь с ней по ходу урока.</span>
+    </div>
+
+    <div class="arch-box">                 ┌─────────────────┐
+                 │   Claude Code    │
+                 │   (VS Code)      │
+                 └────────┬────────┘
+                          │ SSH
+                          ▼
+┌───────────┐    ┌──────────────────┐    ┌────────────────┐
+│  Telegram  │───▶│    OpenClaw      │───▶│   OpenRouter    │
+│  (Боты)    │◀───│    (VPS)         │◀───│ (600+ моделей)  │
+└───────────┘    └──────┬───┬──────┘    └────────────────┘
+                        │   │
+                        │   │            ┌────────────────┐
+                        │   └───────────▶│  OpenAI Codex   │
+                        │   ◀────────────│  (ChatGPT)      │
+                        │                └────────────────┘
+                 ┌──────┴───────┐
+                 │    Whisper   ▲
+                 │  GroQ (free) │
+                 │  + OpenAI ($)▼
+                 └──────────────┘</div>
+
+    <div class="info-block">
+      <p><strong>Поток данных:</strong></p>
+      <p>1. <strong>Claude Code</strong> (VS Code на вашем компьютере) подключается к VPS по SSH — устанавливает OpenClaw, настраивает конфиги, создаёт агентов.</p>
+      <p>2. Вы отправляете сообщение (текст или голос) боту в <strong>Telegram</strong>.</p>
+      <p>3. Если сообщение голосовое — <strong>Whisper</strong> (OpenAI или Groq) конвертирует речь в текст.</p>
+      <p>4. OpenClaw обрабатывает запрос и отправляет в <strong>OpenAI Codex</strong> (ChatGPT) или <strong>OpenRouter</strong> (бесплатные модели).</p>
+      <p>5. Модель генерирует ответ → он возвращается вам в Telegram.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     03 — VPS
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">03</div>
+    <div class="section__title">Покупка VPS-сервера для OpenClaw</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--warn">
+      <span class="note__icon">⚡</span>
+      <span><strong>Используйте тот же аккаунт Aeza, что и в уроке 1.</strong> Просто покупаем новый, более мощный сервер специально под OpenClaw. VPN-сервер из урока 1 остаётся отдельно.</span>
+    </div>
+
+    <div class="note note--alert">
+      <span class="note__icon">🚨</span>
+      <span><strong>Критично:</strong> OpenClaw ставится на отдельный чистый сервер. Не на тот, где VPN, n8n или другие сервисы. Страна сервера — НЕ Россия (могут быть проблемы с доступом к API). Выбирайте локацию максимально близко к вашему реальному местоположению для минимального пинга.</span>
+    </div>
+
+    <table class="data-table">
+      <tr><th>Параметр</th><th>Рекомендация</th></tr>
+      <tr><td>CPU / RAM</td><td>4 ядра / 8 ГБ (shared)</td></tr>
+      <tr><td>Диск</td><td>120 ГБ NVMe</td></tr>
+      <tr><td>ОС</td><td>Ubuntu 22.04</td></tr>
+      <tr><td>Хостинг</td><td>Aeza.net, Hetzner, Contabo</td></tr>
+      <tr><td>Цена</td><td>~€20/месяц</td></tr>
+    </table>
+
+    <div class="item" data-key="vps-buy">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Купить новый VPS-сервер на Aeza</div>
+        <div class="item__hint">Тот же аккаунт, что в уроке 1 → «Виртуальные серверы» → «Создать» → параметры из таблицы выше.<br>
+        <a href="https://aeza.net/" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> aeza.net — купить VPS</a></div>
+      </div>
+    </div>
+
+    <div class="item" data-key="vps-creds">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Сохранить IP-адрес и пароль от сервера</div>
+        <div class="item__hint">После активации сервера Aeza покажет IP и root-пароль. Скопируйте их в безопасное место — они понадобятся на каждом следующем шаге.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     04 — VS CODE + CLAUDE CODE
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">04</div>
+    <div class="section__title">Установка VS Code + Claude Code</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span><strong>IDE</strong> (Integrated Development Environment) — профессиональная программа, которая объединяет текстовый редактор, файловый менеджер и терминал в одном окне. <strong>VS Code</strong> — самая популярная бесплатная IDE от Microsoft. <strong>Claude Code</strong> — AI-агент от Anthropic, который живёт прямо в VS Code: сканирует файлы, пишет код, исправляет ошибки и выполняет консольные команды.</span>
+    </div>
+
+    <div class="item" data-key="vscode-install">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Скачать и установить Visual Studio Code</div>
+        <div class="item__hint">Выберите версию для вашей ОС (macOS / Windows / Linux).<br>
+        <a href="https://code.visualstudio.com" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> code.visualstudio.com — скачать VS Code</a></div>
+      </div>
+    </div>
+
+    <div class="item" data-key="claudecode-install">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Установить расширение Claude Code в VS Code</div>
+        <div class="item__hint">Откройте VS Code → Extensions (<strong>Cmd+Shift+X</strong> на Mac / <strong>Ctrl+Shift+X</strong> на Windows) → в поиске введите <span class="mono">Claude Code</span> → установите официальное расширение от Anthropic → перезапустите VS Code.<br><br>
+        На странице продукта можно посмотреть все способы работы с Claude Code (терминал, VS Code, JetBrains). <strong>Самый продвинутый вариант — работа в VS Code.</strong><br>
+        <a href="https://claude.com/product/claude-code" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> claude.com/product/claude-code — страница продукта</a></div>
+      </div>
+    </div>
+
+    <div class="item" data-key="claudecode-auth">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Авторизовать Claude Code через аккаунт Anthropic</div>
+        <div class="item__hint">Откройте Claude Code в боковой панели VS Code → <strong>Sign In</strong> → авторизуйтесь в браузере через ваш аккаунт claude.ai → дождитесь подтверждения в VS Code.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     05 — СКИЛЛЫ + РЕЖИМ БОГА
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">05</div>
+    <div class="section__title">«Режим бога» и 4 must-have скилла для Claude Code</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🔧</span>
+      <span>Скиллы — это расширения (плагины) для Claude Code. Они превращают агента из простого чат-бота в мощный рабочий инструмент: дебаг кода, планирование задач, ресёрч и долгосрочная память.</span>
+    </div>
+
+    <table class="data-table">
+      <tr><th>Скилл</th><th>Что делает</th></tr>
+      <tr><td>Superpowers</td><td>Фреймворк скиллов: TDD, дебаг, планирование, код-ревью</td></tr>
+      <tr><td>TaskMaster</td><td>Разбивка задач, прогресс, план проекта</td></tr>
+      <tr><td>Browser</td><td>Скриншоты, навигация, заполнение форм</td></tr>
+      <tr><td>Memory Bank</td><td>Долгосрочная память между сессиями</td></tr>
+    </table>
+
+    <div class="res-block">
+      <div class="res-block__title">📦 Репозитории скиллов на GitHub</div>
+      <div class="res-block__sub">
+        <a href="https://github.com/obra/superpowers" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Superpowers</a><br>
+        <a href="https://github.com/eyaltoledano/claude-task-master" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> TaskMaster</a><br>
+        <a href="https://github.com/anthropics/claude-quickstarts" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Browser</a><br>
+        <a href="https://github.com/alioshr/memory-bank-mcp" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Memory Bank</a>
+      </div>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Шаг 1. Установка Node.js</strong> — критически необходим для работы скиллов.</p>
+    </div>
+
+    <details class="spoiler">
+      <summary>🍎 Инструкция для macOS</summary>
+      <div class="spoiler__content">
+        <p>Откройте стандартный <strong>Терминал Mac</strong> (Finder → Программы → Утилиты → Терминал) и выполните по очереди:</p>
+        <p><strong>1. Установка Homebrew:</strong></p>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdMac1">/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</span><button class="btn-copy" onclick="copyBlock('cmdMac1',this)">📋 Скопировать</button></div>
+        <p><strong>2. Добавляем Homebrew в пути:</strong></p>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdMac2">echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"</span><button class="btn-copy" onclick="copyBlock('cmdMac2',this)">📋 Скопировать</button></div>
+        <p><strong>3. Установка Node.js:</strong></p>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdMac3">brew install node</span><button class="btn-copy" onclick="copyBlock('cmdMac3',this)">📋 Скопировать</button></div>
+        <p><strong>4. Пути для npm:</strong></p>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdMac4">echo 'export PATH="$HOME/.npm-global/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc</span><button class="btn-copy" onclick="copyBlock('cmdMac4',this)">📋 Скопировать</button></div>
+      </div>
+    </details>
+
+    <details class="spoiler">
+      <summary>🪟 Инструкция для Windows</summary>
+      <div class="spoiler__content">
+        <p><strong>Как открыть терминал на Windows:</strong> нажмите <span class="mono">Win + X</span> → выберите <strong>«Терминал (Администратор)»</strong> или <strong>«PowerShell (Администратор)»</strong>. Или: нажмите <span class="mono">Win</span>, введите <strong>PowerShell</strong>, правой кнопкой → «Запуск от имени администратора».</p>
+        <p>Зайдите на <a href="https://nodejs.org" target="_blank" class="lnk">nodejs.org</a> и скачайте установщик <strong>.msi (LTS версия)</strong>. При установке убедитесь, что включена опция <strong>«Add to PATH»</strong>.</p>
+        <p><strong>Альтернативный путь</strong> (PowerShell от имени администратора):</p>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdWin1">winget install OpenJS.NodeJS.LTS</span><button class="btn-copy" onclick="copyBlock('cmdWin1',this)">📋 Скопировать</button></div>
+        <p><strong>После установки обязательно полностью перезапустите VS Code</strong>, чтобы терминал подтянул новые переменные PATH.</p>
+      </div>
+    </details>
+
+    <div class="item" data-key="nodejs-install">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Установить Node.js</div>
+        <div class="item__hint">Выберите инструкцию для вашей ОС выше. Проверка: в терминале <span class="mono">node -v</span> должен показать версию.</div>
+      </div>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Шаг 2. Включение «Режима бога» (Bypass Permissions)</strong> — позволяет агенту автономно выполнять команды без ручного одобрения.</p>
+    </div>
+
+    <div class="item" data-key="godmode">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Включить Bypass Permissions в VS Code</div>
+        <div class="item__hint">1. Настройки VS Code (<strong>Cmd+,</strong> на Mac / <strong>Ctrl+,</strong> на Windows)<br>2. В поиске: <span class="mono">Claude Code</span><br>3. Включите <strong>Claude Code: Allow Dangerously Skip Permissions</strong><br>4. В чате с агентом: нажмите на режим в правом нижнем углу → выберите <strong>Bypass permissions</strong></div>
+      </div>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Шаг 3. Автоматическая установка скиллов</strong> — копируйте промпт и отправляйте в чат Claude Code.</p>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт для установки скиллов</div>
+      <div class="prompt-block__text" id="promptSkills">Установи 4 скилла для Claude Code. Самостоятельно скачай их из репозиториев и установи необходимые npm-пакеты. Выполняй установку строго по очереди — дождись успешной установки одного, прежде чем переходить к следующему:
+
+1. Superpowers: https://github.com/obra/superpowers
+2. TaskMaster: https://github.com/eyaltoledano/claude-task-master
+3. Browser: https://github.com/anthropics/claude-quickstarts
+4. Memory Bank: https://github.com/alioshr/memory-bank-mcp
+
+После установки всех скиллов протестируй работу TaskMaster:
+— создай задачу «тестовый проект»
+— разбей на 5 подзадач
+— покажи прогресс
+
+Если что-то ломается на любом из этапов установки — остановись, объясни мне причину и сам исправь ошибку перед тем, как продолжить.</div>
+      <button class="btn-copy" onclick="copyBlock('promptSkills', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="item" data-key="skills-install">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Установить 4 скилла через промпт и перезапустить VS Code</div>
+        <div class="item__hint">Дождитесь завершения всех команд агентом. После — обязательно перезапустите VS Code, чтобы скиллы инициализировались.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     06 — УСТАНОВКА OPENCLAW
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">06</div>
+    <div class="section__title">Автоматическая установка OpenClaw на сервер</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🤖</span>
+      <span>Claude Code в «Режиме бога» сам подключится к серверу, установит Docker и OpenClaw. Вам нужно только отправить промпт и подставить свои данные.</span>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">🔐</span>
+      <span><strong>Про безопасность:</strong> промпт ниже содержит пароль от вашего сервера, который будет передан через Claude Code. После первичной настройки рекомендуем сменить пароль или настроить SSH-ключи — но решение за вами, насколько вы готовы здесь рисковать.</span>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт для установки OpenClaw</div>
+      <div class="prompt-block__text" id="promptInstall">Подключись к моему VPS по SSH: 
+- IP: <ваш IP>
+- login: root
+- password: <ваш пароль>
+
+Выполни на сервере следующие задачи строго по порядку:
+1. Обнови пакеты системы.
+2. Установи Docker и все зависимости (docker-ce, docker-ce-cli, containerd.io, docker-compose-plugin).
+3. Скачай и установи OpenClaw, выполнив команду: curl -fsSL https://openclaw.ai/install.sh | bash
+4. Убедись, что установка прошла успешно и команда openclaw отвечает. Ничего интерактивного не запускай, просто отчитайся об успехе.</div>
+      <button class="btn-copy" onclick="copyBlock('promptInstall', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="item" data-key="openclaw-install">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">OpenClaw установлен на сервере</div>
+        <div class="item__hint">Дождитесь ответа агента. Он сам подключится, скачает пакеты, распутает зависимости и установит систему.</div>
+      </div>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Интерактивная конфигурация (Онбординг)</strong> — этот шаг делаем вручную, потому что интерактивное меню со стрелочками пока плохо работает с ИИ-агентами.</p>
+    </div>
+
+    <div class="item" data-key="openclaw-onboard">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Пройти онбординг OpenClaw вручную</div>
+        <div class="item__hint">Откройте <strong>обычный Терминал</strong> (не в чате с агентом) и подключитесь:</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdSsh1">ssh root@IP_АДРЕС</span><button class="btn-copy" onclick="copyBlock('cmdSsh1',this)">📋 Скопировать</button></div>
+        <div class="item__hint">Затем запустите мастер настройки:</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdOnboard">openclaw onboard</span><button class="btn-copy" onclick="copyBlock('cmdOnboard',this)">📋 Скопировать</button></div>
+        <div class="item__hint">В меню: <strong>Security → Yes</strong>, <strong>Mode → QuickStart</strong>.<br>
+        На шаге выбора LLM-провайдера — переходите к следующему разделу.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     07 — LLM-ПРОВАЙДЕРЫ
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">07</div>
+    <div class="section__title">Выбор и подключение LLM-провайдеров</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🧠</span>
+      <span>Прямо в запущенном мастере настройки (из шага 06) вам предложат выбрать, чьи нейросети будет использовать ваш бот. Ниже — два варианта.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Вариант А: OpenAI Codex (подписка ChatGPT) ✅ ОСНОВНОЙ</strong></p>
+      <p>OpenAI официально разрешает использование подписки в OpenClaw. Если у вас ChatGPT Plus или Pro — это лучший и самый умный выбор.</p>
+    </div>
+
+    <div class="item" data-key="llm-codex">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Подключить OpenAI Codex (ChatGPT)</div>
+        <div class="item__hint">1. В мастере настройки выберите <strong>openai-codex</strong><br>2. В терминале появится ссылка на авторизацию<br>3. Откройте её в браузере → войдите в аккаунт ChatGPT<br>4. Дождитесь подтверждения в терминале</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="llm-effort">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Установить режим reasoning: High или Extra High</div>
+        <div class="item__hint">Чтобы бот давал максимально глубокие и точные ответы, выберите <strong>High</strong> (рекомендуется) или <strong>Extra High</strong> (модель думает дольше, но ответы ещё глубже).<br><br><strong>Для High:</strong></div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdHigh">openclaw config set agents.defaults.models."openai-codex/gpt-5.4".params.reasoning.effort "high"</span><button class="btn-copy" onclick="copyBlock('cmdHigh',this)">📋 Скопировать</button></div>
+        <div class="item__hint"><strong>Для Extra High:</strong></div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdExHigh">openclaw config set agents.defaults.models."openai-codex/gpt-5.4".params.reasoning.effort "extra_high"</span><button class="btn-copy" onclick="copyBlock('cmdExHigh',this)">📋 Скопировать</button></div>
+        <div class="item__hint"><strong>Лимиты:</strong> ChatGPT Plus ($20/мес) — ~5 часов активной работы в неделю. ChatGPT Pro ($200/мес) — безлимит. Когда квота закончится, бот переключится на резервную модель (fallback).</div>
+      </div>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Вариант Б: OpenRouter (агрегатор) ✅ ВТОРОЙ ВАРИАНТ</strong></p>
+      <p>Доступ к 600+ моделям (Claude, GPT, Gemini, DeepSeek, Qwen) с оплатой за каждый запрос. Идеально в качестве <strong>fallback</strong> — это резервная модель, которая автоматически подхватывает работу, если основная (ChatGPT) недоступна или закончились лимиты.</p>
+      <p>Мы уже зарегистрировались на OpenRouter и пополнили баланс на $15 <strong>в уроке 2</strong>. Пришло время использовать ваш API-ключ от OpenRouter.</p>
+    </div>
+
+    <div class="item" data-key="openrouter-connect">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Подключить OpenRouter к OpenClaw</div>
+        <div class="item__hint">В мастере настройки выберите провайдера <strong>OpenRouter</strong> → вставьте ваш API-ключ из урока 2.<br>Если забыли ключ: зайдите на <a href="https://openrouter.ai/settings/keys" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> openrouter.ai/settings/keys</a> и скопируйте существующий или создайте новый.<br><br>
+        <strong>Выбор резервной модели (Fallback):</strong> после мастера настройки отправьте в Claude Code задачу для установки бесплатной модели от Qwen. Точный ID модели можно найти на сайте:<br>
+        <a href="https://openrouter.ai/models" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> openrouter.ai/models — каталог моделей</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     08 — SSH-ТУННЕЛЬ
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">08</div>
+    <div class="section__title">SSH-туннель для Web UI</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🔒</span>
+      <span>Чтобы безопасно управлять OpenClaw через браузер, пробрасываем защищённый SSH-туннель с сервера на ваш компьютер.</span>
+    </div>
+
+    <div class="item" data-key="tunnel-token">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Узнать токен авторизации</div>
+        <div class="item__hint">В терминале на сервере (VPS) выполните:</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdToken">cat ~/.openclaw/openclaw.json | grep token</span><button class="btn-copy" onclick="copyBlock('cmdToken',this)">📋 Скопировать</button></div>
+        <div class="item__hint">Скопируйте полученную строку и сохраните — она нужна для входа в WebUI.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="tunnel-launch">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Запустить SSH-туннель</div>
+        <div class="item__hint">Откройте <strong>НОВОЕ окно терминала на вашем компьютере</strong> (не на сервере!).<br><br>
+        <strong>Проверка порта (macOS):</strong></div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdPort1">lsof -i :18789</span><button class="btn-copy" onclick="copyBlock('cmdPort1',this)">📋 Скопировать</button></div>
+        <div class="item__hint"><strong>Проверка порта (Windows):</strong></div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdPort2">netstat -ano | findstr :18789</span><button class="btn-copy" onclick="copyBlock('cmdPort2',this)">📋 Скопировать</button></div>
+        <div class="item__hint">(Если ничего не вывело — порт свободен. Если занят — используйте 38789)<br><br>
+        <strong>Запуск туннеля:</strong></div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdTunnel">ssh -N -L 18789:127.0.0.1:18789 root@IP_АДРЕС</span><button class="btn-copy" onclick="copyBlock('cmdTunnel',this)">📋 Скопировать</button></div>
+        <div class="item__hint">После ввода пароля экран «зависнет» — <strong>это нормально</strong>, туннель работает в фоне. Не закрывайте окно!</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="tunnel-webui">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Открыть Web UI в браузере</div>
+        <div class="item__hint">Перейдите по ссылке, подставив ваш токен:<br>
+        <span class="mono">http://localhost:18789/#token=ВАШ_ТОКЕН</span><br>
+        (Если использовали порт 38789: <span class="mono">http://localhost:38789/#token=ВАШ_ТОКЕН</span>)</div>
+      </div>
+    </div>
+
+    <details class="spoiler">
+      <summary>💡 Как закрыть зависший туннель</summary>
+      <div class="spoiler__content">
+        <p><strong>Windows:</strong> просто закройте окно PowerShell крестиком.</p>
+        <p><strong>macOS:</strong> нажмите <span class="mono">Ctrl + C</span> в окне терминала с туннелем, либо в новом окне:</p>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdKill">lsof -ti:18789 | xargs kill -9</span><button class="btn-copy" onclick="copyBlock('cmdKill',this)">📋 Скопировать</button></div>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     09 — TELEGRAM-БОТ
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">09</div>
+    <div class="section__title">Создание Telegram-бота и подключение к OpenClaw</div>
+  </div>
+  <div class="section__card">
+
+    <div class="item" data-key="bot-create">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Создать бота в @BotFather</div>
+        <div class="item__hint">Откройте Telegram → найдите <a href="https://t.me/BotFather" target="_blank" class="tg" onclick="event.stopPropagation()">@BotFather</a> (обязательно с синей галочкой!).<br>
+        Напишите <span class="mono">/newbot</span> → придумайте имя и username (с окончанием «bot»).<br>
+        BotFather выдаст <strong>HTTP API токен</strong> — скопируйте и сохраните его.</div>
+      </div>
+    </div>
+
+    <div class="note note--alert">
+      <span class="note__icon">⚠️</span>
+      <span><strong>Критично:</strong> проверьте синюю галочку верификации рядом с @BotFather. Существуют мошеннические клоны, которые крадут токены и доступ к серверам.</span>
+    </div>
+
+    <div class="item" data-key="bot-webui">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Настроить бота через WebUI</div>
+        <div class="item__hint">1. Перейдите в WebUI (из шага 08)<br>2. Откройте раздел <strong>Integrations</strong> (или настройки Telegram)<br>3. Вставьте HTTP API токен от BotFather</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="bot-pairing">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Пройти Pairing — привязать свой Telegram-аккаунт</div>
+        <div class="item__hint"><strong>Pairing</strong> — это привязка именно вашего Telegram-аккаунта к OpenClaw, чтобы система знала, что вы — администратор бота.<br>WebUI сгенерирует код подтверждения или ссылку — отправьте код вашему боту в Telegram (или перейдите по ссылке), чтобы подтвердить права. Следуйте инструкции на экране.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="bot-test">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Протестировать бота</div>
+        <div class="item__hint">Откройте вашего бота в Telegram → нажмите <strong>Start</strong> → напишите: «Привет, ты на связи?»<br>
+        <strong>Если бот ответил — всё работает. ✅</strong></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     10 — ГОЛОСОВЫЕ СООБЩЕНИЯ
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">10</div>
+    <div class="section__title">Голосовые сообщения: OpenAI Whisper + Groq Whisper</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🎙️</span>
+      <span><strong>OpenAI Whisper</strong> — основная модель (платная, самая точная). <strong>Groq Whisper</strong> — резервная (бесплатная, подхватывает работу, если OpenAI недоступен). Все ключи и конфиги устанавливаем через Claude Code.</span>
+    </div>
+
+    <div class="item" data-key="whisper-openai">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Получить API-ключ OpenAI и пополнить баланс</div>
+        <div class="item__hint">1. Зайдите на платформу OpenAI под своим логином ChatGPT<br>2. Создайте новый API-ключ (<strong>Create new secret key</strong>)<br>3. Пополните баланс в <strong>Billing</strong> — хотя бы на $10–$20<br>4. Скопируйте ключ (начинается с <span class="mono">sk-...</span>)<br>
+        <a href="https://platform.openai.com/api-keys" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> platform.openai.com — API-ключи</a></div>
+      </div>
+    </div>
+
+    <div class="item" data-key="whisper-groq">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Получить бесплатный API-ключ Groq</div>
+        <div class="item__hint">1. Зарегистрируйтесь на Groq<br>2. Перейдите в <strong>API Keys</strong> → <strong>Create API Key</strong><br>3. Скопируйте ключ (начинается с <span class="mono">gsk_...</span>)<br>
+        <a href="https://console.groq.com" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> console.groq.com — регистрация</a></div>
+      </div>
+    </div>
+
+    <div class="item" data-key="whisper-setup">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Настроить Whisper через Claude Code</div>
+        <div class="item__hint">Вставьте свои ключи OpenAI (<span class="mono">sk-...</span>) и Groq (<span class="mono">gsk_...</span>) в промпт ниже, скопируйте его и отправьте агенту <strong>в чат Claude Code внутри VS Code</strong>.</div>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт для настройки голоса (отправить в Claude Code)</div>
+      <div class="prompt-block__text" id="promptVoice">Выполни следующие задачи по настройке голосовых сообщений:
+
+1. Добавь ключ OpenAI:
+   openclaw config set env.OPENAI_API_KEY "sk-ВАШ_КЛЮЧ"
+
+2. Добавь ключ Groq:
+   openclaw config set env.GROQ_API_KEY "gsk_ВАШ_КЛЮЧ"
+
+3. Найди конфигурационный файл ~/.openclaw/openclaw.json.
+   Отредактируй в нём секцию tools.media.audio следующим образом:
+   - Убедись, что параметр enabled установлен в true.
+   - Настрой массив models строго в таком порядке:
+     Первый (основной) провайдер: provider "openai", model "whisper-1", type "provider".
+     Второй (резервный) провайдер: provider "groq", model "whisper-large-v3", type "provider".
+
+4. После изменения файла выполни: openclaw gateway restart
+   Проверь логи и подтверди, что ошибки конфигурации отсутствуют.</div>
+      <button class="btn-copy" onclick="copyBlock('promptVoice', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="item" data-key="whisper-test">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Протестировать голосовое сообщение</div>
+        <div class="item__hint">Откройте бота в Telegram → зажмите микрофон → скажите: «Привет, агент! Какая сегодня погода?» → отправьте.<br>
+        <strong>Бот должен прислать расшифровку аудио и ответ от модели. ✅</strong><br><br>
+        Если ошибка — отправьте агенту в Claude Code: <span class="mono">Проверь логи сервера командой openclaw logs --follow и найди ошибку в модуле audio.</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     11 — ЛИМИТЫ CHATGPT
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">11</div>
+    <div class="section__title">Показ остатка лимитов ChatGPT в Telegram-боте</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">📊</span>
+      <span>После настройки бот будет автоматически показывать остаток лимитов после каждого сообщения:<br><span class="mono">─────────────────</span><br><span class="mono">💬 день 83% · ⏱ 1h 49m | неделя 96% · ⏱ 6d 20h</span></span>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">💡</span>
+      <span><strong>Требования:</strong> VPS с установленным OpenClaw, подключённый OpenAI Codex (ChatGPT OAuth), SSH-доступ под root.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Весь блок ниже — единый промпт для Claude Code.</strong> Скопируйте целиком и отправьте агенту. Он выполнит все 4 шага автоматически.</p>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: настройка лимитов ChatGPT</div>
+      <div class="prompt-block__text" id="promptLimits">Выполни следующие 4 шага для настройки отображения лимитов ChatGPT в Telegram-боте.
+
+ШАГ 1: Создай скрипт обновления лимитов.
+Создай файл /usr/local/bin/openclaw-usage-writer.sh со следующим содержимым:
+
+#!/bin/bash
+output=$(/usr/bin/openclaw models status 2>/dev/null)
+line=$(echo "$output" | grep 'openai-codex usage:')
+if [ -n "$line" ]; then
+  raw=$(echo "$line" | sed 's/.*openai-codex usage: //')
+  day_pct=$(echo "$raw" | grep -oP '(\d+)% left' | head -1 | grep -oP '\d+')
+  day_time=$(echo "$raw" | grep -oP '⏱[^·]+' | head -1 | sed 's/⏱//' | xargs)
+  week_pct=$(echo "$raw" | grep -oP 'Week\s+\K\d+')
+  week_time=$(echo "$raw" | grep -oP 'Week.*⏱\K.*' | xargs)
+  echo "день ${day_pct}% · ⏱ ${day_time} | неделя ${week_pct}% · ⏱ ${week_time}" > ~/.openclaw/workspace/gpt-usage.txt
+fi
+
+Сделай файл исполняемым: chmod +x /usr/local/bin/openclaw-usage-writer.sh
+
+ШАГ 2: Добавь в cron автообновление каждую минуту:
+(crontab -l 2>/dev/null; echo '* * * * * /usr/local/bin/openclaw-usage-writer.sh') | crontab -
+
+Запусти скрипт первый раз вручную и покажи содержимое gpt-usage.txt.
+
+ШАГ 3: Добавь в конец файла ~/.openclaw/workspace/IDENTITY.md следующий блок:
+
+## Обязательный футер
+
+КРИТИЧЕСКИ ВАЖНО: Перед КАЖДЫМ ответом ты ОБЯЗАН заново прочитать файл
+gpt-usage.txt из workspace через инструмент read/fs.
+НИКОГДА не используй ранее прочитанные данные — они устаревают каждую минуту.
+ВСЕГДА делай свежее чтение файла.
+
+В самом конце КАЖДОГО сообщения добавь РОВНО одну конструкцию:
+
+─────────────────
+💬 [свежее содержимое файла gpt-usage.txt]
+
+Правила:
+- КАЖДЫЙ РАЗ читай файл заново — данные меняются каждую минуту
+- Вставляй содержимое КАК ЕСТЬ после 💬
+- Футер должен быть ОДИН РАЗ в самом конце
+- НЕ добавляй к футеру ничего от себя
+- Разделитель ───────────────── на отдельной строке
+
+ШАГ 4: Подтверди, что всё настроено корректно: скрипт работает, cron добавлен, IDENTITY.md обновлён.</div>
+      <button class="btn-copy" onclick="copyBlock('promptLimits', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="item" data-key="limits-setup">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Настроить отображение лимитов через промпт в Claude Code</div>
+        <div class="item__hint">Скопируйте промпт выше и отправьте агенту. Он создаст скрипт, настроит cron и обновит IDENTITY.md.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="limits-test">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Отправить /new боту и проверить футер</div>
+        <div class="item__hint">Отправьте боту <span class="mono">/new</span> в Telegram, чтобы он подхватил обновлённый IDENTITY.md. Затем напишите любое сообщение — в конце ответа должен быть футер с лимитами.</div>
+      </div>
+    </div>
+
+    <details class="spoiler">
+      <summary>🔧 Как это работает</summary>
+      <div class="spoiler__content">
+        <p><strong>Cron-скрипт</strong> каждую минуту запускает <span class="mono">openclaw models status</span> и записывает данные в файл <span class="mono">gpt-usage.txt</span> внутри workspace агента.</p>
+        <p><strong>Агент</strong> перед каждым ответом заново читает этот файл и добавляет футер.</p>
+        <p><strong>Важно:</strong> файл должен лежать внутри <span class="mono">~/.openclaw/workspace/</span>, иначе sandbox-ограничения не дадут его прочитать. При смене модели (не OpenAI Codex) нужно обновить grep-паттерн в скрипте.</p>
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     12 — ДИАГНОСТИКА
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">12</div>
+    <div class="section__title">Диагностика и починка</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🔧</span>
+      <span>Основные команды для диагностики OpenClaw. Используйте при любых проблемах.</span>
+    </div>
+
+    <div class="code-block"><span class="code-block__label">Основные команды</span><span id="cmdDiag1"># Автоисправление конфига
+openclaw doctor --fix
+
+# Логи в реальном времени
+openclaw logs --follow
+
+# Список моделей и авторизация
+openclaw models list
+openclaw models status
+
+# Аудит безопасности
+openclaw security audit
+openclaw security audit --deep</span>
+<button class="btn-copy" onclick="copyBlock('cmdDiag1', this)">📋 Скопировать</button></div>
+
+    <div class="code-block"><span class="code-block__label">Реанимация бота (если молчит)</span><span id="cmdDiag2">ssh root@IP_АДРЕС
+openclaw doctor --fix
+nohup openclaw gateway > /dev/null 2>&1 &
+openclaw status</span>
+<button class="btn-copy" onclick="copyBlock('cmdDiag2', this)">📋 Скопировать</button></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     13 — ЧАСТЫЕ ОШИБКИ
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">13</div>
+    <div class="section__title">Частые ошибки и решения</div>
+  </div>
+  <div class="section__card">
+    <table class="data-table">
+      <tr><th>Ошибка</th><th>Решение</th></tr>
+      <tr><td>403 Key limit exceeded</td><td>Увеличить Credit limit на openrouter.ai</td></tr>
+      <tr><td>Address already in use (порт 18789)</td><td>Использовать другой порт: <span class="mono">-L 38789:127.0.0.1:18789</span></td></tr>
+      <tr><td>Config invalid: Unrecognized key</td><td><span class="mono">openclaw doctor --fix</span></td></tr>
+      <tr><td>Failed to connect to bus: No medium</td><td><span class="mono">export XDG_RUNTIME_DIR=/run/user/0</span></td></tr>
+      <tr><td>Gateway not reachable</td><td><span class="mono">nohup openclaw gateway > /dev/null 2>&1 &</span></td></tr>
+      <tr><td>openclaw: command not found</td><td>Зашли не под root → <span class="mono">su - root</span></td></tr>
+      <tr><td>--provider не распознаётся</td><td>Дефисы <span class="mono">--</span> набирать вручную с клавиатуры (мессенджер заменяет на длинное тире)</td></tr>
+      <tr><td>SSH-туннель зависает после пароля</td><td>Нормальное поведение — не трогать окно, открыть браузер</td></tr>
+    </table>
+  </div>
+</div>
+
+</div><!-- /sections -->
+
+<!-- ═══ FOOTER ═══ -->
+<div class="footer">
+  <div class="footer__done" id="doneBlock">
+    <div class="footer__done-emoji">🚀</div>
+    <div class="footer__done-text">OpenClaw запущен!</div>
+    <div class="footer__done-sub">Бот в Telegram работает, голос распознаётся, лимиты отображаются. Увидимся на встрече!</div>
+  </div>
+  <div class="footer__schedule">
+    <div class="footer__schedule-title">Онлайн-встреча 3</div>
+    <div class="footer__schedule-row"><span>Стандарт</span><span>10.04, ПТ, 17:00 МСК</span></div>
+    <div class="footer__schedule-row"><span>VIP (Премиум)</span><span>13.04, ПН, 17:00 МСК</span></div>
+  </div>
+  <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
+  <button class="btn-reset" onclick="resetProgress()">Сбросить прогресс</button>
+</div>
+
+</div><!-- /wrapper -->
+
+<script>
+const C=document.getElementById('confetti-canvas'),ctx=C.getContext('2d');
+let particles=[],confettiActive=false;
+function resizeCanvas(){C.width=window.innerWidth;C.height=window.innerHeight;}
+window.addEventListener('resize',resizeCanvas);resizeCanvas();
+const COLORS=['#7c5bf5','#9d7cff','#34d399','#6ee7b7','#fbbf24','#f87171','#fb7185','#38bdf8','#facc15','#a78bfa','#f472b6','#4ade80'];
+function rand(a,b){return Math.random()*(b-a)+a;}
+function createBurst(x,y,count){for(let i=0;i<count;i++){const angle=rand(0,Math.PI*2),speed=rand(4,14),size=rand(4,10);particles.push({x,y,vx:Math.cos(angle)*speed+rand(-2,2),vy:Math.sin(angle)*speed*-0.8-rand(2,6),size,color:COLORS[Math.floor(Math.random()*COLORS.length)],rotation:rand(0,Math.PI*2),rotSpeed:rand(-0.2,0.2),gravity:rand(0.12,0.25),friction:rand(0.97,0.995),opacity:1,fadeSpeed:rand(0.005,0.015),shape:Math.random()>0.4?'rect':'circle'});}}
+function launchConfetti(){if(confettiActive)return;confettiActive=true;particles=[];const W=C.width,H=C.height;[[W*.5,H*.3,120],[W*.15,H*.2,80],[W*.85,H*.2,80],[W*.5,H*.1,100],[W*.3,H*.5,60],[W*.7,H*.5,60],[0,H*.6,50],[W,H*.6,50],[W*.5,H*.6,80]].forEach(([x,y,c],i)=>{setTimeout(()=>createBurst(x,y,c),i*150)});setTimeout(()=>{createBurst(W*.2,H*.15,90);createBurst(W*.8,H*.15,90);createBurst(W*.5,H*.05,100)},1500);setTimeout(()=>{createBurst(W*.5,H*.25,120);createBurst(W*.1,H*.4,60);createBurst(W*.9,H*.4,60)},2500);animate();setTimeout(()=>{confettiActive=false},8000);}
+function animate(){ctx.clearRect(0,0,C.width,C.height);for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.vx*=p.friction;p.vy*=p.friction;p.vy+=p.gravity;p.x+=p.vx;p.y+=p.vy;p.rotation+=p.rotSpeed;p.opacity-=p.fadeSpeed;if(p.opacity<=0){particles.splice(i,1);continue}ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rotation);ctx.globalAlpha=p.opacity;ctx.fillStyle=p.color;if(p.shape==='rect'){ctx.fillRect(-p.size/2,-p.size/4,p.size,p.size/2)}else{ctx.beginPath();ctx.arc(0,0,p.size/2,0,Math.PI*2);ctx.fill()}ctx.restore();}if(particles.length>0||confettiActive){requestAnimationFrame(animate)}else{ctx.clearRect(0,0,C.width,C.height);}}
+const STORAGE_KEY='iivizaciya_checklist_urok3_v1';
+const items=document.querySelectorAll('.item[data-key]');
+const totalCount=items.length;
+let wasComplete=false;
+function loadState(){try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');let c=0;items.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');if(s[item.dataset.key]){cb.checked=true;item.classList.add('checked');c++}});wasComplete=c===totalCount}catch(e){}updateProgress(false);}
+function saveState(){const s={};items.forEach(item=>{s[item.dataset.key]=item.querySelector('input[type="checkbox"]').checked});try{localStorage.setItem(STORAGE_KEY,JSON.stringify(s))}catch(e){}}
+function updateProgress(canCelebrate=true){let c=0;items.forEach(item=>{if(item.querySelector('input[type="checkbox"]').checked)c++});document.getElementById('progressCount').textContent=`${c} / ${totalCount}`;document.getElementById('progressFill').style.width=(totalCount>0?(c/totalCount)*100:0)+'%';const done=document.getElementById('doneBlock');if(c===totalCount){done.classList.add('visible');if(canCelebrate&&!wasComplete){launchConfetti()}wasComplete=true}else{done.classList.remove('visible');wasComplete=false;}}
+items.forEach(item=>{
+  const cb=item.querySelector('input[type="checkbox"]');
+  cb.addEventListener('change',function(){item.classList.toggle('checked',this.checked);saveState();updateProgress(true);});
+});
+function resetProgress(){if(!confirm('Сбросить весь прогресс?'))return;items.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasComplete=false;saveState();updateProgress(false);}
+loadState();
+
+function copyBlock(id, btn){
+  const text=document.getElementById(id).textContent;
+  navigator.clipboard.writeText(text).then(()=>{
+    const orig=btn.innerHTML;
+    btn.classList.add('copied');
+    btn.innerHTML='✅ Скопировано!';
+    setTimeout(()=>{btn.classList.remove('copied');btn.innerHTML=orig;},2000);
+  });
+}
+</script>
+</body>
+</html>
