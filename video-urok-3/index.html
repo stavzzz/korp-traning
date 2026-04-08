@@ -144,6 +144,11 @@
   .spoiler__content p { margin-bottom:8px; }
   .spoiler__content strong { color:var(--text-primary); font-weight:600; }
 
+  /* ─── SECTION DIVIDER ─── */
+  .section-divider { text-align:center; margin:48px 0 32px; padding:0 20px; }
+  .section-divider__line { height:1px; background:linear-gradient(90deg,transparent,var(--accent),transparent); margin-bottom:20px; }
+  .section-divider__title { font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; color:var(--accent-glow); text-transform:uppercase; letter-spacing:3px; }
+
   /* ─── FOOTER ─── */
   .footer { text-align:center; margin-top:48px; }
   .footer__done { display:none; background:var(--green-soft); border:1px solid rgba(52,211,153,0.25); border-radius:var(--radius); padding:32px 24px; margin-bottom:24px; }
@@ -313,12 +318,10 @@
                         │   └───────────▶│  OpenAI Codex   │
                         │   ◀────────────│  (ChatGPT)      │
                         │                └────────────────┘
-                        │   ▲
-                        ▼   │
-                 ┌──────────────┐
-                 │    Whisper    │
-                 │  GroQ (free)  │
-                 │  + OpenAI ($) │
+                 ┌──────┴───────┐
+                 │    Whisper   ▲
+                 │  GroQ (free) │
+                 │  + OpenAI ($)▼
                  └──────────────┘</div>
 
     <div class="info-block">
@@ -1004,6 +1007,182 @@ openclaw status</span>
   </div>
 </div>
 
+<!-- ═══════════════════════════════════════════
+     РАЗДЕЛИТЕЛЬ — ПРОДВИНУТЫЕ НАСТРОЙКИ
+═══════════════════════════════════════════ -->
+<div class="section-divider">
+  <div class="section-divider__line"></div>
+  <div class="section-divider__title">🦞 Продвинутые настройки и автоматизация</div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     14 — ТОПИКИ В TELEGRAM
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">14</div>
+    <div class="section__title">Организация работы в Telegram: группа с топиками</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span>Вести диалог с агентом в одном длинном чате — верный путь к хаосу: контексты смешаются, агент будет путать код с рецептом пирога. Правильный подход — создать Telegram-группу, включить в ней <strong>Топики (Темы)</strong> и общаться с ботом там. Каждая тема — изолированная сессия.</span>
+    </div>
+
+    <div class="item" data-key="topics-group">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Создать группу и включить Темы</div>
+        <div class="item__hint">1. Создайте новую группу в Telegram (например, «Мой Агент»)<br>2. Настройки группы → Изменить → включите <strong>Темы (Topics)</strong><br>3. Добавьте в группу вашего бота</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="topics-chatid">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Узнать chat_id группы</div>
+        <div class="item__hint">Добавьте в группу бота <a href="https://t.me/userinfobot" target="_blank" class="tg" onclick="event.stopPropagation()">@userinfobot</a> — он сразу пришлёт chat_id вашей группы (число с минусом, например <span class="mono">-100123456789</span>). Скопируйте ID и удалите бота из группы.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="topics-admin">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Назначить бота Администратором группы</div>
+        <div class="item__hint">Настройки группы → Администраторы → добавьте вашего бота → включите <strong>все права</strong> (Change Group Info, Delete Messages, Ban Users, Invite Users via Link, Pin Messages, <strong>Manage Topics</strong>, Manage Video Chats, Add New Admins). <strong>Remain Anonymous — выключено.</strong></div>
+      </div>
+    </div>
+
+    <div class="item" data-key="topics-setup">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Настроить топики через Claude Code</div>
+        <div class="item__hint">Подставьте ваш chat_id в промпт ниже, скопируйте и отправьте агенту <strong>в чат Claude Code внутри VS Code</strong>.</div>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: настройка топиков (отправить в Claude Code)</div>
+      <div class="prompt-block__text" id="promptTopics">Подключись к моему серверу по SSH.
+Я создал Telegram-группу для работы с агентом и включил в ней "Темы" (Topics). 
+ID моей группы: <ВАШ_CHAT_ID_С_МИНУСОМ>
+
+Выполни следующие действия:
+1. Добавь этот ID в список разрешенных чатов в конфигурации OpenClaw, чтобы бот мог там отвечать.
+2. Настрой агента так, чтобы он реагировал на все сообщения в этой группе (или только при теге, выбери оптимальную настройку для работы в топиках).
+3. Используя API Telegram или возможности OpenClaw, автоматически создай в моей группе следующие топики:
+   - "Знания" (мой второй мозг, куда я буду скидывать идеи и закладки)
+   - "Кодинг"
+   - "Ежедневная рутина" (новости, курсы)
+4. После создания топиков перезагрузи gateway и отчитайся.</div>
+      <button class="btn-copy" onclick="copyBlock('promptTopics', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span>Готово! Теперь у вас есть рабочее пространство с изолированными темами. Агент в топике «Кодинг» ничего не знает о том, что вы обсуждаете в топике «Знания». Контекст кристально чист.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     15 — TTS (ГОЛОСОВЫЕ ОТВЕТЫ)
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">15</div>
+    <div class="section__title">Голосовые ответы бота (TTS — Text-to-Speech)</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🗣️</span>
+      <span>По умолчанию бот отвечает текстом. Мы включим бесплатный модуль <strong>Edge TTS</strong> и зададим агенту приятный голос на русском языке — бот сам будет отправлять вам голосовые сообщения в ответ.</span>
+    </div>
+
+    <div class="item" data-key="tts-setup">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Включить голосовые ответы через Claude Code</div>
+        <div class="item__hint">Скопируйте промпт ниже и отправьте агенту <strong>в чат Claude Code внутри VS Code</strong>.</div>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: включение TTS (отправить в Claude Code)</div>
+      <div class="prompt-block__text" id="promptTTS">Подключись к моему серверу. Мне нужно включить голосовые ответы бота (TTS).
+1. Включи службу TTS в конфигурации OpenClaw (используй бесплатный провайдер, например 'edge').
+2. Настрой параметры голоса: выбери русский язык и мужской голос (например, 'ru-RU-DmitryNeural' или подходящий аналог в Edge TTS).
+3. Сохрани настройки, перезапусти систему.
+4. Отправь мне в Telegram тестовое голосовое сообщение с текстом: "Привет, шеф. Голосовой модуль успешно активирован, я готов к работе".</div>
+      <button class="btn-copy" onclick="copyBlock('promptTTS', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="item" data-key="tts-test">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить голосовой ответ</div>
+        <div class="item__hint">Бот должен прислать голосовое сообщение в Telegram. Если не пришло — проверьте логи: <span class="mono">openclaw logs --follow</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     16 — SOUL.MD И USER.MD
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">16</div>
+    <div class="section__title">Настройка личности и памяти агента (soul.md и user.md)</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🧬</span>
+      <span>Это самая важная часть вайб-кодинга! В отличие от ChatGPT, OpenClaw хранит постоянную «личность» и знание о вас в специальных Markdown-файлах. При каждом сообщении эти файлы подгружаются в системный промпт.</span>
+    </div>
+
+    <div class="note note--alert">
+      <span class="note__icon">🚨</span>
+      <span><strong>Важно:</strong> длина файла <span class="mono">soul.md</span> не должна превышать <strong>20 000 символов</strong>. Всё, что сверх этого лимита — будет обрезано и агент его не увидит.</span>
+    </div>
+
+    <div class="info-block">
+      <p>Все файлы лежат на сервере в папке <span class="mono">~/.openclaw/agents/main/</span>. Вместо ручного редактирования — попросим Claude Code заполнить их за нас.</p>
+    </div>
+
+    <div class="item" data-key="soul-setup">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Настроить soul.md и user.md через Claude Code</div>
+        <div class="item__hint">Заполните шаблон в промпте ниже своими данными (имя, город, профессия, проекты) и отправьте агенту <strong>в чат Claude Code внутри VS Code</strong>.</div>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: настройка личности агента (отправить в Claude Code)</div>
+      <div class="prompt-block__text" id="promptSoul">Подключись к моему серверу. Найди папку конфигурации главного агента: ~/.openclaw/agents/main/. 
+Там есть служебные файлы. Я хочу, чтобы ты полностью перезаписал два из них по моим инструкциям.
+
+1. Файл user.md (Всё обо мне). Запиши туда следующее:
+   "Меня зовут <ВАШЕ_ИМЯ>. Я живу в <ВАШ_ГОРОД> (часовой пояс <ВРЕМЯ>). Я работаю <ПРОФЕССИЯ>. Мой уровень технической подготовки: <ОПИШИТЕ УРОВЕНЬ>. Мои текущие проекты: <ОПИШИТЕ ПРОЕКТЫ>. Я предпочитаю, чтобы мне отвечали <КРАТКО/РАЗВЕРНУТО>. Мои инструменты: <VS CODE, TELEGRAM, NOTION и т.д.>"
+
+2. Файл soul.md (Философия и личность агента). Запиши туда следующее:
+   "Ты — мой личный ИИ-партнер и старший инженер. Твой стиль общения: профессиональный, но дружелюбный, слегка дерзкий, с юмором, без воды и лишних предисловий. Ты общаешься ИСКЛЮЧИТЕЛЬНО на русском языке. 
+   Ты не 'ИИ-модель', ты полноценный сотрудник. Твоя цель — экономить мое время. Если видишь, что можешь сделать рутину сам — делай."
+
+ВАЖНО: убедись, что итоговый файл soul.md НЕ превышает 20 000 символов. Всё, что сверх лимита, будет обрезано системой.
+
+Сохрани изменения в эти файлы и подтверди.</div>
+      <button class="btn-copy" onclick="copyBlock('promptSoul', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">🎉</span>
+      <span>Теперь ваш бот — не просто нейросеть, а персональный настроенный сотрудник с характером и знанием вашего контекста.</span>
+    </div>
+  </div>
+</div>
+
 </div><!-- /sections -->
 
 <!-- ═══ FOOTER ═══ -->
@@ -1011,7 +1190,7 @@ openclaw status</span>
   <div class="footer__done" id="doneBlock">
     <div class="footer__done-emoji">🚀</div>
     <div class="footer__done-text">OpenClaw запущен!</div>
-    <div class="footer__done-sub">Бот в Telegram работает, голос распознаётся, лимиты отображаются. Увидимся на встрече!</div>
+    <div class="footer__done-sub">Бот в Telegram работает, голос настроен, личность задана. Увидимся на встрече!</div>
   </div>
   <div class="footer__schedule">
     <div class="footer__schedule-title">Онлайн-встреча 3</div>
