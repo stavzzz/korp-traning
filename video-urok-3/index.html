@@ -1045,7 +1045,23 @@ openclaw status</span>
       </div>
     </div>
 
-    <div class="item" data-key="topics-admin">
+    <div class="item" data-key="topics-userid">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Узнать свой user ID</div>
+        <div class="item__hint">Напишите боту <a href="https://t.me/userinfobot" target="_blank" class="tg" onclick="event.stopPropagation()">@userinfobot</a> в личку — он пришлёт ваш числовой ID (просто число, без минуса). Сохраните его — понадобится для конфига.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="topics-privacy">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Отключить Privacy Mode у бота в @BotFather</div>
+        <div class="item__hint">Идём в <a href="https://t.me/BotFather" target="_blank" class="tg" onclick="event.stopPropagation()">@BotFather</a> → <span class="mono">/mybots</span> → выбрать бота → <strong>Bot Settings</strong> → <strong>Group Privacy</strong> → <strong>Turn off</strong>. Без этого бот не будет видеть сообщения в группе.</div>
+      </div>
+    </div>
+
+        <div class="item" data-key="topics-admin">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Назначить бота Администратором группы</div>
@@ -1053,7 +1069,16 @@ openclaw status</span>
       </div>
     </div>
 
-    <div class="item" data-key="topics-setup">
+    <div class="note note--alert">
+      <span class="note__icon">⚠️</span>
+      <span><strong>Частые ошибки, которых нужно избежать:</strong><br>
+      • НЕ путай group ID (начинается с <span class="mono">-100...</span>) и user ID (просто число) — это разные поля в конфиге<br>
+      • Group ID идёт в <span class="mono">groupAllowFrom</span>, User ID идёт в <span class="mono">allowFrom</span><br>
+      • Если забыть добавить user ID в allowFrom — бот будет отвечать «not authorized»<br>
+      • Privacy Mode должен быть отключён в @BotFather (см. чекбокс выше)</span>
+    </div>
+
+        <div class="item" data-key="topics-setup">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Настроить топики через Claude Code</div>
@@ -1064,17 +1089,34 @@ openclaw status</span>
     <div class="prompt-block">
       <div class="prompt-block__title">📋 Промпт: настройка топиков (отправить в Claude Code)</div>
       <div class="prompt-block__text" id="promptTopics">Подключись к моему серверу по SSH.
-Я создал Telegram-группу для работы с агентом и включил в ней "Темы" (Topics). 
-ID моей группы: <ВАШ_CHAT_ID_С_МИНУСОМ>
+Я создал Telegram-группу для работы с агентом и включил в ней "Темы" (Topics).
 
-Выполни следующие действия:
-1. Добавь этот ID в список разрешенных чатов в конфигурации OpenClaw, чтобы бот мог там отвечать.
-2. Настрой агента так, чтобы он реагировал на все сообщения в этой группе (или только при теге, выбери оптимальную настройку для работы в топиках).
-3. Используя API Telegram или возможности OpenClaw, автоматически создай в моей группе следующие топики:
+**Мои данные:**
+- ID моей группы: <ВАШ_CHAT_ID_С_МИНУСОМ>
+- Мой Telegram user ID: <ВАШ_USER_ID>
+
+**Предварительные шаги (я уже сделал вручную):**
+- Бот добавлен в группу и назначен Администратором со всеми правами
+- В @BotFather отключён Privacy Mode: /mybots → выбрать бота → Bot Settings → Group Privacy → Turn off
+
+**Выполни следующие действия в конфигурации OpenClaw (~/.openclaw/openclaw.json):**
+
+1. В секции channels.telegram добавь мою группу в groupAllowFrom, чтобы бот мог отвечать в этой группе.
+
+2. КРИТИЧНО: добавь мой Telegram user ID в список allowFrom (авторизованных пользователей), чтобы бот не выдавал ошибку "You are not authorized to use this command". Без этого шага бот будет игнорировать мои сообщения в группе.
+
+3. Для группы установи requireMention: false — чтобы бот реагировал на все сообщения в топиках без необходимости тегать его через @имя_бота.
+
+4. Используя Telegram Bot API, автоматически создай в моей группе следующие топики:
    - "Знания" (мой второй мозг, куда я буду скидывать идеи и закладки)
    - "Кодинг"
    - "Ежедневная рутина" (новости, курсы)
-4. После создания топиков перезагрузи gateway и отчитайся.</div>
+
+5. После всех изменений:
+   - Перезапусти gateway: openclaw gateway restart
+   - Проверь статус: openclaw status
+   - Убедись, что в секции Channels Telegram показывает ON
+   - Покажи мне итоговую секцию channels.telegram из конфига для проверки</div>
       <button class="btn-copy" onclick="copyBlock('promptTopics', this)">📋 Скопировать промпт</button>
     </div>
 
