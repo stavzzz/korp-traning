@@ -825,14 +825,14 @@
     <!-- Claude web -->
     <div class="info-block">
       <p><strong>Установка в Claude (веб-версия, claude.ai)</strong></p>
-      <p>В веб-версии Claude нет терминала. Скиллы здесь работают через <strong>Claude Projects</strong> — добавляете файл SKILL.md как документ в базу знаний проекта.</p>
+      <p>В веб-версии Claude скиллы подключаются <strong>глобально на уровне аккаунта</strong>, а не внутри отдельного проекта. После подключения скилл доступен во <strong>всех диалогах и проектах</strong> — просто вызываешь его, где нужно.</p>
     </div>
 
     <div class="item" data-key="skill-claude-web">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Добавить скиллы в Claude Project</div>
-        <div class="item__hint">1. Откройте свой проект на <a href="https://claude.ai" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> claude.ai</a><br>2. Нажмите <strong>«Add Content»</strong><br>3. Скопируйте содержимое SKILL.md из GitHub-репозитория скилла и вставьте<br>4. Сохраните — Claude внутри проекта будет следовать инструкциям скилла<br><br>
+        <div class="item__text">Добавить скилл в Claude AI</div>
+        <div class="item__hint">1. Откройте <a href="https://claude.ai" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> claude.ai</a> → настройки аккаунта (⚙️) → раздел <strong>Capabilities</strong> / <strong>Skills</strong><br>2. Нажмите <strong>«Add skill»</strong> (или <strong>«Upload skill»</strong>)<br>3. Загрузите файл SKILL.md из GitHub-репозитория скилла<br>4. Сохраните — скилл подключится <strong>глобально</strong> и станет доступен во всех диалогах и проектах<br><br>
         <a href="https://github.com/anthropics/skills" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> github.com/anthropics/skills — репозиторий frontend-design</a></div>
       </div>
     </div>
