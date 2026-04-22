@@ -990,65 +990,76 @@
 
     <div class="section-divider">
       <div class="section-divider__line"></div>
-      <div class="section-divider__title">Часть 2: OAuth consent screen</div>
+      <div class="section-divider__title">Часть 2: Google Auth Platform (OAuth consent screen)</div>
     </div>
 
     <div class="note note--info">
       <span class="note__icon">💡</span>
-      <span>OAuth consent screen — это та самая страничка «Приложение хочет получить доступ к...», которую увидите вы (и только вы) при подключении. Её надо правильно заполнить.</span>
+      <span>Google Auth Platform — это та самая страничка «Приложение хочет получить доступ к...», которую увидите вы (и только вы) при подключении. Её надо правильно заполнить.</span>
+    </div>
+
+    <div class="note note--info">
+      <span class="note__icon">ℹ️</span>
+      <span>В конце 2025 года Google <strong>переработал интерфейс</strong>: раздел «OAuth consent screen» переименован в <strong>Google Auth Platform</strong>, шаги перегруппированы. Логика та же, названия другие — ниже актуальная последовательность.</span>
     </div>
 
     <div class="item" data-key="oauth-open">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Открыть OAuth consent screen</div>
-        <div class="item__hint">В левом меню Cloud Console → <strong>APIs &amp; Services</strong> → <strong>OAuth consent screen</strong>.<br>
-        <a href="https://console.cloud.google.com/apis/credentials/consent" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> console.cloud.google.com/apis/credentials/consent</a></div>
-      </div>
-    </div>
-
-    <div class="item" data-key="oauth-usertype">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Выбрать User Type</div>
-        <div class="item__hint">— <strong>Если у вас обычный Gmail (@gmail.com)</strong> → выбирайте <strong>External</strong>. У вас других вариантов нет.<br>— <strong>Если у вас Google Workspace (корпоративная почта)</strong> → выбирайте <strong>Internal</strong>. Это сильно упрощает жизнь (не надо проходить верификацию, токены не протухают через 7 дней).</div>
+        <div class="item__text">Шаг 1. Открыть Google Auth Platform</div>
+        <div class="item__hint">В левом меню Cloud Console → <strong>APIs &amp; Services</strong> → <strong>OAuth consent screen</strong> (или напрямую <strong>Google Auth Platform</strong>). Откроется мастер из 4 шагов: <span class="mono">App Information</span> → <span class="mono">Audience</span> → <span class="mono">Contact Information</span> → <span class="mono">Finish</span>.<br>
+        <a href="https://console.cloud.google.com/auth/overview" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> console.cloud.google.com/auth/overview</a></div>
       </div>
     </div>
 
     <div class="item" data-key="oauth-basic">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Заполнить основную информацию</div>
-        <div class="item__hint">— <strong>App name:</strong> <span class="mono">OpenClaw Automations</span> (или любое)<br>— <strong>User support email:</strong> ваш Gmail<br>— <strong>App logo:</strong> можно пропустить<br>— <strong>Application home page:</strong> URL Домена №1 (например <span class="mono">https://ваш-домен-1.com</span>)<br>— <strong>Authorized domains:</strong> ваш Домен №1 и ваш Домен №2<br>— <strong>Developer contact:</strong> ваш Gmail<br>Нажать <strong>Save and continue</strong>.</div>
+        <div class="item__text">Шаг 2. App Information — основная информация</div>
+        <div class="item__hint">— <strong>App name:</strong> <span class="mono">OpenClaw Automations</span> (или любое)<br>— <strong>User support email:</strong> ваш Gmail<br>Нажать <strong>Next</strong>.</div>
       </div>
     </div>
 
-    <div class="item" data-key="oauth-scopes">
+    <div class="item" data-key="oauth-usertype">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Scopes — пропустить (<strong>Save and continue</strong>, без добавления)</div>
-        <div class="item__hint">Скоупы мы запросим при создании credentials.</div>
+        <div class="item__text">Шаг 3. Audience — выбрать тип пользователей</div>
+        <div class="item__hint">— <strong>Если у вас обычный Gmail (@gmail.com)</strong> → выбрать <strong>External</strong>. Другой вариант Google не даст сохранить.<br>— <strong>Если у вас Google Workspace (корпоративная почта)</strong> → выбрать <strong>Internal</strong>. Это сильно упрощает жизнь: не надо проходить верификацию, токены не протухают через 7 дней.<br>Нажать <strong>Next</strong>.</div>
       </div>
     </div>
 
-    <div class="item" data-key="oauth-testusers">
+    <div class="item" data-key="oauth-contact">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Test users — ДОБАВИТЬ свой Gmail</div>
-        <div class="item__hint">Это <strong>КРИТИЧНО</strong>. В режиме <span class="mono">Testing</span> только добавленные сюда аккаунты смогут пройти OAuth-вход.<br>Нажать <strong>Add users</strong> → ввести свой Gmail → <strong>Add</strong>. Нажать <strong>Save and continue</strong>.</div>
+        <div class="item__text">Шаг 4. Contact Information — контакты разработчика</div>
+        <div class="item__hint">— <strong>Developer contact email:</strong> ваш Gmail<br>Нажать <strong>Next</strong>.</div>
       </div>
     </div>
 
     <div class="item" data-key="oauth-summary">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Summary — проверить и вернуться в Dashboard</div>
+        <div class="item__text">Шаг 5. Finish — подтвердить и попасть в Overview</div>
+        <div class="item__hint">Поставить галочку согласия с <strong>Google API Services User Data Policy</strong> и нажать <strong>Continue</strong>. Вас вернёт на главную Google Auth Platform.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="oauth-testusers">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Шаг 6. Добавить Test users</div>
+        <div class="item__hint">В левом меню раздел <strong>Audience</strong> → промотать вниз до блока <strong>Test users</strong> → <strong>Add users</strong> → ввести свой Gmail → <strong>Save</strong>.<br>Это <strong>КРИТИЧНО</strong>. В режиме <span class="mono">Testing</span> только добавленные сюда аккаунты смогут пройти OAuth-вход.</div>
       </div>
     </div>
 
     <div class="note note--warn">
       <span class="note__icon">⚠️</span>
       <span>Сейчас ваше приложение в режиме <strong>Testing</strong>. Это значит:<br>— Только Gmail'ы из списка Test users смогут подключаться<br>— <strong>Refresh token живёт только 7 дней</strong> → через неделю ВСЕ интеграции перестают работать<br>— Надо либо перевести в Production (Часть 3), либо каждую неделю пересоздавать токен</span>
+    </div>
+
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span><strong>Где теперь Scopes?</strong> В новом интерфейсе скоупов в мастере нет — Google убрал этот шаг. Скоупы запрашиваются автоматически в момент создания OAuth Client ID (Часть 4 этой секции). Просто пропускайте — ничего настраивать сейчас не нужно.</span>
     </div>
 
     <div class="section-divider">
@@ -1070,35 +1081,38 @@
 
     <div class="info-block">
       <p><strong>Путь А. Перевести приложение в Production (рекомендуется)</strong></p>
-      <p><strong>Подходит, если:</strong> ваше приложение использует только базовые scopes (Calendar, Drive, Sheets, Gmail — не sensitive); вы согласны заполнить форму верификации.</p>
+      <p><strong>Подходит, если:</strong> ваше приложение использует только базовые scopes (Calendar, Drive, Sheets, Gmail — не sensitive); вы согласны опубликовать приложение.</p>
       <p><strong>Минусы:</strong> для sensitive/restricted scopes (например, полный доступ к Gmail) Google требует полной верификации через app assessment — недели, $4000+. <strong>Нам это не нужно.</strong> Для базовых scopes верификация часто не требуется — можно использовать приложение сразу после перевода в Production.</p>
     </div>
 
     <div class="item" data-key="path-a-status">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">OAuth consent screen → <strong>Publishing status</strong></div>
+        <div class="item__text">Шаг 1. Открыть <strong>Google Auth Platform → Audience</strong></div>
+        <div class="item__hint">В левом меню Cloud Console.</div>
       </div>
     </div>
 
     <div class="item" data-key="path-a-publish">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Нажать <strong>Publish app</strong></div>
+        <div class="item__text">Шаг 2. Нажать <strong>Publish app</strong></div>
+        <div class="item__hint">Кнопка находится в верхней части раздела <strong>Audience</strong> в блоке <strong>Publishing status</strong> (текущий статус — <span class="mono">Testing</span>).</div>
       </div>
     </div>
 
     <div class="item" data-key="path-a-confirm">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Подтвердить</div>
+        <div class="item__text">Шаг 3. Подтвердить публикацию</div>
+        <div class="item__hint">Google покажет диалог <strong>«Push to production?»</strong> — нажать <strong>Confirm</strong>.</div>
       </div>
     </div>
 
     <div class="item" data-key="path-a-get-status">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Получить сообщение о статусе</div>
+        <div class="item__text">Шаг 4. Получить сообщение о статусе</div>
         <div class="item__hint">— Если scopes базовые (что мы и используем) — статус станет <span class="mono">In production</span> сразу. Refresh token становится бессрочным (не протухает через 7 дней).<br>— Если scopes sensitive — Google попросит пройти верификацию. В этом случае либо проходите её, либо возвращайтесь на Путь Б.</div>
       </div>
     </div>
@@ -1110,7 +1124,7 @@
 
     <div class="info-block">
       <p><strong>Путь Б. Остаться в Testing и обновлять токен раз в неделю</strong></p>
-      <p><strong>Подходит, если:</strong> вам лень проходить Production-форму; вы используете только сами / с одним помощником; готовы раз в неделю тратить 5 минут на обновление.</p>
+      <p><strong>Подходит, если:</strong> вам лень проходить публикацию; вы используете только сами / с одним помощником; готовы раз в неделю тратить 5 минут на обновление.</p>
     </div>
 
     <div class="item" data-key="path-b-reminder">
