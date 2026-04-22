@@ -678,6 +678,92 @@
       <span class="note__icon">🚨</span>
       <span><strong>Если страница не открывается:</strong><br>— Проверьте DNS (<span class="mono">dig ваш-домен-2.com</span> должен показать ваш IP)<br>— Проверьте что контейнеры запущены: <span class="mono">docker ps</span> (должно быть минимум <span class="mono">n8n</span> и <span class="mono">caddy</span>)<br>— Посмотрите логи: <span class="mono">docker logs n8n</span> и <span class="mono">docker logs caddy</span><br>— Если застряли — напишите <a href="https://t.me/stavzzz" target="_blank" class="lnk" onclick="event.stopPropagation()">@stavzzz</a></span>
     </div>
+
+    <div class="section-divider">
+      <div class="section-divider__line"></div>
+      <div class="section-divider__title">Часть 3: Подключение Claude Code к n8n через MCP</div>
+    </div>
+
+    <div class="note note--info">
+      <span class="note__icon">🧠</span>
+      <span>MCP (Model Context Protocol) — стандарт, которым Claude Code общается с внешними сервисами. Подключив MCP-сервер n8n, вы даёте Claude Code глубокое понимание всех <strong>535+ нод n8n</strong> — он перестанет галлюцинировать имена полей и начнёт собирать рабочие workflow с первой попытки.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Есть два MCP-сервера для n8n:</strong></p>
+      <p>— <strong>Официальный</strong> от n8n GmbH — умеет искать, смотреть детали и запускать уже существующие workflow. Подключается в Claude Desktop одним кликом через Connectors → Directory → n8n.</p>
+      <p>— <strong>Community-пакет <span class="mono">n8n-mcp</span></strong> от Czlonkowski — даёт Claude Code полную документацию по всем нодам, умеет валидировать и <strong>создавать workflow с нуля</strong>. Для курса рекомендуем этот вариант — с ним вайб-кодинг автоматизаций работает в разы лучше.</p>
+      <p>Дальше устанавливаем community-пакет в Claude Code.</p>
+    </div>
+
+    <div class="item" data-key="mcp-apikey">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Создать API Key в своём n8n</div>
+        <div class="item__hint">Settings → <strong>n8n API</strong> → <strong>Create API Key</strong>. Скопировать ключ — он понадобится в следующем шаге. Сохранить в менеджер паролей.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="mcp-install">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Выполнить команду установки MCP через терминал VS Code</div>
+        <div class="item__hint">Замените <span class="mono">&lt;ВАШ_ДОМЕН_2&gt;</span> и <span class="mono">&lt;ВАШ_N8N_API_KEY&gt;</span> на свои значения.</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdMcpAdd">claude mcp add n8n-mcp \
+  -e MCP_MODE=stdio \
+  -e LOG_LEVEL=error \
+  -e DISABLE_CONSOLE_OUTPUT=true \
+  -e N8N_API_URL=https://&lt;ВАШ_ДОМЕН_2&gt; \
+  -e N8N_API_KEY=&lt;ВАШ_N8N_API_KEY&gt; \
+  -- npx n8n-mcp</span><button class="btn-copy" onclick="copyBlock('cmdMcpAdd',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+
+    <div class="item" data-key="mcp-restart">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Перезапустить Claude Code</div>
+        <div class="item__hint">Закройте и заново откройте сессию, чтобы подхватился новый MCP-сервер.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="mcp-check">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить подключение</div>
+        <div class="item__hint">В чате Claude Code выполнить команду <span class="mono">/mcp</span> — должен появиться <span class="mono">n8n-mcp</span> в списке со статусом <strong>«connected»</strong>. Если нет — посмотрите логи через <span class="mono">claude mcp list</span>.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="mcp-test">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Тестовый промпт — убедиться, что Claude Code видит ваш n8n</div>
+        <div class="item__hint">Отправьте в Claude Code промпт ниже. Если вернулся список (или «у вас нет workflow» — если n8n пустой) — всё работает.</div>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: проверка MCP-связки</div>
+      <div class="prompt-block__text" id="promptMcpTest">Используя n8n-mcp, покажи мне список всех workflow
+в моём n8n. Для каждого напиши имя, статус (active/inactive)
+и количество нод.</div>
+      <button class="btn-copy" onclick="copyBlock('promptMcpTest', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">🎉</span>
+      <span>С этого момента ваш Claude Code <strong>знает n8n как родной</strong>. Можно просить его создавать workflow целиком одним промптом — ноды он подберёт правильно, поля не выдумает.</span>
+    </div>
+
+    <div class="res-block">
+      <div class="res-block__title">🔗 Полезные ссылки по MCP</div>
+      <div class="res-block__sub">
+        <a href="https://github.com/czlonkowski/n8n-mcp" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> github.com/czlonkowski/n8n-mcp — репозиторий community-пакета</a><br>
+        <a href="https://github.com/czlonkowski/n8n-mcp/blob/main/docs/CLAUDE_CODE_SETUP.md" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Гайд по Claude Code setup</a><br>
+        <a href="https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-langchain.mcptrigger/" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Документация MCP Server Trigger в n8n</a>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1644,6 +1730,11 @@ https://n8n.ваш-домен-2.com/webhook/xxxxxx
       <span class="note__icon">🎉</span>
       <span>Связка работает в обе стороны. Теперь OpenClaw может дёргать n8n, а n8n может писать вам через бота.</span>
     </div>
+
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span>Если вы подключили <strong>n8n-MCP в Claude Code</strong> (секция 04, Часть 3) — теперь любой workflow из секций 08 и 10 можно создать <strong>одним промптом</strong> Claude Code, не заходя в UI n8n. Claude Code сам соберёт ноды, настроит connections и активирует workflow.</span>
+    </div>
   </div>
 </div>
 
@@ -2042,7 +2133,7 @@ https://n8n.ваш-домен-2.com/webhook/xxxxxx
    • Тема: topic
    • Сумма: amount
    • Статус: "Оплачено"
-2. Вернуть ответ {"status": "ok", "row_number": <n>}.
+2. Вернуть ответ {"status": "ok", "row_number": &lt;N&gt;}.
 
 Активируй. Выдай мне production URL webhook.</div>
       <button class="btn-copy" onclick="copyBlock('promptScen2', this)">📋 Скопировать промпт</button>
@@ -2097,7 +2188,7 @@ https://n8n.<ВАШ_ДОМЕН_2>/webhook/log-payment
      • количество консультаций
      • среднюю сумму
   4. Сформировать сообщение:
-     "💰 Неделя <N>:
+     "💰 Неделя &lt;N&gt;:
       • Консультаций: <количество>
       • Поступления: <сумма> ₽
       • Средний чек: <среднее> ₽
@@ -2122,11 +2213,113 @@ https://n8n.<ВАШ_ДОМЕН_2>/webhook/log-payment
 </div>
 
 <!-- ═══════════════════════════════════════════
-     11 — ПРАКТИКА
+     11 — БОНУС: AI-ОФИС АВТОРА КУРСА
 ═══════════════════════════════════════════ -->
 <div class="section">
   <div class="section__header">
     <div class="section__num">11</div>
+    <div class="section__title">Бонус: AI-офис автора курса</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🎁</span>
+      <span>Это не ещё один учебный workflow. Это <strong>полная боевая архитектура</strong> личного AI-офиса автора курса — 6 связанных workflow, которые работают в продакшене и ежедневно экономят часы. Можете импортировать их себе, адаптировать под свой бизнес и запустить за вечер.</span>
+    </div>
+
+    <div class="arch-box">                  Telegram-бот (вы)
+                        ↓
+              ┌─────────────────────┐
+              │        MAIN         │
+              │   (оркестратор)     │
+              │  БИЗНЕС-АССИСТЕНТ   │
+              └──────────┬──────────┘
+                         ↓
+      ┌──────────┬───────┼───────┬──────────────┐
+      ↓          ↓       ↓       ↓              ↓
+  ┌───────┐ ┌────────┐ ┌─────┐ ┌────────┐ ┌──────────┐
+  │CALEND.│ │CONTACTS│ │EMAIL│ │FINANCE │ │ FINANCE  │
+  │       │ │        │ │     │ │ LOGGER │ │ ANALYST  │
+  └───────┘ └────────┘ └─────┘ └────────┘ └──────────┘</div>
+
+    <div class="info-block">
+      <p><strong>Как это устроено:</strong> MAIN — главный оркестратор. Принимает голос и текст из Telegram, понимает намерение и вызывает один из 5 специализированных workflow. Каждый специализированный workflow имеет свой системный промпт и свои инструменты — это и есть «AI-сотрудники», только в виде n8n-воркфлоу.</p>
+    </div>
+
+    <div class="res-block">
+      <div class="res-block__title">🎯 MAIN — главный оркестратор</div>
+      <div class="res-block__sub">Принимает входящие сообщения из Telegram (текст и голос через Whisper), проверяет авторизацию, понимает намерение пользователя и роутит запрос в нужный специализированный workflow. Содержит проверку <span class="mono">chat_id</span> — отвечает только вам, а не любому, кто напишет боту.<br>
+        <a href="https://drive.google.com/file/d/1Vyp-0K3cpk8w8ypmffEQ_7ak_h3FTbPy/view?usp=drive_link" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> 📥 Скачать JSON</a></div>
+    </div>
+
+    <div class="res-block">
+      <div class="res-block__title">📅 CALENDAR — работа с Google Calendar</div>
+      <div class="res-block__sub">AI-агент для календаря. Умеет создавать события (в том числе с участниками), получать список событий на любую дату, обновлять и удалять события. По умолчанию — московское время, час продолжительности если не указано иное.<br>
+        <a href="https://drive.google.com/file/d/1kv3-wZOQzp5xZqdVGVRNLxONnzkIoD86/view?usp=drive_link" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> 📥 Скачать JSON</a></div>
+    </div>
+
+    <div class="res-block">
+      <div class="res-block__title">📇 CONTACTS — адресная книга</div>
+      <div class="res-block__sub">Управление базой контактов в Google Sheets. Две операции: добавить контакт (AI парсит сообщение, извлекает имя, Telegram, email, телефон, дату рождения, сферу деятельности — записывает в таблицу) и найти контакт по email.<br>
+        <a href="https://drive.google.com/file/d/1dZXUFNwvN-t2T0kt6lfbenzh4wpUNssN/view?usp=drive_link" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> 📥 Скачать JSON</a></div>
+    </div>
+
+    <div class="res-block">
+      <div class="res-block__title">✉️ EMAIL — работа с Gmail</div>
+      <div class="res-block__sub">AI-агент для почты. Отправка писем, создание черновиков, ответы на существующие письма, чтение входящих, работа с лейблами, пометка «непрочитанное». Все письма в HTML и с подписью автора.<br>
+        <a href="https://drive.google.com/file/d/1EDyyUPhFPblwTfyIYt0E_TUiCHFU2qcY/view?usp=drive_link" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> 📥 Скачать JSON</a></div>
+    </div>
+
+    <div class="res-block">
+      <div class="res-block__title">💸 FINANCE LOGGER — запись доходов и расходов</div>
+      <div class="res-block__sub">Говорите боту «потратил 50 GEL на продукты» или «получил 2000 USD зарплаты» — AI извлекает сумму, валюту, категорию, дату, комментарий; конвертирует в USD через exchangerate-api; пишет строку в Google Sheets. Есть команды «отмени»/«удали» — откатывает последнюю запись.<br>
+        <a href="https://drive.google.com/file/d/1FcFZnFkExKzmbCnJrgcWl3bFCwfMtMbk/view?usp=drive_link" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> 📥 Скачать JSON</a></div>
+    </div>
+
+    <div class="res-block">
+      <div class="res-block__title">📊 FINANCE ANALYST — анализ личных финансов</div>
+      <div class="res-block__sub">AI-агент для финансовой аналитики. Понимает вопросы типа «сколько я потратил на еду в марте», «средний расход в день за последний месяц», «топ-5 категорий трат». Читает данные из Google Sheets, агрегирует по 14 типам операций (сумма, среднее, мин/макс, по дням, по месяцам, сравнение периодов), отвечает по-русски.<br>
+        <a href="https://drive.google.com/file/d/1D4wb_X5xRWvHIL2TbzMd3bea9SWXrpH3/view?usp=drive_link" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> 📥 Скачать JSON</a></div>
+    </div>
+
+    <details class="spoiler">
+      <summary>📦 Как импортировать workflow в свой n8n (5 шагов)</summary>
+      <div class="spoiler__content">
+        <p><strong>1. Скачайте нужный JSON-файл</strong> с Google Drive по ссылке выше.</p>
+        <p><strong>2. Откройте свой n8n</strong> → Workflows → кнопка <strong>⋯</strong> в правом верхнем углу → <strong>Import from File</strong>.</p>
+        <p><strong>3. Выберите скачанный JSON</strong> — n8n откроет workflow в редакторе.</p>
+        <p><strong>4. Подставьте свои значения вместо плейсхолдеров:</strong></p>
+        <p>— <span class="mono">&lt;ВАШ_EMAIL&gt;</span>, <span class="mono">&lt;ВАШЕ_ИМЯ&gt;</span>, <span class="mono">&lt;ВАШ_TELEGRAM_USER_ID&gt;</span> — личные данные<br>
+        — <span class="mono">&lt;OPENAI_CREDENTIAL_ID&gt;</span>, <span class="mono">&lt;GOOGLE_SHEETS_CREDENTIAL_ID&gt;</span>, <span class="mono">&lt;GOOGLE_CALENDAR_CREDENTIAL_ID&gt;</span>, <span class="mono">&lt;GMAIL_CREDENTIAL_ID&gt;</span>, <span class="mono">&lt;TELEGRAM_CREDENTIAL_ID&gt;</span>, <span class="mono">&lt;SERPAPI_CREDENTIAL_ID&gt;</span> — в каждой ноде выбрать свой credential из выпадающего списка (создаются через Settings → Credentials)<br>
+        — <span class="mono">&lt;FINANCE_SHEET_ID&gt;</span>, <span class="mono">&lt;CONTACTS_SHEET_ID&gt;</span> — ID ваших Google Sheets таблиц (берётся из URL таблицы: <span class="mono">docs.google.com/spreadsheets/d/&lt;ТУТ_ID&gt;/edit</span>)<br>
+        — <span class="mono">&lt;EMAIL_WORKFLOW_ID&gt;</span>, <span class="mono">&lt;CONTACTS_WORKFLOW_ID&gt;</span>, <span class="mono">&lt;CALENDAR_WORKFLOW_ID&gt;</span>, <span class="mono">&lt;FINANCEANALYST_WORKFLOW_ID&gt;</span>, <span class="mono">&lt;FINANCELOGGER_WORKFLOW_ID&gt;</span> — <strong>только в MAIN</strong> — это ссылки на другие ваши workflow, их ID возьмёте после импорта остальных пяти<br>
+        — <span class="mono">&lt;EXCHANGERATE_API_KEY&gt;</span> — <strong>только в FINANCE LOGGER</strong> — получите бесплатный ключ на <a href="https://www.exchangerate-api.com" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> exchangerate-api.com</a>, бесплатный тариф полностью хватает</p>
+        <p><strong>5. Активируйте workflow</strong> переключателем в правом верхнем углу.</p>
+      </div>
+    </details>
+
+    <div class="note note--warn">
+      <span class="note__icon">⚠️</span>
+      <span>Импортируйте в таком порядке: <strong>сначала</strong> CALENDAR, CONTACTS, EMAIL, FINANCE LOGGER, FINANCE ANALYST — они независимы. <strong>Последним</strong> — MAIN: в нём нужно прописать workflow ID предыдущих пяти (возьмёте их из URL каждого импортированного workflow вида <span class="mono">/workflow/&lt;ID&gt;</span>).</span>
+    </div>
+
+    <div class="note note--info">
+      <span class="note__icon">📊</span>
+      <span><strong>Перед импортом FINANCE LOGGER и ANALYST</strong> — создайте в своём Google Drive две таблицы:<br>— <strong>«Финансы 2026»</strong> (лист <span class="mono">PNL</span>) с колонками: ID, ДАТА, ТИП ОПЕРАЦИИ, КАТЕГОРИЯ, SUM USD, RAW SUM, COMMENT<br>— <strong>«Контакты»</strong> (лист <span class="mono">CONTACTS</span>) с колонками: ИМЯ, ФАМИЛИЯ, TELEGRAM USERNAME, EMAIL, ТЕЛЕФОН, ДАТА РОЖДЕНИЯ, СФЕРА ДЕЯТЕЛЬНОСТИ<br>ID таблиц подставляются в плейсхолдеры <span class="mono">&lt;FINANCE_SHEET_ID&gt;</span> и <span class="mono">&lt;CONTACTS_SHEET_ID&gt;</span>.</span>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">🚀</span>
+      <span>Когда все 6 workflow импортированы и MAIN связан с остальными — пишите боту в Telegram что угодно. MAIN сам решит, куда роутить, и <strong>AI-офис заработает</strong>.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     12 — ПРАКТИКА
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">12</div>
     <div class="section__title">Практика: свой сценарий под свой бизнес</div>
   </div>
   <div class="section__card">
