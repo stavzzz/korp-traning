@@ -676,101 +676,16 @@
       <span><strong>Если страница не открывается:</strong><br>— Проверьте DNS (<span class="mono">dig ваш-домен-2.com</span> должен показать ваш IP)<br>— Проверьте что контейнеры запущены: <span class="mono">docker ps</span> (должно быть минимум <span class="mono">n8n</span> и <span class="mono">caddy</span>)<br>— Посмотрите логи: <span class="mono">docker logs n8n</span> и <span class="mono">docker logs caddy</span><br>— Если застряли — напишите <a href="https://t.me/stavzzz" target="_blank" class="lnk" onclick="event.stopPropagation()">@stavzzz</a></span>
     </div>
 
-    <div class="section-divider">
-      <div class="section-divider__line"></div>
-      <div class="section-divider__title">Часть 3: Подключение Claude Code к n8n через MCP</div>
-    </div>
-
-    <div class="note note--info">
-      <span class="note__icon">🧠</span>
-      <span>MCP (Model Context Protocol) — стандарт, которым Claude Code общается с внешними сервисами. Подключив MCP-сервер n8n, вы даёте Claude Code глубокое понимание всех <strong>535+ нод n8n</strong> — он перестанет галлюцинировать имена полей и начнёт собирать рабочие workflow с первой попытки.</span>
-    </div>
-
-    <div class="info-block">
-      <p><strong>Есть два MCP-сервера для n8n:</strong></p>
-      <p>— <strong>Официальный</strong> от n8n GmbH — умеет искать, смотреть детали и запускать уже существующие workflow. Подключается в Claude Desktop одним кликом через Connectors → Directory → n8n.</p>
-      <p>— <strong>Community-пакет <span class="mono">n8n-mcp</span></strong> от Czlonkowski — даёт Claude Code полную документацию по всем нодам, умеет валидировать и <strong>создавать workflow с нуля</strong>. Для курса рекомендуем этот вариант — с ним вайб-кодинг автоматизаций работает в разы лучше.</p>
-      <p>Дальше устанавливаем community-пакет в Claude Code.</p>
-    </div>
-
-    <div class="item" data-key="mcp-apikey">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Создать API Key в своём n8n</div>
-        <div class="item__hint">Settings → <strong>n8n API</strong> → <strong>Create API Key</strong>. Скопировать ключ — он понадобится в следующем шаге. Сохранить в менеджер паролей.</div>
-      </div>
-    </div>
-
-    <div class="item" data-key="mcp-install">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Выполнить команду установки MCP через терминал VS Code</div>
-        <div class="item__hint">Замените <span class="mono">&lt;ВАШ_ДОМЕН_2&gt;</span> и <span class="mono">&lt;ВАШ_N8N_API_KEY&gt;</span> на свои значения.</div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdMcpAdd">claude mcp add n8n-mcp \
-  -e MCP_MODE=stdio \
-  -e LOG_LEVEL=error \
-  -e DISABLE_CONSOLE_OUTPUT=true \
-  -e N8N_API_URL=https://&lt;ВАШ_ДОМЕН_2&gt; \
-  -e N8N_API_KEY=&lt;ВАШ_N8N_API_KEY&gt; \
-  -- npx n8n-mcp</span><button class="btn-copy" onclick="copyBlock('cmdMcpAdd',this)">📋 Скопировать</button></div>
-      </div>
-    </div>
-
-    <div class="item" data-key="mcp-restart">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Перезапустить Claude Code</div>
-        <div class="item__hint">Закройте и заново откройте сессию, чтобы подхватился новый MCP-сервер.</div>
-      </div>
-    </div>
-
-    <div class="item" data-key="mcp-check">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Проверить подключение</div>
-        <div class="item__hint">В чате Claude Code выполнить команду <span class="mono">/mcp</span> — должен появиться <span class="mono">n8n-mcp</span> в списке со статусом <strong>«connected»</strong>. Если нет — посмотрите логи через <span class="mono">claude mcp list</span>.</div>
-      </div>
-    </div>
-
-    <div class="item" data-key="mcp-test">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Тестовый промпт — убедиться, что Claude Code видит ваш n8n</div>
-        <div class="item__hint">Отправьте в Claude Code промпт ниже. Если вернулся список (или «у вас нет workflow» — если n8n пустой) — всё работает.</div>
-      </div>
-    </div>
-
-    <div class="prompt-block">
-      <div class="prompt-block__title">📋 Промпт: проверка MCP-связки</div>
-      <div class="prompt-block__text" id="promptMcpTest">Используя n8n-mcp, покажи мне список всех workflow
-в моём n8n. Для каждого напиши имя, статус (active/inactive)
-и количество нод.</div>
-      <button class="btn-copy" onclick="copyBlock('promptMcpTest', this)">📋 Скопировать промпт</button>
-    </div>
-
-    <div class="note note--green">
-      <span class="note__icon">🎉</span>
-      <span>С этого момента ваш Claude Code <strong>знает n8n как родной</strong>. Можно просить его создавать workflow целиком одним промптом — ноды он подберёт правильно, поля не выдумает.</span>
-    </div>
-
-    <div class="res-block">
-      <div class="res-block__title">🔗 Полезные ссылки по MCP</div>
-      <div class="res-block__sub">
-        <a href="https://github.com/czlonkowski/n8n-mcp" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> github.com/czlonkowski/n8n-mcp — репозиторий community-пакета</a><br>
-        <a href="https://github.com/czlonkowski/n8n-mcp/blob/main/docs/CLAUDE_CODE_SETUP.md" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Гайд по Claude Code setup</a><br>
-        <a href="https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-langchain.mcptrigger/" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Документация MCP Server Trigger в n8n</a>
-      </div>
-    </div>
   </div>
 </div>
 
 <!-- ═══════════════════════════════════════════
-     05 — АВТОРИЗАЦИЯ + 2FA
+     05 — АВТОРИЗАЦИЯ + 2FA + MCP
 ═══════════════════════════════════════════ -->
 <div class="section">
   <div class="section__header">
     <div class="section__num">05</div>
-    <div class="section__title">Первая авторизация в n8n + безопасность + 2FA</div>
+    <div class="section__title">Первая авторизация в n8n + безопасность + 2FA + MCP</div>
   </div>
   <div class="section__card">
     <div class="note note--info">
@@ -893,14 +808,6 @@
       <div class="section-divider__title">Часть 3: Базовая настройка безопасности</div>
     </div>
 
-    <div class="item" data-key="sec-api">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Settings → Personal → API: пока не создавайте API-ключи</div>
-        <div class="item__hint">Понадобятся позже в секции 07.</div>
-      </div>
-    </div>
-
     <div class="item" data-key="sec-users">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
@@ -919,6 +826,92 @@
     <div class="info-block">
       <p><strong>Правила безопасности n8n:</strong></p>
       <p>— Не публикуйте URL вашего n8n нигде публично<br>— Не делитесь скриншотами с видимыми Webhook URL или credentials<br>— Регулярно обновляйте n8n: раз в месяц просите Claude Code «обнови n8n до последней версии»<br>— Если заподозрили утечку пароля — сразу смените пароль + пересоздайте 2FA<br>— Recovery-коды храните в двух местах (менеджер паролей + оффлайн копия)</p>
+    </div>
+
+    <div class="section-divider">
+      <div class="section-divider__line"></div>
+      <div class="section-divider__title">Часть 4: Подключение Claude Code к n8n через MCP</div>
+    </div>
+
+    <div class="note note--info">
+      <span class="note__icon">🧠</span>
+      <span>MCP (Model Context Protocol) — стандарт, которым Claude Code общается с внешними сервисами. Подключив MCP-сервер n8n, вы даёте Claude Code глубокое понимание всех <strong>535+ нод n8n</strong> — он перестанет галлюцинировать имена полей и начнёт собирать рабочие workflow с первой попытки.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Есть два MCP-сервера для n8n:</strong></p>
+      <p>— <strong>Официальный</strong> от n8n GmbH — умеет искать, смотреть детали и запускать уже существующие workflow. Подключается в Claude Desktop одним кликом через Connectors → Directory → n8n.</p>
+      <p>— <strong>Community-пакет <span class="mono">n8n-mcp</span></strong> от Czlonkowski — даёт Claude Code полную документацию по всем нодам, умеет валидировать и <strong>создавать workflow с нуля</strong>. Для курса рекомендуем этот вариант — с ним вайб-кодинг автоматизаций работает в разы лучше.</p>
+      <p>Дальше устанавливаем community-пакет в Claude Code.</p>
+    </div>
+
+    <div class="item" data-key="mcp-apikey">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Создать API Key в своём n8n</div>
+        <div class="item__hint">Settings → <strong>n8n API</strong> → <strong>Create API Key</strong>. Скопировать ключ — он понадобится в следующем шаге. Сохранить в менеджер паролей.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="mcp-install">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Выполнить команду установки MCP через терминал VS Code</div>
+        <div class="item__hint">Замените <span class="mono">&lt;ВАШ_ДОМЕН_2&gt;</span> и <span class="mono">&lt;ВАШ_N8N_API_KEY&gt;</span> на свои значения.</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdMcpAdd">claude mcp add n8n-mcp \
+  -e MCP_MODE=stdio \
+  -e LOG_LEVEL=error \
+  -e DISABLE_CONSOLE_OUTPUT=true \
+  -e N8N_API_URL=https://&lt;ВАШ_ДОМЕН_2&gt; \
+  -e N8N_API_KEY=&lt;ВАШ_N8N_API_KEY&gt; \
+  -- npx n8n-mcp</span><button class="btn-copy" onclick="copyBlock('cmdMcpAdd',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+
+    <div class="item" data-key="mcp-restart">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Перезапустить Claude Code</div>
+        <div class="item__hint">Закройте и заново откройте сессию, чтобы подхватился новый MCP-сервер.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="mcp-check">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить подключение</div>
+        <div class="item__hint">В чате Claude Code выполнить команду <span class="mono">/mcp</span> — должен появиться <span class="mono">n8n-mcp</span> в списке со статусом <strong>«connected»</strong>. Если нет — посмотрите логи через <span class="mono">claude mcp list</span>.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="mcp-test">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Тестовый промпт — убедиться, что Claude Code видит ваш n8n</div>
+        <div class="item__hint">Отправьте в Claude Code промпт ниже. Если вернулся список (или «у вас нет workflow» — если n8n пустой) — всё работает.</div>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: проверка MCP-связки</div>
+      <div class="prompt-block__text" id="promptMcpTest">Используя n8n-mcp, покажи мне список всех workflow
+в моём n8n. Для каждого напиши имя, статус (active/inactive)
+и количество нод.</div>
+      <button class="btn-copy" onclick="copyBlock('promptMcpTest', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">🎉</span>
+      <span>С этого момента ваш Claude Code <strong>знает n8n как родной</strong>. Можно просить его создавать workflow целиком одним промптом — ноды он подберёт правильно, поля не выдумает.</span>
+    </div>
+
+    <div class="res-block">
+      <div class="res-block__title">🔗 Полезные ссылки по MCP</div>
+      <div class="res-block__sub">
+        <a href="https://github.com/czlonkowski/n8n-mcp" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> github.com/czlonkowski/n8n-mcp — репозиторий community-пакета</a><br>
+        <a href="https://github.com/czlonkowski/n8n-mcp/blob/main/docs/CLAUDE_CODE_SETUP.md" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Гайд по Claude Code setup</a><br>
+        <a href="https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-langchain.mcptrigger/" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Документация MCP Server Trigger в n8n</a>
+      </div>
     </div>
   </div>
 </div>
@@ -1730,7 +1723,7 @@ https://n8n.ваш-домен-2.com/webhook/xxxxxx
 
     <div class="note note--info">
       <span class="note__icon">💡</span>
-      <span>Если вы подключили <strong>n8n-MCP в Claude Code</strong> (секция 04, Часть 3) — теперь любой workflow из секций 08 и 10 можно создать <strong>одним промптом</strong> Claude Code, не заходя в UI n8n. Claude Code сам соберёт ноды, настроит connections и активирует workflow.</span>
+      <span>Если вы подключили <strong>n8n-MCP в Claude Code</strong> (секция 05, Часть 4) — теперь любой workflow из секций 08 и 10 можно создать <strong>одним промптом</strong> Claude Code, не заходя в UI n8n. Claude Code сам соберёт ноды, настроит connections и активирует workflow.</span>
     </div>
   </div>
 </div>
