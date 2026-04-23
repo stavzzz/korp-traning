@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Чек-лист · Использование ИИ · [НАЗВАНИЕ КОМПАНИИ]</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F1ECE0;
+  --paper:#FAF6EC;
+  --ink:#0C0C0C;
+  --soft:#2A2822;
+  --muted:#7A7167;
+  --faint:#B3A99A;
+  --line:#D6CEBB;
+  --crimson:#8A1A1A;
+  --crimson-deep:#5C0F0F;
+  --forest:#2B4F2F;
+  --amber:#A66F12;
+  --sky:#1E4861;
+  --leaf:#406B35;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'IBM Plex Sans',system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  font-feature-settings:"ss01","cv11";
+  position:relative;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+body::before{
+  content:"";
+  position:fixed;inset:0;
+  pointer-events:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.035 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  mix-blend-mode:multiply;
+  z-index:1;
+}
+.wrap{position:relative;z-index:2}
+
+/* Top bar */
+.topbar{
+  border-bottom:1px solid var(--line);
+  padding:14px 32px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--soft);
+  background:rgba(241,236,224,0.6);
+  backdrop-filter:blur(8px);
+  position:sticky;top:0;z-index:10;
+}
+.topbar-left{display:flex;gap:22px;align-items:center}
+.topbar-dot{width:6px;height:6px;background:var(--crimson);border-radius:50%;display:inline-block;box-shadow:0 0 0 3px rgba(138,26,26,0.15)}
+.topbar-right{display:flex;gap:22px;color:var(--muted)}
+@media(max-width:720px){
+  .topbar{padding:12px 20px;font-size:10px;letter-spacing:0.08em}
+  .topbar-left{gap:12px}
+  .topbar-right{display:none}
+}
+
+/* Hero */
+.hero{
+  padding:72px 32px 48px;
+  max-width:880px;
+  margin:0 auto;
+}
+.hero-kicker{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12px;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  color:var(--crimson);
+  margin-bottom:28px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+.hero-kicker::before{
+  content:"";
+  width:36px;height:1px;background:var(--crimson);
+}
+.hero h1{
+  font-family:'Fraunces',serif;
+  font-weight:400;
+  font-size:clamp(38px,6vw,68px);
+  line-height:1.02;
+  letter-spacing:-0.02em;
+  color:var(--ink);
+  margin-bottom:28px;
+  font-variation-settings:"opsz" 144;
+}
+.hero h1 em{
+  font-style:italic;
+  font-weight:300;
+  color:var(--soft);
+}
+.hero-lede{
+  font-size:18px;
+  color:var(--soft);
+  max-width:620px;
+  line-height:1.55;
+}
+.hero-meta{
+  margin-top:36px;
+  display:flex;
+  gap:32px;
+  flex-wrap:wrap;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:var(--muted);
+  padding-top:20px;
+  border-top:1px solid var(--line);
+}
+.hero-meta span strong{color:var(--ink);font-weight:500}
+
+/* Warning bar — L3 stop sign */
+.warn{
+  max-width:880px;
+  margin:0 auto 48px;
+  padding:0 32px;
+}
+.warn-box{
+  background:var(--paper);
+  border:1px solid var(--crimson);
+  border-left:4px solid var(--crimson);
+  padding:22px 28px;
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:22px;
+  align-items:start;
+}
+.warn-label{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  color:var(--crimson);
+  font-weight:600;
+  padding-top:3px;
+  white-space:nowrap;
+}
+.warn-text{font-size:14.5px;color:var(--soft);line-height:1.6}
+.warn-text strong{color:var(--ink);font-weight:600}
+@media(max-width:620px){
+  .warn-box{grid-template-columns:1fr;gap:8px}
+}
+
+/* Progress band */
+.progress-band{
+  max-width:880px;
+  margin:0 auto 32px;
+  padding:0 32px;
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:24px;
+}
+.progress-label{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.progress-count{
+  font-family:'Fraunces',serif;
+  font-size:32px;
+  font-weight:400;
+  font-variation-settings:"opsz" 144;
+  color:var(--ink);
+  letter-spacing:-0.01em;
+}
+.progress-count span{color:var(--faint);font-weight:300}
+.progress-track{
+  flex:1;
+  height:2px;
+  background:var(--line);
+  position:relative;
+  margin:0 12px;
+  align-self:center;
+}
+.progress-fill{
+  position:absolute;
+  left:0;top:0;bottom:0;
+  width:0%;
+  background:var(--ink);
+  transition:width .5s cubic-bezier(.22,.9,.32,1),background .3s;
+}
+.progress-fill.complete{background:var(--forest)}
+
+/* Checklist */
+.list{
+  max-width:880px;
+  margin:0 auto;
+  padding:0 32px 72px;
+}
+.item{
+  display:grid;
+  grid-template-columns:120px 1fr auto;
+  gap:32px;
+  padding:36px 0;
+  border-top:1px solid var(--line);
+  position:relative;
+  transition:opacity .3s;
+  animation:fadeUp .7s cubic-bezier(.22,.9,.32,1) backwards;
+}
+.item:nth-child(1){animation-delay:.05s}
+.item:nth-child(2){animation-delay:.15s}
+.item:nth-child(3){animation-delay:.25s}
+.item:nth-child(4){animation-delay:.35s}
+.item:nth-child(5){animation-delay:.45s}
+.item:last-child{border-bottom:1px solid var(--line)}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(14px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.item-num{
+  font-family:'Fraunces',serif;
+  font-weight:300;
+  font-size:76px;
+  line-height:1;
+  letter-spacing:-0.04em;
+  font-variation-settings:"opsz" 144;
+  color:var(--ink);
+  position:relative;
+  padding-top:6px;
+}
+.item-num::after{
+  content:"";
+  position:absolute;
+  left:0;bottom:-6px;
+  width:26px;height:2px;
+  background:var(--accent,var(--ink));
+}
+.item[data-tone="l3"] .item-num::after{background:var(--crimson)}
+.item[data-tone="mask"] .item-num::after{background:var(--amber)}
+.item[data-tone="tools"] .item-num::after{background:var(--sky)}
+.item[data-tone="privacy"] .item-num::after{background:var(--forest)}
+.item[data-tone="final"] .item-num::after{background:var(--leaf)}
+
+.item-body{max-width:520px}
+.item-kicker{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:10px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.tag{
+  display:inline-block;
+  padding:2px 8px;
+  background:var(--ink);
+  color:var(--paper);
+  font-weight:500;
+  letter-spacing:0.12em;
+  font-size:10px;
+}
+.item[data-tone="l3"] .tag{background:var(--crimson)}
+.item[data-tone="mask"] .tag{background:var(--amber)}
+.item[data-tone="tools"] .tag{background:var(--sky)}
+.item[data-tone="privacy"] .tag{background:var(--forest)}
+.item[data-tone="final"] .tag{background:var(--leaf)}
+
+.item-q{
+  font-family:'Fraunces',serif;
+  font-weight:400;
+  font-size:24px;
+  line-height:1.25;
+  letter-spacing:-0.015em;
+  color:var(--ink);
+  margin-bottom:12px;
+  font-variation-settings:"opsz" 72;
+}
+.item-note{
+  font-size:14.5px;
+  line-height:1.6;
+  color:var(--soft);
+  margin-bottom:14px;
+}
+.item-note code{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12.5px;
+  background:var(--paper);
+  padding:1px 6px;
+  border:1px solid var(--line);
+  color:var(--ink);
+}
+.item-ref{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;
+  letter-spacing:0.08em;
+  color:var(--muted);
+  text-transform:uppercase;
+}
+
+/* Checkbox */
+.check{
+  justify-self:end;
+  align-self:start;
+  padding-top:10px;
+}
+.check input{
+  position:absolute;
+  opacity:0;
+  pointer-events:none;
+}
+.check label{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:56px;
+  height:56px;
+  border:1.5px solid var(--ink);
+  background:var(--paper);
+  cursor:pointer;
+  position:relative;
+  transition:all .25s cubic-bezier(.22,.9,.32,1);
+}
+.check label:hover{background:#fff;transform:scale(1.03)}
+.check label::before,.check label::after{
+  content:"";
+  position:absolute;
+  background:var(--paper);
+  width:0;height:3px;
+  transition:width .25s cubic-bezier(.22,.9,.32,1) .05s;
+}
+.check input:checked + label{
+  background:var(--ink);
+  border-color:var(--ink);
+}
+.check input:checked + label::before{
+  width:18px;
+  transform:rotate(45deg) translate(-5px,6px);
+}
+.check input:checked + label::after{
+  width:28px;
+  transform:rotate(-45deg) translate(-6px,2px);
+}
+
+@media(max-width:720px){
+  .item{grid-template-columns:72px 1fr;gap:20px;padding:28px 0}
+  .item-num{font-size:54px}
+  .item-q{font-size:20px}
+  .check{grid-column:1/-1;justify-self:start;padding-top:0}
+  .check label{width:52px;height:52px}
+}
+
+/* Verdict */
+.verdict{
+  max-width:880px;
+  margin:0 auto 72px;
+  padding:0 32px;
+}
+.verdict-box{
+  padding:36px 40px;
+  border:1.5px solid var(--ink);
+  background:var(--paper);
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  gap:32px;
+  align-items:center;
+  transition:all .4s;
+}
+.verdict-label{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.verdict-status{
+  font-family:'Fraunces',serif;
+  font-size:32px;
+  font-weight:400;
+  font-variation-settings:"opsz" 144;
+  letter-spacing:-0.01em;
+  color:var(--ink);
+}
+.verdict-status em{font-style:italic;font-weight:300;color:var(--muted)}
+.verdict-icon{
+  width:52px;height:52px;
+  border:1.5px solid var(--ink);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Fraunces',serif;
+  font-size:28px;
+  font-weight:500;
+}
+.verdict-reset{
+  background:none;
+  border:1px solid var(--ink);
+  padding:10px 18px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  cursor:pointer;
+  color:var(--ink);
+  transition:all .2s;
+}
+.verdict-reset:hover{background:var(--ink);color:var(--paper)}
+
+.verdict-box.ok{
+  background:#F0F4EC;
+  border-color:var(--forest);
+}
+.verdict-box.ok .verdict-icon{border-color:var(--forest);color:var(--forest)}
+.verdict-box.ok .verdict-status{color:var(--forest)}
+.verdict-box.ok .verdict-reset{border-color:var(--forest);color:var(--forest)}
+.verdict-box.ok .verdict-reset:hover{background:var(--forest);color:#F0F4EC}
+
+.verdict-box.block{
+  background:#F8EBEA;
+  border-color:var(--crimson);
+}
+.verdict-box.block .verdict-icon{border-color:var(--crimson);color:var(--crimson)}
+.verdict-box.block .verdict-status{color:var(--crimson-deep)}
+.verdict-box.block .verdict-reset{border-color:var(--crimson);color:var(--crimson)}
+.verdict-box.block .verdict-reset:hover{background:var(--crimson);color:#F8EBEA}
+
+@media(max-width:720px){
+  .verdict-box{grid-template-columns:auto 1fr;gap:20px 16px;padding:24px 20px}
+  .verdict-reset{grid-column:1/-1;justify-self:start}
+  .verdict-status{font-size:24px}
+}
+
+/* Footer */
+.footer{
+  border-top:1px solid var(--line);
+  padding:28px 32px 48px;
+  max-width:880px;
+  margin:0 auto;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;
+  letter-spacing:0.08em;
+  color:var(--muted);
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  flex-wrap:wrap;
+}
+.footer-seal{
+  display:inline-block;
+  padding:4px 10px;
+  border:1px solid var(--muted);
+  text-transform:uppercase;
+  letter-spacing:0.14em;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="topbar-dot"></span>
+    <span>[НАЗВАНИЕ КОМПАНИИ]</span>
+    <span style="color:var(--muted)">Внутренний документ · ИИ / CHK / 001</span>
+  </div>
+  <div class="topbar-right">
+    <span>v.1.0</span>
+    <span>§ 3 · 4 · 5 Регламента</span>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="hero-kicker">Перед каждой отправкой данных в ИИ-сервис</div>
+  <h1>Пять вопросов, <em>на которые обязан ответить каждый сотрудник</em></h1>
+  <p class="hero-lede">
+    Отрицательный ответ хотя бы на один вопрос — отправка отменяется.
+    Любое сомнение трактуется в пользу повышения уровня данных.
+  </p>
+  <div class="hero-meta">
+    <span><strong>Применяется:</strong> к данным уровня L0 – L2</span>
+    <span><strong>Не применяется:</strong> к данным уровня L3 (запрет)</span>
+    <span><strong>Время прохождения:</strong> 30–60 секунд</span>
+  </div>
+</section>
+
+<section class="warn">
+  <div class="warn-box">
+    <div class="warn-label">Стоп-условие</div>
+    <div class="warn-text">
+      Если данные относятся к <strong>B2G-заказчикам</strong> — Норникель, Роснефть, Газпром и их дочерние структуры, — чек-лист
+      <strong>не проходится</strong>. Загрузка в любой ИИ-сервис запрещена полностью, включая анонимизированные версии
+      и общедоступную информацию, используемую в контексте контракта.
+    </div>
+  </div>
+</section>
+
+<section class="progress-band">
+  <span class="progress-label">Прогресс</span>
+  <div class="progress-track"><div class="progress-fill" id="fill"></div></div>
+  <span class="progress-count"><span id="pdone">0</span> / 5</span>
+</section>
+
+<section class="list" id="list">
+
+  <div class="item" data-tone="l3">
+    <div class="item-num">01</div>
+    <div class="item-body">
+      <div class="item-kicker"><span class="tag">L3 · B2G</span> Классификация данных</div>
+      <h2 class="item-q">Я определил уровень данных, и он не равен L3?</h2>
+      <p class="item-note">
+        Уровень L3 — данные государственных заказчиков и приравненных к ним структур,
+        включая Норникель, Роснефть, Газпром и их дочерние компании.
+        Запрет распространяется и на публичные данные, если они используются в контексте контракта.
+      </p>
+      <div class="item-ref">Регламент · раздел 3 · классификация L0–L3</div>
+    </div>
+    <div class="check">
+      <input type="checkbox" id="q1">
+      <label for="q1" aria-label="Подтверждение вопроса 1"></label>
+    </div>
+  </div>
+
+  <div class="item" data-tone="mask">
+    <div class="item-num">02</div>
+    <div class="item-body">
+      <div class="item-kicker"><span class="tag">Анонимизация</span> Заглушки</div>
+      <h2 class="item-q">Все реальные ФИО, суммы, реквизиты и номера заменены на стандартные заглушки?</h2>
+      <p class="item-note">
+        Использованы заглушки из словаря: <code>[КОМПАНИЯ]</code>, <code>[ФИО]</code>,
+        <code>[СУММА]</code>, <code>[НОМЕР ДОГОВОРА]</code>, <code>[АДРЕС]</code>.
+        Частичная анонимизация — когда оставлены уникальные реквизиты — приравнивается к её отсутствию.
+      </p>
+      <div class="item-ref">Регламент · раздел 5 · приложение 3</div>
+    </div>
+    <div class="check">
+      <input type="checkbox" id="q2">
+      <label for="q2" aria-label="Подтверждение вопроса 2"></label>
+    </div>
+  </div>
+
+  <div class="item" data-tone="tools">
+    <div class="item-num">03</div>
+    <div class="item-body">
+      <div class="item-kicker"><span class="tag">Whitelist</span> Разрешённый сервис</div>
+      <h2 class="item-q">Я использую рабочий аккаунт в одном из разрешённых сервисов?</h2>
+      <p class="item-note">
+        Только <strong>ChatGPT</strong> (Team / Enterprise), <strong>Claude</strong> (for Work или корпоративный) или
+        <strong>GigaChat</strong> (корпоративная учётная запись). Личные аккаунты, Gemini, Copilot, Perplexity,
+        сторонние боты и плагины — запрещены.
+      </p>
+      <div class="item-ref">Регламент · раздел 2 · приложение 6</div>
+    </div>
+    <div class="check">
+      <input type="checkbox" id="q3">
+      <label for="q3" aria-label="Подтверждение вопроса 3"></label>
+    </div>
+  </div>
+
+  <div class="item" data-tone="privacy">
+    <div class="item-num">04</div>
+    <div class="item-body">
+      <div class="item-kicker"><span class="tag">Приватность</span> Настройки аккаунта</div>
+      <h2 class="item-q">Память модели и использование данных для обучения — отключены?</h2>
+      <p class="item-note">
+        ChatGPT: <code>Settings → Personalization → Memory: Off</code>, затем
+        <code>Data Controls → Improve the model for everyone: Off</code>. 2FA активно.
+        Аналогичные настройки — у Claude и GigaChat.
+      </p>
+      <div class="item-ref">Регламент · раздел 4.1 · раздел 4.2</div>
+    </div>
+    <div class="check">
+      <input type="checkbox" id="q4">
+      <label for="q4" aria-label="Подтверждение вопроса 4"></label>
+    </div>
+  </div>
+
+  <div class="item" data-tone="final">
+    <div class="item-num">05</div>
+    <div class="item-body">
+      <div class="item-kicker"><span class="tag">Финал</span> Проверка перед отправкой</div>
+      <h2 class="item-q">Буфер обмена проверен, в промпте нет паролей, токенов, API-ключей?</h2>
+      <p class="item-note">
+        Последний взгляд перед нажатием «Отправить». Пароли, API-ключи и приватные токены
+        не вводятся в ИИ даже тестово. Для заглушек — <code>API_KEY_HERE</code>, <code>[TOKEN]</code>.
+      </p>
+      <div class="item-ref">Регламент · раздел 4.4</div>
+    </div>
+    <div class="check">
+      <input type="checkbox" id="q5">
+      <label for="q5" aria-label="Подтверждение вопроса 5"></label>
+    </div>
+  </div>
+
+</section>
+
+<section class="verdict">
+  <div class="verdict-box block" id="verdict">
+    <div class="verdict-icon" id="vicon">—</div>
+    <div>
+      <div class="verdict-label">Вердикт</div>
+      <div class="verdict-status" id="vstatus">Отправка заблокирована <em>— пройдите чек-лист до конца</em></div>
+    </div>
+    <button class="verdict-reset" id="reset">Сбросить</button>
+  </div>
+</section>
+
+<div class="footer">
+  <span>Регламент использования систем ИИ · [НАЗВАНИЕ КОМПАНИИ] · [ДАТА]</span>
+  <span class="footer-seal">Конфиденциально</span>
+</div>
+
+</div>
+
+<script>
+(function(){
+  var boxes=[1,2,3,4,5].map(function(i){return document.getElementById('q'+i)});
+  var fill=document.getElementById('fill');
+  var pdone=document.getElementById('pdone');
+  var verdict=document.getElementById('verdict');
+  var vstatus=document.getElementById('vstatus');
+  var vicon=document.getElementById('vicon');
+  var resetBtn=document.getElementById('reset');
+
+  function render(){
+    var done=boxes.filter(function(b){return b.checked}).length;
+    pdone.textContent=done;
+    fill.style.width=(done*20)+'%';
+    fill.classList.toggle('complete',done===5);
+    verdict.classList.toggle('ok',done===5);
+    verdict.classList.toggle('block',done<5);
+    if(done===5){
+      vicon.textContent='✓';
+      vstatus.innerHTML='Разрешено <em>— если данные не относятся к уровню L3</em>';
+    } else if(done===0){
+      vicon.textContent='—';
+      vstatus.innerHTML='Отправка заблокирована <em>— пройдите чек-лист до конца</em>';
+    } else {
+      vicon.textContent=(5-done).toString();
+      vstatus.innerHTML='Осталось проверить '+(5-done)+' '+pluralize(5-done)+' <em>— отправка запрещена</em>';
+    }
+  }
+  function pluralize(n){
+    if(n%10===1 && n%100!==11) return 'пункт';
+    if([2,3,4].indexOf(n%10)>-1 && [12,13,14].indexOf(n%100)===-1) return 'пункта';
+    return 'пунктов';
+  }
+  boxes.forEach(function(b){b.addEventListener('change',render)});
+  resetBtn.addEventListener('click',function(){
+    boxes.forEach(function(b){b.checked=false});
+    render();
+  });
+  render();
+})();
+</script>
+
+</body>
+</html>
