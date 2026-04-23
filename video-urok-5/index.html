@@ -196,7 +196,7 @@
     <li>Разворачиваем n8n на своём сервере и Домене №2</li>
     <li>2FA и безопасность n8n с первого дня</li>
     <li>Подключение Google к n8n и OpenClaw (Calendar, Drive, Sheets, Gmail)</li>
-    <li>Webhook-связка OpenClaw ↔ n8n в обе стороны</li>
+    <li>OpenClaw → n8n и уведомления от n8n в Telegram</li>
     <li>Cron Jobs внутри OpenClaw — задачи по расписанию без n8n</li>
     <li>Готовый сценарий: встреча → напоминание → запись финансов</li>
   </ul>
@@ -1594,28 +1594,29 @@ Google (Calendar, Drive, Sheets, Gmail) к моему OpenClaw.
 </div>
 
 <!-- ═══════════════════════════════════════════
-     07 — WEBHOOK OPENCLAW ↔ N8N
+     07 — OPENCLAW → N8N + УВЕДОМЛЕНИЯ ОТ N8N
 ═══════════════════════════════════════════ -->
 <div class="section">
   <div class="section__header">
     <div class="section__num">07</div>
-    <div class="section__title">Связка OpenClaw ↔ n8n (webhook в обе стороны)</div>
+    <div class="section__title">OpenClaw → n8n + уведомления от n8n в Telegram</div>
   </div>
   <div class="section__card">
     <div class="note note--info">
       <span class="note__icon">🔄</span>
-      <span>У OpenClaw и n8n разные сильные стороны. Магия начинается, когда они общаются между собой. Связываем их через webhook.</span>
+      <span>У OpenClaw и n8n разные сильные стороны. В этой секции настроим две отдельные вещи: <strong>(1)</strong> OpenClaw будет отправлять данные в n8n через webhook, <strong>(2)</strong> n8n будет присылать вам уведомления в Telegram напрямую, минуя OpenClaw.</span>
     </div>
 
     <div class="info-block">
-      <p><strong>Два направления:</strong></p>
-      <p><strong>OpenClaw → n8n.</strong> Агент может дёрнуть workflow в n8n через webhook-URL. Типичный случай: «сложный многоступенчатый процесс удобнее собрать мышкой в n8n. OpenClaw при необходимости просто вызывает его».</p>
-      <p><strong>n8n → OpenClaw.</strong> Workflow может написать сообщение в ваш Telegram-бот (который и есть OpenClaw) через Telegram Bot API. Типичный случай: «n8n следит за чем-то, и когда наступает событие — просит агента что-то сделать или сообщает вам».</p>
+      <p><strong>Разбираемся на пальцах:</strong></p>
+      <p><strong>1. OpenClaw → n8n.</strong> Вы говорите агенту: «запиши платёж 50 тысяч». OpenClaw понимает, что вы сказали, и отправляет данные на специальный URL в n8n (webhook). n8n получает данные и делает свою работу — например, пишет строку в Google-таблицу. Telegram-бот в этой цепочке — только канал связи между <strong>вами и OpenClaw</strong>. С n8n бот не общается.</p>
+      <p><strong>2. n8n → вы (в Telegram).</strong> n8n сам пишет вам сообщение в Telegram, используя токен того же бота. OpenClaw это сообщение <strong>не видит и не обрабатывает</strong> — n8n просто использует Telegram Bot API, чтобы написать вам напрямую. Полезно, когда нужно уведомление от n8n не гоняя сообщение через агента.</p>
+      <p>⚠️ <strong>Конфликта нет.</strong> OpenClaw слушает ваши входящие сообщения. n8n только отправляет исходящие. Это разные функции Telegram Bot API — они друг другу не мешают.</p>
     </div>
 
     <div class="section-divider">
       <div class="section-divider__line"></div>
-      <div class="section-divider__title">Часть 1: OpenClaw → n8n</div>
+      <div class="section-divider__title">Часть 1: OpenClaw отправляет данные в n8n</div>
     </div>
 
     <div class="item" data-key="hook-create-wf">
@@ -1693,11 +1694,14 @@ https://n8n.ваш-домен-2.com/webhook/xxxxxx
 
     <div class="section-divider">
       <div class="section-divider__line"></div>
-      <div class="section-divider__title">Часть 2: n8n → OpenClaw</div>
+      <div class="section-divider__title">Часть 2: n8n пишет вам в Telegram (минуя OpenClaw)</div>
     </div>
 
     <div class="info-block">
-      <p>Самый простой способ — использовать Telegram Bot API напрямую. У нашего OpenClaw уже есть токен бота (настраивали в уроке 3).</p>
+      <p>💡 <strong>Что мы делаем в этой части:</strong> настраиваем n8n, чтобы он мог писать вам сообщения в Telegram через вашего бота. OpenClaw в этой цепочке не участвует — n8n напрямую использует Telegram Bot API, чтобы отправить уведомление как будто от бота.</p>
+      <p><strong>Типичные use cases:</strong></p>
+      <p>• n8n следит за новыми письмами → присылает уведомление в чат<br>• Сработал cron в n8n → приходит напоминание<br>• Пришёл платёж → n8n шлёт сводку</p>
+      <p>У нашего OpenClaw уже есть токен бота (настраивали в уроке 3) — его же и будем использовать.</p>
     </div>
 
     <div class="item" data-key="tg-cred">
@@ -1732,7 +1736,7 @@ https://n8n.ваш-домен-2.com/webhook/xxxxxx
 
     <div class="note note--green">
       <span class="note__icon">🎉</span>
-      <span>Связка работает в обе стороны. Теперь OpenClaw может дёргать n8n, а n8n может писать вам через бота.</span>
+      <span>Готово. Теперь OpenClaw может отправлять данные в n8n через webhook, а n8n может присылать вам уведомления в Telegram — по разным каналам, но через одного и того же бота.</span>
     </div>
 
     <div class="note note--info">
@@ -2436,7 +2440,7 @@ https://n8n.<ВАШ_ДОМЕН_2>/webhook/log-payment
 
     <div class="note note--green">
       <span class="note__icon">🎓</span>
-      <span><strong>К концу урока 5 у вас:</strong><br>— Свой n8n на отдельном домене с двумя слоями защиты<br>— Google (Calendar, Drive, Sheets, Gmail) подключён и к n8n, и к OpenClaw<br>— Webhook-связка между OpenClaw и n8n работает в обе стороны<br>— Минимум 1 рабочий сценарий автоматизации собран и протестирован<br>— Cron Jobs внутри агента выполняют задачи по расписанию</span>
+      <span><strong>К концу урока 5 у вас:</strong><br>— Свой n8n на отдельном домене с двумя слоями защиты<br>— Google (Calendar, Drive, Sheets, Gmail) подключён и к n8n, и к OpenClaw<br>— OpenClaw умеет отправлять данные в n8n через webhook, а n8n умеет писать вам в Telegram<br>— Минимум 1 рабочий сценарий автоматизации собран и протестирован<br>— Cron Jobs внутри агента выполняют задачи по расписанию</span>
     </div>
 
     <div class="info-block">
