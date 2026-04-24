@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ИИ-ВИЗАЦИЯ: OPENCLAW — Часть 1. Глава 01. Документация OpenClaw</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #0a0a0f; --bg-card: #12121a; --bg-card-hover: #181825;
+    --border: #1e1e2e; --border-accent: #2a2a3e;
+    --text-primary: #e8e6f0; --text-secondary: #8b879e; --text-muted: #5a5670;
+    --accent: #7c5bf5; --accent-glow: #9d7cff; --accent-soft: rgba(124,91,245,0.12);
+    --green: #34d399; --green-glow: #6ee7b7; --green-soft: rgba(52,211,153,0.1);
+    --amber: #fbbf24; --amber-soft: rgba(251,191,36,0.1);
+    --red-soft: rgba(248,113,113,0.1); --red: #f87171;
+    --radius: 14px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Onest',sans-serif; background:var(--bg-deep); color:var(--text-primary); line-height:1.65; min-height:100vh; -webkit-font-smoothing:antialiased; }
+  body::before { content:''; position:fixed; inset:0; background-image:radial-gradient(circle at 20% 20%,rgba(124,91,245,0.04) 0%,transparent 50%),radial-gradient(circle at 80% 80%,rgba(52,211,153,0.03) 0%,transparent 50%); pointer-events:none; z-index:0; }
+  .wrapper { position:relative; z-index:1; max-width:680px; margin:0 auto; padding:40px 20px 80px; }
+
+  /* ─── HEADER ─── */
+  .header { text-align:center; margin-bottom:48px; }
+  .header__badge { display:inline-block; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:var(--accent-glow); background:var(--accent-soft); border:1px solid rgba(124,91,245,0.2); padding:6px 16px; border-radius:100px; margin-bottom:24px; animation:fadeDown .6s ease both; }
+  .header__title { font-size:clamp(22px,5vw,34px); font-weight:800; line-height:1.2; letter-spacing:-0.5px; margin-bottom:20px; animation:fadeDown .6s ease .1s both; }
+  .header__title span { background:linear-gradient(135deg,var(--accent-glow),var(--green)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .header__topics { list-style:none; display:flex; flex-direction:column; gap:7px; max-width:460px; margin:0 auto; animation:fadeDown .6s ease .2s both; }
+  .header__topics li { font-size:13.5px; color:var(--text-secondary); display:flex; align-items:flex-start; gap:8px; text-align:left; }
+  .header__topics li::before { content:'→'; color:var(--accent); flex-shrink:0; font-family:'JetBrains Mono',monospace; font-size:11px; margin-top:3px; }
+
+  /* ─── PROGRESS ─── */
+  .progress-wrap { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:20px 24px; margin-bottom:36px; position:sticky; top:12px; z-index:10; backdrop-filter:blur(16px); background:rgba(18,18,26,0.92); animation:fadeDown .6s ease .3s both; }
+  .progress-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+  .progress-label { font-size:13px; font-weight:600; color:var(--text-secondary); text-transform:uppercase; letter-spacing:1px; font-family:'JetBrains Mono',monospace; }
+  .progress-count { font-family:'JetBrains Mono',monospace; font-size:14px; font-weight:700; color:var(--accent-glow); }
+  .progress-bar { width:100%; height:8px; background:var(--border); border-radius:100px; overflow:hidden; }
+  .progress-fill { height:100%; background:linear-gradient(90deg,var(--accent),var(--green)); border-radius:100px; transition:width .5s cubic-bezier(.34,1.56,.64,1); width:0%; }
+
+  /* ─── SECTION ─── */
+  .section { margin-bottom:28px; }
+  .section__header { display:flex; align-items:center; gap:12px; margin-bottom:14px; padding-left:2px; }
+  .section__num { font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; color:var(--accent); background:var(--accent-soft); width:32px; height:32px; display:flex; align-items:center; justify-content:center; border-radius:8px; flex-shrink:0; }
+  .section__title { font-size:16px; font-weight:700; letter-spacing:-0.2px; line-height:1.35; }
+  .section__card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; transition:border-color .3s; }
+  .section__card:hover { border-color:var(--border-accent); }
+
+  /* ─── CHECKLIST ITEM ─── */
+  .item { display:flex; align-items:flex-start; gap:14px; padding:16px 20px; border-bottom:1px solid var(--border); transition:background .2s; }
+  .item:last-child { border-bottom:none; }
+  .item:hover { background:var(--bg-card-hover); }
+  .item.checked .item__text { color:var(--text-muted); text-decoration:line-through; }
+  .item__check { position:relative; width:22px; height:22px; flex-shrink:0; margin-top:1px; pointer-events:auto; cursor:pointer; }
+  .item__check input { position:absolute; opacity:0; width:100%; height:100%; cursor:pointer; z-index:2; }
+  .item__check .cm { width:22px; height:22px; border:2px solid var(--border-accent); border-radius:6px; display:flex; align-items:center; justify-content:center; transition:all .25s cubic-bezier(.34,1.56,.64,1); cursor:pointer; }
+  .item__check .cm svg { width:12px; height:12px; opacity:0; transform:scale(0); transition:all .25s cubic-bezier(.34,1.56,.64,1); }
+  .item__check input:checked + .cm { background:var(--green); border-color:var(--green); }
+  .item__check input:checked + .cm svg { opacity:1; transform:scale(1); }
+  .item__body { flex:1; min-width:0; pointer-events:none; user-select:text; }
+  .item__body a, .item__body .lnk, .item__body .cmd-copy, .item__body .btn-copy { pointer-events:auto !important; cursor:pointer !important; }
+  .item__text { font-size:14.5px; font-weight:500; color:var(--text-primary); transition:all .3s; }
+  .item__hint { font-size:13px; color:var(--text-secondary); margin-top:5px; line-height:1.65; }
+  .item__hint strong { color:var(--text-primary); }
+
+  /* ─── LNK ─── */
+  .lnk { display:inline-flex; align-items:center; gap:5px; font-size:13px; font-family:'JetBrains Mono',monospace; color:var(--accent-glow); text-decoration:none; transition:color .2s; word-break:break-all; }
+  .lnk:hover { color:#bba4ff; text-decoration:underline; }
+  .lnk svg { width:13px; height:13px; flex-shrink:0; }
+
+  /* ─── RES-BLOCK ─── */
+  .res-block { padding:14px 20px; border-bottom:1px solid var(--border); transition:background .2s; }
+  .res-block:last-child { border-bottom:none; }
+  .res-block:hover { background:var(--bg-card-hover); }
+  .res-block__title { font-size:14px; font-weight:600; color:var(--text-primary); margin-bottom:3px; }
+  .res-block__sub { font-size:13px; color:var(--text-secondary); margin-bottom:7px; line-height:1.5; }
+
+  /* ─── NOTE ─── */
+  .note { display:flex; align-items:flex-start; gap:10px; padding:14px 20px; font-size:13px; color:var(--text-secondary); line-height:1.65; border-bottom:1px solid var(--border); }
+  .note:last-child { border-bottom:none; }
+  .note--warn { background:var(--amber-soft); color:var(--amber); }
+  .note--info { background:var(--accent-soft); }
+  .note--alert { background:var(--red-soft); color:var(--red); }
+  .note--green { background:var(--green-soft); color:var(--green-glow); }
+  .note__icon { flex-shrink:0; font-size:15px; }
+  .note strong { color:inherit; }
+  .note .lnk { color:var(--accent-glow); }
+
+  /* ─── INFO BLOCK ─── */
+  .info-block { padding:14px 20px; border-bottom:1px solid var(--border); font-size:13.5px; color:var(--text-secondary); line-height:1.7; }
+  .info-block:last-child { border-bottom:none; }
+  .info-block strong { color:var(--text-primary); font-weight:600; }
+  .info-block p { margin-bottom:8px; }
+  .info-block p:last-child { margin-bottom:0; }
+
+  /* ─── TERM ─── */
+  .term { padding:16px 20px; border-bottom:1px solid var(--border); }
+  .term:last-child { border-bottom:none; }
+  .term__name { font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; color:var(--accent-glow); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:7px; }
+  .term__def { font-size:14px; color:var(--text-primary); font-weight:500; margin-bottom:8px; line-height:1.55; }
+  .term__example { font-size:13px; color:var(--text-secondary); line-height:1.65; padding:10px 14px; background:rgba(124,91,245,0.06); border-left:2px solid rgba(124,91,245,0.3); border-radius:0 6px 6px 0; }
+  .mono { font-family:'JetBrains Mono',monospace; color:var(--accent-glow); font-size:12px; }
+
+  /* ─── TABLE ─── */
+  .data-table { width:100%; font-size:13px; border-collapse:collapse; }
+  .data-table th { text-align:left; font-weight:600; color:var(--text-muted); font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:1.2px; padding:10px 20px; border-bottom:1px solid var(--border); background:rgba(0,0,0,0.2); }
+  .data-table td { padding:11px 20px; border-bottom:1px solid var(--border); color:var(--text-secondary); vertical-align:top; line-height:1.5; }
+  .data-table tr:last-child td { border-bottom:none; }
+  .data-table td:first-child { color:var(--text-primary); font-weight:600; }
+
+  /* ─── ARCH BOX ─── */
+  .arch-box { background:rgba(0,0,0,0.3); border:1px solid var(--border-accent); border-radius:10px; padding:18px 22px; margin:12px 20px; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text-secondary); line-height:2; white-space:pre; overflow-x:auto; }
+
+  /* ─── PROMPT BLOCK ─── */
+  .prompt-block { background:rgba(0,0,0,0.25); border:1px solid var(--border-accent); border-radius:10px; padding:18px 20px; margin:12px 16px; }
+  .prompt-block__title { font-size:13px; font-weight:700; color:var(--accent-glow); margin-bottom:10px; display:flex; align-items:center; gap:8px; font-family:'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:1px; }
+  .prompt-block__text { font-size:13px; color:var(--text-secondary); line-height:1.7; white-space:pre-wrap; margin-bottom:14px; word-break:break-word; }
+  .btn-copy { display:inline-flex; align-items:center; gap:6px; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600; color:var(--accent-glow); background:var(--accent-soft); border:1px solid rgba(124,91,245,0.3); padding:8px 16px; border-radius:8px; cursor:pointer; transition:all .2s; text-transform:uppercase; letter-spacing:1px; }
+  .btn-copy:hover { background:rgba(124,91,245,0.2); border-color:var(--accent); }
+  .btn-copy.copied { color:var(--green); background:var(--green-soft); border-color:rgba(52,211,153,0.3); }
+
+  /* ─── CODE BLOCK ─── */
+  .code-block { background:rgba(0,0,0,0.4); border:1px solid var(--border-accent); border-radius:10px; padding:16px 20px; margin:12px 16px; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--green-glow); line-height:1.8; white-space:pre-wrap; word-break:break-all; overflow-x:auto; }
+  .code-block__label { font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:8px; display:block; }
+  .code-block .btn-copy { margin-top:12px; }
+
+  /* ─── CMD COPY ─── */
+  .cmd-copy { background:rgba(0,0,0,0.35); border:1px solid var(--border-accent); border-radius:8px; padding:10px 14px; margin:8px 0; display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  .cmd-copy__text { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--green-glow); line-height:1.6; word-break:break-all; flex:1; white-space:pre-wrap; }
+  .cmd-copy .btn-copy { flex-shrink:0; padding:5px 12px; font-size:10px; }
+
+  /* ─── SPOILER ─── */
+  .spoiler { border-bottom:1px solid var(--border); }
+  .spoiler:last-child { border-bottom:none; }
+  .spoiler summary { padding:14px 20px; font-size:13.5px; font-weight:600; color:var(--text-secondary); cursor:pointer; list-style:none; display:flex; align-items:center; gap:8px; transition:color .2s; }
+  .spoiler summary:hover { color:var(--text-primary); }
+  .spoiler summary::before { content:'▸'; font-size:12px; transition:transform .2s; }
+  .spoiler[open] summary::before { transform:rotate(90deg); }
+  .spoiler__content { padding:0 20px 16px 34px; font-size:13px; color:var(--text-secondary); line-height:1.7; }
+  .spoiler__content p { margin-bottom:8px; }
+  .spoiler__content strong { color:var(--text-primary); font-weight:600; }
+
+  /* ─── SECTION DIVIDER ─── */
+  .section-divider { text-align:center; margin:48px 0 32px; padding:0 20px; }
+  .section-divider__line { height:1px; background:linear-gradient(90deg,transparent,var(--accent),transparent); margin-bottom:20px; }
+  .section-divider__title { font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; color:var(--accent-glow); text-transform:uppercase; letter-spacing:3px; }
+
+  /* ─── FOOTER ─── */
+  .footer { text-align:center; margin-top:48px; }
+  .footer__done { display:none; background:var(--green-soft); border:1px solid rgba(52,211,153,0.25); border-radius:var(--radius); padding:32px 24px; margin-bottom:24px; }
+  .footer__done.visible { display:block; animation:popIn .5s cubic-bezier(.34,1.56,.64,1) both; }
+  .footer__done-emoji { font-size:48px; margin-bottom:10px; }
+  .footer__done-text { font-size:22px; font-weight:800; color:var(--green); margin-bottom:6px; }
+  .footer__done-sub { font-size:15px; color:var(--text-secondary); }
+  .footer__schedule { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:20px 24px; margin-bottom:20px; font-size:14px; }
+  .footer__schedule-title { font-weight:700; margin-bottom:8px; font-size:15px; }
+  .footer__schedule-row { display:flex; justify-content:space-between; padding:4px 0; color:var(--text-secondary); }
+  .footer__schedule-row span:first-child { color:var(--text-primary); font-weight:500; }
+  .footer__contact { font-size:14px; color:var(--text-secondary); margin-bottom:20px; }
+  .footer__contact a { color:#2dd4bf; text-decoration:underline; text-decoration-color:rgba(45,212,191,0.4); font-weight:700; }
+  .btn-reset { background:none; border:1px solid var(--border); color:var(--text-muted); font-family:'JetBrains Mono',monospace; font-size:12px; padding:8px 20px; border-radius:100px; cursor:pointer; transition:all .2s; }
+  .btn-reset:hover { border-color:var(--red); color:var(--red); }
+  .tg { color:#2dd4bf !important; font-weight:700; text-decoration:underline; text-decoration-color:rgba(45,212,191,0.4); }
+  #confetti-canvas { position:fixed; inset:0; z-index:9999; pointer-events:none; }
+  @keyframes fadeDown { from{opacity:0;transform:translateY(-12px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes popIn { from{opacity:0;transform:scale(0.8)} to{opacity:1;transform:scale(1)} }
+
+  @media (max-width:480px) {
+    .wrapper { padding:28px 14px 60px; }
+    .item,.note,.term,.info-block,.res-block { padding:12px 16px; }
+    .cmd-copy { padding:8px 12px; flex-direction:column; align-items:flex-start; }
+    .progress-wrap { padding:16px 18px; top:8px; }
+    .footer__schedule-row { flex-direction:column; gap:2px; }
+    .data-table th,.data-table td { padding:8px 14px; }
+    .arch-box { margin:10px 14px; font-size:11px; padding:14px 16px; }
+    .prompt-block { margin:10px 12px; }
+    .code-block { margin:10px 12px; font-size:11px; }
+    .header__title { font-size:22px; }
+  }
+</style>
+</head>
+<body>
+<canvas id="confetti-canvas"></canvas>
+<div class="wrapper">
+
+<!-- ═══ HEADER ═══ -->
+<header class="header">
+  <div class="header__badge">УРОК 06 · ЧАСТЬ 1 · ГЛАВА 01</div>
+  <h1 class="header__title"><span>Документация OpenClaw</span> — как ориентироваться и искать ответы самому</h1>
+  <ul class="header__topics">
+    <li>Скачиваем всю документацию OpenClaw одним файлом</li>
+    <li>Просим Claude Code разбить её по темам на отдельные .md</li>
+    <li>Переносим готовую папку локально и на сервер</li>
+    <li>Настраиваем AGENTS.md, чтобы Claude Code сверялся с документацией</li>
+    <li>Бонусы: команда openclaw docs и поиск ⌘K на сайте</li>
+  </ul>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-top">
+    <span class="progress-label">Прогресс</span>
+    <span class="progress-count" id="progressCount">0 / 0</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     01 — ЗАЧЕМ УЧИТЬСЯ ЧИТАТЬ ДОКУМЕНТАЦИЮ
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">01</div>
+    <div class="section__title">Зачем учиться читать документацию OpenClaw</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🧭</span>
+      <span>За 5 уроков мы построили инфраструктуру, научили агента говорить, подключили n8n и Google. Теперь переход на новый уровень: учимся самостоятельно копаться в OpenClaw. Без этого навыка после интенсива упрёшься в потолок на первой же нестандартной задаче.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Проблема:</strong> документация OpenClaw — это 200+ страниц (на сегодня), и она обновляется каждый месяц. Читать глазами — медленно и бессмысленно.</p>
+      <p><strong>Решение:</strong> отдать всю документацию Claude — и в claude.ai, и в Claude Code. Один раз настроил — и твои AI-ассистенты знают OpenClaw целиком, без галлюцинаций и устаревших ответов из тренировочных данных.</p>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">⚡</span>
+      <span><strong>Важно разделить в голове.</strong> В Части 1 мы даём Claude Code <strong>два независимых слоя</strong>:<br><strong>1.</strong> Документация (эта глава) — Claude понимает, <strong>как устроен</strong> OpenClaw. Это учебник.<br><strong>2.</strong> MCP OpenClaw (следующая глава) — Claude получает <strong>руки</strong> для работы с твоим инстансом. Это доступ к твоему конкретному проекту.<br>Одно без другого работает слабо. <strong>Вместе — режим БОГА.</strong></span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     02 — КЛЮЧЕВЫЕ РЕСУРСЫ
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">02</div>
+    <div class="section__title">Ключевые ресурсы документации OpenClaw</div>
+  </div>
+  <div class="section__card">
+    <div class="res-block">
+      <div class="res-block__title">📖 Главная страница документации</div>
+      <div class="res-block__sub">Официальный сайт с поиском, разделами, примерами. Здесь начинается любой ресёрч.<br>
+        <a href="https://docs.openclaw.ai/" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> docs.openclaw.ai — открыть документацию</a>
+      </div>
+    </div>
+
+    <div class="res-block">
+      <div class="res-block__title">🤖 llms-full.txt — вся дока одним файлом для AI</div>
+      <div class="res-block__sub">Стандарт llmstxt.org — авторы проекта собрали ВСЮ документацию в один markdown-файл, заточенный под загрузку в AI. Именно этот файл мы скачаем в практике ниже.<br>
+        <a href="https://docs.openclaw.ai/llms-full.txt" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> docs.openclaw.ai/llms-full.txt</a>
+      </div>
+    </div>
+
+    <div class="res-block">
+      <div class="res-block__title">🗂️ llms.txt — индекс всех страниц в <span class="mono">.md</span></div>
+      <div class="res-block__sub">Полный список разделов документации со ссылками на markdown-версии каждой страницы. Используется Claude Code для точечного ресёрча по конкретной теме.<br>
+        <a href="https://docs.openclaw.ai/llms.txt" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> docs.openclaw.ai/llms.txt</a>
+      </div>
+    </div>
+
+    <div class="res-block">
+      <div class="res-block__title">🐙 GitHub и свежие релизы</div>
+      <div class="res-block__sub">Исходники OpenClaw, открытые баги, changelog. Проверяй раз в месяц — что изменилось в новых версиях.<br>
+        <a href="https://github.com/openclaw/openclaw" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> github.com/openclaw/openclaw — репозиторий</a><br>
+        <a href="https://github.com/openclaw/openclaw/releases" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> github.com/openclaw/openclaw/releases — релизы</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     03 — ЧТО ТАКОЕ LLMS-FULL.TXT
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">03</div>
+    <div class="section__title">Что такое llms-full.txt и почему это именно то, что нам нужно</div>
+  </div>
+  <div class="section__card">
+    <div class="term">
+      <div class="term__name">LLMS-FULL.TXT</div>
+      <div class="term__def">Стандарт <strong>llmstxt.org</strong> — авторы проекта публикуют всю свою документацию в одном <span class="mono">.md</span>-файле, заточенном под загрузку в AI-инструменты (Claude, ChatGPT и т.п.).</div>
+      <div class="term__example">📌 Пример: команда OpenClaw собрала все 200+ страниц документации в один текстовый файл ~4 МБ. Скачал → отдал Claude → Claude знает OpenClaw целиком. Никаких галлюцинаций в командах, никаких устаревших ответов.</div>
+    </div>
+
+    <div class="info-block">
+      <p>Размер файла — <strong>~4 МБ</strong> (примерно 1 миллион токенов). Это огромный файл. Читать его целиком каждый раз Claude Code не будет (да и не сможет — даже Claude Opus 4.7 с контекстом в 1 млн токенов упрётся в потолок).</p>
+      <p>Поэтому в практике ниже мы попросим Claude Code <strong>разбить</strong> этот файл на тематические разделы. Так Claude будет подтягивать только нужные 5–15К токенов на каждый вопрос вместо 1 млн.</p>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">💎</span>
+      <span><strong>«У меня же Claude Opus 4.7 с контекстом 1М токенов — зачем разбивать?»</strong><br>— <strong>Скорость:</strong> 5–15К токенов раздела → ответ за секунды. 1 млн токенов целиком → 1–2 минуты ожидания каждый раз.<br>— <strong>Точность:</strong> Claude фокусируется на релевантном разделе — меньше шума, меньше ошибок.<br>— <strong>Стоимость:</strong> если работаешь через API (а не подписку) — разбивка экономит десятки долларов в месяц.<br>— <strong>Переносимость:</strong> когда подключим Claude Code в Telegram-бота на сервере (Глава 03 этой части), там может быть другая модель, подписка и лимиты. Разбитая дока работает везде одинаково.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     04 — ШАГ 1. СКАЧИВАЕМ ДОКУМЕНТАЦИЮ
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">04</div>
+    <div class="section__title">Шаг 1. Скачиваем документацию локально на Mac</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p>Начинаем с локальной машины. Открой <strong>обычный Терминал на Mac</strong> (Terminal.app или iTerm — НЕ терминал VS Code, подключённый к серверу).</p>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch01-download-local">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Скачать llms-full.txt в папку ~/openclaw-docs/</div>
+        <div class="item__hint">Команда создаст папку в домашней директории Mac и скачает туда всю документацию одним файлом (~4 МБ). После выполнения — проверь размер файла.</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdDownloadDocs">mkdir -p ~/openclaw-docs && curl -o ~/openclaw-docs/openclaw.md https://docs.openclaw.ai/llms-full.txt</span><button class="btn-copy" onclick="copyBlock('cmdDownloadDocs',this)">📋 Скопировать</button></div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdCheckSize">ls -lh ~/openclaw-docs/openclaw.md</span><button class="btn-copy" onclick="copyBlock('cmdCheckSize',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span>Если видишь файл размером примерно <strong>4 МБ</strong> — всё ок. Полный путь до файла: <span class="mono">/Users/ТВОЁ_ИМЯ/openclaw-docs/openclaw.md</span></span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     05 — ШАГ 2. НАРЕЗАЕМ ПО ТЕМАМ
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">05</div>
+    <div class="section__title">Шаг 2. Нарезаем документацию по темам через Claude Code</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🪚</span>
+      <span>Сейчас мы откроем Claude Code <strong>локально</strong> и попросим его разобрать гигантский файл на тематические куски. Claude Opus 4.7 с его контекстом в 1М токенов справляется с этим за один проход.</span>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch01-open-vscode-local">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Открыть Claude Code локально в VS Code</div>
+        <div class="item__hint">Открой VS Code на Mac. В этой сессии работаем <strong>БЕЗ Remote-SSH</strong> — именно локально. Запусти Claude Code и откажись от любых активных сессий (New Chat).</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch01-cut-by-topics">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Отправить в Claude Code промпт для нарезки</div>
+        <div class="item__hint">Claude Code прочитает файл, разберёт его на 20+ тематических разделов и создаст индексный файл с картой. На это уйдёт несколько минут.</div>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: нарезка документации OpenClaw по темам</div>
+      <div class="prompt-block__text" id="promptCutDocs">Прочитай файл ~/openclaw-docs/openclaw.md — это вся документация OpenClaw
+в одном .md файле (~4 МБ, ~1М токенов, стандарт llmstxt.org).
+
+ЗАДАЧА: разбей этот файл на отдельные тематические markdown-файлы.
+
+Создай папку ~/openclaw-docs/openclaw/ и положи туда файлы по такой схеме:
+
+01-overview.md               — введение, showcase, features, концепция
+02-getting-started.md        — onboarding, setup, install, первый запуск
+03-channels.md               — все каналы (Telegram, WhatsApp, Signal, Discord и т.д.)
+04-concepts-agents.md        — агенты, Agent Loop, Agent Workspace, Delegate
+05-concepts-memory.md        — Memory Engine, MEMORY.md, memory search, built-in/Honcho/QMD
+06-concepts-soul.md          — SOUL.md, Personality Guide, характер агента
+07-concepts-system.md        — System Prompt, Context, Sessions, Compaction
+08-automation.md             — Cron Jobs, Hooks, Webhooks, Standing Orders, TaskFlow
+09-heartbeat.md              — Heartbeat, проактивность агента
+10-tools-skills.md           — Skills, ClawHub, Creating Skills, Slash Commands
+11-tools-mcp.md              — MCP CLI и настройка интеграций
+12-tools-other.md            — Browser, Exec, Search (все движки), LLM Task, Sub-Agents
+13-providers.md              — все провайдеры моделей (OpenAI, Anthropic, OpenRouter, Google и пр.)
+14-gateway-config.md         — Gateway Configuration, examples, reference
+15-gateway-security.md       — Security, Sandboxing, Secrets, Authentication, Trusted Proxy
+16-gateway-ops.md             — Remote Access, Logging, Health, Doctor, Troubleshooting
+17-cli-reference.md          — вся CLI-справка (все команды openclaw *)
+18-templates.md              — все шаблоны (SOUL, AGENTS, HEARTBEAT, IDENTITY, USER, BOOT, TOOLS)
+19-platforms.md              — macOS, Linux, Windows, iOS, Android
+20-plugins.md                — Plugin SDK, Building Plugins, Community Plugins
+21-help.md                   — FAQ, Debugging, Environment Variables, Scripts
+
+ТРЕБОВАНИЯ К КАЖДОМУ ФАЙЛУ:
+1. В начале файла — заголовок с названием раздела и краткое описание что внутри.
+2. Полный перенос содержимого соответствующих разделов из исходного файла.
+3. Ничего НЕ сокращай, НЕ перефразируй, НЕ опускай примеры кода и таблицы.
+4. Все ссылки, code-блоки, таблицы, чек-листы переноси 1:1.
+
+ДОПОЛНИТЕЛЬНО: создай в этой же папке файл index.md со структурой:
+
+# OpenClaw Documentation — Index
+
+## Карта разделов
+(таблица: имя файла | о чём файл | примеры вопросов, на которые он отвечает)
+
+## Правило обращения
+1. Всегда сначала читай этот index.md
+2. Определи по таблице, какой файл нужен
+3. Читай только нужный файл целиком
+4. Если тема сквозная — используй Grep по всей папке ~/openclaw-docs/openclaw/
+
+После окончания работы:
+— покажи размер каждого созданного файла
+— подтверди, что суммарный объём близок к исходному
+— ничего не удаляй из оригинального ~/openclaw-docs/openclaw.md</div>
+      <button class="btn-copy" onclick="copyBlock('promptCutDocs', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch01-verify-cut">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить результат нарезки</div>
+        <div class="item__hint">После того как Claude Code закончит работу — в локальном терминале выполни проверочные команды ниже.</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdCheckCut">ls -lh ~/openclaw-docs/openclaw/</span><button class="btn-copy" onclick="copyBlock('cmdCheckCut',this)">📋 Скопировать</button></div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdCheckIndex">cat ~/openclaw-docs/openclaw/index.md</span><button class="btn-copy" onclick="copyBlock('cmdCheckIndex',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span>В папке должен быть <strong>index.md</strong> и около 21 тематического файла от <span class="mono">01-overview.md</span> до <span class="mono">21-help.md</span>. Суммарный вес файлов — примерно равен исходному (~4 МБ).</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     06 — ШАГ 3. ПЕРЕНОСИМ НА СЕРВЕР
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">06</div>
+    <div class="section__title">Шаг 3. Переносим документацию на сервер</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p><strong>Зачем сервер?</strong> Мы локально уже всё разбили и используем в VS Code на Mac. Но в <strong>Главе 03</strong> этой же Части мы подключим Claude Code в отдельного Telegram-бота, и этот бот будет запускать Claude Code <strong>на сервере</strong>. Чтобы серверный Claude Code тоже знал документацию — копируем папку туда заранее.</p>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch01-scp-server">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Скопировать папку с документацией на сервер по SCP</div>
+        <div class="item__hint">Замени <span class="mono">&lt;IP&gt;</span> на IP-адрес твоего VPS. Команда выполняется в <strong>локальном</strong> терминале Mac (НЕ в терминале VS Code, подключённого к серверу).</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdScpServer">scp -r ~/openclaw-docs/openclaw root@&lt;IP&gt;:~/openclaw-docs/</span><button class="btn-copy" onclick="copyBlock('cmdScpServer',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch01-verify-server">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить, что папка появилась на сервере</div>
+        <div class="item__hint">Подключись к серверу по SSH (либо через VS Code Remote-SSH, либо команду ниже) и выполни проверку.</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdCheckServer">ssh root@&lt;IP&gt; "ls -lh ~/openclaw-docs/openclaw/ | head -30"</span><button class="btn-copy" onclick="copyBlock('cmdCheckServer',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span>Если видишь список файлов от <span class="mono">01-overview.md</span> до <span class="mono">21-help.md</span> + <span class="mono">index.md</span> — перенос прошёл успешно. Теперь документация лежит в двух местах одновременно.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     07 — ШАГ 4. AGENTS.MD
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">07</div>
+    <div class="section__title">Шаг 4. Учим Claude Code сверяться с документацией</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🧠</span>
+      <span>Дока на диске — это ещё половина дела. Нужно, чтобы Claude Code <strong>знал</strong>, что она там есть и <strong>всегда</strong> обращался к ней при вопросах по OpenClaw. Делается это одним блоком в файле <span class="mono">AGENTS.md</span> — это основной конфиг-файл Claude Code для проекта.</span>
+    </div>
+
+    <div class="info-block">
+      <p>Правило добавляем в <strong>оба AGENTS.md</strong>:</p>
+      <p>— В локальный <span class="mono">AGENTS.md</span> в проекте на Mac (для работы из VS Code локально)<br>— В серверный <span class="mono">AGENTS.md</span> в проекте на VPS (для работы из VS Code Remote-SSH и будущего Telegram-бота в Главе 03)</p>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch01-agents-local">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Добавить правило в локальный AGENTS.md на Mac</div>
+        <div class="item__hint">Открой свой основной рабочий AGENTS.md в VS Code (обычно лежит в корне рабочего проекта). Вставь блок из промпта ниже в конец файла и сохрани.</div>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Блок для локального AGENTS.md (Mac)</div>
+      <div class="prompt-block__text" id="promptAgentsLocal">## Документация OpenClaw
+
+Полная документация OpenClaw разбита по темам в папке
+~/openclaw-docs/openclaw/.
+
+При ЛЮБОМ вопросе по OpenClaw (настройка, конфигурация,
+CLI-команды, скиллы, провайдеры, концепции, шаблоны)
+работай по такому алгоритму:
+
+1. СНАЧАЛА прочитай ~/openclaw-docs/openclaw/index.md
+   — там карта всех разделов.
+2. Выбери нужный тематический файл по описанию в карте.
+3. Прочитай этот файл ЦЕЛИКОМ через Read.
+4. Если тема сквозная (затрагивает несколько файлов)
+   — используй Grep по всей папке ~/openclaw-docs/openclaw/.
+5. НИКОГДА не придумывай CLI-команды, ключи конфигурации
+   и имена инструментов из памяти — только из документации.
+6. Если нужного не нашёл — используй
+   `openclaw docs &lt;ключевые_слова&gt;` для живого поиска.</div>
+      <button class="btn-copy" onclick="copyBlock('promptAgentsLocal', this)">📋 Скопировать блок</button>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch01-agents-server">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Добавить правило в серверный AGENTS.md</div>
+        <div class="item__hint">Подключись к серверу через VS Code Remote-SSH и открой <span class="mono">AGENTS.md</span> в корне рабочего проекта на сервере. Вставь блок из промпта ниже в конец файла и сохрани. <strong>Путь в блоке тот же</strong> — мы же специально копировали папку по тому же относительному пути.</div>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Блок для серверного AGENTS.md (VPS)</div>
+      <div class="prompt-block__text" id="promptAgentsServer">## Документация OpenClaw
+
+Полная документация OpenClaw разбита по темам в папке
+~/openclaw-docs/openclaw/.
+
+При ЛЮБОМ вопросе по OpenClaw (настройка, конфигурация,
+CLI-команды, скиллы, провайдеры, концепции, шаблоны)
+работай по такому алгоритму:
+
+1. СНАЧАЛА прочитай ~/openclaw-docs/openclaw/index.md
+   — там карта всех разделов.
+2. Выбери нужный тематический файл по описанию в карте.
+3. Прочитай этот файл ЦЕЛИКОМ через Read.
+4. Если тема сквозная (затрагивает несколько файлов)
+   — используй Grep по всей папке ~/openclaw-docs/openclaw/.
+5. НИКОГДА не придумывай CLI-команды, ключи конфигурации
+   и имена инструментов из памяти — только из документации.
+6. Если нужного не нашёл — используй
+   `openclaw docs &lt;ключевые_слова&gt;` для живого поиска.</div>
+      <button class="btn-copy" onclick="copyBlock('promptAgentsServer', this)">📋 Скопировать блок</button>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch01-restart-claude">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Перезапустить сессию Claude Code</div>
+        <div class="item__hint">После правки AGENTS.md нужно перезапустить сессию Claude Code (и на Mac, и на сервере), чтобы она подхватила новое правило.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch01-test-claude">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Протестировать — задать Claude Code реальный вопрос по OpenClaw</div>
+        <div class="item__hint">В новой сессии Claude Code задай тестовый вопрос из промпта ниже. Если Claude в ответе ссылается на конкретный файл из <span class="mono">~/openclaw-docs/openclaw/</span> и корректно объясняет тему — всё настроено правильно ✅</div>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Тестовый запрос для проверки</div>
+      <div class="prompt-block__text" id="promptTestDocs">Как в OpenClaw устроены Heartbeats? Дай мне:
+1. Коротко что это и зачем.
+2. Конкретный пример конфига с синтаксисом.
+3. Все актуальные параметры и поля.
+
+Важно: отвечай строго по моей документации OpenClaw из
+~/openclaw-docs/openclaw/ — начни с чтения index.md.</div>
+      <button class="btn-copy" onclick="copyBlock('promptTestDocs', this)">📋 Скопировать промпт</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     08 — ШАГ 5. CLAUDE PROJECT
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">08</div>
+    <div class="section__title">Шаг 5. Загружаем документацию в Claude Project</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🗂️</span>
+      <span>Помнишь проект в claude.ai из <strong>Урока 2</strong>, в который мы загружали базу знаний о твоём бизнесе? Сейчас в этот же проект добавим документацию OpenClaw. Тогда Claude в claude.ai будет знать ОДНОВРЕМЕННО и твой бизнес, и OpenClaw — это мощная связка для обсуждения стратегии и архитектуры агентов.</span>
+    </div>
+
+    <div class="info-block">
+      <p>В Claude Project загружаем <strong>цельный</strong> файл <span class="mono">~/openclaw-docs/openclaw.md</span> (4 МБ) — проект это спокойно переваривает, здесь нет той проблемы с контекстом, что в Claude Code. Claude сам строит по проектным файлам быстрый индекс и подтягивает нужное при каждом запросе.</p>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch01-upload-claude-project">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Загрузить openclaw.md в свой Claude Project</div>
+        <div class="item__hint">1. Открой свой проект на <a href="https://claude.ai" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> claude.ai</a>.<br>2. Раздел <strong>«Project Knowledge»</strong> → кнопка <strong>«Add Content»</strong>.<br>3. Перетащи в окно файл <span class="mono">~/openclaw-docs/openclaw.md</span> (либо вставь ссылку <span class="mono">https://docs.openclaw.ai/llms-full.txt</span>).<br>4. Дождись окончания индексации.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch01-test-claude-project">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Протестировать проект тестовым запросом</div>
+        <div class="item__hint">Открой новый чат <strong>ВНУТРИ</strong> проекта (не обычный) и задай вопрос ниже. Если Claude отвечает по делу, ссылается на свои source и учитывает контекст твоего бизнеса — всё готово.</div>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Тестовый запрос для Claude Project</div>
+      <div class="prompt-block__text" id="promptTestProject">Спроектируй для моего бизнеса AI-агента на OpenClaw. Учти:
+1. Контекст моего бизнеса из проекта.
+2. Архитектуру OpenClaw из загруженной документации.
+3. Какие скиллы, heartbeats и каналы нам понадобятся.
+
+Отвечай опираясь на источники в проекте.</div>
+      <button class="btn-copy" onclick="copyBlock('promptTestProject', this)">📋 Скопировать промпт</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     09 — БОНУС 1. OPENCLAW DOCS
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">09</div>
+    <div class="section__title">Бонус 1. Команда openclaw docs — живой поиск из терминала</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">⚡</span>
+      <span>У OpenClaw есть встроенная CLI-команда <span class="mono">openclaw docs</span> — прямо из терминала ищет по актуальной документации и выдаёт ссылки на разделы. Удобно когда что-то настраиваешь и не хочется уходить из терминала в браузер.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Синтаксис:</strong> <span class="mono">openclaw docs &lt;ключевые_слова&gt;</span></p>
+      <p>Команда обращается к живому индексу на <span class="mono">docs.openclaw.ai</span> и возвращает ссылки на нужные разделы.</p>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Примеры:</strong></p>
+      <div class="cmd-copy"><span class="cmd-copy__text" id="cmdDocsHeartbeat">openclaw docs heartbeat</span><button class="btn-copy" onclick="copyBlock('cmdDocsHeartbeat',this)">📋 Скопировать</button></div>
+      <div class="cmd-copy"><span class="cmd-copy__text" id="cmdDocsSkills">openclaw docs skills install</span><button class="btn-copy" onclick="copyBlock('cmdDocsSkills',this)">📋 Скопировать</button></div>
+      <div class="cmd-copy"><span class="cmd-copy__text" id="cmdDocsTelegram">openclaw docs telegram channel</span><button class="btn-copy" onclick="copyBlock('cmdDocsTelegram',this)">📋 Скопировать</button></div>
+    </div>
+
+    <div class="info-block">
+      <p>Работает и на Mac (если OpenClaw установлен локально), и на сервере. Результат — краткая справка + ссылки на конкретные страницы в документации.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     10 — БОНУС 2. ⌘K ПОИСК
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">10</div>
+    <div class="section__title">Бонус 2. Быстрый поиск по сайту через ⌘K</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p>На странице <a href="https://docs.openclaw.ai" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> docs.openclaw.ai</a> нажми:</p>
+      <p>— <strong>⌘ + K</strong> на Mac<br>— <strong>Ctrl + K</strong> на Windows / Linux</p>
+      <p>Откроется встроенный поиск Mintlify по всей документации. Введи ключевое слово — получишь список релевантных страниц с подсветкой. Полезно для быстрых «а как там этот флаг называется» без переключений между окнами.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     11 — ОБНОВЛЯЕМ ДОКУ РАЗ В МЕСЯЦ
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">11</div>
+    <div class="section__title">Обновляем документацию раз в месяц</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--warn">
+      <span class="note__icon">🔄</span>
+      <span>OpenClaw развивается очень быстро — каждый месяц появляются новые каналы, провайдеры, изменения в API. Раз в месяц повторяй <strong>весь шаг 1</strong> этой главы (скачивание <span class="mono">llms-full.txt</span>), потом просишь Claude Code пересобрать папку, копируешь свежую версию на сервер и подгружаешь в Claude Project. Иначе твои AI-ассистенты будут опираться на устаревшую версию документации.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Простой способ автоматизировать:</strong> в <strong>Главе 03</strong> (когда подключим Claude Code в Telegram-бота) попросим этого бота выполнять обновление документации по расписанию через cron. Но до этого — делаем руками.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<div class="footer">
+  <div class="footer__done" id="doneBlock">
+    <div class="footer__done-emoji">🧠</div>
+    <div class="footer__done-text">Claude Code знает OpenClaw</div>
+    <div class="footer__done-sub">Документация OpenClaw разбита по темам и подключена к Claude Code локально и на сервере. Claude Project тоже знает OpenClaw — в связке с твоим бизнесом.</div>
+  </div>
+  <div class="footer__schedule">
+    <div class="footer__schedule-title">Следующая глава</div>
+    <div class="footer__schedule-row"><span>Глава 02</span><span>Claude Code + MCP OpenClaw — «режим БОГА»</span></div>
+  </div>
+  <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
+  <button class="btn-reset" onclick="resetProgress()">Сбросить прогресс</button>
+</div>
+
+</div><!-- /wrapper -->
+
+<script>
+const C=document.getElementById('confetti-canvas'),ctx=C.getContext('2d');
+let particles=[],confettiActive=false;
+function resizeCanvas(){C.width=window.innerWidth;C.height=window.innerHeight;}
+window.addEventListener('resize',resizeCanvas);resizeCanvas();
+const COLORS=['#7c5bf5','#9d7cff','#34d399','#6ee7b7','#fbbf24','#f87171','#fb7185','#38bdf8','#facc15','#a78bfa','#f472b6','#4ade80'];
+function rand(a,b){return Math.random()*(b-a)+a;}
+function createBurst(x,y,count){for(let i=0;i<count;i++){const angle=rand(0,Math.PI*2),speed=rand(4,14),size=rand(4,10);particles.push({x,y,vx:Math.cos(angle)*speed+rand(-2,2),vy:Math.sin(angle)*speed*-0.8-rand(2,6),size,color:COLORS[Math.floor(Math.random()*COLORS.length)],rotation:rand(0,Math.PI*2),rotSpeed:rand(-0.2,0.2),gravity:rand(0.12,0.25),friction:rand(0.97,0.995),opacity:1,fadeSpeed:rand(0.005,0.015),shape:Math.random()>0.4?'rect':'circle'});}}
+function launchConfetti(){if(confettiActive)return;confettiActive=true;particles=[];const W=C.width,H=C.height;[[W*.5,H*.3,120],[W*.15,H*.2,80],[W*.85,H*.2,80],[W*.5,H*.1,100],[W*.3,H*.5,60],[W*.7,H*.5,60],[0,H*.6,50],[W,H*.6,50],[W*.5,H*.6,80]].forEach(([x,y,c],i)=>{setTimeout(()=>createBurst(x,y,c),i*150)});setTimeout(()=>{createBurst(W*.2,H*.15,90);createBurst(W*.8,H*.15,90);createBurst(W*.5,H*.05,100)},1500);setTimeout(()=>{createBurst(W*.5,H*.25,120);createBurst(W*.1,H*.4,60);createBurst(W*.9,H*.4,60)},2500);animate();setTimeout(()=>{confettiActive=false},8000);}
+function animate(){ctx.clearRect(0,0,C.width,C.height);for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.vx*=p.friction;p.vy*=p.friction;p.vy+=p.gravity;p.x+=p.vx;p.y+=p.vy;p.rotation+=p.rotSpeed;p.opacity-=p.fadeSpeed;if(p.opacity<=0){particles.splice(i,1);continue}ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rotation);ctx.globalAlpha=p.opacity;ctx.fillStyle=p.color;if(p.shape==='rect'){ctx.fillRect(-p.size/2,-p.size/4,p.size,p.size/2)}else{ctx.beginPath();ctx.arc(0,0,p.size/2,0,Math.PI*2);ctx.fill()}ctx.restore();}if(particles.length>0||confettiActive){requestAnimationFrame(animate)}else{ctx.clearRect(0,0,C.width,C.height);}}
+const STORAGE_KEY='iivizaciya_checklist_urok6_part1_ch01_v1';
+const items=document.querySelectorAll('.item[data-key]');
+const totalCount=items.length;
+let wasComplete=false;
+function loadState(){try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');let c=0;items.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');if(s[item.dataset.key]){cb.checked=true;item.classList.add('checked');c++}});wasComplete=c===totalCount}catch(e){}updateProgress(false);}
+function saveState(){const s={};items.forEach(item=>{s[item.dataset.key]=item.querySelector('input[type="checkbox"]').checked});try{localStorage.setItem(STORAGE_KEY,JSON.stringify(s))}catch(e){}}
+function updateProgress(canCelebrate=true){let c=0;items.forEach(item=>{if(item.querySelector('input[type="checkbox"]').checked)c++});document.getElementById('progressCount').textContent=`${c} / ${totalCount}`;document.getElementById('progressFill').style.width=(totalCount>0?(c/totalCount)*100:0)+'%';const done=document.getElementById('doneBlock');if(c===totalCount){done.classList.add('visible');if(canCelebrate&&!wasComplete){launchConfetti()}wasComplete=true}else{done.classList.remove('visible');wasComplete=false;}}
+items.forEach(item=>{
+  const cb=item.querySelector('input[type="checkbox"]');
+  cb.addEventListener('change',function(){item.classList.toggle('checked',this.checked);saveState();updateProgress(true);});
+});
+function resetProgress(){if(!confirm('Сбросить весь прогресс?'))return;items.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasComplete=false;saveState();updateProgress(false);}
+loadState();
+
+function copyBlock(id, btn){
+  const text=document.getElementById(id).textContent;
+  navigator.clipboard.writeText(text).then(()=>{
+    const orig=btn.innerHTML;
+    btn.classList.add('copied');
+    btn.innerHTML='✅ Скопировано!';
+    setTimeout(()=>{btn.classList.remove('copied');btn.innerHTML=orig;},2000);
+  });
+}
+</script>
+</body>
+</html>
