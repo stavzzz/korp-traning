@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ИИ-ВИЗАЦИЯ: OPENCLAW — Урок 6. Часть 1. Глава 02. MCP OpenClaw</title>
+<title>ИИ-ВИЗАЦИЯ: OPENCLAW — Урок 6. Часть 1. Глава 03. Claude Code в Telegram</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -216,7 +216,7 @@
         <div class="sidebar__part-title">Часть 1 · Прокачиваем Claude Code</div>
         <a href="#chapter-01" class="sidebar__link sidebar__link--active" data-ch="01">Глава 01 · Документация OpenClaw</a>
         <a href="#chapter-02" class="sidebar__link" data-ch="02">Глава 02 · MCP OpenClaw</a>
-        <span class="sidebar__link sidebar__link--soon">Глава 03 · Claude Code в Telegram <em>скоро</em></span>
+        <a href="#chapter-03" class="sidebar__link" data-ch="03">Глава 03 · Claude Code в Telegram</a>
       </div>
 
       <div class="sidebar__part">
@@ -249,7 +249,7 @@
   <main class="main-content" id="chapter-01">
 
     <div class="mobile-topbar">
-      <div class="mobile-topbar__title">Урок 6 · Ч.1 · Гл.02</div>
+      <div class="mobile-topbar__title">Урок 6 · Ч.1 · Гл.03</div>
       <button class="mobile-topbar__burger" aria-label="Меню">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
@@ -1347,10 +1347,809 @@ OpenClaw (./openclaw/10-tools-skills.md и 18-templates.md). Покажи
       </div>
       <div class="footer__schedule">
         <div class="footer__schedule-title">Следующая глава</div>
-        <div class="footer__schedule-row"><span>Глава 03</span><span>Claude Code в отдельном Telegram-боте</span></div>
+        <div class="footer__schedule-row"><span>Глава 03</span><span>Claude Code в Telegram — мобильный инженер в кармане</span></div>
       </div>
       <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
       <button class="btn-reset" onclick="resetProgressCh02()">Сбросить прогресс главы 02, части 01</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- ═══ ГЛАВА 03 ═══ -->
+    <!-- ═══════════════════════════════════════════ -->
+
+    <div id="chapter-03" class="chapter-divider"></div>
+
+    <div class="chapter-marker chapter-marker--ch03">
+      <div class="chapter-marker__label">ЧАСТЬ 1 · ГЛАВА 03</div>
+      <div class="chapter-marker__title">Claude Code в Telegram <span>— мобильный инженер в кармане</span></div>
+    </div>
+
+    <div class="progress-wrap progress-wrap--ch03">
+      <div class="progress-top">
+        <span class="progress-label">Прогресс главы 03, части 01</span>
+        <span class="progress-count" id="progressCountCh03">0 / 28</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFillCh03"></div></div>
+    </div>
+
+<!-- ═══ 23 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">23</div>
+    <div class="section__title">Что такое мобильный инженер в кармане</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">📱</span>
+      <span>Представь: ты в дороге, в отпуске, на встрече. У клиента возник вопрос — нужно срочно проверить, что отвечает твой OpenClaw-агент. Ты пишешь в Telegram своему «инженеру»: «дай аудит последних 20 диалогов и предложи правки SOUL». Через минуту получаешь полный разбор прямо в чат. Никаких ноутбуков, никаких SSH-сессий. Ты управляешь продакшеном с iPhone.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Это НЕ копия твоего OpenClaw-агента.</strong> Это <strong>отдельный</strong> Telegram-бот, у которого «мозг» — Claude Code на твоём сервере. Этот Claude Code:</p>
+      <p>✅ Знает документацию OpenClaw (наработки Главы 01)<br>✅ Подключён к твоему OpenClaw Gateway через MCP (Главы 02)<br>✅ Знает актуальные доки сторонних либ через Context7 (Главы 02)<br>✅ Видит файлы твоей рабочей папки на сервере и может их читать/править<br>✅ Реагирует на твои сообщения в Telegram моментально</p>
+      <p>То есть это <strong>все три слоя силы</strong> из предыдущих глав, переехавшие на сервер и доступные с телефона.</p>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">⚠️</span>
+      <span><strong>Не путай этого бота с твоим OpenClaw-агентом!</strong><br>— OpenClaw-агент = клиентский AI-сотрудник для бизнеса, отвечает клиентам в Telegram-канале клиентов<br>— Claude Code-бот = ЛИЧНЫЙ инженерный ассистент, отвечает только тебе, помогает админить инфраструктуру<br>Это два разных бота с двумя разными задачами. У них даже разные токены.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 24 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">24</div>
+    <div class="section__title">Архитектура: один сервер, два контейнера, один Telegram-бот</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p><strong>Что у нас есть на сервере СЕЙЧАС</strong> <em>(после Уроков 1–5):</em></p>
+      <p>🐳 Контейнер OpenClaw Gateway (порт 18789)<br>🐳 Контейнер n8n (Урок 5)<br>📁 Папка с конфигом OpenClaw-агента</p>
+      <p><strong>Что добавится в этой главе:</strong></p>
+      <p>🐳 Новый контейнер: Claude Code + Telegram-плагин<br>📁 Рабочая папка <span class="mono">claude-code-bot/</span> с зеркалом нашей локальной OpenClaw-папки<br>🤖 Новый Telegram-бот (отдельный от твоего OpenClaw-агента)</p>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span><strong>Конфигурация сервера справится без проблем.</strong> Claude Code в idle-режиме почти ничего не жрёт — Bun-процесс плюс MCP-серверы. На 4 ядрах + 8 GB RAM добавление этого контейнера не повлияет на работу OpenClaw.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 25 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">25</div>
+    <div class="section__title">Источник истины — официальная документация Anthropic</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">📖</span>
+      <span>Channels — это новый официальный механизм Claude Code (доступен с версии 2.1.80+). Anthropic поддерживает его как research preview. Вся правда о механизме — на одной странице:</span>
+    </div>
+
+    <div class="res-block">
+      <div class="res-block__title">📚 Официальная документация Channels (Anthropic)</div>
+      <div class="res-block__sub">Здесь описано всё: что такое channels, какие есть готовые плагины (Telegram, Discord, iMessage), как они работают, безопасность, ограничения. Если что-то в нашей инструкции расходится с этой докой — верь доке.<br>
+        <a href="https://code.claude.com/docs/en/channels" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> code.claude.com/docs/en/channels — официальная страница</a>
+      </div>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Что наша глава делает поверх официальной доки:</strong></p>
+      <p>🔧 Разворачиваем на VPS (в доке — только локально на компьютере)<br>🐳 Упаковываем в Docker (в доке — про tmux/nohup)<br>🔗 Связываем с наработками из Глав 01-02 (документация, MCP, Context7)<br>🔐 Решаем вопрос авторизации claude.ai на сервере без браузера<br>📱 Конкретные кейсы использования с твоим OpenClaw-агентом</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 26 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">26</div>
+    <div class="section__title">Шаг 1. Создаём отдельного Telegram-бота через BotFather</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🤖</span>
+      <span>Это <strong>новый</strong> бот, не твой OpenClaw-агент. Создаём через BotFather, как в предыдущих уроках. Имя можешь придумать любое — например, <span class="mono">my_claude_engineer_bot</span>.</span>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch03-create-tg-bot">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Создать нового Telegram-бота через @BotFather</div>
+        <div class="item__hint">Открой <a href="https://t.me/BotFather" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> @BotFather</a> в Telegram → отправь <span class="mono">/newbot</span> → задай отображаемое имя (например <strong>Claude Engineer</strong>) → задай уникальный username, обязательно заканчивающийся на <span class="mono">bot</span> → скопируй токен из ответа BotFather. Токен выглядит так: <span class="mono">123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11</span>.</div>
+      </div>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">🛡️</span>
+      <span><strong>Безопасность токена:</strong><br>— Сохрани токен в безопасное место (например, менеджер паролей)<br>— НЕ публикуй в чатах, не коммить в git<br>— Если токен утёк → BotFather <span class="mono">/token</span> → можно сгенерировать новый</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 27 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">27</div>
+    <div class="section__title">Шаг 2. Подключаемся к серверу и готовим папку проекта</div>
+  </div>
+  <div class="section__card">
+    <div class="item" data-key="urok6-part1-ch03-connect-server">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Подключиться к серверу через VS Code Remote-SSH</div>
+        <div class="item__hint">Открой VS Code → <span class="mono">Cmd+Shift+P</span> (Mac) или <span class="mono">Ctrl+Shift+P</span> (Windows) → <strong>Remote-SSH: Connect to Host</strong> → выбери свой сервер. После подключения открой Terminal в VS Code (он будет на сервере).</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch03-create-bot-folder">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Создать на сервере папку проекта claude-code-bot/</div>
+        <div class="item__hint">В терминале сервера выполни команду ниже. Папка будет в домашней директории сервера, там же где обычно лежат твои OpenClaw-материалы.</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdCreateBotFolder">mkdir -p ~/claude-code-bot && cd ~/claude-code-bot && pwd</span><button class="btn-copy" onclick="copyBlock('cmdCreateBotFolder',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+
+    <div class="info-block">
+      <p>Команда покажет полный путь — что-то вроде <span class="mono">/root/claude-code-bot</span> или <span class="mono">/home/youruser/claude-code-bot</span>. Это наша рабочая директория для всей этой главы.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 28 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">28</div>
+    <div class="section__title">Шаг 3. Копируем локальную папку OpenClaw на сервер</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">📦</span>
+      <span>Помнишь нашу локальную папку <span class="mono">OpenClaw/</span> — где лежат AGENTS.md, .mcp.json и подпапка <span class="mono">openclaw/</span> с разбитой документацией? Сейчас скопируем её на сервер. Все наработки Глав 01 и 02 поедут вместе с нами.</span>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch03-scp-openclaw-folder">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Скопировать локальную папку OpenClaw на сервер по SCP</div>
+        <div class="item__hint">Команда выполняется в <strong>локальном</strong> терминале на твоём компьютере (НЕ в терминале VS Code, подключённом к серверу). Замени <span class="mono">&lt;IP&gt;</span> на IP-адрес сервера. Замени путь в начале команды на полный путь к твоей локальной папке <span class="mono">OpenClaw</span>. Выбери команду для своей ОС.</div>
+      </div>
+    </div>
+
+    <div class="cmd-block-os">
+      <div class="cmd-os-label">🍎 Mac (Terminal / iTerm)</div>
+      <div class="cmd-copy"><span class="cmd-copy__text" id="cmdScpOpenClawMac">scp -r ~/путь/до/OpenClaw root@&lt;IP&gt;:~/claude-code-bot/</span><button class="btn-copy" onclick="copyBlock('cmdScpOpenClawMac',this)">📋 Скопировать</button></div>
+      <div class="cmd-os-label cmd-os-label--win">🪟 Windows (PowerShell)</div>
+      <div class="cmd-copy"><span class="cmd-copy__text" id="cmdScpOpenClawWin">scp -r "$HOME\путь\до\OpenClaw" root@&lt;IP&gt;:~/claude-code-bot/</span><button class="btn-copy" onclick="copyBlock('cmdScpOpenClawWin',this)">📋 Скопировать</button></div>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch03-verify-openclaw-server">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить, что папка появилась на сервере</div>
+        <div class="item__hint">В терминале сервера (через VS Code Remote-SSH) выполни команду ниже. Должен увидеть содержимое: <span class="mono">AGENTS.md</span>, <span class="mono">.mcp.json</span>, подпапку <span class="mono">openclaw/</span> с разбитой докой.</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdVerifyOpenClawServer">ls -la ~/claude-code-bot/OpenClaw/</span><button class="btn-copy" onclick="copyBlock('cmdVerifyOpenClawServer',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 29 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">29</div>
+    <div class="section__title">Шаг 4. Авторизация Claude Code на сервере (самый тонкий шаг)</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--alert">
+      <span class="note__icon">🚨</span>
+      <span><strong>Внимание — это самый рискованный шаг главы.</strong> Claude Code требует аутентификацию через claude.ai (не через API-ключ). На сервере нет браузера. Решаем так: переносим <strong>файл с авторизацией</strong> с локального компьютера, где ты уже залогинен в Claude Code.<br><br>Если что-то пойдёт не так — сверяйся с <a href="https://code.claude.com/docs/en/channels" target="_blank" class="lnk" onclick="event.stopPropagation()">официальной докой</a>, там самая свежая информация по аутентификации.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Где Claude Code хранит данные авторизации на компьютере:</strong></p>
+      <p>🍎 <strong>Mac:</strong> <span class="mono">~/.claude/</span> — папка с настройками. Внутри файлы конфигурации и токенов.</p>
+      <p>🪟 <strong>Windows:</strong> <span class="mono">%USERPROFILE%\.claude\</span> (то же самое: <span class="mono">$HOME\.claude\</span> в PowerShell)</p>
+      <p>Точные имена файлов могут отличаться между версиями. Поэтому копируем <strong>всю папку</strong> целиком.</p>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch03-claude-login-local">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Убедиться, что Claude Code на компьютере залогинен в claude.ai</div>
+        <div class="item__hint">Если ещё не входил — открой терминал на компьютере и выполни <span class="mono">claude login</span> → откроется браузер → войди в свой claude.ai-аккаунт → терминал подтвердит авторизацию.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch03-scp-claude-creds">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Скопировать папку ~/.claude/ с компьютера на сервер</div>
+        <div class="item__hint">Команда выполняется в <strong>локальном</strong> терминале компьютера. Папка скопируется в домашнюю директорию сервера. Выбери команду для своей ОС.</div>
+      </div>
+    </div>
+
+    <div class="cmd-block-os">
+      <div class="cmd-os-label">🍎 Mac (Terminal / iTerm)</div>
+      <div class="cmd-copy"><span class="cmd-copy__text" id="cmdScpClaudeMac">scp -r ~/.claude root@&lt;IP&gt;:~/</span><button class="btn-copy" onclick="copyBlock('cmdScpClaudeMac',this)">📋 Скопировать</button></div>
+      <div class="cmd-os-label cmd-os-label--win">🪟 Windows (PowerShell)</div>
+      <div class="cmd-copy"><span class="cmd-copy__text" id="cmdScpClaudeWin">scp -r "$HOME\.claude" root@&lt;IP&gt;:~/</span><button class="btn-copy" onclick="copyBlock('cmdScpClaudeWin',this)">📋 Скопировать</button></div>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch03-verify-claude-creds">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить, что папка ~/.claude/ появилась на сервере</div>
+        <div class="item__hint">В терминале сервера выполни команду ниже. Должен увидеть содержимое папки.</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdVerifyClaudeServer">ls -la ~/.claude/</span><button class="btn-copy" onclick="copyBlock('cmdVerifyClaudeServer',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">🛡️</span>
+      <span><strong>Безопасность файлов авторизации:</strong> файлы в <span class="mono">~/.claude/</span> дают <strong>полный доступ</strong> к твоему claude.ai-аккаунту. Никому не показывай, не публикуй, не делай скриншоты содержимого. На сервере папка должна иметь права только для тебя — позже мы это обеспечим через настройки Docker volume.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 30 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">30</div>
+    <div class="section__title">Шаг 5. Создаём Dockerfile для Claude Code-бота</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p><strong>В рабочей папке на сервере</strong> (<span class="mono">~/claude-code-bot/</span>) откроем Claude Code <strong>через VS Code Remote-SSH</strong> и попросим его создать <span class="mono">Dockerfile</span>. Образ будет основан на Bun (его требует официальная документация channels), внутри установится Claude Code CLI.</p>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch03-open-claude-server">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Открыть Claude Code в VS Code Remote-SSH в папке claude-code-bot/</div>
+        <div class="item__hint">В VS Code (подключённом к серверу) → <strong>File → Open Folder…</strong> → выбери <span class="mono">~/claude-code-bot/</span>. Запусти Claude Code — он будет работать прямо на сервере.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch03-create-dockerfile">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Попросить Claude Code создать Dockerfile</div>
+        <div class="item__hint">Отправь промпт ниже. Claude Code создаст файл <span class="mono">Dockerfile</span> в корне рабочей папки.</div>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: создаём Dockerfile</div>
+      <div class="prompt-block__text" id="promptCreateDockerfile">Создай в корне текущей рабочей папки файл Dockerfile со следующим содержимым.
+
+Этот контейнер будет запускать Claude Code CLI с Telegram-плагином в режиме channels
+для проактивной работы. Базовый образ — Bun (требуется по официальной документации
+channels от Anthropic).
+
+Содержимое Dockerfile:
+
+# Базовый образ с Bun (требование channels)
+FROM oven/bun:1-debian
+
+# Системные зависимости для Claude Code и SSH-операций
+RUN apt-get update && apt-get install -y \
+    curl git openssh-client ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Установка Node.js 20 (для npx и Context7 MCP)
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
+    && rm -rf /var/lib/apt/lists/*
+
+# Установка Claude Code CLI глобально
+RUN npm install -g @anthropic-ai/claude-code
+
+# Установка OpenClaw CLI (для openclaw mcp serve внутри контейнера)
+RUN npm install -g openclaw
+
+# Создаём рабочую директорию
+WORKDIR /workspace
+
+# По умолчанию контейнер не делает ничего — управление через docker compose
+# Запуск Claude Code с channels будет настроен в docker-compose.yml
+CMD ["sleep", "infinity"]
+
+После создания файла:
+— покажи мне содержимое
+— подтверди, что файл лежит в корне</div>
+      <button class="btn-copy" onclick="copyBlock('promptCreateDockerfile', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span><strong>Что делает этот Dockerfile:</strong><br>1. Берёт образ с Bun (требование Anthropic для channels-плагинов)<br>2. Доустанавливает Node.js 20 (для Context7 MCP, который ставится через npx)<br>3. Ставит Claude Code CLI глобально<br>4. Ставит OpenClaw CLI (для подключения к OpenClaw Gateway через MCP)<br>5. По умолчанию ничего не запускает — управлять будем через docker-compose</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 31 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">31</div>
+    <div class="section__title">Шаг 6. Создаём docker-compose.yml</div>
+  </div>
+  <div class="section__card">
+    <div class="item" data-key="urok6-part1-ch03-create-compose">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Попросить Claude Code создать docker-compose.yml</div>
+        <div class="item__hint">Отправь промпт ниже. Claude Code создаст <span class="mono">docker-compose.yml</span> с правильными volumes, сетью и restart-политикой.</div>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: создаём docker-compose.yml</div>
+      <div class="prompt-block__text" id="promptCreateCompose">Создай в корне текущей рабочей папки файл docker-compose.yml со следующим содержимым.
+
+Содержимое:
+
+services:
+  claude-code-bot:
+    build: .
+    container_name: claude-code-bot
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    network_mode: host
+    volumes:
+      # Рабочая папка с наработками Глав 01-02 (AGENTS.md, .mcp.json, openclaw/)
+      - ./OpenClaw:/workspace
+      # Авторизация Claude Code в claude.ai
+      - ~/.claude:/root/.claude
+      # OpenClaw gateway token для openclaw MCP
+      - ~/.openclaw:/root/.openclaw
+      # Хост-папка для логов
+      - ./logs:/var/log/claude-code-bot
+    environment:
+      # Токен Telegram-бота (заменю позже на реальный)
+      - TELEGRAM_BOT_TOKEN=PLACEHOLDER_REPLACE_ME
+
+После создания файла:
+— покажи мне содержимое
+— объясни кратко, что делает каждый volume и зачем нужны stdin_open/tty
+— подтверди, что файл лежит в корне рабочей папки</div>
+      <button class="btn-copy" onclick="copyBlock('promptCreateCompose', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Что делает этот compose-файл:</strong></p>
+      <p>🐳 <span class="mono">build: .</span> — собирает образ из нашего Dockerfile<br>🔄 <span class="mono">restart: unless-stopped</span> — контейнер автоматически перезапускается при reboot сервера<br>🖥️ <span class="mono">stdin_open + tty</span> — контейнер поддерживает интерактивный режим (нужно для Claude Code)<br>🌐 <span class="mono">network_mode: host</span> — контейнер использует сетевой стек хоста (упрощает доступ к OpenClaw на <span class="mono">localhost:18789</span>)<br>📁 <strong>4 volumes</strong>: рабочая папка, авторизация claude.ai, OpenClaw-токен, логи</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 32 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">32</div>
+    <div class="section__title">Шаг 7. Прописываем токен Telegram-бота в docker-compose.yml</div>
+  </div>
+  <div class="section__card">
+    <div class="item" data-key="urok6-part1-ch03-set-tg-token">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Заменить PLACEHOLDER_REPLACE_ME на реальный токен бота</div>
+        <div class="item__hint">Открой <span class="mono">docker-compose.yml</span> в VS Code и руками замени строку <span class="mono">PLACEHOLDER_REPLACE_ME</span> на твой реальный токен из BotFather (Шаг 1). Сохрани файл.</div>
+      </div>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">⚠️</span>
+      <span><strong>Лучшая практика — не хранить токены прямо в docker-compose.yml.</strong> Для продакшена правильнее завести файл <span class="mono">.env</span> рядом с compose и подгружать токен оттуда (<span class="mono">env_file</span> в compose). Но для нашей учебной главы — оставляем простой вариант. Главное: <strong>не коммить docker-compose.yml в публичный git с токеном внутри</strong>.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 33 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">33</div>
+    <div class="section__title">Шаг 8. Собираем и запускаем контейнер впервые</div>
+  </div>
+  <div class="section__card">
+    <div class="item" data-key="urok6-part1-ch03-docker-build">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Собрать образ и запустить контейнер</div>
+        <div class="item__hint">В терминале сервера, находясь в папке <span class="mono">~/claude-code-bot/</span>, выполни команду. Сборка займёт 1-3 минуты (загрузка Bun + Node.js + Claude Code).</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdDockerBuild">cd ~/claude-code-bot && docker compose up -d --build</span><button class="btn-copy" onclick="copyBlock('cmdDockerBuild',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch03-docker-status">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить, что контейнер работает</div>
+        <div class="item__hint">Выполни команду ниже — должен увидеть строку с <span class="mono">claude-code-bot</span> в статусе <span class="mono">Up</span>.</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdDockerPs">docker compose ps</span><button class="btn-copy" onclick="copyBlock('cmdDockerPs',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span>Если в выводе видишь <span class="mono">claude-code-bot ... Up</span> — контейнер запущен. Сейчас он не делает ничего полезного (<span class="mono">sleep infinity</span>) — просто стоит в готовности. Дальше будем заходить внутрь и настраивать Claude Code.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 34 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">34</div>
+    <div class="section__title">Шаг 9. Проверяем авторизацию Claude Code внутри контейнера</div>
+  </div>
+  <div class="section__card">
+    <div class="item" data-key="urok6-part1-ch03-exec-test">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Зайти в контейнер и проверить версию Claude Code</div>
+        <div class="item__hint">Выполни команду ниже — должен увидеть номер версии (например <span class="mono">2.1.80</span> или новее). Если выдаёт ошибку про авторизацию — проверь, что папка <span class="mono">~/.claude/</span> на сервере не пустая (Шаг 4).</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdClaudeVersion">docker compose exec claude-code-bot claude --version</span><button class="btn-copy" onclick="copyBlock('cmdClaudeVersion',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">⚠️</span>
+      <span><strong>Если версия не показывается или вылетает ошибка авторизации:</strong><br>1. Останови контейнер: <span class="mono">docker compose down</span><br>2. Проверь папку <span class="mono">~/.claude/</span> на сервере: должна быть не пустая, копировалась с твоего компьютера<br>3. Перезайди в claude.ai на компьютере: <span class="mono">claude login</span><br>4. Снова скопируй <span class="mono">~/.claude/</span> на сервер (Шаг 4)<br>5. Запусти контейнер: <span class="mono">docker compose up -d</span><br>Если не помогает — сверяйся с <a href="https://code.claude.com/docs/en/channels" target="_blank" class="lnk" onclick="event.stopPropagation()">официальной документацией</a>: возможно, в твоей версии Claude Code изменилась схема авторизации.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 35 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">35</div>
+    <div class="section__title">Шаг 10. Устанавливаем Telegram-плагин внутри контейнера</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🔌</span>
+      <span>Плагин Telegram — это официальный плагин Anthropic. Установка идёт через команду <span class="mono">/plugin install</span> внутри запущенной сессии Claude Code. Сначала убедимся, что маркетплейс плагинов добавлен.</span>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch03-enter-claude-session">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Зайти в интерактивную сессию Claude Code в контейнере</div>
+        <div class="item__hint">Команда откроет интерактивный Claude Code прямо в терминале. Дальше будем выполнять команды внутри этой сессии.</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdEnterClaudeSession">docker compose exec claude-code-bot claude</span><button class="btn-copy" onclick="copyBlock('cmdEnterClaudeSession',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch03-add-marketplace">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Добавить маркетплейс плагинов (если ещё не добавлен)</div>
+        <div class="item__hint"><strong>Внутри открытой сессии Claude Code</strong> отправь команду ниже. Она добавит официальный маркетплейс Anthropic. Если уже был добавлен — будет сообщение об этом.</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdPluginMarketplace">/plugin marketplace add anthropics/claude-plugins-official</span><button class="btn-copy" onclick="copyBlock('cmdPluginMarketplace',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch03-install-tg-plugin">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Установить Telegram-плагин</div>
+        <div class="item__hint">Внутри сессии Claude Code выполни команду ниже.</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdInstallTgPlugin">/plugin install telegram@claude-plugins-official</span><button class="btn-copy" onclick="copyBlock('cmdInstallTgPlugin',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch03-reload-plugins">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Перезагрузить плагины, чтобы команда /telegram:configure стала доступна</div>
+        <div class="item__hint">Внутри сессии Claude Code:</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdReloadPlugins">/reload-plugins</span><button class="btn-copy" onclick="copyBlock('cmdReloadPlugins',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch03-configure-tg">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Сконфигурировать токен бота через /telegram:configure</div>
+        <div class="item__hint">Внутри сессии Claude Code выполни команду, заменив <span class="mono">&lt;твой_токен&gt;</span> на реальный токен из Шага 1.</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdConfigureTg">/telegram:configure &lt;твой_токен&gt;</span><button class="btn-copy" onclick="copyBlock('cmdConfigureTg',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span>Плагин сохранит токен в <span class="mono">~/.claude/channels/telegram/.env</span> внутри контейнера. После этого можно выйти из текущей сессии Claude Code (<span class="mono">/exit</span> или <span class="mono">Ctrl+D</span>) — токен сохранится для следующего запуска.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 36 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">36</div>
+    <div class="section__title">Шаг 11. Перезапускаем контейнер в режиме channels</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🔄</span>
+      <span>Сейчас контейнер просто стоит и ничего не делает (<span class="mono">sleep infinity</span> в Dockerfile). Чтобы Telegram-бот стал слушать сообщения, нужно <strong>обновить CMD в docker-compose.yml</strong> и перезапустить контейнер. Попросим Claude Code это сделать.</span>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch03-update-compose-cmd">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Попросить Claude Code обновить docker-compose.yml для запуска channels-режима</div>
+        <div class="item__hint">Сначала выйди из сессии Claude Code в контейнере (если ещё внутри). Потом отправь промпт ниже Claude Code <strong>в локальной VS Code Remote-SSH сессии</strong> (где открыта папка claude-code-bot).</div>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: добавляем команду запуска channels в docker-compose.yml</div>
+      <div class="prompt-block__text" id="promptUpdateCompose">Открой docker-compose.yml в текущей рабочей папке.
+
+В секции claude-code-bot добавь поле command, чтобы при запуске
+контейнера Claude Code сразу стартовал в режиме channels с
+Telegram-плагином.
+
+Должно получиться так (добавляешь только строку с command, всё
+остальное оставляешь как было):
+
+services:
+  claude-code-bot:
+    build: .
+    container_name: claude-code-bot
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    network_mode: host
+    command: claude --channels plugin:telegram@claude-plugins-official --dangerously-skip-permissions
+    volumes:
+      ...
+    environment:
+      ...
+
+Также убери из Dockerfile строку CMD ["sleep", "infinity"] — теперь
+команда задаётся в docker-compose.yml.
+
+Покажи мне финальные содержимые обоих файлов.</div>
+      <button class="btn-copy" onclick="copyBlock('promptUpdateCompose', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">⚠️</span>
+      <span><strong>Про флаг <span class="mono">--dangerously-skip-permissions</span>:</strong> он нужен, чтобы Claude Code не блокировался на запросах подтверждения для exec-команд (когда тебя нет за терминалом). Это <strong>обязательно</strong> для работы в фоновом режиме без человека за пультом. Используй ТОЛЬКО потому, что:<br>1. Контейнер изолирован — Claude Code не может сломать сервер вне контейнера<br>2. Доступ к Telegram-боту защищён allowlist-ом (Шаг 12)<br>3. Это твой личный бот, не для клиентов</span>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch03-restart-container">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Перезапустить контейнер с новой командой</div>
+        <div class="item__hint">В терминале сервера выполни команду — Docker пересоберёт образ (если Dockerfile поменялся) и стартует контейнер с channels-режимом.</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdRestartContainer">cd ~/claude-code-bot && docker compose up -d --build</span><button class="btn-copy" onclick="copyBlock('cmdRestartContainer',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch03-check-logs">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить логи — Telegram-плагин должен стартовать без ошибок</div>
+        <div class="item__hint">Команда покажет live-логи. Прерывание — <span class="mono">Ctrl+C</span>. Должен увидеть строки про подключение к Telegram. Если есть ошибки — гляди их внимательно.</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdContainerLogs">docker compose logs -f claude-code-bot</span><button class="btn-copy" onclick="copyBlock('cmdContainerLogs',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 37 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">37</div>
+    <div class="section__title">Шаг 12. Парим аккаунт и закрываем доступ через allowlist</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🔐</span>
+      <span>По умолчанию любой человек, написавший боту, мог бы его использовать. Сейчас закроем доступ — оставим возможность писать только тебе. Сначала бот выдаст pairing-код, ты его подтвердишь.</span>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch03-message-bot">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Открыть бота в Telegram и отправить любое сообщение</div>
+        <div class="item__hint">Найди своего бота в Telegram (по username из BotFather), отправь любой текст — например, <span class="mono">привет</span>. Бот ответит pairing-кодом (короткая строка букв и цифр). Скопируй её.</div>
+      </div>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">⚠️</span>
+      <span>Если бот не отвечает — значит контейнер не стартовал в режиме channels. Проверь логи (<span class="mono">docker compose logs -f claude-code-bot</span>) и убедись, что в Шаге 11 ты обновил <span class="mono">command</span> в docker-compose.yml.</span>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch03-pair-account">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Подтвердить pairing-код внутри Claude Code-сессии в контейнере</div>
+        <div class="item__hint">Зайди в интерактивную сессию: <span class="mono">docker compose exec claude-code-bot claude</span>. Внутри выполни команду, заменив <span class="mono">&lt;код&gt;</span> на реальный pairing-код от бота.</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdPairAccount">/telegram:access pair &lt;код&gt;</span><button class="btn-copy" onclick="copyBlock('cmdPairAccount',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch03-allowlist-mode">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Включить allowlist-режим — закрыть доступ всем, кроме твоего аккаунта</div>
+        <div class="item__hint">Внутри той же сессии Claude Code:</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdAllowlistMode">/telegram:access policy allowlist</span><button class="btn-copy" onclick="copyBlock('cmdAllowlistMode',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span>Готово. Теперь только твой Telegram-аккаунт может писать боту. Все остальные будут получать silent-drop — бот ничего не ответит, и в Claude Code не придёт сообщение.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 38 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">38</div>
+    <div class="section__title">Тест №1. С телефона: прочитай мою рабочую папку</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">📱</span>
+      <span>Достань телефон, открой Telegram, найди своего бота. Сейчас отправим первое реальное сообщение и убедимся, что Claude Code на сервере его получил, обработал и ответил.</span>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch03-test-1">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Отправить боту с телефона тестовый запрос про рабочую папку</div>
+        <div class="item__hint">Скопируй текст ниже, отправь боту в Telegram. Через 5-30 секунд бот ответит — увидишь содержимое папки <span class="mono">/workspace</span> внутри контейнера (это и есть наша <span class="mono">OpenClaw/</span>).</div>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Тест №1 — что в рабочей папке</div>
+      <div class="prompt-block__text" id="promptTest1">Привет! Покажи структуру моей рабочей папки. Что там лежит?
+Какие файлы я могу читать? Подтверди, что у тебя есть AGENTS.md
+и подпапка openclaw/ с разбитой документацией.</div>
+      <button class="btn-copy" onclick="copyBlock('promptTest1', this)">📋 Скопировать промпт</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 39 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">39</div>
+    <div class="section__title">Тест №2. С телефона: аудит реальных диалогов OpenClaw-агента</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🔥</span>
+      <span>А вот это уже настоящий «бог в кармане». Используем все три слоя силы:<br>🧠 <strong>Знание</strong> — Claude Code понимает архитектуру OpenClaw<br>🛠️ <strong>Руки</strong> — может читать файлы конфига и предлагать правки<br>👁️ <strong>Глаза/Уши</strong> — через openclaw MCP видит реальные диалоги твоего OpenClaw-агента</span>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch03-test-2">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Отправить боту с телефона запрос на аудит OpenClaw-агента</div>
+        <div class="item__hint">Скопируй текст ниже, отправь боту в Telegram. Бот будет работать дольше — ему нужно через openclaw MCP прочитать диалоги, проанализировать, дать выводы. Может занять минуту-две.</div>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Тест №2 — аудит OpenClaw-агента</div>
+      <div class="prompt-block__text" id="promptTest2">Используй openclaw MCP. Прочитай 10 последних диалогов моего
+OpenClaw-агента в Telegram. Проанализируй их и дай мне:
+
+1. Сводку: о чём были запросы.
+2. Где агент ответил хорошо, где плохо.
+3. 2-3 конкретные правки в SOUL.md, которые улучшили бы поведение
+   агента в спорных случаях.
+
+НЕ применяй правки автоматически — только покажи мне рекомендации.
+Я сам решу, что делать.</div>
+      <button class="btn-copy" onclick="copyBlock('promptTest2', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span>Если оба теста прошли — у тебя в кармане <strong>работающий мобильный инженер по OpenClaw</strong>. Можешь закрыть ноутбук и идти по делам — бот в Telegram остаётся доступным. Контейнер благодаря <span class="mono">restart: unless-stopped</span> переживёт reboot сервера и вернётся в работу автоматически.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 40 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">40</div>
+    <div class="section__title">Команды эксплуатации — шпаргалка</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p><strong>Часто используемые команды:</strong></p>
+      <p style="margin-top:8px"><em>Проверить статус контейнера</em></p>
+      <div class="cmd-copy"><span class="cmd-copy__text" id="cmdOps1">docker compose ps</span><button class="btn-copy" onclick="copyBlock('cmdOps1',this)">📋 Скопировать</button></div>
+      <p style="margin-top:8px"><em>Смотреть live-логи</em></p>
+      <div class="cmd-copy"><span class="cmd-copy__text" id="cmdOps2">docker compose logs -f claude-code-bot</span><button class="btn-copy" onclick="copyBlock('cmdOps2',this)">📋 Скопировать</button></div>
+      <p style="margin-top:8px"><em>Перезапустить контейнер</em></p>
+      <div class="cmd-copy"><span class="cmd-copy__text" id="cmdOps3">docker compose restart claude-code-bot</span><button class="btn-copy" onclick="copyBlock('cmdOps3',this)">📋 Скопировать</button></div>
+      <p style="margin-top:8px"><em>Остановить контейнер</em></p>
+      <div class="cmd-copy"><span class="cmd-copy__text" id="cmdOps4">docker compose down</span><button class="btn-copy" onclick="copyBlock('cmdOps4',this)">📋 Скопировать</button></div>
+      <p style="margin-top:8px"><em>Запустить контейнер</em></p>
+      <div class="cmd-copy"><span class="cmd-copy__text" id="cmdOps5">docker compose up -d</span><button class="btn-copy" onclick="copyBlock('cmdOps5',this)">📋 Скопировать</button></div>
+      <p style="margin-top:8px"><em>Зайти в интерактивную сессию Claude Code</em></p>
+      <div class="cmd-copy"><span class="cmd-copy__text" id="cmdOps6">docker compose exec claude-code-bot claude</span><button class="btn-copy" onclick="copyBlock('cmdOps6',this)">📋 Скопировать</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 41 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">41</div>
+    <div class="section__title">Безопасность — что важно помнить</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--warn">
+      <span class="note__icon">🛡️</span>
+      <span><strong>Что у нас защищено:</strong><br>✅ Только твой Telegram-аккаунт может писать боту (allowlist)<br>✅ Файлы авторизации claude.ai в <span class="mono">~/.claude/</span> монтируются внутрь контейнера и не выходят наружу<br>✅ Контейнер изолирован — Claude Code не лезет в систему сервера за пределами своих volumes<br>✅ Из Главы 02: <span class="mono">messages_send</span> в openclaw MCP отключён — бот НЕ может писать в твои клиентские чаты от имени OpenClaw-агента</span>
+    </div>
+
+    <div class="note note--alert">
+      <span class="note__icon">🚨</span>
+      <span><strong>Что делать при компрометации:</strong><br>— <strong>Утёк токен Telegram-бота:</strong> в BotFather → <span class="mono">/token</span> → перегенерировать. Обновить токен в docker-compose.yml. <span class="mono">docker compose up -d --build</span>.<br>— <strong>Утёк Telegram-аккаунт:</strong> в боте: <span class="mono">/telegram:access revoke &lt;твой_id&gt;</span>. Спарить заново с новым устройством.<br>— <strong>Утекли файлы <span class="mono">~/.claude/</span>:</strong> на claude.ai в настройках сессий — отозвать все активные сессии. На компьютере и сервере — <span class="mono">claude logout</span>, потом <span class="mono">claude login</span> заново.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 42 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">42</div>
+    <div class="section__title">Что мы сделали и что дальше</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p><strong>За эту главу:</strong></p>
+      <p>🐳 Развернули Claude Code в Docker-контейнере на твоём сервере<br>🤖 Создали отдельного Telegram-бота как «мобильного инженера»<br>🔗 Связали все три слоя силы из Глав 01-02 с этим ботом<br>🔐 Закрыли доступ через allowlist + изолировали контейнер<br>📱 Получили возможность дёргать «бога OpenClaw» с телефона из любой точки мира</p>
+    </div>
+
+    <div class="note note--info">
+      <span class="note__icon">🚀</span>
+      <span><strong>Дальше — Часть 2.</strong> Добавим этому «мозгу» долговременную семантическую память через Obsidian + RAG. Тогда Claude Code будет помнить всю историю твоих действий, заметок, решений — и принимать решения с учётом большого контекста, а не только текущей сессии.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Альтернатива без Docker (короткая врезка):</strong></p>
+      <p>Если по каким-то причинам Docker не подходит — можно запустить Claude Code напрямую через <span class="mono">tmux</span>: <span class="mono">tmux new -s claude</span>, внутри <span class="mono">claude --channels plugin:telegram@claude-plugins-official --dangerously-skip-permissions</span>, выйти через <span class="mono">Ctrl+B, D</span> (detach). Подробнее — в <a href="https://code.claude.com/docs/en/channels" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> официальной документации</a>. Но для продакшена и студентов курса Docker даёт лучшую изоляцию и автоперезапуск.</p>
+    </div>
+  </div>
+</div>
+
+    <!-- ═══ FOOTER ГЛАВЫ 03 ═══ -->
+    <div class="footer">
+      <div class="footer__done" id="doneBlockCh03">
+        <div class="footer__done-emoji">📱</div>
+        <div class="footer__done-text">Мобильный инженер в кармане</div>
+        <div class="footer__done-sub">Claude Code развернут в Docker-контейнере на твоём сервере, подключён к Telegram-боту, защищён allowlist-ом. Все три слоя силы из предыдущих глав работают через мобильный канал. Можешь администрировать OpenClaw-инфраструктуру с iPhone из любой точки мира.</div>
+      </div>
+      <div class="footer__schedule">
+        <div class="footer__schedule-title">Следующая глава</div>
+        <div class="footer__schedule-row"><span>Часть 2 · Глава 01</span><span>Obsidian RAG для Claude Code</span></div>
+      </div>
+      <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
+      <button class="btn-reset" onclick="resetProgressCh03()">Сбросить прогресс главы 03, части 01</button>
     </div>
 
   </main>
@@ -1386,25 +2185,44 @@ function saveStateCh02(){const s={};itemsCh02.forEach(item=>{s[item.dataset.key]
 function updateProgressCh02(canCelebrate=true){let c=0;itemsCh02.forEach(item=>{if(item.querySelector('input[type="checkbox"]').checked)c++});const cnt=document.getElementById('progressCountCh02');const fill=document.getElementById('progressFillCh02');if(cnt){cnt.textContent=`${c} / ${totalCountCh02}`;}if(fill){fill.style.width=(totalCountCh02>0?(c/totalCountCh02)*100:0)+'%';}const done=document.getElementById('doneBlockCh02');if(done){if(c===totalCountCh02){done.classList.add('visible');if(canCelebrate&&!wasCompleteCh02){launchConfetti()}wasCompleteCh02=true}else{done.classList.remove('visible');wasCompleteCh02=false;}}}
 itemsCh02.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.addEventListener('change',function(){item.classList.toggle('checked',this.checked);saveStateCh02();updateProgressCh02(true);});});
 
+// ──────────── ГЛАВА 03 ──────────────
+const STORAGE_KEY_CH03='iivizaciya_checklist_urok6_part1_ch03_v1';
+const itemsCh03=document.querySelectorAll('.item[data-key^="urok6-part1-ch03-"]');
+const totalCountCh03=itemsCh03.length;
+let wasCompleteCh03=false;
+function loadStateCh03(){try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY_CH03)||'{}');let c=0;itemsCh03.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');if(s[item.dataset.key]){cb.checked=true;item.classList.add('checked');c++}});wasCompleteCh03=c===totalCountCh03}catch(e){}updateProgressCh03(false);}
+function saveStateCh03(){const s={};itemsCh03.forEach(item=>{s[item.dataset.key]=item.querySelector('input[type="checkbox"]').checked});try{localStorage.setItem(STORAGE_KEY_CH03,JSON.stringify(s))}catch(e){}}
+function updateProgressCh03(canCelebrate=true){let c=0;itemsCh03.forEach(item=>{if(item.querySelector('input[type="checkbox"]').checked)c++});const cnt=document.getElementById('progressCountCh03');const fill=document.getElementById('progressFillCh03');if(cnt){cnt.textContent=`${c} / ${totalCountCh03}`;}if(fill){fill.style.width=(totalCountCh03>0?(c/totalCountCh03)*100:0)+'%';}const done=document.getElementById('doneBlockCh03');if(done){if(c===totalCountCh03){done.classList.add('visible');if(canCelebrate&&!wasCompleteCh03){launchConfetti()}wasCompleteCh03=true}else{done.classList.remove('visible');wasCompleteCh03=false;}}}
+itemsCh03.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.addEventListener('change',function(){item.classList.toggle('checked',this.checked);saveStateCh03();updateProgressCh03(true);});});
+
 function resetProgressCh01(){if(!confirm('Сбросить прогресс главы 01, части 01?'))return;itemsCh01.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteCh01=false;saveStateCh01();updateProgressCh01(false);}
 function resetProgressCh02(){if(!confirm('Сбросить прогресс главы 02, части 01?'))return;itemsCh02.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteCh02=false;saveStateCh02();updateProgressCh02(false);}
+function resetProgressCh03(){if(!confirm('Сбросить прогресс главы 03, части 01?'))return;itemsCh03.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteCh03=false;saveStateCh03();updateProgressCh03(false);}
 loadStateCh01();
 loadStateCh02();
+loadStateCh03();
 
 // ──────────── SCROLL-SPY (sidebar активная глава) ──────────────
 (function(){
   const ch02Anchor=document.getElementById('chapter-02');
+  const ch03Anchor=document.getElementById('chapter-03');
   const linkCh01=document.querySelector('.sidebar__link[data-ch="01"]');
   const linkCh02=document.querySelector('.sidebar__link[data-ch="02"]');
+  const linkCh03=document.querySelector('.sidebar__link[data-ch="03"]');
   if(!ch02Anchor||!linkCh01||!linkCh02)return;
-  const THRESHOLD=200; // ниже этого порога от верха viewport — считаем что главу 02 "видно"
+  const THRESHOLD=200;
   function setActive(num){
-    if(num===2){linkCh02.classList.add('sidebar__link--active');linkCh01.classList.remove('sidebar__link--active');}
-    else{linkCh01.classList.add('sidebar__link--active');linkCh02.classList.remove('sidebar__link--active');}
+    [linkCh01,linkCh02,linkCh03].forEach(l=>l&&l.classList.remove('sidebar__link--active'));
+    if(num===3&&linkCh03){linkCh03.classList.add('sidebar__link--active');}
+    else if(num===2){linkCh02.classList.add('sidebar__link--active');}
+    else{linkCh01.classList.add('sidebar__link--active');}
   }
   function update(){
-    const top=ch02Anchor.getBoundingClientRect().top;
-    setActive(top<=THRESHOLD?2:1);
+    const ch03Top=ch03Anchor?ch03Anchor.getBoundingClientRect().top:Infinity;
+    const ch02Top=ch02Anchor.getBoundingClientRect().top;
+    if(ch03Top<=THRESHOLD)setActive(3);
+    else if(ch02Top<=THRESHOLD)setActive(2);
+    else setActive(1);
   }
   window.addEventListener('scroll',update,{passive:true});
   window.addEventListener('resize',update,{passive:true});
