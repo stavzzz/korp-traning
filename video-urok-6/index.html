@@ -214,8 +214,8 @@
 
       <div class="sidebar__part">
         <div class="sidebar__part-title">Часть 1 · Прокачиваем Claude Code</div>
-        <a href="#chapter-01" class="sidebar__link">Глава 01 · Документация OpenClaw</a>
-        <a href="#chapter-02" class="sidebar__link sidebar__link--active">Глава 02 · MCP OpenClaw</a>
+        <a href="#chapter-01" class="sidebar__link sidebar__link--active" data-ch="01">Глава 01 · Документация OpenClaw</a>
+        <a href="#chapter-02" class="sidebar__link" data-ch="02">Глава 02 · MCP OpenClaw</a>
         <span class="sidebar__link sidebar__link--soon">Глава 03 · Claude Code в Telegram <em>скоро</em></span>
       </div>
 
@@ -783,7 +783,7 @@
         <div class="footer__schedule-row"><span>Глава 02</span><span>MCP OpenClaw — прокачиваем Claude Code до режима БОГА</span></div>
       </div>
       <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
-      <button class="btn-reset" onclick="resetProgress()">Сбросить прогресс (обе главы)</button>
+      <button class="btn-reset" onclick="resetProgressCh01()">Сбросить прогресс главы 01, части 01</button>
     </div>
 
     <!-- ═══════════════════════════════════════════ -->
@@ -1350,6 +1350,7 @@ OpenClaw (./openclaw/10-tools-skills.md и 18-templates.md). Покажи
         <div class="footer__schedule-row"><span>Глава 03</span><span>Claude Code в отдельном Telegram-боте</span></div>
       </div>
       <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
+      <button class="btn-reset" onclick="resetProgressCh02()">Сбросить прогресс главы 02, части 01</button>
     </div>
 
   </main>
@@ -1385,9 +1386,31 @@ function saveStateCh02(){const s={};itemsCh02.forEach(item=>{s[item.dataset.key]
 function updateProgressCh02(canCelebrate=true){let c=0;itemsCh02.forEach(item=>{if(item.querySelector('input[type="checkbox"]').checked)c++});const cnt=document.getElementById('progressCountCh02');const fill=document.getElementById('progressFillCh02');if(cnt){cnt.textContent=`${c} / ${totalCountCh02}`;}if(fill){fill.style.width=(totalCountCh02>0?(c/totalCountCh02)*100:0)+'%';}const done=document.getElementById('doneBlockCh02');if(done){if(c===totalCountCh02){done.classList.add('visible');if(canCelebrate&&!wasCompleteCh02){launchConfetti()}wasCompleteCh02=true}else{done.classList.remove('visible');wasCompleteCh02=false;}}}
 itemsCh02.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.addEventListener('change',function(){item.classList.toggle('checked',this.checked);saveStateCh02();updateProgressCh02(true);});});
 
-function resetProgress(){if(!confirm('Сбросить весь прогресс ВСЕЙ страницы (Глава 01 + Глава 02)?'))return;itemsCh01.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});itemsCh02.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteCh01=false;wasCompleteCh02=false;saveStateCh01();saveStateCh02();updateProgressCh01(false);updateProgressCh02(false);}
+function resetProgressCh01(){if(!confirm('Сбросить прогресс главы 01, части 01?'))return;itemsCh01.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteCh01=false;saveStateCh01();updateProgressCh01(false);}
+function resetProgressCh02(){if(!confirm('Сбросить прогресс главы 02, части 01?'))return;itemsCh02.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteCh02=false;saveStateCh02();updateProgressCh02(false);}
 loadStateCh01();
 loadStateCh02();
+
+// ──────────── SCROLL-SPY (sidebar активная глава) ──────────────
+(function(){
+  const ch02Anchor=document.getElementById('chapter-02');
+  const linkCh01=document.querySelector('.sidebar__link[data-ch="01"]');
+  const linkCh02=document.querySelector('.sidebar__link[data-ch="02"]');
+  if(!ch02Anchor||!linkCh01||!linkCh02)return;
+  const THRESHOLD=200; // ниже этого порога от верха viewport — считаем что главу 02 "видно"
+  function setActive(num){
+    if(num===2){linkCh02.classList.add('sidebar__link--active');linkCh01.classList.remove('sidebar__link--active');}
+    else{linkCh01.classList.add('sidebar__link--active');linkCh02.classList.remove('sidebar__link--active');}
+  }
+  function update(){
+    const top=ch02Anchor.getBoundingClientRect().top;
+    setActive(top<=THRESHOLD?2:1);
+  }
+  window.addEventListener('scroll',update,{passive:true});
+  window.addEventListener('resize',update,{passive:true});
+  window.addEventListener('load',update);
+  update();
+})();
 
 function copyBlock(id, btn){
   const text=document.getElementById(id).textContent;
