@@ -1,0 +1,1772 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ИИ-ВИЗАЦИЯ БИЗНЕСА — Финальный отчёт. Корпоративное обучение Малибу</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;700;800;900&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+ :root {
+ --bg: #0a0a0a;
+ --bg-card: #111827;
+ --bg-card-hover: #1a2230;
+ --bg-elevated: #161e2c;
+ --border: #1f2937;
+ --border-soft: #1a2330;
+ --text: #f3f4f6;
+ --text-muted: #9ca3af;
+ --text-dim: #6b7280;
+ --blue: #60a5fa;
+ --blue-deep: #3b82f6;
+ --blue-glow: rgba(96, 165, 250, 0.18);
+ --green: #34d399;
+ --green-glow: rgba(52, 211, 153, 0.18);
+ --amber: #fbbf24;
+ --amber-glow: rgba(251, 191, 36, 0.18);
+ --red: #f87171;
+ --purple: #a78bfa;
+ }
+
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+
+ html { scroll-behavior: smooth; }
+
+ body {
+ background: var(--bg);
+ color: var(--text);
+ font-family: 'Manrope', system-ui, sans-serif;
+ line-height: 1.55;
+ overflow-x: hidden;
+ background-image:
+ radial-gradient(circle at 15% 10%, rgba(96, 165, 250, 0.06) 0%, transparent 40%),
+ radial-gradient(circle at 85% 80%, rgba(52, 211, 153, 0.04) 0%, transparent 40%),
+ linear-gradient(to bottom, #0a0a0a 0%, #050505 100%);
+ background-attachment: fixed;
+ }
+
+ /* Тонкая сетка-фон */
+ body::before {
+ content: '';
+ position: fixed;
+ inset: 0;
+ background-image:
+ linear-gradient(rgba(31, 41, 55, 0.35) 1px, transparent 1px),
+ linear-gradient(90deg, rgba(31, 41, 55, 0.35) 1px, transparent 1px);
+ background-size: 80px 80px;
+ pointer-events: none;
+ z-index: 0;
+ mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+ -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+ }
+
+ .container {
+ max-width: 1280px;
+ margin: 0 auto;
+ padding: 0 32px;
+ position: relative;
+ z-index: 1;
+ }
+
+ /* === TOP BAR === */
+ .topbar {
+ position: sticky;
+ top: 0;
+ z-index: 100;
+ background: rgba(10, 10, 10, 0.85);
+ backdrop-filter: blur(16px);
+ -webkit-backdrop-filter: blur(16px);
+ border-bottom: 1px solid var(--border);
+ }
+
+ .topbar-inner {
+ max-width: 1280px;
+ margin: 0 auto;
+ padding: 18px 32px;
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ }
+
+ .brand {
+ font-family: 'Unbounded', sans-serif;
+ font-weight: 800;
+ font-size: 14px;
+ letter-spacing: 0.5px;
+ color: var(--blue);
+ display: flex;
+ align-items: center;
+ gap: 10px;
+ }
+
+ .brand-dot {
+ width: 8px; height: 8px;
+ background: var(--blue);
+ border-radius: 50%;
+ box-shadow: 0 0 12px var(--blue);
+ animation: pulse 2s ease-in-out infinite;
+ }
+
+ @keyframes pulse {
+ 0%, 100% { opacity: 1; transform: scale(1); }
+ 50% { opacity: 0.6; transform: scale(0.85); }
+ }
+
+ .topbar-meta {
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 12px;
+ color: var(--text-dim);
+ letter-spacing: 0.5px;
+ }
+
+ .topbar-meta span { color: var(--green); }
+
+ /* === HERO === */
+ .hero {
+ padding: 120px 0 80px;
+ position: relative;
+ }
+
+ .hero-tag {
+ display: inline-flex;
+ align-items: center;
+ gap: 8px;
+ padding: 6px 14px;
+ border: 1px solid var(--border);
+ border-radius: 100px;
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 11px;
+ color: var(--text-muted);
+ letter-spacing: 1px;
+ text-transform: uppercase;
+ margin-bottom: 28px;
+ background: rgba(17, 24, 39, 0.4);
+ }
+
+ .hero-tag::before {
+ content: '';
+ width: 6px; height: 6px;
+ background: var(--green);
+ border-radius: 50%;
+ box-shadow: 0 0 8px var(--green);
+ }
+
+ h1.hero-title {
+ font-family: 'Unbounded', sans-serif;
+ font-weight: 900;
+ font-size: clamp(42px, 7vw, 92px);
+ line-height: 0.95;
+ letter-spacing: -0.03em;
+ margin-bottom: 28px;
+ }
+
+ h1.hero-title .accent {
+ background: linear-gradient(135deg, var(--blue) 0%, var(--green) 100%);
+ -webkit-background-clip: text;
+ -webkit-text-fill-color: transparent;
+ background-clip: text;
+ }
+
+ h1.hero-title .stroke {
+ -webkit-text-stroke: 2px var(--text);
+ color: transparent;
+ }
+
+ .hero-sub {
+ font-size: 20px;
+ color: var(--text-muted);
+ max-width: 720px;
+ line-height: 1.6;
+ margin-bottom: 56px;
+ }
+
+ .hero-meta {
+ display: grid;
+ grid-template-columns: repeat(4, 1fr);
+ gap: 0;
+ border-top: 1px solid var(--border);
+ border-bottom: 1px solid var(--border);
+ padding: 28px 0;
+ }
+
+ .hero-meta-item {
+ border-right: 1px solid var(--border);
+ padding: 0 24px;
+ }
+
+ .hero-meta-item:last-child { border-right: none; }
+ .hero-meta-item:first-child { padding-left: 0; }
+
+ .hero-meta-label {
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 11px;
+ color: var(--text-dim);
+ text-transform: uppercase;
+ letter-spacing: 1.5px;
+ margin-bottom: 8px;
+ }
+
+ .hero-meta-value {
+ font-family: 'Unbounded', sans-serif;
+ font-size: 22px;
+ font-weight: 700;
+ color: var(--text);
+ }
+
+ /* === SECTION === */
+ section {
+ padding: 100px 0;
+ position: relative;
+ }
+
+ .section-head {
+ margin-bottom: 56px;
+ display: flex;
+ align-items: flex-end;
+ justify-content: space-between;
+ gap: 32px;
+ flex-wrap: wrap;
+ }
+
+ .section-head-left { max-width: 720px; }
+
+ .section-num {
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 12px;
+ color: var(--blue);
+ letter-spacing: 2px;
+ margin-bottom: 16px;
+ display: flex;
+ align-items: center;
+ gap: 12px;
+ }
+
+ .section-num::after {
+ content: '';
+ flex: 1;
+ height: 1px;
+ background: linear-gradient(90deg, var(--blue) 0%, transparent 100%);
+ max-width: 100px;
+ }
+
+ h2 {
+ font-family: 'Unbounded', sans-serif;
+ font-weight: 800;
+ font-size: clamp(32px, 4.5vw, 54px);
+ line-height: 1.05;
+ letter-spacing: -0.02em;
+ margin-bottom: 16px;
+ }
+
+ h2 .accent { color: var(--blue); }
+
+ .section-desc {
+ color: var(--text-muted);
+ font-size: 17px;
+ line-height: 1.65;
+ }
+
+ .section-aside {
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 11px;
+ color: var(--text-dim);
+ text-align: right;
+ letter-spacing: 1px;
+ }
+
+ /* === KPI BIG NUMBERS === */
+ .kpi-grid {
+ display: grid;
+ grid-template-columns: repeat(4, 1fr);
+ gap: 1px;
+ background: var(--border);
+ border: 1px solid var(--border);
+ border-radius: 4px;
+ overflow: hidden;
+ }
+
+ .kpi {
+ background: var(--bg-card);
+ padding: 36px 28px 32px;
+ position: relative;
+ transition: background 0.3s;
+ }
+
+ .kpi:hover { background: var(--bg-card-hover); }
+
+ .kpi-label {
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 11px;
+ color: var(--text-dim);
+ text-transform: uppercase;
+ letter-spacing: 1.5px;
+ margin-bottom: 18px;
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ }
+
+ .kpi-trend {
+ color: var(--green);
+ font-size: 11px;
+ display: flex;
+ align-items: center;
+ gap: 4px;
+ }
+
+ .kpi-value {
+ font-family: 'Unbounded', sans-serif;
+ font-size: 56px;
+ font-weight: 800;
+ line-height: 1;
+ color: var(--text);
+ letter-spacing: -0.04em;
+ margin-bottom: 12px;
+ }
+
+ .kpi-value .unit {
+ font-size: 24px;
+ color: var(--text-muted);
+ margin-left: 4px;
+ font-weight: 500;
+ }
+
+ .kpi-foot {
+ color: var(--text-muted);
+ font-size: 13px;
+ line-height: 1.5;
+ }
+
+ .kpi-foot strong { color: var(--text); font-weight: 600; }
+
+ /* Bar inside KPI */
+ .kpi-bar {
+ height: 4px;
+ background: var(--border);
+ border-radius: 2px;
+ overflow: hidden;
+ margin-top: 18px;
+ position: relative;
+ }
+
+ .kpi-bar-fill {
+ height: 100%;
+ background: linear-gradient(90deg, var(--blue) 0%, var(--green) 100%);
+ border-radius: 2px;
+ transform: translateX(-100%);
+ transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+ }
+
+ .kpi.in-view .kpi-bar-fill { transform: translateX(0); }
+
+ /* === COMPARE BLOCK === */
+ .compare-grid {
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: 24px;
+ margin-bottom: 24px;
+ }
+
+ .compare-card {
+ border: 1px solid var(--border);
+ border-radius: 4px;
+ padding: 36px 32px;
+ position: relative;
+ transition: all 0.3s;
+ }
+
+ .compare-card.before {
+ background: linear-gradient(180deg, rgba(248, 113, 113, 0.04) 0%, transparent 100%);
+ }
+
+ .compare-card.after {
+ background: linear-gradient(180deg, rgba(52, 211, 153, 0.06) 0%, transparent 100%);
+ border-color: rgba(52, 211, 153, 0.25);
+ }
+
+ .compare-tag {
+ display: inline-block;
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 10px;
+ letter-spacing: 2px;
+ text-transform: uppercase;
+ padding: 4px 10px;
+ border-radius: 100px;
+ margin-bottom: 24px;
+ }
+
+ .compare-tag.before-tag {
+ background: rgba(248, 113, 113, 0.1);
+ color: var(--red);
+ border: 1px solid rgba(248, 113, 113, 0.2);
+ }
+
+ .compare-tag.after-tag {
+ background: rgba(52, 211, 153, 0.1);
+ color: var(--green);
+ border: 1px solid rgba(52, 211, 153, 0.3);
+ }
+
+ .compare-stat {
+ margin-bottom: 28px;
+ }
+
+ .compare-stat:last-child { margin-bottom: 0; }
+
+ .compare-stat-label {
+ font-size: 13px;
+ color: var(--text-muted);
+ margin-bottom: 10px;
+ display: flex;
+ justify-content: space-between;
+ align-items: baseline;
+ }
+
+ .compare-stat-num {
+ font-family: 'Unbounded', sans-serif;
+ font-weight: 700;
+ color: var(--text);
+ font-size: 17px;
+ }
+
+ .compare-stat-bar {
+ height: 8px;
+ background: var(--border-soft);
+ border-radius: 4px;
+ overflow: hidden;
+ position: relative;
+ }
+
+ .compare-stat-bar-fill {
+ height: 100%;
+ border-radius: 4px;
+ transform: translateX(-100%);
+ transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+ }
+
+ .compare-card.in-view .compare-stat-bar-fill { transform: translateX(0); }
+
+ .before .compare-stat-bar-fill { background: linear-gradient(90deg, #7f1d1d 0%, var(--red) 100%); }
+ .after .compare-stat-bar-fill { background: linear-gradient(90deg, var(--blue) 0%, var(--green) 100%); }
+
+ .delta-summary {
+ background: var(--bg-card);
+ border: 1px solid var(--border);
+ border-radius: 4px;
+ padding: 28px 32px;
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ flex-wrap: wrap;
+ gap: 20px;
+ }
+
+ .delta-summary-text {
+ font-size: 15px;
+ color: var(--text-muted);
+ max-width: 600px;
+ }
+
+ .delta-summary-text strong { color: var(--green); font-weight: 700; }
+
+ .delta-arrow {
+ font-family: 'Unbounded', sans-serif;
+ font-size: 32px;
+ font-weight: 800;
+ color: var(--green);
+ display: flex;
+ align-items: center;
+ gap: 6px;
+ }
+
+ /* === PROGRAM STRUCTURE === */
+ .program-grid {
+ display: grid;
+ grid-template-columns: repeat(3, 1fr);
+ gap: 16px;
+ }
+
+ .day-card {
+ background: var(--bg-card);
+ border: 1px solid var(--border);
+ border-radius: 4px;
+ padding: 24px;
+ position: relative;
+ transition: all 0.3s ease;
+ overflow: hidden;
+ }
+
+ .day-card::before {
+ content: '';
+ position: absolute;
+ inset: 0;
+ background: linear-gradient(135deg, var(--blue-glow) 0%, transparent 60%);
+ opacity: 0;
+ transition: opacity 0.4s;
+ pointer-events: none;
+ }
+
+ .day-card:hover {
+ border-color: var(--blue);
+ transform: translateY(-4px);
+ }
+
+ .day-card:hover::before { opacity: 1; }
+
+ .day-num {
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 11px;
+ color: var(--text-dim);
+ letter-spacing: 1.5px;
+ margin-bottom: 12px;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ }
+
+ .day-rating {
+ background: var(--border);
+ color: var(--text-muted);
+ padding: 2px 8px;
+ border-radius: 100px;
+ font-size: 10px;
+ display: inline-flex;
+ align-items: center;
+ gap: 4px;
+ }
+
+ .day-rating.high {
+ background: rgba(52, 211, 153, 0.1);
+ color: var(--green);
+ }
+
+ .day-rating.mid {
+ background: rgba(96, 165, 250, 0.1);
+ color: var(--blue);
+ }
+
+ .day-rating.low {
+ background: rgba(251, 191, 36, 0.1);
+ color: var(--amber);
+ }
+
+ .day-title {
+ font-family: 'Unbounded', sans-serif;
+ font-weight: 700;
+ font-size: 17px;
+ line-height: 1.25;
+ margin-bottom: 12px;
+ color: var(--text);
+ }
+
+ .day-meta {
+ color: var(--text-muted);
+ font-size: 13px;
+ line-height: 1.55;
+ margin-bottom: 16px;
+ }
+
+ .day-bar {
+ height: 4px;
+ background: var(--border);
+ border-radius: 2px;
+ overflow: hidden;
+ position: relative;
+ }
+
+ .day-bar-fill {
+ height: 100%;
+ border-radius: 2px;
+ transform: translateX(-100%);
+ transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+ }
+
+ .day-card.in-view .day-bar-fill { transform: translateX(0); }
+
+ .day-bar-fill.high { background: var(--green); }
+ .day-bar-fill.mid { background: var(--blue); }
+ .day-bar-fill.low { background: var(--amber); }
+
+ /* === SKILLS APPLIED === */
+ .skills-list {
+ display: grid;
+ grid-template-columns: 1fr;
+ gap: 0;
+ border-top: 1px solid var(--border);
+ }
+
+ .skill-row {
+ display: grid;
+ grid-template-columns: 60px 1fr 200px 80px;
+ gap: 24px;
+ padding: 24px 0;
+ border-bottom: 1px solid var(--border);
+ align-items: center;
+ transition: background 0.2s;
+ position: relative;
+ }
+
+ .skill-row:hover { background: rgba(96, 165, 250, 0.03); }
+
+ .skill-rank {
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 13px;
+ color: var(--text-dim);
+ letter-spacing: 1.5px;
+ }
+
+ .skill-name {
+ font-family: 'Unbounded', sans-serif;
+ font-weight: 500;
+ font-size: 16px;
+ color: var(--text);
+ }
+
+ .skill-name small {
+ display: block;
+ font-family: 'Manrope', sans-serif;
+ font-weight: 400;
+ color: var(--text-muted);
+ font-size: 13px;
+ margin-top: 4px;
+ }
+
+ .skill-bar {
+ height: 6px;
+ background: var(--border);
+ border-radius: 3px;
+ overflow: hidden;
+ position: relative;
+ }
+
+ .skill-bar-fill {
+ height: 100%;
+ background: linear-gradient(90deg, var(--blue) 0%, var(--green) 100%);
+ border-radius: 3px;
+ transform: translateX(-100%);
+ transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+ }
+
+ .skill-row.in-view .skill-bar-fill { transform: translateX(0); }
+
+ .skill-pct {
+ font-family: 'Unbounded', sans-serif;
+ font-weight: 700;
+ color: var(--text);
+ font-size: 18px;
+ text-align: right;
+ }
+
+ /* === CASES === */
+ .cases-grid {
+ display: grid;
+ grid-template-columns: repeat(2, 1fr);
+ gap: 24px;
+ }
+
+ .case-card {
+ background: var(--bg-card);
+ border: 1px solid var(--border);
+ border-radius: 4px;
+ padding: 32px;
+ position: relative;
+ overflow: hidden;
+ transition: all 0.3s;
+ }
+
+ .case-card:hover {
+ border-color: var(--blue);
+ background: var(--bg-card-hover);
+ }
+
+ .case-icon {
+ width: 44px; height: 44px;
+ background: rgba(96, 165, 250, 0.1);
+ border: 1px solid rgba(96, 165, 250, 0.2);
+ border-radius: 8px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ margin-bottom: 20px;
+ color: var(--blue);
+ }
+
+ .case-role {
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 11px;
+ color: var(--text-dim);
+ letter-spacing: 1.5px;
+ text-transform: uppercase;
+ margin-bottom: 8px;
+ }
+
+ .case-title {
+ font-family: 'Unbounded', sans-serif;
+ font-weight: 700;
+ font-size: 19px;
+ line-height: 1.3;
+ margin-bottom: 14px;
+ color: var(--text);
+ }
+
+ .case-desc {
+ color: var(--text-muted);
+ font-size: 14px;
+ line-height: 1.65;
+ margin-bottom: 20px;
+ }
+
+ .case-tag {
+ display: inline-flex;
+ align-items: center;
+ gap: 6px;
+ padding: 4px 10px;
+ background: rgba(52, 211, 153, 0.08);
+ border: 1px solid rgba(52, 211, 153, 0.2);
+ color: var(--green);
+ border-radius: 100px;
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 11px;
+ letter-spacing: 0.5px;
+ }
+
+ /* === QUOTES === */
+ .quotes-grid {
+ display: grid;
+ grid-template-columns: repeat(3, 1fr);
+ gap: 20px;
+ }
+
+ .quote-card {
+ background: var(--bg-card);
+ border: 1px solid var(--border);
+ border-radius: 4px;
+ padding: 28px 28px 24px;
+ position: relative;
+ transition: all 0.3s;
+ }
+
+ .quote-card:hover {
+ transform: translateY(-2px);
+ border-color: var(--border);
+ background: var(--bg-card-hover);
+ }
+
+ .quote-mark {
+ font-family: 'Unbounded', sans-serif;
+ font-size: 64px;
+ font-weight: 900;
+ line-height: 1;
+ color: var(--blue);
+ opacity: 0.3;
+ margin-bottom: -20px;
+ height: 30px;
+ }
+
+ .quote-text {
+ color: var(--text);
+ font-size: 15px;
+ line-height: 1.6;
+ margin-bottom: 18px;
+ font-style: italic;
+ font-weight: 300;
+ }
+
+ .quote-attr {
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 11px;
+ color: var(--text-dim);
+ letter-spacing: 1px;
+ text-transform: uppercase;
+ border-top: 1px solid var(--border);
+ padding-top: 14px;
+ }
+
+ /* === GAPS / WHAT'S NEXT === */
+ .twocol {
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: 24px;
+ }
+
+ .gap-card {
+ background: var(--bg-card);
+ border: 1px solid var(--border);
+ border-radius: 4px;
+ padding: 36px;
+ position: relative;
+ }
+
+ .gap-card.amber {
+ border-left: 3px solid var(--amber);
+ }
+
+ .gap-card.blue {
+ border-left: 3px solid var(--blue);
+ }
+
+ .gap-tag {
+ display: inline-block;
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 10px;
+ letter-spacing: 2px;
+ text-transform: uppercase;
+ margin-bottom: 16px;
+ }
+
+ .gap-tag.amber { color: var(--amber); }
+ .gap-tag.blue { color: var(--blue); }
+
+ .gap-card h3 {
+ font-family: 'Unbounded', sans-serif;
+ font-weight: 700;
+ font-size: 22px;
+ margin-bottom: 18px;
+ line-height: 1.25;
+ color: var(--text);
+ }
+
+ .gap-list {
+ list-style: none;
+ padding: 0;
+ }
+
+ .gap-list li {
+ padding: 12px 0;
+ border-bottom: 1px dashed var(--border);
+ color: var(--text-muted);
+ font-size: 14px;
+ line-height: 1.5;
+ display: flex;
+ align-items: flex-start;
+ gap: 12px;
+ }
+
+ .gap-list li:last-child { border-bottom: none; }
+
+ .gap-list li::before {
+ content: '→';
+ color: var(--blue);
+ font-weight: 700;
+ flex-shrink: 0;
+ font-family: 'JetBrains Mono', monospace;
+ }
+
+ .gap-card.amber .gap-list li::before { color: var(--amber); }
+
+ .gap-list li strong { color: var(--text); font-weight: 600; }
+
+ /* === DIVIDER === */
+ .div-line {
+ height: 1px;
+ background: linear-gradient(90deg, transparent 0%, var(--border) 30%, var(--border) 70%, transparent 100%);
+ margin: 0;
+ }
+
+ /* === CTA / END === */
+ .cta-section {
+ padding: 100px 0 120px;
+ text-align: center;
+ position: relative;
+ }
+
+ .cta-section::before {
+ content: '';
+ position: absolute;
+ inset: 0;
+ background: radial-gradient(ellipse at center, var(--blue-glow) 0%, transparent 60%);
+ pointer-events: none;
+ }
+
+ .cta-content { position: relative; z-index: 1; }
+
+ .cta-title {
+ font-family: 'Unbounded', sans-serif;
+ font-weight: 900;
+ font-size: clamp(36px, 5.5vw, 72px);
+ line-height: 1;
+ letter-spacing: -0.03em;
+ margin-bottom: 28px;
+ }
+
+ .cta-title .accent {
+ background: linear-gradient(135deg, var(--blue) 0%, var(--green) 100%);
+ -webkit-background-clip: text;
+ -webkit-text-fill-color: transparent;
+ background-clip: text;
+ }
+
+ .cta-meta {
+ font-size: 17px;
+ color: var(--text-muted);
+ max-width: 580px;
+ margin: 0 auto 40px;
+ line-height: 1.6;
+ }
+
+ .cta-stats {
+ display: flex;
+ justify-content: center;
+ gap: 56px;
+ margin-top: 40px;
+ flex-wrap: wrap;
+ }
+
+ .cta-stat-num {
+ font-family: 'Unbounded', sans-serif;
+ font-size: 48px;
+ font-weight: 900;
+ color: var(--blue);
+ line-height: 1;
+ letter-spacing: -0.04em;
+ }
+
+ .cta-stat-label {
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 11px;
+ color: var(--text-dim);
+ letter-spacing: 1.5px;
+ text-transform: uppercase;
+ margin-top: 10px;
+ }
+
+ /* === FOOTER === */
+ footer {
+ border-top: 1px solid var(--border);
+ padding: 48px 0;
+ color: var(--text-dim);
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 12px;
+ letter-spacing: 1px;
+ }
+
+ .footer-inner {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ flex-wrap: wrap;
+ gap: 16px;
+ }
+
+ .footer-brand {
+ font-family: 'Unbounded', sans-serif;
+ font-weight: 800;
+ font-size: 14px;
+ color: var(--blue);
+ letter-spacing: 0.5px;
+ }
+
+ /* === SCROLL FADE-IN === */
+ .fade-in {
+ opacity: 0;
+ transform: translateY(24px);
+ transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+ }
+
+ .fade-in.in-view {
+ opacity: 1;
+ transform: translateY(0);
+ }
+
+ .fade-in[data-delay="100"] { transition-delay: 0.1s; }
+ .fade-in[data-delay="200"] { transition-delay: 0.2s; }
+ .fade-in[data-delay="300"] { transition-delay: 0.3s; }
+ .fade-in[data-delay="400"] { transition-delay: 0.4s; }
+
+ /* === COUNTER === */
+ .count {
+ display: inline-block;
+ }
+
+ /* === RESPONSIVE === */
+ @media (max-width: 1024px) {
+ .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+ .program-grid { grid-template-columns: repeat(2, 1fr); }
+ .cases-grid { grid-template-columns: 1fr; }
+ .quotes-grid { grid-template-columns: 1fr; }
+ .twocol { grid-template-columns: 1fr; }
+ .compare-grid { grid-template-columns: 1fr; }
+ .hero-meta { grid-template-columns: repeat(2, 1fr); }
+ .hero-meta-item { border-bottom: 1px solid var(--border); padding: 16px 24px; }
+ .hero-meta-item:nth-child(2) { border-right: none; }
+ .hero-meta-item:nth-child(3),
+ .hero-meta-item:nth-child(4) { padding-bottom: 0; padding-top: 24px; }
+ .hero-meta-item:nth-child(3) { padding-left: 0; }
+ .hero-meta-item:nth-child(1),
+ .hero-meta-item:nth-child(2) { padding-top: 0; }
+ .hero-meta-item:nth-child(1) { padding-left: 0; }
+ .skill-row {
+ grid-template-columns: 40px 1fr 60px;
+ }
+ .skill-row .skill-bar { display: none; }
+ .container { padding: 0 24px; }
+ section { padding: 70px 0; }
+ .hero { padding: 80px 0 60px; }
+ }
+
+ @media (max-width: 600px) {
+ .kpi-grid { grid-template-columns: 1fr; }
+ .program-grid { grid-template-columns: 1fr; }
+ .hero-meta { grid-template-columns: 1fr; }
+ .hero-meta-item { border-right: none; padding: 16px 0; border-bottom: 1px solid var(--border); }
+ .hero-meta-item:last-child { border-bottom: none; }
+ .kpi-value { font-size: 44px; }
+ .topbar-meta { display: none; }
+ section { padding: 56px 0; }
+ .container { padding: 0 20px; }
+ }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+ <div class="topbar-inner">
+ <div class="brand">
+ <span class="brand-dot"></span>
+ ИИ-ВИЗАЦИЯ&nbsp;БИЗНЕСА
+ </div>
+ <div class="topbar-meta">
+ ОТЧЁТ <span>// 2026 / Q1</span>
+ </div>
+ </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+ <div class="container">
+ <div class="hero-tag fade-in">Финальный итоговый отчёт по корпоративному обучению</div>
+
+ <h1 class="hero-title fade-in" data-delay="100">
+ Как команда<br>
+ <span class="accent">научилась работать</span><br>
+ <span class="stroke">с искусственным</span><br>
+ интеллектом.
+ </h1>
+
+ <p class="hero-sub fade-in" data-delay="200">
+ Корпоративная программа подготовки сотрудников event-компании, работающей с государственными заказчиками. Девять учебных дней, шесть тематических блоков, семьдесят процентов практики. Закрытие критических болей — от низкой уверенности до правовых рисков B2G.
+ </p>
+
+ <div class="hero-meta fade-in" data-delay="300">
+ <div class="hero-meta-item">
+ <div class="hero-meta-label">Период</div>
+ <div class="hero-meta-value">Март 2026</div>
+ </div>
+ <div class="hero-meta-item">
+ <div class="hero-meta-label">Формат</div>
+ <div class="hero-meta-value">Онлайн</div>
+ </div>
+ <div class="hero-meta-item">
+ <div class="hero-meta-label">Длительность</div>
+ <div class="hero-meta-value">9 дней / 18 ч</div>
+ </div>
+ <div class="hero-meta-item">
+ <div class="hero-meta-label">Слушателей</div>
+ <div class="hero-meta-value">24 чел.</div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- KEY METRICS -->
+<section>
+ <div class="container">
+ <div class="section-head fade-in">
+ <div class="section-head-left">
+ <div class="section-num">01 / Ключевые метрики</div>
+ <h2>Что изменилось <span class="accent">после программы</span></h2>
+ <p class="section-desc">Срез по активной выборке участников пост-анкетирования. Сравнение с базовым замером, выполненным до старта обучения.</p>
+ </div>
+ <div class="section-aside">
+ ДО → ПОСЛЕ<br>
+ Q1 / 2026
+ </div>
+ </div>
+
+ <div class="kpi-grid fade-in">
+ <div class="kpi" data-fill="75">
+ <div class="kpi-label">
+ Уверенность при работе с ИИ
+ <span class="kpi-trend">+1.35 ↗</span>
+ </div>
+ <div class="kpi-value"><span class="count" data-target="3.75" data-decimals="2">0</span><span class="unit">/5</span></div>
+ <div class="kpi-foot">
+ Было <strong>2.4</strong> до старта. Цель программы &mdash; ≥3.8 — практически достигнута.
+ </div>
+ <div class="kpi-bar"><div class="kpi-bar-fill" style="--w: 75%; width: 75%;"></div></div>
+ </div>
+
+ <div class="kpi" data-fill="75">
+ <div class="kpi-label">
+ Ежедневное использование
+ <span class="kpi-trend">+62 п.п. ↗</span>
+ </div>
+ <div class="kpi-value"><span class="count" data-target="75" data-decimals="0">0</span><span class="unit">%</span></div>
+ <div class="kpi-foot">
+ Было <strong>13%</strong>. Цель ≥50% — перевыполнена.
+ </div>
+ <div class="kpi-bar"><div class="kpi-bar-fill" style="--w: 75%; width: 75%;"></div></div>
+ </div>
+
+ <div class="kpi" data-fill="100">
+ <div class="kpi-label">
+ Понимание промптинга
+ <span class="kpi-trend">100% ✓</span>
+ </div>
+ <div class="kpi-value"><span class="count" data-target="100" data-decimals="0">0</span><span class="unit">%</span></div>
+ <div class="kpi-foot">
+ Боль <strong>«не понимаю промпты»</strong> закрыта в ноль среди прошедших обучение.
+ </div>
+ <div class="kpi-bar"><div class="kpi-bar-fill" style="width: 100%;"></div></div>
+ </div>
+
+ <div class="kpi" data-fill="88">
+ <div class="kpi-label">
+ Доля положительных оценок
+ <span class="kpi-trend">8 / 10 ↗</span>
+ </div>
+ <div class="kpi-value"><span class="count" data-target="88" data-decimals="0">0</span><span class="unit">%</span></div>
+ <div class="kpi-foot">
+ Программа <strong>полностью или частично оправдала ожидания</strong> у всех респондентов.
+ </div>
+ <div class="kpi-bar"><div class="kpi-bar-fill" style="width: 88%;"></div></div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- BEFORE / AFTER -->
+<section>
+ <div class="container">
+ <div class="section-head fade-in">
+ <div class="section-head-left">
+ <div class="section-num">02 / Динамика</div>
+ <h2>До и <span class="accent">после</span></h2>
+ <p class="section-desc">Прямое сравнение состояния команды по ключевым показателям, выявленным на этапе диагностики и измеренным повторно по завершении программы.</p>
+ </div>
+ <div class="section-aside">
+ ИСТОЧНИК:<br>
+ ПРЕ- И ПОСТ-ОПРОС
+ </div>
+ </div>
+
+ <div class="compare-grid">
+ <div class="compare-card before fade-in">
+ <span class="compare-tag before-tag">До обучения</span>
+
+ <div class="compare-stat">
+ <div class="compare-stat-label">
+ <span>Средняя уверенность при работе с ИИ</span>
+ <span class="compare-stat-num">2.4 / 5</span>
+ </div>
+ <div class="compare-stat-bar"><div class="compare-stat-bar-fill" style="width: 48%;"></div></div>
+ </div>
+
+ <div class="compare-stat">
+ <div class="compare-stat-label">
+ <span>Используют ИИ ежедневно</span>
+ <span class="compare-stat-num">13%</span>
+ </div>
+ <div class="compare-stat-bar"><div class="compare-stat-bar-fill" style="width: 13%;"></div></div>
+ </div>
+
+ <div class="compare-stat">
+ <div class="compare-stat-label">
+ <span>Не могут получить нужный результат</span>
+ <span class="compare-stat-num">42%</span>
+ </div>
+ <div class="compare-stat-bar"><div class="compare-stat-bar-fill" style="width: 42%;"></div></div>
+ </div>
+
+ <div class="compare-stat">
+ <div class="compare-stat-label">
+ <span>Не понимают, как формулировать промпты</span>
+ <span class="compare-stat-num">21%</span>
+ </div>
+ <div class="compare-stat-bar"><div class="compare-stat-bar-fill" style="width: 21%;"></div></div>
+ </div>
+
+ <div class="compare-stat">
+ <div class="compare-stat-label">
+ <span>ИИ-ассистенты в компании</span>
+ <span class="compare-stat-num">0</span>
+ </div>
+ <div class="compare-stat-bar"><div class="compare-stat-bar-fill" style="width: 1%;"></div></div>
+ </div>
+
+ <div class="compare-stat">
+ <div class="compare-stat-label">
+ <span>Корпоративный стандарт инструментов</span>
+ <span class="compare-stat-num">8+ разных</span>
+ </div>
+ <div class="compare-stat-bar"><div class="compare-stat-bar-fill" style="width: 100%;"></div></div>
+ </div>
+ </div>
+
+ <div class="compare-card after fade-in" data-delay="200">
+ <span class="compare-tag after-tag">После обучения</span>
+
+ <div class="compare-stat">
+ <div class="compare-stat-label">
+ <span>Средняя уверенность при работе с ИИ</span>
+ <span class="compare-stat-num">3.75 / 5</span>
+ </div>
+ <div class="compare-stat-bar"><div class="compare-stat-bar-fill" style="width: 75%;"></div></div>
+ </div>
+
+ <div class="compare-stat">
+ <div class="compare-stat-label">
+ <span>Используют ИИ ежедневно</span>
+ <span class="compare-stat-num">75%</span>
+ </div>
+ <div class="compare-stat-bar"><div class="compare-stat-bar-fill" style="width: 75%;"></div></div>
+ </div>
+
+ <div class="compare-stat">
+ <div class="compare-stat-label">
+ <span>Уверенно формулируют запросы</span>
+ <span class="compare-stat-num">100%</span>
+ </div>
+ <div class="compare-stat-bar"><div class="compare-stat-bar-fill" style="width: 100%;"></div></div>
+ </div>
+
+ <div class="compare-stat">
+ <div class="compare-stat-label">
+ <span>Применяют формулу Роль+Контекст+Задача</span>
+ <span class="compare-stat-num">88%</span>
+ </div>
+ <div class="compare-stat-bar"><div class="compare-stat-bar-fill" style="width: 88%;"></div></div>
+ </div>
+
+ <div class="compare-stat">
+ <div class="compare-stat-label">
+ <span>Создают ИИ-ассистентов под задачи</span>
+ <span class="compare-stat-num">63%</span>
+ </div>
+ <div class="compare-stat-bar"><div class="compare-stat-bar-fill" style="width: 63%;"></div></div>
+ </div>
+
+ <div class="compare-stat">
+ <div class="compare-stat-label">
+ <span>Унифицированный стек: ChatGPT + Gemini + Claude</span>
+ <span class="compare-stat-num">Принят</span>
+ </div>
+ <div class="compare-stat-bar"><div class="compare-stat-bar-fill" style="width: 100%;"></div></div>
+ </div>
+ </div>
+ </div>
+
+ <div class="delta-summary fade-in">
+ <div class="delta-summary-text">
+ Базовая уверенность команды выросла с <strong>2.4 до 3.75 балла</strong>. Ежедневное использование увеличилось почти в шесть раз. Все три критические боли начала проекта закрыты в активной выборке.
+ </div>
+ <div class="delta-arrow">+56% ↗</div>
+ </div>
+ </div>
+</section>
+
+<!-- DAY-BY-DAY -->
+<section>
+ <div class="container">
+ <div class="section-head fade-in">
+ <div class="section-head-left">
+ <div class="section-num">03 / Архитектура программы</div>
+ <h2>Девять дней, <span class="accent">шесть блоков</span></h2>
+ <p class="section-desc">Каждый день — две сессии по часу, пятиминутный перерыв, домашнее задание. Оценка слева отражает среднюю по итоговому опросу слушателей.</p>
+ </div>
+ <div class="section-aside">
+ ОЦЕНКА: 1—5<br>
+ 70% ПРАКТИКИ
+ </div>
+ </div>
+
+ <div class="program-grid">
+ <div class="day-card fade-in">
+ <div class="day-num">DAY&nbsp;01 <span class="day-rating mid">4.1 / 5</span></div>
+ <div class="day-title">ИИ-ландшафт и введение в LLM</div>
+ <div class="day-meta">Карта инструментов, типичные ошибки моделей, разница генеративных и дискриминантных систем.</div>
+ <div class="day-bar"><div class="day-bar-fill mid" style="width: 82%;"></div></div>
+ </div>
+
+ <div class="day-card fade-in" data-delay="100">
+ <div class="day-num">DAY&nbsp;02 <span class="day-rating high">4.6 / 5</span></div>
+ <div class="day-title">Безопасность и B2G</div>
+ <div class="day-meta">Корпоративная и личная защита данных, правовые риски ИИ-изображений в отчётах госзаказчику.</div>
+ <div class="day-bar"><div class="day-bar-fill high" style="width: 92%;"></div></div>
+ </div>
+
+ <div class="day-card fade-in" data-delay="200">
+ <div class="day-num">DAY&nbsp;03 <span class="day-rating high">4.9 / 5</span></div>
+ <div class="day-title">Промпт-инжиниринг и визуализация</div>
+ <div class="day-meta">Формула промпта, цепочка рассуждений, мета-промптинг, режим Canvas, HTML-презентации.</div>
+ <div class="day-bar"><div class="day-bar-fill high" style="width: 98%;"></div></div>
+ </div>
+
+ <div class="day-card fade-in" data-delay="300">
+ <div class="day-num">DAY&nbsp;04 <span class="day-rating mid">4.0 / 5</span></div>
+ <div class="day-title">Глубокие исследования</div>
+ <div class="day-meta">Deep Research, методология, верификация результатов, аналитика НПА и тендеров.</div>
+ <div class="day-bar"><div class="day-bar-fill mid" style="width: 80%;"></div></div>
+ </div>
+
+ <div class="day-card fade-in">
+ <div class="day-num">DAY&nbsp;05 <span class="day-rating mid">3.9 / 5</span></div>
+ <div class="day-title">Креатив и мозговой штурм</div>
+ <div class="day-meta">Сценарии мероприятий, концепции, визуализация площадок и фотозон, командный воркшоп.</div>
+ <div class="day-bar"><div class="day-bar-fill mid" style="width: 78%;"></div></div>
+ </div>
+
+ <div class="day-card fade-in" data-delay="100">
+ <div class="day-num">DAY&nbsp;06 <span class="day-rating high">4.3 / 5</span></div>
+ <div class="day-title">Проекты и Custom GPTs</div>
+ <div class="day-meta">Проектная работа, изолированный контекст, создание ассистентов под рабочие задачи.</div>
+ <div class="day-bar"><div class="day-bar-fill high" style="width: 86%;"></div></div>
+ </div>
+
+ <div class="day-card fade-in" data-delay="200">
+ <div class="day-num">DAY&nbsp;07 <span class="day-rating mid">4.0 / 5</span></div>
+ <div class="day-title">Хакатон и сессия Q&amp;A</div>
+ <div class="day-meta">Презентация ассистентов, обмен лучшими практиками, формирование библиотеки компании.</div>
+ <div class="day-bar"><div class="day-bar-fill mid" style="width: 80%;"></div></div>
+ </div>
+
+ <div class="day-card fade-in" data-delay="300">
+ <div class="day-num">DAY&nbsp;08 <span class="day-rating low">3.3 / 5</span></div>
+ <div class="day-title">Codex и вайб-кодинг</div>
+ <div class="day-meta">Создание лендингов и Telegram-ботов через ИИ-агентов без классической разработки.</div>
+ <div class="day-bar"><div class="day-bar-fill low" style="width: 66%;"></div></div>
+ </div>
+
+ <div class="day-card fade-in">
+ <div class="day-num">DAY&nbsp;09 <span class="day-rating low">3.7 / 5</span></div>
+ <div class="day-title">Автоматизация и дорожная карта</div>
+ <div class="day-meta">Транскрибация, итоги встреч, отчётность, дорожная карта внедрения на 6—12 месяцев.</div>
+ <div class="day-bar"><div class="day-bar-fill low" style="width: 74%;"></div></div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- SKILLS APPLIED -->
+<section>
+ <div class="container">
+ <div class="section-head fade-in">
+ <div class="section-head-left">
+ <div class="section-num">04 / Применённые навыки</div>
+ <h2>Что слушатели <span class="accent">реально применяют</span> в работе</h2>
+ <p class="section-desc">Только те практики, которые сотрудники самостоятельно отметили в пост-опросе как используемые в текущих рабочих задачах.</p>
+ </div>
+ <div class="section-aside">
+ N = 8<br>
+ АКТИВНАЯ ВЫБОРКА
+ </div>
+ </div>
+
+ <div class="skills-list">
+ <div class="skill-row fade-in">
+ <div class="skill-rank">01</div>
+ <div class="skill-name">Метапромпт и персонализация ChatGPT
+ <small>Системные настройки под рабочие задачи и стиль коммуникации</small>
+ </div>
+ <div class="skill-bar"><div class="skill-bar-fill" style="width: 100%;"></div></div>
+ <div class="skill-pct">100%</div>
+ </div>
+
+ <div class="skill-row fade-in">
+ <div class="skill-rank">02</div>
+ <div class="skill-name">Формула промпта Роль + Контекст + Задача + Формат + Ограничения
+ <small>Базовая методика, ставшая стандартом коммуникации с ИИ</small>
+ </div>
+ <div class="skill-bar"><div class="skill-bar-fill" style="width: 88%;"></div></div>
+ <div class="skill-pct">88%</div>
+ </div>
+
+ <div class="skill-row fade-in">
+ <div class="skill-rank">03</div>
+ <div class="skill-name">HTML-презентации в режиме Canvas
+ <small>Интерактивные документы для внутренних задач и заказчиков</small>
+ </div>
+ <div class="skill-bar"><div class="skill-bar-fill" style="width: 88%;"></div></div>
+ <div class="skill-pct">88%</div>
+ </div>
+
+ <div class="skill-row fade-in">
+ <div class="skill-rank">04</div>
+ <div class="skill-name">Двухфакторная аутентификация
+ <small>Защита всех корпоративных аккаунтов с ИИ-инструментами</small>
+ </div>
+ <div class="skill-bar"><div class="skill-bar-fill" style="width: 75%;"></div></div>
+ <div class="skill-pct">75%</div>
+ </div>
+
+ <div class="skill-row fade-in">
+ <div class="skill-rank">05</div>
+ <div class="skill-name">Генерация изображений и визуала
+ <small>NanoBanana, ChatGPT Images — для презентаций и креатива</small>
+ </div>
+ <div class="skill-bar"><div class="skill-bar-fill" style="width: 75%;"></div></div>
+ <div class="skill-pct">75%</div>
+ </div>
+
+ <div class="skill-row fade-in">
+ <div class="skill-rank">06</div>
+ <div class="skill-name">Банк промптов под отрасль
+ <small>Готовые шаблоны для типовых event-задач и B2G-кейсов</small>
+ </div>
+ <div class="skill-bar"><div class="skill-bar-fill" style="width: 63%;"></div></div>
+ <div class="skill-pct">63%</div>
+ </div>
+
+ <div class="skill-row fade-in">
+ <div class="skill-rank">07</div>
+ <div class="skill-name">Создание Custom GPT
+ <small>Авторские ИИ-ассистенты для конкретных рабочих процессов</small>
+ </div>
+ <div class="skill-bar"><div class="skill-bar-fill" style="width: 63%;"></div></div>
+ <div class="skill-pct">63%</div>
+ </div>
+
+ <div class="skill-row fade-in">
+ <div class="skill-rank">08</div>
+ <div class="skill-name">Глубокие исследования (Deep Research)
+ <small>Аналитика НПА, тендерных требований, рынка подрядчиков</small>
+ </div>
+ <div class="skill-bar"><div class="skill-bar-fill" style="width: 50%;"></div></div>
+ <div class="skill-pct">50%</div>
+ </div>
+
+ <div class="skill-row fade-in">
+ <div class="skill-rank">09</div>
+ <div class="skill-name">Проекты в ChatGPT
+ <small>Изолированный контекст под клиента или направление</small>
+ </div>
+ <div class="skill-bar"><div class="skill-bar-fill" style="width: 50%;"></div></div>
+ <div class="skill-pct">50%</div>
+ </div>
+
+ <div class="skill-row fade-in">
+ <div class="skill-rank">10</div>
+ <div class="skill-name">Codex / Claude Code / вайб-кодинг
+ <small>Создание лендингов, ботов и автоматизаций без классического кода</small>
+ </div>
+ <div class="skill-bar"><div class="skill-bar-fill" style="width: 38%;"></div></div>
+ <div class="skill-pct">38%</div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- CASES -->
+<section>
+ <div class="container">
+ <div class="section-head fade-in">
+ <div class="section-head-left">
+ <div class="section-num">05 / Кейсы внедрения</div>
+ <h2>Реальные применения <span class="accent">в работе</span></h2>
+ <p class="section-desc">Каждый кейс — самостоятельное внедрение участника программы, выполненное на материале текущих рабочих задач компании. Имена скрыты, оставлены роли.</p>
+ </div>
+ <div class="section-aside">
+ ИНИЦИАТИВЫ<br>
+ СОТРУДНИКОВ
+ </div>
+ </div>
+
+ <div class="cases-grid">
+ <div class="case-card fade-in">
+ <div class="case-icon">
+ <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+ </div>
+ <div class="case-role">Тендерный отдел</div>
+ <div class="case-title">ИИ-ассистент для анализа критериев оценки в государственных контрактах</div>
+ <div class="case-desc">Custom GPT, обученный на нормативных документах, проверяет тендерные предложения на соответствие критериям заказчика, выявляет противоречия и формальные нарушения 44-ФЗ.</div>
+ <span class="case-tag">→ внедрено</span>
+ </div>
+
+ <div class="case-card fade-in" data-delay="100">
+ <div class="case-icon">
+ <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+ </div>
+ <div class="case-role">Юридический / тендерный отдел</div>
+ <div class="case-title">Консолидация документации и поиск противоречий</div>
+ <div class="case-desc">Объединение и анализ массивов из десятка нормативных и проектных документов в единый структурированный отчёт. Автоматическое выявление формальных и смысловых неточностей.</div>
+ <span class="case-tag">→ применяется регулярно</span>
+ </div>
+
+ <div class="case-card fade-in" data-delay="200">
+ <div class="case-icon">
+ <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+ </div>
+ <div class="case-role">Проектный менеджмент</div>
+ <div class="case-title">План рекламной кампании, лендинг и Telegram-бот</div>
+ <div class="case-desc">Полноценная маркетинговая кампания, посадочная страница и канал коммуникации с гостями — всё создано через вайб-кодинг и опубликовано на работающих ресурсах.</div>
+ <span class="case-tag">→ запущено в продакшн</span>
+ </div>
+
+ <div class="case-card fade-in" data-delay="300">
+ <div class="case-icon">
+ <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+ </div>
+ <div class="case-role">Руководство / стратегия</div>
+ <div class="case-title">Редактирование сайта на WordPress и прототип через Codex</div>
+ <div class="case-desc">Управленческий контур использует ИИ для прямого редактирования корпоративного сайта и быстрой подготовки альтернативных вариантов — без участия разработчика.</div>
+ <span class="case-tag">→ в работе</span>
+ </div>
+
+ <div class="case-card fade-in">
+ <div class="case-icon">
+ <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+ </div>
+ <div class="case-role">HR / административный отдел</div>
+ <div class="case-title">Шаблоны служебок, регламентов и инструкций</div>
+ <div class="case-desc">Быстрая генерация типовой административной документации — служебных записок, регламентов и инструкций для сотрудников — на основе единых корпоративных стандартов.</div>
+ <span class="case-tag">→ в ежедневной практике</span>
+ </div>
+
+ <div class="case-card fade-in" data-delay="100">
+ <div class="case-icon">
+ <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+ </div>
+ <div class="case-role">Юридический отдел</div>
+ <div class="case-title">Подготовка отчётной документации с визуальным контентом</div>
+ <div class="case-desc">Использование готовых промптов из корпоративного банка для генерации релевантных изображений и текстов в отчётах для государственных заказчиков. Существенный прирост скорости.</div>
+ <span class="case-tag">→ внедрено</span>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- ECONOMIC IMPACT -->
+<section>
+ <div class="container">
+ <div class="section-head fade-in">
+ <div class="section-head-left">
+ <div class="section-num">06 / Экономический эффект</div>
+ <h2>Сэкономленное <span class="accent">рабочее время</span></h2>
+ <p class="section-desc">Самооценка участников программы по итогам месяца применения навыков. Учитывается только то время, которое сотрудники зафиксировали как высвобожденное благодаря ИИ-инструментам.</p>
+ </div>
+ <div class="section-aside">
+ ОТ 1 ДО 3+<br>
+ ЧАСОВ В НЕДЕЛЮ
+ </div>
+ </div>
+
+ <div class="kpi-grid fade-in">
+ <div class="kpi">
+ <div class="kpi-label">Значительная экономия<span class="kpi-trend">3+ ч/нед</span></div>
+ <div class="kpi-value"><span class="count" data-target="13" data-decimals="0">0</span><span class="unit">%</span></div>
+ <div class="kpi-foot">Сотрудники, освободившие <strong>более трёх часов</strong> в неделю на рутинных операциях.</div>
+ <div class="kpi-bar"><div class="kpi-bar-fill" style="width: 13%;"></div></div>
+ </div>
+
+ <div class="kpi">
+ <div class="kpi-label">Заметная экономия<span class="kpi-trend">1—3 ч/нед</span></div>
+ <div class="kpi-value"><span class="count" data-target="38" data-decimals="0">0</span><span class="unit">%</span></div>
+ <div class="kpi-foot">Видимое высвобождение времени на <strong>аналитике и подготовке документов</strong>.</div>
+ <div class="kpi-bar"><div class="kpi-bar-fill" style="width: 38%;"></div></div>
+ </div>
+
+ <div class="kpi">
+ <div class="kpi-label">Микро-экономия<span class="kpi-trend">&lt;1 ч/нед</span></div>
+ <div class="kpi-value"><span class="count" data-target="25" data-decimals="0">0</span><span class="unit">%</span></div>
+ <div class="kpi-foot">Эпизодическое использование на отдельных задачах. Зона дальнейшего роста.</div>
+ <div class="kpi-bar"><div class="kpi-bar-fill" style="width: 25%;"></div></div>
+ </div>
+
+ <div class="kpi">
+ <div class="kpi-label">Координирующие роли<span class="kpi-trend">∅ часы</span></div>
+ <div class="kpi-value"><span class="count" data-target="25" data-decimals="0">0</span><span class="unit">%</span></div>
+ <div class="kpi-foot">Управленцы — экономия <strong>не у них лично</strong>, а у их подразделений за счёт автоматизации.</div>
+ <div class="kpi-bar"><div class="kpi-bar-fill" style="width: 25%;"></div></div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- VOICES / QUOTES -->
+<section>
+ <div class="container">
+ <div class="section-head fade-in">
+ <div class="section-head-left">
+ <div class="section-num">07 / Голоса участников</div>
+ <h2>Что говорят <span class="accent">слушатели</span></h2>
+ <p class="section-desc">Цитаты из открытых полей пост-опроса. Авторство не указывается — представлены только функциональные роли.</p>
+ </div>
+ <div class="section-aside">
+ ОТКРЫТЫЕ<br>
+ ОТВЕТЫ
+ </div>
+ </div>
+
+ <div class="quotes-grid">
+ <div class="quote-card fade-in">
+ <div class="quote-mark">&ldquo;</div>
+ <div class="quote-text">Благодаря ассистенту работа стала проще в плане проверки и доработки предложений по критериям заказчика. Экономлю значительно — более трёх часов в неделю.</div>
+ <div class="quote-attr">→ Тендерный отдел</div>
+ </div>
+
+ <div class="quote-card fade-in" data-delay="100">
+ <div class="quote-mark">&ldquo;</div>
+ <div class="quote-text">Идеально отредактировал письма. Анализирую большие тексты очень быстро. Программа объяснила всё доступно, обучение полностью оправдало ожидания.</div>
+ <div class="quote-attr">→ Юридический отдел</div>
+ </div>
+
+ <div class="quote-card fade-in" data-delay="200">
+ <div class="quote-mark">&ldquo;</div>
+ <div class="quote-text">ИИ создал план рекламной акции, помог ответить на отзывы гостей и сформировать структуру управления базой отдыха. Сгенерированные картинки уже работают на странице бронирования.</div>
+ <div class="quote-attr">→ Проектный менеджмент</div>
+ </div>
+
+ <div class="quote-card fade-in">
+ <div class="quote-mark">&ldquo;</div>
+ <div class="quote-text">Сделал ассистента для отдела, который анализирует критерии оценки в контракте. Осталось его допилить совместно с командой.</div>
+ <div class="quote-attr">→ Руководство</div>
+ </div>
+
+ <div class="quote-card fade-in" data-delay="100">
+ <div class="quote-mark">&ldquo;</div>
+ <div class="quote-text">Информация была полезна с самого начала — от написания промптов до веб-кодинга. Спасибо команде за организацию и подачу материала.</div>
+ <div class="quote-attr">→ Руководство / стратегия</div>
+ </div>
+
+ <div class="quote-card fade-in" data-delay="200">
+ <div class="quote-mark">&ldquo;</div>
+ <div class="quote-text">Работа с подрядчиками, коммуникация, планирование и подготовка документов — всё стало быстрее. ИИ помог с регламентами и шаблонами писем.</div>
+ <div class="quote-attr">→ HR / административный отдел</div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- GAPS / NEXT STEPS -->
+<section>
+ <div class="container">
+ <div class="section-head fade-in">
+ <div class="section-head-left">
+ <div class="section-num">08 / Следующий шаг</div>
+ <h2>Что дальше — <span class="accent">точки роста</span></h2>
+ <p class="section-desc">Программа закрыла критические боли. Естественные точки роста на ближайшие три месяца — это углубление в продвинутые блоки и усиление формата материалов.</p>
+ </div>
+ <div class="section-aside">
+ ПЛАН<br>
+ Q2 / 2026
+ </div>
+ </div>
+
+ <div class="twocol">
+ <div class="gap-card amber fade-in">
+ <span class="gap-tag amber">Запросы из пост-опроса</span>
+ <h3>Чего просили слушатели</h3>
+ <ul class="gap-list">
+ <li><strong>Текстовые конспекты и инструкции.</strong> Видео хороши для первого знакомства, но для повторного обращения нужны короткие справочники.</li>
+ <li><strong>Больше времени на каждую тему.</strong> Запрос на углубление, особенно по продвинутым блокам.</li>
+ <li><strong>Больше реальных кейсов и разборов.</strong> Внутренние примеры компании ценнее абстрактных учебных задач.</li>
+ <li><strong>Альтернативный формат вне рабочего времени.</strong> Часть слушателей предложила выходные дни как менее рискованный для основных задач формат.</li>
+ </ul>
+ </div>
+
+ <div class="gap-card blue fade-in" data-delay="200">
+ <span class="gap-tag blue">Зоны дальнейшего развития</span>
+ <h3>Что усилить в продолжении</h3>
+ <ul class="gap-list">
+ <li><strong>Доведение Custom GPTs до продакшна.</strong> Половина начатых ассистентов нуждается в финальной донастройке и интеграции.</li>
+ <li><strong>Углубление по Codex и автоматизации.</strong> Самые продвинутые блоки требуют отдельного практикума с поддержкой.</li>
+ <li><strong>Корпоративная библиотека промптов и ассистентов.</strong> Объединить наработки в единый внутренний ресурс компании.</li>
+ <li><strong>Регламент использования ИИ при работе с госзаказчиками.</strong> Закрепить на уровне корпоративной политики.</li>
+ </ul>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- CTA / END -->
+<section class="cta-section">
+ <div class="container">
+ <div class="cta-content fade-in">
+ <h2 class="cta-title">
+ Команда теперь работает<br>
+ <span class="accent">с ИИ как со стандартом</span>
+ </h2>
+ <p class="cta-meta">
+ От низкой уверенности и фрагментированной экосистемы — к корпоративному стандарту, ежедневной практике и внутренним ИИ-ассистентам, решающим конкретные задачи отделов.
+ </p>
+
+ <div class="cta-stats">
+ <div>
+ <div class="cta-stat-num">+1.35</div>
+ <div class="cta-stat-label">Балла уверенности</div>
+ </div>
+ <div>
+ <div class="cta-stat-num">×6</div>
+ <div class="cta-stat-label">Рост ежедневного использования</div>
+ </div>
+ <div>
+ <div class="cta-stat-num">10+</div>
+ <div class="cta-stat-label">Освоенных навыков</div>
+ </div>
+ <div>
+ <div class="cta-stat-num">9</div>
+ <div class="cta-stat-label">Учебных дней</div>
+ </div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+ <div class="container">
+ <div class="footer-inner">
+ <div class="footer-brand">ИИ-ВИЗАЦИЯ&nbsp;БИЗНЕСА</div>
+ <div>КОРПОРАТИВНОЕ ОБУЧЕНИЕ ИИ &nbsp;//&nbsp; ФИНАЛЬНЫЙ ОТЧЁТ &nbsp;//&nbsp; 2026</div>
+ <div>STAS PANKOV &nbsp;//&nbsp; @stavzzz</div>
+ </div>
+ </div>
+</footer>
+
+<script>
+ // === Intersection Observer ===
+ const io = new IntersectionObserver((entries) => {
+ entries.forEach(entry => {
+ if (entry.isIntersecting) {
+ entry.target.classList.add('in-view');
+ }
+ });
+ }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+ document.querySelectorAll('.fade-in, .kpi, .compare-card, .day-card, .skill-row').forEach(el => io.observe(el));
+
+ // === Counter animation ===
+ const counters = document.querySelectorAll('.count');
+ const counterObserver = new IntersectionObserver((entries) => {
+ entries.forEach(entry => {
+ if (entry.isIntersecting) {
+ const el = entry.target;
+ if (el.dataset.animated) return;
+ el.dataset.animated = 'true';
+
+ const target = parseFloat(el.dataset.target);
+ const decimals = parseInt(el.dataset.decimals) || 0;
+ const duration = 1600;
+ const start = performance.now();
+
+ function tick(now) {
+ const progress = Math.min((now - start) / duration, 1);
+ // ease out
+ const eased = 1 - Math.pow(1 - progress, 3);
+ const current = target * eased;
+ el.textContent = current.toFixed(decimals);
+ if (progress < 1) requestAnimationFrame(tick);
+ else el.textContent = target.toFixed(decimals);
+ }
+ requestAnimationFrame(tick);
+ }
+ });
+ }, { threshold: 0.4 });
+
+ counters.forEach(el => counterObserver.observe(el));
+</script>
+
+</body>
+</html>
