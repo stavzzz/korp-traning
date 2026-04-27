@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ИИ-ВИЗАЦИЯ: OPENCLAW — Урок 6. Часть 1. Глава 01. Документация OpenClaw</title>
+<title>ИИ-ВИЗАЦИЯ: OPENCLAW — Урок 6. Часть 1. Глава 02. MCP OpenClaw</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -50,6 +50,10 @@
   .header__topics { list-style:none; display:flex; flex-direction:column; gap:7px; max-width:460px; margin:0 auto; animation:fadeDown .6s ease .2s both; }
   .header__topics li { font-size:13.5px; color:var(--text-secondary); display:flex; align-items:flex-start; gap:8px; text-align:left; }
   .header__topics li::before { content:'→'; color:var(--accent); flex-shrink:0; font-family:'JetBrains Mono',monospace; font-size:11px; margin-top:3px; }
+
+  /* ─── CHAPTER DIVIDER ─── */
+  .chapter-divider { height:1px; background:linear-gradient(90deg,transparent,var(--border-accent),transparent); margin:80px 0 56px; scroll-margin-top:24px; }
+  .progress-wrap--ch02 { top:12px; }
 
   /* ─── CHAPTER MARKER ─── */
   .chapter-marker { background:var(--bg-card); border:1px solid var(--border); border-left:3px solid var(--accent); border-radius:var(--radius); padding:18px 24px; margin-bottom:36px; animation:fadeDown .6s ease .25s both; }
@@ -210,8 +214,8 @@
 
       <div class="sidebar__part">
         <div class="sidebar__part-title">Часть 1 · Прокачиваем Claude Code</div>
-        <a href="#chapter-01" class="sidebar__link sidebar__link--active">Глава 01 · Документация OpenClaw</a>
-        <span class="sidebar__link sidebar__link--soon">Глава 02 · MCP OpenClaw <em>скоро</em></span>
+        <a href="#chapter-01" class="sidebar__link">Глава 01 · Документация OpenClaw</a>
+        <a href="#chapter-02" class="sidebar__link sidebar__link--active">Глава 02 · MCP OpenClaw</a>
         <span class="sidebar__link sidebar__link--soon">Глава 03 · Claude Code в Telegram <em>скоро</em></span>
       </div>
 
@@ -245,7 +249,7 @@
   <main class="main-content" id="chapter-01">
 
     <div class="mobile-topbar">
-      <div class="mobile-topbar__title">Урок 6 · Ч.1 · Гл.01</div>
+      <div class="mobile-topbar__title">Урок 6 · Ч.1 · Гл.02</div>
       <button class="mobile-topbar__burger" aria-label="Меню">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
@@ -776,10 +780,576 @@
       </div>
       <div class="footer__schedule">
         <div class="footer__schedule-title">Следующая глава</div>
-        <div class="footer__schedule-row"><span>Глава 02</span><span>Claude Code + MCP OpenClaw — «режим БОГА»</span></div>
+        <div class="footer__schedule-row"><span>Глава 02</span><span>MCP OpenClaw — прокачиваем Claude Code до режима БОГА</span></div>
       </div>
       <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
-      <button class="btn-reset" onclick="resetProgress()">Сбросить прогресс</button>
+      <button class="btn-reset" onclick="resetProgress()">Сбросить прогресс (обе главы)</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- ═══ ГЛАВА 02 ═══ -->
+    <!-- ═══════════════════════════════════════════ -->
+
+    <div id="chapter-02" class="chapter-divider"></div>
+
+    <!-- chapter-marker для Главы 02 -->
+    <div class="chapter-marker chapter-marker--ch02">
+      <div class="chapter-marker__label">ЧАСТЬ 1 · ГЛАВА 02</div>
+      <div class="chapter-marker__title">MCP OpenClaw <span>— прокачиваем Claude Code до режима БОГА</span></div>
+    </div>
+
+    <!-- progress-wrap для Главы 02 -->
+    <div class="progress-wrap progress-wrap--ch02">
+      <div class="progress-top">
+        <span class="progress-label">Прогресс главы 02</span>
+        <span class="progress-count" id="progressCountCh02">0 / 14</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFillCh02"></div></div>
+    </div>
+
+<!-- ═══ 12 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">12</div>
+    <div class="section__title">Что такое «режим БОГА» и три слоя силы Claude Code</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🚀</span>
+      <span>В Главе 01 мы научили Claude Code <strong>знать</strong> OpenClaw — подключили документацию через AGENTS.md. Сейчас идём дальше: даём Claude Code <strong>глаза, уши и доступ к актуальным докам сторонних библиотек</strong>. После этой главы у тебя будет полноценный «режим БОГА» — Claude Code превращается в мощного разработчика по OpenClaw.</span>
+    </div>
+
+    <div class="term">
+      <div class="term__name">РЕЖИМ БОГА</div>
+      <div class="term__def">Claude Code в режиме БОГА — это связка из <strong>трёх слоёв силы</strong>: знание + руки + глаза/уши. Каждый слой решает свою задачу, вместе они дают мощного AI-разработчика по OpenClaw.</div>
+      <div class="term__example">📌 По чесноку: магического «MCP, который правит конфиг агента» официально не существует. Но в этом и нет нужды — Claude Code и так умеет редактировать любые файлы напрямую. Мы достраиваем то, чего ему реально не хватает: связь с реальными каналами и актуальные доки сторонних либ.</div>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Три слоя силы Claude Code</strong></p>
+      <p>🧠 <strong>Слой 1. ЗНАНИЕ</strong> <em>(сделано в Главе 01)</em><br>Claude Code понимает, как устроен OpenClaw — вся документация подключена через AGENTS.md.</p>
+      <p>🛠️ <strong>Слой 2. РУКИ</strong> <em>(уже есть из коробки)</em><br>Claude Code умеет редактировать любые файлы — SOUL.md, MEMORY.md, HEARTBEAT.md, скиллы, конфиги. Через стандартные тулзы Read/Write/Edit. Никакого специального MCP не нужно.</p>
+      <p>👁️ <strong>Слой 3. ГЛАЗА И УШИ</strong> <em>(делаем в этой главе)</em><br>— Claude Code <strong>видит реальные каналы</strong> твоего агента (через <span class="mono">openclaw mcp serve</span>) — может читать историю диалогов, аудитировать, тестировать.<br>— Claude Code <strong>знает актуальные доки</strong> сторонних либ (через Context7) — пишет рабочий код с первого раза.</p>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">🛡️</span>
+      <span><strong>Безопасность с первого шага.</strong> Мы намеренно <strong>отключим</strong> возможность Claude Code писать сообщения в твои каналы (<span class="mono">messages_send</span>). Чтение — да. Запись от лица бота — нет. Это правильный security-баланс: Claude Code помогает, но не лезет в продакшен-чаты с клиентами.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 13 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">13</div>
+    <div class="section__title">Что такое openclaw mcp serve — на пальцах</div>
+  </div>
+  <div class="section__card">
+    <div class="term">
+      <div class="term__name">OPENCLAW MCP SERVE</div>
+      <div class="term__def">Встроенная команда CLI OpenClaw, которая запускает <strong>MCP-мост</strong> между Claude Code и твоим OpenClaw Gateway. Через этот мост Claude Code получает доступ к routed-сессиям в каналах твоего агента (Telegram, WhatsApp, Discord и т.д.).</div>
+      <div class="term__example">📌 Никаких сторонних пакетов ставить не надо. Команда уже есть в твоём OpenClaw CLI с момента установки в Уроке 3. Просто прописываем её в конфиге Claude Code.</div>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Что Claude Code сможет делать через этот MCP:</strong></p>
+      <p>✅ <span class="mono">conversations_list</span> — получить список разговоров твоего агента в каналах<br>✅ <span class="mono">conversation_get</span> — детали одного разговора<br>✅ <span class="mono">messages_read</span> — прочитать историю сообщений<br>✅ <span class="mono">attachments_fetch</span> — получить вложения из сообщений<br>✅ <span class="mono">events_poll</span> / <span class="mono">events_wait</span> — слушать новые входящие события<br>✅ <span class="mono">permissions_list_open</span> — увидеть запросы на аппрувы exec-команд<br>✅ <span class="mono">permissions_respond</span> — ответить на запрос аппрува<br>❌ <span class="mono">messages_send</span> — отправить сообщение в чат от имени бота <strong>(отключим в безопасности)</strong></p>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span><strong>Что это даёт практически:</strong><br><strong>1. Аудит работы агента.</strong> «Прочитай последние 50 диалогов, найди где SOUL отработал плохо, предложи правки.»<br><strong>2. Тестирование изменений.</strong> «Если бы я применил вот эту правку SOUL, как изменился бы ответ агента в этом диалоге?»<br><strong>3. Удалённые аппрувы.</strong> Видеть запросы на разрешение exec-команд прямо в Claude Code, без захода в OpenClaw.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 14 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">14</div>
+    <div class="section__title">Шаг 1. Достаём Gateway-токен с сервера</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🔑</span>
+      <span>Чтобы Claude Code мог подключиться к твоему OpenClaw Gateway, ему нужен <strong>токен авторизации</strong>. Этот токен лежит на сервере, где у тебя крутится OpenClaw — в файле <span class="mono">~/.openclaw/gateway.token</span>. Сейчас его аккуратно достанем.</span>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">🛡️</span>
+      <span><strong>Безопасность токена — критично:</strong><br>— Не коммить токен в git<br>— Не публикуй в открытых чатах и не отправляй скриншоты с ним<br>— Если токен утёк — на сервере выполни <span class="mono">openclaw security rotate</span> чтобы создать новый<br>— Файл с токеном на компьютере держим только в <span class="mono">~/.openclaw/</span> (или аналогичной системной папке) — с правами доступа только для тебя</span>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch02-get-token">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Подключиться к серверу и достать токен</div>
+        <div class="item__hint">Подключись к серверу через VS Code Remote-SSH (или обычным <span class="mono">ssh</span> в локальном терминале) и выполни команду ниже. На экран выведется длинная строка — это и есть токен. Скопируй его в буфер обмена.</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdGetToken">ssh root@&lt;IP&gt; "cat ~/.openclaw/gateway.token"</span><button class="btn-copy" onclick="copyBlock('cmdGetToken',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch02-save-token-local">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Сохранить токен локально на компьютере</div>
+        <div class="item__hint">Создай папку <span class="mono">~/.openclaw/</span> у себя на компьютере и положи туда файл <span class="mono">gateway.token</span> с содержимым из предыдущего шага. Выбери команду для своей ОС.</div>
+      </div>
+    </div>
+
+    <div class="cmd-block-os">
+      <div class="cmd-os-label">🍎 Mac (Terminal / iTerm)</div>
+      <div class="cmd-copy"><span class="cmd-copy__text" id="cmdSaveTokenMac">mkdir -p ~/.openclaw && echo 'ВСТАВЬ_СЮДА_ТОКЕН' > ~/.openclaw/gateway.token && chmod 600 ~/.openclaw/gateway.token</span><button class="btn-copy" onclick="copyBlock('cmdSaveTokenMac',this)">📋 Скопировать</button></div>
+      <div class="cmd-os-label cmd-os-label--win">🪟 Windows (PowerShell)</div>
+      <div class="cmd-copy"><span class="cmd-copy__text" id="cmdSaveTokenWin">New-Item -ItemType Directory -Force -Path "$HOME\.openclaw" | Out-Null; Set-Content -Path "$HOME\.openclaw\gateway.token" -Value 'ВСТАВЬ_СЮДА_ТОКЕН' -NoNewline</span><button class="btn-copy" onclick="copyBlock('cmdSaveTokenWin',this)">📋 Скопировать</button></div>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">⚠️</span>
+      <span>В команде замени <span class="mono">ВСТАВЬ_СЮДА_ТОКЕН</span> на реальный токен, который ты получил в предыдущем шаге. После замены — выполни команду в терминале.<br><br>На Mac команда дополнительно ставит права <span class="mono">600</span> (читать может только владелец) — это правильный security-паттерн.</span>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch02-verify-token">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить, что токен сохранился</div>
+        <div class="item__hint">Выбери команду для своей ОС — должно вывестись содержимое файла (твой токен).</div>
+      </div>
+    </div>
+
+    <div class="cmd-block-os">
+      <div class="cmd-os-label">🍎 Mac (Terminal / iTerm)</div>
+      <div class="cmd-copy"><span class="cmd-copy__text" id="cmdCheckTokenMac">cat ~/.openclaw/gateway.token</span><button class="btn-copy" onclick="copyBlock('cmdCheckTokenMac',this)">📋 Скопировать</button></div>
+      <div class="cmd-os-label cmd-os-label--win">🪟 Windows (PowerShell)</div>
+      <div class="cmd-copy"><span class="cmd-copy__text" id="cmdCheckTokenWin">Get-Content "$HOME\.openclaw\gateway.token"</span><button class="btn-copy" onclick="copyBlock('cmdCheckTokenWin',this)">📋 Скопировать</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 15 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">15</div>
+    <div class="section__title">Шаг 2. Узнаём WebSocket-адрес твоего Gateway</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p>Claude Code будет подключаться к OpenClaw Gateway по WebSocket. Адрес обычно такой:</p>
+      <p><span class="mono">wss://&lt;IP_ИЛИ_ДОМЕН_СЕРВЕРА&gt;:18789</span></p>
+      <p>Если у тебя настроен домен (например, OpenClaw на <span class="mono">openclaw.твой-домен.com</span>), используй его. Если работаешь по голому IP — используй IP.</p>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch02-check-gateway-url">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить, что Gateway доступен</div>
+        <div class="item__hint">Подключись к серверу по SSH и проверь, что Gateway работает на порту 18789.</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdHealthGateway">ssh root@&lt;IP&gt; "openclaw health"</span><button class="btn-copy" onclick="copyBlock('cmdHealthGateway',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span>Если в выводе видишь <span class="mono">Gateway: OK</span> и порт <span class="mono">18789</span> — всё работает. Запиши свой WebSocket-адрес: он понадобится в следующем шаге.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 16 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">16</div>
+    <div class="section__title">Шаг 3. Создаём .mcp.json в папке OpenClaw</div>
+  </div>
+  <div class="section__card">
+    <div class="term">
+      <div class="term__name">.MCP.JSON</div>
+      <div class="term__def">Конфигурационный файл, в котором Claude Code хранит описание подключённых MCP-серверов. Когда файл лежит в корне проекта — серверы доступны только для этого проекта (наш случай). Если положить в глобальный конфиг — серверы будут доступны во всех проектах.</div>
+      <div class="term__example">📌 Мы кладём <span class="mono">.mcp.json</span> в нашу рабочую папку <span class="mono">OpenClaw</span> — рядом с AGENTS.md. Это значит, что наши MCP-серверы (openclaw + Context7) активны только когда Claude Code работает в этой папке. Чисто, безопасно, без побочных эффектов на другие проекты.</div>
+    </div>
+
+    <div class="note note--info">
+      <span class="note__icon">🤖</span>
+      <span>Просим Claude Code сам создать <span class="mono">.mcp.json</span> с правильной конфигурацией. Открой Claude Code в папке <span class="mono">OpenClaw</span> (та же сессия, что и в Главе 01) и отправь промпт ниже.</span>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch02-create-mcp-json">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Попросить Claude Code создать .mcp.json с openclaw MCP</div>
+        <div class="item__hint">В промпте ниже замени <span class="mono">&lt;WSS_URL&gt;</span> на свой WebSocket-адрес (например <span class="mono">wss://openclaw.твой-домен.com:18789</span>). Путь к токену оставляем как есть — мы же его сохранили в Шаге 1.</div>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: Claude Code создаёт .mcp.json с openclaw MCP</div>
+      <div class="prompt-block__text" id="promptCreateMcpJson">Создай в корне текущей рабочей папки файл .mcp.json со следующим содержимым.
+Если файл уже есть — добавь блок с openclaw в существующий объект mcpServers,
+ничего из существующего не удаляя.
+
+{
+  "mcpServers": {
+    "openclaw": {
+      "command": "openclaw",
+      "args": [
+        "mcp",
+        "serve",
+        "--url",
+        "&lt;WSS_URL&gt;",
+        "--token-file",
+        "~/.openclaw/gateway.token"
+      ]
+    }
+  }
+}
+
+ВАЖНО:
+1. &lt;WSS_URL&gt; — это плейсхолдер. Я заменю его сам перед сохранением, ты не подставляй.
+2. Путь ~/.openclaw/gateway.token оставь как есть — этот файл я уже создал в предыдущем шаге.
+3. На Windows этот же путь работает — Claude Code понимает ~ как $HOME.
+
+После создания файла:
+— покажи мне его содержимое
+— подтверди, что файл лежит в корне рабочей папки</div>
+      <button class="btn-copy" onclick="copyBlock('promptCreateMcpJson', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch02-replace-wss-url">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Заменить &lt;WSS_URL&gt; на свой реальный адрес Gateway</div>
+        <div class="item__hint">Открой созданный <span class="mono">.mcp.json</span> и руками замени <span class="mono">&lt;WSS_URL&gt;</span> на свой реальный WebSocket-адрес из Шага 2. Например: <span class="mono">wss://openclaw.example.com:18789</span>. Сохрани файл.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 17 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">17</div>
+    <div class="section__title">Шаг 4. Отключаем messages_send — Claude Code не пишет в каналы от лица бота</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--alert">
+      <span class="note__icon">🚨</span>
+      <span><strong>Это критичный шаг безопасности.</strong> По умолчанию через openclaw MCP Claude Code может ОТПРАВЛЯТЬ сообщения в твои Telegram-чаты от имени твоего бота (<span class="mono">messages_send</span>). Это опасно: AI может ошибиться в формулировке и отправить лишнее клиенту. Мы эту способность <strong>выключим на уровне прав</strong>.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Как это работает в Claude Code:</strong> в <span class="mono">.mcp.json</span> можно указать поле <span class="mono">disabledTools</span> — список инструментов MCP, которые Claude Code не должен видеть. Прописываем туда <span class="mono">messages_send</span>, и этот тул просто <strong>не появится</strong> в списке доступных Claude Code функций.</p>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch02-disable-messages-send">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Попросить Claude Code обновить .mcp.json — добавить disabledTools</div>
+        <div class="item__hint">Отправь промпт ниже Claude Code. Он откроет <span class="mono">.mcp.json</span> и добавит блок <span class="mono">disabledTools</span> в секции <span class="mono">openclaw</span>.</div>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: отключаем messages_send в openclaw MCP</div>
+      <div class="prompt-block__text" id="promptDisableMessagesSend">Открой файл .mcp.json в корне текущей рабочей папки.
+
+В секции "openclaw" добавь поле "disabledTools" со списком инструментов,
+которые Claude Code не должен использовать. Должно получиться так:
+
+{
+  "mcpServers": {
+    "openclaw": {
+      "command": "openclaw",
+      "args": [
+        "mcp", "serve",
+        "--url", "&lt;тот же URL что и был&gt;",
+        "--token-file", "~/.openclaw/gateway.token"
+      ],
+      "disabledTools": [
+        "messages_send"
+      ]
+    }
+  }
+}
+
+Сохрани файл и покажи мне финальное содержимое.</div>
+      <button class="btn-copy" onclick="copyBlock('promptDisableMessagesSend', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span>Что осталось доступно Claude Code: <span class="mono">conversations_list</span>, <span class="mono">conversation_get</span>, <span class="mono">messages_read</span>, <span class="mono">attachments_fetch</span>, <span class="mono">events_poll</span>, <span class="mono">events_wait</span>, <span class="mono">permissions_list_open</span>, <span class="mono">permissions_respond</span>. Это всё инструменты <strong>чтения и аудита</strong>. Запись в каналы — отключена.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 18 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">18</div>
+    <div class="section__title">Шаг 5. Что такое Context7 и зачем он нужен</div>
+  </div>
+  <div class="section__card">
+    <div class="term">
+      <div class="term__name">CONTEXT7</div>
+      <div class="term__def">Бесплатный MCP-сервер от компании <strong>Upstash</strong>. По запросу Claude Code подтягивает <strong>актуальную</strong> документацию любых популярных библиотек (axios, telegraf, n8n, react, supabase и тысячи других).</div>
+      <div class="term__example">📌 <strong>Зачем нужен:</strong> когда Claude Code пишет скиллы для OpenClaw или интеграции — он будет работать с актуальными API сторонних либ, а не с устаревшими данными из своего обучения. Это убирает галлюцинации в коде.</div>
+    </div>
+
+    <div class="note note--info">
+      <span class="note__icon">🛡️</span>
+      <span><strong>Почему Context7 безопасный:</strong><br>— Опенсорс на GitHub: <a href="https://github.com/upstash/context7" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> github.com/upstash/context7</a><br>— Сама официальная документация OpenClaw <strong>упоминает Context7 как пример MCP-сервера</strong> — это лучшее подтверждение качества<br>— Лицензия MIT, миллионы загрузок в месяц<br>— Работает БЕЗ API-ключа (с бесплатными лимитами) или с ключом (повышенные лимиты)</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Как Claude Code будет использовать Context7:</strong></p>
+      <p>1. Ты пишешь промпт «напиши скилл для OpenClaw, который шлёт уведомления через node-telegraf»<br>2. Claude Code сам обращается к Context7: «дай мне актуальную доку по node-telegraf»<br>3. Context7 подтягивает свежую доку с официального сайта библиотеки<br>4. Claude Code пишет код с учётом актуальных API → код работает с первого раза</p>
+      <p>По <a href="https://docs.openclaw.ai/cli/mcp.md" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> официальной документации OpenClaw</a> Context7 интегрируется как обычный stdio MCP-сервер — мы добавим его в тот же <span class="mono">.mcp.json</span>.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 19 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">19</div>
+    <div class="section__title">Шаг 6. Подключаем Context7 — добавляем в .mcp.json</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🔧</span>
+      <span>Context7 устанавливается в момент запуска через <span class="mono">npx</span> — никаких глобальных установок. Просто прописываем в <span class="mono">.mcp.json</span> рядом с openclaw, и Claude Code сам всё подтянет.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Требования:</strong> на компьютере должен быть установлен <strong>Node.js 18+</strong>. Если ставил по урокам 1–3 — он у тебя уже есть. Проверка: <span class="mono">node --version</span> в терминале.</p>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch02-check-node">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить, что Node.js установлен</div>
+        <div class="item__hint">Команда работает одинаково на Mac и Windows.</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdCheckNode">node --version</span><button class="btn-copy" onclick="copyBlock('cmdCheckNode',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span>Должна вывестись версия типа <span class="mono">v20.x.x</span> или выше. Если Node.js не установлен — поставь его с <a href="https://nodejs.org" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> nodejs.org</a> (LTS-версия).</span>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch02-add-context7">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Попросить Claude Code добавить Context7 в .mcp.json</div>
+        <div class="item__hint">Отправь промпт ниже Claude Code. Он откроет <span class="mono">.mcp.json</span> и добавит блок про Context7.</div>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: добавляем Context7 в .mcp.json</div>
+      <div class="prompt-block__text" id="promptAddContext7">Открой файл .mcp.json в корне текущей рабочей папки.
+
+В объект "mcpServers" добавь второй сервер — context7.
+НЕ удаляй существующий блок openclaw, просто допиши рядом.
+Должно получиться так:
+
+{
+  "mcpServers": {
+    "openclaw": {
+      "command": "openclaw",
+      "args": ["mcp", "serve", "--url", "&lt;тот же URL&gt;", "--token-file", "~/.openclaw/gateway.token"],
+      "disabledTools": ["messages_send"]
+    },
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp@latest"]
+    }
+  }
+}
+
+Сохрани и покажи мне финальное содержимое файла.</div>
+      <button class="btn-copy" onclick="copyBlock('promptAddContext7', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Бонус: API-ключ Context7 для повышенных лимитов</strong> <em>(опционально)</em></p>
+      <p>По умолчанию Context7 работает без ключа — этого хватает для обычной работы. Если упрёшься в лимиты — получи бесплатный ключ на <a href="https://context7.com/dashboard" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> context7.com/dashboard</a> и добавь его в <span class="mono">.mcp.json</span>:</p>
+      <p><span class="mono">"args": ["-y", "@upstash/context7-mcp@latest", "--api-key", "ctx7sk-..."]</span></p>
+      <p>Не делай это сейчас — сначала проверим, что всё работает без ключа.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 20 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">20</div>
+    <div class="section__title">Шаг 7. Перезапускаем сессию Claude Code и проверяем</div>
+  </div>
+  <div class="section__card">
+    <div class="item" data-key="urok6-part1-ch02-restart-claude">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Закрыть текущую сессию Claude Code и открыть новую в той же папке OpenClaw</div>
+        <div class="item__hint">Это нужно, чтобы Claude Code подхватил <span class="mono">.mcp.json</span> и установил соединения с openclaw MCP и Context7.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch02-verify-mcp-connected">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить, что MCP-серверы подключились</div>
+        <div class="item__hint">Отправь Claude Code короткий промпт ниже. Он покажет, какие MCP-инструменты ему доступны.</div>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: проверка подключённых MCP</div>
+      <div class="prompt-block__text" id="promptVerifyMcp">Покажи мне список всех MCP-серверов, которые сейчас подключены
+в этой сессии, и какие инструменты они предоставляют.
+
+Я ожидаю увидеть:
+1. Сервер "openclaw" — с инструментами conversations_list, messages_read,
+   events_poll, events_wait, permissions_list_open и др.
+   ВАЖНО: messages_send в списке быть НЕ должно (мы его отключили).
+2. Сервер "context7" — с инструментами resolve-library-id и query-docs
+   (или get-library-docs).
+
+Если что-то не подключилось — покажи мне ошибки из логов.</div>
+      <button class="btn-copy" onclick="copyBlock('promptVerifyMcp', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span>Если в ответе видишь оба сервера и нужные инструменты, а <span class="mono">messages_send</span> отсутствует — поздравляю, «режим БОГА» включён.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 21 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">21</div>
+    <div class="section__title">Тестируем «режим БОГА» на трёх реальных кейсах</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🧪</span>
+      <span>Три тестовых промпта на разные слои силы. Запускай по очереди в Claude Code — увидишь, как все три слоя начинают работать вместе.</span>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch02-test-1-audit">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Тест №1 — Аудит работы агента (используем openclaw MCP)</div>
+        <div class="item__hint">Claude Code через openclaw MCP читает реальные диалоги твоего агента и даёт сводку. Это работа Слоя 3 — глаза/уши.</div>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Тест №1 — Аудит диалогов</div>
+      <div class="prompt-block__text" id="promptTestAudit">Используй openclaw MCP. Прочитай 20 последних завершённых диалогов
+моего агента в Telegram (через conversations_list + messages_read).
+
+Проанализируй и дай сводку:
+1. Сколько было обращений за этот период.
+2. Какие основные темы запросов.
+3. Где агент отвечал хорошо, где плохо или не по делу.
+4. Какие 2-3 конкретные правки в SOUL.md или MEMORY.md я могу
+   внести, чтобы агент работал лучше.</div>
+      <button class="btn-copy" onclick="copyBlock('promptTestAudit', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch02-test-2-soul-edit">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Тест №2 — Симуляция правки SOUL (используем все 3 слоя)</div>
+        <div class="item__hint">Claude Code берёт «плохой» диалог из истории, проверяет документацию OpenClaw по SOUL.md, предлагает правку и показывает, как изменился бы ответ. Это работа всех трёх слоёв вместе.</div>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Тест №2 — Симуляция правки SOUL</div>
+      <div class="prompt-block__text" id="promptTestSoulEdit">Найди в недавних диалогах моего агента (через openclaw MCP) один
+диалог, где агент отработал не очень хорошо.
+
+Дальше:
+1. Сверься с документацией по SOUL.md (из ./openclaw/06-concepts-soul.md).
+2. Предложи конкретную правку моего SOUL.md, которая улучшила бы
+   поведение агента в подобных ситуациях.
+3. Покажи "до" и "после": как агент бы ответил с обновлённым SOUL.
+4. НЕ применяй правку автоматически — только покажи мне, я сам решу.</div>
+      <button class="btn-copy" onclick="copyBlock('promptTestSoulEdit', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch02-test-3-context7">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Тест №3 — Написать скилл с актуальной либой (используем Context7)</div>
+        <div class="item__hint">Просим Claude Code написать скилл, использующий внешнюю библиотеку. Context7 подтянет актуальную доку, и код будет рабочий.</div>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Тест №3 — Скилл с Context7</div>
+      <div class="prompt-block__text" id="promptTestContext7">Напиши для меня скилл OpenClaw, который при срабатывании отправляет
+уведомление в Telegram через библиотеку telegraf (Node.js).
+
+Используй Context7 для получения АКТУАЛЬНОЙ документации по telegraf —
+не пиши из своей памяти, могут быть устаревшие методы.
+
+Создай файл скилла по структуре, описанной в моей документации
+OpenClaw (./openclaw/10-tools-skills.md и 18-templates.md). Покажи
+мне готовый файл, я сам его сохраню.</div>
+      <button class="btn-copy" onclick="copyBlock('promptTestContext7', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span>Если все три теста прошли успешно — у тебя теперь полноценный «режим БОГА». Claude Code знает OpenClaw, видит твои реальные каналы, знает актуальные доки сторонних либ. Всё это в одной рабочей папке, безопасно, без скама.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 22 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">22</div>
+    <div class="section__title">Что дальше и что мы НАМЕРЕННО не сделали</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p><strong>Чего мы НЕ сделали в этой главе (намеренно):</strong></p>
+      <p>❌ Не дали Claude Code писать в твои Telegram-чаты от имени бота — это слишком рискованно, и по бизнес-логике это работа самого OpenClaw-агента, а не Claude Code.</p>
+      <p>❌ Не подключили MCP к глобальному конфигу Claude Code — мы держим всё в локальной папке OpenClaw для чистоты и безопасности.</p>
+      <p>❌ Не ставили сторонние «магические» MCP для редактирования конфига агента — таких официально нет, и они не нужны: Claude Code и так умеет редактировать файлы напрямую.</p>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">🔄</span>
+      <span><strong>Раз в месяц</strong> запускай <span class="mono">npm view @upstash/context7-mcp version</span> на компьютере — Context7 обновляется. <span class="mono">npx -y</span> сам подтянет последнюю версию при следующем запуске Claude Code, но иногда стоит проверить вручную, что обновление прошло.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>В Главе 03</strong> мы возьмём все три слоя силы и переедем с ними <strong>на сервер</strong> — поставим Claude Code в отдельный Telegram-бот. Тогда ты сможешь дёргать «бога» прямо с телефона: «Claude, прочитай последние диалоги, найди проблемы и предложи правки» — и получать ответ в Telegram.</p>
+    </div>
+  </div>
+</div>
+
+    <!-- ═══ FOOTER ГЛАВЫ 02 ═══ -->
+    <div class="footer">
+      <div class="footer__done" id="doneBlockCh02">
+        <div class="footer__done-emoji">🚀</div>
+        <div class="footer__done-text">Режим БОГА включён</div>
+        <div class="footer__done-sub">Claude Code знает OpenClaw, видит твои реальные каналы, знает актуальные доки сторонних либ. Всё в локальной папке OpenClaw, безопасно, без записи в продакшен-чаты. В Главе 03 переезжаем с этим в Telegram-бота на сервере.</div>
+      </div>
+      <div class="footer__schedule">
+        <div class="footer__schedule-title">Следующая глава</div>
+        <div class="footer__schedule-row"><span>Глава 03</span><span>Claude Code в отдельном Telegram-боте</span></div>
+      </div>
+      <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
     </div>
 
   </main>
@@ -795,19 +1365,29 @@ function rand(a,b){return Math.random()*(b-a)+a;}
 function createBurst(x,y,count){for(let i=0;i<count;i++){const angle=rand(0,Math.PI*2),speed=rand(4,14),size=rand(4,10);particles.push({x,y,vx:Math.cos(angle)*speed+rand(-2,2),vy:Math.sin(angle)*speed*-0.8-rand(2,6),size,color:COLORS[Math.floor(Math.random()*COLORS.length)],rotation:rand(0,Math.PI*2),rotSpeed:rand(-0.2,0.2),gravity:rand(0.12,0.25),friction:rand(0.97,0.995),opacity:1,fadeSpeed:rand(0.005,0.015),shape:Math.random()>0.4?'rect':'circle'});}}
 function launchConfetti(){if(confettiActive)return;confettiActive=true;particles=[];const W=C.width,H=C.height;[[W*.5,H*.3,120],[W*.15,H*.2,80],[W*.85,H*.2,80],[W*.5,H*.1,100],[W*.3,H*.5,60],[W*.7,H*.5,60],[0,H*.6,50],[W,H*.6,50],[W*.5,H*.6,80]].forEach(([x,y,c],i)=>{setTimeout(()=>createBurst(x,y,c),i*150)});setTimeout(()=>{createBurst(W*.2,H*.15,90);createBurst(W*.8,H*.15,90);createBurst(W*.5,H*.05,100)},1500);setTimeout(()=>{createBurst(W*.5,H*.25,120);createBurst(W*.1,H*.4,60);createBurst(W*.9,H*.4,60)},2500);animate();setTimeout(()=>{confettiActive=false},8000);}
 function animate(){ctx.clearRect(0,0,C.width,C.height);for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.vx*=p.friction;p.vy*=p.friction;p.vy+=p.gravity;p.x+=p.vx;p.y+=p.vy;p.rotation+=p.rotSpeed;p.opacity-=p.fadeSpeed;if(p.opacity<=0){particles.splice(i,1);continue}ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rotation);ctx.globalAlpha=p.opacity;ctx.fillStyle=p.color;if(p.shape==='rect'){ctx.fillRect(-p.size/2,-p.size/4,p.size,p.size/2)}else{ctx.beginPath();ctx.arc(0,0,p.size/2,0,Math.PI*2);ctx.fill()}ctx.restore();}if(particles.length>0||confettiActive){requestAnimationFrame(animate)}else{ctx.clearRect(0,0,C.width,C.height);}}
-const STORAGE_KEY='iivizaciya_checklist_urok6_part1_ch01_v2';
-const items=document.querySelectorAll('.item[data-key]');
-const totalCount=items.length;
-let wasComplete=false;
-function loadState(){try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');let c=0;items.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');if(s[item.dataset.key]){cb.checked=true;item.classList.add('checked');c++}});wasComplete=c===totalCount}catch(e){}updateProgress(false);}
-function saveState(){const s={};items.forEach(item=>{s[item.dataset.key]=item.querySelector('input[type="checkbox"]').checked});try{localStorage.setItem(STORAGE_KEY,JSON.stringify(s))}catch(e){}}
-function updateProgress(canCelebrate=true){let c=0;items.forEach(item=>{if(item.querySelector('input[type="checkbox"]').checked)c++});document.getElementById('progressCount').textContent=`${c} / ${totalCount}`;document.getElementById('progressFill').style.width=(totalCount>0?(c/totalCount)*100:0)+'%';const done=document.getElementById('doneBlock');if(c===totalCount){done.classList.add('visible');if(canCelebrate&&!wasComplete){launchConfetti()}wasComplete=true}else{done.classList.remove('visible');wasComplete=false;}}
-items.forEach(item=>{
-  const cb=item.querySelector('input[type="checkbox"]');
-  cb.addEventListener('change',function(){item.classList.toggle('checked',this.checked);saveState();updateProgress(true);});
-});
-function resetProgress(){if(!confirm('Сбросить весь прогресс?'))return;items.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasComplete=false;saveState();updateProgress(false);}
-loadState();
+// ──────────── ГЛАВА 01 ──────────────
+const STORAGE_KEY_CH01='iivizaciya_checklist_urok6_part1_ch01_v2';
+const itemsCh01=document.querySelectorAll('.item[data-key^="urok6-part1-ch01-"]');
+const totalCountCh01=itemsCh01.length;
+let wasCompleteCh01=false;
+function loadStateCh01(){try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY_CH01)||'{}');let c=0;itemsCh01.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');if(s[item.dataset.key]){cb.checked=true;item.classList.add('checked');c++}});wasCompleteCh01=c===totalCountCh01}catch(e){}updateProgressCh01(false);}
+function saveStateCh01(){const s={};itemsCh01.forEach(item=>{s[item.dataset.key]=item.querySelector('input[type="checkbox"]').checked});try{localStorage.setItem(STORAGE_KEY_CH01,JSON.stringify(s))}catch(e){}}
+function updateProgressCh01(canCelebrate=true){let c=0;itemsCh01.forEach(item=>{if(item.querySelector('input[type="checkbox"]').checked)c++});document.getElementById('progressCount').textContent=`${c} / ${totalCountCh01}`;document.getElementById('progressFill').style.width=(totalCountCh01>0?(c/totalCountCh01)*100:0)+'%';const done=document.getElementById('doneBlock');if(c===totalCountCh01){done.classList.add('visible');if(canCelebrate&&!wasCompleteCh01){launchConfetti()}wasCompleteCh01=true}else{done.classList.remove('visible');wasCompleteCh01=false;}}
+itemsCh01.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.addEventListener('change',function(){item.classList.toggle('checked',this.checked);saveStateCh01();updateProgressCh01(true);});});
+
+// ──────────── ГЛАВА 02 ──────────────
+const STORAGE_KEY_CH02='iivizaciya_checklist_urok6_part1_ch02_v1';
+const itemsCh02=document.querySelectorAll('.item[data-key^="urok6-part1-ch02-"]');
+const totalCountCh02=itemsCh02.length;
+let wasCompleteCh02=false;
+function loadStateCh02(){try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY_CH02)||'{}');let c=0;itemsCh02.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');if(s[item.dataset.key]){cb.checked=true;item.classList.add('checked');c++}});wasCompleteCh02=c===totalCountCh02}catch(e){}updateProgressCh02(false);}
+function saveStateCh02(){const s={};itemsCh02.forEach(item=>{s[item.dataset.key]=item.querySelector('input[type="checkbox"]').checked});try{localStorage.setItem(STORAGE_KEY_CH02,JSON.stringify(s))}catch(e){}}
+function updateProgressCh02(canCelebrate=true){let c=0;itemsCh02.forEach(item=>{if(item.querySelector('input[type="checkbox"]').checked)c++});const cnt=document.getElementById('progressCountCh02');const fill=document.getElementById('progressFillCh02');if(cnt){cnt.textContent=`${c} / ${totalCountCh02}`;}if(fill){fill.style.width=(totalCountCh02>0?(c/totalCountCh02)*100:0)+'%';}const done=document.getElementById('doneBlockCh02');if(done){if(c===totalCountCh02){done.classList.add('visible');if(canCelebrate&&!wasCompleteCh02){launchConfetti()}wasCompleteCh02=true}else{done.classList.remove('visible');wasCompleteCh02=false;}}}
+itemsCh02.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.addEventListener('change',function(){item.classList.toggle('checked',this.checked);saveStateCh02();updateProgressCh02(true);});});
+
+function resetProgress(){if(!confirm('Сбросить весь прогресс ВСЕЙ страницы (Глава 01 + Глава 02)?'))return;itemsCh01.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});itemsCh02.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteCh01=false;wasCompleteCh02=false;saveStateCh01();saveStateCh02();updateProgressCh01(false);updateProgressCh02(false);}
+loadStateCh01();
+loadStateCh02();
 
 function copyBlock(id, btn){
   const text=document.getElementById(id).textContent;
