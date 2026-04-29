@@ -219,14 +219,15 @@
 
       <div class="sidebar__part">
         <div class="sidebar__part-title">Часть 1 · Прокачиваем Claude Code</div>
-        <a href="#chapter-01" class="sidebar__link sidebar__link--active" data-ch="01">Глава 01 · Документация OpenClaw</a>
+        <a href="#chapter-01" class="sidebar__link" data-ch="01">Глава 01 · Документация OpenClaw</a>
         <a href="#chapter-02" class="sidebar__link" data-ch="02">Глава 02 · MCP OpenClaw</a>
         <a href="#chapter-03" class="sidebar__link" data-ch="03">Глава 03 · Claude Code в Telegram</a>
       </div>
 
       <div class="sidebar__part">
-        <div class="sidebar__part-title">Часть 2 · Долговременная память</div>
-        <span class="sidebar__link sidebar__link--soon">Глава 01 · Obsidian RAG для Claude Code <em>скоро</em></span>
+        <div class="sidebar__part-title">Часть 2 · «Второй мозг» — Obsidian</div>
+        <a href="#part2-chapter-01" class="sidebar__link sidebar__link--active" data-ch="p2-01">Глава 01 · Obsidian-vault + GitHub</a>
+        <a href="#part2-chapter-02" class="sidebar__link" data-ch="p2-02">Глава 02 · Подключаем Claude Code и OpenClaw</a>
       </div>
 
       <div class="sidebar__part">
@@ -237,7 +238,6 @@
         <span class="sidebar__link sidebar__link--soon">Глава 04 · Skills OpenClaw <em>скоро</em></span>
         <span class="sidebar__link sidebar__link--soon">Глава 05 · Memory System <em>скоро</em></span>
         <span class="sidebar__link sidebar__link--soon">Глава 06 · Heartbeats <em>скоро</em></span>
-        <span class="sidebar__link sidebar__link--soon">Глава 07 · Obsidian RAG для OpenClaw <em>скоро</em></span>
       </div>
 
       <div class="sidebar__part">
@@ -254,7 +254,7 @@
   <main class="main-content" id="chapter-01">
 
     <div class="mobile-topbar">
-      <div class="mobile-topbar__title">Урок 6 · Ч.1 · Гл.01</div>
+      <div class="mobile-topbar__title">Урок 6 · Ч.2 · Гл.01</div>
       <button class="mobile-topbar__burger" aria-label="Меню">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
@@ -268,7 +268,7 @@
         <li>Документация OpenClaw — учим Claude Code сверяться с актуальной справкой</li>
         <li>Claude Code + MCP OpenClaw — «режим БОГА» для конфига агента</li>
         <li>Claude Code в отдельном Telegram-боте — мобильный инженер в кармане</li>
-        <li>Obsidian + RAG — долговременная семантическая память для Claude Code и OpenClaw</li>
+        <li>Obsidian как «второй мозг» через GitHub — общий vault для всех твоих AI-агентов</li>
         <li>SOUL.md, MEMORY.md, Heartbeats — собираем персонального AI-директора</li>
         <li>Skills OpenClaw — устанавливаем готовые скиллы и расширяем агента</li>
         <li>Аудит безопасности + настройка сервера по чек-листу</li>
@@ -2245,10 +2245,765 @@ EOF</span><button class="btn-copy" onclick="copyBlock('cmdCreateSystemd',this)">
       </div>
       <div class="footer__schedule">
         <div class="footer__schedule-title">Следующая глава</div>
-        <div class="footer__schedule-row"><span>Часть 2 · Глава 01</span><span>Obsidian RAG для Claude Code</span></div>
+        <div class="footer__schedule-row"><span>Часть 2 · Глава 01</span><span>Obsidian-vault + GitHub-синхронизация</span></div>
       </div>
       <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
       <button class="btn-reset" onclick="resetProgressCh03()">Сбросить прогресс главы 03, части 01</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- ═══ ЧАСТЬ 2 · ГЛАВА 01 ═══ -->
+    <!-- ═══════════════════════════════════════════ -->
+
+    <div id="part2-chapter-01" class="chapter-divider"></div>
+
+    <div class="chapter-marker chapter-marker--p2-ch01">
+      <div class="chapter-marker__label">ЧАСТЬ 2 · ГЛАВА 01</div>
+      <div class="chapter-marker__title">Obsidian-vault + GitHub <span>— ставим инфраструктуру «второго мозга»</span></div>
+    </div>
+
+    <div class="progress-wrap progress-wrap--p2-ch01">
+      <div class="progress-top">
+        <span class="progress-label">Прогресс главы 01, части 02</span>
+        <span class="progress-count" id="progressCountP2Ch01">0 / 19</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFillP2Ch01"></div></div>
+    </div>
+
+<!-- ═══ 46 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">46</div>
+    <div class="section__title">Зачем твоим AI-агентам «второй мозг»</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🧠</span>
+      <span>Андрей Карпаты (один из основателей OpenAI) недавно написал пост, который стал вирусным: главная работа теперь — не настройка AI-агентов, а <strong>управление их знаниями</strong>. Без долговременной памяти даже самый крутой агент каждое утро приходит к тебе с амнезией: не помнит, что делал вчера, не помнит твой стиль, не помнит контекст. Эту проблему решает Obsidian — простое markdown-приложение, которое становится «вторым мозгом» для всех твоих агентов.</span>
+    </div>
+    <div class="info-block">
+      <p><strong>Что мы строим в Части 2:</strong></p>
+      <p>В <strong>Главе 01</strong> ставим инфраструктуру: Obsidian на Mac/Windows, vault со структурой папок, GitHub-репо для синхронизации, серверная сторона.</p>
+      <p>В <strong>Главе 02</strong> подключаем к этому vault'у обоих наших агентов: Claude Code-бот из Главы 03 Части 1 и главный OpenClaw-агент.</p>
+      <p>После Части 2 у тебя будет <strong>один общий «второй мозг»</strong>, к которому подключены все твои AI-сотрудники. Они читают оттуда контекст, пишут туда новые знания, накапливают историю работы.</p>
+    </div>
+    <div class="note note--warn">
+      <span class="note__icon">⚡</span>
+      <span><strong>Простой путь vs сложный.</strong> В сети много гайдов, как сделать «правильный RAG» с эмбеддингами, векторными базами, MCP-серверами для Obsidian. Это сложно, ломуче и для большинства задач избыточно. Мы идём <strong>другим путём</strong>: Obsidian + GitHub + git clone на сервере. Никаких эмбеддингов, никакого MCP. Агенты работают с vault как с обычной папкой markdown-файлов. Это в 10 раз проще, и работает надёжнее.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 47 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">47</div>
+    <div class="section__title">Архитектура: компьютер ↔ GitHub ↔ Сервер</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p><strong>Как всё связано:</strong></p>
+    </div>
+    <div class="arch-box">┌──────────────────────┐                  ┌─────────────────────────┐
+│   ТВОЙ КОМПЬЮТЕР     │                  │   ТВОЙ СЕРВЕР (VPS)     │
+│                      │                  │                         │
+│   Obsidian GUI       │                  │   Просто папка-vault    │
+│   ├─ raw/            │                  │   /home/claude-bot/     │
+│   ├─ wiki/           │                  │     obsidian-vault/     │
+│   ├─ daily/          │                  │   ├─ raw/               │
+│   └─ outputs/        │                  │   ├─ wiki/              │
+│                      │                  │   ├─ daily/             │
+│   плагин Obsidian    │                  │   └─ outputs/           │
+│   Git: push/pull     │                  │                         │
+│   одной кнопкой      │                  │   git: pull/push        │
+│                      │                  │                         │
+│        ↕             │                  │            ↕            │
+└────────╪─────────────┘                  └────────────╪────────────┘
+         │                                             │
+         │              ┌──────────────┐               │
+         └──────────────│   GitHub     │───────────────┘
+                        │              │
+                        │  Приватный   │
+                        │  git-репо    │
+                        │ vault-second │
+                        │   -brain     │
+                        └──────────────┘
+                                ↑
+                       Источник истины
+                       Бэкап + история
+                       Все правки = git commits</div>
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span><strong>Главная мысль:</strong><br>— На <strong>компе</strong> Obsidian — это <strong>окно</strong>, в котором ты глазами читаешь и редактируешь свой второй мозг<br>— На <strong>сервере</strong> — это <strong>обычная папка</strong>, с которой работают AI-агенты как с любыми markdown-файлами<br>— GitHub — <strong>источник истины</strong>: все правки попадают сюда, отсюда можно откатить любое изменение</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 48 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">48</div>
+    <div class="section__title">Промпт Карпати — ядро системы знаний</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">📜</span>
+      <span>В корне vault'а кладём специальный файл <span class="mono">CLAUDE.md</span> — это <strong>правила игры</strong> для всех AI-агентов, которые будут работать с vault'ом. Он описывает структуру папок, правила перекрёстных ссылок, формат заметок. Этот файл агенты читают <strong>в первую очередь</strong>, когда подключаются к vault'у.</span>
+    </div>
+    <div class="res-block">
+      <div class="res-block__title">📚 Оригинальная статья defileo (X/Twitter, 6.7M просмотров)</div>
+      <div class="res-block__sub">Прародитель этой системы. Адаптация на русском от EdgeLab AI с подробной механикой.<br>
+        <a href="https://x.com/defileo/status/2042241063612502162" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Оригинал статьи (англ.)</a>
+      </div>
+    </div>
+    <div class="info-block">
+      <p>Мы возьмём промпт Карпати как основу и адаптируем под нашу специфику: интеграция с Telegram-ботом из Главы 03, OpenClaw-агентом, Claude Code на сервере.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 49 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">49</div>
+    <div class="section__title">Шаг 1. Скачиваем Obsidian на компьютер</div>
+  </div>
+  <div class="section__card">
+    <div class="item" data-key="urok6-part2-ch01-download-obsidian">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Скачать и установить Obsidian на компьютер</div>
+        <div class="item__hint">Зайди на <a href="https://obsidian.md" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> obsidian.md</a> → большая кнопка <strong>Get Obsidian</strong> → выбери версию для своей ОС (Mac или Windows) → установи. Бесплатно, без регистрации.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 50 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">50</div>
+    <div class="section__title">Шаг 2. Создаём vault со структурой папок</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">📁</span>
+      <span>Vault — это просто папка на твоём компьютере. Внутри будут подпапки по правилам Карпати: <span class="mono">raw/</span> (сырые материалы), <span class="mono">wiki/</span> (обработанные знания), <span class="mono">daily/</span> (ежедневные заметки), <span class="mono">outputs/</span> (результаты работы агентов).</span>
+    </div>
+    <div class="item" data-key="urok6-part2-ch01-create-vault">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Создать vault через Obsidian → Create new vault</div>
+        <div class="item__hint">Открой Obsidian → <strong>Create new vault</strong>. Имя — например <span class="mono">second-brain</span>. Расположение — где удобно (например, <span class="mono">~/Documents/second-brain</span>). Нажми <strong>Create</strong>. Vault создан.</div>
+      </div>
+    </div>
+    <div class="item" data-key="urok6-part2-ch01-create-folders">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Создать внутри vault 4 подпапки: raw, wiki, daily, outputs</div>
+        <div class="item__hint">В Obsidian слева — правый клик по vault → <strong>New folder</strong>. Создай поочерёдно: <span class="mono">raw</span>, <span class="mono">wiki</span>, <span class="mono">daily</span>, <span class="mono">outputs</span>.</div>
+      </div>
+    </div>
+    <div class="item" data-key="urok6-part2-ch01-create-index">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Создать в корне vault файл INDEX.md</div>
+        <div class="item__hint">Правый клик по корню vault → <strong>New note</strong> → имя <span class="mono">INDEX</span>. Внутрь пока ничего не пиши — это будет «оглавление» твоих знаний, агенты сами начнут его наполнять.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 51 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">51</div>
+    <div class="section__title">Шаг 3. Создаём CLAUDE.md с правилами для агентов</div>
+  </div>
+  <div class="section__card">
+    <div class="item" data-key="urok6-part2-ch01-create-claudemd">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Создать в корне vault файл CLAUDE.md с промптом-правилами</div>
+        <div class="item__hint">В корне vault создай файл <span class="mono">CLAUDE.md</span> и вставь содержимое из промпт-блока ниже. Это «инструкция по эксплуатации» твоего второго мозга для всех AI-агентов.</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 CLAUDE.md — промпт Карпати с адаптацией</div>
+      <div class="prompt-block__text" id="promptClaudeMd"># CLAUDE.md — Правила работы со «вторым мозгом»
+
+Ты — хранитель моей персональной базы знаний в Obsidian.
+
+## Структура vault
+
+- raw/ — сырые материалы. Источники без обработки. НЕ редактируй,
+  только читай. Сюда попадают: статьи, транскрипты звонков,
+  голосовые заметки в текстовом виде, выгрузки из Telegram,
+  результаты диалогов с OpenClaw-агентом.
+- wiki/ — организованные заметки. Один файл на ТЕМУ
+  (а не на источник). Связи через [[имя-файла]]. В начале —
+  резюме в 2-3 предложения. В конце — список источников из raw/.
+- daily/ — ежедневные заметки. Имя файла YYYY-MM-DD.md.
+  Сюда пишем что произошло за день, какие решения приняли.
+- outputs/ — результаты работы агентов: брифинги, сравнения,
+  анализы, ответы на сложные вопросы.
+- INDEX.md — оглавление всех тем. Поддерживай актуальным.
+
+## Жёсткие правила
+
+1. НИКОГДА не выдумывай информацию, которой нет в источниках
+2. НИКОГДА не удаляй файлы из raw/
+3. Перекрёстные ссылки — через [[имя-файла]] без расширения
+4. В начале каждой wiki-заметки — резюме 2-3 предложения
+5. В конце wiki-заметки — список источников из raw/
+6. Если источники противоречат — указывай оба мнения
+7. После каждой существенной правки — git add . && git commit && git push
+   (если работаешь на сервере с claude-bot правами)
+
+## Перекрёстные ссылки
+
+При обработке raw → wiki активно используй [[ссылки]] на другие
+файлы. Если упоминается тема, для которой нет wiki-файла —
+создай заглушку с резюме одной строкой.
+
+## Формат заметок
+
+Каждая wiki-заметка:
+
+# Название темы
+
+## Резюме
+2-3 предложения о теме.
+
+## Содержание
+Основной текст с [[ссылками]] на связанные темы.
+
+## Источники
+- [[raw/название-источника-1]]
+- [[raw/название-источника-2]]</div>
+      <button class="btn-copy" onclick="copyBlock('promptClaudeMd', this)">📋 Скопировать</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 52 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">52</div>
+    <div class="section__title">Шаг 4. Устанавливаем плагин Obsidian Git</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🔌</span>
+      <span>Плагин <strong>Obsidian Git</strong> — это то, что свяжет твой локальный vault с GitHub-репо. Одна кнопка push (отправить изменения), одна кнопка pull (получить чужие правки). Никаких git-команд в терминале на компе — всё через GUI Obsidian.</span>
+    </div>
+    <div class="item" data-key="urok6-part2-ch01-enable-community-plugins">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Включить Community plugins в настройках Obsidian</div>
+        <div class="item__hint">Settings (⚙️ внизу слева) → <strong>Community plugins</strong> → большая кнопка <strong>Turn on community plugins</strong>. Подтверди — Obsidian предупредит, что коммьюнити-плагины делают сторонние разработчики.</div>
+      </div>
+    </div>
+    <div class="item" data-key="urok6-part2-ch01-install-obsidian-git">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Установить плагин Obsidian Git</div>
+        <div class="item__hint">В том же окне настроек: <strong>Browse</strong> → в поиске введи <span class="mono">Obsidian Git</span> → выбери первый результат (автор Vinzent03) → нажми <strong>Install</strong> → потом <strong>Enable</strong>.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 53 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">53</div>
+    <div class="section__title">Шаг 5. Создаём приватный GitHub-репо для vault</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🐙</span>
+      <span>GitHub-репо — это «облачное хранилище» твоего второго мозга. Все правки летят сюда, отсюда же синхронизируются на сервер. Репо <strong>обязательно приватный</strong> — vault содержит твои знания, не для публичного показа.</span>
+    </div>
+    <div class="item" data-key="urok6-part2-ch01-create-repo">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Создать новый приватный репозиторий на GitHub</div>
+        <div class="item__hint">Зайди на <a href="https://github.com/new" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> github.com/new</a> → имя репо: <span class="mono">second-brain</span> (или твоё) → выбери <strong>Private</strong> → НЕ ставь галочки про README, gitignore, license (они помешают first push) → <strong>Create repository</strong>.</div>
+      </div>
+    </div>
+    <div class="item" data-key="urok6-part2-ch01-copy-repo-url">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Скопировать SSH-URL репозитория</div>
+        <div class="item__hint">На странице созданного репо — кнопка <strong>SSH</strong> вверху → копируй URL вида <span class="mono">git@github.com:&lt;username&gt;/second-brain.git</span>. Сохрани его — пригодится в следующих шагах.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 54 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">54</div>
+    <div class="section__title">Шаг 6. Привязываем локальный vault к GitHub-репо</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🔗</span>
+      <span>Сейчас в локальном терминале (или через Obsidian Git) инициализируем git, привяжем к удалённому репо и сделаем первый push. Делается один раз — потом всё через GUI Obsidian.</span>
+    </div>
+    <div class="item" data-key="urok6-part2-ch01-init-git">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Инициализировать git в папке vault и сделать первый push</div>
+        <div class="item__hint">Открой <strong>локальный</strong> терминал на компьютере (Terminal на Mac, PowerShell на Windows). Замени <span class="mono">~/Documents/second-brain</span> на путь к твоему vault'у, и URL — на свой из Шага 5.</div>
+      </div>
+    </div>
+    <div class="cmd-block-os">
+      <div class="cmd-os-label">🍎 Mac (Terminal / iTerm)</div>
+      <div class="cmd-copy"><span class="cmd-copy__text" id="cmdInitGitMac">cd ~/Documents/second-brain && git init && git add . && git commit -m "initial vault" && git branch -M main && git remote add origin git@github.com:&lt;username&gt;/second-brain.git && git push -u origin main</span><button class="btn-copy" onclick="copyBlock('cmdInitGitMac',this)">📋 Скопировать</button></div>
+      <div class="cmd-os-label cmd-os-label--win">🪟 Windows (PowerShell)</div>
+      <div class="cmd-copy"><span class="cmd-copy__text" id="cmdInitGitWin">cd "$HOME\Documents\second-brain"; git init; git add .; git commit -m "initial vault"; git branch -M main; git remote add origin git@github.com:&lt;username&gt;/second-brain.git; git push -u origin main</span><button class="btn-copy" onclick="copyBlock('cmdInitGitWin',this)">📋 Скопировать</button></div>
+    </div>
+    <div class="note note--warn">
+      <span class="note__icon">⚠️</span>
+      <span><strong>Если git push выдаёт ошибку «Permission denied (publickey)»</strong> — у тебя на компьютере не настроен SSH-ключ к GitHub. Решение:<br>1. Сгенерировать ключ: <span class="mono">ssh-keygen -t ed25519 -C "your_email"</span><br>2. Скопировать публичный ключ: <span class="mono">cat ~/.ssh/id_ed25519.pub</span><br>3. Добавить на GitHub: <a href="https://github.com/settings/keys" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> github.com/settings/keys</a> → <strong>New SSH key</strong> → вставить → Save<br>4. Повторить команду из Шага 6</span>
+    </div>
+    <div class="item" data-key="urok6-part2-ch01-verify-push">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить, что vault появился на GitHub</div>
+        <div class="item__hint">Обнови страницу твоего репо на GitHub — должны появиться все файлы и папки vault'а: <span class="mono">CLAUDE.md</span>, <span class="mono">INDEX.md</span>, папки <span class="mono">raw/</span>, <span class="mono">wiki/</span>, <span class="mono">daily/</span>, <span class="mono">outputs/</span>.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 55 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">55</div>
+    <div class="section__title">Шаг 7. Настраиваем автоматическую синхронизацию</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">⚙️</span>
+      <span>Чтобы каждый раз не нажимать кнопку push вручную — настроим, чтобы плагин Obsidian Git делал commit и push автоматически каждые N минут. Раз настроил — забыл.</span>
+    </div>
+    <div class="item" data-key="urok6-part2-ch01-configure-obsidian-git">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Включить автоматический backup в плагине Obsidian Git</div>
+        <div class="item__hint">Settings (⚙️) → <strong>Community plugins</strong> → найди <strong>Obsidian Git</strong> → нажми кнопку с шестерёнкой рядом → найди секцию <strong>Backup</strong> → выстави <span class="mono">Vault backup interval (minutes): 5</span>. Каждые 5 минут плагин будет коммитить и пушить твои изменения. Также включи <strong>Auto pull interval</strong> = 5 — каждые 5 минут будет тянуть изменения с сервера.</div>
+      </div>
+    </div>
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span>Теперь когда ты пишешь заметку в Obsidian — через 5 минут она автоматически уезжает на GitHub. И наоборот — если агент на сервере что-то запушил, через 5 минут оно появится у тебя в Obsidian. Двусторонняя синхронизация без участия рук.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 56 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">56</div>
+    <div class="section__title">Шаг 8. На сервере — клонируем vault как обычную папку</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🖥️</span>
+      <span>На сервере мы <strong>не ставим Obsidian-приложение</strong>. Это GUI, на сервере без графики оно не нужно. Просто клонируем git-репо в папку <span class="mono">~/obsidian-vault/</span>. Агенты будут работать с этой папкой как с обычными markdown-файлами.</span>
+    </div>
+    <div class="item" data-key="urok6-part2-ch01-server-generate-key">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">На сервере (под claude-bot) — сгенерировать SSH-ключ для GitHub</div>
+        <div class="item__hint">Подключись к серверу через VS Code Remote-SSH под юзером <span class="mono">claude-bot</span> (как в Главе 03 Части 1). В терминале сервера — сгенерируй новый SSH-ключ специально для GitHub. Жми Enter на все вопросы (без passphrase).</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdGenerateDeployKey">ssh-keygen -t ed25519 -C "claude-bot@server" -f ~/.ssh/github_deploy -N ""</span><button class="btn-copy" onclick="copyBlock('cmdGenerateDeployKey',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+    <div class="item" data-key="urok6-part2-ch01-server-show-pubkey">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Показать публичный ключ — скопировать</div>
+        <div class="item__hint">Команда выведет содержимое публичного ключа. Скопируй его полностью (строка начинается с <span class="mono">ssh-ed25519 AAAA...</span>).</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdShowDeployKey">cat ~/.ssh/github_deploy.pub</span><button class="btn-copy" onclick="copyBlock('cmdShowDeployKey',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+    <div class="item" data-key="urok6-part2-ch01-add-deploy-key">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Добавить публичный ключ как Deploy Key в GitHub-репо</div>
+        <div class="item__hint">На GitHub: твой репо → <strong>Settings</strong> (вкладка вверху) → <strong>Deploy keys</strong> в левом меню → <strong>Add deploy key</strong> → имя: <span class="mono">claude-bot server</span> → вставь ключ → <strong>обязательно</strong> поставь галку <strong>Allow write access</strong> → <strong>Add key</strong>.</div>
+      </div>
+    </div>
+    <div class="note note--warn">
+      <span class="note__icon">⚠️</span>
+      <span><strong>Deploy key vs обычный SSH-ключ.</strong> Deploy key — это специальный ключ, привязанный <strong>к одному репо</strong>. Если ключ утечёт — компрометируется только этот репо, не весь твой GitHub-аккаунт. Это правильная практика безопасности для серверных окружений.</span>
+    </div>
+    <div class="item" data-key="urok6-part2-ch01-configure-ssh">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Настроить ~/.ssh/config на сервере для использования deploy key</div>
+        <div class="item__hint">Чтобы git автоматически использовал именно этот ключ при работе с GitHub. Команда добавит блок в <span class="mono">~/.ssh/config</span> юзера claude-bot.</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdConfigureSshConfig">cat &gt;&gt; ~/.ssh/config &lt;&lt; 'EOF'
+
+Host github.com
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/github_deploy
+    IdentitiesOnly yes
+EOF
+chmod 600 ~/.ssh/config</span><button class="btn-copy" onclick="copyBlock('cmdConfigureSshConfig',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+    <div class="item" data-key="urok6-part2-ch01-clone-vault">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Склонировать vault на сервер в ~/obsidian-vault/</div>
+        <div class="item__hint">Замени <span class="mono">&lt;username&gt;</span> на твой GitHub-юзернейм.</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdCloneVault">cd ~ && git clone git@github.com:&lt;username&gt;/second-brain.git obsidian-vault && ls -la ~/obsidian-vault/</span><button class="btn-copy" onclick="copyBlock('cmdCloneVault',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+    <div class="item" data-key="urok6-part2-ch01-configure-git-identity">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Настроить git identity для будущих коммитов</div>
+        <div class="item__hint">Чтобы коммиты от агентов на сервере были подписаны понятным именем.</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdConfigureGitIdentity">cd ~/obsidian-vault && git config user.name "claude-bot" && git config user.email "claude-bot@server"</span><button class="btn-copy" onclick="copyBlock('cmdConfigureGitIdentity',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+    <div class="item" data-key="urok6-part2-ch01-test-push-from-server">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Тест: создать заметку с сервера и запушить</div>
+        <div class="item__hint">Создаём тестовую заметку, добавляем, коммитим, пушим. Если всё прошло без ошибок — связка работает.</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdTestPushFromServer">cd ~/obsidian-vault && echo "# Тест с сервера" &gt; raw/test-from-server.md && git add . && git commit -m "test from server" && git push</span><button class="btn-copy" onclick="copyBlock('cmdTestPushFromServer',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span>Если push прошёл успешно — открой Obsidian на компьютере. Через несколько минут (или нажми вручную <strong>Pull</strong> в Obsidian Git: <span class="mono">Ctrl+P</span> → <span class="mono">Obsidian Git: Pull</span>) — должна появиться заметка <span class="mono">test-from-server.md</span> в папке <span class="mono">raw/</span>. Связка готова.</span>
+    </div>
+  </div>
+</div>
+
+    <!-- ═══ FOOTER ГЛАВЫ 01 ЧАСТИ 2 ═══ -->
+    <div class="footer">
+      <div class="footer__done" id="doneBlockP2Ch01">
+        <div class="footer__done-emoji">🧠</div>
+        <div class="footer__done-text">«Второй мозг» построен</div>
+        <div class="footer__done-sub">Vault на компьютере, репо на GitHub, синхронизация настроена в обе стороны. На сервере папка-vault уже ждёт агентов. В следующей главе — подключаем Claude Code-бот и OpenClaw-агент.</div>
+      </div>
+      <div class="footer__schedule">
+        <div class="footer__schedule-title">Следующая глава</div>
+        <div class="footer__schedule-row"><span>Часть 2 · Глава 02</span><span>Подключаем Claude Code и OpenClaw к vault'у</span></div>
+      </div>
+      <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
+      <button class="btn-reset" onclick="resetProgressP2Ch01()">Сбросить прогресс главы 01, части 02</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- ═══ ЧАСТЬ 2 · ГЛАВА 02 ═══ -->
+    <!-- ═══════════════════════════════════════════ -->
+
+    <div id="part2-chapter-02" class="chapter-divider"></div>
+
+    <div class="chapter-marker chapter-marker--p2-ch02">
+      <div class="chapter-marker__label">ЧАСТЬ 2 · ГЛАВА 02</div>
+      <div class="chapter-marker__title">Подключаем Claude Code и OpenClaw <span>— оба агента в одном «втором мозге»</span></div>
+    </div>
+
+    <div class="progress-wrap progress-wrap--p2-ch02">
+      <div class="progress-top">
+        <span class="progress-label">Прогресс главы 02, части 02</span>
+        <span class="progress-count" id="progressCountP2Ch02">0 / 9</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFillP2Ch02"></div></div>
+    </div>
+
+<!-- ═══ 57 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">57</div>
+    <div class="section__title">Что строим в этой главе</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🎯</span>
+      <span>Vault готов и синхронизирован. Теперь подключаем к нему обоих агентов. Сначала Claude Code-бот (наследие Главы 03 Части 1) — он будет читать vault и пушить туда новые знания. Потом OpenClaw-агент — мы дадим ему два скилла, чтобы он мог искать в vault'е и писать туда результаты диалогов с клиентами.</span>
+    </div>
+    <div class="info-block">
+      <p><strong>Что получится в финале главы:</strong></p>
+      <p>🤖 <strong>Claude Code-бот в Telegram</strong> — может читать vault, синтезировать <span class="mono">raw → wiki</span>, выдавать утренние брифинги, отвечать на вопросы со ссылками на конкретные заметки</p>
+      <p>🦞 <strong>OpenClaw-агент</strong> — при каждом диалоге с клиентом может искать ответ в vault'е (через скилл <span class="mono">obsidian-search</span>) и записывать важные моменты диалога в vault (через скилл <span class="mono">obsidian-write</span>)</p>
+      <p>🧠 <strong>Один общий «второй мозг»</strong> — оба агента читают и пишут в одну папку. История работы накапливается. С каждым днём агенты становятся умнее.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 58 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">58</div>
+    <div class="section__title">Шаг 1. Подключаем Claude Code-бот к vault'у</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🔗</span>
+      <span>Claude Code-бот уже работает в tmux-сессии (Глава 03 Части 1). Сейчас просто скажем ему через AGENTS.md: «при работе всегда заглядывай в <span class="mono">~/obsidian-vault/</span>». Никаких новых установок.</span>
+    </div>
+    <div class="item" data-key="urok6-part2-ch02-update-agents-md">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Обновить AGENTS.md в рабочей папке Claude Code</div>
+        <div class="item__hint">На сервере под claude-bot открой файл <span class="mono">~/claude-code-bot/OpenClaw/AGENTS.md</span>. Допиши в самый низ блок из промпт-блока ниже. Сохрани.</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Блок для AGENTS.md — подключение к vault</div>
+      <div class="prompt-block__text" id="promptAgentsVault">## Связь с Obsidian-vault («второй мозг»)
+
+В папке ~/obsidian-vault/ лежит мой основной «второй мозг» —
+синхронизированный с GitHub Obsidian-vault. При любой работе
+действуй по правилам:
+
+1. ПЕРЕД ответом на сложный вопрос — проверь, есть ли релевантные
+   заметки в ~/obsidian-vault/wiki/ (через grep или прямое чтение
+   нужных файлов из INDEX.md).
+
+2. ПОСЛЕ важных диалогов или решений — обнови соответствующие
+   wiki-заметки или создай новые. После правки:
+   cd ~/obsidian-vault && git add . && git commit -m "..." && git push
+
+3. ПРИ работе с новыми материалами в raw/ — синтезируй их в
+   wiki-заметки по правилам из ~/obsidian-vault/CLAUDE.md.
+
+4. ВАЖНО: всегда читай ~/obsidian-vault/CLAUDE.md перед началом
+   работы с vault — там полные правила структуры и формата.</div>
+      <button class="btn-copy" onclick="copyBlock('promptAgentsVault', this)">📋 Скопировать</button>
+    </div>
+    <div class="item" data-key="urok6-part2-ch02-restart-claude-code">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Перезапустить tmux-сессию Claude Code, чтобы подхватились новые правила</div>
+        <div class="item__hint">Если используется systemd-юнит из Главы 03 Части 1 — перезапусти его. Если запускал руками — kill сессию и запусти заново.</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdRestartClaudeBot">sudo systemctl restart claude-bot</span><button class="btn-copy" onclick="copyBlock('cmdRestartClaudeBot',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+    <div class="item" data-key="urok6-part2-ch02-test-claude-code-vault">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Тест с телефона: попросить бота поискать в vault'е</div>
+        <div class="item__hint">Открой Telegram, напиши боту промпт ниже. Бот должен заглянуть в vault, понять что там пока почти пусто, и выдать честный ответ.</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Тестовый промпт для бота</div>
+      <div class="prompt-block__text" id="promptTestClaudeVault">Прочитай ~/obsidian-vault/CLAUDE.md и расскажи мне:
+1. Что у меня сейчас лежит в vault'е (структура папок, что
+   есть, чего нет).
+2. Как ты будешь работать с этим vault'ом по правилам.
+3. Предложи 3 идеи, что я могу положить в raw/ прямо сейчас,
+   чтобы начать наполнять «второй мозг».</div>
+      <button class="btn-copy" onclick="copyBlock('promptTestClaudeVault', this)">📋 Скопировать</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 59 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">59</div>
+    <div class="section__title">Шаг 2. ТЗ на два скилла для OpenClaw-агента</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🛠️</span>
+      <span>OpenClaw-агент работает в отдельной инсталляции (твой клиентский AI-сотрудник, не Claude Code-бот). Чтобы он мог работать с vault'ом — добавим ему <strong>два скилла</strong>: <span class="mono">obsidian-search</span> (поиск в vault) и <span class="mono">obsidian-write</span> (запись в vault). Писать сами скиллы НЕ будем — попросим Claude Code-бот сделать это за нас.</span>
+    </div>
+    <div class="note note--warn">
+      <span class="note__icon">⚠️</span>
+      <span><strong>Важно:</strong> OpenClaw-агент работает под root, vault лежит у юзера claude-bot. Поэтому для скиллов нужно учитывать — они должны иметь права на чтение/запись в <span class="mono">~/obsidian-vault/</span>. Это можно решить разными способами; самый простой — vault лежит в <span class="mono">/root/.openclaw/obsidian-vault/</span> (то есть склонировать его ещё раз именно туда, как root). Об этом подумает Claude Code, когда будет писать скиллы.</span>
+    </div>
+    <div class="item" data-key="urok6-part2-ch02-clone-vault-as-root">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Склонировать vault также от имени root в /root/.openclaw/obsidian-vault/</div>
+        <div class="item__hint">Под root на сервере — клонируем тот же репо во вторую папку. OpenClaw-агенту удобнее работать с папкой, лежащей рядом с его конфигом. Не забудь про SSH-ключ для root — либо генерируем новый и добавляем в Deploy keys репо, либо копируем существующий ключ root-а.</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdGenerateRootDeployKey">ssh-keygen -t ed25519 -C "openclaw-root@server" -f ~/.ssh/github_deploy_root -N "" && cat ~/.ssh/github_deploy_root.pub</span><button class="btn-copy" onclick="copyBlock('cmdGenerateRootDeployKey',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span>Скопируй вывод публичного ключа и добавь его как ВТОРОЙ Deploy Key в свой GitHub-репо vault'а (имя — <span class="mono">openclaw root</span>, тоже с правом write). После этого добавь в <span class="mono">/root/.ssh/config</span> блок для GitHub с этим ключом и склонируй репо в <span class="mono">/root/.openclaw/obsidian-vault/</span>.</span>
+    </div>
+    <div class="cmd-copy"><span class="cmd-copy__text" id="cmdCloneVaultAsRoot">cat &gt;&gt; /root/.ssh/config &lt;&lt; 'EOF'
+
+Host github.com
+    HostName github.com
+    User git
+    IdentityFile /root/.ssh/github_deploy_root
+    IdentitiesOnly yes
+EOF
+chmod 600 /root/.ssh/config && cd /root/.openclaw && git clone git@github.com:&lt;username&gt;/second-brain.git obsidian-vault && cd obsidian-vault && git config user.name "openclaw-root" && git config user.email "openclaw@server"</span><button class="btn-copy" onclick="copyBlock('cmdCloneVaultAsRoot',this)">📋 Скопировать</button></div>
+    <div class="item" data-key="urok6-part2-ch02-ask-claude-code-write-skills">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Попросить Claude Code-бот написать скиллы obsidian-search и obsidian-write для OpenClaw</div>
+        <div class="item__hint">Открой Telegram, отправь Claude Code-боту промпт ниже. Он сам напишет два скилла под структуру OpenClaw-агента. Если что-то не получится с первого раза — продолжи диалог с ботом и попроси доработать.</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт Claude Code-боту: написать два скилла для OpenClaw</div>
+      <div class="prompt-block__text" id="promptWriteOpenclawSkills">Мне нужно написать два скилла для моего основного OpenClaw-агента
+(который живёт в /root/.openclaw/, лежит в workspace-main).
+
+ЗАДАЧА:
+
+Скилл 1 — "obsidian-search"
+Назначение: при разговоре с клиентом OpenClaw-агент может искать
+релевантную информацию в моём Obsidian-vault.
+Где vault: /root/.openclaw/obsidian-vault/
+Как ищет: через grep по содержимому файлов wiki/ + чтение
+INDEX.md, чтобы найти подходящую тему.
+Возвращает: список найденных тем + краткие выдержки.
+
+Скилл 2 — "obsidian-write"
+Назначение: после важного диалога OpenClaw-агент может записать
+ключевые моменты в vault.
+Куда пишет: /root/.openclaw/obsidian-vault/raw/ (имя файла —
+date-time-краткая-тема.md).
+После записи: автоматически делает git add+commit+push с подписью
+"openclaw: запись из диалога с клиентом".
+
+ТРЕБОВАНИЯ:
+1. Изучи /root/.openclaw/obsidian-vault/CLAUDE.md — там правила
+   формата заметок. Скиллы должны им следовать.
+2. Изучи структуру OpenClaw-скиллов в /root/.openclaw/ или в
+   моей документации (./openclaw/10-tools-skills.md).
+3. Создай оба скилла в правильной папке (обычно
+   /root/.openclaw/skills/ или скорее всего в workspace-main).
+4. После создания — подключи их в SOUL.md и AGENTS.md
+   OpenClaw-агента.
+5. Покажи мне финальный результат: где лежат скиллы,
+   что добавлено в SOUL/AGENTS.
+
+ВАЖНО: ничего не публикуй и не коммить в продакшен без моего
+подтверждения. Сначала покажи план — я скажу "погнали".</div>
+      <button class="btn-copy" onclick="copyBlock('promptWriteOpenclawSkills', this)">📋 Скопировать</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 60 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">60</div>
+    <div class="section__title">Шаг 3. Тестируем работу OpenClaw-агента с vault'ом</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🧪</span>
+      <span>Когда Claude Code напишет и установит скиллы — нужно протестировать. Сначала напрямую через Claude Code на сервере (вызов скиллов). Потом — через клиентский Telegram-канал OpenClaw-агента (реальный workflow).</span>
+    </div>
+    <div class="item" data-key="urok6-part2-ch02-test-skill-search">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Тест: попросить OpenClaw-агента найти что-то в vault'е</div>
+        <div class="item__hint">Зайди в Telegram-канал твоего OpenClaw-агента (НЕ Claude Code-бот, а основной клиентский). Напиши промпт ниже — агент должен использовать скилл <span class="mono">obsidian-search</span> и вернуть результаты.</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Тестовый промпт OpenClaw-агенту</div>
+      <div class="prompt-block__text" id="promptTestOpenclawSearch">Поищи у меня в vault'е (используй скилл obsidian-search), что
+у меня есть про "второй мозг" / Obsidian / GitHub-синхронизацию.
+Если найдёшь — выдай саммари. Если ничего нет — скажи прямо.</div>
+      <button class="btn-copy" onclick="copyBlock('promptTestOpenclawSearch', this)">📋 Скопировать</button>
+    </div>
+    <div class="item" data-key="urok6-part2-ch02-test-skill-write">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Тест: попросить OpenClaw-агента записать что-то в vault</div>
+        <div class="item__hint">Тот же канал OpenClaw-агента. Промпт ниже заставит агента использовать скилл <span class="mono">obsidian-write</span> и записать результат в <span class="mono">raw/</span>.</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Тестовый промпт на запись в vault</div>
+      <div class="prompt-block__text" id="promptTestOpenclawWrite">Сейчас у меня тестовый разговор с тобой. Запиши через скилл
+obsidian-write в мой raw/ короткую заметку: "Тестовая запись от
+OpenClaw-агента, дата сегодняшняя, проверка работы скилла".
+После записи скажи путь, куда сохранил, и подтверди что
+git push прошёл.</div>
+      <button class="btn-copy" onclick="copyBlock('promptTestOpenclawWrite', this)">📋 Скопировать</button>
+    </div>
+    <div class="item" data-key="urok6-part2-ch02-verify-vault-on-mac">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить на компьютере, что заметка появилась в Obsidian</div>
+        <div class="item__hint">Открой Obsidian на компьютере → нажми <strong>Pull</strong> в плагине Obsidian Git (<span class="mono">Ctrl+P</span> → <span class="mono">Obsidian Git: Pull</span>) → должна появиться тестовая заметка в папке <span class="mono">raw/</span>. Если видишь — кольцо замкнулось: OpenClaw-агент → vault → GitHub → твой компьютер.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 61 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">61</div>
+    <div class="section__title">Workflow: как работать со «вторым мозгом» каждый день</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p><strong>Три типа взаимодействия с vault'ом:</strong></p>
+      <p>📥 <strong>Ингест (наполнение)</strong> — кладёшь сырые материалы в <span class="mono">raw/</span>:<br>— Через Obsidian на компьютере (drag-and-drop файлы, paste статьи)<br>— Через Telegram → Claude Code-бот: «положи в raw эту статью: ...»<br>— Через OpenClaw-агент: автоматически в важные моменты диалогов</p>
+      <p>🔍 <strong>Запросы</strong> — спрашиваешь у агентов, опираясь на vault:<br>— Claude Code-бот: «найди в моих заметках про X и сделай саммари»<br>— OpenClaw-агент: использует скилл obsidian-search автоматически при ответах клиентам</p>
+      <p>🧹 <strong>Уход</strong> — раз в неделю:<br>— Claude Code-бот синтезирует raw → wiki<br>— Аудит противоречий, пробелов, устаревшего<br>— Обновление INDEX.md</p>
+    </div>
+    <div class="item" data-key="urok6-part2-ch02-test-weekly-audit">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Тест: попросить Claude Code-бот провести аудит vault'а</div>
+        <div class="item__hint">Промпт ниже — отправь Claude Code-боту в Telegram. Он пройдётся по всему vault'у и предложит улучшения.</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт для еженедельного аудита</div>
+      <div class="prompt-block__text" id="promptWeeklyAudit">Проведи полный аудит моего ~/obsidian-vault/ по правилам из
+CLAUDE.md:
+
+1. Противоречия — утверждения, которые конфликтуют между заметками
+2. Пробелы — темы, которые упоминаются, но нет отдельной wiki-заметки
+3. Устаревшее — информация, которая могла устареть
+4. Осиротевшие — заметки, на которые никто не ссылается
+5. Состояние INDEX.md — актуален ли
+
+Покажи отчёт. НЕ исправляй автоматически — только отчёт. После
+покажи 5 конкретных правок, которые я могу применить.</div>
+      <button class="btn-copy" onclick="copyBlock('promptWeeklyAudit', this)">📋 Скопировать</button>
+    </div>
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span>Чем больше ты пользуешься vault'ом — тем умнее становятся оба твоих агента. Каждое утро в Telegram у тебя «второй мозг», который помнит всё, что ты делал, и помогает делать новое лучше.</span>
+    </div>
+  </div>
+</div>
+
+    <!-- ═══ FOOTER ГЛАВЫ 02 ЧАСТИ 2 ═══ -->
+    <div class="footer">
+      <div class="footer__done" id="doneBlockP2Ch02">
+        <div class="footer__done-emoji">🎯</div>
+        <div class="footer__done-text">«Второй мозг» подключён ко всем агентам</div>
+        <div class="footer__done-sub">Claude Code-бот читает и обновляет vault. OpenClaw-агент использует скиллы obsidian-search и obsidian-write. Все правки автоматически синхронизируются с GitHub и приходят в Obsidian на компьютер. Часть 2 завершена.</div>
+      </div>
+      <div class="footer__schedule">
+        <div class="footer__schedule-title">Следующая часть</div>
+        <div class="footer__schedule-row"><span>Часть 3 · Глава 01</span><span>Собираем AI-директора — задача главного агента</span></div>
+      </div>
+      <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
+      <button class="btn-reset" onclick="resetProgressP2Ch02()">Сбросить прогресс главы 02, части 02</button>
     </div>
 
   </main>
@@ -2294,37 +3049,76 @@ function saveStateCh03(){const s={};itemsCh03.forEach(item=>{s[item.dataset.key]
 function updateProgressCh03(canCelebrate=true){let c=0;itemsCh03.forEach(item=>{if(item.querySelector('input[type="checkbox"]').checked)c++});const cnt=document.getElementById('progressCountCh03');const fill=document.getElementById('progressFillCh03');if(cnt){cnt.textContent=`${c} / ${totalCountCh03}`;}if(fill){fill.style.width=(totalCountCh03>0?(c/totalCountCh03)*100:0)+'%';}const done=document.getElementById('doneBlockCh03');if(done){if(c===totalCountCh03){done.classList.add('visible');if(canCelebrate&&!wasCompleteCh03){launchConfetti()}wasCompleteCh03=true}else{done.classList.remove('visible');wasCompleteCh03=false;}}}
 itemsCh03.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.addEventListener('change',function(){item.classList.toggle('checked',this.checked);saveStateCh03();updateProgressCh03(true);});});
 
+// ──────────── ЧАСТЬ 2 ГЛАВА 01 ──────────────
+const STORAGE_KEY_P2_CH01='iivizaciya_checklist_urok6_part2_ch01_v1';
+const itemsP2Ch01=document.querySelectorAll('.item[data-key^="urok6-part2-ch01-"]');
+const totalCountP2Ch01=itemsP2Ch01.length;
+let wasCompleteP2Ch01=false;
+function loadStateP2Ch01(){try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY_P2_CH01)||'{}');let c=0;itemsP2Ch01.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');if(s[item.dataset.key]){cb.checked=true;item.classList.add('checked');c++}});wasCompleteP2Ch01=c===totalCountP2Ch01}catch(e){}updateProgressP2Ch01(false);}
+function saveStateP2Ch01(){const s={};itemsP2Ch01.forEach(item=>{s[item.dataset.key]=item.querySelector('input[type="checkbox"]').checked});try{localStorage.setItem(STORAGE_KEY_P2_CH01,JSON.stringify(s))}catch(e){}}
+function updateProgressP2Ch01(canCelebrate=true){let c=0;itemsP2Ch01.forEach(item=>{if(item.querySelector('input[type="checkbox"]').checked)c++});const cnt=document.getElementById('progressCountP2Ch01');const fill=document.getElementById('progressFillP2Ch01');if(cnt){cnt.textContent=`${c} / ${totalCountP2Ch01}`;}if(fill){fill.style.width=(totalCountP2Ch01>0?(c/totalCountP2Ch01)*100:0)+'%';}const done=document.getElementById('doneBlockP2Ch01');if(done){if(c===totalCountP2Ch01){done.classList.add('visible');if(canCelebrate&&!wasCompleteP2Ch01){launchConfetti()}wasCompleteP2Ch01=true}else{done.classList.remove('visible');wasCompleteP2Ch01=false;}}}
+itemsP2Ch01.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.addEventListener('change',function(){item.classList.toggle('checked',this.checked);saveStateP2Ch01();updateProgressP2Ch01(true);});});
+
+// ──────────── ЧАСТЬ 2 ГЛАВА 02 ──────────────
+const STORAGE_KEY_P2_CH02='iivizaciya_checklist_urok6_part2_ch02_v1';
+const itemsP2Ch02=document.querySelectorAll('.item[data-key^="urok6-part2-ch02-"]');
+const totalCountP2Ch02=itemsP2Ch02.length;
+let wasCompleteP2Ch02=false;
+function loadStateP2Ch02(){try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY_P2_CH02)||'{}');let c=0;itemsP2Ch02.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');if(s[item.dataset.key]){cb.checked=true;item.classList.add('checked');c++}});wasCompleteP2Ch02=c===totalCountP2Ch02}catch(e){}updateProgressP2Ch02(false);}
+function saveStateP2Ch02(){const s={};itemsP2Ch02.forEach(item=>{s[item.dataset.key]=item.querySelector('input[type="checkbox"]').checked});try{localStorage.setItem(STORAGE_KEY_P2_CH02,JSON.stringify(s))}catch(e){}}
+function updateProgressP2Ch02(canCelebrate=true){let c=0;itemsP2Ch02.forEach(item=>{if(item.querySelector('input[type="checkbox"]').checked)c++});const cnt=document.getElementById('progressCountP2Ch02');const fill=document.getElementById('progressFillP2Ch02');if(cnt){cnt.textContent=`${c} / ${totalCountP2Ch02}`;}if(fill){fill.style.width=(totalCountP2Ch02>0?(c/totalCountP2Ch02)*100:0)+'%';}const done=document.getElementById('doneBlockP2Ch02');if(done){if(c===totalCountP2Ch02){done.classList.add('visible');if(canCelebrate&&!wasCompleteP2Ch02){launchConfetti()}wasCompleteP2Ch02=true}else{done.classList.remove('visible');wasCompleteP2Ch02=false;}}}
+itemsP2Ch02.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.addEventListener('change',function(){item.classList.toggle('checked',this.checked);saveStateP2Ch02();updateProgressP2Ch02(true);});});
+
 function resetProgressCh01(){if(!confirm('Сбросить прогресс главы 01, части 01?'))return;itemsCh01.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteCh01=false;saveStateCh01();updateProgressCh01(false);}
 function resetProgressCh02(){if(!confirm('Сбросить прогресс главы 02, части 01?'))return;itemsCh02.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteCh02=false;saveStateCh02();updateProgressCh02(false);}
 function resetProgressCh03(){if(!confirm('Сбросить прогресс главы 03, части 01?'))return;itemsCh03.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteCh03=false;saveStateCh03();updateProgressCh03(false);}
+function resetProgressP2Ch01(){if(!confirm('Сбросить прогресс главы 01, части 02?'))return;itemsP2Ch01.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteP2Ch01=false;saveStateP2Ch01();updateProgressP2Ch01(false);}
+function resetProgressP2Ch02(){if(!confirm('Сбросить прогресс главы 02, части 02?'))return;itemsP2Ch02.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteP2Ch02=false;saveStateP2Ch02();updateProgressP2Ch02(false);}
 loadStateCh01();
 loadStateCh02();
 loadStateCh03();
+loadStateP2Ch01();
+loadStateP2Ch02();
 
 // ──────────── SCROLL-SPY (sidebar активная глава + mobile topbar) ──────────────
 (function(){
   const ch02Anchor=document.getElementById('chapter-02');
   const ch03Anchor=document.getElementById('chapter-03');
+  const p2c1Anchor=document.getElementById('part2-chapter-01');
+  const p2c2Anchor=document.getElementById('part2-chapter-02');
   const linkCh01=document.querySelector('.sidebar__link[data-ch="01"]');
   const linkCh02=document.querySelector('.sidebar__link[data-ch="02"]');
   const linkCh03=document.querySelector('.sidebar__link[data-ch="03"]');
+  const linkP2C1=document.querySelector('.sidebar__link[data-ch="p2-01"]');
+  const linkP2C2=document.querySelector('.sidebar__link[data-ch="p2-02"]');
   const mobileTitle=document.querySelector('.mobile-topbar__title');
   if(!ch02Anchor||!linkCh01||!linkCh02)return;
   const THRESHOLD=200;
-  const TITLES={1:'Урок 6 · Ч.1 · Гл.01',2:'Урок 6 · Ч.1 · Гл.02',3:'Урок 6 · Ч.1 · Гл.03'};
-  function setActive(num){
-    [linkCh01,linkCh02,linkCh03].forEach(l=>l&&l.classList.remove('sidebar__link--active'));
-    if(num===3&&linkCh03){linkCh03.classList.add('sidebar__link--active');}
-    else if(num===2){linkCh02.classList.add('sidebar__link--active');}
-    else{linkCh01.classList.add('sidebar__link--active');}
-    if(mobileTitle){mobileTitle.textContent=TITLES[num]||TITLES[1];}
+  const TITLES={
+    'p1c1':'Урок 6 · Ч.1 · Гл.01',
+    'p1c2':'Урок 6 · Ч.1 · Гл.02',
+    'p1c3':'Урок 6 · Ч.1 · Гл.03',
+    'p2c1':'Урок 6 · Ч.2 · Гл.01',
+    'p2c2':'Урок 6 · Ч.2 · Гл.02'
+  };
+  const ALL_LINKS=[linkCh01,linkCh02,linkCh03,linkP2C1,linkP2C2];
+  function setActive(key){
+    ALL_LINKS.forEach(l=>l&&l.classList.remove('sidebar__link--active'));
+    const linkMap={'p1c1':linkCh01,'p1c2':linkCh02,'p1c3':linkCh03,'p2c1':linkP2C1,'p2c2':linkP2C2};
+    const target=linkMap[key];
+    if(target)target.classList.add('sidebar__link--active');
+    if(mobileTitle)mobileTitle.textContent=TITLES[key]||TITLES['p1c1'];
   }
   function update(){
+    const p2c2Top=p2c2Anchor?p2c2Anchor.getBoundingClientRect().top:Infinity;
+    const p2c1Top=p2c1Anchor?p2c1Anchor.getBoundingClientRect().top:Infinity;
     const ch03Top=ch03Anchor?ch03Anchor.getBoundingClientRect().top:Infinity;
     const ch02Top=ch02Anchor.getBoundingClientRect().top;
-    if(ch03Top<=THRESHOLD)setActive(3);
-    else if(ch02Top<=THRESHOLD)setActive(2);
-    else setActive(1);
+    if(p2c2Top<=THRESHOLD)setActive('p2c2');
+    else if(p2c1Top<=THRESHOLD)setActive('p2c1');
+    else if(ch03Top<=THRESHOLD)setActive('p1c3');
+    else if(ch02Top<=THRESHOLD)setActive('p1c2');
+    else setActive('p1c1');
   }
   window.addEventListener('scroll',update,{passive:true});
   window.addEventListener('resize',update,{passive:true});
