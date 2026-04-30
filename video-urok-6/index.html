@@ -2307,15 +2307,15 @@ EOF</span><button class="btn-copy" onclick="copyBlock('cmdCreateSystemd',this)">
     <div class="arch-box">┌──────────────────────┐                  ┌─────────────────────────┐
 │   ТВОЙ КОМПЬЮТЕР     │                  │   ТВОЙ СЕРВЕР (VPS)     │
 │                      │                  │                         │
-│   Obsidian GUI       │                  │   Просто папка-vault    │
-│   ├─ raw/            │                  │   /home/claude-bot/     │
-│   ├─ wiki/           │                  │     obsidian-vault/     │
-│   ├─ daily/          │                  │   ├─ raw/               │
-│   └─ outputs/        │                  │   ├─ wiki/              │
-│                      │                  │   ├─ daily/             │
-│   плагин Obsidian    │                  │   └─ outputs/           │
-│   Git: push/pull     │                  │                         │
-│   одной кнопкой      │                  │   git: pull/push        │
+│   Obsidian GUI       │                  │   ДВА клона vault:      │
+│   ├─ raw/            │                  │                         │
+│   ├─ wiki/           │                  │   /home/&lt;user&gt;/         │
+│   ├─ daily/          │                  │     obsidian-vault/     │
+│   └─ outputs/        │                  │   ← для Claude Code-бот │
+│                      │                  │                         │
+│   плагин Obsidian    │                  │   /root/.openclaw/      │
+│   Git: push/pull     │                  │     obsidian-vault/     │
+│   одной кнопкой      │                  │   ← для OpenClaw-агент  │
 │                      │                  │                         │
 │        ↕             │                  │            ↕            │
 └────────╪─────────────┘                  └────────────╪────────────┘
@@ -3012,16 +3012,20 @@ ssh-keygen -t ed25519 -C "&lt;твой_юзер&gt;@server" -f ~/.ssh/github_dep
 <div class="section">
   <div class="section__header">
     <div class="section__num">59</div>
-    <div class="section__title">Шаг 2. Готовим vault для OpenClaw-агента (root)</div>
+    <div class="section__title">Шаг 2. Готовим vault для OpenClaw-агента (через core.sshCommand)</div>
   </div>
   <div class="section__card">
     <div class="note note--info">
       <span class="note__icon">🛠️</span>
-      <span>OpenClaw-агент работает под <span class="mono">root</span>, vault лежит у юзера бота. Чтобы у OpenClaw был свой доступ к vault — клонируем репо <strong>второй раз</strong> в папку рядом с конфигом OpenClaw.</span>
+      <span>OpenClaw-агент работает под <span class="mono">root</span>, vault лежит у юзера бота. Нам нужен <strong>второй клон vault</strong>, к которому будет ходить OpenClaw-агент. Сделаем его <strong>самым элегантным способом</strong> — без sudo, без правок <span class="mono">/root/.ssh/</span>, через локальный <span class="mono">git config</span>.</span>
+    </div>
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span><strong>Архитектурное решение — <span class="mono">core.sshCommand</span> вместо deploy-key в /root/.ssh/.</strong><br><br>Стандартный подход «положи ключ в <span class="mono">/root/.ssh/</span>, настрой <span class="mono">/root/.ssh/config</span>» требует sudo на каждом шаге и засоряет системные папки. Современный подход проще: <strong>в самом git-репо</strong> (через <span class="mono">git config core.sshCommand</span>) указываем, какой именно SSH-ключ использовать для этого репо. Любой пользователь (root, твой юзер, кто угодно), кто работает с этим клоном, <strong>автоматически</strong> возьмёт правильный ключ. Никакой системной конфигурации.</span>
     </div>
     <div class="note note--alert">
       <span class="note__icon">⚠️</span>
-      <span><strong>ВАЖНОЕ ПРЕДУПРЕЖДЕНИЕ ПРО ДВА КЛОНА.</strong> Когда два процесса (бот + OpenClaw) пишут в один и тот же GitHub-репо — есть риск конфликтов push'ей. Мы это решаем тремя способами:<br><br><strong>1.</strong> Перед каждым push делаем <span class="mono">git pull --rebase</span> (уже добавлено в AGENTS.md выше + добавим в скиллы OpenClaw)<br><strong>2.</strong> <strong>Разделение зон ответственности:</strong> бот пишет в <span class="mono">raw/</span> и <span class="mono">outputs/</span>, OpenClaw — только в <span class="mono">raw/</span>. Так файлы не пересекаются.<br><strong>3.</strong> Имена файлов в <span class="mono">raw/</span> от OpenClaw содержат timestamp, поэтому коллизий по именам не будет.</span>
+      <span><strong>ВАЖНОЕ ПРЕДУПРЕЖДЕНИЕ ПРО ДВА КЛОНА.</strong> Когда два процесса (Claude Code-бот + OpenClaw-агент) пишут в один и тот же GitHub-репо — есть риск конфликтов push'ей. Решаем тремя способами:<br><br><strong>1.</strong> Перед каждым push — <span class="mono">git pull --rebase</span> (уже добавлено в AGENTS.md в Шаге 58 + добавим в скиллы OpenClaw в Шаге 60)<br><strong>2.</strong> <strong>Разделение зон ответственности:</strong> бот пишет в <span class="mono">raw/</span> и <span class="mono">outputs/</span>, OpenClaw — только в <span class="mono">raw/</span><br><strong>3.</strong> Имена файлов в <span class="mono">raw/</span> от OpenClaw содержат timestamp — нет коллизий по именам</span>
     </div>
 
     <div class="info-block">
@@ -3031,54 +3035,64 @@ ssh-keygen -t ed25519 -C "&lt;твой_юзер&gt;@server" -f ~/.ssh/github_dep
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Попросить бота диагностировать root и структуру OpenClaw</div>
-        <div class="item__hint">Бот выдаст реальную картину: структура <span class="mono">/root/.openclaw/</span>, есть ли SSH-ключи у root, где правильное место для скиллов. <strong>Запомни эти данные</strong> — они понадобятся в следующих подшагах.</div>
+        <div class="item__hint">Сначала диагностика — узнаём реальную картину сервера. Это критично, потому что у тебя workspace OpenClaw-агента может называться по-разному (<span class="mono">workspace/</span>, <span class="mono">workspace-main/</span>, <span class="mono">workspace-mentor/</span> и т.д.). <strong>Запомни: путь к workspace main-агента, нужен ли sudo, образец существующих скиллов.</strong></div>
       </div>
     </div>
     <div class="prompt-block">
-      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — диагностика root и OpenClaw</div>
-      <div class="prompt-block__text" id="promptDiagnoseRoot">Мне нужно понять, как настроен root на сервере и где живёт
-OpenClaw-агент. Выполни и покажи вывод:
+      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — диагностика OpenClaw</div>
+      <div class="prompt-block__text" id="promptDiagnoseRoot">Мне нужно понять, как у меня настроен OpenClaw на сервере.
+Выполни (sudo по возможности НЕ используй — у тебя уже могут
+быть права на /root/.openclaw/, проверь сначала ls без sudo):
 
-1. sudo ls -la /root/.openclaw/
-   (где конфиг OpenClaw и какие там подпапки)
+1. ls -la /root/.openclaw/
+   (что внутри, и кому принадлежит — нам нужно знать, могу
+   я писать туда без sudo или нет)
 
-2. sudo ls -la /root/.ssh/
-   (есть ли у root SSH-ключи к GitHub)
+2. ls -la /root/.openclaw/workspace*/
+   (какие workspace есть — workspace/, workspace-main/,
+   workspace-mentor/ и т.д. У каждого workspace — свой агент.
+   Нам нужно понять, какой из них для main-агента.)
 
-3. sudo find /root/.openclaw -name "skills" -type d 2&gt;/dev/null
-   (где папки skills у OpenClaw)
+3. cat /root/.openclaw/openclaw.json | grep -A1 '"agentId"\|"workspace"\|"nativeSkills"'
+   (понять связку agentId ↔ workspace и как регистрируются скиллы)
 
-4. sudo cat /root/.openclaw/openclaw.json | grep -i "workspace\|skill" | head -20
-   (понять структуру workspace)
+4. ls /root/.openclaw/workspace*/skills/ 2&gt;/dev/null
+   (какие скиллы уже есть, чтобы взять как образец)
 
-После вывода — кратко опиши:
-- Структура /root/.openclaw/
-- Есть ли SSH-ключи к GitHub у root
-- Где правильное место для скиллов OpenClaw
-  (workspace-main/skills/ или /root/.openclaw/skills/ или другое)</div>
+После вывода кратко опиши:
+- Кому принадлежит /root/.openclaw/ (если stas/claude-bot — sudo не нужен)
+- Какой workspace используется для main-агента (отвечающего в DM)
+- Где правильно класть скиллы для main-агента
+  (типа /root/.openclaw/workspace/skills/&lt;имя&gt;/SKILL.md)
+- Есть ли уже похожие скиллы как образец</div>
       <button class="btn-copy" onclick="copyBlock('promptDiagnoseRoot', this)">📋 Скопировать</button>
     </div>
 
     <div class="info-block">
-      <p><strong>Подшаг 2. Бот генерирует SSH-ключ для root и показывает публичную часть</strong></p>
+      <p><strong>Подшаг 2. Бот генерирует ОДИН SSH-ключ под собой (без sudo)</strong></p>
     </div>
     <div class="item" data-key="urok6-part2-ch02-gen-key-root">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Попросить бота сгенерировать SSH-ключ для root (отдельный от github_deploy)</div>
-        <div class="item__hint">Бот сгенерирует ключ <span class="mono">github_deploy_root</span> и выведет публичную часть. Скопируй её в буфер. Бот остановится и будет ждать сигнал «ключ добавлен, продолжай».</div>
+        <div class="item__text">Попросить бота сгенерировать SSH-ключ под собой (без sudo) для второго клона vault</div>
+        <div class="item__hint">Бот сгенерирует ключ <span class="mono">~/.ssh/github_deploy_openclaw_main</span> и выведет публичную часть. Скопируй её в буфер. Бот остановится и будет ждать сигнал «ключ добавлен, продолжай».</div>
       </div>
     </div>
     <div class="prompt-block">
-      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — SSH-ключ для root</div>
-      <div class="prompt-block__text" id="promptGenKeyRoot">Под root сгенерируй deploy-key специально для второго клона vault.
-ВАЖНО: ключ нужен новый, отдельный от твоего github_deploy.
+      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — SSH-ключ для второго клона vault</div>
+      <div class="prompt-block__text" id="promptGenKeyRoot">Сгенерируй новый deploy-key для второго клона vault.
+ВАЖНО: ключ нужен новый, отдельный от существующего github_deploy.
 
-sudo ssh-keygen -t ed25519 -C "openclaw-root@server" \
-  -f /root/.ssh/github_deploy_root -N ""
+Генерируй под собой (без sudo) — мы НЕ будем класть в /root/.ssh/.
+Вместо этого используем git config core.sshCommand на самом
+репо — так любой юзер, работающий с этим клоном, автоматически
+возьмёт правильный ключ:
+
+ssh-keygen -t ed25519 -C "openclaw-main@server" \
+  -f ~/.ssh/github_deploy_openclaw_main -N ""
 
 Затем покажи мне публичный ключ:
-sudo cat /root/.ssh/github_deploy_root.pub
+cat ~/.ssh/github_deploy_openclaw_main.pub
 
 ⚠️ ОСТАНОВИСЬ. Жди от меня "ключ добавлен, продолжай".</div>
       <button class="btn-copy" onclick="copyBlock('promptGenKeyRoot', this)">📋 Скопировать</button>
@@ -3094,59 +3108,76 @@ sudo cat /root/.ssh/github_deploy_root.pub
     <div class="item" data-key="urok6-part2-ch02-add-deploy-key-root">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Добавить второй Deploy Key (для root) в GitHub-репо vault'а</div>
-        <div class="item__hint"><strong>1.</strong> Открой: <span class="mono">https://github.com/&lt;твой-username&gt;/second-brain/settings/keys/new</span><br><strong>2.</strong> <strong>Title:</strong> <span class="mono">openclaw root</span><br><strong>3.</strong> <strong>Key:</strong> вставь публичный ключ от бота<br><strong>4.</strong> ⚠️ <strong>Поставь галку <span class="mono">Allow write access</span></strong><br><strong>5.</strong> <strong>Add key</strong></div>
+        <div class="item__text">Добавить второй Deploy Key в GitHub-репо vault'а</div>
+        <div class="item__hint"><strong>1.</strong> Открой: <span class="mono">https://github.com/&lt;твой-username&gt;/second-brain/settings/keys/new</span><br><strong>2.</strong> <strong>Title:</strong> <span class="mono">openclaw-main</span> (или любая метка)<br><strong>3.</strong> <strong>Key:</strong> вставь публичный ключ от бота (Cmd+V)<br><strong>4.</strong> ⚠️ <strong>Поставь галку <span class="mono">Allow write access</span></strong> — без неё OpenClaw не сможет пушить<br><strong>5.</strong> <strong>Add key</strong></div>
       </div>
     </div>
     <div class="note note--info">
       <span class="note__icon">💡</span>
-      <span>Теперь у тебя в репо <strong>два Deploy Key</strong> — это нормально и правильно. Каждый процесс работает со своим ключом.</span>
+      <span>Теперь у тебя в репо <strong>два Deploy Key</strong> — это нормально. Один для Claude Code-бота, другой для OpenClaw-агента. Каждый процесс работает со своим ключом.</span>
     </div>
 
     <div class="info-block">
-      <p><strong>Подшаг 4. Бот клонирует vault в root-папку</strong></p>
+      <p><strong>Подшаг 4. Бот клонирует vault и настраивает core.sshCommand</strong></p>
     </div>
     <div class="item" data-key="urok6-part2-ch02-clone-vault-as-root">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Попросить бота настроить SSH-config root и склонировать vault в /root/.openclaw/</div>
-        <div class="item__hint">После этого у тебя <strong>два клона</strong> одного vault: <span class="mono">~/obsidian-vault/</span> (под ботом) и <span class="mono">/root/.openclaw/obsidian-vault/</span> (под root для OpenClaw).</div>
+        <div class="item__text">Попросить бота склонировать vault через GIT_SSH_COMMAND и зашить core.sshCommand на репо</div>
+        <div class="item__hint">Бот клонирует vault через <span class="mono">GIT_SSH_COMMAND</span> (одноразово, для самого <span class="mono">git clone</span>), а потом записывает <span class="mono">core.sshCommand</span> в локальный config репо — так все будущие операции в этом репо будут использовать правильный ключ автоматически. Никаких правок <span class="mono">/root/.ssh/</span>.</div>
       </div>
     </div>
     <div class="prompt-block">
-      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — клон vault для root</div>
-      <div class="prompt-block__text" id="promptCloneVaultAsRoot">Ключ добавлен в GitHub. Продолжай:
+      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — клон vault для OpenClaw-агента</div>
+      <div class="prompt-block__text" id="promptCloneVaultAsRoot">Ключ добавлен в GitHub. Продолжай по плану «Путь A — core.sshCommand»:
 
-1. Настрой /root/.ssh/config для использования нового ключа:
-   sudo bash -c 'cat &gt;&gt; /root/.ssh/config &lt;&lt; EOF
+1. Проверь связь с GitHub под новым ключом:
+   ssh -T -i ~/.ssh/github_deploy_openclaw_main \
+       -o IdentitiesOnly=yes git@github.com
 
-   Host github.com
-       HostName github.com
-       User git
-       IdentityFile /root/.ssh/github_deploy_root
-       IdentitiesOnly yes
-   EOF
-   chmod 600 /root/.ssh/config'
-
-2. Проверь связь:
-   sudo ssh -T git@github.com
    (должен ответить "Hi &lt;username&gt;/second-brain!")
 
-3. Склонируй vault в /root/.openclaw/obsidian-vault/:
-   cd /root/.openclaw && \
-   sudo git clone git@github.com:&lt;твой-username&gt;/second-brain.git obsidian-vault
+2. Склонируй vault в /root/.openclaw/obsidian-vault/
+   через GIT_SSH_COMMAND:
 
-   ⚠️ Замени &lt;твой-username&gt; на мой реальный GitHub-юзернейм
-   (спроси меня если не знаешь).
+   GIT_SSH_COMMAND="ssh -i ~/.ssh/github_deploy_openclaw_main \
+       -o IdentitiesOnly=yes" \
+   git clone git@github.com:&lt;твой-username&gt;/second-brain.git \
+       /root/.openclaw/obsidian-vault/
 
-4. Настрой git identity для root:
-   cd /root/.openclaw/obsidian-vault && \
-   sudo git config user.name "openclaw-root" && \
-   sudo git config user.email "openclaw@server"
+3. Зашей core.sshCommand в локальный config этого клона
+   (постоянная привязка к ключу):
 
-5. В финале покажи:
-   sudo ls -la /root/.openclaw/obsidian-vault/</div>
+   cd /root/.openclaw/obsidian-vault &amp;&amp; \
+   git config core.sshCommand \
+       "ssh -i ~/.ssh/github_deploy_openclaw_main -o IdentitiesOnly=yes"
+
+4. Настрой git identity для коммитов от агента
+   (чтобы коммиты OpenClaw отличались от коммитов от меня
+   и от тебя в логе git):
+
+   git config user.name "openclaw-main" &amp;&amp; \
+   git config user.email "openclaw-main@server"
+
+5. Сделай тестовый push (чтобы убедиться что всё работает):
+
+   echo "# Тест от OpenClaw-агента" &gt; raw/test-from-openclaw.md &amp;&amp; \
+   git pull --rebase &amp;&amp; \
+   git add . &amp;&amp; \
+   git commit -m "openclaw-main: тестовый push после настройки" &amp;&amp; \
+   git push
+
+6. В финале покажи мне:
+   - ls -la /root/.openclaw/obsidian-vault/
+   - git config --local --list | grep -E "ssh|user"
+   - git log -1
+   - подтверждение что push прошёл</div>
       <button class="btn-copy" onclick="copyBlock('promptCloneVaultAsRoot', this)">📋 Скопировать</button>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span><strong>После успешного теста у тебя:</strong><br><br>— <strong>Один</strong> ключ под твоим юзером в <span class="mono">~/.ssh/</span><br>— <strong>Два</strong> Deploy Key в GitHub (для Claude Code-бота и для OpenClaw-агента)<br>— <strong>Два</strong> клона vault: <span class="mono">~/obsidian-vault/</span> (для Claude Code-бота) и <span class="mono">/root/.openclaw/obsidian-vault/</span> (для OpenClaw-агента)<br>— <strong>Никаких</strong> правок системных папок <span class="mono">/root/.ssh/</span><br>— В логе git <strong>три разных автора</strong>: ты (Obsidian client), Claude Code-бот (твой юзер), OpenClaw-агент (openclaw-main) — это золото для будущего дебага.</span>
     </div>
   </div>
 </div>
@@ -3183,9 +3214,13 @@ sudo cat /root/.ssh/github_deploy_root.pub
 ВАЖНО — НЕ ПИШИ КОД СРАЗУ. Сначала покажи мне ПЛАН:
 
 1. Где будут лежать скиллы (точный путь — ты определил его в
-   предыдущем диалоге, например /root/.openclaw/workspace-main/skills/
-   или /root/.openclaw/skills/ — выбери правильное место согласно
-   моей документации OpenClaw).
+   диагностике Шага 59 Подшага 1, типа
+   /root/.openclaw/workspace/skills/&lt;имя-скилла&gt;/SKILL.md
+   для main-агента; точное имя workspace зависит от твоей
+   установки — НЕ угадывай, используй то, что нашёл в
+   диагностике). Если в этом workspace уже есть существующий
+   скилл (например send-to-n8n) — изучи его как образец
+   структуры.
 
 2. Как именно скиллы будут регистрироваться в OpenClaw
    (через SOUL.md, AGENTS.md, или skill manifest — сверься с
@@ -3200,19 +3235,33 @@ sudo cat /root/.ssh/github_deploy_root.pub
 
 Скилл "obsidian-search":
 - Vault: /root/.openclaw/obsidian-vault/
+  (тот, что мы склонировали в Шаге 59 Подшаге 4 — уже
+  настроен core.sshCommand, так что любой git pull
+  сработает автоматически с правильным ключом)
 - Ищет через grep по wiki/ + читает INDEX.md
 - Возвращает топ-3 релевантные темы + краткие выдержки
 - Только чтение, никаких git-операций
 
 Скилл "obsidian-write":
 - Пишет ТОЛЬКО в /root/.openclaw/obsidian-vault/raw/
-- Имя файла: YYYY-MM-DD-HHMM-краткая-тема.md (timestamp обязателен,
-  чтобы не было коллизий с записями от тебя)
-- В начале файла — front-matter с метаданными (источник, дата, тема)
-- После записи: cd в vault, git pull --rebase, git add, git commit,
-  git push. Подпись коммита: "openclaw: запись из диалога с клиентом"
-- Если git pull --rebase падает — ретрай 1 раз, потом писать
-  ошибку в лог и НЕ ломать диалог с клиентом
+- Имя файла: YYYY-MM-DD-HHMM-краткая-тема.md (timestamp
+  обязателен, чтобы не было коллизий с записями от меня и
+  от Claude Code-бота, у которого свой клон в ~/obsidian-vault/)
+- В начале файла — front-matter с метаданными:
+  source=openclaw-main, date=YYYY-MM-DD, topic=&lt;тема&gt;
+- После записи (в самом vault, core.sshCommand уже настроен):
+  cd /root/.openclaw/obsidian-vault &amp;&amp; \
+  git pull --rebase &amp;&amp; \
+  git add . &amp;&amp; \
+  git commit -m "openclaw-main: &lt;краткая тема&gt;" &amp;&amp; \
+  git push
+- Подпись коммита: "openclaw-main: &lt;тема&gt;" (с префиксом
+  openclaw-main: чтобы в логе git было видно, кто писал —
+  это работает в связке с git identity, которую мы поставили
+  в Шаге 59 Подшаге 4)
+- Если git pull --rebase падает (конфликт) — ретрай 1 раз
+  через 2 секунды, потом писать ошибку в лог и НЕ ломать
+  диалог с клиентом
 
 Покажи план. Я скажу "погнали" — тогда пиши код.</div>
       <button class="btn-copy" onclick="copyBlock('promptSkillsPlan', this)">📋 Скопировать</button>
