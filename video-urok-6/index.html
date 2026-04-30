@@ -2829,7 +2829,7 @@ ssh-keygen -t ed25519 -C "&lt;твой_юзер&gt;@server" -f ~/.ssh/github_dep
     <div class="progress-wrap progress-wrap--p2-ch02">
       <div class="progress-top">
         <span class="progress-label">Прогресс главы 02, части 02</span>
-        <span class="progress-count" id="progressCountP2Ch02">0 / 9</span>
+        <span class="progress-count" id="progressCountP2Ch02">0 / 15</span>
       </div>
       <div class="progress-bar"><div class="progress-fill" id="progressFillP2Ch02"></div></div>
     </div>
@@ -2843,13 +2843,21 @@ ssh-keygen -t ed25519 -C "&lt;твой_юзер&gt;@server" -f ~/.ssh/github_dep
   <div class="section__card">
     <div class="note note--info">
       <span class="note__icon">🎯</span>
-      <span>Vault готов и синхронизирован. Теперь подключаем к нему обоих агентов. Сначала Claude Code-бот (наследие Главы 03 Части 1) — он будет читать vault и пушить туда новые знания. Потом OpenClaw-агент — мы дадим ему два скилла, чтобы он мог искать в vault'е и писать туда результаты диалогов с клиентами.</span>
+      <span>Vault готов и синхронизирован (Глава 01). Теперь подключаем к нему обоих агентов. Сначала Claude Code-бот — он будет читать vault и пушить туда новые знания. Потом OpenClaw-агент — мы дадим ему два скилла, чтобы он мог искать в vault'е и писать туда результаты диалогов.</span>
+    </div>
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span><strong>Делаем всё через Telegram-бота.</strong> Бот уже знает свой контекст (юзер, пути) — мы спросим у него факты, и дальше всё пойдёт автоматически. Никакого VS Code Remote-SSH в этой главе.</span>
     </div>
     <div class="info-block">
       <p><strong>Что получится в финале главы:</strong></p>
-      <p>🤖 <strong>Claude Code-бот в Telegram</strong> — может читать vault, синтезировать <span class="mono">raw → wiki</span>, выдавать утренние брифинги, отвечать на вопросы со ссылками на конкретные заметки</p>
-      <p>🦞 <strong>OpenClaw-агент</strong> — при каждом диалоге с клиентом может искать ответ в vault'е (через скилл <span class="mono">obsidian-search</span>) и записывать важные моменты диалога в vault (через скилл <span class="mono">obsidian-write</span>)</p>
-      <p>🧠 <strong>Один общий «второй мозг»</strong> — оба агента читают и пишут в одну папку. История работы накапливается. С каждым днём агенты становятся умнее.</p>
+      <p>🤖 <strong>Claude Code-бот в Telegram</strong> — может читать vault, синтезировать <span class="mono">raw → wiki</span>, выдавать утренние брифинги, отвечать на вопросы со ссылками на конкретные заметки.</p>
+      <p>🦞 <strong>OpenClaw-агент</strong> — при диалоге с клиентом может искать ответ в vault'е (скилл <span class="mono">obsidian-search</span>) и записывать важные моменты диалога в vault (скилл <span class="mono">obsidian-write</span>).</p>
+      <p>🧠 <strong>Один общий «второй мозг»</strong> — оба агента читают и пишут в одну папку. С каждым днём агенты становятся умнее.</p>
+    </div>
+    <div class="note note--alert">
+      <span class="note__icon">⚠️</span>
+      <span><strong>ВАЖНО — С КАКИМ БОТОМ МЫ РАБОТАЕМ В ЭТОЙ ГЛАВЕ</strong><br><br>На сервере у тебя <strong>два разных Telegram-бота</strong>, не путай их:<br><br>🛠️ <strong>Claude Code-бот</strong> — твой ЛИЧНЫЙ инженерный ассистент (сделали в Главе 03 Части 1). Только ты можешь ему писать. Он админит сервер, читает/правит файлы, пишет код. <strong>С ним работаем 95% времени в этой главе.</strong><br><br>🦞 <strong>OpenClaw-агент</strong> — твой КЛИЕНТСКИЙ AI-сотрудник, отвечающий клиентам. <strong>Ему пишем только в шаге 61</strong> (тесты скиллов obsidian-search и obsidian-write).<br><br>В каждом промпте ниже явно указано, <strong>какому из двух ботов</strong> ты отправляешь сообщение. Не перепутай — иначе либо ничего не произойдёт, либо клиентский бот получит инженерный промпт.</span>
     </div>
   </div>
 </div>
@@ -2863,58 +2871,125 @@ ssh-keygen -t ed25519 -C "&lt;твой_юзер&gt;@server" -f ~/.ssh/github_dep
   <div class="section__card">
     <div class="note note--info">
       <span class="note__icon">🔗</span>
-      <span>Claude Code-бот уже работает в tmux-сессии (Глава 03 Части 1). Сейчас просто скажем ему через AGENTS.md: «при работе всегда заглядывай в <span class="mono">~/obsidian-vault/</span>». Никаких новых установок.</span>
+      <span>У бота уже есть склонированный vault на сервере (Глава 01, шаг 8). Сейчас скажем ему через <span class="mono">AGENTS.md</span>: «при работе всегда заглядывай в этот vault». Делаем — через самого бота.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Подшаг 1. Узнаём актуальные пути у бота</strong></p>
+      <p>В Главе 01 ты уже спрашивал у бота его контекст. Если забыл — спроси заново.</p>
+    </div>
+    <div class="item" data-key="urok6-part2-ch02-bot-paths">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Спросить у бота актуальные пути (whoami, $HOME, AGENTS.md, vault)</div>
+        <div class="item__hint">Открой Telegram → отправь Claude Code-боту промпт ниже. Бот ответит факты — например: юзер <span class="mono">claude-bot</span>, AGENTS.md в <span class="mono">~/claude-code-bot/OpenClaw/AGENTS.md</span>, vault в <span class="mono">~/obsidian-vault/</span>. <strong>Сохрани эти пути</strong> — они понадобятся.</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — уточняем пути</div>
+      <div class="prompt-block__text" id="promptBotPathsP2Ch02">Бро, перед следующей задачей покажи мне:
+1. whoami
+2. echo $HOME
+3. где лежит твоя рабочая папка с AGENTS.md и .mcp.json
+   (поищи: find $HOME -name "AGENTS.md" -not -path "*/node_modules/*" 2&gt;/dev/null)
+4. где лежит obsidian-vault (поищи: ls -la ~/obsidian-vault/)
+5. покажи текущее содержимое твоего AGENTS.md</div>
+      <button class="btn-copy" onclick="copyBlock('promptBotPathsP2Ch02', this)">📋 Скопировать</button>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Подшаг 2. Просим бота обновить свой AGENTS.md</strong></p>
     </div>
     <div class="item" data-key="urok6-part2-ch02-update-agents-md">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Обновить AGENTS.md в рабочей папке Claude Code</div>
-        <div class="item__hint">На сервере под claude-bot открой файл <span class="mono">~/claude-code-bot/OpenClaw/AGENTS.md</span>. Допиши в самый низ блок из промпт-блока ниже. Сохрани.</div>
+        <div class="item__text">Отправить боту промпт на обновление AGENTS.md</div>
+        <div class="item__hint">Бот сам допишет новый блок правил в свой <span class="mono">AGENTS.md</span> — с защитой от git-конфликтов (<span class="mono">git pull --rebase</span> перед push) и разделением зон ответственности (бот пишет в <span class="mono">raw/</span>+<span class="mono">outputs/</span>, не лезет в <span class="mono">wiki/</span>+<span class="mono">daily/</span>).</div>
       </div>
     </div>
     <div class="prompt-block">
-      <div class="prompt-block__title">📋 Блок для AGENTS.md — подключение к vault</div>
-      <div class="prompt-block__text" id="promptAgentsVault">## Связь с Obsidian-vault («второй мозг»)
+      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — обновить AGENTS.md</div>
+      <div class="prompt-block__text" id="promptAgentsVault">В прошлом сообщении ты показал мне путь к своему AGENTS.md.
+Допиши в КОНЕЦ этого файла блок ниже. Ничего из существующего
+не удаляй, только добавь снизу.
 
-В папке ~/obsidian-vault/ лежит мой основной «второй мозг» —
-синхронизированный с GitHub Obsidian-vault. При любой работе
-действуй по правилам:
+---
 
-1. ПЕРЕД ответом на сложный вопрос — проверь, есть ли релевантные
-   заметки в ~/obsidian-vault/wiki/ (через grep или прямое чтение
-   нужных файлов из INDEX.md).
+## Связь с Obsidian-vault («второй мозг»)
+
+В моём home лежит синхронизированный с GitHub Obsidian-vault
+(точный путь — в подпапке obsidian-vault/ моего home, ты
+определил его в прошлом запросе). При любой работе действуй
+по правилам:
+
+1. ПЕРЕД ответом на сложный вопрос — проверь, есть ли
+   релевантные заметки в obsidian-vault/wiki/ (через grep
+   или прямое чтение нужных файлов из INDEX.md).
 
 2. ПОСЛЕ важных диалогов или решений — обнови соответствующие
-   wiki-заметки или создай новые. После правки:
-   cd ~/obsidian-vault && git add . && git commit -m "..." && git push
+   wiki-заметки или создай новые. После правки делай:
+   cd ~/obsidian-vault && git pull --rebase && git add . && \
+   git commit -m "&lt;осмысленное сообщение на русском&gt;" && git push
+
+   ⚠️ ВАЖНО: всегда сначала git pull --rebase перед push —
+   иначе будет конфликт с другими клонами vault.
 
 3. ПРИ работе с новыми материалами в raw/ — синтезируй их в
-   wiki-заметки по правилам из ~/obsidian-vault/CLAUDE.md.
+   wiki-заметки по правилам из obsidian-vault/CLAUDE.md.
 
-4. ВАЖНО: всегда читай ~/obsidian-vault/CLAUDE.md перед началом
-   работы с vault — там полные правила структуры и формата.</div>
+4. ВАЖНО: всегда читай obsidian-vault/CLAUDE.md перед началом
+   работы с vault — там полные правила структуры и формата.
+
+5. РАЗДЕЛЕНИЕ ОТВЕТСТВЕННОСТИ: ты пишешь ПРЕИМУЩЕСТВЕННО в
+   raw/ и outputs/. Папки wiki/ и daily/ — зона хозяина,
+   их трогай только по явной просьбе или при синтезе raw → wiki.
+
+---
+
+После добавления — покажи мне финальное содержимое AGENTS.md
+и подтверди, что блок добавлен.</div>
       <button class="btn-copy" onclick="copyBlock('promptAgentsVault', this)">📋 Скопировать</button>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Подшаг 3. Перезапускаем бота, чтобы подхватились новые правила</strong></p>
     </div>
     <div class="item" data-key="urok6-part2-ch02-restart-claude-code">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Перезапустить tmux-сессию Claude Code, чтобы подхватились новые правила</div>
-        <div class="item__hint">Если используется systemd-юнит из Главы 03 Части 1 — перезапусти его. Если запускал руками — kill сессию и запусти заново.</div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdRestartClaudeBot">sudo systemctl restart claude-bot</span><button class="btn-copy" onclick="copyBlock('cmdRestartClaudeBot',this)">📋 Скопировать</button></div>
+        <div class="item__text">Попросить бота перезапустить свой systemd-сервис</div>
+        <div class="item__hint">Бот сам выполнит <span class="mono">sudo systemctl restart claude-bot</span>, подождёт 10 секунд и сообщит, что снова онлайн.</div>
       </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — перезапуск</div>
+      <div class="prompt-block__text" id="promptRestartClaudeCodeP2Ch02">Перезапусти свой systemd-сервис, чтобы подхватился обновлённый
+AGENTS.md:
+
+sudo systemctl restart claude-bot
+
+(если у тебя другое имя сервиса — используй своё)
+
+После рестарта подожди 10 секунд и подтверди, что ты снова
+онлайн, ответив "я снова в строю".</div>
+      <button class="btn-copy" onclick="copyBlock('promptRestartClaudeCodeP2Ch02', this)">📋 Скопировать</button>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Подшаг 4. Тест — бот заглядывает в vault</strong></p>
     </div>
     <div class="item" data-key="urok6-part2-ch02-test-claude-code-vault">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Тест с телефона: попросить бота поискать в vault'е</div>
-        <div class="item__hint">Открой Telegram, напиши боту промпт ниже. Бот должен заглянуть в vault, понять что там пока почти пусто, и выдать честный ответ.</div>
+        <div class="item__text">Тест: попросить бота прочитать CLAUDE.md и описать структуру vault</div>
+        <div class="item__hint">Если бот корректно описал структуру (<span class="mono">raw, wiki, daily, outputs, INDEX, CLAUDE.md</span>) и предложил идеи — связка работает. Идём дальше.</div>
       </div>
     </div>
     <div class="prompt-block">
-      <div class="prompt-block__title">📋 Тестовый промпт для бота</div>
-      <div class="prompt-block__text" id="promptTestClaudeVault">Прочитай ~/obsidian-vault/CLAUDE.md и расскажи мне:
-1. Что у меня сейчас лежит в vault'е (структура папок, что
-   есть, чего нет).
+      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — проверка работы с vault</div>
+      <div class="prompt-block__text" id="promptTestClaudeVault">Прочитай obsidian-vault/CLAUDE.md и расскажи мне:
+1. Что у меня сейчас лежит в vault'е (структура папок,
+   что есть, чего нет).
 2. Как ты будешь работать с этим vault'ом по правилам.
 3. Предложи 3 идеи, что я могу положить в raw/ прямо сейчас,
    чтобы начать наполнять «второй мозг».</div>
@@ -2927,83 +3002,141 @@ ssh-keygen -t ed25519 -C "&lt;твой_юзер&gt;@server" -f ~/.ssh/github_dep
 <div class="section">
   <div class="section__header">
     <div class="section__num">59</div>
-    <div class="section__title">Шаг 2. ТЗ на два скилла для OpenClaw-агента</div>
+    <div class="section__title">Шаг 2. Готовим vault для OpenClaw-агента (root)</div>
   </div>
   <div class="section__card">
     <div class="note note--info">
       <span class="note__icon">🛠️</span>
-      <span>OpenClaw-агент работает в отдельной инсталляции (твой клиентский AI-сотрудник, не Claude Code-бот). Чтобы он мог работать с vault'ом — добавим ему <strong>два скилла</strong>: <span class="mono">obsidian-search</span> (поиск в vault) и <span class="mono">obsidian-write</span> (запись в vault). Писать сами скиллы НЕ будем — попросим Claude Code-бот сделать это за нас.</span>
+      <span>OpenClaw-агент работает под <span class="mono">root</span>, vault лежит у юзера бота. Чтобы у OpenClaw был свой доступ к vault — клонируем репо <strong>второй раз</strong> в папку рядом с конфигом OpenClaw.</span>
     </div>
-    <div class="note note--warn">
+    <div class="note note--alert">
       <span class="note__icon">⚠️</span>
-      <span><strong>Важно:</strong> OpenClaw-агент работает под root, vault лежит у юзера claude-bot. Поэтому для скиллов нужно учитывать — они должны иметь права на чтение/запись в <span class="mono">~/obsidian-vault/</span>. Это можно решить разными способами; самый простой — vault лежит в <span class="mono">/root/.openclaw/obsidian-vault/</span> (то есть склонировать его ещё раз именно туда, как root). Об этом подумает Claude Code, когда будет писать скиллы.</span>
+      <span><strong>ВАЖНОЕ ПРЕДУПРЕЖДЕНИЕ ПРО ДВА КЛОНА.</strong> Когда два процесса (бот + OpenClaw) пишут в один и тот же GitHub-репо — есть риск конфликтов push'ей. Мы это решаем тремя способами:<br><br><strong>1.</strong> Перед каждым push делаем <span class="mono">git pull --rebase</span> (уже добавлено в AGENTS.md выше + добавим в скиллы OpenClaw)<br><strong>2.</strong> <strong>Разделение зон ответственности:</strong> бот пишет в <span class="mono">raw/</span> и <span class="mono">outputs/</span>, OpenClaw — только в <span class="mono">raw/</span>. Так файлы не пересекаются.<br><strong>3.</strong> Имена файлов в <span class="mono">raw/</span> от OpenClaw содержат timestamp, поэтому коллизий по именам не будет.</span>
     </div>
-    <div class="item" data-key="urok6-part2-ch02-clone-vault-as-root">
+
+    <div class="info-block">
+      <p><strong>Подшаг 1. Спрашиваем у бота, как настроен root и где OpenClaw</strong></p>
+    </div>
+    <div class="item" data-key="urok6-part2-ch02-diagnose-root">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Склонировать vault также от имени root в /root/.openclaw/obsidian-vault/</div>
-        <div class="item__hint">Под root на сервере — клонируем тот же репо во вторую папку. OpenClaw-агенту удобнее работать с папкой, лежащей рядом с его конфигом. Не забудь про SSH-ключ для root — либо генерируем новый и добавляем в Deploy keys репо, либо копируем существующий ключ root-а.</div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdGenerateRootDeployKey">ssh-keygen -t ed25519 -C "openclaw-root@server" -f ~/.ssh/github_deploy_root -N "" && cat ~/.ssh/github_deploy_root.pub</span><button class="btn-copy" onclick="copyBlock('cmdGenerateRootDeployKey',this)">📋 Скопировать</button></div>
+        <div class="item__text">Попросить бота диагностировать root и структуру OpenClaw</div>
+        <div class="item__hint">Бот выдаст реальную картину: структура <span class="mono">/root/.openclaw/</span>, есть ли SSH-ключи у root, где правильное место для скиллов. <strong>Запомни эти данные</strong> — они понадобятся в следующих подшагах.</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — диагностика root и OpenClaw</div>
+      <div class="prompt-block__text" id="promptDiagnoseRoot">Мне нужно понять, как настроен root на сервере и где живёт
+OpenClaw-агент. Выполни и покажи вывод:
+
+1. sudo ls -la /root/.openclaw/
+   (где конфиг OpenClaw и какие там подпапки)
+
+2. sudo ls -la /root/.ssh/
+   (есть ли у root SSH-ключи к GitHub)
+
+3. sudo find /root/.openclaw -name "skills" -type d 2&gt;/dev/null
+   (где папки skills у OpenClaw)
+
+4. sudo cat /root/.openclaw/openclaw.json | grep -i "workspace\|skill" | head -20
+   (понять структуру workspace)
+
+После вывода — кратко опиши:
+- Структура /root/.openclaw/
+- Есть ли SSH-ключи к GitHub у root
+- Где правильное место для скиллов OpenClaw
+  (workspace-main/skills/ или /root/.openclaw/skills/ или другое)</div>
+      <button class="btn-copy" onclick="copyBlock('promptDiagnoseRoot', this)">📋 Скопировать</button>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Подшаг 2. Бот генерирует SSH-ключ для root и показывает публичную часть</strong></p>
+    </div>
+    <div class="item" data-key="urok6-part2-ch02-gen-key-root">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Попросить бота сгенерировать SSH-ключ для root (отдельный от github_deploy)</div>
+        <div class="item__hint">Бот сгенерирует ключ <span class="mono">github_deploy_root</span> и выведет публичную часть. Скопируй её в буфер. Бот остановится и будет ждать сигнал «ключ добавлен, продолжай».</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — SSH-ключ для root</div>
+      <div class="prompt-block__text" id="promptGenKeyRoot">Под root сгенерируй deploy-key специально для второго клона vault.
+ВАЖНО: ключ нужен новый, отдельный от твоего github_deploy.
+
+sudo ssh-keygen -t ed25519 -C "openclaw-root@server" \
+  -f /root/.ssh/github_deploy_root -N ""
+
+Затем покажи мне публичный ключ:
+sudo cat /root/.ssh/github_deploy_root.pub
+
+⚠️ ОСТАНОВИСЬ. Жди от меня "ключ добавлен, продолжай".</div>
+      <button class="btn-copy" onclick="copyBlock('promptGenKeyRoot', this)">📋 Скопировать</button>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Подшаг 3. Добавляем второй Deploy Key в GitHub (РУКАМИ)</strong></p>
+    </div>
+    <div class="note note--alert">
+      <span class="note__icon">⚠️</span>
+      <span>Это <strong>единственный шаг, который бот сделать не может</strong> — он не имеет доступа к твоему GitHub. Делаем сами в браузере.</span>
+    </div>
+    <div class="item" data-key="urok6-part2-ch02-add-deploy-key-root">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Добавить второй Deploy Key (для root) в GitHub-репо vault'а</div>
+        <div class="item__hint"><strong>1.</strong> Открой: <span class="mono">https://github.com/&lt;твой-username&gt;/second-brain/settings/keys/new</span><br><strong>2.</strong> <strong>Title:</strong> <span class="mono">openclaw root</span><br><strong>3.</strong> <strong>Key:</strong> вставь публичный ключ от бота<br><strong>4.</strong> ⚠️ <strong>Поставь галку <span class="mono">Allow write access</span></strong><br><strong>5.</strong> <strong>Add key</strong></div>
       </div>
     </div>
     <div class="note note--info">
       <span class="note__icon">💡</span>
-      <span>Скопируй вывод публичного ключа и добавь его как ВТОРОЙ Deploy Key в свой GitHub-репо vault'а (имя — <span class="mono">openclaw root</span>, тоже с правом write). После этого добавь в <span class="mono">/root/.ssh/config</span> блок для GitHub с этим ключом и склонируй репо в <span class="mono">/root/.openclaw/obsidian-vault/</span>.</span>
+      <span>Теперь у тебя в репо <strong>два Deploy Key</strong> — это нормально и правильно. Каждый процесс работает со своим ключом.</span>
     </div>
-    <div class="cmd-copy"><span class="cmd-copy__text" id="cmdCloneVaultAsRoot">cat &gt;&gt; /root/.ssh/config &lt;&lt; 'EOF'
 
-Host github.com
-    HostName github.com
-    User git
-    IdentityFile /root/.ssh/github_deploy_root
-    IdentitiesOnly yes
-EOF
-chmod 600 /root/.ssh/config && cd /root/.openclaw && git clone git@github.com:&lt;username&gt;/second-brain.git obsidian-vault && cd obsidian-vault && git config user.name "openclaw-root" && git config user.email "openclaw@server"</span><button class="btn-copy" onclick="copyBlock('cmdCloneVaultAsRoot',this)">📋 Скопировать</button></div>
-    <div class="item" data-key="urok6-part2-ch02-ask-claude-code-write-skills">
+    <div class="info-block">
+      <p><strong>Подшаг 4. Бот клонирует vault в root-папку</strong></p>
+    </div>
+    <div class="item" data-key="urok6-part2-ch02-clone-vault-as-root">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Попросить Claude Code-бот написать скиллы obsidian-search и obsidian-write для OpenClaw</div>
-        <div class="item__hint">Открой Telegram, отправь Claude Code-боту промпт ниже. Он сам напишет два скилла под структуру OpenClaw-агента. Если что-то не получится с первого раза — продолжи диалог с ботом и попроси доработать.</div>
+        <div class="item__text">Попросить бота настроить SSH-config root и склонировать vault в /root/.openclaw/</div>
+        <div class="item__hint">После этого у тебя <strong>два клона</strong> одного vault: <span class="mono">~/obsidian-vault/</span> (под ботом) и <span class="mono">/root/.openclaw/obsidian-vault/</span> (под root для OpenClaw).</div>
       </div>
     </div>
     <div class="prompt-block">
-      <div class="prompt-block__title">📋 Промпт Claude Code-боту: написать два скилла для OpenClaw</div>
-      <div class="prompt-block__text" id="promptWriteOpenclawSkills">Мне нужно написать два скилла для моего основного OpenClaw-агента
-(который живёт в /root/.openclaw/, лежит в workspace-main).
+      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — клон vault для root</div>
+      <div class="prompt-block__text" id="promptCloneVaultAsRoot">Ключ добавлен в GitHub. Продолжай:
 
-ЗАДАЧА:
+1. Настрой /root/.ssh/config для использования нового ключа:
+   sudo bash -c 'cat &gt;&gt; /root/.ssh/config &lt;&lt; EOF
 
-Скилл 1 — "obsidian-search"
-Назначение: при разговоре с клиентом OpenClaw-агент может искать
-релевантную информацию в моём Obsidian-vault.
-Где vault: /root/.openclaw/obsidian-vault/
-Как ищет: через grep по содержимому файлов wiki/ + чтение
-INDEX.md, чтобы найти подходящую тему.
-Возвращает: список найденных тем + краткие выдержки.
+   Host github.com
+       HostName github.com
+       User git
+       IdentityFile /root/.ssh/github_deploy_root
+       IdentitiesOnly yes
+   EOF
+   chmod 600 /root/.ssh/config'
 
-Скилл 2 — "obsidian-write"
-Назначение: после важного диалога OpenClaw-агент может записать
-ключевые моменты в vault.
-Куда пишет: /root/.openclaw/obsidian-vault/raw/ (имя файла —
-date-time-краткая-тема.md).
-После записи: автоматически делает git add+commit+push с подписью
-"openclaw: запись из диалога с клиентом".
+2. Проверь связь:
+   sudo ssh -T git@github.com
+   (должен ответить "Hi &lt;username&gt;/second-brain!")
 
-ТРЕБОВАНИЯ:
-1. Изучи /root/.openclaw/obsidian-vault/CLAUDE.md — там правила
-   формата заметок. Скиллы должны им следовать.
-2. Изучи структуру OpenClaw-скиллов в /root/.openclaw/ или в
-   моей документации (./openclaw/10-tools-skills.md).
-3. Создай оба скилла в правильной папке (обычно
-   /root/.openclaw/skills/ или скорее всего в workspace-main).
-4. После создания — подключи их в SOUL.md и AGENTS.md
-   OpenClaw-агента.
-5. Покажи мне финальный результат: где лежат скиллы,
-   что добавлено в SOUL/AGENTS.
+3. Склонируй vault в /root/.openclaw/obsidian-vault/:
+   cd /root/.openclaw && \
+   sudo git clone git@github.com:&lt;твой-username&gt;/second-brain.git obsidian-vault
 
-ВАЖНО: ничего не публикуй и не коммить в продакшен без моего
-подтверждения. Сначала покажи план — я скажу "погнали".</div>
-      <button class="btn-copy" onclick="copyBlock('promptWriteOpenclawSkills', this)">📋 Скопировать</button>
+   ⚠️ Замени &lt;твой-username&gt; на мой реальный GitHub-юзернейм
+   (спроси меня если не знаешь).
+
+4. Настрой git identity для root:
+   cd /root/.openclaw/obsidian-vault && \
+   sudo git config user.name "openclaw-root" && \
+   sudo git config user.email "openclaw@server"
+
+5. В финале покажи:
+   sudo ls -la /root/.openclaw/obsidian-vault/</div>
+      <button class="btn-copy" onclick="copyBlock('promptCloneVaultAsRoot', this)">📋 Скопировать</button>
     </div>
   </div>
 </div>
@@ -3012,49 +3145,89 @@ date-time-краткая-тема.md).
 <div class="section">
   <div class="section__header">
     <div class="section__num">60</div>
-    <div class="section__title">Шаг 3. Тестируем работу OpenClaw-агента с vault'ом</div>
+    <div class="section__title">Шаг 3. Бот пишет два скилла для OpenClaw</div>
   </div>
   <div class="section__card">
     <div class="note note--info">
-      <span class="note__icon">🧪</span>
-      <span>Когда Claude Code напишет и установит скиллы — нужно протестировать. Сначала напрямую через Claude Code на сервере (вызов скиллов). Потом — через клиентский Telegram-канал OpenClaw-агента (реальный workflow).</span>
+      <span class="note__icon">🦞</span>
+      <span>Теперь самое интересное — просим бота написать <strong>два скилла</strong>, которые OpenClaw-агент будет вызывать при работе с клиентами.</span>
     </div>
-    <div class="item" data-key="urok6-part2-ch02-test-skill-search">
+
+    <div class="info-block">
+      <p><strong>Подшаг 1. Промпт боту на разработку скиллов</strong></p>
+    </div>
+    <div class="item" data-key="urok6-part2-ch02-skills-plan">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Тест: попросить OpenClaw-агента найти что-то в vault'е</div>
-        <div class="item__hint">Зайди в Telegram-канал твоего OpenClaw-агента (НЕ Claude Code-бот, а основной клиентский). Напиши промпт ниже — агент должен использовать скилл <span class="mono">obsidian-search</span> и вернуть результаты.</div>
+        <div class="item__text">Отправить боту промпт с ТЗ — получить ПЛАН (без кода)</div>
+        <div class="item__hint">Бот сначала покажет <strong>план</strong> (где будут лежать скиллы, как они регистрируются в OpenClaw, API каждого скилла, защита от git-конфликтов через <span class="mono">pull --rebase</span> + retry). Прочитай план внимательно — на этом этапе можно поправить.</div>
       </div>
     </div>
     <div class="prompt-block">
-      <div class="prompt-block__title">📋 Тестовый промпт OpenClaw-агенту</div>
-      <div class="prompt-block__text" id="promptTestOpenclawSearch">Поищи у меня в vault'е (используй скилл obsidian-search), что
-у меня есть про "второй мозг" / Obsidian / GitHub-синхронизацию.
-Если найдёшь — выдай саммари. Если ничего нет — скажи прямо.</div>
-      <button class="btn-copy" onclick="copyBlock('promptTestOpenclawSearch', this)">📋 Скопировать</button>
+      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — разработка скиллов obsidian-search и obsidian-write</div>
+      <div class="prompt-block__text" id="promptSkillsPlan">Мне нужно написать два скилла для моего OpenClaw-агента. Используй
+ВСЕ свои возможности: знание документации OpenClaw (она у тебя в
+./openclaw/), MCP openclaw для проверки структуры, Context7 для
+любых сторонних либ если понадобятся.
+
+ВАЖНО — НЕ ПИШИ КОД СРАЗУ. Сначала покажи мне ПЛАН:
+
+1. Где будут лежать скиллы (точный путь — ты определил его в
+   предыдущем диалоге, например /root/.openclaw/workspace-main/skills/
+   или /root/.openclaw/skills/ — выбери правильное место согласно
+   моей документации OpenClaw).
+
+2. Как именно скиллы будут регистрироваться в OpenClaw
+   (через SOUL.md, AGENTS.md, или skill manifest — сверься с
+   ./openclaw/10-tools-skills.md и 18-templates.md).
+
+3. Точный API каждого скилла (входы, выходы).
+
+4. Как скилл obsidian-write будет делать git push БЕЗ конфликтов
+   с ботом (обязательно git pull --rebase перед push).
+
+ТРЕБОВАНИЯ К СКИЛЛАМ:
+
+Скилл "obsidian-search":
+- Vault: /root/.openclaw/obsidian-vault/
+- Ищет через grep по wiki/ + читает INDEX.md
+- Возвращает топ-3 релевантные темы + краткие выдержки
+- Только чтение, никаких git-операций
+
+Скилл "obsidian-write":
+- Пишет ТОЛЬКО в /root/.openclaw/obsidian-vault/raw/
+- Имя файла: YYYY-MM-DD-HHMM-краткая-тема.md (timestamp обязателен,
+  чтобы не было коллизий с записями от тебя)
+- В начале файла — front-matter с метаданными (источник, дата, тема)
+- После записи: cd в vault, git pull --rebase, git add, git commit,
+  git push. Подпись коммита: "openclaw: запись из диалога с клиентом"
+- Если git pull --rebase падает — ретрай 1 раз, потом писать
+  ошибку в лог и НЕ ломать диалог с клиентом
+
+Покажи план. Я скажу "погнали" — тогда пиши код.</div>
+      <button class="btn-copy" onclick="copyBlock('promptSkillsPlan', this)">📋 Скопировать</button>
     </div>
-    <div class="item" data-key="urok6-part2-ch02-test-skill-write">
+
+    <div class="info-block">
+      <p><strong>Подшаг 2. Утверждаем план и пишем код</strong></p>
+    </div>
+    <div class="item" data-key="urok6-part2-ch02-skills-code">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Тест: попросить OpenClaw-агента записать что-то в vault</div>
-        <div class="item__hint">Тот же канал OpenClaw-агента. Промпт ниже заставит агента использовать скилл <span class="mono">obsidian-write</span> и записать результат в <span class="mono">raw/</span>.</div>
+        <div class="item__text">Сказать боту «погнали» — он пишет скиллы и подключает их в конфиг</div>
+        <div class="item__hint">После создания бот покажет финальные файлы и изменения в SOUL/AGENTS/manifest. Перезапуск OpenClaw — в следующем шаге, делаем вручную после проверки.</div>
       </div>
     </div>
     <div class="prompt-block">
-      <div class="prompt-block__title">📋 Тестовый промпт на запись в vault</div>
-      <div class="prompt-block__text" id="promptTestOpenclawWrite">Сейчас у меня тестовый разговор с тобой. Запиши через скилл
-obsidian-write в мой raw/ короткую заметку: "Тестовая запись от
-OpenClaw-агента, дата сегодняшняя, проверка работы скилла".
-После записи скажи путь, куда сохранил, и подтверди что
-git push прошёл.</div>
-      <button class="btn-copy" onclick="copyBlock('promptTestOpenclawWrite', this)">📋 Скопировать</button>
-    </div>
-    <div class="item" data-key="urok6-part2-ch02-verify-vault-on-mac">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Проверить на компьютере, что заметка появилась в Obsidian</div>
-        <div class="item__hint">Открой Obsidian на компьютере → нажми <strong>Pull</strong> в плагине Obsidian Git (<span class="mono">Ctrl+P</span> → <span class="mono">Obsidian Git: Pull</span>) → должна появиться тестовая заметка в папке <span class="mono">raw/</span>. Если видишь — кольцо замкнулось: OpenClaw-агент → vault → GitHub → твой компьютер.</div>
-      </div>
+      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — утверждаем план</div>
+      <div class="prompt-block__text" id="promptSkillsCode">Погнали, пиши код. После создания скиллов:
+1. Покажи мне финальные файлы (где лежат, что внутри).
+2. Подключи их в нужное место конфига OpenClaw (SOUL/AGENTS/manifest —
+   как ты определил в плане).
+3. Покажи изменения в конфиге.
+
+⚠️ НЕ перезапускай OpenClaw сам — я хочу сделать это вручную после проверки.</div>
+      <button class="btn-copy" onclick="copyBlock('promptSkillsCode', this)">📋 Скопировать</button>
     </div>
   </div>
 </div>
@@ -3063,6 +3236,108 @@ git push прошёл.</div>
 <div class="section">
   <div class="section__header">
     <div class="section__num">61</div>
+    <div class="section__title">Шаг 4. Тестируем работу OpenClaw-агента с vault'ом</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🧪</span>
+      <span>Когда скиллы готовы — тестируем. Сначала перезапускаем OpenClaw-агента, потом проверяем оба скилла через клиентский Telegram-канал.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Подшаг 1. Перезапускаем OpenClaw, чтобы подхватились скиллы</strong></p>
+    </div>
+    <div class="item" data-key="urok6-part2-ch02-restart-openclaw">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Попросить бота перезапустить OpenClaw и проверить статус</div>
+        <div class="item__hint">Бот выполнит <span class="mono">sudo openclaw restart</span> + <span class="mono">sudo openclaw status --deep</span>, покажет статус и подтвердит, что оба скилла зарегистрированы.</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — перезапуск OpenClaw</div>
+      <div class="prompt-block__text" id="promptRestartOpenclaw">Я просмотрел скиллы и подключение, всё ок. Перезапусти
+OpenClaw-агента, чтобы скиллы подгрузились:
+
+sudo openclaw restart
+
+(если у тебя другая команда рестарта — используй её)
+
+После рестарта проверь:
+sudo openclaw status --deep
+
+Покажи мне статус и подтверди, что оба скилла зарегистрированы.</div>
+      <button class="btn-copy" onclick="copyBlock('promptRestartOpenclaw', this)">📋 Скопировать</button>
+    </div>
+
+    <div class="note note--alert">
+      <span class="note__icon">🚨</span>
+      <span><strong>СТОП — переключаем чат</strong><br><br>До этого момента ты писал только Claude Code-боту (инженерному). Сейчас на следующих двух промптах (поиск и запись в vault) — <strong>переключайся в чат с OpenClaw-агентом</strong> (клиентский бот).<br><br>Если у тебя клиентский бот в другом Telegram-аккаунте или скрыт в дальней папке — <strong>найди его сейчас</strong>. После двух тестов вернёмся к Claude Code-боту для аудита.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Подшаг 2. Тест поиска в vault через клиентский OpenClaw-бот</strong></p>
+    </div>
+    <div class="item" data-key="urok6-part2-ch02-test-skill-search">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Тест: попросить OpenClaw-агента найти что-то в vault'е</div>
+        <div class="item__hint">Открой Telegram → найди свой <strong>клиентский</strong> OpenClaw-бот (НЕ Claude Code-инженерный!) → отправь промпт ниже. ✅ Если агент использовал скилл и честно сказал, что в vault пока пусто — скилл работает.</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт OpenClaw-агенту (🦞 клиентский) — поиск в vault</div>
+      <div class="prompt-block__text" id="promptTestOpenclawSearch">Поищи у меня в vault'е (используй скилл obsidian-search), что
+у меня есть про "второй мозг" / Obsidian / GitHub-синхронизацию.
+Если найдёшь — выдай саммари. Если ничего нет — скажи прямо.</div>
+      <button class="btn-copy" onclick="copyBlock('promptTestOpenclawSearch', this)">📋 Скопировать</button>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Подшаг 3. Тест записи в vault</strong></p>
+    </div>
+    <div class="item" data-key="urok6-part2-ch02-test-skill-write">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Тест: попросить OpenClaw-агента записать заметку в vault</div>
+        <div class="item__hint">Тот же клиентский канал OpenClaw. Агент должен использовать скилл <span class="mono">obsidian-write</span>, записать в <span class="mono">raw/</span> с timestamp в имени и сделать git push без конфликтов.</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт OpenClaw-агенту (🦞 клиентский) — запись в vault</div>
+      <div class="prompt-block__text" id="promptTestOpenclawWrite">Запиши через скилл obsidian-write в мой raw/ короткую заметку:
+"Тестовая запись от OpenClaw-агента, дата сегодняшняя, проверка
+работы скилла".
+
+После записи скажи:
+1. Полный путь к файлу
+2. Имя файла (с timestamp)
+3. Подтверждение что git push прошёл без конфликтов</div>
+      <button class="btn-copy" onclick="copyBlock('promptTestOpenclawWrite', this)">📋 Скопировать</button>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Подшаг 4. Проверяем на компе, что заметка пришла</strong></p>
+    </div>
+    <div class="item" data-key="urok6-part2-ch02-verify-vault-on-mac">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Открыть Obsidian на компьютере и проверить заметку в raw/</div>
+        <div class="item__hint">Открой Obsidian на компьютере → <span class="mono">Cmd+P</span> → <span class="mono">Git: Pull</span> → Enter. (Если включён <span class="mono">Auto pull interval = 5</span> — заметка прилетит сама через 5 минут.) В папке <span class="mono">raw/</span> должна появиться заметка <span class="mono">YYYY-MM-DD-HHMM-...md</span> от OpenClaw.<br><br>✅ Если заметка появилась — кольцо замкнулось:<br><span class="mono">OpenClaw-агент → root-клон vault → GitHub → твой компьютер (Obsidian)</span><br>Двусторонняя синхронизация работает в обе стороны: и от Claude Code-бота, и от OpenClaw-агента.</div>
+      </div>
+    </div>
+
+    <div class="note note--info">
+      <span class="note__icon">↩️</span>
+      <span><strong>Возвращаемся к Claude Code-боту.</strong> Тесты OpenClaw-агента закончены — все следующие промпты снова идут <strong>инженерному</strong> боту.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 62 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">62</div>
     <div class="section__title">Workflow: как работать со «вторым мозгом» каждый день</div>
   </div>
   <div class="section__card">
@@ -3080,18 +3355,17 @@ git push прошёл.</div>
       </div>
     </div>
     <div class="prompt-block">
-      <div class="prompt-block__title">📋 Промпт для еженедельного аудита</div>
-      <div class="prompt-block__text" id="promptWeeklyAudit">Проведи полный аудит моего ~/obsidian-vault/ по правилам из
-CLAUDE.md:
+      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — еженедельный аудит</div>
+      <div class="prompt-block__text" id="promptWeeklyAudit">Проведи полный аудит моего obsidian-vault/ по правилам из CLAUDE.md:
 
-1. Противоречия — утверждения, которые конфликтуют между заметками
-2. Пробелы — темы, которые упоминаются, но нет отдельной wiki-заметки
+1. Противоречия — утверждения, конфликтующие между заметками
+2. Пробелы — темы упоминаются, но нет отдельной wiki-заметки
 3. Устаревшее — информация, которая могла устареть
 4. Осиротевшие — заметки, на которые никто не ссылается
 5. Состояние INDEX.md — актуален ли
 
-Покажи отчёт. НЕ исправляй автоматически — только отчёт. После
-покажи 5 конкретных правок, которые я могу применить.</div>
+Покажи отчёт. НЕ исправляй автоматически — только отчёт.
+После — 5 конкретных правок, которые я могу применить.</div>
       <button class="btn-copy" onclick="copyBlock('promptWeeklyAudit', this)">📋 Скопировать</button>
     </div>
     <div class="note note--green">
@@ -3170,7 +3444,7 @@ function updateProgressP2Ch01(canCelebrate=true){let c=0;itemsP2Ch01.forEach(ite
 itemsP2Ch01.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.addEventListener('change',function(){item.classList.toggle('checked',this.checked);saveStateP2Ch01();updateProgressP2Ch01(true);});});
 
 // ──────────── ЧАСТЬ 2 ГЛАВА 02 ──────────────
-const STORAGE_KEY_P2_CH02='iivizaciya_checklist_urok6_part2_ch02_v1';
+const STORAGE_KEY_P2_CH02='iivizaciya_checklist_urok6_part2_ch02_v2';
 const itemsP2Ch02=document.querySelectorAll('.item[data-key^="urok6-part2-ch02-"]');
 const totalCountP2Ch02=itemsP2Ch02.length;
 let wasCompleteP2Ch02=false;
