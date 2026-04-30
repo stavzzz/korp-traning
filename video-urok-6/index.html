@@ -2265,7 +2265,7 @@ EOF</span><button class="btn-copy" onclick="copyBlock('cmdCreateSystemd',this)">
     <div class="progress-wrap progress-wrap--p2-ch01">
       <div class="progress-top">
         <span class="progress-label">Прогресс главы 01, части 02</span>
-        <span class="progress-count" id="progressCountP2Ch01">0 / 19</span>
+        <span class="progress-count" id="progressCountP2Ch01">0 / 20</span>
       </div>
       <div class="progress-bar"><div class="progress-fill" id="progressFillP2Ch01"></div></div>
     </div>
@@ -2588,23 +2588,41 @@ EOF</span><button class="btn-copy" onclick="copyBlock('cmdCreateSystemd',this)">
 <div class="section">
   <div class="section__header">
     <div class="section__num">55</div>
-    <div class="section__title">Шаг 7. Настраиваем автоматическую синхронизацию</div>
+    <div class="section__title">Шаг 7. Настраиваем автоматическую синхронизацию в плагине Git</div>
   </div>
   <div class="section__card">
     <div class="note note--info">
       <span class="note__icon">⚙️</span>
-      <span>Чтобы каждый раз не нажимать кнопку push вручную — настроим, чтобы плагин Obsidian Git делал commit и push автоматически каждые N минут. Раз настроил — забыл.</span>
+      <span>В новых версиях плагина настройки идут <strong>одним длинным списком</strong> — нет отдельных секций «Backup» / «Pull». Просто прокручивай настройки сверху вниз и находи нужные пункты.</span>
     </div>
     <div class="item" data-key="urok6-part2-ch01-configure-obsidian-git">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Включить автоматический backup в плагине Obsidian Git</div>
-        <div class="item__hint">Settings (⚙️) → <strong>Community plugins</strong> → найди <strong>Obsidian Git</strong> → нажми кнопку с шестерёнкой рядом → найди секцию <strong>Backup</strong> → выстави <span class="mono">Vault backup interval (minutes): 5</span>. Каждые 5 минут плагин будет коммитить и пушить твои изменения. Также включи <strong>Auto pull interval</strong> = 5 — каждые 5 минут будет тянуть изменения с сервера.</div>
+        <div class="item__text">Включить автоматическую синхронизацию в плагине Git</div>
+        <div class="item__hint"><strong>1.</strong> Открой настройки плагина: <strong>Settings (⚙️ внизу слева)</strong> → в левом меню найди <strong>Git</strong> (в разделе «Community plugins») → кликни.<br><br><strong>2.</strong> Найди секцию <strong>Automatic</strong> (в самом верху). В ней:<br>— <span class="mono">Auto commit-and-sync interval (minutes)</span> → впиши <span class="mono">5</span>. Это главное поле — каждые 5 минут плагин будет автоматически делать commit + pull + push <strong>одним действием</strong>.<br>— <span class="mono">Auto pull interval (minutes)</span> → впиши <span class="mono">5</span>. Каждые 5 минут будет тянуть свежие изменения с сервера.<br>— <span class="mono">Auto commit-and-sync after stopping file edits</span> → включи тумблер. Автокоммит сработает только когда ты перестанешь печатать. Без этого плагин может коммитить прямо во время набора — раздражает.<br><br><strong>3.</strong> Прокрути ниже до секции <strong>Commit-and-sync</strong>. Там убедись, что включены:<br>— <span class="mono">Push on commit-and-sync</span> → должно быть ON (по умолчанию включено)<br>— <span class="mono">Pull on commit-and-sync</span> → должно быть ON (по умолчанию включено)<br>Это значит, что одно действие «commit-and-sync» делает сразу <span class="mono">commit → pull → push</span>. Поэтому отдельное <span class="mono">Auto push interval</span> тебе НЕ нужно — оставь его <span class="mono">0</span>.<br><br><strong>4.</strong> Закрой настройки — они сохраняются автоматически.</div>
       </div>
     </div>
+    <div class="note note--warn">
+      <span class="note__icon">⚠️</span>
+      <span><strong>ВАЖНО:</strong> в старых гайдах поле называлось <span class="mono">Vault backup interval</span>. В новых версиях его переименовали в <span class="mono">Auto commit-and-sync interval</span>. Это <strong>то же самое</strong> поле — просто новое название.</span>
+    </div>
+
+    <div class="item" data-key="urok6-part2-ch01-verify-autosync">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверка: убедиться, что автосинхронизация реально работает</div>
+        <div class="item__hint">Прежде чем идти на сервер — проверим, что плагин действительно пушит на GitHub.<br><br><strong>1.</strong> Открой свою заметку <span class="mono">INDEX.md</span> в Obsidian → допиши любой текст (например, «тест автосинка»).<br><br><strong>2.</strong> Жди 5 минут (или сделай ручной push сразу: нажми <span class="mono">Cmd+P</span> → введи <span class="mono">Git: Commit-and-sync</span> → Enter).<br><br><strong>3.</strong> Открой свой репо на GitHub → вкладка <strong>Commits</strong> (<span class="mono">https://github.com/&lt;твой-username&gt;/second-brain/commits/main</span>).<br><br><strong>4.</strong> Должен появиться новый коммит с сообщением вида:<br><span class="mono">vault backup: 2026-04-30 22:30:15</span><br>(либо твоё кастомное сообщение, если меняли в настройках).<br><br><strong>5.</strong> Кликни по этому коммиту → убедись, что внутри есть твоя правка <span class="mono">INDEX.md</span>.</div>
+      </div>
+    </div>
+
     <div class="note note--green">
       <span class="note__icon">✅</span>
-      <span>Теперь когда ты пишешь заметку в Obsidian — через 5 минут она автоматически уезжает на GitHub. И наоборот — если агент на сервере что-то запушил, через 5 минут оно появится у тебя в Obsidian. Двусторонняя синхронизация без участия рук.</span>
+      <span>Если коммит на GitHub появился — двусторонняя синхронизация работает. Идём дальше к Шагу 8 (серверная сторона).</span>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">⚠️</span>
+      <span><strong>Если коммита нет</strong> — варианты:<br>— Плагин не успел сработать → подожди ещё 5 минут или сделай ручной <span class="mono">Git: Commit-and-sync</span> через <span class="mono">Cmd+P</span>.<br>— В нижней панели Obsidian есть <strong>индикатор синка</strong> (значок git слева от слова <span class="mono">main</span>) → кликни на него и посмотри статус. Если ошибка — пиши <a href="https://t.me/stavzzz" target="_blank" class="lnk" onclick="event.stopPropagation()">@stavzzz</a>.</span>
     </div>
   </div>
 </div>
