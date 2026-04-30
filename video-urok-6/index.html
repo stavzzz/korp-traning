@@ -2265,7 +2265,7 @@ EOF</span><button class="btn-copy" onclick="copyBlock('cmdCreateSystemd',this)">
     <div class="progress-wrap progress-wrap--p2-ch01">
       <div class="progress-top">
         <span class="progress-label">Прогресс главы 01, части 02</span>
-        <span class="progress-count" id="progressCountP2Ch01">0 / 18</span>
+        <span class="progress-count" id="progressCountP2Ch01">0 / 20</span>
       </div>
       <div class="progress-bar"><div class="progress-fill" id="progressFillP2Ch01"></div></div>
     </div>
@@ -2402,6 +2402,15 @@ EOF</span><button class="btn-copy" onclick="copyBlock('cmdCreateSystemd',this)">
       <div class="item__body">
         <div class="item__text">Создать внутри vault 4 подпапки: raw, wiki, daily, outputs</div>
         <div class="item__hint">В Obsidian слева — правый клик по vault → <strong>New folder</strong>. Создай поочерёдно: <span class="mono">raw</span>, <span class="mono">wiki</span>, <span class="mono">daily</span>, <span class="mono">outputs</span>.</div>
+      </div>
+    </div>
+    <div class="item" data-key="urok6-part2-ch01-create-gitkeep-files">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Создать файл .gitkeep в каждой из 4 папок (raw, wiki, daily, outputs)</div>
+        <div class="item__hint"><strong>⚠️ Важно — иначе все следующие шаги сломаются.</strong> Git не отслеживает пустые папки. Если папки пустые — они <strong>не уедут</strong> на GitHub при первом push, и агенты на сервере получат vault без структуры.<br><br><strong>Решение:</strong> в каждой из 4 папок создаём пустой служебный файл <span class="mono">.gitkeep</span>. Это стандартная практика — точка в начале делает файл скрытым, он не мешается, но фиксирует папку в git.<br><br><strong>Как сделать через Obsidian:</strong><br><strong>1.</strong> В левой панели Obsidian → правый клик по папке <span class="mono">raw</span> → <strong>New note</strong><br><strong>2.</strong> Имя файла введи <strong>точно так:</strong> <span class="mono">.gitkeep</span> (с точкой в начале, без <span class="mono">.md</span>)<br><strong>3.</strong> Когда Obsidian спросит «создать файл без расширения?» — соглашайся<br><strong>4.</strong> Файл создан, ничего внутрь не пиши<br><strong>5.</strong> Повтори для папок <span class="mono">wiki</span>, <span class="mono">daily</span>, <span class="mono">outputs</span><br><br><strong>Альтернатива через терминал</strong> (если правый клик не работает или Obsidian не даёт создать файл с точкой):</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdGitkeepFiles">cd ~/Documents/second-brain && touch raw/.gitkeep wiki/.gitkeep daily/.gitkeep outputs/.gitkeep</span><button class="btn-copy" onclick="copyBlock('cmdGitkeepFiles',this)">📋 Скопировать</button></div>
+        <div class="item__hint">✅ После выполнения — в каждой из 4 папок есть скрытый файл <span class="mono">.gitkeep</span>. Структура зафиксирована, при первом push в Шаге 6 все папки уедут на GitHub.</div>
       </div>
     </div>
     <div class="item" data-key="urok6-part2-ch01-create-index">
@@ -2777,6 +2786,16 @@ ssh-keygen -t ed25519 -C "&lt;твой_юзер&gt;@server" -f ~/.ssh/github_dep
 
 Юзер для git config возьми из whoami первого диалога.</div>
       <button class="btn-copy" onclick="copyBlock('promptBotClone', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="item" data-key="urok6-part2-ch01-verify-folder-structure">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Страховка: проверить и при необходимости создать недостающие папки на сервере</div>
+        <div class="item__hint">⚠️ Если ты проходил Шаг 50 в <strong>старой версии гайда</strong> (без <span class="mono">.gitkeep</span>) — на сервер приехал vault без папок <span class="mono">wiki/</span>, <span class="mono">daily/</span>, <span class="mono">outputs/</span>. Сейчас это починим.<br><br>Отправь Claude Code-боту команду ниже (или выполни сам через SSH под <span class="mono">claude-bot</span>):</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdVerifyFolderStructure">cd ~/obsidian-vault && mkdir -p raw wiki daily outputs && touch raw/.gitkeep wiki/.gitkeep daily/.gitkeep outputs/.gitkeep && git pull --rebase && git add . && git commit -m "add missing folder structure (.gitkeep)" && git push</span><button class="btn-copy" onclick="copyBlock('cmdVerifyFolderStructure',this)">📋 Скопировать</button></div>
+        <div class="item__hint">✅ После этого структура vault на сервере и на GitHub синхронизирована. На компьютере в Obsidian папки тоже появятся через 5 минут (auto-pull) или сразу через <span class="mono">Cmd+P → Git: Pull</span>.<br><br>💡 Если у тебя <span class="mono">.gitkeep</span> уже создавались в Шаге 50 — <span class="mono">mkdir -p</span> и <span class="mono">touch</span> ничего не сломают, они идемпотентны (создаются только если файлов нет). А <span class="mono">git commit</span> в этом случае просто скажет «nothing to commit».</div>
+      </div>
     </div>
 
     <div class="info-block">
