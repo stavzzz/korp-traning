@@ -2147,7 +2147,7 @@ Host openclaw-bot
   <div class="section__card">
     <div class="note note--alert">
       <span class="note__icon">🚨</span>
-      <span>Без этого шага <strong>после первого reboot сервера бот замолчит</strong>. tmux-сессия живёт только в памяти — после перезагрузки её надо запустить заново. Решаем через systemd-сервис, который автоматически создаёт tmux-сессию при старте сервера.</span>
+      <span><strong>ОБЯЗАТЕЛЬНЫЙ ШАГ — НЕ ПРОПУСКАЙ.</strong><br><br>Без этого шага:<br><br><strong>1. После reboot сервера бот умрёт.</strong> tmux-сессия живёт только в RAM — после перезагрузки её надо запускать заново. Ты можешь не заметить этого до первого падения сервера или планового обновления Ubuntu.<br><br><strong>2. Многие шаги в следующих главах ломаются.</strong> В частности, в Части 2 Главе 02 при правке AGENTS.md или OpenClaw-агента может потребоваться рестарт через systemd. Если юнита нет — бот в Telegram даст ошибку «Unit <span class="mono">claude-bot.service</span> not found», и ты застрянешь.<br><br><strong>3. Любая инструкция курса с <span class="mono">systemctl restart claude-bot</span></strong> работает только если этот шаг сделан.<br><br>Если ты сейчас проходишь курс впервые — сделай этот шаг <strong>обязательно</strong> прямо сейчас, до перехода в следующую главу.<br><br>Решаем через systemd-сервис, который автоматически создаёт tmux-сессию при старте сервера.</span>
     </div>
     <div class="item" data-key="urok6-part1-ch03-create-systemd">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
@@ -2971,27 +2971,18 @@ ssh-keygen -t ed25519 -C "&lt;твой_юзер&gt;@server" -f ~/.ssh/github_dep
     </div>
 
     <div class="info-block">
-      <p><strong>Подшаг 3. Перезапускаем бота, чтобы подхватились новые правила</strong></p>
+      <p><strong>Подшаг 3. Применяем новые правила (без рестарта сервиса)</strong></p>
+    </div>
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span><strong>AGENTS.md не требует рестарта Claude Code.</strong> Этот файл перечитывается автоматически на каждом запросе при работе с CWD. Новые правила применятся <strong>на следующем же запросе</strong> к боту по теме vault — никаких systemd-команд не нужно.</span>
     </div>
     <div class="item" data-key="urok6-part2-ch02-restart-claude-code">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Попросить бота перезапустить свой systemd-сервис</div>
-        <div class="item__hint">Бот сам выполнит <span class="mono">sudo systemctl restart claude-bot</span>, подождёт 10 секунд и сообщит, что снова онлайн.</div>
+        <div class="item__text">Убедиться, что новые правила применились (без рестарта сервиса)</div>
+        <div class="item__hint">Ничего делать не надо — переходи к Подшагу 4 (тест работы с vault). Если в тесте увидишь, что бот следует новым правилам (упоминает <span class="mono">git pull --rebase</span>, разделение зон ответственности <span class="mono">raw/outputs</span> vs <span class="mono">wiki/daily</span>) — значит AGENTS.md применился.<br><br>💎 <strong>Если хочешь полную «чистую» сессию</strong> — отправь боту в Telegram команду <span class="mono">/clear</span>. Сессия очистится, новая прочитает AGENTS.md с нуля. Telegram-канал при этом не отвалится.</div>
       </div>
-    </div>
-    <div class="prompt-block">
-      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — перезапуск</div>
-      <div class="prompt-block__text" id="promptRestartClaudeCodeP2Ch02">Перезапусти свой systemd-сервис, чтобы подхватился обновлённый
-AGENTS.md:
-
-sudo systemctl restart claude-bot
-
-(если у тебя другое имя сервиса — используй своё)
-
-После рестарта подожди 10 секунд и подтверди, что ты снова
-онлайн, ответив "я снова в строю".</div>
-      <button class="btn-copy" onclick="copyBlock('promptRestartClaudeCodeP2Ch02', this)">📋 Скопировать</button>
     </div>
 
     <div class="info-block">
@@ -3287,6 +3278,11 @@ sudo openclaw status --deep
 
 Покажи мне статус и подтверди, что оба скилла зарегистрированы.</div>
       <button class="btn-copy" onclick="copyBlock('promptRestartOpenclaw', this)">📋 Скопировать</button>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">⚠️</span>
+      <span><strong>Если бот не может выполнить <span class="mono">sudo openclaw restart</span></strong> (отвечает «нет passwordless sudo» или «требуется пароль») — это нормальное ограничение безопасности. В таком случае выполни рестарт сам.<br><br><strong>Способ 1 — через VS Code Remote-SSH под root:</strong><br><span class="mono">systemctl restart openclaw</span><br>(или ту команду рестарта, которую использует твоя установка OpenClaw — <span class="mono">openclaw restart</span>, <span class="mono">service openclaw restart</span> и т.д.)<br><br><strong>Способ 2 — через тот же Telegram-бот, но с явным sudo-паролем.</strong><br>Этот вариант небезопасен, мы его не рекомендуем. В Части 4 курса разберём, как настроить ограниченный passwordless sudo для конкретных команд (типа только <span class="mono">openclaw restart</span>) — это безопаснее, чем полный sudo.<br><br>После рестарта вернись в Telegram и попроси бота проверить:<br><em>«Проверь статус OpenClaw командой <span class="mono">sudo openclaw status --deep</span> и подтверди, что оба новых скилла (obsidian-search, obsidian-write) зарегистрированы»</em>.</span>
     </div>
 
     <div class="note note--alert">
