@@ -2265,7 +2265,7 @@ EOF</span><button class="btn-copy" onclick="copyBlock('cmdCreateSystemd',this)">
     <div class="progress-wrap progress-wrap--p2-ch01">
       <div class="progress-top">
         <span class="progress-label">Прогресс главы 01, части 02</span>
-        <span class="progress-count" id="progressCountP2Ch01">0 / 20</span>
+        <span class="progress-count" id="progressCountP2Ch01">0 / 18</span>
       </div>
       <div class="progress-bar"><div class="progress-fill" id="progressFillP2Ch01"></div></div>
     </div>
@@ -2631,83 +2631,171 @@ EOF</span><button class="btn-copy" onclick="copyBlock('cmdCreateSystemd',this)">
 <div class="section">
   <div class="section__header">
     <div class="section__num">56</div>
-    <div class="section__title">Шаг 8. На сервере — клонируем vault как обычную папку</div>
+    <div class="section__title">Шаг 8. На сервере — клонируем vault через Claude Code-бот в Telegram</div>
   </div>
   <div class="section__card">
     <div class="note note--info">
       <span class="note__icon">🖥️</span>
-      <span>На сервере мы <strong>не ставим Obsidian-приложение</strong>. Это GUI, на сервере без графики оно не нужно. Просто клонируем git-репо в папку <span class="mono">~/obsidian-vault/</span>. Агенты будут работать с этой папкой как с обычными markdown-файлами.</span>
+      <span>На сервере мы <strong>НЕ ставим Obsidian-приложение</strong> — это GUI, на сервере он не нужен. Просто клонируем git-репо в папку <span class="mono">~/obsidian-vault/</span> под тем же юзером, под которым работает Claude Code-бот. Агенты будут работать с этой папкой как с обычными markdown-файлами.</span>
+    </div>
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span><strong>Делаем через Telegram-бота, без VS Code.</strong> У тебя уже есть Claude Code-бот в Telegram (Глава 03 Части 1) — он живёт на сервере, у него есть полный доступ ко всему, что нам нужно. Глупо лезть в SSH руками, когда есть готовый AI-инженер в кармане. Используем его.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Подшаг 1. Узнаём контекст бота — под каким юзером он живёт</strong></p>
+      <p>Прежде чем что-то менять — спросим у бота, в каком окружении он работает. Это базовая инженерная гигиена: не угадываем пути, а узнаём факты.</p>
+    </div>
+    <div class="item" data-key="urok6-part2-ch01-bot-context">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Узнать у бота в Telegram его контекст (юзер, home, ключи)</div>
+        <div class="item__hint">Открой Telegram → отправь Claude Code-боту промпт ниже. Бот ответит чем-то вроде: <em>«Я работаю под юзером <span class="mono">claude-bot</span>, home — <span class="mono">/home/claude-bot</span>, SSH-ключей к GitHub пока нет, папки <span class="mono">obsidian-vault</span> нет»</em>. ✅ Запомни эти данные — они понадобятся в следующих подшагах.</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт для бота — диагностика окружения</div>
+      <div class="prompt-block__text" id="promptBotContext">Бро, мне нужно подготовить тебя к подключению к Obsidian-vault.
+Сначала покажи мне твой контекст. Выполни команды и покажи вывод:
+
+1. whoami           — под каким ты юзером
+2. echo $HOME       — где твой home
+3. pwd              — в какой ты папке сейчас
+4. ls -la ~/.ssh/   — какие SSH-ключи у тебя уже есть
+5. ls ~/            — что лежит в твоём home
+
+После вывода — кратко скажи:
+- Юзер
+- Путь к home
+- Есть ли уже SSH-ключи к GitHub (если да — какие именно)
+- Есть ли уже папка obsidian-vault</div>
+      <button class="btn-copy" onclick="copyBlock('promptBotContext', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Подшаг 2. Бот генерирует SSH-ключ и показывает публичную часть</strong></p>
     </div>
     <div class="item" data-key="urok6-part2-ch01-server-generate-key">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">На сервере (под claude-bot) — сгенерировать SSH-ключ для GitHub</div>
-        <div class="item__hint">Подключись к серверу через VS Code Remote-SSH под юзером <span class="mono">claude-bot</span> (как в Главе 03 Части 1). В терминале сервера — сгенерируй новый SSH-ключ специально для GitHub. Жми Enter на все вопросы (без passphrase).</div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdGenerateDeployKey">ssh-keygen -t ed25519 -C "claude-bot@server" -f ~/.ssh/github_deploy -N ""</span><button class="btn-copy" onclick="copyBlock('cmdGenerateDeployKey',this)">📋 Скопировать</button></div>
+        <div class="item__text">Попросить бота сгенерировать SSH-ключ и показать публичную часть</div>
+        <div class="item__hint">Отправь боту промпт ниже. Замени <span class="mono">&lt;твой_юзер&gt;</span> на реальный (тот, что бот выдал в Подшаге 1, обычно <span class="mono">claude-bot</span>). Бот сгенерирует ключ и выведет публичную часть — длинная строка вида <span class="mono">ssh-ed25519 AAAA... claude-bot@server</span>. <strong>Скопируй её в буфер</strong>.</div>
       </div>
     </div>
-    <div class="item" data-key="urok6-part2-ch01-server-show-pubkey">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Показать публичный ключ — скопировать</div>
-        <div class="item__hint">Команда выведет содержимое публичного ключа. Скопируй его полностью (строка начинается с <span class="mono">ssh-ed25519 AAAA...</span>).</div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdShowDeployKey">cat ~/.ssh/github_deploy.pub</span><button class="btn-copy" onclick="copyBlock('cmdShowDeployKey',this)">📋 Скопировать</button></div>
-      </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт для бота — генерация SSH-ключа</div>
+      <div class="prompt-block__text" id="promptBotGenKey">Сгенерируй SSH-ключ для подключения к GitHub. Жми Enter на все
+вопросы (без passphrase).
+
+Команда:
+ssh-keygen -t ed25519 -C "&lt;твой_юзер&gt;@server" -f ~/.ssh/github_deploy -N ""
+
+После генерации:
+1. Покажи мне публичный ключ командой:
+   cat ~/.ssh/github_deploy.pub
+
+2. ⚠️ ОСТАНОВИСЬ. Жди от меня сообщение
+   "ключ добавлен, продолжай" — и только после него
+   переходи к следующему этапу.
+
+Юзер для подписи в комментарии — возьми из whoami из прошлого
+диалога.</div>
+      <button class="btn-copy" onclick="copyBlock('promptBotGenKey', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Подшаг 3. Добавляем ключ как Deploy Key в GitHub-репо (РУКАМИ)</strong></p>
+    </div>
+    <div class="note note--alert">
+      <span class="note__icon">⚠️</span>
+      <span>Это <strong>единственный шаг, который бот сделать не может</strong> — он не имеет доступа к твоему GitHub. Делаем сами в браузере.</span>
     </div>
     <div class="item" data-key="urok6-part2-ch01-add-deploy-key">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Добавить публичный ключ как Deploy Key в GitHub-репо</div>
-        <div class="item__hint">На GitHub: твой репо → <strong>Settings</strong> (вкладка вверху) → <strong>Deploy keys</strong> в левом меню → <strong>Add deploy key</strong> → имя: <span class="mono">claude-bot server</span> → вставь ключ → <strong>обязательно</strong> поставь галку <strong>Allow write access</strong> → <strong>Add key</strong>.</div>
+        <div class="item__hint"><strong>1.</strong> Открой: <span class="mono">https://github.com/&lt;твой-username&gt;/second-brain/settings/keys/new</span> (замени <span class="mono">&lt;твой-username&gt;</span> на свой)<br><strong>2.</strong> <strong>Title:</strong> <span class="mono">claude-bot server</span> (или любая метка)<br><strong>3.</strong> <strong>Key:</strong> вставь публичный ключ из буфера (<span class="mono">Cmd+V</span>)<br><strong>4.</strong> ⚠️ <strong>ОБЯЗАТЕЛЬНО поставь галку <span class="mono">Allow write access</span></strong> — без неё бот не сможет пушить<br><strong>5.</strong> Жми <strong>Add key</strong></div>
       </div>
     </div>
     <div class="note note--warn">
-      <span class="note__icon">⚠️</span>
-      <span><strong>Deploy key vs обычный SSH-ключ.</strong> Deploy key — это специальный ключ, привязанный <strong>к одному репо</strong>. Если ключ утечёт — компрометируется только этот репо, не весь твой GitHub-аккаунт. Это правильная практика безопасности для серверных окружений.</span>
+      <span class="note__icon">🛡️</span>
+      <span><strong>Deploy key vs обычный SSH-ключ:</strong> Deploy key привязан к одному репо. Если ключ утечёт — скомпрометирован только этот репо, не весь GitHub-аккаунт. Это правильная практика для серверных окружений.</span>
     </div>
-    <div class="item" data-key="urok6-part2-ch01-configure-ssh">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Настроить ~/.ssh/config на сервере для использования deploy key</div>
-        <div class="item__hint">Чтобы git автоматически использовал именно этот ключ при работе с GitHub. Команда добавит блок в <span class="mono">~/.ssh/config</span> юзера claude-bot.</div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdConfigureSshConfig">cat &gt;&gt; ~/.ssh/config &lt;&lt; 'EOF'
 
-Host github.com
-    HostName github.com
-    User git
-    IdentityFile ~/.ssh/github_deploy
-    IdentitiesOnly yes
-EOF
-chmod 600 ~/.ssh/config</span><button class="btn-copy" onclick="copyBlock('cmdConfigureSshConfig',this)">📋 Скопировать</button></div>
-      </div>
+    <div class="info-block">
+      <p><strong>Подшаг 4. Бот клонирует vault и проверяет связь</strong></p>
     </div>
-    <div class="item" data-key="urok6-part2-ch01-clone-vault">
+    <div class="item" data-key="urok6-part2-ch01-bot-clone-vault">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Склонировать vault на сервер в ~/obsidian-vault/</div>
-        <div class="item__hint">Замени <span class="mono">&lt;username&gt;</span> на твой GitHub-юзернейм.</div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdCloneVault">cd ~ && git clone git@github.com:&lt;username&gt;/second-brain.git obsidian-vault && ls -la ~/obsidian-vault/</span><button class="btn-copy" onclick="copyBlock('cmdCloneVault',this)">📋 Скопировать</button></div>
+        <div class="item__text">Возвращайся в Telegram → отправить боту промпт на клонирование</div>
+        <div class="item__hint">Замени <span class="mono">&lt;твой-github-username&gt;</span> на свой реальный. Бот настроит SSH-config, проверит связь с GitHub, склонирует vault, настроит git identity и сделает тестовый push — всё сам, после каждого шага показывая результат.</div>
       </div>
     </div>
-    <div class="item" data-key="urok6-part2-ch01-configure-git-identity">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Настроить git identity для будущих коммитов</div>
-        <div class="item__hint">Чтобы коммиты от агентов на сервере были подписаны понятным именем.</div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdConfigureGitIdentity">cd ~/obsidian-vault && git config user.name "claude-bot" && git config user.email "claude-bot@server"</span><button class="btn-copy" onclick="copyBlock('cmdConfigureGitIdentity',this)">📋 Скопировать</button></div>
-      </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт для бота — клонирование vault</div>
+      <div class="prompt-block__text" id="promptBotClone">Ключ добавлен в GitHub как Deploy Key с правом write. Продолжай.
+
+ВЫПОЛНИ ПО ШАГАМ, после каждого шага показывай мне результат:
+
+1. Настрой ~/.ssh/config чтобы git использовал именно
+   github_deploy ключ:
+
+   cat &gt;&gt; ~/.ssh/config &lt;&lt; 'EOF'
+
+   Host github.com
+       HostName github.com
+       User git
+       IdentityFile ~/.ssh/github_deploy
+       IdentitiesOnly yes
+   EOF
+   chmod 600 ~/.ssh/config
+
+2. Проверь связь с GitHub:
+   ssh -T git@github.com
+   (Ожидаемый ответ: "Hi &lt;username&gt;/second-brain!
+   You've successfully authenticated...")
+
+3. Склонируй мой vault в home:
+   cd ~ && git clone git@github.com:&lt;твой-github-username&gt;/second-brain.git obsidian-vault
+
+4. Настрой git identity для будущих коммитов:
+   cd ~/obsidian-vault && \
+   git config user.name "&lt;твой-юзер&gt;" && \
+   git config user.email "&lt;твой-юзер&gt;@server"
+
+5. Сделай тестовый push:
+   echo "# Тест с сервера" &gt; raw/test-from-server.md && \
+   git add . && \
+   git commit -m "test from server" && \
+   git push
+
+6. В финале покажи мне:
+   - ls -la ~/obsidian-vault/
+   - последний коммит: cd ~/obsidian-vault && git log -1
+
+Юзер для git config возьми из whoami первого диалога.</div>
+      <button class="btn-copy" onclick="copyBlock('promptBotClone', this)">📋 Скопировать промпт</button>
     </div>
-    <div class="item" data-key="urok6-part2-ch01-test-push-from-server">
+
+    <div class="info-block">
+      <p><strong>Подшаг 5. Проверяем на компе, что заметка пришла</strong></p>
+    </div>
+    <div class="item" data-key="urok6-part2-ch01-verify-on-mac">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Тест: создать заметку с сервера и запушить</div>
-        <div class="item__hint">Создаём тестовую заметку, добавляем, коммитим, пушим. Если всё прошло без ошибок — связка работает.</div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdTestPushFromServer">cd ~/obsidian-vault && echo "# Тест с сервера" &gt; raw/test-from-server.md && git add . && git commit -m "test from server" && git push</span><button class="btn-copy" onclick="copyBlock('cmdTestPushFromServer',this)">📋 Скопировать</button></div>
+        <div class="item__text">Открыть Obsidian на компьютере и проверить, что заметка пришла</div>
+        <div class="item__hint">Открой Obsidian на компьютере → <span class="mono">Cmd+P</span> → введи <span class="mono">Git: Pull</span> → Enter. В папке <span class="mono">raw/</span> должна появиться заметка <span class="mono">test-from-server.md</span>.</div>
       </div>
     </div>
     <div class="note note--green">
       <span class="note__icon">✅</span>
-      <span>Если push прошёл успешно — открой Obsidian на компьютере. Через несколько минут (или нажми вручную <strong>Pull</strong> в Obsidian Git: <span class="mono">Ctrl+P</span> → <span class="mono">Obsidian Git: Pull</span>) — должна появиться заметка <span class="mono">test-from-server.md</span> в папке <span class="mono">raw/</span>. Связка готова.</span>
+      <span><strong>Если заметка появилась</strong> — кольцо замкнулось:<br><span class="mono">сервер (бот) → GitHub → твой компьютер (Obsidian)</span><br>Двусторонняя синхронизация работает. Всё готово к Главе 02.</span>
+    </div>
+    <div class="note note--warn">
+      <span class="note__icon">⚠️</span>
+      <span><strong>Если что-то пошло не так</strong> — отправь боту вывод последней неудачной команды и попроси разобраться. У бота есть полный контекст и доступ ко всем логам.</span>
     </div>
   </div>
 </div>
