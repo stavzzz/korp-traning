@@ -2308,15 +2308,15 @@ EOF</span><button class="btn-copy" onclick="copyBlock('cmdCreateSystemd',this)">
 │   ТВОЙ КОМПЬЮТЕР     │                  │   ТВОЙ СЕРВЕР (VPS)     │
 │                      │                  │                         │
 │   Obsidian GUI       │                  │   ДВА клона vault:      │
-│   ├─ raw/            │                  │                         │
-│   ├─ wiki/           │                  │   /home/&lt;user&gt;/         │
-│   ├─ daily/          │                  │     obsidian-vault/     │
-│   └─ outputs/        │                  │   ← для Claude Code-бот │
+│   ├─ raw/            │                  │   /home/&lt;user&gt;/         │
+│   ├─ wiki/           │                  │     obsidian-vault/     │
+│   ├─ daily/          │                  │   ← Claude Code-бот     │
+│   └─ outputs/        │                  │     (owner: stas)       │
 │                      │                  │                         │
 │   плагин Obsidian    │                  │   /root/.openclaw/      │
 │   Git: push/pull     │                  │     obsidian-vault/     │
-│   одной кнопкой      │                  │   ← для OpenClaw-агент  │
-│                      │                  │                         │
+│   одной кнопкой      │                  │   ← OpenClaw-агент      │
+│                      │                  │     (owner: root)       │
 │        ↕             │                  │            ↕            │
 └────────╪─────────────┘                  └────────────╪────────────┘
          │                                             │
@@ -2819,6 +2819,92 @@ ssh-keygen -t ed25519 -C "&lt;твой_юзер&gt;@server" -f ~/.ssh/github_dep
   </div>
 </div>
 
+<!-- ═══ Mini-FAQ по Obsidian (информационный, без чекбоксов) ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">🛠</div>
+    <div class="section__title">Mini-FAQ по Obsidian — что важно знать перед работой</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p>Прежде чем мы пойдём подключать сюда наших агентов, прочитай этот короткий FAQ. Это <strong>сэкономит тебе час времени</strong> и нервы. Это <strong>справочник</strong> — без чекбоксов, в общий прогресс не считается.</p>
+    </div>
+
+    <div class="info-block">
+      <p><strong>1️⃣ В Obsidian 4 типа файлов — не путай их</strong></p>
+      <p>📝 <strong>Markdown</strong> (<span class="mono">.md</span>) — обычная заметка с текстом. <strong>99% твоей работы.</strong></p>
+      <p>🎨 <strong>Canvas</strong> (<span class="mono">.canvas</span>) — визуальная доска со связанными карточками. Для mind-mapping и схем.</p>
+      <p>🗂 <strong>Base</strong> (<span class="mono">.base</span>) — база данных. Для расширенной работы со структурированными данными.</p>
+      <p>✏️ <strong>Excalidraw</strong> (<span class="mono">.excalidraw</span>) — рисовалка от руки для скетчей (нужен плагин).</p>
+    </div>
+    <div class="note note--warn">
+      <span class="note__icon">⚠️</span>
+      <span>Когда нажимаешь <span class="mono">Cmd+N</span> — Obsidian создаёт <span class="mono">.md</span> (это правильно). Но если в командной палитре <span class="mono">Cmd+P</span> случайно выберешь <span class="mono">Create new canvas</span> или <span class="mono">Create new base</span> — получишь не-Markdown файл, который <strong>запутает git и плагины</strong>.</span>
+    </div>
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span><strong>Если случайно создал</strong> Canvas или Base файл — просто удали его (правый клик → Delete).</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>2️⃣ Зоны ответственности — что редактировать тебе, а что — агентам</strong></p>
+      <p><span class="mono">wiki/</span> — пишешь <strong>только ты</strong>. ✅ Твоя зона. Здесь живут структурированные заметки с <span class="mono">[[wiki-links]]</span>.</p>
+      <p><span class="mono">daily/</span> — пишешь <strong>только ты</strong>. ✅ Ежедневные дневниковые заметки.</p>
+      <p><span class="mono">INDEX.md</span>, <span class="mono">CLAUDE.md</span> — пишешь <strong>только ты</strong>. ✅ Корневые файлы навигации.</p>
+      <p><span class="mono">raw/</span> — пишут <strong>агенты + ты</strong>. ⚠️ Лучше <strong>не редактировать</strong> уже существующие — переноси в <span class="mono">wiki/</span>.</p>
+      <p><span class="mono">outputs/</span> — пишут <strong>только агенты</strong>. ❌ НЕ редактируй — здесь итоги и логи.</p>
+    </div>
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span><strong>Главное правило:</strong> если хочешь сохранить мысль навсегда — пиши в <span class="mono">wiki/</span>. Если в <span class="mono">raw/</span> появилась заметка от агента, которая тебе важна — <strong>скопируй её в <span class="mono">wiki/</span></strong> под твоим именем и доработай. Так у тебя будет чистое разделение «сырьё от агентов» vs «обработанные мной знания».</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>3️⃣ Что делать если git-плагин ругается красным значком</strong></p>
+      <p>В правом нижнем углу Obsidian есть значок git-синхронизации:</p>
+      <p>✅ <strong>галочка</strong> — всё синхронизировано, расслабься.</p>
+      <p>🔄 <strong>крутится</strong> — идёт sync, подожди 10 секунд.</p>
+      <p>❌ <strong>красный крест</strong> — конфликт или ошибка. <strong>См. ниже.</strong></p>
+      <p><strong>Если красный крест</strong> — нажми <span class="mono">Cmd+P</span> → введи <span class="mono">Git: Show source control view</span> → посмотри, что не так. Самые частые ошибки:</p>
+    </div>
+    <div class="note note--alert">
+      <span class="note__icon">A</span>
+      <span><strong><span class="mono">pull failed (merge): files would be overwritten</span></strong><br><br>У тебя локально есть несохранённые изменения, которые конфликтуют с серверными. <strong>Решение:</strong> в терминале:<br><span class="mono">cd ~/Documents/second-brain &amp;&amp; git fetch origin &amp;&amp; git reset --hard origin/main</span><br><br>⚠️ Это <strong>сбросит локальные изменения</strong>. Если ты что-то писал и НЕ хочешь потерять — сначала скопируй текст в другое место.</span>
+    </div>
+    <div class="note note--alert">
+      <span class="note__icon">B</span>
+      <span><strong><span class="mono">Illegal byte sequence</span></strong><br><br>На сервере появился файл с битым именем (UTF-8 проблема). <strong>Решение:</strong> обратись к преподавателю или Claude Code-боту с просьбой удалить битый файл из репо. Это чинится только на стороне сервера.</span>
+    </div>
+    <div class="note note--alert">
+      <span class="note__icon">C</span>
+      <span><strong><span class="mono">non-fast-forward, push rejected</span></strong><br><br>У тебя локально есть коммиты, но сервер ушёл вперёд (агент тоже что-то записал). <strong>Решение:</strong> <span class="mono">Cmd+P</span> → <span class="mono">Git: Pull</span> (плагин сделает rebase). Если упадёт — см. пункт A.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>4️⃣ Как открыть Graph View — визуализацию связей между заметками</strong></p>
+      <p><strong>3 способа:</strong></p>
+      <p><strong>1.</strong> <span class="mono">Cmd+P</span> → введи <span class="mono">graph</span> → <span class="mono">Graph view: Open graph view</span></p>
+      <p><strong>2.</strong> В левой узкой панели иконок найди иконку 🕸 (точки соединённые линиями). Если её нет — <span class="mono">Settings ⚙️</span> → <span class="mono">Core plugins</span> → включи <span class="mono">Graph view</span>.</p>
+      <p><strong>3.</strong> Назначь хоткей: <span class="mono">Settings</span> → <span class="mono">Hotkeys</span> → найди <span class="mono">Open graph view</span> → нажми <span class="mono">+</span>.</p>
+    </div>
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span><strong>Два типа графа:</strong><br>— <strong>Global graph</strong> — весь vault на одном полотне<br>— <strong>Local graph</strong> — только связи вокруг текущей заметки (<span class="mono">Cmd+P</span> → <span class="mono">Open local graph</span>)<br><br><strong>Граф оживёт только когда</strong> ты начнёшь делать <span class="mono">wiki/</span>-заметки с перекрёстными ссылками типа:<br><span class="mono">Связано с [[OpenClaw]] и [[Второй мозг]]. См. также [[Bitcoin]] и [[Прокрастинация]].</span><br><br>Без <span class="mono">[[ссылок]]</span> точки будут несвязанные.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>5️⃣ Топ-3 ошибки новичка с git-синком</strong></p>
+      <p>❌ <strong>Делать <span class="mono">git push</span> из терминала пока работает auto-sync плагина</strong> → конфликты.<br>✅ <strong>Делай через</strong> <span class="mono">Cmd+P</span> → <span class="mono">Git: Commit-and-sync</span>.</p>
+      <p>❌ <strong>Редактировать одну и ту же заметку одновременно на двух устройствах</strong> (Mac + iPhone, например) → merge conflict.<br>✅ <strong>Перед началом работы</strong> — <span class="mono">Cmd+P</span> → <span class="mono">Git: Pull</span>, после — <span class="mono">Git: Commit-and-sync</span>.</p>
+      <p>❌ <strong>Ставить интервал auto-sync <span class="mono">0</span> или <span class="mono">1</span></strong> → плагин дёргается каждую секунду, конфликтует сам с собой.<br>✅ <strong>Оптимум: 5 минут</strong> (мы уже это поставили).</p>
+    </div>
+    <div class="note note--green">
+      <span class="note__icon">🎯</span>
+      <span><strong>Пройдись по этому FAQ один раз</strong> перед следующей главой. Если что-то непонятно — это <strong>нормально</strong>, многое станет понятно по ходу подключения агентов.</span>
+    </div>
+  </div>
+</div>
+
     <!-- ═══ FOOTER ГЛАВЫ 01 ЧАСТИ 2 ═══ -->
     <div class="footer">
       <div class="footer__done" id="doneBlockP2Ch01">
@@ -2848,7 +2934,7 @@ ssh-keygen -t ed25519 -C "&lt;твой_юзер&gt;@server" -f ~/.ssh/github_dep
     <div class="progress-wrap progress-wrap--p2-ch02">
       <div class="progress-top">
         <span class="progress-label">Прогресс главы 02, части 02</span>
-        <span class="progress-count" id="progressCountP2Ch02">0 / 15</span>
+        <span class="progress-count" id="progressCountP2Ch02">0 / 16</span>
       </div>
       <div class="progress-bar"><div class="progress-fill" id="progressFillP2Ch02"></div></div>
     </div>
@@ -3012,46 +3098,52 @@ ssh-keygen -t ed25519 -C "&lt;твой_юзер&gt;@server" -f ~/.ssh/github_dep
 <div class="section">
   <div class="section__header">
     <div class="section__num">59</div>
-    <div class="section__title">Шаг 2. Готовим vault для OpenClaw-агента (через core.sshCommand)</div>
+    <div class="section__title">Шаг 2. Готовим vault для OpenClaw-агента</div>
   </div>
   <div class="section__card">
     <div class="note note--info">
       <span class="note__icon">🛠️</span>
-      <span>OpenClaw-агент работает под <span class="mono">root</span>, vault лежит у юзера бота. Нам нужен <strong>второй клон vault</strong>, к которому будет ходить OpenClaw-агент. Сделаем его <strong>самым элегантным способом</strong> — без sudo, без правок <span class="mono">/root/.ssh/</span>, через локальный <span class="mono">git config</span>.</span>
+      <span>OpenClaw-агент работает под <span class="mono">root</span>, vault лежит у юзера бота. Нам нужен <strong>второй клон vault</strong>, к которому будет ходить OpenClaw-агент.</span>
     </div>
     <div class="note note--info">
       <span class="note__icon">💡</span>
-      <span><strong>Архитектурное решение — <span class="mono">core.sshCommand</span> вместо deploy-key в /root/.ssh/.</strong><br><br>Стандартный подход «положи ключ в <span class="mono">/root/.ssh/</span>, настрой <span class="mono">/root/.ssh/config</span>» требует sudo на каждом шаге и засоряет системные папки. Современный подход проще: <strong>в самом git-репо</strong> (через <span class="mono">git config core.sshCommand</span>) указываем, какой именно SSH-ключ использовать для этого репо. Любой пользователь (root, твой юзер, кто угодно), кто работает с этим клоном, <strong>автоматически</strong> возьмёт правильный ключ. Никакой системной конфигурации.</span>
+      <span><strong>Архитектурный подход — <span class="mono">core.sshCommand</span> + <span class="mono">chown root:root</span>.</strong><br><br>Стандартный путь «положи ключ в <span class="mono">/root/.ssh/</span>, настрой <span class="mono">/root/.ssh/config</span>» требует sudo на каждом шаге и засоряет системные папки. Современный подход проще:<br><br><strong>1.</strong> Используем <strong>существующий ключ</strong> под нашим юзером (без sudo)<br><strong>2.</strong> Клонируем vault через <span class="mono">GIT_SSH_COMMAND</span> (одноразово)<br><strong>3.</strong> На клон ставим <strong>локально</strong> <span class="mono">git config core.sshCommand</span> — это значит, что любой юзер, работающий с этим репо, автоматически возьмёт правильный ключ<br><strong>4.</strong> ⭐ <span class="mono">sudo chown -R root:root /root/.openclaw/obsidian-vault</span> — финальный аккорд, без которого скилл OpenClaw упадёт с тремя разными ошибками подряд (мы это прошли в реале)</span>
     </div>
     <div class="note note--alert">
       <span class="note__icon">⚠️</span>
-      <span><strong>ВАЖНОЕ ПРЕДУПРЕЖДЕНИЕ ПРО ДВА КЛОНА.</strong> Когда два процесса (Claude Code-бот + OpenClaw-агент) пишут в один и тот же GitHub-репо — есть риск конфликтов push'ей. Решаем тремя способами:<br><br><strong>1.</strong> Перед каждым push — <span class="mono">git pull --rebase</span> (уже добавлено в AGENTS.md в Шаге 58 + добавим в скиллы OpenClaw в Шаге 60)<br><strong>2.</strong> <strong>Разделение зон ответственности:</strong> бот пишет в <span class="mono">raw/</span> и <span class="mono">outputs/</span>, OpenClaw — только в <span class="mono">raw/</span><br><strong>3.</strong> Имена файлов в <span class="mono">raw/</span> от OpenClaw содержат timestamp — нет коллизий по именам</span>
+      <span><strong>Три проблемы, которые закрывает <span class="mono">chown -R root:root</span>:</strong><br><br><strong>Без chown:</strong><br>— <span class="mono">dubious ownership</span> при <span class="mono">git pull</span> под root<br>— <span class="mono">Permission denied</span> при <span class="mono">unlink</span> под другим юзером<br>— <span class="mono">Host key verification failed</span> (нет known_hosts у root)<br><br><strong>С chown:</strong><br>— ✅ owner=root, root работает спокойно<br>— ✅ единый owner, нет конфликтов<br>— ✅ root сам запишет в <span class="mono">/root/.ssh/known_hosts</span> при первом подключении<br><br>Если у тебя <strong>нет passwordless sudo</strong> — внизу шага есть <strong>Fallback-путь</strong> через <span class="mono">safe.directory</span> + <span class="mono">UserKnownHostsFile=</span> (3 костыля, но работает).</span>
+    </div>
+    <div class="note note--info">
+      <span class="note__icon">🔄</span>
+      <span><strong>ВАЖНОЕ ПРЕДУПРЕЖДЕНИЕ ПРО ДВА КЛОНА.</strong> Когда два процесса (Claude Code-бот + OpenClaw-агент) пишут в один GitHub-репо — есть риск конфликтов push'ей. Решаем тремя способами:<br><br><strong>1.</strong> Перед каждым push — <span class="mono">git pull --rebase</span> (уже добавлено в AGENTS.md в Шаге 58 + добавим в скиллы OpenClaw в Шаге 60)<br><strong>2.</strong> <strong>Разделение зон ответственности:</strong> бот пишет в <span class="mono">raw/</span> и <span class="mono">outputs/</span>, OpenClaw — только в <span class="mono">raw/</span><br><strong>3.</strong> Имена файлов в <span class="mono">raw/</span> от OpenClaw содержат timestamp — нет коллизий по именам</span>
     </div>
 
     <div class="info-block">
-      <p><strong>Подшаг 1. Спрашиваем у бота, как настроен root и где OpenClaw</strong></p>
+      <p><strong>Подшаг 1. Спрашиваем у бота, как настроен OpenClaw на твоём сервере</strong></p>
     </div>
     <div class="item" data-key="urok6-part2-ch02-diagnose-root">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Попросить бота диагностировать root и структуру OpenClaw</div>
-        <div class="item__hint">Сначала диагностика — узнаём реальную картину сервера. Это критично, потому что у тебя workspace OpenClaw-агента может называться по-разному (<span class="mono">workspace/</span>, <span class="mono">workspace-main/</span>, <span class="mono">workspace-mentor/</span> и т.д.). <strong>Запомни: путь к workspace main-агента, нужен ли sudo, образец существующих скиллов.</strong></div>
+        <div class="item__text">Попросить бота диагностировать OpenClaw + проверить passwordless sudo</div>
+        <div class="item__hint">⚠️ Это <strong>критический подшаг</strong> — у тебя workspace OpenClaw-агента может называться по-разному (<span class="mono">workspace/</span>, <span class="mono">workspace-main/</span>, <span class="mono">workspace-mentor/</span>). Без точной диагностики дальше будет хардкод, который не сработает. <strong>Запомни ответ</strong> — он понадобится во всех следующих шагах.</div>
       </div>
     </div>
     <div class="prompt-block">
       <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — диагностика OpenClaw</div>
-      <div class="prompt-block__text" id="promptDiagnoseRoot">Мне нужно понять, как у меня настроен OpenClaw на сервере.
-Выполни (sudo по возможности НЕ используй — у тебя уже могут
-быть права на /root/.openclaw/, проверь сначала ls без sudo):
+      <div class="prompt-block__text" id="promptDiagnoseRoot">Мне нужно понять, как у меня настроен OpenClaw на сервере перед
+подключением к Obsidian-vault.
+
+Выполни (sudo по возможности НЕ используй — у тебя могут уже
+быть права на /root/.openclaw/, проверь без sudo):
 
 1. ls -la /root/.openclaw/
-   (что внутри, и кому принадлежит — нам нужно знать, могу
-   я писать туда без sudo или нет)
+   (что внутри, и кому принадлежит — нам нужно понять, могу
+   ли я писать туда без sudo)
 
 2. ls -la /root/.openclaw/workspace*/
    (какие workspace есть — workspace/, workspace-main/,
-   workspace-mentor/ и т.д. У каждого workspace — свой агент.
-   Нам нужно понять, какой из них для main-агента.)
+   workspace-mentor/. У каждого workspace — свой агент.
+   Нам нужно знать, какой из них для main-агента.)
 
 3. cat /root/.openclaw/openclaw.json | grep -A1 '"agentId"\|"workspace"\|"nativeSkills"'
    (понять связку agentId ↔ workspace и как регистрируются скиллы)
@@ -3059,12 +3151,16 @@ ssh-keygen -t ed25519 -C "&lt;твой_юзер&gt;@server" -f ~/.ssh/github_dep
 4. ls /root/.openclaw/workspace*/skills/ 2&gt;/dev/null
    (какие скиллы уже есть, чтобы взять как образец)
 
+5. sudo -n true 2&gt;&amp;1 | head -1
+   (есть ли у тебя passwordless sudo — это влияет на
+   выбор пути в Шаге 59)
+
 После вывода кратко опиши:
-- Кому принадлежит /root/.openclaw/ (если stas/claude-bot — sudo не нужен)
+- Кому принадлежит /root/.openclaw/ (если уже не root — sudo не нужен)
 - Какой workspace используется для main-агента (отвечающего в DM)
 - Где правильно класть скиллы для main-агента
-  (типа /root/.openclaw/workspace/skills/&lt;имя&gt;/SKILL.md)
-- Есть ли уже похожие скиллы как образец</div>
+- Есть ли уже похожие скиллы как образец
+- Доступен ли passwordless sudo</div>
       <button class="btn-copy" onclick="copyBlock('promptDiagnoseRoot', this)">📋 Скопировать</button>
     </div>
 
@@ -3081,18 +3177,17 @@ ssh-keygen -t ed25519 -C "&lt;твой_юзер&gt;@server" -f ~/.ssh/github_dep
     <div class="prompt-block">
       <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — SSH-ключ для второго клона vault</div>
       <div class="prompt-block__text" id="promptGenKeyRoot">Сгенерируй новый deploy-key для второго клона vault.
-ВАЖНО: ключ нужен новый, отдельный от существующего github_deploy.
+ВАЖНО: ключ нужен НОВЫЙ, отдельный от существующего github_deploy.
 
-Генерируй под собой (без sudo) — мы НЕ будем класть в /root/.ssh/.
-Вместо этого используем git config core.sshCommand на самом
-репо — так любой юзер, работающий с этим клоном, автоматически
-возьмёт правильный ключ:
+Генерируй под собой (без sudo) — мы НЕ кладём в /root/.ssh/.
+Вместо этого используем git config core.sshCommand на самом репо:
 
-ssh-keygen -t ed25519 -C "openclaw-main@server" \
-  -f ~/.ssh/github_deploy_openclaw_main -N ""
+  ssh-keygen -t ed25519 -C "openclaw-main@server" \
+    -f ~/.ssh/github_deploy_openclaw_main -N ""
 
 Затем покажи мне публичный ключ:
-cat ~/.ssh/github_deploy_openclaw_main.pub
+
+  cat ~/.ssh/github_deploy_openclaw_main.pub
 
 ⚠️ ОСТАНОВИСЬ. Жди от меня "ключ добавлен, продолжай".</div>
       <button class="btn-copy" onclick="copyBlock('promptGenKeyRoot', this)">📋 Скопировать</button>
@@ -3114,61 +3209,78 @@ cat ~/.ssh/github_deploy_openclaw_main.pub
     </div>
     <div class="note note--info">
       <span class="note__icon">💡</span>
-      <span>Теперь у тебя в репо <strong>два Deploy Key</strong> — это нормально. Один для Claude Code-бота, другой для OpenClaw-агента. Каждый процесс работает со своим ключом.</span>
+      <span>Теперь у тебя в репо <strong>два Deploy Key</strong> — это нормально. Один для Claude Code-бота, другой для OpenClaw-агента.</span>
     </div>
 
     <div class="info-block">
-      <p><strong>Подшаг 4. Бот клонирует vault и настраивает core.sshCommand</strong></p>
+      <p><strong>Подшаг 4. Бот клонирует vault, делает chown и тестовый push</strong></p>
     </div>
     <div class="item" data-key="urok6-part2-ch02-clone-vault-as-root">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Попросить бота склонировать vault через GIT_SSH_COMMAND и зашить core.sshCommand на репо</div>
-        <div class="item__hint">Бот клонирует vault через <span class="mono">GIT_SSH_COMMAND</span> (одноразово, для самого <span class="mono">git clone</span>), а потом записывает <span class="mono">core.sshCommand</span> в локальный config репо — так все будущие операции в этом репо будут использовать правильный ключ автоматически. Никаких правок <span class="mono">/root/.ssh/</span>.</div>
+        <div class="item__text">Попросить бота склонировать vault, сделать chown root:root и тестовый push под root</div>
+        <div class="item__hint">Это финальная часть. Бот клонирует vault через <span class="mono">GIT_SSH_COMMAND</span>, зашьёт <span class="mono">core.sshCommand</span> в локальный config, сделает <span class="mono">sudo chown -R root:root</span> на vault (⭐ критический шаг — закрывает 3 ошибки сразу), настроит ACL для root, и сделает тестовый push под <span class="mono">sudo -u root</span> чтобы воспроизвести то, как реально будет работать скилл OpenClaw.</div>
       </div>
     </div>
     <div class="prompt-block">
-      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — клон vault для OpenClaw-агента</div>
-      <div class="prompt-block__text" id="promptCloneVaultAsRoot">Ключ добавлен в GitHub. Продолжай по плану «Путь A — core.sshCommand»:
+      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — клон vault для OpenClaw + chown</div>
+      <div class="prompt-block__text" id="promptCloneVaultAsRoot">Ключ добавлен в GitHub. Делай по плану «Путь A+ через chown root:root»:
 
 1. Проверь связь с GitHub под новым ключом:
    ssh -T -i ~/.ssh/github_deploy_openclaw_main \
        -o IdentitiesOnly=yes git@github.com
-
    (должен ответить "Hi &lt;username&gt;/second-brain!")
 
-2. Склонируй vault в /root/.openclaw/obsidian-vault/
-   через GIT_SSH_COMMAND:
-
+2. Склонируй vault в /root/.openclaw/obsidian-vault/ через GIT_SSH_COMMAND:
    GIT_SSH_COMMAND="ssh -i ~/.ssh/github_deploy_openclaw_main \
        -o IdentitiesOnly=yes" \
    git clone git@github.com:&lt;твой-username&gt;/second-brain.git \
        /root/.openclaw/obsidian-vault/
 
-3. Зашей core.sshCommand в локальный config этого клона
-   (постоянная привязка к ключу):
-
+3. Зашей core.sshCommand в локальный config клона:
    cd /root/.openclaw/obsidian-vault &amp;&amp; \
    git config core.sshCommand \
-       "ssh -i ~/.ssh/github_deploy_openclaw_main -o IdentitiesOnly=yes"
+       "ssh -i /home/&lt;user&gt;/.ssh/github_deploy_openclaw_main -o IdentitiesOnly=yes"
+   (используй ПОЛНЫЙ путь к ключу, не ~ — потому что после chown
+   репо будет работать под root, а у root другой $HOME)
 
-4. Настрой git identity для коммитов от агента
-   (чтобы коммиты OpenClaw отличались от коммитов от меня
-   и от тебя в логе git):
-
+4. Настрой git identity для коммитов от агента:
    git config user.name "openclaw-main" &amp;&amp; \
    git config user.email "openclaw-main@server"
 
-5. Сделай тестовый push (чтобы убедиться что всё работает):
+5. ⭐ КРИТИЧЕСКИЙ ШАГ — chown на root:
+   sudo chown -R root:root /root/.openclaw/obsidian-vault
 
-   echo "# Тест от OpenClaw-агента" &gt; raw/test-from-openclaw.md &amp;&amp; \
-   git pull --rebase &amp;&amp; \
-   git add . &amp;&amp; \
-   git commit -m "openclaw-main: тестовый push после настройки" &amp;&amp; \
-   git push
+   Если sudo требует пароль и у тебя нет TTY — СТОП, не продолжай.
+   Скажи мне честно: "sudo требует пароль, нужен ручной chown
+   через VS Code Remote-SSH под root". Я сам сделаю и вернусь.
 
-6. В финале покажи мне:
-   - ls -la /root/.openclaw/obsidian-vault/
+6. После chown сделай ACL чтобы root мог читать SSH-ключ stas'а:
+   sudo setfacl -m u:root:r /home/&lt;user&gt;/.ssh/github_deploy_openclaw_main &amp;&amp; \
+   sudo setfacl -m u:root:rx /home/&lt;user&gt;/.ssh
+   (без этого root не сможет прочитать ключ из домашки stas'а)
+
+🔍 Если на тестовом push под root внезапно увидишь
+"Host key verification failed" — значит chown сработал, но
+у root в /root/.ssh/known_hosts ещё нет записи про github.com.
+Сделай:
+   sudo -u root bash -c 'ssh-keyscan -t ed25519 github.com &gt;&gt; /root/.ssh/known_hosts'
+И повтори push.
+
+7. Тестовый push:
+   cd /root/.openclaw/obsidian-vault &amp;&amp; \
+   sudo -u root bash -c '
+     git pull --rebase &amp;&amp; \
+     echo "# Тест от OpenClaw-агента (под root)" &gt; raw/test-from-openclaw.md &amp;&amp; \
+     git add . &amp;&amp; \
+     git commit -m "openclaw-main: тестовый push после chown" &amp;&amp; \
+     git push
+   '
+   (запускаем под root через sudo -u root, чтобы воспроизвести
+   то, как реально будет работать скилл OpenClaw)
+
+8. Финальная проверка — покажи мне:
+   - ls -la /root/.openclaw/obsidian-vault/  (owner = root:root)
    - git config --local --list | grep -E "ssh|user"
    - git log -1
    - подтверждение что push прошёл</div>
@@ -3177,7 +3289,12 @@ cat ~/.ssh/github_deploy_openclaw_main.pub
 
     <div class="note note--green">
       <span class="note__icon">✅</span>
-      <span><strong>После успешного теста у тебя:</strong><br><br>— <strong>Один</strong> ключ под твоим юзером в <span class="mono">~/.ssh/</span><br>— <strong>Два</strong> Deploy Key в GitHub (для Claude Code-бота и для OpenClaw-агента)<br>— <strong>Два</strong> клона vault: <span class="mono">~/obsidian-vault/</span> (для Claude Code-бота) и <span class="mono">/root/.openclaw/obsidian-vault/</span> (для OpenClaw-агента)<br>— <strong>Никаких</strong> правок системных папок <span class="mono">/root/.ssh/</span><br>— В логе git <strong>три разных автора</strong>: ты (Obsidian client), Claude Code-бот (твой юзер), OpenClaw-агент (openclaw-main) — это золото для будущего дебага.</span>
+      <span><strong>После успеха у тебя:</strong><br><br>— Один ключ в <span class="mono">~/.ssh/</span><br>— Два Deploy Key в GitHub (для Claude Code-бота и для OpenClaw-агента)<br>— Два клона vault: <span class="mono">~/obsidian-vault/</span> (Claude Code-бот) и <span class="mono">/root/.openclaw/obsidian-vault/</span> (OpenClaw-агент, owner=root)<br>— В git-логе <strong>три разных автора</strong>: ты (Obsidian client), Claude Code-бот, OpenClaw-агент</span>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">🆘</span>
+      <span><strong>Подшаг 4-FALLBACK (если нет passwordless sudo)</strong><br><br>Если бот в Шаге 5 написал «sudo требует пароль» и ты <strong>не можешь</strong> или не хочешь делать ручной chown — есть путь через 3 костыля:<br><br><strong>1. <span class="mono">safe.directory</span></strong> — обходим dubious ownership через <span class="mono">git config --system safe.directory &lt;vault&gt;</span> (требует sudo) ИЛИ через <span class="mono">git -c safe.directory=$VAULT</span> в каждой git-команде скилла (без sudo, но требует правки SKILL.md — см. Шаг 60)<br><br><strong>2. <span class="mono">UserKnownHostsFile=</span></strong> — обходим Host key verification:<br><span class="mono">ssh-keyscan -t ed25519 github.com &gt;&gt; ~/.ssh/known_hosts_for_openclaw</span><br><span class="mono">cd /root/.openclaw/obsidian-vault &amp;&amp; \</span><br><span class="mono">git config core.sshCommand "ssh -i ~/.ssh/github_deploy_openclaw_main -o IdentitiesOnly=yes -o UserKnownHostsFile=~/.ssh/known_hosts_for_openclaw -o StrictHostKeyChecking=accept-new"</span><br><br><strong>3. Permissions issue в <span class="mono">outputs/errors/</span></strong> — этот не обходится без sudo, но не блокирует основную работу скилла (скилл работает под root и сам пишет в эту папку).<br><br>💡 <strong>Рекомендация:</strong> если есть малейшая возможность получить sudo — делай через <span class="mono">chown</span>. Это <strong>в разы чище</strong> и <strong>навсегда</strong> убирает класс ошибок. 3 костыля — это «последний рубеж», когда других вариантов нет.</span>
     </div>
   </div>
 </div>
@@ -3192,6 +3309,11 @@ cat ~/.ssh/github_deploy_openclaw_main.pub
     <div class="note note--info">
       <span class="note__icon">🦞</span>
       <span>Теперь самое интересное — просим бота написать <strong>два скилла</strong>, которые OpenClaw-агент будет вызывать при работе с клиентами.</span>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">💡</span>
+      <span><strong>Что НЕ нужно делать в этом шаге:</strong><br><br>❌ <strong>Менять <span class="mono">SOUL.md</span> main-агента OpenClaw.</strong> SOUL — это про характер агента, не про технику.<br><br>❌ <strong>Менять <span class="mono">AGENTS.md</span> workspace OpenClaw.</strong> OpenClaw регистрирует скиллы автоматически через <span class="mono">nativeSkills: "auto"</span> (мы это уже видели в диагностике Шага 59 Подшага 1). НЕ нужно прописывать скиллы вручную.<br><br>❌ <strong>Менять <span class="mono">openclaw.json</span>.</strong> Конфиг агентов остаётся прежним. Скиллы из <span class="mono">workspace/skills/</span> подхватываются сами.<br><br>❌ <strong>Перезапускать OpenClaw Gateway после написания SKILL.md.</strong> НЕ нужно — OpenClaw перечитывает скиллы при каждой новой сессии.<br><br>⚠️ <strong>В Claude Code (предыдущая глава) AGENTS.md был обязательным.</strong> В OpenClaw — другая архитектура: скиллы регистрируются автоматически. <strong>Не путай!</strong></span>
     </div>
 
     <div class="info-block">
@@ -3244,24 +3366,63 @@ cat ~/.ssh/github_deploy_openclaw_main.pub
 
 Скилл "obsidian-write":
 - Пишет ТОЛЬКО в /root/.openclaw/obsidian-vault/raw/
-- Имя файла: YYYY-MM-DD-HHMM-краткая-тема.md (timestamp
-  обязателен, чтобы не было коллизий с записями от меня и
-  от Claude Code-бота, у которого свой клон в ~/obsidian-vault/)
+
+- Имя файла: ТОЛЬКО ASCII-символы. Это критично для кросс-
+  платформенной синхронизации (macOS использует NFD, Linux —
+  NFC, кириллица в именах файлов ломает git pull на Mac с
+  ошибкой "Illegal byte sequence").
+
+  Два допустимых варианта:
+
+  ВАРИАНТ А (читаемый, рекомендуемый) — транслитерация через iconv:
+    SLUG=$(echo "$TOPIC" | iconv -f utf-8 -t ascii//translit | \
+           tr -c '[:alnum:]' '-' | tr -s '-' | sed 's/^-//;s/-$//' | \
+           cut -c1-40 | tr '[:upper:]' '[:lower:]')
+    FILENAME="$(date +%Y-%m-%d-%H%M)-${SLUG}.md"
+    # Пример: "Тестовая запись от агента" → "2026-04-30-1912-testovaia-zapis-ot-agenta.md"
+
+  ВАРИАНТ Б (надёжный fallback) — timestamp + md5-хеш темы:
+    HASH=$(echo -n "$TOPIC" | md5sum | head -c 8)
+    FILENAME="$(date +%Y-%m-%d-%H%M)-${HASH}.md"
+    # Пример: "Тестовая запись" → "2026-04-30-1912-a1b2c3d4.md"
+
+  ИСПОЛЬЗУЙ ВАРИАНТ А, если в системе доступен iconv (он есть
+  на Ubuntu по умолчанию — проверь: which iconv).
+  Используй ВАРИАНТ Б как fallback если iconv нет или транслитерация
+  даёт пустой результат (тема из одних эмодзи и т.п.).
+
+  ❌ ЗАПРЕЩЕНО: вставлять кириллицу/UTF-8 символы напрямую в имя
+  файла. Это приведёт к Illegal byte sequence на macOS-клиентах.
+
 - В начале файла — front-matter с метаданными:
   source=openclaw-main, date=YYYY-MM-DD, topic=&lt;тема&gt;
-- После записи (в самом vault, core.sshCommand уже настроен):
-  cd /root/.openclaw/obsidian-vault &amp;&amp; \
-  git pull --rebase &amp;&amp; \
-  git add . &amp;&amp; \
-  git commit -m "openclaw-main: &lt;краткая тема&gt;" &amp;&amp; \
-  git push
-- Подпись коммита: "openclaw-main: &lt;тема&gt;" (с префиксом
-  openclaw-main: чтобы в логе git было видно, кто писал —
-  это работает в связке с git identity, которую мы поставили
-  в Шаге 59 Подшаге 4)
-- Если git pull --rebase падает (конфликт) — ретрай 1 раз
-  через 2 секунды, потом писать ошибку в лог и НЕ ломать
-  диалог с клиентом
+
+- После записи (используй ВСЕ git-команды через -c safe.directory=$VAULT
+  для совместимости с Fallback-путём из Шага 59 — это безвредно если
+  ownership уже правильный, но критично если нет):
+
+    VAULT=/root/.openclaw/obsidian-vault
+    cd "$VAULT" &amp;&amp; \
+    git -c safe.directory="$VAULT" pull --rebase &amp;&amp; \
+    git -c safe.directory="$VAULT" add . &amp;&amp; \
+    git -c safe.directory="$VAULT" commit -m "openclaw-main: &lt;тема&gt;" &amp;&amp; \
+    git -c safe.directory="$VAULT" push
+
+- Self-heal — при первом запуске под root скилл должен также
+  сделать (это «попытка с возвратом», не падает если уже сделано):
+
+    git config --global --get-all safe.directory 2&gt;/dev/null \
+      | grep -qxF "$VAULT" \
+      || git config --global --add safe.directory "$VAULT" 2&gt;/dev/null \
+      || true
+
+- Подпись коммита: "openclaw-main: &lt;тема&gt;" (с префиксом openclaw-main:
+  чтобы в логе git было видно, кто писал — это работает в связке
+  с git identity, которую мы поставили в Шаге 59 Подшаге 4)
+
+- Если git pull --rebase падает (конфликт или host-key) — ретрай 1 раз
+  через 2 секунды, потом писать ошибку в /outputs/errors/&lt;DATE&gt;.log
+  и НЕ ломать диалог с клиентом
 
 Покажи план. Я скажу "погнали" — тогда пиши код.</div>
       <button class="btn-copy" onclick="copyBlock('promptSkillsPlan', this)">📋 Скопировать</button>
@@ -3394,6 +3555,31 @@ sudo openclaw status --deep
     <div class="note note--info">
       <span class="note__icon">↩️</span>
       <span><strong>Возвращаемся к Claude Code-боту.</strong> Тесты OpenClaw-агента закончены — все следующие промпты снова идут <strong>инженерному</strong> боту.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Подшаг 5. Финальная проверка безопасности (важно!)</strong></p>
+    </div>
+    <div class="item" data-key="urok6-part2-ch02-security-audit">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Запустить security audit и убедиться, что <span class="mono">openclaw.json</span> не world-readable</div>
+        <div class="item__hint">🔐 Перед тем как считать урок завершённым, проверь, что у тебя нет дыры в безопасности конфига OpenClaw. В <span class="mono">openclaw.json</span> лежат токены Telegram-бота, API-ключи моделей и прочие секреты. Mode <span class="mono">755</span> (доступ на чтение всем юзерам сервера) — это <strong>серьёзная дыра</strong>. На многопользовательских серверах любой юзер мог бы прочитать твои токены.</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — security audit</div>
+      <div class="prompt-block__text" id="promptSecurityAudit">Запусти полную диагностику OpenClaw:
+
+  openclaw security audit --deep
+
+Покажи мне результат. Если там есть CRITICAL про
+"Config file is world-readable" — почини:
+
+  sudo chmod 600 /root/.openclaw/openclaw.json
+
+И повтори audit. Должно остаться 0 critical.</div>
+      <button class="btn-copy" onclick="copyBlock('promptSecurityAudit', this)">📋 Скопировать</button>
     </div>
   </div>
 </div>
