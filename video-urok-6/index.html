@@ -3248,38 +3248,39 @@ ssh-keygen -t ed25519 -C "&lt;твой_юзер&gt;@server" -f ~/.ssh/github_dep
    git config user.name "openclaw-main" &amp;&amp; \
    git config user.email "openclaw-main@server"
 
-5. ⭐ КРИТИЧЕСКИЙ ШАГ — chown на root:
+5. ⭐ КРИТИЧЕСКИЙ ШАГ — chown на root (без него скилл OpenClaw
+   упадёт на первом же git pull с "dubious ownership"):
+
    sudo chown -R root:root /root/.openclaw/obsidian-vault
 
    Если sudo требует пароль и у тебя нет TTY — СТОП, не продолжай.
    Скажи мне честно: "sudo требует пароль, нужен ручной chown
    через VS Code Remote-SSH под root". Я сам сделаю и вернусь.
 
-6. После chown сделай ACL чтобы root мог читать SSH-ключ stas'а:
-   sudo setfacl -m u:root:r /home/&lt;user&gt;/.ssh/github_deploy_openclaw_main &amp;&amp; \
-   sudo setfacl -m u:root:rx /home/&lt;user&gt;/.ssh
-   (без этого root не сможет прочитать ключ из домашки stas'а)
+6. После chown сделай ACL чтобы root мог читать SSH-ключ stas'а
+   (без этого ssh упадёт с Permission denied):
 
-🔍 Если на тестовом push под root внезапно увидишь
-"Host key verification failed" — значит chown сработал, но
-у root в /root/.ssh/known_hosts ещё нет записи про github.com.
-Сделай:
-   sudo -u root bash -c 'ssh-keyscan -t ed25519 github.com &gt;&gt; /root/.ssh/known_hosts'
-И повтори push.
+   sudo setfacl -m u:root:r ~/.ssh/github_deploy_openclaw_main &amp;&amp; \
+   sudo setfacl -m u:root:rx ~/.ssh
 
-7. Тестовый push:
-   cd /root/.openclaw/obsidian-vault &amp;&amp; \
+7. Добавь GitHub fingerprint в known_hosts root'а (без этого
+   первый ssh от root упадёт с "Host key verification failed"):
+
+   sudo -u root bash -c 'ssh-keyscan -t ed25519 github.com &gt;&gt; /root/.ssh/known_hosts 2&gt;/dev/null'
+
+8. Тестовый push под root (чтобы воспроизвести как реально
+   будет работать скилл OpenClaw):
+
    sudo -u root bash -c '
+     cd /root/.openclaw/obsidian-vault &amp;&amp; \
      git pull --rebase &amp;&amp; \
      echo "# Тест от OpenClaw-агента (под root)" &gt; raw/test-from-openclaw.md &amp;&amp; \
      git add . &amp;&amp; \
      git commit -m "openclaw-main: тестовый push после chown" &amp;&amp; \
      git push
    '
-   (запускаем под root через sudo -u root, чтобы воспроизвести
-   то, как реально будет работать скилл OpenClaw)
 
-8. Финальная проверка — покажи мне:
+9. В финале покажи мне:
    - ls -la /root/.openclaw/obsidian-vault/  (owner = root:root)
    - git config --local --list | grep -E "ssh|user"
    - git log -1
@@ -3294,7 +3295,7 @@ ssh-keygen -t ed25519 -C "&lt;твой_юзер&gt;@server" -f ~/.ssh/github_dep
 
     <div class="note note--warn">
       <span class="note__icon">🆘</span>
-      <span><strong>Подшаг 4-FALLBACK (если нет passwordless sudo)</strong><br><br>Если бот в Шаге 5 написал «sudo требует пароль» и ты <strong>не можешь</strong> или не хочешь делать ручной chown — есть путь через 3 костыля:<br><br><strong>1. <span class="mono">safe.directory</span></strong> — обходим dubious ownership через <span class="mono">git config --system safe.directory &lt;vault&gt;</span> (требует sudo) ИЛИ через <span class="mono">git -c safe.directory=$VAULT</span> в каждой git-команде скилла (без sudo, но требует правки SKILL.md — см. Шаг 60)<br><br><strong>2. <span class="mono">UserKnownHostsFile=</span></strong> — обходим Host key verification:<br><span class="mono">ssh-keyscan -t ed25519 github.com &gt;&gt; ~/.ssh/known_hosts_for_openclaw</span><br><span class="mono">cd /root/.openclaw/obsidian-vault &amp;&amp; \</span><br><span class="mono">git config core.sshCommand "ssh -i ~/.ssh/github_deploy_openclaw_main -o IdentitiesOnly=yes -o UserKnownHostsFile=~/.ssh/known_hosts_for_openclaw -o StrictHostKeyChecking=accept-new"</span><br><br><strong>3. Permissions issue в <span class="mono">outputs/errors/</span></strong> — этот не обходится без sudo, но не блокирует основную работу скилла (скилл работает под root и сам пишет в эту папку).<br><br>💡 <strong>Рекомендация:</strong> если есть малейшая возможность получить sudo — делай через <span class="mono">chown</span>. Это <strong>в разы чище</strong> и <strong>навсегда</strong> убирает класс ошибок. 3 костыля — это «последний рубеж», когда других вариантов нет.</span>
+      <span><strong>Подшаг 4-FALLBACK (если у тебя нет passwordless sudo)</strong><br><br>Если бот в Шаге 5 написал «sudo требует пароль» и ты <strong>не можешь</strong> или не хочешь делать ручной chown через VS Code — есть путь через 3 костыля. Менее чисто, но работает.<br><br><strong>━━━ ВАРИАНТ 1 — sudo-команды вручную через VS Code Remote-SSH ━━━</strong><br><br>Открой VS Code Remote-SSH под root (профиль <span class="mono">openclaw-root</span> из Шага 27 главы 03 части 01) и выполни:<br><br><span class="mono">chown -R root:root /root/.openclaw/obsidian-vault</span><br><span class="mono">setfacl -m u:root:r /home/&lt;user&gt;/.ssh/github_deploy_openclaw_main</span><br><span class="mono">setfacl -m u:root:rx /home/&lt;user&gt;/.ssh</span><br><span class="mono">ssh-keyscan -t ed25519 github.com &gt;&gt; /root/.ssh/known_hosts</span><br><br>Вернись в Telegram и попроси бота повторить тестовый push.<br><br><strong>━━━ ВАРИАНТ 2 — 3 костыля без sudo (если совсем нет sudo) ━━━</strong><br><br><strong>1. <span class="mono">safe.directory</span></strong> — обходим dubious ownership:<br>— ИЛИ через <span class="mono">git config --system safe.directory &lt;vault&gt;</span> (требует sudo)<br>— ИЛИ через <span class="mono">git -c safe.directory=$VAULT</span> в каждой git-команде самого скилла (без sudo, требует правки SKILL.md — это уже включено в требования к скиллу в Шаге 60)<br><br><strong>2. <span class="mono">UserKnownHostsFile=</span></strong> — обходим Host key verification:<br><span class="mono">ssh-keyscan -t ed25519 github.com &gt;&gt; ~/.ssh/known_hosts_for_openclaw</span><br><span class="mono">cd /root/.openclaw/obsidian-vault &amp;&amp; \</span><br><span class="mono">git config core.sshCommand "ssh -i ~/.ssh/github_deploy_openclaw_main -o IdentitiesOnly=yes -o UserKnownHostsFile=~/.ssh/known_hosts_for_openclaw -o StrictHostKeyChecking=accept-new"</span><br><br><strong>3. Permissions issue в <span class="mono">outputs/errors/</span></strong> — этот не обходится без sudo, но не блокирует основную работу скилла (скилл бежит под root и сам перезапишет файлы).<br><br>⚠️ <strong>Рекомендация:</strong> если есть малейшая возможность получить sudo — делай через <span class="mono">chown</span>. Это <strong>в разы чище</strong> и <strong>навсегда</strong> убирает класс ошибок. 3 костыля — это «последний рубеж».</span>
     </div>
   </div>
 </div>
