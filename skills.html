@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ИИ-ВИЗАЦИЯ · Инструкция по skills для Claude</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛠️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #0a0a0f; --bg-card: #12121a; --bg-card-hover: #181825;
+    --border: #1e1e2e; --border-accent: #2a2a3e;
+    --text-primary: #e8e6f0; --text-secondary: #8b879e; --text-muted: #5a5670;
+    --accent: #7c5bf5; --accent-glow: #9d7cff; --accent-soft: rgba(124,91,245,0.12);
+    --green: #34d399; --green-glow: #6ee7b7; --green-soft: rgba(52,211,153,0.1);
+    --amber: #fbbf24; --amber-soft: rgba(251,191,36,0.1);
+    --red-soft: rgba(248,113,113,0.1); --red: #f87171;
+    --code-folder: #89b4fa; --code-file: #a6e3a1; --code-comment: #6c7086;
+    --code-key: #f9c74f; --code-string: #a6e3a1; --code-sep: #6c7086;
+    --radius: 14px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; scroll-padding-top:90px; }
+  body { font-family:'Onest',system-ui,sans-serif; background:var(--bg-deep); color:var(--text-primary); line-height:1.65; min-height:100vh; -webkit-font-smoothing:antialiased; }
+  body::before { content:''; position:fixed; inset:0; background-image:radial-gradient(circle at 20% 20%,rgba(124,91,245,0.045) 0%,transparent 50%),radial-gradient(circle at 80% 80%,rgba(52,211,153,0.03) 0%,transparent 50%); pointer-events:none; z-index:0; }
+  .wrapper { position:relative; z-index:1; max-width:720px; margin:0 auto; padding:40px 20px 80px; }
+
+  /* ─── HEADER ─── */
+  .header { text-align:center; margin-bottom:48px; }
+  .header__badge { display:inline-block; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; color:var(--accent-glow); background:var(--accent-soft); border:1px solid rgba(124,91,245,0.2); padding:6px 16px; border-radius:100px; margin-bottom:24px; animation:fadeDown .6s ease both; }
+  .header__title { font-size:clamp(24px,5.2vw,38px); font-weight:800; line-height:1.18; letter-spacing:-0.6px; margin-bottom:22px; animation:fadeDown .6s ease .1s both; }
+  .header__title span { background:linear-gradient(135deg,var(--accent-glow) 0%,var(--green) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .header__topics { list-style:none; display:flex; flex-direction:column; gap:8px; max-width:540px; margin:0 auto; animation:fadeDown .6s ease .2s both; }
+  .header__topics li { font-size:13.5px; color:var(--text-secondary); display:flex; align-items:flex-start; gap:9px; text-align:left; }
+  .header__topics li::before { content:'→'; color:var(--accent); flex-shrink:0; font-family:'JetBrains Mono',monospace; font-size:11px; margin-top:3px; }
+
+  /* ─── PROGRESS ─── */
+  .progress-wrap { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:20px 24px; margin-bottom:36px; position:sticky; top:12px; z-index:10; backdrop-filter:blur(16px); background:rgba(18,18,26,0.92); animation:fadeDown .6s ease .3s both; }
+  .progress-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+  .progress-label { font-size:13px; font-weight:600; color:var(--text-secondary); text-transform:uppercase; letter-spacing:1px; font-family:'JetBrains Mono',monospace; }
+  .progress-count { font-family:'JetBrains Mono',monospace; font-size:14px; font-weight:700; color:var(--accent-glow); }
+  .progress-bar { width:100%; height:8px; background:var(--border); border-radius:100px; overflow:hidden; }
+  .progress-fill { height:100%; background:linear-gradient(90deg,var(--accent),var(--green)); border-radius:100px; transition:width .5s cubic-bezier(.34,1.56,.64,1); width:0%; }
+
+  /* ─── TOC ─── */
+  .toc { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:20px 24px; margin-bottom:36px; }
+  .toc__title { font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; color:var(--text-secondary); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:14px; }
+  .toc__list { list-style:none; display:flex; flex-direction:column; gap:2px; }
+  .toc__list a { display:flex; align-items:center; gap:12px; padding:8px 10px; border-radius:8px; color:var(--text-secondary); text-decoration:none; font-size:14px; transition:all .2s; }
+  .toc__list a:hover { background:var(--bg-card-hover); color:var(--text-primary); }
+  .toc__num { font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; color:var(--accent); width:28px; flex-shrink:0; }
+
+  /* ─── SECTION ─── */
+  .section { margin-bottom:28px; }
+  .section__header { display:flex; align-items:flex-start; gap:12px; margin-bottom:14px; padding-left:2px; }
+  .section__num { font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; color:var(--accent); background:var(--accent-soft); width:32px; height:32px; display:flex; align-items:center; justify-content:center; border-radius:8px; flex-shrink:0; margin-top:2px; }
+  .section__title { font-size:17px; font-weight:700; letter-spacing:-0.2px; line-height:1.35; }
+  .section__card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; transition:border-color .3s; }
+  .section__card:hover { border-color:var(--border-accent); }
+
+  /* ─── ITEM (checkbox) ─── */
+  .item { display:flex; align-items:flex-start; gap:14px; padding:16px 20px; border-bottom:1px solid var(--border); transition:background .2s; cursor:default; }
+  .item:last-child { border-bottom:none; }
+  .item:hover { background:var(--bg-card-hover); }
+  .item.checked .item__text { color:var(--text-muted); text-decoration:line-through; }
+  .item__check { position:relative; width:22px; height:22px; flex-shrink:0; margin-top:1px; pointer-events:auto; cursor:pointer; }
+  .item__check input { position:absolute; opacity:0; width:100%; height:100%; cursor:pointer; z-index:2; }
+  .item__check .cm { width:22px; height:22px; border:2px solid var(--border-accent); border-radius:6px; display:flex; align-items:center; justify-content:center; transition:all .25s cubic-bezier(.34,1.56,.64,1); cursor:pointer; }
+  .item__check .cm svg { width:12px; height:12px; opacity:0; transform:scale(0); transition:all .25s cubic-bezier(.34,1.56,.64,1); }
+  .item__check input:checked + .cm { background:var(--green); border-color:var(--green); }
+  .item__check input:checked + .cm svg { opacity:1; transform:scale(1); }
+  .item__body { flex:1; min-width:0; pointer-events:none; user-select:text; }
+  .item__body a, .item__body .lnk, .item__body .btn-copy, .item__body .download-btn { pointer-events:auto !important; cursor:pointer !important; }
+  .item__text { font-size:14.5px; font-weight:500; color:var(--text-primary); transition:all .3s; }
+  .item__hint { font-size:13px; color:var(--text-secondary); margin-top:6px; line-height:1.65; }
+  .item__hint strong { color:var(--text-primary); }
+  .item__hint code { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--accent-glow); background:var(--accent-soft); padding:1px 6px; border-radius:4px; }
+
+  /* ─── LNK ─── */
+  .lnk { display:inline-flex; align-items:center; gap:5px; font-size:13px; font-family:'JetBrains Mono',monospace; color:var(--accent-glow); text-decoration:none; transition:color .2s; word-break:break-all; }
+  .lnk:hover { color:#bba4ff; text-decoration:underline; }
+  .lnk svg { width:13px; height:13px; flex-shrink:0; }
+
+  /* ─── NOTE ─── */
+  .note { display:flex; align-items:flex-start; gap:10px; padding:14px 20px; font-size:13px; color:var(--text-secondary); line-height:1.65; border-bottom:1px solid var(--border); }
+  .note:last-child { border-bottom:none; }
+  .note--warn { background:var(--amber-soft); color:var(--amber); }
+  .note--info { background:var(--accent-soft); }
+  .note--alert { background:var(--red-soft); color:var(--red); }
+  .note--green { background:var(--green-soft); color:var(--green-glow); }
+  .note__icon { flex-shrink:0; font-size:15px; }
+  .note strong { color:inherit; }
+  .note .lnk { color:var(--accent-glow); }
+  .note code { font-family:'JetBrains Mono',monospace; font-size:11.5px; background:rgba(0,0,0,0.25); padding:1px 5px; border-radius:4px; color:inherit; }
+
+  /* ─── INFO BLOCK ─── */
+  .info-block { padding:14px 20px; border-bottom:1px solid var(--border); font-size:13.5px; color:var(--text-secondary); line-height:1.7; }
+  .info-block:last-child { border-bottom:none; }
+  .info-block strong { color:var(--text-primary); font-weight:600; }
+  .info-block p { margin-bottom:8px; }
+  .info-block p:last-child { margin-bottom:0; }
+  .info-block code { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--accent-glow); background:var(--accent-soft); padding:1px 6px; border-radius:4px; }
+
+  /* ─── TERM ─── */
+  .term { padding:16px 20px; border-bottom:1px solid var(--border); }
+  .term:last-child { border-bottom:none; }
+  .term__name { font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; color:var(--accent-glow); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:7px; }
+  .term__def { font-size:14px; color:var(--text-primary); font-weight:500; margin-bottom:8px; line-height:1.55; }
+  .term__example { font-size:13px; color:var(--text-secondary); line-height:1.65; padding:10px 14px; background:rgba(124,91,245,0.06); border-left:2px solid rgba(124,91,245,0.3); border-radius:0 6px 6px 0; }
+  .mono { font-family:'JetBrains Mono',monospace; color:var(--accent-glow); font-size:12px; }
+
+  /* ─── CONCEPT GRID ─── */
+  .concept-grid { display:grid; grid-template-columns:1fr 1fr; }
+  .concept-card { padding:16px 20px; border-bottom:1px solid var(--border); border-right:1px solid var(--border); }
+  .concept-card:nth-child(even) { border-right:none; }
+  .concept-card:nth-last-child(-n+2) { border-bottom:none; }
+  .concept-card:last-child:nth-child(odd) { border-bottom:none; grid-column:1/-1; border-right:none; }
+  .concept-card__emoji { font-size:20px; margin-bottom:8px; }
+  .concept-card__name { font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700; color:var(--accent-glow); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; }
+  .concept-card__desc { font-size:13px; color:var(--text-secondary); line-height:1.6; }
+  .concept-card__desc strong { color:var(--text-primary); }
+
+  /* ─── HIERARCHY ─── */
+  .hierarchy { padding:18px 20px; border-bottom:1px solid var(--border); }
+  .hierarchy__layer { display:flex; align-items:flex-start; gap:14px; padding:12px 0; border-bottom:1px dashed var(--border-accent); }
+  .hierarchy__layer:last-child { border-bottom:none; }
+  .hierarchy__num { font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; color:var(--accent); background:var(--accent-soft); min-width:32px; height:32px; display:flex; align-items:center; justify-content:center; border-radius:8px; flex-shrink:0; }
+  .hierarchy__body { flex:1; min-width:0; }
+  .hierarchy__name { font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; color:var(--accent-glow); text-transform:uppercase; letter-spacing:1.2px; margin-bottom:4px; }
+  .hierarchy__desc { font-size:13px; color:var(--text-secondary); line-height:1.6; }
+  .hierarchy__desc strong { color:var(--text-primary); }
+
+  /* ─── ARCH BOX ─── */
+  .arch-box { background:rgba(0,0,0,0.3); border:1px solid var(--border-accent); border-radius:10px; padding:18px 22px; margin:12px 20px; font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--text-secondary); line-height:2; overflow-x:auto; }
+  .arch-box .folder { color:var(--code-folder); }
+  .arch-box .file { color:var(--code-file); }
+  .arch-box .comment { color:var(--code-comment); }
+  .arch-box .branch { color:var(--text-muted); }
+
+  /* ─── COMPARE ─── */
+  .compare-grid { display:grid; grid-template-columns:1fr 1fr; gap:0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+  .compare-card { padding:16px 20px; border-right:1px solid var(--border); }
+  .compare-card:last-child { border-right:none; }
+  .compare-card__label { font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:10px; display:flex; align-items:center; gap:6px; }
+  .compare-card.good .compare-card__label { color:var(--green); }
+  .compare-card.bad .compare-card__label { color:var(--red); }
+  .compare-card__body { font-size:13px; color:var(--text-secondary); line-height:1.65; }
+  .compare-card__body code { font-family:'JetBrains Mono',monospace; font-size:11.5px; background:rgba(0,0,0,0.3); padding:1px 5px; border-radius:4px; color:var(--text-primary); display:block; padding:8px 10px; margin:4px 0; }
+
+  /* ─── CODE-BLOCK ─── */
+  .code-block { background:rgba(0,0,0,0.3); border:1px solid var(--border-accent); border-radius:10px; padding:16px 20px; margin:12px 20px; font-family:'JetBrains Mono',monospace; font-size:12.5px; line-height:1.75; color:var(--text-primary); overflow-x:auto; position:relative; }
+  .code-block .yk { color:var(--code-key); }
+  .code-block .ys { color:var(--code-string); }
+  .code-block .yc { color:var(--code-comment); font-style:italic; }
+  .code-block .ysep { color:var(--code-sep); }
+  .code-block .ymd { color:var(--accent-glow); font-weight:700; }
+  .code-block .ymd-h { color:#fbbf24; font-weight:700; }
+  .code-block__copy { position:absolute; top:10px; right:10px; font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:600; color:var(--accent-glow); background:var(--accent-soft); border:1px solid rgba(124,91,245,0.3); padding:5px 10px; border-radius:6px; cursor:pointer; transition:all .2s; text-transform:uppercase; letter-spacing:1px; }
+  .code-block__copy:hover { background:rgba(124,91,245,0.2); border-color:var(--accent); }
+  .code-block__copy.copied { color:var(--green); background:var(--green-soft); border-color:rgba(52,211,153,0.3); }
+
+  /* ─── TOOL-CARD ─── */
+  .tool-card { padding:20px; border-bottom:1px solid var(--border); }
+  .tool-card:last-of-type { border-bottom:none; }
+  .tool-card__head { display:flex; align-items:center; gap:10px; margin-bottom:10px; flex-wrap:wrap; }
+  .tool-card__role { font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700; color:var(--accent-glow); text-transform:uppercase; letter-spacing:1.5px; background:var(--accent-soft); padding:3px 9px; border-radius:100px; }
+  .tool-card__role--ready { color:var(--green); background:var(--green-soft); }
+  .tool-card__role--pending { color:var(--amber); background:var(--amber-soft); }
+  .tool-card__name { font-family:'JetBrains Mono',monospace; font-size:14px; color:var(--green); font-weight:600; }
+  .tool-card__desc { font-size:13px; color:var(--text-secondary); line-height:1.6; margin-bottom:14px; }
+  .tool-card__desc strong { color:var(--text-primary); }
+  .download-btn { display:inline-flex; align-items:center; gap:8px; font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; color:#0a0a0f; background:linear-gradient(135deg,var(--accent-glow),var(--green)); border:none; padding:10px 18px; border-radius:8px; text-decoration:none; transition:all .2s; text-transform:uppercase; letter-spacing:1px; box-shadow:0 4px 14px rgba(124,91,245,0.25); }
+  .download-btn:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(124,91,245,0.4); }
+  .download-btn--pending { background:rgba(251,191,36,0.15); color:var(--amber); border:1px dashed rgba(251,191,36,0.4); cursor:not-allowed; box-shadow:none; }
+  .download-btn--pending:hover { transform:none; box-shadow:none; }
+
+  /* ─── FOOTER ─── */
+  .footer { text-align:center; margin-top:48px; }
+  .footer__done { display:none; background:var(--green-soft); border:1px solid rgba(52,211,153,0.25); border-radius:var(--radius); padding:32px 24px; margin-bottom:24px; }
+  .footer__done.visible { display:block; animation:popIn .5s cubic-bezier(.34,1.56,.64,1) both; }
+  .footer__done-emoji { font-size:48px; margin-bottom:10px; }
+  .footer__done-text { font-size:22px; font-weight:800; color:var(--green); margin-bottom:6px; }
+  .footer__done-sub { font-size:15px; color:var(--text-secondary); }
+  .footer__contact { font-size:14px; color:var(--text-secondary); margin-bottom:20px; }
+  .footer__contact a { color:#2dd4bf; text-decoration:underline; text-decoration-color:rgba(45,212,191,0.4); font-weight:700; }
+  .btn-reset { background:none; border:1px solid var(--border); color:var(--text-muted); font-family:'JetBrains Mono',monospace; font-size:12px; padding:8px 20px; border-radius:100px; cursor:pointer; transition:all .2s; }
+  .btn-reset:hover { border-color:var(--red); color:var(--red); }
+  .tg { color:#2dd4bf !important; font-weight:700; text-decoration:underline; text-decoration-color:rgba(45,212,191,0.4); }
+
+  #confetti-canvas { position:fixed; inset:0; z-index:9999; pointer-events:none; }
+  @keyframes fadeDown { from{opacity:0;transform:translateY(-12px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes popIn { from{opacity:0;transform:scale(0.85)} to{opacity:1;transform:scale(1)} }
+
+  .reveal { opacity:0; transform:translateY(16px); transition:opacity .55s ease, transform .55s cubic-bezier(.34,1.56,.64,1); }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+
+  @media (max-width:560px) {
+    .wrapper { padding:28px 14px 60px; }
+    .item, .note, .term, .info-block, .tool-card, .hierarchy { padding:12px 16px; }
+    .progress-wrap { padding:16px 18px; top:8px; }
+    .toc { padding:16px 18px; }
+    .compare-grid { grid-template-columns:1fr; }
+    .compare-card { border-right:none; border-bottom:1px solid var(--border); }
+    .compare-card:last-child { border-bottom:none; }
+    .concept-grid { grid-template-columns:1fr; }
+    .concept-card { border-right:none !important; }
+    .concept-card:nth-last-child(-n+2) { border-bottom:1px solid var(--border); }
+    .concept-card:last-child { border-bottom:none !important; }
+    .arch-box, .code-block { margin:10px 14px; font-size:12px; }
+    .header__title { font-size:24px; }
+  }
+</style>
+</head>
+<body>
+<canvas id="confetti-canvas"></canvas>
+<div class="wrapper">
+
+<!-- ═══ HEADER ═══ -->
+<header class="header">
+  <div class="header__badge">ИИ-ВИЗАЦИЯ · Инструкция по skills для Claude</div>
+  <h1 class="header__title">Skills для Claude<br><span>через skill-creator</span></h1>
+  <ul class="header__topics">
+    <li>Что такое skill и почему это не настройка, а папка с инструкциями</li>
+    <li>Анатомия SKILL.md: формула description, имя в kebab-case, для каких задач подходит</li>
+    <li>Как создавать любые skills через встроенный <code>/skill-creator</code></li>
+    <li>Безопасность: обезличивание данных ДО загрузки в Claude</li>
+    <li>Тестирование: вызов через <code>/</code>, проверка функционала, сравнение «до/после»</li>
+    <li>Когда skill не нужен — защита от оверинжиниринга</li>
+    <li>Практика: создаём свой первый skill на конкретном примере</li>
+  </ul>
+</header>
+
+<!-- ═══ PROGRESS ═══ -->
+<div class="progress-wrap">
+  <div class="progress-top">
+    <span class="progress-label">Прогресс</span>
+    <span class="progress-count" id="progressCount">0 / 0</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<!-- ═══ TOC ═══ -->
+<nav class="toc">
+  <div class="toc__title">Содержание</div>
+  <ul class="toc__list">
+    <li><a href="#s01"><span class="toc__num">01</span><span>Что такое skill за 5 минут</span></a></li>
+    <li><a href="#s02"><span class="toc__num">02</span><span>Анатомия SKILL.md</span></a></li>
+    <li><a href="#s03"><span class="toc__num">03</span><span>Сборка через skill-creator</span></a></li>
+    <li><a href="#s04"><span class="toc__num">04</span><span>Безопасность и обезличивание</span></a></li>
+    <li><a href="#s05"><span class="toc__num">05</span><span>Тестирование skill</span></a></li>
+    <li><a href="#s06"><span class="toc__num">06</span><span>Когда skill не нужен</span></a></li>
+    <li><a href="#s07"><span class="toc__num">07</span><span>Практика: создаём prompt-engineer</span></a></li>
+  </ul>
+</nav>
+
+<div id="sections">
+
+<!-- ═══════════════════════════════════════════
+     01 — ЧТО ТАКОЕ SKILL
+═══════════════════════════════════════════ -->
+<div class="section reveal" id="s01">
+  <div class="section__header">
+    <div class="section__num">01</div>
+    <div class="section__title">Что такое skill за 5 минут</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">📖</span>
+      <span>Самый частый ступор: люди ищут «skill» в настройках Claude как кнопку. На самом деле skill — это <strong>папка с файлами на вашем компьютере</strong>, которую вы загружаете в Claude через интерфейс. Усвоили это — половина пути пройдена.</span>
+    </div>
+
+    <div class="term">
+      <div class="term__name">Skill для Claude</div>
+      <div class="term__def">Папка с инструкциями, которая учит Claude решать конкретную повторяющуюся задачу. Один раз описали свой процесс — потом вызываете skill в чате через <code>/</code>, и Claude применяет вашу методику. Объяснять каждый раз не нужно.</div>
+      <div class="term__example">📌 Без skill каждый раз приходится диктовать критерии оценки и формат вывода. Со skill — один раз настроили, потом вызываете через <code>/имя-skill</code> в нужном чате, и Claude применяет ваши правила.</div>
+    </div>
+
+    <div class="term">
+      <div class="term__name">SKILL.md</div>
+      <div class="term__def">Главный файл skill. Регистр в имени важен — ровно <code class="mono">SKILL.md</code>, не <code class="mono">skill.md</code>. Это обычный Markdown, в начале которого — служебная YAML-шапка, а ниже — инструкции на человеческом языке.</div>
+      <div class="term__example">📌 YAML-шапка нужна Claude, чтобы понять, что это за skill и для каких задач он подходит. Тело — это инструкции, по которым Claude работает, когда вы вызвали skill через <code>/</code>.</div>
+    </div>
+
+    <div class="term">
+      <div class="term__name">Progressive Disclosure</div>
+      <div class="term__def">Архитектурный приём Claude: skill подгружается в память моделью «слоями». Сначала читается только YAML-шапка (всегда). Если задача подходит — подгружается тело SKILL.md. Если нужны детали — Claude сам открывает файлы из вложенных папок.</div>
+      <div class="term__example">📌 Аналогия: библиотека. На обложке книги (YAML) — название и аннотация. Внутри (SKILL.md) — основной текст. В приложениях (references/) — справочные таблицы. Не нужно читать всё сразу — Claude читает только то, что относится к делу.</div>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Минимальная папка skill выглядит так:</strong></p>
+    </div>
+
+    <div class="arch-box">
+<span class="folder">📁 my-skill-name/</span>
+<span class="branch">└──</span> <span class="file">📄 SKILL.md</span>  <span class="comment"># один обязательный файл — больше ничего не нужно</span>
+    </div>
+
+    <div class="info-block">
+      <p>Всё. Этого достаточно, чтобы Claude подхватил ваш skill. <code>scripts/</code>, <code>assets/</code>, <code>references/</code> — опциональные папки, добавляются только если они реально нужны под задачу. На первом skill начинаем с минимума.</p>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">⚡</span>
+      <span><strong>Хорошая новость:</strong> папку SKILL.md руками собирать не нужно. В Claude встроен помощник <code>/skill-creator</code>, который сделает её за вас в формате диалога. Подробности — в разделе 03.</span>
+    </div>
+
+    <div class="item" data-key="s01-understand">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Понять: skill — это папка, а не настройка в интерфейсе</div>
+        <div class="item__hint">Не ищите кнопку «создать skill» в чате. Папка создаётся через <code>/skill-creator</code>, потом упаковывается в zip и загружается в Claude через настройки. После загрузки skill вызывается в любом чате через <code>/имя-skill</code>.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s01-explore">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Открыть Claude и найти меню skills</div>
+        <div class="item__hint">В Claude.ai откройте <strong>Settings → Capabilities → Skills</strong>. Там лежат уже встроенные от Anthropic (docx, pdf, pptx, xlsx, skill-creator). Они нам не нужны как отправная точка, но посмотреть, как описаны их description — полезно. Это эталон формулировок.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s01-formulate">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Сформулировать одной фразой задачу для своего будущего skill</div>
+        <div class="item__hint">Шаблон: «Skill, который [глагол] [объект] [по какому правилу]. Применяется для [тип задач]».<br>Если задача не укладывается в одну фразу — её нужно сузить, иначе skill получится размытым.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     02 — АНАТОМИЯ SKILL.md
+═══════════════════════════════════════════ -->
+<div class="section reveal" id="s02">
+  <div class="section__header">
+    <div class="section__num">02</div>
+    <div class="section__title">Анатомия SKILL.md — что внутри созданного skill</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🧬</span>
+      <span><code>/skill-creator</code> создаст файл <code>SKILL.md</code> за вас. Но открыть его и понять, что внутри — критически важно: иначе невозможно оценить качество результата и доработать. Это не «чёрный ящик», а текстовый файл, который можно прочитать.</span>
+    </div>
+
+    <div class="info-block">
+      <p>Любой <code>SKILL.md</code> состоит из двух частей: <strong>YAML-шапка</strong> (между <code>---</code>) и <strong>тело инструкций</strong> на Markdown под ней. Шапка — «визитная карточка» для Claude: имя skill и для каких задач он подходит. По телу skill — Claude понимает, как именно решать задачу, когда вы вызвали skill через <code>/</code>.</p>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Минимальный рабочий SKILL.md выглядит так:</strong></p>
+    </div>
+
+    <div class="code-block">
+<button class="code-block__copy" data-target="code-min">Копировать</button>
+<pre id="code-min"><span class="ysep">---</span>
+<span class="yk">name</span><span class="ysep">:</span> <span class="ys">email-improver</span>
+<span class="yk">description</span><span class="ysep">:</span> <span class="ys">Улучшает деловые письма по корпоративным правилам:
+  делает короче, убирает воду, расставляет акценты.
+  Использовать, когда пользователь просит «улучши письмо»,
+  «перепиши деловое письмо», «сделай короче и яснее»,
+  «вычитай мой email».</span>
+<span class="ysep">---</span>
+
+<span class="ymd-h"># Email Improver</span>
+
+<span class="ymd-h">## Когда применять</span>
+Подключайся, когда пользователь даёт текст письма
+и просит его улучшить.
+
+<span class="ymd-h">## Как работать</span>
+1. Прочитай исходный текст
+2. Найди слабые места: вода, размытые формулировки, длинноты
+3. Перепиши: короче, чётче, с явным целевым действием
+4. Покажи «до» и «после» с пояснениями
+</pre>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">🔑</span>
+      <span><strong>Два обязательных поля в шапке:</strong> <code>name</code> (имя skill, в kebab-case) и <code>description</code> (что делает + для каких задач подходит). Всё остальное — опционально.</span>
+    </div>
+
+    <div class="term">
+      <div class="term__name">Формула description</div>
+      <div class="term__def">[Что делает] + [Для каких задач подходит] + [Примеры типичных запросов]. Все три части помогают Claude правильно применить skill, когда вы вызвали его через <code>/</code>. Без них skill будет работать наугад.</div>
+      <div class="term__example">📌 Лимит: 1024 символа. XML-теги (<code>&lt;</code> или <code>&gt;</code>) запрещены. Слова «claude» и «anthropic» в имени тоже запрещены — зарезервированы.</div>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Сравните: правильное и плохое описание</strong></p>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-card good">
+        <div class="compare-card__label">✓ Правильно</div>
+        <div class="compare-card__body">
+          Конкретное действие, ясно для каких задач подходит, 3+ примеров запросов.<br><br>
+          <code>Улучшает деловые письма по корпоративным правилам: делает короче, убирает воду, расставляет акценты. Использовать, когда пользователь просит «улучши письмо», «перепиши деловое письмо», «сделай короче и яснее».</code>
+        </div>
+      </div>
+      <div class="compare-card bad">
+        <div class="compare-card__label">✗ Не сработает</div>
+        <div class="compare-card__body">
+          Размыто, нет примеров запросов, не понятно, чем этот skill лучше прямого промпта.<br><br>
+          <code>Помогает с письмами.</code><br><br>
+          <code>Email-ассистент.</code>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Имя папки и файла — отдельная боль:</strong></p>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-card good">
+        <div class="compare-card__label">✓ Правильно</div>
+        <div class="compare-card__body">
+          <code>email-improver</code><br>
+          <code>meeting-notes-formatter</code><br>
+          <code>document-summarizer</code><br><br>
+          kebab-case: всё строчными, через дефис, без пробелов и подчёркиваний.
+        </div>
+      </div>
+      <div class="compare-card bad">
+        <div class="compare-card__label">✗ Сломается</div>
+        <div class="compare-card__body">
+          <code>Email Improver</code> — пробелы<br>
+          <code>email_improver</code> — подчёркивания<br>
+          <code>EmailImprover</code> — CamelCase<br>
+          <code>skill.md</code> или <code>SKILL.MD</code> — регистр главного файла
+        </div>
+      </div>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">⚠️</span>
+      <span>Имя папки и значение поля <code>name</code> в YAML-шапке должны <strong>совпадать символ в символ</strong>. Несовпадение — частая причина «skill не загружается». <code>/skill-creator</code> обычно делает это правильно, но при ручной правке можно сбить.</span>
+    </div>
+
+    <div class="item" data-key="s02-formula">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Понять формулу description</div>
+        <div class="item__hint">Когда <code>/skill-creator</code> предложит вам description — вы должны уметь его прочитать и оценить: есть ли в нём все три части (что делает + для каких задач подходит + примеры запросов). Если нет — попросить переписать.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s02-triggers">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Понять, как skill вызывается в разговоре</div>
+        <div class="item__hint">Skill вызывается <strong>только вручную</strong>: введите <code>/</code> в чате, выберите нужный skill из списка. Сам по себе он не подключается — Claude не сканирует ваши сообщения и не угадывает, какой skill применить. <code>description</code> в YAML-шапке нужен для другого: когда вы вызвали skill через <code>/</code>, Claude читает description, чтобы понять, как именно применить skill к вашему запросу.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s02-name">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Понять правила именования</div>
+        <div class="item__hint">2–4 слова, через дефис, всё строчными. Глагол + объект работают лучше всего: <code>email-improver</code>, <code>document-summarizer</code>. Запрещены слова <code>claude</code> и <code>anthropic</code>. <code>/skill-creator</code> обычно соблюдает эти правила, но проверяйте.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     03 — СБОРКА ЧЕРЕЗ SKILL-CREATOR
+═══════════════════════════════════════════ -->
+<div class="section reveal" id="s03">
+  <div class="section__header">
+    <div class="section__num">03</div>
+    <div class="section__title">Сборка skill через <code>/skill-creator</code></div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🛠️</span>
+      <span>Это hands-on часть. Здесь вы собираете свой skill через диалог со встроенным помощником <code>/skill-creator</code>. Никакого ручного редактирования файлов, никакой работы с zip — всё через чат. На выходе — готовая папка skill, которую Claude сам упакует.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Общая логика процесса:</strong></p>
+    </div>
+
+    <div class="arch-box">
+<span class="comment"># 1. Подготовка контекста (опционально)</span>
+<span class="folder">Свои материалы</span> <span class="branch">→</span> <span class="file">конвертация в Markdown</span> <span class="branch">→</span> <span class="folder">.md файлы</span>
+
+<span class="comment"># 2. Сборка skill через диалог</span>
+<span class="folder">Чат с Claude</span> <span class="branch">→</span> <span class="file">/skill-creator</span> <span class="branch">→</span> <span class="folder">Диалог уточнений</span>
+
+<span class="comment"># 3. Получение готового skill</span>
+<span class="folder">SKILL.md + assets/</span> <span class="branch">→</span> <span class="file">.zip</span> <span class="branch">→</span> <span class="folder">Готов к загрузке</span>
+    </div>
+
+    <div class="item" data-key="s03-prepare">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Подготовить материалы для skill (опционально)</div>
+        <div class="item__hint">Если у skill будет своя «база знаний» — методички, инструкции, шаблоны — лучше иметь их в формате Markdown. <code>/skill-creator</code> работает с Markdown точнее, чем с PDF (PDF съедает много токенов на изображения страниц).<br><br>Конвертация PDF → Markdown делается отдельным skill (см. раздел 07, кейс <code>pdf-to-markdown</code>) или вручную через Preview/Word.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s03-call">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Открыть новый чат и вызвать <code>/skill-creator</code></div>
+        <div class="item__hint">В поле ввода введите <code>/</code> — появится список доступных skills. Выберите <strong>skill-creator</strong>. Это встроенный skill от Anthropic, доступен в любом аккаунте.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s03-describe">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Описать задачу и приложить материалы</div>
+        <div class="item__hint">Прикрепите ваши .md-файлы (контекст для skill) и опишите задачу одной-двумя фразами:<br><br><code>«Создай skill [название], который [что делает] на основе приложенных материалов. Применяется для [тип задач]».</code></div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s03-dialog">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Пройти диалог уточнения</div>
+        <div class="item__hint"><code>/skill-creator</code> начнёт задавать уточняющие вопросы: какое имя, для каких задач, какая внутренняя структура. <strong>Отвечайте честно и подробно</strong> — чем точнее, тем лучше результат.<br><br>Если предложенный description выглядит размытым — попросите переписать с конкретными примерами запросов. Если структура слишком сложная — попросите упростить. Это диалог, а не одностороннее ТЗ.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s03-review">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить результат глазами</div>
+        <div class="item__hint">В конце диалога <code>/skill-creator</code> покажет финальную структуру: <code>SKILL.md</code>, при необходимости <code>references/</code> и <code>assets/</code>. Откройте <code>SKILL.md</code> и пройдитесь глазами — формула description, имя в kebab-case, понятное тело инструкций. Если что-то не так — попросите доработать.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s03-export">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Получить готовый zip</div>
+        <div class="item__hint">Когда всё устраивает — попросите <code>/skill-creator</code> экспортировать skill в zip. Полученный архив можно загружать в свой Claude (<strong>Settings → Capabilities → Skills → Upload</strong>) и раздавать команде.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     04 — БЕЗОПАСНОСТЬ
+═══════════════════════════════════════════ -->
+<div class="section reveal" id="s04">
+  <div class="section__header">
+    <div class="section__num">04</div>
+    <div class="section__title">Безопасность — что можно и нельзя загружать в skill</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--alert">
+      <span class="note__icon">🛑</span>
+      <span><strong>Главное правило:</strong> обезличивание выполняется <strong>ДО</strong> загрузки документа в любой ИИ-инструмент. И <strong>программными методами</strong>, без участия нейросетей. «Claude, обезличь этот документ» — недопустимая формулировка. Нейросеть для обезличивания не используется никогда.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Почему именно так:</strong> любая загрузка документа в облачный ИИ — это передача данных за периметр. Если документ не обезличен, утечка уже произошла, дальнейший «обработай» ничего не меняет. Поэтому обезличивание — отдельный этап, выполняемый локальными инструментами под вашим контролем.</p>
+    </div>
+
+    <div class="term">
+      <div class="term__name">Что считается чувствительными данными</div>
+      <div class="term__def">ФИО сотрудников и контрагентов, ИНН, паспортные данные, телефоны, адреса. Названия компаний-партнёров. Номера и суммы договоров. Реквизиты счетов. Любые персональные данные клиентов.</div>
+      <div class="term__example">📌 Все эти типы данных перед загрузкой в Claude / ChatGPT / любой облачный ИИ заменяются на плейсхолдеры: <code>[ФИО]</code>, <code>[КОМПАНИЯ]</code>, <code>[СУММА]</code>, <code>[АДРЕС]</code>, <code>[ДОГОВОР №]</code>.</div>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Четыре рабочих метода программного обезличивания:</strong></p>
+    </div>
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <div class="concept-card__emoji">📝</div>
+        <div class="concept-card__name">Word / Excel + макрос</div>
+        <div class="concept-card__desc">Самый доступный метод. <strong>Ctrl+H</strong> для замены, регулярные выражения для типовых форматов (ИНН, телефон, паспорт). Запись макроса один раз — потом запуск кнопкой.</div>
+      </div>
+      <div class="concept-card">
+        <div class="concept-card__emoji">🐍</div>
+        <div class="concept-card__name">Python-скрипт с regex</div>
+        <div class="concept-card__desc">Для пакетной обработки. Библиотека <code>re</code> + список регулярок под ИНН, телефон, дату, номер договора. Запуск из терминала. Работает офлайн.</div>
+      </div>
+      <div class="concept-card">
+        <div class="concept-card__emoji">🔐</div>
+        <div class="concept-card__name">Офлайн-утилиты</div>
+        <div class="concept-card__desc">Microsoft Presidio (open-source), отечественные DLP-решения. Ставятся локально, ничего не отправляют наружу. Уровень — IT-служба.</div>
+      </div>
+      <div class="concept-card">
+        <div class="concept-card__emoji">👁️</div>
+        <div class="concept-card__name">Ручная проверка</div>
+        <div class="concept-card__desc">После любого автоматического обезличивания — обязательный визуальный контроль. Скрипты не ловят 100%: неформатные ФИО, опечатки, имена в свободном тексте.</div>
+      </div>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">⚠️</span>
+      <span><strong>Что НЕ должно попадать в файлы skill</strong> (ни в SKILL.md, ни в assets, ни в references): реальные ФИО, реальные ИНН, названия контрагентов, суммы конкретных договоров, любые пароли / API-ключи / токены доступа. Skill — это публикуемый артефакт, всё внутри него считайте потенциально открытым.</span>
+    </div>
+
+    <div class="item" data-key="s04-anonymize">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Обезличить материалы программно перед загрузкой</div>
+        <div class="item__hint">Пройдитесь по каждому файлу любым из четырёх методов выше. Замените все ФИО / контрагентов / суммы / адреса / номера на плейсхолдеры. После авто-обработки — глазами просмотрите файл целиком, не доверяйте регуляркам на 100%.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s04-secrets">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Убедиться, что в материалах нет секретов</div>
+        <div class="item__hint">Никаких паролей, API-ключей, токенов, ссылок на внутренние сервисы. Если в исходниках есть — удалить или заменить на плейсхолдеры до загрузки. Skill потом увидят коллеги, и эти данные тоже.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s04-rules">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Прописать в SKILL.md правила работы с данными</div>
+        <div class="item__hint">В разделе «Ограничения» вашего <code>SKILL.md</code> явно укажите: «работать только с обезличенными документами», «реальные ФИО и реквизиты — никогда не подставлять», «при сомнениях — запросить обезличенную версию у пользователя». Это защита от того, что коллега загрузит реальный документ по привычке.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s04-sb">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Согласовать с СБ перед работой с реальными корпоративными данными</div>
+        <div class="item__hint">Skill, обкатанный на синтетике или учебных материалах — это учебный артефакт. Использование на реальных рабочих документах — отдельный шаг с участием службы безопасности компании. Особенно для документов под NDA, договоров с контрагентами, персональных данных.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     05 — ТЕСТИРОВАНИЕ
+═══════════════════════════════════════════ -->
+<div class="section reveal" id="s05">
+  <div class="section__header">
+    <div class="section__num">05</div>
+    <div class="section__title">Тестирование — проверяем, что skill реально работает</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🔍</span>
+      <span>Skill проверяется на трёх уровнях: <strong>вызов</strong> (виден ли в списке после <code>/</code>, правильно ли назван), <strong>функционал</strong> (корректен ли результат) и <strong>сравнение «до/после»</strong> (реально ли быстрее, чем без skill). Без всех трёх — skill считается неготовым.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Три уровня проверки:</strong></p>
+    </div>
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <div class="concept-card__emoji">🎯</div>
+        <div class="concept-card__name">Вызов</div>
+        <div class="concept-card__desc">Введите <code>/</code> — skill должен появиться в списке. Вызовите его, подайте профильную задачу. <strong>Должен корректно отработать.</strong></div>
+      </div>
+      <div class="concept-card">
+        <div class="concept-card__emoji">⚙️</div>
+        <div class="concept-card__name">Функционал</div>
+        <div class="concept-card__desc">Прогоняете одну реальную задачу. <strong>Результат должен быть в нужном формате, без галлюцинаций, готов к использованию.</strong></div>
+      </div>
+      <div class="concept-card">
+        <div class="concept-card__emoji">📊</div>
+        <div class="concept-card__name">До / После</div>
+        <div class="concept-card__desc">Сравниваете время и качество с тем же запросом без skill. <strong>Если выигрыш меньше 2x — skill нужно дорабатывать.</strong></div>
+      </div>
+      <div class="concept-card">
+        <div class="concept-card__emoji">👥</div>
+        <div class="concept-card__name">Внешний прогон</div>
+        <div class="concept-card__desc">Даёте skill коллеге, не объясняя. <strong>Если он не сможет получить результат с одного-двух запросов — описание skill нужно уточнять.</strong></div>
+      </div>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Пример теста для skill <code>email-improver</code>:</strong></p>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-card good">
+        <div class="compare-card__label">✓ Корректно работает</div>
+        <div class="compare-card__body">
+          После вызова <code>/email-improver</code> и подачи задачи:<br><br>
+          «Улучши это письмо: [текст]»<br><br>
+          «Перепиши деловой email короче»<br><br>
+          «Вычитай этот email на воду»<br><br>
+          → skill применяет правила, возвращает улучшенную версию.
+        </div>
+      </div>
+      <div class="compare-card bad">
+        <div class="compare-card__label">✗ Должен отказать</div>
+        <div class="compare-card__body">
+          После вызова <code>/email-improver</code> и подачи постороннего:<br><br>
+          «Напиши код на Python»<br><br>
+          «Переведи текст на английский»<br><br>
+          «Сделай презентацию»<br><br>
+          → skill должен сказать, что задача не его профиля.
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s05-upload">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Загрузить .zip в Claude.ai</div>
+        <div class="item__hint">Settings → Capabilities → Skills → Upload. Если skill не загрузился — частые причины: имя файла не <code>SKILL.md</code> (регистр), архивирована не папка а её содержимое, в YAML-шапке нет тройных дефисов или они с пробелами.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s05-triggers-test">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Вызвать skill через <code>/</code> — проверить, что он есть в списке</div>
+        <div class="item__hint">Откройте новый чат в Claude. Введите <code>/</code> — в выпадающем списке должен появиться ваш skill с правильным именем и описанием. Если его нет или название неправильное — проверьте YAML-шапку SKILL.md.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s05-anti-test">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Подать постороннюю задачу — проверить, что skill отказывает</div>
+        <div class="item__hint">Вызовите skill через <code>/</code> и подайте задачу не из его профиля (для email-improver — например, «напиши код»). <strong>Skill должен честно сказать, что это не его задача.</strong> Если он берётся выполнять что попало — описание в SKILL.md размыто, нужно конкретизировать.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s05-functional">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Прогнать одну реальную задачу</div>
+        <div class="item__hint">Возьмите свой реальный кейс и пройдите процесс целиком. Проверьте: формат правильный, нужные данные подставлены, результат на 80%+ готов к использованию. Если да — skill рабочий.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s05-compare">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Сравнить с работой без skill</div>
+        <div class="item__hint">Выключите skill и решите ту же задачу обычным промптом. Сравните: сколько сообщений ушло, сколько раз пришлось править, насколько результат соответствует нужному формату. <strong>Если выигрыш по времени минимум 2x — skill оправдывает себя.</strong> Если меньше — что-то в инструкциях упущено.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     06 — КОГДА SKILL НЕ НУЖЕН
+═══════════════════════════════════════════ -->
+<div class="section reveal" id="s06">
+  <div class="section__header">
+    <div class="section__num">06</div>
+    <div class="section__title">Когда skill не нужен — защита от оверинжиниринга</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--warn">
+      <span class="note__icon">🚧</span>
+      <span>Skill — это инструмент стандартизации повторяющегося процесса. Если процесса нет, или он разовый, или нужен только вам одному — skill будет лишней работой. Чек-лист ниже помогает не тащить «всё в skill» по инерции.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Простое правило выбора инструмента под задачу:</strong></p>
+    </div>
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <div class="concept-card__emoji">💬</div>
+        <div class="concept-card__name">Разовая задача</div>
+        <div class="concept-card__desc">Один раз нужно собрать письмо или разобрать документ — <strong>обычный промпт в чате</strong>. Skill не нужен.</div>
+      </div>
+      <div class="concept-card">
+        <div class="concept-card__emoji">📂</div>
+        <div class="concept-card__name">Контекст для одного</div>
+        <div class="concept-card__desc">Регулярная работа в одном тематическом контексте — <strong>системный промпт в Claude Project</strong>. Skill избыточен.</div>
+      </div>
+      <div class="concept-card">
+        <div class="concept-card__emoji">🛠️</div>
+        <div class="concept-card__name">Процесс для команды</div>
+        <div class="concept-card__desc">Повторяющийся процесс, по которому работает несколько человек, нужен единый стандарт результата — <strong>skill подходит идеально</strong>.</div>
+      </div>
+      <div class="concept-card">
+        <div class="concept-card__emoji">🤖</div>
+        <div class="concept-card__name">Многошаговая автоматизация</div>
+        <div class="concept-card__desc">Нужны интеграции с почтой / календарём / БД, проактивность, работа в фоне — <strong>это уже агент</strong>, не skill.</div>
+      </div>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Зелёный сигнал на сборку skill</strong> — выполняются все четыре условия:</p>
+      <p>(1) задача повторяется не реже раза в неделю; (2) у задачи есть устойчивая структура входа и выхода; (3) ей пользуются хотя бы два человека или планируют — для масштабирования; (4) результат должен быть в стандартном формате. Если хотя бы одно условие не выполняется — пересмотрите, может быть достаточно промпта или системного промпта проекта.</p>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">✓</span>
+      <span><strong>Хорошая практика:</strong> сначала решите задачу 5-10 раз обычным промптом, найдите устойчивую формулу, и только потом оборачивайте её в skill. Skill, написанный «теоретически», обычно проигрывает skill, выкристаллизованному из практики.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     07 — ПРАКТИКА
+═══════════════════════════════════════════ -->
+<div class="section reveal" id="s07">
+  <div class="section__header">
+    <div class="section__num">07</div>
+    <div class="section__title">Практика: создаём skill <code>prompt-engineer</code></div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🎯</span>
+      <span>Это практический раздел, в котором мы пройдём весь путь от идеи до готового skill на конкретном примере — соберём универсального помощника для составления промптов, который вы сможете применять в любых задачах. Видеоинструкция показывает все шаги в реальном времени.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Что мы соберём:</strong> универсальный skill-помощник, который анализирует ваш промпт по четырёхуровневой методике и возвращает улучшенную версию. Применим к любым задачам — деловой переписке, документам, аналитике, личным проектам.</p>
+    </div>
+
+    <!-- ─── pdf-to-markdown ─── -->
+    <div class="tool-card">
+      <div class="tool-card__head">
+        <span class="tool-card__role tool-card__role--ready">Готов · Скачать</span>
+        <span class="tool-card__name">pdf-to-markdown</span>
+      </div>
+      <div class="tool-card__desc">
+        Готовый skill для конвертации PDF в чистый Markdown без артефактов вёрстки. Сохраняет заголовки, списки, таблицы. <strong>Нужен для подготовки контекста</strong> — учебные материалы по промптингу из PDF мы конвертируем в Markdown, чтобы <code>/skill-creator</code> работал с ними точнее.<br><br>
+        <strong>Для каких задач:</strong> конвертация PDF-файлов в чистый Markdown. Вызывается через <code>/pdf-to-markdown</code>.
+      </div>
+      <a href="https://drive.google.com/file/d/1QEV329KAOMyy2fwZ3CYrzV2wdxZLQJFh/view?usp=drive_link" target="_blank" class="download-btn">⬇ Скачать pdf-to-markdown.zip</a>
+    </div>
+
+    <!-- ─── prompt-engineer ─── -->
+    <div class="tool-card">
+      <div class="tool-card__head">
+        <span class="tool-card__role tool-card__role--pending">В работе · После скринкаста</span>
+        <span class="tool-card__name">prompt-engineer</span>
+      </div>
+      <div class="tool-card__desc">
+        Универсальный помощник по составлению и улучшению промптов. Применим к <strong>любым</strong> задачам. Анализирует ваш промпт по четырёхуровневой методике и возвращает улучшенную версию плюс пояснение правок.<br><br>
+        <strong>Для каких задач:</strong> улучшение, проверка и составление промптов. Вызывается через <code>/prompt-engineer</code>.
+      </div>
+      <span class="download-btn download-btn--pending">⏳ Появится после записи скринкаста</span>
+    </div>
+
+    <!-- ─── Иерархия методики ─── -->
+    <div class="info-block">
+      <p><strong>Что внутри <code>prompt-engineer</code> — четырёхуровневая методика:</strong></p>
+    </div>
+
+    <div class="hierarchy">
+      <div class="hierarchy__layer">
+        <div class="hierarchy__num">01</div>
+        <div class="hierarchy__body">
+          <div class="hierarchy__name">База — структура промпта</div>
+          <div class="hierarchy__desc">
+            <strong>Роль (опционально) + Контекст + Ожидание</strong>. От чьего лица отвечать, о чём идёт речь, в каком виде нужен результат. Минимально достаточный набор для большинства задач.
+          </div>
+        </div>
+      </div>
+      <div class="hierarchy__layer">
+        <div class="hierarchy__num">02</div>
+        <div class="hierarchy__body">
+          <div class="hierarchy__name">Усилители — продвинутые техники</div>
+          <div class="hierarchy__desc">
+            <strong>Разделители, пошаговые инструкции, обучение на примерах (few-shot), цепочка рассуждений (chain-of-thought), прямой вопрос к LLM</strong>. Применяются, когда базы недостаточно: задача сложная, нужен конкретный формат, требуется логическое рассуждение.
+          </div>
+        </div>
+      </div>
+      <div class="hierarchy__layer">
+        <div class="hierarchy__num">03</div>
+        <div class="hierarchy__body">
+          <div class="hierarchy__name">Защита — от галлюцинаций</div>
+          <div class="hierarchy__desc">
+            <strong>Запрет додумывать факты, отделение фактов от предположений, привязка к источнику, самопроверка, проверяемый формат</strong>. Применяется в критичных задачах: юриспруденция, финансы, договоры — везде, где цена ошибки высокая.
+          </div>
+        </div>
+      </div>
+      <div class="hierarchy__layer">
+        <div class="hierarchy__num">04</div>
+        <div class="hierarchy__body">
+          <div class="hierarchy__name">Эмоциональный контекст — EmotionPrompt</div>
+          <div class="hierarchy__desc">
+            <strong>«Это очень важно для моей работы», «постарайся качественно — от этого зависит результат», «я ценю твою помощь»</strong>. Эмпирический прирост точности 8-10% (исследование EmotionPrompt, Microsoft Research). Используется умеренно — на критичных задачах, не на каждом запросе.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">🎯</span>
+      <span><strong>Почему именно такая иерархия:</strong> у вас появляется чёткий путь от простого к сложному. На большинстве задач хватит базы. На сложных — добавятся усилители. На критичных — подключится защита. Эмоциональный контекст — финальный штрих для самых важных запросов.</span>
+    </div>
+
+    <!-- Чек-боксы практики -->
+    <div class="item" data-key="s07-download-pdf-to-md">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Скачать <code>pdf-to-markdown.zip</code></div>
+        <div class="item__hint">Кнопка скачивания в карточке выше. Zip размером около 50 КБ — легко скачивается за пару секунд.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s07-download-prompt-engineer">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Скачать <code>prompt-engineer.zip</code></div>
+        <div class="item__hint">Появится после записи скринкаста — ссылка обновится в этой методичке. Если соберёте свой по разделу 03 раньше, чем выйдет скринкаст — используйте свою сборку.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s07-loaded-both">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Загрузить оба skill в свой Claude</div>
+        <div class="item__hint">Settings → Capabilities → Skills → Upload → выбрать каждый zip по очереди. После загрузки оба появятся в списке и будут доступны через <code>/</code> в любом чате — <code>/pdf-to-markdown</code> и <code>/prompt-engineer</code>.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /sections -->
+
+<!-- ═══ FOOTER ═══ -->
+<div class="footer">
+  <div class="footer__done" id="doneBlock">
+    <div class="footer__done-emoji">🚀</div>
+    <div class="footer__done-text">Готово!</div>
+    <div class="footer__done-sub">Методика освоена, skills загружены. Дальше — практика и доработка под ваши задачи.</div>
+  </div>
+  <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
+  <button class="btn-reset" onclick="resetProgress()">Сбросить прогресс</button>
+</div>
+
+</div><!-- /wrapper -->
+
+<script>
+// ─── CONFETTI ─────────────────────────────────────
+const C=document.getElementById('confetti-canvas'),ctx=C.getContext('2d');
+let particles=[],confettiActive=false;
+function resizeCanvas(){C.width=window.innerWidth;C.height=window.innerHeight;}
+window.addEventListener('resize',resizeCanvas);resizeCanvas();
+const COLORS=['#7c5bf5','#9d7cff','#34d399','#6ee7b7','#fbbf24','#f87171','#fb7185','#38bdf8','#facc15','#a78bfa','#f472b6','#4ade80'];
+function rand(a,b){return Math.random()*(b-a)+a;}
+function createBurst(x,y,count){for(let i=0;i<count;i++){const angle=rand(0,Math.PI*2),speed=rand(4,14),size=rand(4,10);particles.push({x,y,vx:Math.cos(angle)*speed+rand(-2,2),vy:Math.sin(angle)*speed*-0.8-rand(2,6),size,color:COLORS[Math.floor(Math.random()*COLORS.length)],rotation:rand(0,Math.PI*2),rotSpeed:rand(-0.2,0.2),gravity:rand(0.12,0.25),friction:rand(0.97,0.995),opacity:1,fadeSpeed:rand(0.005,0.015),shape:Math.random()>0.4?'rect':'circle'});}}
+function launchConfetti(){if(confettiActive)return;confettiActive=true;particles=[];const W=C.width,H=C.height;[[W*.5,H*.3,120],[W*.15,H*.2,80],[W*.85,H*.2,80],[W*.5,H*.1,100],[W*.3,H*.5,60],[W*.7,H*.5,60],[0,H*.6,50],[W,H*.6,50],[W*.5,H*.6,80]].forEach(([x,y,c],i)=>{setTimeout(()=>createBurst(x,y,c),i*150)});setTimeout(()=>{createBurst(W*.2,H*.15,90);createBurst(W*.8,H*.15,90);createBurst(W*.5,H*.05,100)},1500);setTimeout(()=>{createBurst(W*.5,H*.25,120);createBurst(W*.1,H*.4,60);createBurst(W*.9,H*.4,60)},2500);animate();setTimeout(()=>{confettiActive=false},8000);}
+function animate(){ctx.clearRect(0,0,C.width,C.height);for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.vx*=p.friction;p.vy*=p.friction;p.vy+=p.gravity;p.x+=p.vx;p.y+=p.vy;p.rotation+=p.rotSpeed;p.opacity-=p.fadeSpeed;if(p.opacity<=0){particles.splice(i,1);continue}ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rotation);ctx.globalAlpha=p.opacity;ctx.fillStyle=p.color;if(p.shape==='rect'){ctx.fillRect(-p.size/2,-p.size/4,p.size,p.size/2)}else{ctx.beginPath();ctx.arc(0,0,p.size/2,0,Math.PI*2);ctx.fill()}ctx.restore();}if(particles.length>0||confettiActive){requestAnimationFrame(animate)}else{ctx.clearRect(0,0,C.width,C.height);}}
+
+// ─── PROGRESS / CHECKLIST ─────────────────────────
+const STORAGE_KEY='iivizaciya_psmk_skills_v3';
+const allItems=document.querySelectorAll('.item[data-key]');
+const requiredItems=document.querySelectorAll('.item[data-key]:not([data-optional])');
+const totalRequired=requiredItems.length;
+let wasComplete=false;
+
+function loadState(){
+  try{
+    const s=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');
+    let c=0;
+    allItems.forEach(item=>{
+      const cb=item.querySelector('input[type="checkbox"]');
+      if(s[item.dataset.key]){
+        cb.checked=true;
+        item.classList.add('checked');
+        if(!item.dataset.optional) c++;
+      }
+    });
+    wasComplete=c===totalRequired;
+  }catch(e){}
+  updateProgress(false);
+}
+
+function saveState(){
+  const s={};
+  allItems.forEach(item=>{
+    s[item.dataset.key]=item.querySelector('input[type="checkbox"]').checked;
+  });
+  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(s))}catch(e){}
+}
+
+function updateProgress(canCelebrate=true){
+  let c=0;
+  requiredItems.forEach(item=>{
+    if(item.querySelector('input[type="checkbox"]').checked) c++;
+  });
+  document.getElementById('progressCount').textContent=`${c} / ${totalRequired}`;
+  document.getElementById('progressFill').style.width=(totalRequired>0?(c/totalRequired)*100:0)+'%';
+  const done=document.getElementById('doneBlock');
+  if(c===totalRequired){
+    done.classList.add('visible');
+    if(canCelebrate&&!wasComplete){launchConfetti()}
+    wasComplete=true;
+  }else{
+    done.classList.remove('visible');
+    wasComplete=false;
+  }
+}
+
+allItems.forEach(item=>{
+  const cb=item.querySelector('input[type="checkbox"]');
+  item.addEventListener('click',function(e){
+    if(e.target.closest('a')||e.target.closest('.lnk')||e.target.closest('.btn-copy')||e.target.closest('.code-block__copy')||e.target.closest('.download-btn'))return;
+    if(e.target!==cb){
+      cb.checked=!cb.checked;
+      cb.dispatchEvent(new Event('change'));
+    }
+  });
+  cb.addEventListener('change',function(){
+    item.classList.toggle('checked',this.checked);
+    saveState();
+    updateProgress(true);
+  });
+});
+
+function resetProgress(){
+  if(!confirm('Сбросить весь прогресс?'))return;
+  allItems.forEach(item=>{
+    const cb=item.querySelector('input[type="checkbox"]');
+    cb.checked=false;
+    item.classList.remove('checked');
+  });
+  wasComplete=false;
+  saveState();
+  updateProgress(false);
+}
+
+loadState();
+
+// ─── COPY CODE BLOCKS ─────────────────────────────
+document.querySelectorAll('.code-block__copy').forEach(btn=>{
+  btn.addEventListener('click',function(e){
+    e.stopPropagation();
+    const targetId=this.getAttribute('data-target');
+    const target=document.getElementById(targetId);
+    if(!target)return;
+    const text=target.textContent;
+    navigator.clipboard.writeText(text).then(()=>{
+      const original=this.textContent;
+      this.classList.add('copied');
+      this.textContent='✓ Скопировано';
+      setTimeout(()=>{this.classList.remove('copied');this.textContent=original;},1800);
+    });
+  });
+});
+
+// ─── REVEAL ON SCROLL ─────────────────────────────
+const revealObserver=new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+
+document.querySelectorAll('.reveal').forEach(el=>revealObserver.observe(el));
+</script>
+</body>
+</html>
