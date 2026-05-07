@@ -71,8 +71,7 @@
   .item__check .cm svg { width:12px; height:12px; opacity:0; transform:scale(0); transition:all .25s cubic-bezier(.34,1.56,.64,1); }
   .item__check input:checked + .cm { background:var(--green); border-color:var(--green); }
   .item__check input:checked + .cm svg { opacity:1; transform:scale(1); }
-  .item__body { flex:1; min-width:0; pointer-events:none; user-select:text; }
-  .item__body a, .item__body .lnk, .item__body .btn-copy, .item__body .download-btn { pointer-events:auto !important; cursor:pointer !important; }
+  .item__body { flex:1; min-width:0; user-select:text; }
   .item__text { font-size:14.5px; font-weight:500; color:var(--text-primary); transition:all .3s; }
   .item__hint { font-size:13px; color:var(--text-secondary); margin-top:6px; line-height:1.65; }
   .item__hint strong { color:var(--text-primary); }
@@ -1001,13 +1000,6 @@ function updateProgress(canCelebrate=true){
 
 allItems.forEach(item=>{
   const cb=item.querySelector('input[type="checkbox"]');
-  item.addEventListener('click',function(e){
-    if(e.target.closest('a')||e.target.closest('.lnk')||e.target.closest('.btn-copy')||e.target.closest('.code-block__copy')||e.target.closest('.download-btn'))return;
-    if(e.target!==cb){
-      cb.checked=!cb.checked;
-      cb.dispatchEvent(new Event('change'));
-    }
-  });
   cb.addEventListener('change',function(){
     item.classList.toggle('checked',this.checked);
     saveState();
