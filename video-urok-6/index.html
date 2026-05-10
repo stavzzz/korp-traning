@@ -177,6 +177,18 @@
   .term--p3-ch03 .term__example { background:rgba(251,113,133,0.06); border-left-color:rgba(251,113,133,0.3); }
   .concept-card--p3-ch03:hover { border-color:#fb7185; }
 
+  /* ─── МОСТ-ГЛАВА (Часть 3) — нейтральный сине-серый акцент ─── */
+  .chapter-marker--bridge { border-left:3px dashed #94a3b8; background:linear-gradient(135deg,rgba(148,163,184,0.04),transparent 60%); }
+  .chapter-marker--bridge .chapter-marker__label { color:#94a3b8; }
+  .chapter-marker--bridge .chapter-marker__title { font-weight:600; }
+  .progress-wrap--bridge .progress-count { color:#5eead4; }
+  .progress-wrap--bridge .progress-fill { background:linear-gradient(90deg,#94a3b8,#5eead4); }
+
+  /* sidebar-ссылка для мост-главы — лёгкое отличие от номерных */
+  .sidebar__link--bridge { color:#94a3b8; font-style:italic; border-left:2px dashed transparent; }
+  .sidebar__link--bridge:hover { color:#5eead4; }
+  .sidebar__link--bridge.sidebar__link--active { background:rgba(94,234,212,0.06); color:#5eead4; border-left-color:#5eead4; }
+
   /* визуальная пометка director / subagent блоков практики */
   .section--director .section__card { border-left:3px solid var(--amber); }
   .section--director .section__num { background:rgba(251,191,36,0.14); color:var(--amber); }
@@ -330,6 +342,7 @@
         <a href="#part3-chapter-01" class="sidebar__link" data-ch="p3-01">Глава 01 · Задача главного агента</a>
         <a href="#part3-chapter-02" class="sidebar__link" data-ch="p3-02">Глава 02 · Архитектура агента</a>
         <a href="#part3-chapter-03" class="sidebar__link" data-ch="p3-03">Глава 03 · SOUL.md</a>
+        <a href="#part3-bridge-github" class="sidebar__link sidebar__link--bridge" data-ch="p3-bridge">🌉 Мост · Бэкап на GitHub</a>
         <span class="sidebar__link sidebar__link--soon">Глава 04 · Skills OpenClaw <em>скоро</em></span>
         <span class="sidebar__link sidebar__link--soon">Глава 05 · Memory System <em>скоро</em></span>
         <span class="sidebar__link sidebar__link--soon">Глава 06 · Heartbeats <em>скоро</em></span>
@@ -5668,10 +5681,409 @@ All reports in markdown. Format defined in SOUL.md → Report Format.
       </div>
       <div class="footer__schedule">
         <div class="footer__schedule-title">Следующая глава</div>
-        <div class="footer__schedule-row"><span>Часть 3 · Глава 04</span><span>Skills OpenClaw — навыки директора и sub-агента</span></div>
+        <div class="footer__schedule-row"><span>Мост-глава</span><span>🌉 Бэкап агентов на GitHub</span></div>
       </div>
       <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
       <button class="btn-reset" onclick="resetProgressP3Ch03()">Сбросить прогресс главы 03, части 03</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- ═══ ЧАСТЬ 3 · МОСТ-ГЛАВА — БЭКАП НА GITHUB ═══ -->
+    <!-- ═══════════════════════════════════════════ -->
+
+    <div id="part3-bridge-github" class="chapter-divider"></div>
+
+    <div class="chapter-marker chapter-marker--bridge">
+      <div class="chapter-marker__label">ЧАСТЬ 3 · МОСТ-ГЛАВА</div>
+      <div class="chapter-marker__title">🌉 Бэкап на GitHub <span>— подключаем workspace агентов к приватному репо</span></div>
+    </div>
+
+    <div class="progress-wrap progress-wrap--bridge">
+      <div class="progress-top">
+        <span class="progress-label">Прогресс мост-главы</span>
+        <span class="progress-count" id="progressCountP3Bridge">0 / 6</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFillP3Bridge"></div></div>
+    </div>
+
+<!-- ═══ 92 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">92</div>
+    <div class="section__title">Зачем нам это нужно</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p>В Главе 03 у вас появилось два агента с настроенной душой. Сейчас вся их «жизнь» лежит <strong>только</strong> в папке <span class="mono">~/.openclaw/</span> на вашем VPS. Каждая правка <span class="mono">SOUL.md</span>, каждое будущее изменение <span class="mono">AGENTS.md</span> — нигде не дублируется.</p>
+      <p><strong>Что мы фиксим этой мост-главой:</strong></p>
+      <p>✅ <strong>Бэкап.</strong> Сервер упал — у вас есть полная история всех агентов на GitHub. Восстановили VPS, склонировали репо — вы там же, где были.</p>
+      <p>✅ <strong>История.</strong> Через месяц можно посмотреть <span class="mono">git log</span> и увидеть, как эволюционировал ваш директор: «10 мая создал», «12 мая усилил Boundaries», «15 мая добавил Method». Полная летопись.</p>
+      <p>✅ <strong>Откат.</strong> Правка SOUL ухудшила поведение агента — <span class="mono">git checkout</span> возвращает предыдущую версию за секунду. Без бэкапов руками, без копий-папок.</p>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span>После этой главы Claude Code-инженер будет автоматически пушить каждое своё изменение workspace в GitHub — вам ничего не нужно делать руками. Один раз настроил — работает всегда.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 93 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">93</div>
+    <div class="section__title">Что мы НЕ пушим — безопасность токенов</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--alert">
+      <span class="note__icon">🛡️</span>
+      <span><strong>КРИТИЧНО:</strong> в <span class="mono">~/.openclaw/</span> лежат <strong>секреты</strong> — токены ботов, API-ключи, авторизационные данные. Их <strong>категорически нельзя</strong> пушить на GitHub, даже в приватный репо. Перед первым push мы настроим <span class="mono">.gitignore</span>, который исключает все чувствительные файлы.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Что попадёт в <span class="mono">.gitignore</span></strong> (а значит — НЕ окажется на GitHub):</p>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Что исключаем</th>
+          <th>Почему</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="mono">agents/*/agent/auth-profiles.json</span></td>
+          <td>Токены и креды каждого агента</td>
+        </tr>
+        <tr>
+          <td><span class="mono">credentials/</span></td>
+          <td>Состояние каналов (WhatsApp/Telegram session keys)</td>
+        </tr>
+        <tr>
+          <td><span class="mono">*.token</span>, <span class="mono">gateway.token</span></td>
+          <td>Любые токен-файлы</td>
+        </tr>
+        <tr>
+          <td><span class="mono">agents/*/sessions/</span></td>
+          <td>Транскрипты диалогов (приватные данные клиентов!)</td>
+        </tr>
+        <tr>
+          <td><span class="mono">logs/</span>, <span class="mono">*.log</span></td>
+          <td>Логи Gateway — могут содержать чувствительное</td>
+        </tr>
+        <tr>
+          <td><span class="mono">tmp/</span>, <span class="mono">.cache/</span></td>
+          <td>Временные файлы</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span>На GitHub попадает только <strong>структура и логика</strong> агентов: <span class="mono">SOUL.md</span>, <span class="mono">IDENTITY.md</span>, <span class="mono">AGENTS.md</span>, <span class="mono">USER.md</span>, <span class="mono">MEMORY.md</span>, Skills, конфиг <span class="mono">openclaw.json</span> (в нём токены тоже маскируем — об этом в Шаге 4 практики). Это полная «душа» вашего AI-офиса без возможности кому-то воспользоваться вашими ботами.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 94 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">94</div>
+    <div class="section__title">ПРАКТИКА: подключаем GitHub (6 шагов)</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🚀</span>
+      <span>Эта практика — почти полностью на ваших руках в Telegram + 1-2 действия на GitHub в браузере. Claude Code-инженер делает всю серверную работу.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Шаг 1 — Создаём приватный репозиторий на GitHub</strong></p>
+    </div>
+    <div class="item" data-key="urok6-part3-bridge-github-create-repo">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Создать новый приватный репозиторий на GitHub</div>
+        <div class="item__hint">Зайдите на <a href="https://github.com/new" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> github.com/new</a>. Параметры:<br>— <strong>Repository name:</strong> <span class="mono">openclaw-config</span> (или другое, на ваш вкус);<br>— <strong>Visibility:</strong> Private (обязательно!);<br>— Не инициализируйте README/<span class="mono">.gitignore</span>/license — мы создадим всё на сервере.<br><br>Скопируйте SSH-адрес репозитория (вид: <span class="mono">git@github.com:&lt;your-username&gt;/openclaw-config.git</span>) — он понадобится в Шаге 4.</div>
+      </div>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Шаг 2 — Проверяем диагностику текущего состояния</strong></p>
+    </div>
+    <div class="item" data-key="urok6-part3-bridge-github-diagnose">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Попросить Claude Code проверить, что у нас сейчас в <span class="mono">~/.openclaw/</span></div>
+        <div class="item__hint">Перед тем как что-то делать, нужно понять текущее состояние. Может быть в <span class="mono">workspace-*</span> уже есть локальные <span class="mono">.git</span> от Главы 03 — их мы будем убирать (объединим в один общий git).</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — диагностика</div>
+      <div class="prompt-block__text" id="promptDiagnoseGit">Проверь текущее состояние ~/.openclaw/ перед подключением к GitHub.
+
+Покажи:
+1. ls -la ~/.openclaw/ — что лежит на верхнем уровне.
+2. Есть ли уже git-репо на ~/.openclaw/ ? (ls -la ~/.openclaw/.git)
+3. В каждом workspace-* — есть ли отдельный локальный git?
+   (for d in ~/.openclaw/workspace-*; do echo "$d:";
+    ls -la "$d/.git" 2&gt;/dev/null | head -1; done)
+4. Есть ли у тебя на сервере SSH-ключ для GitHub?
+   (ls -la ~/.ssh/ — покажи только pub-файлы)
+5. Покажи содержимое ~/.ssh/config (если есть) — посмотрим
+   на конфигурацию хостов.
+
+Ничего не меняй — только диагностика. После вывода кратко
+опиши:
+- Какие workspace найдены.
+- Есть ли уже SSH-ключ для GitHub (имя файла).
+- Есть ли локальные git-папки, которые мы будем сносить.</div>
+      <button class="btn-copy" onclick="copyBlock('promptDiagnoseGit', this)">📋 Скопировать</button>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Шаг 3 — Готовим SSH-ключ (или используем существующий)</strong></p>
+    </div>
+    <div class="item" data-key="urok6-part3-bridge-github-ssh-key">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Решить, какой SSH-ключ используем</div>
+        <div class="item__hint">У вас есть <strong>2 опции</strong>. Выберите ту, которая удобнее.</div>
+      </div>
+    </div>
+
+    <div class="res-block">
+      <div class="res-block__title">Опция A — использовать существующий ключ как user SSH key <span style="color:var(--green-glow);font-size:11px;font-weight:600;">рекомендую</span></div>
+      <div class="res-block__sub">На GitHub: <strong>Settings → SSH and GPG keys → New SSH key</strong>. Вставьте публичную часть существующего ключа (он есть из Части 2 для vault Obsidian — Claude Code в Шаге 2 покажет какой). Это даст ключу доступ ко всем вашим репозиториям, в том числе к новому <span class="mono">openclaw-config</span>.<br><strong>Плюс:</strong> один раз настроил — работает везде. <strong>Минус:</strong> если ключ скомпрометирован — все репозитории под угрозой.</div>
+    </div>
+
+    <div class="res-block">
+      <div class="res-block__title">Опция B — создать отдельный deploy key для этого репо</div>
+      <div class="res-block__sub">Попросите Claude Code сгенерировать новый ключ (например, <span class="mono">~/.ssh/github_openclaw_config</span>). Публичную часть добавьте на GitHub в <strong>Settings → Deploy keys</strong> этого конкретного репозитория с правом <strong>Write access</strong>.<br><strong>Плюс:</strong> ключ работает только для этого репо. <strong>Минус:</strong> ещё один файл-ключ на сервере, нужно прописывать <span class="mono">core.sshCommand</span> для git.</div>
+    </div>
+
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span>Если сомневаетесь — берите <strong>Опцию A</strong>. Это проще, а для приватного репо с конфигами AI-офиса этого достаточно.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Шаг 4 — Claude Code: настройка <span class="mono">.gitignore</span>, единый git, первый push</strong></p>
+    </div>
+    <div class="item" data-key="urok6-part3-bridge-github-init-git">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Попросить Claude Code инициализировать единый git на <span class="mono">~/.openclaw/</span> и сделать первый push</div>
+        <div class="item__hint">Это самый ответственный шаг. Скопируйте промпт ниже, <strong>вставьте SSH-адрес репозитория</strong> из Шага 1. Claude Code покажет план до выполнения и подождёт «погнали».</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — init git + первый push</div>
+      <div class="prompt-block__text" id="promptInitGit">Подключаем ~/.openclaw/ к GitHub-репо для бэкапа всех агентов
+и конфига.
+
+SSH-адрес репозитория (от меня):
+&lt;&lt;&lt;ВСТАВЬТЕ git@github.com:&lt;username&gt;/openclaw-config.git&gt;&gt;&gt;
+
+ПЛАН (покажи мне до действия, жди «погнали»):
+
+1. Если в ~/.openclaw/ уже есть .git — прервись и спроси меня,
+   что делать (возможно, репо уже подключено).
+
+2. Если в ~/.openclaw/workspace-*/ есть локальные .git
+   (от Главы 03) — снеси их (rm -rf .git в каждом). Мы делаем
+   единый git на родительском уровне, отдельные не нужны.
+
+3. Создай ~/.openclaw/.gitignore со следующим содержимым:
+---
+# Авторизация и креды — НЕ ПУШИМ НИКОГДА
+agents/*/agent/auth-profiles.json
+credentials/
+*.token
+gateway.token
+
+# Логи и сессии — приватные данные
+agents/*/sessions/
+logs/
+*.log
+
+# Временные файлы
+tmp/
+.cache/
+*.swp
+.DS_Store
+
+# Локальные секреты в openclaw.json — см. шаг 4 ниже
+---
+
+4. ВАЖНО про токены в openclaw.json:
+   В этом файле сейчас хранятся botToken'ы Telegram-ботов
+   (директор + sub-агент из Главы 03). Их нельзя пушить.
+   Сделай одно из двух (предложи мне выбрать):
+   а) Вынеси токены в отдельный файл
+      ~/.openclaw/secrets.json (его добавь в .gitignore),
+      а в openclaw.json замени значения на ${ENV_VAR}
+      или плейсхолдеры — в зависимости от того, что
+      поддерживает OpenClaw в этой версии.
+   б) Полностью добавь openclaw.json в .gitignore и пушь
+      только структуру workspace без главного конфига.
+
+5. git init на ~/.openclaw/.
+6. git add . (с учётом .gitignore).
+7. Проверь git status — НЕ ДОЛЖНО быть в списке: токенов,
+   sessions/, auth-profiles.json. Если есть — стоп, разбираемся.
+8. git commit -m "init: openclaw config + workspaces backup".
+9. git remote add origin &lt;SSH-адрес&gt;.
+10. git branch -M main.
+11. git push -u origin main.
+
+Покажи план. Жди «погнали».</div>
+      <button class="btn-copy" onclick="copyBlock('promptInitGit', this)">📋 Скопировать</button>
+    </div>
+    <div class="note note--alert">
+      <span class="note__icon">🚨</span>
+      <span><strong>На Шаге 4 пункте 7 (git status)</strong> — обязательно прочитайте, что Claude Code собирается пушить. Если в списке есть <span class="mono">*.token</span>, <span class="mono">auth-profiles</span>, <span class="mono">sessions/</span> — <strong>СТОЙТЕ</strong>. Разберитесь с <span class="mono">.gitignore</span> до push. После публикации в GitHub удалить — уже сложнее.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Шаг 5 — Проверяем на GitHub</strong></p>
+    </div>
+    <div class="item" data-key="urok6-part3-bridge-github-verify">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Открыть репозиторий на GitHub в браузере и убедиться, что файлы пришли</div>
+        <div class="item__hint">Зайдите в свой <span class="mono">openclaw-config</span> на GitHub. Должны увидеть:<br>— папки <span class="mono">workspace-director/</span> и <span class="mono">workspace-&lt;sub-agent&gt;/</span> (и другие);<br>— файлы <span class="mono">SOUL.md</span>, <span class="mono">IDENTITY.md</span>, <span class="mono">AGENTS.md</span>, <span class="mono">USER.md</span> внутри каждой;<br>— <span class="mono">.gitignore</span> в корне;<br>— <strong>НЕ должны</strong> увидеть <span class="mono">auth-profiles.json</span>, <span class="mono">sessions/</span>, <span class="mono">*.token</span>.</div>
+      </div>
+    </div>
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span>Если структура на месте, токены отсутствуют — бэкап работает.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Шаг 6 — Учим Claude Code пушить автоматически</strong></p>
+    </div>
+    <div class="item" data-key="urok6-part3-bridge-github-auto-push">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Обновить AGENTS.md Claude Code-бота — чтобы он автоматически пушил после правок</div>
+        <div class="item__hint">Claude Code должен сам делать <span class="mono">git commit</span> + <span class="mono">push</span> после каждого изменения файлов в <span class="mono">~/.openclaw/</span>. Скопируйте промпт ниже.</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — auto-push в AGENTS.md</div>
+      <div class="prompt-block__text" id="promptAutoPush">Обнови свой AGENTS.md, добавь блок про автоматический бэкап
+изменений ~/.openclaw/ в GitHub.
+
+Допиши в КОНЕЦ AGENTS.md (ничего не удаляя):
+
+---
+
+## Auto-backup of ~/.openclaw/
+
+После любой правки файлов в ~/.openclaw/ (SOUL/AGENTS/MEMORY/
+Skills любого агента, openclaw.json и т.д.) — обязательно делай:
+
+cd ~/.openclaw &amp;&amp; \
+git pull --rebase 2&gt;/dev/null &amp;&amp; \
+git add . &amp;&amp; \
+git commit -m "&lt;краткое описание изменения на русском&gt;" &amp;&amp; \
+git push
+
+⚠️ ВАЖНО:
+- Всегда git pull --rebase ПЕРЕД push — иначе будет конфликт.
+- Сообщения коммитов делай человеческими: «director: усилил
+  Hard Boundary про эскалацию», а не «update files».
+- Если git push падает — НЕ паникуй, не делай force-push.
+  Покажи мне ошибку и жди инструкций.
+- Никогда не делай git add для файлов, которые в .gitignore
+  (auth-profiles, *.token, sessions/, logs/) — это критическая
+  ошибка безопасности.
+
+---
+
+После добавления — покажи мне финальный блок и подтверди,
+что добавил.</div>
+      <button class="btn-copy" onclick="copyBlock('promptAutoPush', this)">📋 Скопировать</button>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span>С этого момента вы можете быть спокойны: каждая правка SOUL/AGENTS/Skills любого агента моментально уезжает в GitHub. История полная, откат — одна команда.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 95 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">95</div>
+    <div class="section__title">Что вы сейчас умеете</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p><strong>К концу мост-главы у вас:</strong></p>
+      <p>✅ Приватный GitHub-репозиторий <span class="mono">openclaw-config</span> с полным бэкапом всех агентов AI-офиса.<br>
+         ✅ <span class="mono">.gitignore</span> корректно исключает токены, сессии, логи — ничего чувствительного на GitHub нет.<br>
+         ✅ Claude Code пушит автоматически после каждой правки.<br>
+         ✅ Полная история эволюции каждого агента доступна через <span class="mono">git log</span>.</p>
+      <p><strong>Чего у вас пока нет</strong> (опционально, можно добавить позже):</p>
+      <p>⏳ Cron, который пушит «на всякий случай» раз в час, даже если правок не было — для дополнительной защиты от случайных потерь.<br>
+         ⏳ Автоматическое восстановление workspace из бэкапа на новом VPS — отдельный сценарий, разберём в Части 4 курса.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 96 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">96</div>
+    <div class="section__title">Что дальше</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p>Возвращаемся в основную линию Части 3. Дальше:</p>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Глава</th>
+          <th>Что в ней</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>04 · Skills OpenClaw</td>
+          <td>Скиллы директора (<span class="mono">read-conversations</span>, <span class="mono">generate-brief</span>) и sub-агента (под архетип). Как ставить готовые из ClawHub, как писать свои.</td>
+        </tr>
+        <tr>
+          <td>05 · Memory System</td>
+          <td><span class="mono">MEMORY.md</span>, daily notes, <span class="mono">memory_search</span> — для обоих агентов.</td>
+        </tr>
+        <tr>
+          <td>06 · Heartbeats</td>
+          <td>4 цикла директора и расписание sub-агента.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+    <!-- ═══ FOOTER МОСТ-ГЛАВЫ ═══ -->
+    <div class="footer">
+      <div class="footer__done" id="doneBlockP3Bridge">
+        <div class="footer__done-emoji">🌉</div>
+        <div class="footer__done-text">Мост построен — агенты бэкапятся автоматически</div>
+        <div class="footer__done-sub">Приватный GitHub-репо подключён, .gitignore защищает токены и сессии, Claude Code пушит после каждой правки. Каждое изменение SOUL / AGENTS / MEMORY имеет историю и возможность отката одной командой. Возвращаемся в основную линию Части 3 — Skills.</div>
+      </div>
+      <div class="footer__schedule">
+        <div class="footer__schedule-title">Следующая глава</div>
+        <div class="footer__schedule-row"><span>Часть 3 · Глава 04</span><span>Skills OpenClaw — навыки директора и sub-агента</span></div>
+      </div>
+      <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
+      <button class="btn-reset" onclick="resetProgressP3Bridge()">Сбросить прогресс мост-главы</button>
     </div>
 
   </main>
@@ -5767,6 +6179,16 @@ function saveStateP3Ch03(){const s={};itemsP3Ch03.forEach(item=>{s[item.dataset.
 function updateProgressP3Ch03(canCelebrate=true){let c=0;itemsP3Ch03.forEach(item=>{if(item.querySelector('input[type="checkbox"]').checked)c++});const cnt=document.getElementById('progressCountP3Ch03');const fill=document.getElementById('progressFillP3Ch03');if(cnt){cnt.textContent=`${c} / ${totalCountP3Ch03}`;}if(fill){fill.style.width=(totalCountP3Ch03>0?(c/totalCountP3Ch03)*100:0)+'%';}const done=document.getElementById('doneBlockP3Ch03');if(done){if(c===totalCountP3Ch03){done.classList.add('visible');if(canCelebrate&&!wasCompleteP3Ch03){launchConfetti()}wasCompleteP3Ch03=true}else{done.classList.remove('visible');wasCompleteP3Ch03=false;}}}
 itemsP3Ch03.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.addEventListener('change',function(){item.classList.toggle('checked',this.checked);saveStateP3Ch03();updateProgressP3Ch03(true);});});
 
+// ──────────── ЧАСТЬ 3 МОСТ-ГЛАВА (GitHub бэкап) ──────────────
+const STORAGE_KEY_P3_BRIDGE='iivizaciya_checklist_urok6_part3_bridge_github_v1';
+const itemsP3Bridge=document.querySelectorAll('.item[data-key^="urok6-part3-bridge-github-"]');
+const totalCountP3Bridge=itemsP3Bridge.length;
+let wasCompleteP3Bridge=false;
+function loadStateP3Bridge(){try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY_P3_BRIDGE)||'{}');let c=0;itemsP3Bridge.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');if(s[item.dataset.key]){cb.checked=true;item.classList.add('checked');c++}});wasCompleteP3Bridge=c===totalCountP3Bridge}catch(e){}updateProgressP3Bridge(false);}
+function saveStateP3Bridge(){const s={};itemsP3Bridge.forEach(item=>{s[item.dataset.key]=item.querySelector('input[type="checkbox"]').checked});try{localStorage.setItem(STORAGE_KEY_P3_BRIDGE,JSON.stringify(s))}catch(e){}}
+function updateProgressP3Bridge(canCelebrate=true){let c=0;itemsP3Bridge.forEach(item=>{if(item.querySelector('input[type="checkbox"]').checked)c++});const cnt=document.getElementById('progressCountP3Bridge');const fill=document.getElementById('progressFillP3Bridge');if(cnt){cnt.textContent=`${c} / ${totalCountP3Bridge}`;}if(fill){fill.style.width=(totalCountP3Bridge>0?(c/totalCountP3Bridge)*100:0)+'%';}const done=document.getElementById('doneBlockP3Bridge');if(done){if(c===totalCountP3Bridge){done.classList.add('visible');if(canCelebrate&&!wasCompleteP3Bridge){launchConfetti()}wasCompleteP3Bridge=true}else{done.classList.remove('visible');wasCompleteP3Bridge=false;}}}
+itemsP3Bridge.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.addEventListener('change',function(){item.classList.toggle('checked',this.checked);saveStateP3Bridge();updateProgressP3Bridge(true);});});
+
 function resetProgressCh01(){if(!confirm('Сбросить прогресс главы 01, части 01?'))return;itemsCh01.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteCh01=false;saveStateCh01();updateProgressCh01(false);}
 function resetProgressCh02(){if(!confirm('Сбросить прогресс главы 02, части 01?'))return;itemsCh02.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteCh02=false;saveStateCh02();updateProgressCh02(false);}
 function resetProgressCh03(){if(!confirm('Сбросить прогресс главы 03, части 01?'))return;itemsCh03.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteCh03=false;saveStateCh03();updateProgressCh03(false);}
@@ -5775,6 +6197,7 @@ function resetProgressP2Ch02(){if(!confirm('Сбросить прогресс г
 function resetProgressP3Ch01(){if(!confirm('Сбросить прогресс главы 01, части 03?'))return;itemsP3Ch01.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteP3Ch01=false;saveStateP3Ch01();updateProgressP3Ch01(false);}
 function resetProgressP3Ch02(){if(!confirm('Сбросить прогресс главы 02, части 03?'))return;itemsP3Ch02.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteP3Ch02=false;saveStateP3Ch02();updateProgressP3Ch02(false);}
 function resetProgressP3Ch03(){if(!confirm('Сбросить прогресс главы 03, части 03?'))return;itemsP3Ch03.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteP3Ch03=false;saveStateP3Ch03();updateProgressP3Ch03(false);}
+function resetProgressP3Bridge(){if(!confirm('Сбросить прогресс мост-главы?'))return;itemsP3Bridge.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteP3Bridge=false;saveStateP3Bridge();updateProgressP3Bridge(false);}
 loadStateCh01();
 loadStateCh02();
 loadStateCh03();
@@ -5783,6 +6206,7 @@ loadStateP2Ch02();
 loadStateP3Ch01();
 loadStateP3Ch02();
 loadStateP3Ch03();
+loadStateP3Bridge();
 
 // ──────────── SCROLL-SPY (sidebar активная глава + mobile topbar) ──────────────
 (function(){
@@ -5793,6 +6217,7 @@ loadStateP3Ch03();
   const p3c1Anchor=document.getElementById('part3-chapter-01');
   const p3c2Anchor=document.getElementById('part3-chapter-02');
   const p3c3Anchor=document.getElementById('part3-chapter-03');
+  const p3bridgeAnchor=document.getElementById('part3-bridge-github');
   const linkCh01=document.querySelector('.sidebar__link[data-ch="01"]');
   const linkCh02=document.querySelector('.sidebar__link[data-ch="02"]');
   const linkCh03=document.querySelector('.sidebar__link[data-ch="03"]');
@@ -5801,6 +6226,7 @@ loadStateP3Ch03();
   const linkP3C1=document.querySelector('.sidebar__link[data-ch="p3-01"]');
   const linkP3C2=document.querySelector('.sidebar__link[data-ch="p3-02"]');
   const linkP3C3=document.querySelector('.sidebar__link[data-ch="p3-03"]');
+  const linkP3Bridge=document.querySelector('.sidebar__link[data-ch="p3-bridge"]');
   const mobileTitle=document.querySelector('.mobile-topbar__title');
   if(!ch02Anchor||!linkCh01||!linkCh02)return;
   const THRESHOLD=200;
@@ -5812,17 +6238,19 @@ loadStateP3Ch03();
     'p2c2':'Урок 6 · Ч.2 · Гл.02',
     'p3c1':'Урок 6 · Ч.3 · Гл.01',
     'p3c2':'Урок 6 · Ч.3 · Гл.02',
-    'p3c3':'Урок 6 · Ч.3 · Гл.03'
+    'p3c3':'Урок 6 · Ч.3 · Гл.03',
+    'p3bridge':'Урок 6 · Ч.3 · 🌉 Мост'
   };
-  const ALL_LINKS=[linkCh01,linkCh02,linkCh03,linkP2C1,linkP2C2,linkP3C1,linkP3C2,linkP3C3];
+  const ALL_LINKS=[linkCh01,linkCh02,linkCh03,linkP2C1,linkP2C2,linkP3C1,linkP3C2,linkP3C3,linkP3Bridge];
   function setActive(key){
     ALL_LINKS.forEach(l=>l&&l.classList.remove('sidebar__link--active'));
-    const linkMap={'p1c1':linkCh01,'p1c2':linkCh02,'p1c3':linkCh03,'p2c1':linkP2C1,'p2c2':linkP2C2,'p3c1':linkP3C1,'p3c2':linkP3C2,'p3c3':linkP3C3};
+    const linkMap={'p1c1':linkCh01,'p1c2':linkCh02,'p1c3':linkCh03,'p2c1':linkP2C1,'p2c2':linkP2C2,'p3c1':linkP3C1,'p3c2':linkP3C2,'p3c3':linkP3C3,'p3bridge':linkP3Bridge};
     const target=linkMap[key];
     if(target)target.classList.add('sidebar__link--active');
     if(mobileTitle)mobileTitle.textContent=TITLES[key]||TITLES['p1c1'];
   }
   function update(){
+    const p3bridgeTop=p3bridgeAnchor?p3bridgeAnchor.getBoundingClientRect().top:Infinity;
     const p3c3Top=p3c3Anchor?p3c3Anchor.getBoundingClientRect().top:Infinity;
     const p3c2Top=p3c2Anchor?p3c2Anchor.getBoundingClientRect().top:Infinity;
     const p3c1Top=p3c1Anchor?p3c1Anchor.getBoundingClientRect().top:Infinity;
@@ -5830,7 +6258,8 @@ loadStateP3Ch03();
     const p2c1Top=p2c1Anchor?p2c1Anchor.getBoundingClientRect().top:Infinity;
     const ch03Top=ch03Anchor?ch03Anchor.getBoundingClientRect().top:Infinity;
     const ch02Top=ch02Anchor.getBoundingClientRect().top;
-    if(p3c3Top<=THRESHOLD)setActive('p3c3');
+    if(p3bridgeTop<=THRESHOLD)setActive('p3bridge');
+    else if(p3c3Top<=THRESHOLD)setActive('p3c3');
     else if(p3c2Top<=THRESHOLD)setActive('p3c2');
     else if(p3c1Top<=THRESHOLD)setActive('p3c1');
     else if(p2c2Top<=THRESHOLD)setActive('p2c2');
