@@ -198,6 +198,15 @@
   .term--p3-ch04 .term__example { background:rgba(129,140,248,0.06); border-left-color:rgba(129,140,248,0.3); }
   .concept-card--p3-ch04:hover { border-color:#818cf8; }
 
+  /* ─── PART 3 ГЛАВА 05 — emerald акцент (глава про долговременную память) ─── */
+  .chapter-marker--p3-ch05 { border-left-color:#10b981; }
+  .chapter-marker--p3-ch05 .chapter-marker__label { color:#10b981; }
+  .progress-wrap--p3-ch05 .progress-count { color:#10b981; }
+  .progress-wrap--p3-ch05 .progress-fill { background:linear-gradient(90deg,#10b981,#059669); }
+  .term--p3-ch05 .term__name { color:#10b981; }
+  .term--p3-ch05 .term__example { background:rgba(16,185,129,0.06); border-left-color:rgba(16,185,129,0.3); }
+  .concept-card--p3-ch05:hover { border-color:#10b981; }
+
   /* визуальная пометка director / subagent блоков практики */
   .section--director .section__card { border-left:3px solid var(--amber); }
   .section--director .section__num { background:rgba(251,191,36,0.14); color:var(--amber); }
@@ -209,6 +218,12 @@
   .section--mlflow .section__num { background:rgba(129,140,248,0.14); color:#818cf8; }
   .section--skill .section__card { border-left:3px solid #a78bfa; }
   .section--skill .section__num { background:rgba(167,139,250,0.14); color:#a78bfa; }
+  .section--memory-director .section__card { border-left:3px solid #10b981; }
+  .section--memory-director .section__num { background:rgba(16,185,129,0.14); color:#10b981; }
+  .section--vault-subagent .section__card { border-left:3px solid #a78bfa; }
+  .section--vault-subagent .section__num { background:rgba(167,139,250,0.14); color:#a78bfa; }
+  .section--memory-shared .section__card { border-left:3px solid #14b8a6; }
+  .section--memory-shared .section__num { background:rgba(20,184,166,0.14); color:#14b8a6; }
 
   /* ярлык-чип на section header (🎩 Директор / 🔍 Sub-агент / 🧪 Тесты) */
   .section__chip { display:inline-flex; align-items:center; gap:5px; font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; padding:3px 9px; border-radius:100px; margin-left:auto; }
@@ -217,6 +232,20 @@
   .section__chip--testing { color:#38bdf8; background:rgba(56,189,248,0.1); border:1px solid rgba(56,189,248,0.3); }
   .section__chip--mlflow { color:#818cf8; background:rgba(129,140,248,0.1); border:1px solid rgba(129,140,248,0.3); }
   .section__chip--skill { color:#a78bfa; background:rgba(167,139,250,0.1); border:1px solid rgba(167,139,250,0.3); }
+  .section__chip--memory-director { color:#10b981; background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.3); }
+  .section__chip--vault-subagent { color:#a78bfa; background:rgba(167,139,250,0.1); border:1px solid rgba(167,139,250,0.3); }
+  .section__chip--memory-shared { color:#14b8a6; background:rgba(20,184,166,0.1); border:1px solid rgba(20,184,166,0.3); }
+
+  /* матрица прав «кто куда пишет» — критическая для понимания безопасности */
+  .perm-table { width:100%; font-size:12.5px; border-collapse:collapse; }
+  .perm-table th { text-align:left; font-weight:700; font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:1.2px; padding:9px 12px; border-bottom:1px solid var(--border); background:rgba(0,0,0,0.25); color:var(--text-muted); }
+  .perm-table th:first-child { color:var(--text-primary); }
+  .perm-table td { padding:8px 12px; border-bottom:1px solid var(--border); vertical-align:middle; line-height:1.4; }
+  .perm-table tr:last-child td { border-bottom:none; }
+  .perm-table td:first-child { color:var(--text-primary); font-weight:500; font-family:'JetBrains Mono',monospace; font-size:11.5px; }
+  .perm-table td.ok { color:var(--green-glow); text-align:center; font-weight:700; }
+  .perm-table td.no { color:#fb7185; text-align:center; font-weight:700; }
+  .perm-table td.ok small, .perm-table td.no small { display:block; font-weight:500; font-size:10px; opacity:.85; margin-top:2px; }
 
   /* compare-grid для антипаттернов «плохо vs хорошо» */
   .compare-grid { display:grid; grid-template-columns:1fr 1fr; gap:0; padding:0; border-top:1px solid var(--border); }
@@ -359,7 +388,7 @@
         <a href="#part3-chapter-03" class="sidebar__link" data-ch="p3-03">Глава 03 · SOUL.md</a>
         <a href="#part3-bridge-github" class="sidebar__link sidebar__link--bridge" data-ch="p3-bridge">🌉 Мост · Бэкап на GitHub</a>
         <a href="#part3-chapter-04" class="sidebar__link" data-ch="p3-04">Глава 04 · Skills OpenClaw</a>
-        <span class="sidebar__link sidebar__link--soon">Глава 05 · Memory System <em>скоро</em></span>
+        <a href="#part3-chapter-05" class="sidebar__link" data-ch="p3-05">Глава 05 · Memory System</a>
         <span class="sidebar__link sidebar__link--soon">Глава 06 · Heartbeats <em>скоро</em></span>
       </div>
 
@@ -6806,10 +6835,947 @@ openclaw skills list
       </div>
       <div class="footer__schedule">
         <div class="footer__schedule-title">Следующая глава</div>
-        <div class="footer__schedule-row"><span>Часть 3 · Глава 05</span><span>Memory System — MEMORY.md и daily notes для обоих агентов</span></div>
+        <div class="footer__schedule-row"><span>Часть 3 · Глава 05</span><span>Memory System — двухуровневая память: локально + общий vault</span></div>
       </div>
       <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
       <button class="btn-reset" onclick="resetProgressP3Ch04()">Сбросить прогресс главы 04, части 03</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- ═══ ЧАСТЬ 3 · ГЛАВА 05 — MEMORY SYSTEM ═══ -->
+    <!-- ═══════════════════════════════════════════ -->
+
+    <div id="part3-chapter-05" class="chapter-divider"></div>
+
+    <div class="chapter-marker chapter-marker--p3-ch05">
+      <div class="chapter-marker__label">ЧАСТЬ 3 · ГЛАВА 05</div>
+      <div class="chapter-marker__title">Memory System <span>— двухуровневая память: локально + общий vault</span></div>
+    </div>
+
+    <div class="progress-wrap progress-wrap--p3-ch05">
+      <div class="progress-top">
+        <span class="progress-label">Прогресс главы 05, части 03</span>
+        <span class="progress-count" id="progressCountP3Ch05">0 / 11</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFillP3Ch05"></div></div>
+    </div>
+
+<!-- ═══ 107 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">107</div>
+    <div class="section__title">Что мы делаем в этой главе</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p>До этой главы у обоих агентов есть «душа» (Глава 03) и инструменты (Глава 04). Но они <strong>забывают всё</strong> между сессиями — каждое утро как в первый раз. Сейчас даём им память.</p>
+      <p>Двухуровневую: у каждого агента свою (локальную) + общий «второй мозг» в Obsidian для всего AI-офиса. После этой главы:</p>
+      <p>— директор помнит, что наблюдал у sub-агентов на прошлой неделе;<br>
+         — sub-агент сам пишет ценные находки в общий vault;<br>
+         — все правки SOUL/MEMORY автоматически уезжают в GitHub (через мост-главу).</p>
+    </div>
+
+    <div class="arch-box">   Каждый агент имеет ДВА уровня памяти:
+
+   ┌──────────────────────────────────────────────┐
+   │  УРОВЕНЬ 1 — Локальная память (своя)         │
+   │  ────────────────────────────────────         │
+   │  ~/.openclaw/workspace-&lt;agent&gt;/               │
+   │    ├── MEMORY.md          ← курируемая        │
+   │    └── memory/YYYY-MM-DD.md ← daily notes    │
+   │                                              │
+   │  Что туда писать: рабочие заметки агента,    │
+   │  baseline'ы, текущие гипотезы.               │
+   └──────────────────────────────────────────────┘
+                       ↕
+   ┌──────────────────────────────────────────────┐
+   │  УРОВЕНЬ 2 — Общий «второй мозг» (Obsidian)  │
+   │  ─────────────────────────────────────────────│
+   │  ~/.openclaw/shared-vault/                    │
+   │    ├── observations/&lt;agent&gt;/  ← пишет sub-ag.│
+   │    ├── knowledge-base/        ← пишут все    │
+   │    ├── tasks-for-claude-code/ ← пишет директ.│
+   │    ├── applied-changes/       ← пишет CC     │
+   │    └── retro-archive/         ← пишет директ.│
+   │                                              │
+   │  Что туда писать: shared knowledge для       │
+   │  всего AI-офиса, синк через GitHub.          │
+   └──────────────────────────────────────────────┘</div>
+
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span>Локальная память — быстрая и приватная. Общий vault — всё что «наружу для команды». Эти два уровня <strong>не дублируют</strong> друг друга — они дополняют. Агент сам решает: рабочая заметка → локально, важное накопленное знание → в vault.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 108 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">108</div>
+    <div class="section__title">Память OpenClaw простыми словами</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p>Прежде чем настраивать — короткая теория. Что такое память агента в OpenClaw на верхнем уровне.</p>
+    </div>
+
+    <div class="concept-grid">
+      <div class="concept-card concept-card--p3-ch05">
+        <div class="concept-card__emoji">💭</div>
+        <div class="concept-card__title">In-context</div>
+        <div class="concept-card__desc">Что агент видит в текущем разговоре. Контекстное окно модели.<br><strong>Обновляется:</strong> каждое сообщение.</div>
+      </div>
+      <div class="concept-card concept-card--p3-ch05">
+        <div class="concept-card__emoji">📜</div>
+        <div class="concept-card__title">Транскрипты</div>
+        <div class="concept-card__desc">JSONL-логи всех сообщений. На диске сервера.<br><strong>Обновляется:</strong> автоматически каждый turn.</div>
+      </div>
+      <div class="concept-card concept-card--p3-ch05">
+        <div class="concept-card__emoji">📓</div>
+        <div class="concept-card__title">Daily notes</div>
+        <div class="concept-card__desc">Markdown-заметки за день. <span class="mono">memory/YYYY-MM-DD.md</span><br><strong>Обновляется:</strong> агент сам пишет в течение дня.</div>
+      </div>
+      <div class="concept-card concept-card--p3-ch05">
+        <div class="concept-card__emoji">📚</div>
+        <div class="concept-card__title">MEMORY.md</div>
+        <div class="concept-card__desc">Долгосрочная курируемая память. Что агент помнит «всегда».<br><strong>Обновляется:</strong> раз в неделю на курации.</div>
+      </div>
+    </div>
+
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span>Главное правило памяти OpenClaw: <strong>«Агент помнит только то, что записано в файлы»</strong>. Никакой скрытой памяти нет. Если хочешь, чтобы агент что-то помнил — оно должно быть в <span class="mono">MEMORY.md</span>, в <span class="mono">memory/&lt;date&gt;.md</span>, или в общем vault. Точка.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 109 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">109</div>
+    <div class="section__title">MEMORY.md vs daily notes — чёткое разделение</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p>Это самая частая путаница. Разберёмся раз и навсегда.</p>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th><span class="mono">memory/YYYY-MM-DD.md</span> (daily notes)</th>
+          <th><span class="mono">MEMORY.md</span> (курируемая)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Стиль</td>
+          <td>Сырые заметки, телеграфно</td>
+          <td>Структурированно, по разделам</td>
+        </tr>
+        <tr>
+          <td>Размер</td>
+          <td>Растёт за день, потом «закрывается»</td>
+          <td>Держим ≤ 8-10 тыс. знаков</td>
+        </tr>
+        <tr>
+          <td>Когда писать</td>
+          <td>Постоянно в течение дня</td>
+          <td>Раз в неделю, на курации</td>
+        </tr>
+        <tr>
+          <td>Когда читать</td>
+          <td>Когда нужно вспомнить «что было вчера / 3 дня назад»</td>
+          <td>На каждое сообщение автоматически</td>
+        </tr>
+        <tr>
+          <td>Что туда</td>
+          <td>Сегодняшние spot-checks, метрики, мелкие наблюдения</td>
+          <td>Профили sub-агентов, baseline'ы, applied changes log</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note note--alert">
+      <span class="note__icon">🚨</span>
+      <span><strong>Критичный момент про токены:</strong> содержимое <span class="mono">MEMORY.md</span> подгружается в каждое сообщение агента. Если файл раздувается до 12+ тыс. знаков — часть обрезается, и каждое сообщение становится дороже. Поэтому: <strong>MEMORY.md = только важное, отжатое до сути. Подробности → в daily notes.</strong></span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 110 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">110</div>
+    <div class="section__title">Структура MEMORY.md директора</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p>Жёсткой схемы для <span class="mono">MEMORY.md</span> в OpenClaw нет, но для роли директора мы заложим <strong>7 разделов</strong>. Каждый отвечает за свою задачу.</p>
+    </div>
+
+    <div class="term term--p3-ch05">
+      <div class="term__name">Profile</div>
+      <div class="term__def">Кто я в одно предложение. «Я — AI-директор проекта X, наблюдаю sub-агентов A, B, C».</div>
+    </div>
+    <div class="term term--p3-ch05">
+      <div class="term__name">Owner</div>
+      <div class="term__def">Краткая выжимка про вас: стиль общения, формат отчётов, расписание ретро.</div>
+    </div>
+    <div class="term term--p3-ch05">
+      <div class="term__name">Sub-agent profiles</div>
+      <div class="term__def">По каждому sub-агенту: роль, мандат, KPI baselines (latency, cost, error rate), последние правки.</div>
+    </div>
+    <div class="term term--p3-ch05">
+      <div class="term__name">Incidents log</div>
+      <div class="term__def">Только важное. «10 мая sub-агент X сделал ошибку Y, бриф — ссылка, статус — applied».</div>
+    </div>
+    <div class="term term--p3-ch05">
+      <div class="term__name">Applied changes log</div>
+      <div class="term__def">Audit trail всех правок sub-агентов. Дата + что изменили + проверено да/нет.</div>
+    </div>
+    <div class="term term--p3-ch05">
+      <div class="term__name">Open hypotheses</div>
+      <div class="term__def">Гипотезы, которые нужно подтвердить ещё данными перед формированием брифа.</div>
+    </div>
+    <div class="term term--p3-ch05">
+      <div class="term__name">Working preferences</div>
+      <div class="term__def">Что вы (owner) явно просили помнить. «Не пиши длинные интро», «эскалация только real critical».</div>
+    </div>
+
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span><strong>Sub-agent profiles</strong> — самая длинная секция. По 800-1200 знаков на каждого sub-агента. При 5 sub-агентах это 4-6 тыс. знаков из общего бюджета MEMORY. Поэтому остальные секции держим компактно.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 111 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">111</div>
+    <div class="section__title">Двухуровневая память: где что писать</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🗺️</span>
+      <span>Чтобы не путаться, какая запись куда идёт — простая навигация по обоим уровням памяти.</span>
+    </div>
+
+    <div class="concept-grid">
+      <div class="concept-card concept-card--p3-ch05">
+        <div class="concept-card__emoji">📓</div>
+        <div class="concept-card__title">Сегодняшний spot-check, мелкие наблюдения</div>
+        <div class="concept-card__desc">Локально → <span class="mono">memory/&lt;сегодня&gt;.md</span></div>
+      </div>
+      <div class="concept-card concept-card--p3-ch05">
+        <div class="concept-card__emoji">📚</div>
+        <div class="concept-card__title">Подтверждённый паттерн (≥3 раза за 7 дней)</div>
+        <div class="concept-card__desc">Локально → <span class="mono">MEMORY.md</span></div>
+      </div>
+      <div class="concept-card concept-card--p3-ch05">
+        <div class="concept-card__emoji">🔍</div>
+        <div class="concept-card__title">Sub-агент: важная находка для команды</div>
+        <div class="concept-card__desc">Vault → <span class="mono">observations/&lt;свой-id&gt;/</span></div>
+      </div>
+      <div class="concept-card concept-card--p3-ch05">
+        <div class="concept-card__emoji">📖</div>
+        <div class="concept-card__title">Sub-агент: добавление в базу знаний проекта</div>
+        <div class="concept-card__desc">Vault → <span class="mono">knowledge-base/</span></div>
+      </div>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Детальная структура общего vault</strong> (новые папки выделены ← пометками):</p>
+    </div>
+
+    <div class="arch-box">~/.openclaw/shared-vault/
+├── observations/                  ← НОВОЕ в этой главе
+│   ├── &lt;agent-1&gt;/
+│   │   ├── 2026-05-10-&lt;тема&gt;.md  ← пишет sub-агент
+│   │   └── ...
+│   └── &lt;agent-2&gt;/
+│       └── ...
+│
+├── knowledge-base/                ← база знаний проекта
+│   ├── product-context.md         ← пишут все агенты
+│   └── ...
+│
+├── tasks-for-claude-code/         ← брифы директора
+│   └── 2026-05-10-&lt;тема&gt;.md      ← пишет ТОЛЬКО директор
+│
+├── applied-changes/               ← Claude Code-инженер
+│   └── 2026-05-10-&lt;тема&gt;.md      ← пишет ТОЛЬКО Claude Code
+│
+└── retro-archive/                 ← еженедельные ретро
+    └── 2026-W19.md                ← пишет ТОЛЬКО директор</div>
+
+    <div class="note note--alert">
+      <span class="note__icon">🛡️</span>
+      <span><strong>Кто куда может писать</strong> (важно — это enforced через скилл и AGENTS.md):</span>
+    </div>
+
+    <table class="perm-table">
+      <thead>
+        <tr>
+          <th>Папка</th>
+          <th>Sub-агент</th>
+          <th>Директор</th>
+          <th>Claude Code</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>observations/&lt;свой-id&gt;/</td>
+          <td class="ok">✅<small>только своя</small></td>
+          <td class="ok">✅<small>читает все</small></td>
+          <td class="ok">✅<small>читает все</small></td>
+        </tr>
+        <tr>
+          <td>observations/&lt;чужой-id&gt;/</td>
+          <td class="no">❌<small>нельзя</small></td>
+          <td class="ok">✅<small>читает</small></td>
+          <td class="ok">✅<small>читает</small></td>
+        </tr>
+        <tr>
+          <td>knowledge-base/</td>
+          <td class="ok">✅<small>читает + пишет</small></td>
+          <td class="ok">✅<small>читает + пишет</small></td>
+          <td class="ok">✅</td>
+        </tr>
+        <tr>
+          <td>tasks-for-claude-code/</td>
+          <td class="no">❌</td>
+          <td class="ok">✅<small>только директор</small></td>
+          <td class="ok">✅<small>читает</small></td>
+        </tr>
+        <tr>
+          <td>applied-changes/</td>
+          <td class="no">❌</td>
+          <td class="ok">✅<small>читает</small></td>
+          <td class="ok">✅<small>только CC</small></td>
+        </tr>
+        <tr>
+          <td>retro-archive/</td>
+          <td class="no">❌</td>
+          <td class="ok">✅<small>только директор</small></td>
+          <td class="ok">✅<small>читает</small></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note note--info">
+      <span class="note__icon">🔒</span>
+      <span>Sub-агенты <strong>физически не могут</strong> писать в зоны других. Это защита от взаимного перетирания записей.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 112 ═══ -->
+<div class="section section--memory-director">
+  <div class="section__header">
+    <div class="section__num">112</div>
+    <div class="section__title">ПРАКТИКА · Часть A · Наполняем MEMORY директора</div>
+    <span class="section__chip section__chip--memory-director">📚 MEMORY директора</span>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">📚</span>
+      <span>Часть A — структурируем долгосрочную память директора. Используем ваш <strong>Claude-проект</strong> (как в Главе 03) для генерации персонального наполнения, и Claude Code-инженер записывает результат в файл.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Шаг 1 — Получаем персональный MEMORY директора через Claude-проект</strong></p>
+    </div>
+    <div class="item" data-key="urok6-part3-ch05-d-memory-claude">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Открыть Claude-проект и получить структурированный MEMORY директора</div>
+        <div class="item__hint">Откройте свой проект на <span class="mono">claude.ai</span> (тот, где знание о вашем бизнесе). Скопируйте промпт ниже и отправьте в чат проекта.</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт для Claude-проекта (claude.ai) — генерация MEMORY директора</div>
+      <div class="prompt-block__text" id="promptDirectorMemoryGen">Напиши MEMORY.md для моего AI-директора OpenClaw — это его
+долгосрочная курируемая память.
+
+Структура — ровно 7 разделов:
+
+# MEMORY.md
+
+## Profile
+1 предложение. «Я — AI-директор &lt;проект&gt;, наблюдаю sub-агентов
+&lt;перечислить из базы знаний&gt;».
+
+## Owner
+Краткая выжимка про меня (owner'а):
+- Имя
+- Стиль общения (бери из базы знаний этого Claude-проекта)
+- Формат отчётов, который я предпочитаю
+- Расписание (когда отчёты, когда ретро)
+- 2-3 жёстких "не делай" из моих прошлых правок директора
+
+## Sub-agent profiles
+По одному блоку на sub-агента (тех, что есть из Главы 03).
+Шаблон:
+### &lt;agentId&gt;
+- **Role:** ...
+- **Mandate scope:** ...
+- **KPI baselines (заполним из MLflow):**
+  - latency: TBD (заполним после первой недели работы)
+  - error rate: TBD
+  - tone-fit: TBD
+- **Recurring issues (last 30d):** пока пусто
+- **Last SOUL revision:** &lt;дата создания SOUL из Главы 03&gt;
+
+## Incidents log (high-signal)
+Пусто пока. Сюда буду писать только важное.
+
+## Applied changes log
+| Дата | Sub-агент | Что изменено | Проверено |
+|------|-----------|--------------|-----------|
+(пустая таблица для будущих записей)
+
+## Open hypotheses
+Пусто пока. Сюда — гипотезы для подтверждения данными.
+
+## Working preferences
+Что owner просил помнить:
+- (бери из базы знаний — что я говорил про стиль работы)
+- (добавь 3-5 пунктов под мою специфику)
+
+ТРЕБОВАНИЯ:
+- На русском
+- До 8 000 знаков (важно — компактно)
+- Без корпоративной ваты, как в SOUL директора
+- Используй контекст моего бизнеса из базы знаний
+
+Выдай готовый MEMORY.md одним блоком кода.</div>
+      <button class="btn-copy" onclick="copyBlock('promptDirectorMemoryGen', this)">📋 Скопировать</button>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Шаг 2 — Записываем MEMORY.md и создаём первую daily note директора</strong></p>
+    </div>
+    <div class="item" data-key="urok6-part3-ch05-d-memory-write">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Отдать готовый MEMORY Claude Code и сразу создать первую daily note</div>
+        <div class="item__hint">Скопируйте результат от Claude-проекта, вставьте в промпт ниже, отправьте Claude Code-боту.</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — запись MEMORY + первая daily note</div>
+      <div class="prompt-block__text" id="promptDirectorMemoryWrite">Записываем долгосрочную память директора и создаём первую
+daily note.
+
+ПЛАН:
+
+1. Записать MEMORY.md в ~/.openclaw/workspace-director/MEMORY.md.
+   Содержимое:
+---
+&lt;&lt;&lt;ВСТАВЬТЕ MEMORY.md ИЗ CLAUDE-ПРОЕКТА&gt;&gt;&gt;
+---
+
+2. Создать папку для daily notes (если нет):
+   mkdir -p ~/.openclaw/workspace-director/memory
+
+3. Создать первую daily note
+   ~/.openclaw/workspace-director/memory/&lt;сегодня&gt;.md
+   с минимальным содержимым:
+---
+# &lt;сегодняшняя дата&gt;
+
+## Profile updates
+- MEMORY.md создан и заполнен.
+- Sub-agent profiles: &lt;agentId&gt; заполнен (KPI baselines TBD).
+
+## Spot-checks
+Пока нет — наблюдение начнётся завтра.
+
+## Observations
+Initial setup day.
+
+## Briefs created
+None today.
+---
+
+4. git pull --rebase + add + commit + push (auto-backup
+   из мост-главы).
+
+5. Покажи мне:
+   - финальный путь обоих файлов;
+   - размер MEMORY.md в знаках (должен быть &lt; 12 000);
+   - подтверждение, что push прошёл.
+
+ОБЯЗАТЕЛЬНО:
+- Покажи план до действия.
+- Жди «погнали».</div>
+      <button class="btn-copy" onclick="copyBlock('promptDirectorMemoryWrite', this)">📋 Скопировать</button>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Шаг 3 — Проверяем hot-reload в Telegram</strong></p>
+    </div>
+    <div class="item" data-key="urok6-part3-ch05-d-memory-test">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Написать директору в Telegram — проверить, что он использует MEMORY</div>
+        <div class="item__hint">В Telegram директору отправьте: <strong>«Какие sub-агенты у нас сейчас работают и что ты про них знаешь?»</strong></div>
+      </div>
+    </div>
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span>Если директор перечислил sub-агентов с их ролями и упомянул, что baseline'ы пока не заполнены (TBD) — это значит, что <span class="mono">MEMORY.md</span> подгружается на каждое сообщение и работает. <strong>Часть A пройдена.</strong></span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 113 ═══ -->
+<div class="section section--vault-subagent">
+  <div class="section__header">
+    <div class="section__num">113</div>
+    <div class="section__title">ПРАКТИКА · Часть B · Sub-агент пишет в Obsidian</div>
+    <span class="section__chip section__chip--vault-subagent">🔍 Sub-агент в vault</span>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🔍</span>
+      <span>Часть B — учим sub-агента <strong>самому записывать в общий Obsidian-vault</strong>. Делаем универсальный skill <span class="mono">write-to-vault</span> с чёткими ограничениями (куда можно, куда нельзя), и обновляем <span class="mono">AGENTS.md</span> sub-агента, чтобы он знал, когда им пользоваться.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Шаг 1 — Готовим структуру vault: добавляем папки <span class="mono">observations/</span> и <span class="mono">knowledge-base/</span></strong></p>
+    </div>
+    <div class="item" data-key="urok6-part3-ch05-s-vault-prep">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Попросить Claude Code создать недостающие папки в vault</div>
+        <div class="item__hint">Скорее всего папки <span class="mono">observations/</span> и <span class="mono">knowledge-base/</span> ещё нет — создаём.</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — подготовка vault</div>
+      <div class="prompt-block__text" id="promptVaultPrep">Готовим структуру общего vault для записи sub-агентами.
+
+ПЛАН:
+
+1. Покажи мне точный путь к моему shared-vault (тот, что мы
+   склонировали в Части 2 урока). Скорее всего это
+   ~/.openclaw/shared-vault/, но проверь.
+
+2. Создай в нём недостающие папки:
+   - observations/&lt;agentId&gt; — где &lt;agentId&gt; это id моего
+     sub-агента из Главы 03 (sales/scout/parser/...)
+   - knowledge-base/
+
+3. В каждой созданной папке создай файл .gitkeep
+   (чтобы git её увидел при пустом состоянии).
+
+4. Создай README.md в корне vault с короткой схемой
+   зон ответственности:
+---
+# Shared Vault — кто куда пишет
+
+- observations/&lt;agent&gt;/ — пишет ТОЛЬКО этот sub-агент
+- knowledge-base/ — пишут все агенты
+- tasks-for-claude-code/ — пишет ТОЛЬКО директор
+- applied-changes/ — пишет ТОЛЬКО Claude Code-инженер
+- retro-archive/ — пишет ТОЛЬКО директор
+---
+
+5. git pull --rebase + add + commit + push.
+
+6. Покажи мне финальную структуру vault через `tree -L 2`
+   или `ls -la`.</div>
+      <button class="btn-copy" onclick="copyBlock('promptVaultPrep', this)">📋 Скопировать</button>
+    </div>
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span>Канонический путь — <span class="mono">~/.openclaw/shared-vault/</span>, но если в Части 2 vault положили в другое место (например, <span class="mono">~/obsidian-vault/</span>) — Claude Code сам это определит и сообщит точный путь.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Шаг 2 — Создаём skill <span class="mono">write-to-vault</span> для sub-агента</strong></p>
+    </div>
+    <div class="item" data-key="urok6-part3-ch05-s-skill-create">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Создать skill, которым sub-агент будет писать в vault</div>
+        <div class="item__hint">Скопируйте промпт ниже. Skill enforced-ограничивает sub-агента двумя зонами: <span class="mono">observations/&lt;свой-id&gt;/</span> и <span class="mono">knowledge-base/</span>.</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — skill write-to-vault</div>
+      <div class="prompt-block__text" id="promptSkillWriteToVault">Создаём skill write-to-vault для sub-агента.
+
+ПЛАН:
+
+1. Создай папку:
+   ~/.openclaw/workspace-&lt;sub-agentId&gt;/skills/write-to-vault/
+
+2. Создай в ней SKILL.md:
+---
+---
+name: write_to_vault
+description: Write notes to the shared Obsidian vault — own observations folder or shared knowledge-base
+metadata: { "openclaw": { "requires": { "config": ["agents.list"] } } }
+---
+
+# Write to Vault
+
+Use this skill to save important findings to the shared
+Obsidian vault — the team's "second brain".
+
+## When to use
+- After completing a meaningful task: save key findings.
+- When learning something durable about the project.
+- When user explicitly says "save this to vault".
+
+## When NOT to use
+- For routine updates → use local memory/&lt;date&gt;.md instead.
+- For drafts that haven't been reviewed → keep local first.
+
+## Allowed paths (HARD BOUNDARY — enforced)
+You may ONLY write to these paths:
+
+  1. ~/.openclaw/shared-vault/observations/&lt;my-agent-id&gt;/
+     For your own observations and findings.
+
+  2. ~/.openclaw/shared-vault/knowledge-base/
+     For project-wide knowledge any agent might need.
+
+You MUST NOT write to:
+- observations/&lt;other-agent-id&gt;/ — not your zone
+- tasks-for-claude-code/ — director's zone
+- applied-changes/ — Claude Code's zone
+- retro-archive/ — director's zone
+
+If asked to write outside your zone — refuse and explain
+which path you can write to instead.
+
+## File naming
+- observations/&lt;agent&gt;/YYYY-MM-DD-&lt;short-topic&gt;.md
+- knowledge-base/&lt;topic-slug&gt;.md (kebab-case, e.g.
+  `competitor-pricing.md`)
+
+## File format
+Always start with frontmatter:
+---
+agent: &lt;my-agent-id&gt;
+date: YYYY-MM-DD
+topic: &lt;short topic&gt;
+---
+
+Then the content body (markdown).
+
+## How to execute
+Use the `write` tool with absolute paths. Example:
+  write("/root/.openclaw/shared-vault/observations/scout/2026-05-10-competitor-x-pricing.md", content)
+
+After write, the auto-backup mechanism (from bridge chapter)
+will commit and push to GitHub automatically — you don't need
+to do git operations yourself.
+
+## Return format
+Return one short confirmation line:
+"Saved to &lt;path&gt;. Committed to vault."
+---
+
+3. Зарегистрируй skill в openclaw.json в allowlist
+   sub-агента:
+   agents.list[&lt;sub-id&gt;].skills += ["write_to_vault"]
+
+4. Sub-агенту в tools.allow добавь "write" если ещё нет
+   (нужен для записи файлов).
+
+5. git pull --rebase + add + commit + push.
+
+6. Покажи diff openclaw.json + путь к SKILL.md.
+
+ОБЯЗАТЕЛЬНО:
+- Покажи план до действия.
+- Жди «погнали».
+- НЕ нужен gateway restart — skills hot-reload.</div>
+      <button class="btn-copy" onclick="copyBlock('promptSkillWriteToVault', this)">📋 Скопировать</button>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Шаг 3 — Обновляем AGENTS.md sub-агента — правила записи в vault</strong></p>
+    </div>
+    <div class="item" data-key="urok6-part3-ch05-s-agents-update">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Дописать в AGENTS.md sub-агента блок про работу с vault</div>
+        <div class="item__hint">Skill — это «как», AGENTS.md — это «когда». Допишем правила выбора слоя памяти (vault vs локально) и hard boundaries.</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — обновление AGENTS.md sub-агента</div>
+      <div class="prompt-block__text" id="promptSubAgentsUpdate">Обновляем AGENTS.md моего sub-агента — добавляем блок
+про работу с общим vault.
+
+Допиши в КОНЕЦ
+~/.openclaw/workspace-&lt;sub-agentId&gt;/AGENTS.md
+(ничего не удаляя):
+
+---
+
+## Working with shared vault
+
+I have access to a shared Obsidian vault at
+~/.openclaw/shared-vault/. It is the AI-office's
+"second brain" where all agents save shared knowledge.
+
+### When to write to vault
+- I completed an important task → save findings to
+  observations/&lt;my-id&gt;/
+- I learned something durable about the project →
+  add to knowledge-base/
+- Owner explicitly asked "save this to vault" →
+  use write_to_vault skill
+
+### When to write to local memory
+- Routine daily activity → memory/&lt;today&gt;.md
+- Personal baselines and rolling notes → MEMORY.md
+
+### Hard boundaries (enforced via write_to_vault skill)
+- I write to vault ONLY through write_to_vault skill.
+- I never write outside my zones (observations/&lt;my-id&gt;/
+  and knowledge-base/).
+- I never modify other agents' files.
+- I never write secrets, tokens, or PII to vault.
+
+### Auto-backup
+After write_to_vault, the auto-backup mechanism handles
+git commit and push to GitHub. I don't need to do git
+operations myself.
+
+---
+
+После добавления:
+1. Покажи финальный блок.
+2. git pull --rebase + add + commit + push.
+3. Подтверди.</div>
+      <button class="btn-copy" onclick="copyBlock('promptSubAgentsUpdate', this)">📋 Скопировать</button>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Шаг 4 — Тест: просим sub-агента записать что-нибудь в vault</strong></p>
+    </div>
+    <div class="item" data-key="urok6-part3-ch05-s-test">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Отправить sub-агенту в Telegram задачу с явной просьбой записать в vault</div>
+        <div class="item__hint">Сформулируйте задачу под архетип вашего sub-агента — примеры ниже.</div>
+      </div>
+    </div>
+
+    <div class="res-block">
+      <div class="res-block__title">📋 Примеры задач (выберите подходящий под ваш архетип)</div>
+      <div class="res-block__sub">
+        — <strong>Аналитик (Scout):</strong> «Найди в открытых источниках 3 ключевых факта о состоянии рынка [ваша ниша] на сегодня. Сохрани в vault».<br><br>
+        — <strong>Telegram-парсер:</strong> «Возьми 2-3 любых поста по теме [ваша тематика] и сохрани в vault как drafts с пометкой "ждут рерайта"».<br><br>
+        — <strong>Продажник:</strong> «Запиши в knowledge-base типичные возражения, с которыми мы сталкиваемся при продажах».<br><br>
+        — <strong>Поддержка:</strong> «Сделай в knowledge-base короткий FAQ из 5 самых частых вопросов клиентов».<br><br>
+        — <strong>Контент-генератор:</strong> «Запиши в vault контент-идею под мой текущий проект».
+      </div>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span><strong>Sub-агент должен:</strong><br>
+      1. Понять, что нужно использовать <span class="mono">write_to_vault</span>.<br>
+      2. Сформировать markdown с frontmatter.<br>
+      3. Записать в правильную папку (<span class="mono">observations</span> или <span class="mono">knowledge-base</span>).<br>
+      4. Вернуть подтверждение «Saved to &lt;path&gt;».<br><br>
+      После этого зайдите в свой Obsidian-vault на компьютере (после <span class="mono">git pull</span>) или в репозиторий на GitHub — файл должен быть там.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 114 ═══ -->
+<div class="section section--memory-shared">
+  <div class="section__header">
+    <div class="section__num">114</div>
+    <div class="section__title">ПРАКТИКА · Часть C · Директор видит общую картину</div>
+    <span class="section__chip section__chip--memory-shared">🔭 Общая картина</span>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🔭</span>
+      <span>Часть C — расширяем директора, чтобы он видел <strong>обе памяти sub-агентов</strong>: их локальную и их записи в общем vault. До этого <span class="mono">read_agent_memory</span> читал только локальную часть. Сейчас расширим.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Шаг 1 — Расширяем skill <span class="mono">read_agent_memory</span>, чтобы читать и vault</strong></p>
+    </div>
+    <div class="item" data-key="urok6-part3-ch05-c-skill-extend">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Попросить Claude Code обновить SKILL.md существующего скилла</div>
+        <div class="item__hint">Skill из Главы 04 расширим до 4 источников: локальная MEMORY, локальные daily notes, observations в vault, релевантные knowledge-base.</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — расширение read_agent_memory</div>
+      <div class="prompt-block__text" id="promptExtendReadMemory">Расширяем skill read_agent_memory директора. До этого он читал
+только локальную память sub-агента. Теперь добавь чтение его
+наблюдений в общем vault.
+
+ПЛАН:
+
+1. Открой
+   ~/.openclaw/workspace-director/skills/read-agent-memory/SKILL.md
+
+2. Замени секцию "What it reads" на:
+---
+## What it reads
+1. Local long-term memory:
+   ~/.openclaw/workspace-&lt;agentId&gt;/MEMORY.md
+
+2. Local daily notes (last `daysBack` days):
+   ~/.openclaw/workspace-&lt;agentId&gt;/memory/YYYY-MM-DD.md
+
+3. Shared vault — agent's observations:
+   ~/.openclaw/shared-vault/observations/&lt;agentId&gt;/
+   (read all files in this folder, sorted by date desc,
+    take top N where N = daysBack × 2)
+
+4. Shared vault — relevant knowledge-base entries:
+   ~/.openclaw/shared-vault/knowledge-base/
+   (only files where frontmatter `agent: &lt;agentId&gt;` matches,
+    or files mentioning &lt;agentId&gt; in body)
+---
+
+3. В секции Return format добавь подзаголовки для каждого
+   из 4 источников, чтобы директор видел, откуда что пришло.
+   Все возвращаемые блоки оборачивай в &lt;external_content&gt;.
+
+4. git pull --rebase + add + commit + push.
+
+5. Покажи мне обновлённый SKILL.md.
+
+ОБЯЗАТЕЛЬНО:
+- Покажи план до действия.
+- Жди «погнали».
+- Skills hot-reload — gateway restart не нужен.</div>
+      <button class="btn-copy" onclick="copyBlock('promptExtendReadMemory', this)">📋 Скопировать</button>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Шаг 2 — Тест: просим директора собрать сводку про sub-агента</strong></p>
+    </div>
+    <div class="item" data-key="urok6-part3-ch05-c-test">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Отправить директору задачу собрать комплексную сводку</div>
+        <div class="item__hint">В Telegram директору отправьте: <strong>«Собери всё, что у нас есть про &lt;agentId моего sub-агента&gt; за последние 7 дней. Локальные заметки + наблюдения в vault».</strong></div>
+      </div>
+    </div>
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span><strong>Директор должен:</strong><br>
+      1. Использовать обновлённый <span class="mono">read_agent_memory</span>.<br>
+      2. Прочитать <span class="mono">MEMORY.md</span> sub-агента, его daily notes, его наблюдения в vault, релевантные записи в knowledge-base.<br>
+      3. Вернуть структурированную сводку по источникам.<br><br>
+      Если в vault уже есть запись от Шага 4 Части B — она должна отобразиться в сводке. <strong>Двухуровневая память работает.</strong></span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 115 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">115</div>
+    <div class="section__title">Проверка — memory_search через CLI</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p>Финальная проверка — убеждаемся, что встроенный поиск OpenClaw видит новую память. Это полезный инструмент для отладки в будущем.</p>
+    </div>
+
+    <div class="item" data-key="urok6-part3-ch05-check-memory-status">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить статус memory-индекса</div>
+        <div class="item__hint">Попросите Claude Code выполнить <span class="mono">openclaw memory status</span> и показать вывод. Должно быть видно директорский <span class="mono">MEMORY.md</span> и <span class="mono">memory/</span>.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="urok6-part3-ch05-check-memory-search">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Попробовать поиск из CLI</div>
+        <div class="item__hint">Попросите Claude Code выполнить <span class="mono">openclaw memory search "&lt;любое слово из вашего MEMORY&gt;"</span> и показать результаты. Если находит — индекс работает.</div>
+      </div>
+    </div>
+
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span><span class="mono">openclaw memory search</span> — это CLI-обёртка вокруг того же инструмента, которым пользуется директор изнутри. Если из CLI ищется — значит из чата тоже найдётся.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 116 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">116</div>
+    <div class="section__title">Что вы сейчас умеете и что дальше</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p><strong>К концу Главы 05 у вас:</strong></p>
+      <p>✅ <span class="mono">MEMORY.md</span> директора заполнен по 7-секционной структуре.<br>
+         ✅ Создана первая daily note директора.<br>
+         ✅ В общем vault есть папки <span class="mono">observations/&lt;agent&gt;/</span> и <span class="mono">knowledge-base/</span>.<br>
+         ✅ Sub-агент имеет skill <span class="mono">write_to_vault</span> с чёткими границами.<br>
+         ✅ Sub-агент знает по <span class="mono">AGENTS.md</span>, когда писать в vault, когда — локально.<br>
+         ✅ Директор видит обе памяти sub-агента (локальную + vault).<br>
+         ✅ Все правки уезжают в GitHub-бэкап автоматически.<br>
+         ✅ Двухуровневая память работает: локально для рабочих заметок, vault для shared knowledge.</p>
+      <p><strong>Чего пока нет:</strong></p>
+      <p>⏳ Регулярной курации — сейчас вы пишете в память руками или по запросу. В Главе 06 настроим <strong>heartbeat-задачи</strong>, которые будут это делать автоматически: например, каждое утро директор сам читает свои daily notes и пишет утренний брифинг; раз в неделю консолидирует наблюдения в <span class="mono">MEMORY.md</span>.</p>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Глава</th>
+          <th>Что в ней</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>06 · Heartbeats</td>
+          <td>4 цикла директора (утренний брифинг, ambient-проверки, реактив, еженедельное ретро). Расписание sub-агента (например, раз в неделю собирает находки в vault). После Главы 06 AI-офис работает <strong>сам</strong> — даже если вас нет за компьютером.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span><strong>Опционально для самостоятельной работы:</strong> в своём Claude-проекте попросите написать <strong>второй skill</strong> для sub-агента — <span class="mono">read-from-vault</span> (чтобы он мог читать <span class="mono">knowledge-base</span>, прежде чем что-то делать). Это даст ему доступ к shared knowledge от других агентов. Промпт простой: «Напиши SKILL.md для <span class="mono">read_from_vault</span> по образцу <span class="mono">write_to_vault</span>, только read-only».</span>
+    </div>
+  </div>
+</div>
+
+    <!-- ═══ FOOTER ГЛАВЫ 05 ЧАСТИ 3 ═══ -->
+    <div class="footer">
+      <div class="footer__done" id="doneBlockP3Ch05">
+        <div class="footer__done-emoji">📚</div>
+        <div class="footer__done-text">Память на двух уровнях работает</div>
+        <div class="footer__done-sub">У директора заполнена долгосрочная MEMORY по 7-секционной структуре + первая daily note. Sub-агент пишет в общий Obsidian-vault через write_to_vault с жёсткими границами по зонам. Директор видит обе памяти sub-агентов через расширенный read_agent_memory. Всё уезжает в GitHub автоматически. В следующей главе оживляем AI-офис heartbeat-расписанием.</div>
+      </div>
+      <div class="footer__schedule">
+        <div class="footer__schedule-title">Следующая глава</div>
+        <div class="footer__schedule-row"><span>Часть 3 · Глава 06</span><span>Heartbeats — 4 цикла директора, расписание sub-агента</span></div>
+      </div>
+      <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
+      <button class="btn-reset" onclick="resetProgressP3Ch05()">Сбросить прогресс главы 05, части 03</button>
     </div>
 
   </main>
@@ -6925,6 +7891,16 @@ function saveStateP3Ch04(){const s={};itemsP3Ch04.forEach(item=>{s[item.dataset.
 function updateProgressP3Ch04(canCelebrate=true){let c=0;itemsP3Ch04.forEach(item=>{if(item.querySelector('input[type="checkbox"]').checked)c++});const cnt=document.getElementById('progressCountP3Ch04');const fill=document.getElementById('progressFillP3Ch04');if(cnt){cnt.textContent=`${c} / ${totalCountP3Ch04}`;}if(fill){fill.style.width=(totalCountP3Ch04>0?(c/totalCountP3Ch04)*100:0)+'%';}const done=document.getElementById('doneBlockP3Ch04');if(done){if(c===totalCountP3Ch04){done.classList.add('visible');if(canCelebrate&&!wasCompleteP3Ch04){launchConfetti()}wasCompleteP3Ch04=true}else{done.classList.remove('visible');wasCompleteP3Ch04=false;}}}
 itemsP3Ch04.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.addEventListener('change',function(){item.classList.toggle('checked',this.checked);saveStateP3Ch04();updateProgressP3Ch04(true);});});
 
+// ──────────── ЧАСТЬ 3 ГЛАВА 05 (Memory System) ──────────────
+const STORAGE_KEY_P3_CH05='iivizaciya_checklist_urok6_part3_ch05_v1';
+const itemsP3Ch05=document.querySelectorAll('.item[data-key^="urok6-part3-ch05-"]');
+const totalCountP3Ch05=itemsP3Ch05.length;
+let wasCompleteP3Ch05=false;
+function loadStateP3Ch05(){try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY_P3_CH05)||'{}');let c=0;itemsP3Ch05.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');if(s[item.dataset.key]){cb.checked=true;item.classList.add('checked');c++}});wasCompleteP3Ch05=c===totalCountP3Ch05}catch(e){}updateProgressP3Ch05(false);}
+function saveStateP3Ch05(){const s={};itemsP3Ch05.forEach(item=>{s[item.dataset.key]=item.querySelector('input[type="checkbox"]').checked});try{localStorage.setItem(STORAGE_KEY_P3_CH05,JSON.stringify(s))}catch(e){}}
+function updateProgressP3Ch05(canCelebrate=true){let c=0;itemsP3Ch05.forEach(item=>{if(item.querySelector('input[type="checkbox"]').checked)c++});const cnt=document.getElementById('progressCountP3Ch05');const fill=document.getElementById('progressFillP3Ch05');if(cnt){cnt.textContent=`${c} / ${totalCountP3Ch05}`;}if(fill){fill.style.width=(totalCountP3Ch05>0?(c/totalCountP3Ch05)*100:0)+'%';}const done=document.getElementById('doneBlockP3Ch05');if(done){if(c===totalCountP3Ch05){done.classList.add('visible');if(canCelebrate&&!wasCompleteP3Ch05){launchConfetti()}wasCompleteP3Ch05=true}else{done.classList.remove('visible');wasCompleteP3Ch05=false;}}}
+itemsP3Ch05.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.addEventListener('change',function(){item.classList.toggle('checked',this.checked);saveStateP3Ch05();updateProgressP3Ch05(true);});});
+
 function resetProgressCh01(){if(!confirm('Сбросить прогресс главы 01, части 01?'))return;itemsCh01.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteCh01=false;saveStateCh01();updateProgressCh01(false);}
 function resetProgressCh02(){if(!confirm('Сбросить прогресс главы 02, части 01?'))return;itemsCh02.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteCh02=false;saveStateCh02();updateProgressCh02(false);}
 function resetProgressCh03(){if(!confirm('Сбросить прогресс главы 03, части 01?'))return;itemsCh03.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteCh03=false;saveStateCh03();updateProgressCh03(false);}
@@ -6935,6 +7911,7 @@ function resetProgressP3Ch02(){if(!confirm('Сбросить прогресс г
 function resetProgressP3Ch03(){if(!confirm('Сбросить прогресс главы 03, части 03?'))return;itemsP3Ch03.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteP3Ch03=false;saveStateP3Ch03();updateProgressP3Ch03(false);}
 function resetProgressP3Bridge(){if(!confirm('Сбросить прогресс мост-главы?'))return;itemsP3Bridge.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteP3Bridge=false;saveStateP3Bridge();updateProgressP3Bridge(false);}
 function resetProgressP3Ch04(){if(!confirm('Сбросить прогресс главы 04, части 03?'))return;itemsP3Ch04.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteP3Ch04=false;saveStateP3Ch04();updateProgressP3Ch04(false);}
+function resetProgressP3Ch05(){if(!confirm('Сбросить прогресс главы 05, части 03?'))return;itemsP3Ch05.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteP3Ch05=false;saveStateP3Ch05();updateProgressP3Ch05(false);}
 loadStateCh01();
 loadStateCh02();
 loadStateCh03();
@@ -6945,6 +7922,7 @@ loadStateP3Ch02();
 loadStateP3Ch03();
 loadStateP3Bridge();
 loadStateP3Ch04();
+loadStateP3Ch05();
 
 // ──────────── SCROLL-SPY (sidebar активная глава + mobile topbar) ──────────────
 (function(){
@@ -6957,6 +7935,7 @@ loadStateP3Ch04();
   const p3c3Anchor=document.getElementById('part3-chapter-03');
   const p3bridgeAnchor=document.getElementById('part3-bridge-github');
   const p3c4Anchor=document.getElementById('part3-chapter-04');
+  const p3c5Anchor=document.getElementById('part3-chapter-05');
   const linkCh01=document.querySelector('.sidebar__link[data-ch="01"]');
   const linkCh02=document.querySelector('.sidebar__link[data-ch="02"]');
   const linkCh03=document.querySelector('.sidebar__link[data-ch="03"]');
@@ -6967,6 +7946,7 @@ loadStateP3Ch04();
   const linkP3C3=document.querySelector('.sidebar__link[data-ch="p3-03"]');
   const linkP3Bridge=document.querySelector('.sidebar__link[data-ch="p3-bridge"]');
   const linkP3C4=document.querySelector('.sidebar__link[data-ch="p3-04"]');
+  const linkP3C5=document.querySelector('.sidebar__link[data-ch="p3-05"]');
   const mobileTitle=document.querySelector('.mobile-topbar__title');
   if(!ch02Anchor||!linkCh01||!linkCh02)return;
   const THRESHOLD=200;
@@ -6980,17 +7960,19 @@ loadStateP3Ch04();
     'p3c2':'Урок 6 · Ч.3 · Гл.02',
     'p3c3':'Урок 6 · Ч.3 · Гл.03',
     'p3bridge':'Урок 6 · Ч.3 · 🌉 Мост',
-    'p3c4':'Урок 6 · Ч.3 · Гл.04'
+    'p3c4':'Урок 6 · Ч.3 · Гл.04',
+    'p3c5':'Урок 6 · Ч.3 · Гл.05'
   };
-  const ALL_LINKS=[linkCh01,linkCh02,linkCh03,linkP2C1,linkP2C2,linkP3C1,linkP3C2,linkP3C3,linkP3Bridge,linkP3C4];
+  const ALL_LINKS=[linkCh01,linkCh02,linkCh03,linkP2C1,linkP2C2,linkP3C1,linkP3C2,linkP3C3,linkP3Bridge,linkP3C4,linkP3C5];
   function setActive(key){
     ALL_LINKS.forEach(l=>l&&l.classList.remove('sidebar__link--active'));
-    const linkMap={'p1c1':linkCh01,'p1c2':linkCh02,'p1c3':linkCh03,'p2c1':linkP2C1,'p2c2':linkP2C2,'p3c1':linkP3C1,'p3c2':linkP3C2,'p3c3':linkP3C3,'p3bridge':linkP3Bridge,'p3c4':linkP3C4};
+    const linkMap={'p1c1':linkCh01,'p1c2':linkCh02,'p1c3':linkCh03,'p2c1':linkP2C1,'p2c2':linkP2C2,'p3c1':linkP3C1,'p3c2':linkP3C2,'p3c3':linkP3C3,'p3bridge':linkP3Bridge,'p3c4':linkP3C4,'p3c5':linkP3C5};
     const target=linkMap[key];
     if(target)target.classList.add('sidebar__link--active');
     if(mobileTitle)mobileTitle.textContent=TITLES[key]||TITLES['p1c1'];
   }
   function update(){
+    const p3c5Top=p3c5Anchor?p3c5Anchor.getBoundingClientRect().top:Infinity;
     const p3c4Top=p3c4Anchor?p3c4Anchor.getBoundingClientRect().top:Infinity;
     const p3bridgeTop=p3bridgeAnchor?p3bridgeAnchor.getBoundingClientRect().top:Infinity;
     const p3c3Top=p3c3Anchor?p3c3Anchor.getBoundingClientRect().top:Infinity;
@@ -7000,7 +7982,8 @@ loadStateP3Ch04();
     const p2c1Top=p2c1Anchor?p2c1Anchor.getBoundingClientRect().top:Infinity;
     const ch03Top=ch03Anchor?ch03Anchor.getBoundingClientRect().top:Infinity;
     const ch02Top=ch02Anchor.getBoundingClientRect().top;
-    if(p3c4Top<=THRESHOLD)setActive('p3c4');
+    if(p3c5Top<=THRESHOLD)setActive('p3c5');
+    else if(p3c4Top<=THRESHOLD)setActive('p3c4');
     else if(p3bridgeTop<=THRESHOLD)setActive('p3bridge');
     else if(p3c3Top<=THRESHOLD)setActive('p3c3');
     else if(p3c2Top<=THRESHOLD)setActive('p3c2');
