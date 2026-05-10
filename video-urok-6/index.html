@@ -207,6 +207,17 @@
   .term--p3-ch05 .term__example { background:rgba(16,185,129,0.06); border-left-color:rgba(16,185,129,0.3); }
   .concept-card--p3-ch05:hover { border-color:#10b981; }
 
+  /* ─── PART 3 ГЛАВА 06 — magenta акцент (финал Части 3) ─── */
+  .chapter-marker--p3-ch06 { border-left-color:#db2777; }
+  .chapter-marker--p3-ch06 .chapter-marker__label { color:#db2777; }
+  .progress-wrap--p3-ch06 .progress-count { color:#db2777; }
+  .progress-wrap--p3-ch06 .progress-fill { background:linear-gradient(90deg,#db2777,#dc2626); }
+
+  /* финальный модификатор — золотое свечение для последней главы части */
+  .chapter-marker--final { position:relative; box-shadow:0 0 0 1px rgba(251,191,36,0.18), 0 18px 38px -22px rgba(219,39,119,0.35); background:linear-gradient(135deg,rgba(251,191,36,0.04),transparent 50%), var(--bg-card); }
+  .chapter-marker--final .chapter-marker__label { background:linear-gradient(90deg,#fbbf24,#db2777); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .chapter-marker--final::before { content:'★'; position:absolute; top:14px; right:18px; color:#fbbf24; font-size:14px; opacity:.7; }
+
   /* визуальная пометка director / subagent блоков практики */
   .section--director .section__card { border-left:3px solid var(--amber); }
   .section--director .section__num { background:rgba(251,191,36,0.14); color:var(--amber); }
@@ -224,6 +235,12 @@
   .section--vault-subagent .section__num { background:rgba(167,139,250,0.14); color:#a78bfa; }
   .section--memory-shared .section__card { border-left:3px solid #14b8a6; }
   .section--memory-shared .section__num { background:rgba(20,184,166,0.14); color:#14b8a6; }
+  .section--cron .section__card { border-left:3px solid #db2777; }
+  .section--cron .section__num { background:rgba(219,39,119,0.14); color:#db2777; }
+  .section--heartbeat .section__card { border-left:3px solid #f87171; }
+  .section--heartbeat .section__num { background:rgba(248,113,113,0.14); color:#f87171; }
+  .section--hook .section__card { border-left:3px solid #a855f7; }
+  .section--hook .section__num { background:rgba(168,85,247,0.14); color:#a855f7; }
 
   /* ярлык-чип на section header (🎩 Директор / 🔍 Sub-агент / 🧪 Тесты) */
   .section__chip { display:inline-flex; align-items:center; gap:5px; font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; padding:3px 9px; border-radius:100px; margin-left:auto; }
@@ -235,6 +252,16 @@
   .section__chip--memory-director { color:#10b981; background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.3); }
   .section__chip--vault-subagent { color:#a78bfa; background:rgba(167,139,250,0.1); border:1px solid rgba(167,139,250,0.3); }
   .section__chip--memory-shared { color:#14b8a6; background:rgba(20,184,166,0.1); border:1px solid rgba(20,184,166,0.3); }
+  .section__chip--cron { color:#db2777; background:rgba(219,39,119,0.1); border:1px solid rgba(219,39,119,0.3); }
+  .section__chip--heartbeat { color:#f87171; background:rgba(248,113,113,0.1); border:1px solid rgba(248,113,113,0.3); }
+  .section__chip--hook { color:#a855f7; background:rgba(168,85,247,0.1); border:1px solid rgba(168,85,247,0.3); }
+
+  /* финальный блок «Часть 3 завершена» — особый, только для Главы 06 */
+  .footer__final-part3 { background:linear-gradient(135deg,rgba(251,191,36,0.08),rgba(219,39,119,0.08)); border:1px solid rgba(251,191,36,0.25); border-radius:var(--radius); padding:34px 24px; margin-bottom:24px; text-align:center; position:relative; overflow:hidden; }
+  .footer__final-part3::before { content:''; position:absolute; inset:0; background:radial-gradient(circle at 20% 0%, rgba(251,191,36,0.12), transparent 50%), radial-gradient(circle at 80% 100%, rgba(219,39,119,0.12), transparent 50%); pointer-events:none; }
+  .footer__final-emoji { font-size:54px; margin-bottom:12px; line-height:1; position:relative; }
+  .footer__final-text { font-size:24px; font-weight:800; background:linear-gradient(90deg,#fbbf24,#db2777); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:10px; letter-spacing:-0.4px; position:relative; }
+  .footer__final-sub { font-size:15px; color:var(--text-secondary); line-height:1.6; max-width:560px; margin:0 auto; position:relative; }
 
   /* матрица прав «кто куда пишет» — критическая для понимания безопасности */
   .perm-table { width:100%; font-size:12.5px; border-collapse:collapse; }
@@ -389,7 +416,7 @@
         <a href="#part3-bridge-github" class="sidebar__link sidebar__link--bridge" data-ch="p3-bridge">🌉 Мост · Бэкап на GitHub</a>
         <a href="#part3-chapter-04" class="sidebar__link" data-ch="p3-04">Глава 04 · Skills OpenClaw</a>
         <a href="#part3-chapter-05" class="sidebar__link" data-ch="p3-05">Глава 05 · Memory System</a>
-        <span class="sidebar__link sidebar__link--soon">Глава 06 · Heartbeats <em>скоро</em></span>
+        <a href="#part3-chapter-06" class="sidebar__link" data-ch="p3-06">Глава 06 · Heartbeats</a>
       </div>
 
       <div class="sidebar__part">
@@ -7772,10 +7799,885 @@ operations myself.
       </div>
       <div class="footer__schedule">
         <div class="footer__schedule-title">Следующая глава</div>
-        <div class="footer__schedule-row"><span>Часть 3 · Глава 06</span><span>Heartbeats — 4 цикла директора, расписание sub-агента</span></div>
+        <div class="footer__schedule-row"><span>Часть 3 · Глава 06 · Финал</span><span>Heartbeats — оживляем AI-директора через 3 механизма автоматизации</span></div>
       </div>
       <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
       <button class="btn-reset" onclick="resetProgressP3Ch05()">Сбросить прогресс главы 05, части 03</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- ═══ ЧАСТЬ 3 · ГЛАВА 06 — HEARTBEATS (ФИНАЛ) ═══ -->
+    <!-- ═══════════════════════════════════════════ -->
+
+    <div id="part3-chapter-06" class="chapter-divider"></div>
+
+    <div class="chapter-marker chapter-marker--p3-ch06 chapter-marker--final">
+      <div class="chapter-marker__label">ЧАСТЬ 3 · ГЛАВА 06 · ФИНАЛ</div>
+      <div class="chapter-marker__title">Heartbeats <span>— оживляем AI-директора через 3 механизма автоматизации</span></div>
+    </div>
+
+    <div class="progress-wrap progress-wrap--p3-ch06">
+      <div class="progress-top">
+        <span class="progress-label">Прогресс главы 06, части 03</span>
+        <span class="progress-count" id="progressCountP3Ch06">0 / 8</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFillP3Ch06"></div></div>
+    </div>
+
+<!-- ═══ 117 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">117</div>
+    <div class="section__title">Что мы делаем в этой главе</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p>До этой главы агенты были <strong>реактивными</strong> — отвечают только когда вы пишете. Сейчас даём им <strong>проактивность</strong>: сами проверяют, сами думают, сами пишут вам.</p>
+      <p>Делаем это не одним механизмом, а <strong>тремя разными</strong> — каждый под свою задачу:</p>
+      <p>— <strong>Cron</strong> — точное расписание («каждое утро в 09:00»);<br>
+         — <strong>Heartbeat</strong> — приблизительные периодические проверки («каждые ~2 часа загляни в дела»);<br>
+         — <strong>Hook</strong> — реакция на события («если sub-агент сказал X, разбуди меня немедленно»).</p>
+      <p>Главный приём главы — увидеть <strong>разницу между ними</strong> и понять, когда что выбирать. Heartbeat — не серебряная пуля.</p>
+    </div>
+
+    <div class="arch-box">   После Главы 06: AI-офис работает САМ
+   ──────────────────────────────────────
+
+   ┌────────────────────────────────────────────┐
+   │             AI-ДИРЕКТОР                    │
+   │                                            │
+   │   ⏰ Cron: morning-digest 09:00            │
+   │       → утренний брифинг по KPI            │
+   │                                            │
+   │   ⏰ Cron: weekly-retro Пт 17:00           │
+   │       → еженедельное ретро на Opus         │
+   │                                            │
+   │   💓 Heartbeat: каждые 2 часа              │
+   │       → liveness-check sub-агентов         │
+   │       → anomaly-scan если паттерн          │
+   │                                            │
+   │   🪝 Hook (концепт): on-event              │
+   │       → реактив на опасный маркер          │
+   │                                            │
+   └────────────────────────────────────────────┘</div>
+
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span>Это финал Части 3. После Главы 06 ваш директор полностью «живой»: наблюдает, помнит, проверяет, эскалирует — сам. Sub-агент тоже работает по расписанию (если архетип это требует — например, парсер раз в день собирает посты).</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 118 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">118</div>
+    <div class="section__title">Матрица механизмов — когда что выбирать</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--alert">
+      <span class="note__icon">🚨</span>
+      <span><strong>Это главный концептуальный блок главы.</strong> Если запомнить только одно — запомните эту матрицу. Большинство ошибок в автоматизации — от использования heartbeat там, где нужен cron, или наоборот.</span>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Сценарий</th>
+          <th>Какой механизм</th>
+          <th>Почему именно так</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Отправить отчёт ровно в 09:00</td>
+          <td><strong>Cron</strong></td>
+          <td>Heartbeat — приблизительный таймер, может опоздать на 30 мин. Cron — точно в момент.</td>
+        </tr>
+        <tr>
+          <td>Напомнить через 20 минут (один раз)</td>
+          <td><strong>Cron <span class="mono">--at</span></strong></td>
+          <td>One-shot задачи — это cron с конкретным временем.</td>
+        </tr>
+        <tr>
+          <td>Каждые 30 минут проверять входящие</td>
+          <td><strong>Heartbeat</strong></td>
+          <td>Не критично, плюс-минус 10 минут терпимо. Меньше overhead.</td>
+        </tr>
+        <tr>
+          <td>Раз в неделю глубокая аналитика</td>
+          <td><strong>Cron</strong></td>
+          <td>Точное время + можно использовать дорогую модель только для этого.</td>
+        </tr>
+        <tr>
+          <td>Sub-агент сказал что-то опасное → реакция</td>
+          <td><strong>Hook + system event</strong></td>
+          <td>Event-driven, не периодика.</td>
+        </tr>
+        <tr>
+          <td>Stripe прислал webhook → реакция</td>
+          <td><strong>Webhook → cron <span class="mono">--mode now</span></strong></td>
+          <td>Inbound-trigger из внешнего сервиса.</td>
+        </tr>
+        <tr>
+          <td>«Никогда не делай X» — постоянное правило</td>
+          <td><strong>Standing Order в AGENTS.md</strong></td>
+          <td>Это контекст, не триггер.</td>
+        </tr>
+        <tr>
+          <td>Скрипт на каждый <span class="mono">/reset</span></td>
+          <td><strong>Internal Hook</strong></td>
+          <td>Реакция на события Gateway.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span><strong>Простая эвристика:</strong> нужно точное время → <strong>Cron</strong>. Нужна приблизительная периодика → <strong>Heartbeat</strong>. Нужна реакция на событие → <strong>Hook</strong>. Постоянное правило поведения → <strong>Standing Order</strong>.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 119 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">119</div>
+    <div class="section__title">Cron vs Heartbeat — детальное сравнение</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p>Эти два механизма путают чаще всего. Разберёмся ещё детальнее.</p>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Параметр</th>
+          <th>Cron Job</th>
+          <th>Heartbeat</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Точность времени</td>
+          <td>До секунды</td>
+          <td>Приблизительно (±)</td>
+        </tr>
+        <tr>
+          <td>Контекст сессии</td>
+          <td>Свежая, изолированная</td>
+          <td>Полная история main-сессии (или isolated)</td>
+        </tr>
+        <tr>
+          <td>След в системе</td>
+          <td>Записывается в <span class="mono">openclaw tasks audit</span></td>
+          <td>Не оставляет след</td>
+        </tr>
+        <tr>
+          <td>Доставка</td>
+          <td>По указанному каналу</td>
+          <td>Inline в main-сессии (или <span class="mono">target: none</span>)</td>
+        </tr>
+        <tr>
+          <td>Лучше всего для</td>
+          <td>Отчёты, напоминания, фоновые задачи</td>
+          <td>Inbox-проверки, ambient-обходы, мониторинг</td>
+        </tr>
+        <tr>
+          <td>Может использовать другую модель?</td>
+          <td>Да (например, Opus для еженедельного ретро)</td>
+          <td>Да (например, Haiku для частых тиков)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span><strong>На практике:</strong> утренний брифинг и еженедельное ретро у вас будут через <strong>Cron</strong>. Регулярные обходы sub-агентов «как там у них дела» — через <strong>Heartbeat</strong>. Реакция на критическое событие — через <strong>Hook</strong> (концептуально, для опытных).</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 120 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">120</div>
+    <div class="section__title">Что у директора в файле HEARTBEAT.md</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p><span class="mono">HEARTBEAT.md</span> — это файл в workspace директора, который агент читает на каждом heartbeat-tick'е. В нём прописано, что именно делать. Есть два формата на выбор.</p>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Формат</th>
+          <th>Когда использовать</th>
+          <th>Пример</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Простой checklist</td>
+          <td>Когда задач мало, все одного интервала</td>
+          <td>«Quick scan, anything urgent?»</td>
+        </tr>
+        <tr>
+          <td>Структурированный <span class="mono">tasks:</span> блок</td>
+          <td>Когда задач несколько, у каждой свой интервал</td>
+          <td><span class="mono">liveness-check</span> каждые 2ч, <span class="mono">weekly-baseline-recalc</span> раз в 7 дней</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="info-block">
+      <p><strong>Пример простого checklist:</strong></p>
+    </div>
+    <div class="code-block"><span class="code-block__label">📄 HEARTBEAT.md (простой формат)</span># Heartbeat checklist
+
+- Quick scan: anything urgent across sub-agents?
+- If working hours, do a lightweight liveness check.
+- Reply HEARTBEAT_OK if nothing needs attention.</div>
+
+    <div class="info-block">
+      <p><strong>Пример структурированного блока:</strong></p>
+    </div>
+    <div class="code-block"><span class="code-block__label">📄 HEARTBEAT.md (структурированный формат)</span>tasks:
+
+- name: liveness-check
+  interval: 2h
+  prompt: |
+    Check that each sub-agent had ≥1 session in the last 4h.
+    If silent &gt;4h, write observation to memory/&lt;today&gt;.md.
+
+- name: weekly-baseline-recalc
+  interval: 7d
+  prompt: |
+    Recalculate KPI baselines. Update sub-agent profiles in MEMORY.md.
+
+# Common rules
+- All findings go through write-observation skill first.
+- Reply HEARTBEAT_OK if nothing needs attention.</div>
+
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span>Главное преимущество <span class="mono">tasks:</span> блока: OpenClaw сам отслеживает, когда каждая задача последний раз запускалась. Если задача с интервалом «7d» запускалась 2 дня назад — heartbeat её <strong>не выполнит</strong>, даже если другая задача (с интервалом «2h») как раз пришла. Это экономит токены.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 121 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">121</div>
+    <div class="section__title">Что НЕЛЬЗЯ автоматизировать — критичный блок безопасности</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--alert">
+      <span class="note__icon">🛡️</span>
+      <span><strong>Это самый важный блок главы по безопасности.</strong> Прежде чем что-то автоматизировать — разберём, что <strong>категорически нельзя класть</strong> в любой автоматический trigger.</span>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>❌ Что нельзя</th>
+          <th>Почему</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Финансовые операции (платежи, переводы)</td>
+          <td>Невозможно отозвать. Любая ошибка = реальные деньги.</td>
+        </tr>
+        <tr>
+          <td>Авто-публикации в соцсети от имени бизнеса</td>
+          <td>Невозможно отозвать репутационно. PR-инцидент за минуты.</td>
+        </tr>
+        <tr>
+          <td>Bulk email/SMS клиентам без согласия</td>
+          <td>GDPR, CAN-SPAM, юридические риски.</td>
+        </tr>
+        <tr>
+          <td>Изменение конфигов (<span class="mono">openclaw.json</span>, токены)</td>
+          <td>Сломает Gateway, может не быть бэкапа на момент.</td>
+        </tr>
+        <tr>
+          <td>Перезапуск сервисов</td>
+          <td>Может уронить production во время тика.</td>
+        </tr>
+        <tr>
+          <td>Удаление данных или <span class="mono">git push --force</span></td>
+          <td>Необратимо.</td>
+        </tr>
+        <tr>
+          <td>Любой <span class="mono">exec</span> с user-supplied content</td>
+          <td>Prompt injection через transcript → arbitrary command.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="info-block">
+      <p><strong>Что директору разрешено в heartbeat-runs:</strong></p>
+      <p>— читать диалоги, память, файлы в своём workspace;<br>
+         — писать в свой workspace (<span class="mono">MEMORY</span>, daily notes);<br>
+         — писать брифы в общий vault (<span class="mono">tasks-for-claude-code/</span>);<br>
+         — отправлять Telegram-сообщения <strong>только владельцу</strong> (не клиентам, не в группы).</p>
+      <p>Всё остальное — заблокировано через <span class="mono">tools.deny</span> ещё с Главы 02. В этой главе мы это <strong>не настраиваем заново</strong>, а напоминаем про архитектуру: автоматизация работает безопасно потому, что границы уже на месте.</p>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span><strong>Принцип:</strong> любая автоматизация без manual approval gate — это риск, который масштабируется быстрее, чем вы заметите. Именно поэтому архитектура AI-офиса построена так: директор <strong>наблюдает и пишет брифы</strong>, Claude Code-инженер <strong>применяет правки</strong> только после вашего «погнали». Heartbeat это правило не нарушает — он просто запускает наблюдение, не действие.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 122 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">122</div>
+    <div class="section__title">Cost-оптимизация — как не разориться</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--warn">
+      <span class="note__icon">💰</span>
+      <span>Heartbeat запускается часто. Если каждый tick — это полная сессия с историей на 100K токенов на Opus, <strong>бюджет улетит в космос</strong> за несколько дней. Без оптимизации — $24-96/день только на heartbeat. С оптимизацией — $0.30/день. Разница в 100-300 раз.</span>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Параметр</th>
+          <th>Что делает</th>
+          <th>Эффект</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="mono">isolatedSession: true</span></td>
+          <td>Heartbeat запускается в свежей сессии без истории</td>
+          <td>~100K → ~2-5K токенов</td>
+        </tr>
+        <tr>
+          <td><span class="mono">lightContext: true</span></td>
+          <td>В контекст попадает только <span class="mono">HEARTBEAT.md</span></td>
+          <td>Ещё меньше токенов</td>
+        </tr>
+        <tr>
+          <td><span class="mono">model: "anthropic/claude-haiku-4-5"</span></td>
+          <td>Дешёвая быстрая модель для heartbeat</td>
+          <td>До 10× дешевле Opus</td>
+        </tr>
+        <tr>
+          <td><span class="mono">target: "none"</span></td>
+          <td>Не отправляет результаты в Telegram автоматически</td>
+          <td>Skill сам решает, отправлять или нет</td>
+        </tr>
+        <tr>
+          <td><span class="mono">activeHours</span></td>
+          <td>Heartbeat не работает по ночам</td>
+          <td>Срезает половину тиков</td>
+        </tr>
+        <tr>
+          <td><span class="mono">tasks:</span> блок</td>
+          <td>Heartbeat пропускается, если нет due-задач</td>
+          <td>Платим только за реальную работу</td>
+        </tr>
+        <tr>
+          <td>Большой <span class="mono">every</span> (1-2 часа)</td>
+          <td>Реже тики</td>
+          <td>Линейная экономия</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span>В нашей конфигурации применяем <strong>сразу всё</strong>: <span class="mono">isolatedSession</span>, <span class="mono">lightContext</span>, Haiku, <span class="mono">tasks:</span> блок, <span class="mono">activeHours</span> по нашему часовому поясу. Получается ~$0.05/день за директорский heartbeat — даже если добавите 5 sub-агентов по тому же шаблону, выйдет ~$0.30/день.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 123 ═══ -->
+<div class="section section--cron">
+  <div class="section__header">
+    <div class="section__num">123</div>
+    <div class="section__title">ПРАКТИКА · Часть A · Cron — утренний брифинг и еженедельное ретро (3 шага)</div>
+    <span class="section__chip section__chip--cron">⏰ Cron</span>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">⏰</span>
+      <span>Часть A — настраиваем <strong>2 cron-задачи</strong> для директора. Это самые предсказуемые автоматизации: точное время, понятный результат, доставка в Telegram.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Шаг 1 — Настраиваем cron «morning-digest» (09:00 будни)</strong></p>
+    </div>
+    <div class="item" data-key="urok6-part3-ch06-cron-morning">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Попросить Claude Code добавить cron-задачу «утренний брифинг»</div>
+        <div class="item__hint">Скопируйте промпт ниже. <strong>Подставьте свою таймзону и Telegram-id</strong> в плейсхолдеры. Расписание: <span class="mono">"0 9 * * 1-5"</span> = в 09:00 каждый будний день.</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — cron morning-digest</div>
+      <div class="prompt-block__text" id="promptCronMorning">Настраиваем cron-задачу для директора: утренний брифинг.
+
+ПЛАН:
+
+1. Выполни команду:
+   openclaw cron add \
+     --name morning-digest \
+     --cron "0 9 * * 1-5" \
+     --tz &lt;моя-таймзона, например America/New_York&gt; \
+     --agent director \
+     --announce \
+     --channel telegram \
+     --to "&lt;мой-telegram-id&gt;" \
+     --message "Execute daily morning digest. \
+                Pull KPI for last 24h from MLflow. \
+                Read observations from memory/&lt;yesterday&gt;.md. \
+                Format as table, max 8 lines. \
+                Use skill daily-digest if available, \
+                otherwise compose inline."
+
+2. Проверь, что задача добавлена:
+   openclaw cron list
+
+3. Покажи мне:
+   - вывод list (должна быть morning-digest);
+   - расписание в человеческом виде (next run);
+   - таймзона (что подставилось).
+
+ОБЯЗАТЕЛЬНО:
+- Покажи план до действия.
+- Жди «погнали».
+- Если у меня уже есть скилл daily-digest — задача его использует.
+  Если нет — директор соберёт брифинг вручную из доступных
+  источников.</div>
+      <button class="btn-copy" onclick="copyBlock('promptCronMorning', this)">📋 Скопировать</button>
+    </div>
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span>Если у вас ещё нет skill'а <span class="mono">daily-digest</span> — это нормально. Директор соберёт брифинг inline без скилла, на основе данных, доступных через <span class="mono">read_agent_memory</span> (из Главы 04). Полноценный skill — опциональная домашка.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Шаг 2 — Настраиваем cron «weekly-retro» (пятница 17:00, на Opus)</strong></p>
+    </div>
+    <div class="item" data-key="urok6-part3-ch06-cron-retro">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Попросить Claude Code добавить cron еженедельного ретро</div>
+        <div class="item__hint">В отличие от утреннего брифинга — здесь используем модель <strong>Opus</strong> (нужен глубокий анализ, не быстрый отчёт). Расписание: <span class="mono">"0 17 * * 5"</span> = пятница 17:00.</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — cron weekly-retro на Opus</div>
+      <div class="prompt-block__text" id="promptCronRetro">Настраиваем cron еженедельного ретро для директора.
+В отличие от утреннего брифинга — используем модель Opus
+(нужен глубокий анализ, не быстрый отчёт).
+
+ПЛАН:
+
+1. Выполни команду:
+   openclaw cron add \
+     --name weekly-retro \
+     --cron "0 17 * * 5" \
+     --tz &lt;моя-таймзона&gt; \
+     --agent director \
+     --model "anthropic/claude-opus-4-7" \
+     --announce \
+     --channel telegram \
+     --to "&lt;мой-telegram-id&gt;" \
+     --message "Execute weekly retro. \
+                Read all daily notes from memory/ for last 7 days. \
+                Read shared-vault/observations/ for last 7 days. \
+                Compose retrospective: what improved, what broke, \
+                what's pending. Update Applied changes log in MEMORY.md. \
+                Save full retro to shared-vault/retro-archive/&lt;week&gt;.md."
+
+2. Проверь cron list — должно быть две задачи.
+
+3. Покажи мне финальный список cron-задач директора.
+
+ОБЯЗАТЕЛЬНО:
+- Покажи план до действия.
+- Жди «погнали».
+- Не забудь про auto-backup git push.</div>
+      <button class="btn-copy" onclick="copyBlock('promptCronRetro', this)">📋 Скопировать</button>
+    </div>
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span><strong>Зачем разные модели:</strong> утренний брифинг — это сводка фактов, Haiku справится. Еженедельное ретро — это синтез паттернов за 7 дней, здесь Opus оправдан. Раз в неделю на Opus — вы потратите ~$0.50, качество выше в разы.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Шаг 3 — Тестируем cron через ручной триггер</strong></p>
+    </div>
+    <div class="item" data-key="urok6-part3-ch06-cron-test">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Запустить cron-задачу прямо сейчас, не дожидаясь расписания</div>
+        <div class="item__hint">У OpenClaw есть команда «выполнить cron-задачу немедленно, как если бы наступило её время».</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — ручной триггер cron</div>
+      <div class="prompt-block__text" id="promptCronTest">Триггерим утренний брифинг прямо сейчас, чтобы проверить, что всё работает.
+
+Команда:
+openclaw cron run morning-digest
+
+Это выполнит cron-задачу немедленно, как если бы наступило 09:00.
+
+После выполнения покажи мне:
+1. Что вернул cron (ссылка на task-record).
+2. Логи запуска (что директор делал внутри turn'а).
+3. Подтверждение, что Telegram-сообщение мне отправилось.</div>
+      <button class="btn-copy" onclick="copyBlock('promptCronTest', this)">📋 Скопировать</button>
+    </div>
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span>Если в Telegram пришёл утренний брифинг от директора — cron работает. Завтра утром в 09:00 это произойдёт автоматически.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 124 ═══ -->
+<div class="section section--heartbeat">
+  <div class="section__header">
+    <div class="section__num">124</div>
+    <div class="section__title">ПРАКТИКА · Часть B · Heartbeat — обходы директора (4 шага)</div>
+    <span class="section__chip section__chip--heartbeat">💓 Heartbeat</span>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">💓</span>
+      <span>Часть B — настраиваем <strong>heartbeat</strong> директора. Это будет периодический обход: каждые 2 часа в рабочее время директор проверяет sub-агентов и сам решает, нужно ли вас о чём-то предупредить.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Шаг 1 — Создаём HEARTBEAT.md директора</strong></p>
+    </div>
+    <div class="item" data-key="urok6-part3-ch06-heartbeat-md">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Попросить Claude Code создать файл HEARTBEAT.md в workspace директора</div>
+        <div class="item__hint">Файл с двумя задачами в структурированном <span class="mono">tasks:</span> блоке: <span class="mono">liveness-check</span> каждые 2 часа и <span class="mono">weekly-baseline-recalc</span> раз в 7 дней.</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — HEARTBEAT.md</div>
+      <div class="prompt-block__text" id="promptHeartbeatMd">Создаём HEARTBEAT.md для директора с 2 задачами:
+liveness-check и weekly-baseline-recalc.
+
+Файл: ~/.openclaw/workspace-director/HEARTBEAT.md
+
+Содержимое:
+---
+tasks:
+
+- name: liveness-check
+  interval: 2h
+  prompt: |
+    Check that each sub-agent had ≥1 session in the last 4h.
+    Use skill read_agent_memory or sessions_history for verification.
+    If any sub-agent has been silent &gt;4h:
+      1. Write observation to memory/&lt;today&gt;.md (use write tool).
+      2. If silence &gt;24h — ping owner via message tool with [WARN] prefix.
+    If all sub-agents are active — reply HEARTBEAT_OK.
+
+- name: weekly-baseline-recalc
+  interval: 7d
+  prompt: |
+    Recalculate KPI baselines per sub-agent over 7-day rolling median.
+    Pull metrics from MLflow if available (read_mlflow_trace skill),
+    otherwise from sessions metadata.
+    Update sub-agent profiles section of MEMORY.md.
+    Brief log entry to memory/&lt;today&gt;.md.
+
+# Common rules
+- Anti-duplicate check: before pinging owner, search memory/&lt;today&gt;.md
+  for similar alert in the last hour. If found, skip.
+- All observations go through write-observation logic first.
+- Briefs are created only if pattern verified ≥3 times in 7 days.
+- Reply HEARTBEAT_OK if nothing needs attention — this avoids spam.
+---
+
+После создания:
+1. git pull --rebase + add + commit + push.
+2. Покажи мне путь и содержимое.</div>
+      <button class="btn-copy" onclick="copyBlock('promptHeartbeatMd', this)">📋 Скопировать</button>
+    </div>
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span><strong>Anti-duplicate check</strong> в этом промпте — это паттерн «не повторяй одно и то же сегодня». Перед тем как пингануть владельца, директор ищет в <span class="mono">memory/&lt;today&gt;.md</span> уже отправленные алерты за последний час. Если нашёл — молчит. Это убирает большую часть шума.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Шаг 2 — Прописываем heartbeat в openclaw.json (с cost-оптимизацией)</strong></p>
+    </div>
+    <div class="item" data-key="urok6-part3-ch06-heartbeat-config">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Добавить блок heartbeat в запись директора в openclaw.json</div>
+        <div class="item__hint">Применяем <strong>сразу все</strong> cost-оптимизации из Блока 122: <span class="mono">isolatedSession</span>, <span class="mono">lightContext</span>, Haiku, <span class="mono">target: none</span>, <span class="mono">activeHours</span>.</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — heartbeat config с оптимизациями</div>
+      <div class="prompt-block__text" id="promptHeartbeatConfig">Добавляем heartbeat-конфигурацию для директора.
+Применяем все cost-оптимизации сразу.
+
+ПЛАН:
+
+1. В ~/.openclaw/openclaw.json в записи директора (id: "director")
+   добавь секцию heartbeat:
+
+   "heartbeat": {
+     "every": "2h",
+     "isolatedSession": true,
+     "lightContext": true,
+     "model": "anthropic/claude-haiku-4-5",
+     "target": "none",
+     "activeHours": {
+       "start": "08:00",
+       "end": "22:00",
+       "timezone": "&lt;моя-таймзона&gt;"
+     }
+   }
+
+   Объясни мне, что значит каждый параметр (короткими комментариями
+   справа от значений) — для понимания.
+
+2. Покажи diff openclaw.json до правки.
+
+3. Жди «погнали», применяй.
+
+4. Перезапусти Gateway (heartbeat config требует рестарта).
+
+5. После рестарта:
+   - openclaw status --deep — покажи heartbeat-state директора;
+   - git pull --rebase + add + commit + push (auto-backup).
+
+6. Подтверди, что heartbeat настроен и активен.</div>
+      <button class="btn-copy" onclick="copyBlock('promptHeartbeatConfig', this)">📋 Скопировать</button>
+    </div>
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span><strong>Что значат параметры:</strong><br>
+      — <span class="mono">every: "2h"</span> — будить директора раз в 2 часа.<br>
+      — <span class="mono">isolatedSession: true</span> — каждый тик в свежей сессии (без огромной истории, экономия токенов).<br>
+      — <span class="mono">lightContext: true</span> — в контекст идёт только <span class="mono">HEARTBEAT.md</span>, без SOUL, AGENTS, MEMORY (ещё больше экономии).<br>
+      — <span class="mono">model: haiku-4-5</span> — дешёвая быстрая модель.<br>
+      — <span class="mono">target: none</span> — heartbeat сам не пишет в Telegram, только если skill <span class="mono">message</span> решит это сделать.<br>
+      — <span class="mono">activeHours</span> — не работает по ночам.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Шаг 3 — Тестируем heartbeat через <span class="mono">system event --mode now</span></strong></p>
+    </div>
+    <div class="item" data-key="urok6-part3-ch06-heartbeat-trigger">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Запустить heartbeat прямо сейчас, чтобы проверить работу</div>
+        <div class="item__hint">Ждать 2 часа не нужно. У OpenClaw есть команда «разбудить heartbeat немедленно».</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — ручной триггер heartbeat</div>
+      <div class="prompt-block__text" id="promptHeartbeatTrigger">Триггерим heartbeat директора прямо сейчас для проверки.
+
+ПЛАН:
+
+1. Включи verbose-режим в сессии директора (для подробного output):
+   - В Telegram директору отправь /verbose on (это от меня в Telegram,
+     ты только подскажи команду).
+
+2. После того как я отправлю /verbose on — выполни:
+   openclaw system event --text "Test heartbeat trigger" --mode now
+
+3. Покажи мне:
+   - что произошло в логе Gateway:
+     tail -50 /tmp/openclaw/openclaw-$(date +%Y-%m-%d).log
+   - какой skip-reason если был (no-tasks-due, outside-active-hours и т.д.)
+   - содержимое последней daily note директора (memory/&lt;today&gt;.md) —
+     если задача liveness-check сработала, там должна быть запись.
+
+4. Объясни мне, что я увижу в Telegram (если что-то увижу).</div>
+      <button class="btn-copy" onclick="copyBlock('promptHeartbeatTrigger', this)">📋 Скопировать</button>
+    </div>
+    <div class="note note--alert">
+      <span class="note__icon">🚨</span>
+      <span><strong>Важный момент:</strong> в первый раз heartbeat может вернуть skip-reason = <span class="mono">no-tasks-due</span>, потому что lastRun timestamps ещё не созданы. Это нормально. Триггерните второй раз — задача <span class="mono">liveness-check</span> «созреет» и выполнится.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Шаг 4 — Проверяем результат в memory и Telegram</strong></p>
+    </div>
+    <div class="item" data-key="urok6-part3-ch06-heartbeat-verify">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Убедиться, что heartbeat записал что-то в daily note директора</div>
+        <div class="item__hint">Откройте сегодняшнюю daily note директора через Claude Code — там должна быть запись от <span class="mono">liveness-check</span>. Параллельно посмотрите трассу heartbeat-tick'а в MLflow UI (из Главы 04).</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — проверка результата heartbeat</div>
+      <div class="prompt-block__text" id="promptHeartbeatVerify">Покажи мне сегодняшнюю daily note директора:
+cat ~/.openclaw/workspace-director/memory/$(date +%Y-%m-%d).md
+
+Должна быть запись от heartbeat (liveness-check) с пометкой
+о состоянии sub-агентов.
+
+Если там пусто — посмотри в логах Gateway, что произошло
+(возможно, был skip).
+
+Также покажи мне в MLflow UI трассу heartbeat-tick'а (если MLflow
+из Главы 04 запущен) — должна быть видна как очень короткая трасса
+(~900 токенов) с моделью Haiku.</div>
+      <button class="btn-copy" onclick="copyBlock('promptHeartbeatVerify', this)">📋 Скопировать</button>
+    </div>
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span>Если в daily note есть запись от heartbeat'а, и в MLflow видна короткая дешёвая трасса на Haiku — <strong>Часть B пройдена</strong>. Heartbeat работает, оптимизация работает.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 125 ═══ -->
+<div class="section section--hook">
+  <div class="section__header">
+    <div class="section__num">125</div>
+    <div class="section__title">ПРАКТИКА · Часть C · Hooks (концептуально)</div>
+    <span class="section__chip section__chip--hook">🪝 Hook</span>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🪝</span>
+      <span>Часть C — самый продвинутый механизм автоматизации, который мы в этой главе <strong>не реализуем целиком</strong>. Покажем концепцию, дадим готовый шаблон в виде challenge-задачи для опытных студентов.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Hook</strong> — это код (на JavaScript), который OpenClaw запускает на определённые события: каждый tool-call, каждый ответ агента, каждый <span class="mono">/reset</span> сессии. Это <strong>event-driven</strong> механизм — не периодика.</p>
+      <p><strong>Зачем это директору:</strong> реактивный мониторинг. Если sub-агент в ответе клиенту произнёс что-то опасное (например, дал гарантию доходности или обещал результат) — Hook немедленно разбудит директора через <span class="mono">system event --mode now</span>. Не ждём 2 часа до следующего heartbeat-тика.</p>
+      <p>Это паттерн <strong>«опасный маркер → реакция за секунды»</strong>.</p>
+    </div>
+
+    <div class="code-block"><span class="code-block__label">📄 hooks/anomaly-detector/handler.ts (концептуально)</span>// Этот hook вешается на event "after_tool_call" каждого sub-агента.
+// Если в ответе sub-агента найден опасный паттерн — будит директора.
+
+export const after_tool_call = async (ctx) =&gt; {
+  const dangerousMarkers = [
+    /гарантирую (доходность|прибыль)/i,
+    /обещаю (результат|успех)/i,
+    /прогноз\s+(курса|цены)/i,
+    // ... доменные маркеры под ваш бизнес
+  ];
+
+  const responseText = ctx.toolResult?.text || '';
+
+  if (dangerousMarkers.some(p =&gt; p.test(responseText))) {
+    await ctx.gateway.systemEvent({
+      text: `[ANOMALY] ${ctx.agentId}: dangerous marker. ` +
+            `Session: ${ctx.sessionId}`,
+      mode: 'now',
+    });
+  }
+};</div>
+
+    <div class="item" data-key="urok6-part3-ch06-hook-understand">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Прочитать пример Hook'а и понять механику (без реализации)</div>
+        <div class="item__hint">Пока просто читаем и понимаем. Реализация — в опциональной challenge-домашке для опытных студентов.</div>
+      </div>
+    </div>
+
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span><strong>Когда оправдано писать Hook:</strong> если у вас в бизнесе есть жёсткие «нельзя говорить» — финансовые гарантии, медицинские диагнозы, юридические советы. В таких нишах Hook на anomaly-detection — это реальная страховка от регуляторных проблем. Реализация — задача разработчика на пару часов, делать в Главе 06 не успеваем.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 126 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">126</div>
+    <div class="section__title">Финал Части 3 — что вы умеете и что дальше</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p>🎉 <strong>Это финал Части 3.</strong> Вспомним, что у вас есть к этому моменту:</p>
+      <p>✅ AI-директор с настроенной душой, памятью, инструментами и проактивным расписанием.<br>
+         ✅ Один sub-агент под выбранный архетип со своей ролью.<br>
+         ✅ Каждые 2 часа директор сам проверяет sub-агентов через heartbeat.<br>
+         ✅ Каждое утро в 09:00 директор присылает вам брифинг через cron.<br>
+         ✅ В пятницу в 17:00 директор делает еженедельное ретро на Opus.<br>
+         ✅ Все наблюдения пишутся в локальную память + общий Obsidian-vault.<br>
+         ✅ Все правки автоматически бэкапятся в GitHub.<br>
+         ✅ Полная трассировка работы каждого агента в MLflow UI.<br>
+         ✅ Жёсткие границы безопасности на уровне Gateway: директор физически не может ничего испортить.<br>
+         ✅ Понимание матрицы автоматизации: когда Cron, когда Heartbeat, когда Hook, когда Standing Order.</p>
+      <p><strong>AI-офис работает сам.</strong> Вы можете уйти на выходные — директор сам увидит проблемы, сам напишет вам бриф, сам подождёт вашего «погнали» на правки.</p>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Часть</th>
+          <th>Что в ней</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Часть 4 · Расширение AI-офиса</td>
+          <td>Создаём остальных sub-агентов (sales, support, content, analytics). Используем шаблоны из репо <span class="mono">agency-agents</span> как сырьё, переписываем под наш стандарт. После Части 4 у вас не один директор + один помощник, а полноценная команда.</td>
+        </tr>
+        <tr>
+          <td>Часть 5 · Безопасность контура</td>
+          <td>Аудит безопасности всего AI-офиса, продакшн-настройки, восстановление из бэкапа, защита от компрометации.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span><strong>Опциональная домашка для Главы 06:</strong><br>
+      <strong>1. Обязательно:</strong> настроить cron под свой бизнес-сценарий (например, «каждый понедельник присылай мне выжимку контент-плана»).<br>
+      <strong>2. Опционально:</strong> добавить третью task в <span class="mono">HEARTBEAT.md</span> под свою задачу.<br>
+      <strong>3. Challenge для опытных:</strong> реализовать Hook на anomaly-detection из Блока 125. Шаблон кода уже есть, остаётся написать <span class="mono">handler.ts</span> и подключить к sub-агенту через plugin manifest.</span>
+    </div>
+  </div>
+</div>
+
+    <!-- ═══ FINAL FOOTER ГЛАВЫ 06 ЧАСТИ 3 (особый — финал Части 3) ═══ -->
+    <div class="footer">
+      <div class="footer__done" id="doneBlockP3Ch06">
+        <div class="footer__done-emoji">💓</div>
+        <div class="footer__done-text">AI-директор оживлён — три механизма автоматизации работают</div>
+        <div class="footer__done-sub">Cron присылает утренний брифинг и пятничное ретро на Opus, heartbeat каждые 2 часа делает обходы sub-агентов на дешёвой Haiku с anti-duplicate, концепт Hook'а понят и готов к реализации. Матрица «когда что выбирать» в голове. AI-офис теперь работает сам.</div>
+      </div>
+
+      <div class="footer__final-part3">
+        <div class="footer__final-emoji">🎉</div>
+        <div class="footer__final-text">Часть 3 завершена!</div>
+        <div class="footer__final-sub">Ваш AI-директор полностью готов: с душой, памятью, инструментами и проактивным расписанием. Дальше — расширяем команду.</div>
+      </div>
+
+      <div class="footer__schedule">
+        <div class="footer__schedule-title">Следующая часть</div>
+        <div class="footer__schedule-row"><span>Часть 4</span><span>Расширение AI-офиса — sales, support, content, analytics</span></div>
+      </div>
+      <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
+      <button class="btn-reset" onclick="resetProgressP3Ch06()">Сбросить прогресс главы 06, части 03</button>
     </div>
 
   </main>
@@ -7901,6 +8803,16 @@ function saveStateP3Ch05(){const s={};itemsP3Ch05.forEach(item=>{s[item.dataset.
 function updateProgressP3Ch05(canCelebrate=true){let c=0;itemsP3Ch05.forEach(item=>{if(item.querySelector('input[type="checkbox"]').checked)c++});const cnt=document.getElementById('progressCountP3Ch05');const fill=document.getElementById('progressFillP3Ch05');if(cnt){cnt.textContent=`${c} / ${totalCountP3Ch05}`;}if(fill){fill.style.width=(totalCountP3Ch05>0?(c/totalCountP3Ch05)*100:0)+'%';}const done=document.getElementById('doneBlockP3Ch05');if(done){if(c===totalCountP3Ch05){done.classList.add('visible');if(canCelebrate&&!wasCompleteP3Ch05){launchConfetti()}wasCompleteP3Ch05=true}else{done.classList.remove('visible');wasCompleteP3Ch05=false;}}}
 itemsP3Ch05.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.addEventListener('change',function(){item.classList.toggle('checked',this.checked);saveStateP3Ch05();updateProgressP3Ch05(true);});});
 
+// ──────────── ЧАСТЬ 3 ГЛАВА 06 (Heartbeats — финал Части 3) ──────────────
+const STORAGE_KEY_P3_CH06='iivizaciya_checklist_urok6_part3_ch06_v1';
+const itemsP3Ch06=document.querySelectorAll('.item[data-key^="urok6-part3-ch06-"]');
+const totalCountP3Ch06=itemsP3Ch06.length;
+let wasCompleteP3Ch06=false;
+function loadStateP3Ch06(){try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY_P3_CH06)||'{}');let c=0;itemsP3Ch06.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');if(s[item.dataset.key]){cb.checked=true;item.classList.add('checked');c++}});wasCompleteP3Ch06=c===totalCountP3Ch06}catch(e){}updateProgressP3Ch06(false);}
+function saveStateP3Ch06(){const s={};itemsP3Ch06.forEach(item=>{s[item.dataset.key]=item.querySelector('input[type="checkbox"]').checked});try{localStorage.setItem(STORAGE_KEY_P3_CH06,JSON.stringify(s))}catch(e){}}
+function updateProgressP3Ch06(canCelebrate=true){let c=0;itemsP3Ch06.forEach(item=>{if(item.querySelector('input[type="checkbox"]').checked)c++});const cnt=document.getElementById('progressCountP3Ch06');const fill=document.getElementById('progressFillP3Ch06');if(cnt){cnt.textContent=`${c} / ${totalCountP3Ch06}`;}if(fill){fill.style.width=(totalCountP3Ch06>0?(c/totalCountP3Ch06)*100:0)+'%';}const done=document.getElementById('doneBlockP3Ch06');if(done){if(c===totalCountP3Ch06){done.classList.add('visible');if(canCelebrate&&!wasCompleteP3Ch06){launchConfetti()}wasCompleteP3Ch06=true}else{done.classList.remove('visible');wasCompleteP3Ch06=false;}}}
+itemsP3Ch06.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.addEventListener('change',function(){item.classList.toggle('checked',this.checked);saveStateP3Ch06();updateProgressP3Ch06(true);});});
+
 function resetProgressCh01(){if(!confirm('Сбросить прогресс главы 01, части 01?'))return;itemsCh01.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteCh01=false;saveStateCh01();updateProgressCh01(false);}
 function resetProgressCh02(){if(!confirm('Сбросить прогресс главы 02, части 01?'))return;itemsCh02.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteCh02=false;saveStateCh02();updateProgressCh02(false);}
 function resetProgressCh03(){if(!confirm('Сбросить прогресс главы 03, части 01?'))return;itemsCh03.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteCh03=false;saveStateCh03();updateProgressCh03(false);}
@@ -7912,6 +8824,7 @@ function resetProgressP3Ch03(){if(!confirm('Сбросить прогресс г
 function resetProgressP3Bridge(){if(!confirm('Сбросить прогресс мост-главы?'))return;itemsP3Bridge.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteP3Bridge=false;saveStateP3Bridge();updateProgressP3Bridge(false);}
 function resetProgressP3Ch04(){if(!confirm('Сбросить прогресс главы 04, части 03?'))return;itemsP3Ch04.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteP3Ch04=false;saveStateP3Ch04();updateProgressP3Ch04(false);}
 function resetProgressP3Ch05(){if(!confirm('Сбросить прогресс главы 05, части 03?'))return;itemsP3Ch05.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteP3Ch05=false;saveStateP3Ch05();updateProgressP3Ch05(false);}
+function resetProgressP3Ch06(){if(!confirm('Сбросить прогресс главы 06, части 03?'))return;itemsP3Ch06.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteP3Ch06=false;saveStateP3Ch06();updateProgressP3Ch06(false);}
 loadStateCh01();
 loadStateCh02();
 loadStateCh03();
@@ -7923,6 +8836,7 @@ loadStateP3Ch03();
 loadStateP3Bridge();
 loadStateP3Ch04();
 loadStateP3Ch05();
+loadStateP3Ch06();
 
 // ──────────── SCROLL-SPY (sidebar активная глава + mobile topbar) ──────────────
 (function(){
@@ -7936,6 +8850,7 @@ loadStateP3Ch05();
   const p3bridgeAnchor=document.getElementById('part3-bridge-github');
   const p3c4Anchor=document.getElementById('part3-chapter-04');
   const p3c5Anchor=document.getElementById('part3-chapter-05');
+  const p3c6Anchor=document.getElementById('part3-chapter-06');
   const linkCh01=document.querySelector('.sidebar__link[data-ch="01"]');
   const linkCh02=document.querySelector('.sidebar__link[data-ch="02"]');
   const linkCh03=document.querySelector('.sidebar__link[data-ch="03"]');
@@ -7947,6 +8862,7 @@ loadStateP3Ch05();
   const linkP3Bridge=document.querySelector('.sidebar__link[data-ch="p3-bridge"]');
   const linkP3C4=document.querySelector('.sidebar__link[data-ch="p3-04"]');
   const linkP3C5=document.querySelector('.sidebar__link[data-ch="p3-05"]');
+  const linkP3C6=document.querySelector('.sidebar__link[data-ch="p3-06"]');
   const mobileTitle=document.querySelector('.mobile-topbar__title');
   if(!ch02Anchor||!linkCh01||!linkCh02)return;
   const THRESHOLD=200;
@@ -7961,17 +8877,19 @@ loadStateP3Ch05();
     'p3c3':'Урок 6 · Ч.3 · Гл.03',
     'p3bridge':'Урок 6 · Ч.3 · 🌉 Мост',
     'p3c4':'Урок 6 · Ч.3 · Гл.04',
-    'p3c5':'Урок 6 · Ч.3 · Гл.05'
+    'p3c5':'Урок 6 · Ч.3 · Гл.05',
+    'p3c6':'Урок 6 · Ч.3 · Гл.06 · Финал'
   };
-  const ALL_LINKS=[linkCh01,linkCh02,linkCh03,linkP2C1,linkP2C2,linkP3C1,linkP3C2,linkP3C3,linkP3Bridge,linkP3C4,linkP3C5];
+  const ALL_LINKS=[linkCh01,linkCh02,linkCh03,linkP2C1,linkP2C2,linkP3C1,linkP3C2,linkP3C3,linkP3Bridge,linkP3C4,linkP3C5,linkP3C6];
   function setActive(key){
     ALL_LINKS.forEach(l=>l&&l.classList.remove('sidebar__link--active'));
-    const linkMap={'p1c1':linkCh01,'p1c2':linkCh02,'p1c3':linkCh03,'p2c1':linkP2C1,'p2c2':linkP2C2,'p3c1':linkP3C1,'p3c2':linkP3C2,'p3c3':linkP3C3,'p3bridge':linkP3Bridge,'p3c4':linkP3C4,'p3c5':linkP3C5};
+    const linkMap={'p1c1':linkCh01,'p1c2':linkCh02,'p1c3':linkCh03,'p2c1':linkP2C1,'p2c2':linkP2C2,'p3c1':linkP3C1,'p3c2':linkP3C2,'p3c3':linkP3C3,'p3bridge':linkP3Bridge,'p3c4':linkP3C4,'p3c5':linkP3C5,'p3c6':linkP3C6};
     const target=linkMap[key];
     if(target)target.classList.add('sidebar__link--active');
     if(mobileTitle)mobileTitle.textContent=TITLES[key]||TITLES['p1c1'];
   }
   function update(){
+    const p3c6Top=p3c6Anchor?p3c6Anchor.getBoundingClientRect().top:Infinity;
     const p3c5Top=p3c5Anchor?p3c5Anchor.getBoundingClientRect().top:Infinity;
     const p3c4Top=p3c4Anchor?p3c4Anchor.getBoundingClientRect().top:Infinity;
     const p3bridgeTop=p3bridgeAnchor?p3bridgeAnchor.getBoundingClientRect().top:Infinity;
@@ -7982,7 +8900,8 @@ loadStateP3Ch05();
     const p2c1Top=p2c1Anchor?p2c1Anchor.getBoundingClientRect().top:Infinity;
     const ch03Top=ch03Anchor?ch03Anchor.getBoundingClientRect().top:Infinity;
     const ch02Top=ch02Anchor.getBoundingClientRect().top;
-    if(p3c5Top<=THRESHOLD)setActive('p3c5');
+    if(p3c6Top<=THRESHOLD)setActive('p3c6');
+    else if(p3c5Top<=THRESHOLD)setActive('p3c5');
     else if(p3c4Top<=THRESHOLD)setActive('p3c4');
     else if(p3bridgeTop<=THRESHOLD)setActive('p3bridge');
     else if(p3c3Top<=THRESHOLD)setActive('p3c3');
