@@ -8629,21 +8629,28 @@ export const after_tool_call = async (ctx) =&gt; {
       <p><strong>AI-офис работает сам.</strong> Вы можете уйти на выходные — директор сам увидит проблемы, сам напишет вам бриф, сам подождёт вашего «погнали» на правки.</p>
     </div>
 
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span><strong>Дальше у вас два направления параллельно:</strong><br>
+      1. <strong>Самостоятельно расширяете AI-офис</strong> — создаёте новых sub-агентов по той же схеме, что показали в Части 3. У вас уже есть все инструменты: Claude-проект для генерации SOUL, Claude Code-инженер для записи на сервер, шаблоны skills, vault для shared knowledge.<br>
+      2. <strong>В курсе переходим к Части 4 · Безопасность контура</strong> — закрываем периметр, чтобы ваш AI-офис был защищён на продакшн-уровне.</span>
+    </div>
+
     <table class="data-table">
       <thead>
         <tr>
-          <th>Часть</th>
-          <th>Что в ней</th>
+          <th>Что дальше</th>
+          <th>Описание</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>Часть 4 · Расширение AI-офиса</td>
-          <td>Создаём остальных sub-агентов (sales, support, content, analytics). Используем шаблоны из репо <span class="mono">agency-agents</span> как сырьё, переписываем под наш стандарт. После Части 4 у вас не один директор + один помощник, а полноценная команда.</td>
+          <td>Самостоятельно — расширение AI-офиса</td>
+          <td>По схеме из Части 3 (SOUL → Skills → Memory → Heartbeats) создайте остальных sub-агентов под свой бизнес: sales, support, content, analytics или те, что вам нужны. Шаблоны можно брать из репо <span class="mono">agency-agents</span> и переписывать под наш стандарт.</td>
         </tr>
         <tr>
-          <td>Часть 5 · Безопасность контура</td>
-          <td>Аудит безопасности всего AI-офиса, продакшн-настройки, восстановление из бэкапа, защита от компрометации.</td>
+          <td>Часть 4 · Безопасность контура</td>
+          <td>Аудит безопасности всего AI-офиса, продакшн-настройки сервера, защита от компрометации агентов. После Части 4 ваш AI-офис не только работает, но и защищён на продакшн-уровне.</td>
         </tr>
       </tbody>
     </table>
@@ -8669,12 +8676,12 @@ export const after_tool_call = async (ctx) =&gt; {
       <div class="footer__final-part3">
         <div class="footer__final-emoji">🎉</div>
         <div class="footer__final-text">Часть 3 завершена!</div>
-        <div class="footer__final-sub">Ваш AI-директор полностью готов: с душой, памятью, инструментами и проактивным расписанием. Дальше — расширяем команду.</div>
+        <div class="footer__final-sub">Ваш AI-директор полностью готов: с душой, памятью, инструментами и проактивным расписанием. Дальше — закрываем периметр безопасности.</div>
       </div>
 
       <div class="footer__schedule">
         <div class="footer__schedule-title">Следующая часть</div>
-        <div class="footer__schedule-row"><span>Часть 4</span><span>Расширение AI-офиса — sales, support, content, analytics</span></div>
+        <div class="footer__schedule-row"><span>Часть 4</span><span>Безопасность контура — аудит, продакшн-настройки, защита агентов</span></div>
       </div>
       <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
       <button class="btn-reset" onclick="resetProgressP3Ch06()">Сбросить прогресс главы 06, части 03</button>
