@@ -159,6 +159,26 @@
   .term--p3 .term__name { color:var(--amber); }
   .term--p3 .term__example { background:rgba(251,191,36,0.06); border-left-color:rgba(251,191,36,0.3); }
 
+  /* ─── PART 3 ГЛАВА 02 — оранжевая вариация янтаря ─── */
+  .chapter-marker--p3-ch02 { border-left-color:#fb923c; }
+  .chapter-marker--p3-ch02 .chapter-marker__label { color:#fb923c; }
+  .progress-wrap--p3-ch02 .progress-count { color:#fb923c; }
+  .progress-wrap--p3-ch02 .progress-fill { background:linear-gradient(90deg,#fb923c,#ea580c); }
+  .term--p3-ch02 .term__name { color:#fb923c; }
+  .term--p3-ch02 .term__example { background:rgba(251,146,60,0.06); border-left-color:rgba(251,146,60,0.3); }
+  .concept-card--p3-ch02:hover { border-color:#fb923c; }
+
+  /* allow/deny двухколоночная таблица */
+  .policy-table { width:100%; font-size:13px; border-collapse:collapse; }
+  .policy-table th { text-align:left; font-weight:700; font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:1.2px; padding:10px 20px; border-bottom:1px solid var(--border); background:rgba(0,0,0,0.2); }
+  .policy-table th.allow { color:var(--green-glow); }
+  .policy-table th.deny { color:#fb7185; }
+  .policy-table td { padding:8px 20px; border-bottom:1px solid var(--border); color:var(--text-secondary); vertical-align:top; line-height:1.5; font-family:'JetBrains Mono',monospace; font-size:12px; }
+  .policy-table tr:last-child td { border-bottom:none; }
+  .policy-table td.allow { color:var(--green-glow); }
+  .policy-table td.deny { color:#fb7185; }
+  .policy-table td .desc { font-family:'Onest',sans-serif; font-size:12.5px; color:var(--text-muted); margin-left:4px; }
+
   /* ─── ARCH BOX (ASCII-схемы) ─── */
   .arch-box { background:rgba(0,0,0,0.3); border:1px solid var(--border-accent); border-radius:10px; padding:18px 22px; margin:12px 20px; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text-secondary); line-height:1.55; white-space:pre; overflow-x:auto; }
 
@@ -263,7 +283,7 @@
       <div class="sidebar__part">
         <div class="sidebar__part-title">Часть 3 · Собираем AI-директора</div>
         <a href="#part3-chapter-01" class="sidebar__link" data-ch="p3-01">Глава 01 · Задача главного агента</a>
-        <span class="sidebar__link sidebar__link--soon">Глава 02 · Архитектура агента <em>скоро</em></span>
+        <a href="#part3-chapter-02" class="sidebar__link" data-ch="p3-02">Глава 02 · Архитектура агента</a>
         <span class="sidebar__link sidebar__link--soon">Глава 03 · SOUL.md <em>скоро</em></span>
         <span class="sidebar__link sidebar__link--soon">Глава 04 · Skills OpenClaw <em>скоро</em></span>
         <span class="sidebar__link sidebar__link--soon">Глава 05 · Memory System <em>скоро</em></span>
@@ -4213,10 +4233,499 @@ write, edit, apply_patch, browser, canvas, cron, gateway-restart,
       </div>
       <div class="footer__schedule">
         <div class="footer__schedule-title">Следующая глава</div>
-        <div class="footer__schedule-row"><span>Часть 3 · Глава 02</span><span>Архитектура агента — workspace, tools.deny, доступы</span></div>
+        <div class="footer__schedule-row"><span>Часть 3 · Глава 02</span><span>Архитектура агента — настраиваем границы директора</span></div>
       </div>
       <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
       <button class="btn-reset" onclick="resetProgressP3Ch01()">Сбросить прогресс главы 01, части 03</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- ═══ ЧАСТЬ 3 · ГЛАВА 02 — АРХИТЕКТУРА АГЕНТА ═══ -->
+    <!-- ═══════════════════════════════════════════ -->
+
+    <div id="part3-chapter-02" class="chapter-divider"></div>
+
+    <div class="chapter-marker chapter-marker--p3-ch02">
+      <div class="chapter-marker__label">ЧАСТЬ 3 · ГЛАВА 02</div>
+      <div class="chapter-marker__title">Архитектура агента <span>— настраиваем границы директора</span></div>
+    </div>
+
+    <div class="progress-wrap progress-wrap--p3-ch02">
+      <div class="progress-top">
+        <span class="progress-label">Прогресс главы 02, части 03</span>
+        <span class="progress-count" id="progressCountP3Ch02">0 / 3</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFillP3Ch02"></div></div>
+    </div>
+
+<!-- ═══ 73 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">73</div>
+    <div class="section__title">Что мы делаем в этой главе</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p>В Главе 01 мы зафиксировали концепцию AI-офиса и передали её Claude Code. Сейчас разбираемся с архитектурой:</p>
+      <p>— как устроен OpenClaw-агент изнутри;<br>
+         — как один Gateway держит несколько агентов;<br>
+         — где у директора границы (что ему разрешено, что нет);<br>
+         — настраиваем эти границы в практической части.</p>
+      <p>Душу директора (<span class="mono">SOUL.md</span>), его инструменты (Skills), память (<span class="mono">MEMORY.md</span>) и проактивность (Heartbeat) мы заполним в следующих главах. В Главе 02 мы готовим <strong>скелет</strong> — жёсткие архитектурные границы, после которых директор физически не сможет ничего испортить.</p>
+    </div>
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span><strong>Главный сдвиг этой главы:</strong> ваш main-агент в Telegram становится директором. Это тот же бот, тот же канал общения — просто новая роль и новые правила. Никаких вторых ботов плодить не нужно.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 74 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">74</div>
+    <div class="section__title">OpenClaw-агент изнутри — что лежит в его «рабочем столе»</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p>У каждого OpenClaw-агента есть своя папка на сервере — <strong>workspace</strong>. Это его «рабочий стол». Там лежат файлы, из которых OpenClaw собирает личность агента и контекст для каждой беседы.</p>
+    </div>
+
+    <div class="term term--p3-ch02">
+      <div class="term__name">AGENTS.md</div>
+      <div class="term__def">«Должностная инструкция» агента: что он делает, какие правила соблюдает.</div>
+      <div class="term__example">У директора там будет: «наблюдаю за sub-агентами, формирую брифы, ничего сам не правлю». Заполним в Главе 03.</div>
+    </div>
+
+    <div class="term term--p3-ch02">
+      <div class="term__name">SOUL.md</div>
+      <div class="term__def">«Личность» агента: характер, тон, ценности, запреты. То, что делает его сотрудником с характером, а не безликим ботом.</div>
+      <div class="term__example">У директора — аналитичный наблюдатель, говорит коротко, без воды. Подробно — Глава 03.</div>
+    </div>
+
+    <div class="term term--p3-ch02">
+      <div class="term__name">IDENTITY.md</div>
+      <div class="term__def">Имя, эмодзи, базовый «вайб» — как агент представляется.</div>
+      <div class="term__example">«Я — AI-директор вашего AI-офиса. 🎩»</div>
+    </div>
+
+    <div class="term term--p3-ch02">
+      <div class="term__name">USER.md</div>
+      <div class="term__def">Кто пользователь — то есть <strong>вы</strong>: имя, бизнес, предпочтения, стиль общения.</div>
+      <div class="term__example">Чтобы директор не спрашивал каждый раз «а кто вы и что вам нужно».</div>
+    </div>
+
+    <div class="term term--p3-ch02">
+      <div class="term__name">MEMORY.md</div>
+      <div class="term__def">Долговременная память: что агент помнит между сессиями. История наблюдений за sub-агентами, принятые правки, текущие гипотезы.</div>
+      <div class="term__example">Подробно — Глава 05.</div>
+    </div>
+
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span>Помимо этих пяти есть ещё служебные файлы (<span class="mono">HEARTBEAT.md</span> для проактивности, папка <span class="mono">skills/</span> для навыков). Их мы заполним в следующих главах. Сейчас просто понимаем структуру.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Файлы вне workspace, к которым агент сам не лезет:</strong> <span class="mono">openclaw.json</span> — общий конфиг сервера, <span class="mono">auth-profiles.json</span> — токены и доступы, <span class="mono">sessions/</span> — транскрипты диалогов. Это уровень администратора.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 75 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">75</div>
+    <div class="section__title">Один Gateway — много агентов</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p>На вашем сервере живёт <strong>один процесс OpenClaw</strong> — он называется Gateway. Этот один Gateway может держать <strong>сразу несколько агентов</strong>: вашего main-директора и (в будущем, в Части 4) sales-, support-, content-агентов. У каждого — свой workspace, свой Telegram-бот, своя память. Но движок один.</p>
+    </div>
+
+    <div class="arch-box">                  ОДИН VPS / ОДИН СЕРВЕР
+
+   ┌────────────────────────────────────────────────────┐
+   │           OpenClaw Gateway (один процесс)          │
+   │                                                    │
+   │   ┌──────────────────────────────┐                 │
+   │   │  ⭐ MAIN-АГЕНТ = ДИРЕКТОР    │  ← это вы       │
+   │   │     (ваш текущий бот в       │     настраиваете│
+   │   │      Telegram)               │     в этой главе│
+   │   └──────────────────────────────┘                 │
+   │                                                    │
+   │   ┌──────────┐  ┌──────────┐  ┌──────────┐         │
+   │   │ SALES    │  │ SUPPORT  │  │ CONTENT  │ ← Часть 4
+   │   │ (потом)  │  │ (потом)  │  │ (потом)  │   (пока  │
+   │   │          │  │          │  │          │   просто │
+   │   │ свой     │  │ свой     │  │ свой     │   место) │
+   │   │ workspace│  │ workspace│  │ workspace│          │
+   │   │ свой бот │  │ свой бот │  │ свой бот │          │
+   │   └──────────┘  └──────────┘  └──────────┘          │
+   └────────────────────────────────────────────────────┘</div>
+
+    <div class="term term--p3-ch02">
+      <div class="term__name">Gateway</div>
+      <div class="term__def">Главный процесс OpenClaw на сервере. Принимает сообщения из Telegram, передаёт нужному агенту, возвращает ответ. На одном сервере — один Gateway.</div>
+    </div>
+
+    <div class="term term--p3-ch02">
+      <div class="term__name">openclaw.json</div>
+      <div class="term__def">Главный конфиг-файл всего сервера. В нём перечислены все ваши агенты (<span class="mono">agents.list</span>), их рабочие столы и настройки. И правила маршрутизации (<span class="mono">bindings</span>) — какой Telegram-бот относится к какому агенту.</div>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span><strong>Почему один Gateway, а не несколько?</strong> Меньше памяти, проще бэкап, проще отлаживать. На обычном VPS (4 GB RAM) один Gateway держит 5-7 агентов спокойно.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 76 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">76</div>
+    <div class="section__title">Sub-Agents vs наш подход — короткая ясность</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--warn">
+      <span class="note__icon">⚠️</span>
+      <span>В документации OpenClaw встречается термин <strong>«Sub-Agent»</strong>. Не путайте с <strong>нашими «sub-агентами»</strong> (sales, support, content). Это разные вещи. Разберём за минуту, чтобы дальше не было путаницы.</span>
+    </div>
+
+    <div class="info-block">
+      <p>В OpenClaw есть три способа собрать «несколько агентов». Для нашего AI-офиса подходит только один.</p>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Способ</th>
+          <th>Что это</th>
+          <th>Когда нужно</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Sub-Agents (<span class="mono">sessions_spawn</span>)</td>
+          <td>Эфемерные параллельные «помощники» внутри одной сессии. Живут до 60 минут, потом исчезают.</td>
+          <td>Параллельная research-задача. <strong>НЕ для постоянных бизнес-ролей.</strong></td>
+        </tr>
+        <tr>
+          <td>Delegate</td>
+          <td>Полноценный агент с правом «действовать от имени» в почте/календаре. Сложная корпоративная штука.</td>
+          <td>Корпоративные сценарии. <strong>Не наш случай.</strong></td>
+        </tr>
+        <tr>
+          <td>Multi-Agent Routing</td>
+          <td>Несколько постоянных агентов в одном Gateway. У каждого свой workspace и Telegram-бот.</td>
+          <td><strong>ЭТО НАШ ВЫБОР.</strong> Каждая бизнес-роль — свой постоянный агент.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span>Когда мы говорим «директор и sub-агенты» — мы имеем в виду <strong>Multi-Agent Routing</strong>. Каждый «sub-агент» в нашем понимании — это отдельная постоянная запись в реестре агентов с собственным workspace и характером. Sub-агентов вы будете создавать в Части 4 курса.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 77 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">77</div>
+    <div class="section__title">Как директор будет видеть sub-агентов</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p>Когда в Части 4 вы создадите sub-агентов, директору нужно будет за ними наблюдать. Но <strong>только наблюдать</strong> — никаких правок. У OpenClaw для этого есть три безопасных «глаза».</p>
+    </div>
+
+    <div class="concept-grid">
+      <div class="concept-card concept-card--p3-ch02">
+        <div class="concept-card__emoji">📜</div>
+        <div class="concept-card__title">Чтение диалогов</div>
+        <div class="concept-card__desc">Директор может посмотреть последние сессии любого sub-агента — кто что спрашивал, что ответил агент. Через инструмент <span class="mono">sessions_history</span>.</div>
+      </div>
+      <div class="concept-card concept-card--p3-ch02">
+        <div class="concept-card__emoji">🔍</div>
+        <div class="concept-card__title">Поиск по памяти</div>
+        <div class="concept-card__desc">Директор может искать по архивам диалогов всех sub-агентов: «покажи случаи, когда support отвечал про возвраты».</div>
+      </div>
+      <div class="concept-card concept-card--p3-ch02">
+        <div class="concept-card__emoji">📂</div>
+        <div class="concept-card__title">Чтение файлов агента</div>
+        <div class="concept-card__desc">Директор может прочитать <span class="mono">SOUL</span>/<span class="mono">MEMORY</span>/<span class="mono">AGENTS</span> любого sub-агента — для анализа. Записывать туда не сможет (запретим в Блоке ниже).</div>
+      </div>
+    </div>
+
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span>Эти «глаза» включаются автоматически вместе с настройкой границ в практической части — мы добавляем нужные инструменты в <span class="mono">tools.allow</span>. До появления sub-агентов в Части 4 директор просто будет смотреть в пустоту — и это нормально.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 78 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">78</div>
+    <div class="section__title">Границы директора — самое важное</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--alert">
+      <span class="note__icon">🛡️</span>
+      <span>Это <strong>сердце Главы 02</strong>. Без этих границ директор — обычный агент, который может сломать что угодно. С границами — наблюдатель, который физически не способен испортить ни один файл, ни одну настройку. Границы прописываются на уровне Gateway: даже если в <span class="mono">SOUL.md</span> будет ошибка или директора попытаются обмануть через prompt injection — Gateway просто заблокирует запрещённый инструмент.</span>
+    </div>
+
+    <div class="info-block">
+      <p>В OpenClaw есть механизм <strong>per-agent tool policy</strong> — для каждого агента можно прописать список разрешённых (<span class="mono">allow</span>) и запрещённых (<span class="mono">deny</span>) инструментов. Для директора список выглядит так:</p>
+    </div>
+
+    <table class="policy-table">
+      <thead>
+        <tr>
+          <th class="allow">✅ Можно (allow)</th>
+          <th class="deny">❌ Нельзя (deny)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="allow">read<span class="desc">— читать файлы</span></td>
+          <td class="deny">write<span class="desc">— создавать файлы</span></td>
+        </tr>
+        <tr>
+          <td class="allow">message<span class="desc">— писать вам в Telegram</span></td>
+          <td class="deny">edit<span class="desc">— редактировать файлы</span></td>
+        </tr>
+        <tr>
+          <td class="allow">sessions_history<span class="desc">— смотреть диалоги sub-агентов</span></td>
+          <td class="deny">apply_patch<span class="desc">— применять правки</span></td>
+        </tr>
+        <tr>
+          <td class="allow">sessions_list<span class="desc">— список сессий</span></td>
+          <td class="deny">browser<span class="desc">— заходить в интернет</span></td>
+        </tr>
+        <tr>
+          <td class="allow">memory_search<span class="desc">— искать по памяти</span></td>
+          <td class="deny">canvas<span class="desc">— работать с canvas-UI</span></td>
+        </tr>
+        <tr>
+          <td class="allow">memory_get<span class="desc">— читать память</span></td>
+          <td class="deny">cron<span class="desc">— создавать таймеры</span></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td class="deny">exec<span class="desc">— выполнять команды на сервере</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="info-block">
+      <p>Этот список мы пропишем в <span class="mono">openclaw.json</span> через Claude Code в практической части. Один промпт — одно действие.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 79 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">79</div>
+    <div class="section__title">Карта нашего AI-офиса</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🗺️</span>
+      <span>Это карта того, к чему мы идём в Части 3. Сегодня — настраиваем только <strong>директора</strong> (он же main-агент). Sub-агенты — обозначены как «место в схеме», их мы создадим в Части 4.</span>
+    </div>
+
+    <div class="arch-box">        Машина пользователя                         VPS (Aeza)
+   ────────────────────────             ─────────────────────────────
+   ┌────────────────────────┐           ┌─────────────────────────┐
+   │ Claude Code            │   git     │ OpenClaw Gateway        │
+   │ (в Telegram)           │ ────────► │                         │
+   │                        │           │  ┌────────────────────┐ │
+   │ Obsidian-vault         │           │  │ ⭐ ДИРЕКТОР (main) │ │
+   │ (локально)             │           │  │ ваш текущий бот    │ │
+   └────────────┬───────────┘           │  └─────────┬──────────┘ │
+                │                       │            │ только     │
+                │ git push/pull         │            │ чтение     │
+                ▼                       │            ▼            │
+        ┌──────────────────┐            │  ┌──────────┐ ┌────────┐│
+        │   GitHub         │ ────────►  │  │ SALES    │ │SUPPORT ││ ◄─ потом
+        │   private repo   │   git pull │  │ (Часть 4)│ │(Часть 4)││   (Часть 4)
+        │   с vault        │            │  └──────────┘ └────────┘│
+        └──────────────────┘            │                         │
+                                        │  ┌──────────┐ ┌────────┐│
+                                        │  │ CONTENT  │ │ANALY-  ││ ◄─ потом
+                                        │  │ (Часть 4)│ │TICS    ││   (Часть 4)
+                                        │  └──────────┘ └────────┘│
+                                        │                         │
+                                        │  ~/.openclaw/shared-vault│
+                                        │  (клон GitHub-vault)    │
+                                        └─────────────────────────┘
+                                                   ↕
+                                        Telegram (1 бот директора +
+                                        N ботов sub-агентов потом)</div>
+
+    <div class="info-block">
+      <p>🎯 <strong>Главное правило архитектуры:</strong> директор сам никуда наружу не ходит. Он не зовёт Google API, не лезет в Sheets, не пишет в платёжки. Эти задачи — для sub-агентов из Части 4. Директор только наблюдает, читает их работу и формирует брифы. Это его роль — и его безопасность.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 80 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">80</div>
+    <div class="section__title">ПРАКТИКА: настраиваем границы директора (3 шага)</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🚀</span>
+      <span>Основная практика главы. Все правки делает Claude Code-инженер (тот, что у вас в Telegram из Части 1 Урока 6). Вы — копируете промпты и подтверждаете «погнали».</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Шаг 1 — Просим Claude Code подготовить план правки</strong></p>
+    </div>
+    <div class="item" data-key="urok6-part3-ch02-plan">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Отправить план-промпт Claude Code-боту в Telegram</div>
+        <div class="item__hint">Скопируйте промпт ниже. Бот покажет diff правки <span class="mono">openclaw.json</span> и подождёт вашего «погнали». На этом шаге <strong>ничего ещё не применяется</strong> — только план.</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — план правки</div>
+      <div class="prompt-block__text" id="promptDirectorPlan">Настраиваем main-агента под роль AI-директора. Это правка
+~/.openclaw/openclaw.json.
+
+ЗАДАЧА: добавить per-agent tool policy для main-агента, чтобы
+директор мог только наблюдать и не мог ничего ломать.
+
+Что добавить в запись main-агента в agents.list[]:
+
+  tools: {
+    allow: [
+      "read",
+      "message",
+      "sessions_history",
+      "sessions_list",
+      "memory_search",
+      "memory_get"
+    ],
+    deny: [
+      "write",
+      "edit",
+      "apply_patch",
+      "browser",
+      "canvas",
+      "cron",
+      "exec"
+    ]
+  }
+
+ОБЯЗАТЕЛЬНО:
+1. Покажи мне diff — что именно ты добавляешь.
+2. Покажи, как итоговая запись main-агента будет выглядеть.
+3. Не применяй правку — жди моего «погнали».
+4. Уточни, если найдёшь, что у main уже есть какие-то tools-настройки —
+   покажи их и предложи стратегию слияния.</div>
+      <button class="btn-copy" onclick="copyBlock('promptDirectorPlan', this)">📋 Скопировать</button>
+    </div>
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span>Если бот спросит уточнения по существующей конфигурации main — ответьте честно. Бот сам разберётся, что и как сливать. Ваша задача — подтверждать решения.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Шаг 2 — Применяем правку и перезапускаем Gateway</strong></p>
+    </div>
+    <div class="item" data-key="urok6-part3-ch02-apply">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Дать «погнали» — Claude Code применит правку и перезапустит Gateway</div>
+        <div class="item__hint">После того как diff одобрен — отправьте промпт ниже. Бот применит правку, перезапустит Gateway и проверит, что main всё ещё на месте.</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт Claude Code-боту (🛠️ инженерный) — применение правки</div>
+      <div class="prompt-block__text" id="promptDirectorApply">Погнали. Применяй правку tools.allow / tools.deny для main-агента.
+
+После применения:
+1. Перезапусти OpenClaw Gateway.
+2. Дождись поднятия (status healthy).
+3. Покажи `openclaw agents list --bindings` — main должен быть на месте.
+4. Покажи финальный фрагмент конфига main с новыми tools.
+5. Если что-то сломалось — НЕ паникуй, не делай ничего деструктивного,
+   покажи мне ошибку и жди инструкций.</div>
+      <button class="btn-copy" onclick="copyBlock('promptDirectorApply', this)">📋 Скопировать</button>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Шаг 3 — Проверяем директора в Telegram</strong></p>
+    </div>
+    <div class="item" data-key="urok6-part3-ch02-test">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Написать main-боту в Telegram и убедиться, что он отвечает</div>
+        <div class="item__hint">Откройте свой обычный Telegram-чат с main-ботом и отправьте простое сообщение: <strong>«Привет. Что ты сейчас умеешь?»</strong></div>
+      </div>
+    </div>
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span>Ответ может быть достаточно общим — у директора пока <strong>нет души</strong> (<span class="mono">SOUL.md</span> заполним в Главе 03). Главное — что бот ответил. Если ответил — архитектура работает.</span>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span>Если бот в Telegram отвечает — границы директора настроены, Gateway жив, маршрутизация работает. Глава 02 пройдена. Душу впишем в Главе 03.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 81 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">81</div>
+    <div class="section__title">Что вы сейчас умеете и чего пока нет</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p><strong>К концу Главы 02 у вас:</strong></p>
+      <p>✅ Main-агент в <span class="mono">openclaw.json</span> имеет жёсткие границы (<span class="mono">tools.allow</span> + <span class="mono">tools.deny</span>).<br>
+         ✅ Директор физически не может писать в файлы, выполнять команды, лазить в интернет.<br>
+         ✅ Gateway перезапущен, маршрутизация работает.<br>
+         ✅ Бот в Telegram отвечает.</p>
+      <p><strong>Чего у директора пока нет</strong> (но появится в следующих главах):</p>
+      <p>⏳ Характер и поведение (<span class="mono">SOUL.md</span>) → Глава 03<br>
+         ⏳ Инструменты для наблюдения за sub-агентами (Skills) → Глава 04<br>
+         ⏳ Память между сессиями (<span class="mono">MEMORY.md</span>) → Глава 05<br>
+         ⏳ Проактивность — утренние брифинги, ретро (Heartbeat) → Глава 06</p>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">⚠️</span>
+      <span>После Главы 02 main-агент больше не сможет делать «руками» вещи, которые мог раньше: записать в Google Calendar, отправить файл, выполнить команду. Это ожидаемо. Эти задачи теперь — зона sub-агентов из Части 4. Директор только наблюдает.</span>
+    </div>
+  </div>
+</div>
+
+    <!-- ═══ FOOTER ГЛАВЫ 02 ЧАСТИ 3 ═══ -->
+    <div class="footer">
+      <div class="footer__done" id="doneBlockP3Ch02">
+        <div class="footer__done-emoji">🛡️</div>
+        <div class="footer__done-text">Скелет директора готов</div>
+        <div class="footer__done-sub">Main-агент стал директором: жёсткие границы прописаны в openclaw.json, Gateway перезапущен, бот в Telegram отвечает. Физически директор больше не может ничего сломать. В следующей главе впишем ему душу — характер, тон, ценности и хард-запреты на уровне SOUL.md.</div>
+      </div>
+      <div class="footer__schedule">
+        <div class="footer__schedule-title">Следующая глава</div>
+        <div class="footer__schedule-row"><span>Часть 3 · Глава 03</span><span>SOUL.md — пишем «душу» директора</span></div>
+      </div>
+      <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
+      <button class="btn-reset" onclick="resetProgressP3Ch02()">Сбросить прогресс главы 02, части 03</button>
     </div>
 
   </main>
@@ -4292,18 +4801,30 @@ function saveStateP3Ch01(){const s={};itemsP3Ch01.forEach(item=>{s[item.dataset.
 function updateProgressP3Ch01(canCelebrate=true){let c=0;itemsP3Ch01.forEach(item=>{if(item.querySelector('input[type="checkbox"]').checked)c++});const cnt=document.getElementById('progressCountP3Ch01');const fill=document.getElementById('progressFillP3Ch01');if(cnt){cnt.textContent=`${c} / ${totalCountP3Ch01}`;}if(fill){fill.style.width=(totalCountP3Ch01>0?(c/totalCountP3Ch01)*100:0)+'%';}const done=document.getElementById('doneBlockP3Ch01');if(done){if(c===totalCountP3Ch01){done.classList.add('visible');if(canCelebrate&&!wasCompleteP3Ch01){launchConfetti()}wasCompleteP3Ch01=true}else{done.classList.remove('visible');wasCompleteP3Ch01=false;}}}
 itemsP3Ch01.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.addEventListener('change',function(){item.classList.toggle('checked',this.checked);saveStateP3Ch01();updateProgressP3Ch01(true);});});
 
+// ──────────── ЧАСТЬ 3 ГЛАВА 02 ──────────────
+const STORAGE_KEY_P3_CH02='iivizaciya_checklist_urok6_part3_ch02_v1';
+const itemsP3Ch02=document.querySelectorAll('.item[data-key^="urok6-part3-ch02-"]');
+const totalCountP3Ch02=itemsP3Ch02.length;
+let wasCompleteP3Ch02=false;
+function loadStateP3Ch02(){try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY_P3_CH02)||'{}');let c=0;itemsP3Ch02.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');if(s[item.dataset.key]){cb.checked=true;item.classList.add('checked');c++}});wasCompleteP3Ch02=c===totalCountP3Ch02}catch(e){}updateProgressP3Ch02(false);}
+function saveStateP3Ch02(){const s={};itemsP3Ch02.forEach(item=>{s[item.dataset.key]=item.querySelector('input[type="checkbox"]').checked});try{localStorage.setItem(STORAGE_KEY_P3_CH02,JSON.stringify(s))}catch(e){}}
+function updateProgressP3Ch02(canCelebrate=true){let c=0;itemsP3Ch02.forEach(item=>{if(item.querySelector('input[type="checkbox"]').checked)c++});const cnt=document.getElementById('progressCountP3Ch02');const fill=document.getElementById('progressFillP3Ch02');if(cnt){cnt.textContent=`${c} / ${totalCountP3Ch02}`;}if(fill){fill.style.width=(totalCountP3Ch02>0?(c/totalCountP3Ch02)*100:0)+'%';}const done=document.getElementById('doneBlockP3Ch02');if(done){if(c===totalCountP3Ch02){done.classList.add('visible');if(canCelebrate&&!wasCompleteP3Ch02){launchConfetti()}wasCompleteP3Ch02=true}else{done.classList.remove('visible');wasCompleteP3Ch02=false;}}}
+itemsP3Ch02.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.addEventListener('change',function(){item.classList.toggle('checked',this.checked);saveStateP3Ch02();updateProgressP3Ch02(true);});});
+
 function resetProgressCh01(){if(!confirm('Сбросить прогресс главы 01, части 01?'))return;itemsCh01.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteCh01=false;saveStateCh01();updateProgressCh01(false);}
 function resetProgressCh02(){if(!confirm('Сбросить прогресс главы 02, части 01?'))return;itemsCh02.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteCh02=false;saveStateCh02();updateProgressCh02(false);}
 function resetProgressCh03(){if(!confirm('Сбросить прогресс главы 03, части 01?'))return;itemsCh03.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteCh03=false;saveStateCh03();updateProgressCh03(false);}
 function resetProgressP2Ch01(){if(!confirm('Сбросить прогресс главы 01, части 02?'))return;itemsP2Ch01.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteP2Ch01=false;saveStateP2Ch01();updateProgressP2Ch01(false);}
 function resetProgressP2Ch02(){if(!confirm('Сбросить прогресс главы 02, части 02?'))return;itemsP2Ch02.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteP2Ch02=false;saveStateP2Ch02();updateProgressP2Ch02(false);}
 function resetProgressP3Ch01(){if(!confirm('Сбросить прогресс главы 01, части 03?'))return;itemsP3Ch01.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteP3Ch01=false;saveStateP3Ch01();updateProgressP3Ch01(false);}
+function resetProgressP3Ch02(){if(!confirm('Сбросить прогресс главы 02, части 03?'))return;itemsP3Ch02.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteP3Ch02=false;saveStateP3Ch02();updateProgressP3Ch02(false);}
 loadStateCh01();
 loadStateCh02();
 loadStateCh03();
 loadStateP2Ch01();
 loadStateP2Ch02();
 loadStateP3Ch01();
+loadStateP3Ch02();
 
 // ──────────── SCROLL-SPY (sidebar активная глава + mobile topbar) ──────────────
 (function(){
@@ -4312,12 +4833,14 @@ loadStateP3Ch01();
   const p2c1Anchor=document.getElementById('part2-chapter-01');
   const p2c2Anchor=document.getElementById('part2-chapter-02');
   const p3c1Anchor=document.getElementById('part3-chapter-01');
+  const p3c2Anchor=document.getElementById('part3-chapter-02');
   const linkCh01=document.querySelector('.sidebar__link[data-ch="01"]');
   const linkCh02=document.querySelector('.sidebar__link[data-ch="02"]');
   const linkCh03=document.querySelector('.sidebar__link[data-ch="03"]');
   const linkP2C1=document.querySelector('.sidebar__link[data-ch="p2-01"]');
   const linkP2C2=document.querySelector('.sidebar__link[data-ch="p2-02"]');
   const linkP3C1=document.querySelector('.sidebar__link[data-ch="p3-01"]');
+  const linkP3C2=document.querySelector('.sidebar__link[data-ch="p3-02"]');
   const mobileTitle=document.querySelector('.mobile-topbar__title');
   if(!ch02Anchor||!linkCh01||!linkCh02)return;
   const THRESHOLD=200;
@@ -4327,23 +4850,26 @@ loadStateP3Ch01();
     'p1c3':'Урок 6 · Ч.1 · Гл.03',
     'p2c1':'Урок 6 · Ч.2 · Гл.01',
     'p2c2':'Урок 6 · Ч.2 · Гл.02',
-    'p3c1':'Урок 6 · Ч.3 · Гл.01'
+    'p3c1':'Урок 6 · Ч.3 · Гл.01',
+    'p3c2':'Урок 6 · Ч.3 · Гл.02'
   };
-  const ALL_LINKS=[linkCh01,linkCh02,linkCh03,linkP2C1,linkP2C2,linkP3C1];
+  const ALL_LINKS=[linkCh01,linkCh02,linkCh03,linkP2C1,linkP2C2,linkP3C1,linkP3C2];
   function setActive(key){
     ALL_LINKS.forEach(l=>l&&l.classList.remove('sidebar__link--active'));
-    const linkMap={'p1c1':linkCh01,'p1c2':linkCh02,'p1c3':linkCh03,'p2c1':linkP2C1,'p2c2':linkP2C2,'p3c1':linkP3C1};
+    const linkMap={'p1c1':linkCh01,'p1c2':linkCh02,'p1c3':linkCh03,'p2c1':linkP2C1,'p2c2':linkP2C2,'p3c1':linkP3C1,'p3c2':linkP3C2};
     const target=linkMap[key];
     if(target)target.classList.add('sidebar__link--active');
     if(mobileTitle)mobileTitle.textContent=TITLES[key]||TITLES['p1c1'];
   }
   function update(){
+    const p3c2Top=p3c2Anchor?p3c2Anchor.getBoundingClientRect().top:Infinity;
     const p3c1Top=p3c1Anchor?p3c1Anchor.getBoundingClientRect().top:Infinity;
     const p2c2Top=p2c2Anchor?p2c2Anchor.getBoundingClientRect().top:Infinity;
     const p2c1Top=p2c1Anchor?p2c1Anchor.getBoundingClientRect().top:Infinity;
     const ch03Top=ch03Anchor?ch03Anchor.getBoundingClientRect().top:Infinity;
     const ch02Top=ch02Anchor.getBoundingClientRect().top;
-    if(p3c1Top<=THRESHOLD)setActive('p3c1');
+    if(p3c2Top<=THRESHOLD)setActive('p3c2');
+    else if(p3c1Top<=THRESHOLD)setActive('p3c1');
     else if(p2c2Top<=THRESHOLD)setActive('p2c2');
     else if(p2c1Top<=THRESHOLD)setActive('p2c1');
     else if(ch03Top<=THRESHOLD)setActive('p1c3');
