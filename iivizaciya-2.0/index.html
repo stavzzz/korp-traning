@@ -1,0 +1,3202 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ИИ-ВИЗАЦИЯ 2.0 — Внутренний документ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #F3EFE6;
+  --paper-2: #E8E2D3;
+  --ink: #14151A;
+  --ink-soft: #2A2C33;
+  --muted: #7A766C;
+  --line: rgba(20, 21, 26, 0.12);
+  --line-strong: rgba(20, 21, 26, 0.22);
+  --accent: #1838F5;
+  --warm: #D87B2A;
+  --green: #2D7A4F;
+  --red: #B83A2F;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Manrope', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Paper texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1000;
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(216, 123, 42, 0.03) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(24, 56, 245, 0.03) 0%, transparent 40%);
+  mix-blend-mode: multiply;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.4;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* === DECK === */
+.deck {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  transition: transform 0.7s cubic-bezier(0.65, 0, 0.35, 1);
+  will-change: transform;
+}
+
+.slide {
+  width: 100vw;
+  height: 100vh;
+  flex-shrink: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 48px 80px;
+}
+
+/* === HEADER === */
+.slide-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.slide-header .brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.slide-header .brand-mark {
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  position: relative;
+}
+
+.slide-header .brand-mark::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  opacity: 0.3;
+}
+
+.slide-header .meta {
+  display: flex;
+  gap: 24px;
+}
+
+.slide-header .meta span {
+  color: var(--ink-soft);
+}
+
+/* === FOOTER === */
+.slide-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.block-indicator {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.block-dots {
+  display: flex;
+  gap: 4px;
+}
+
+.block-dot {
+  width: 14px;
+  height: 2px;
+  background: var(--line-strong);
+  transition: background 0.3s;
+}
+
+.block-dot.active {
+  background: var(--accent);
+}
+
+.slide-num {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* === SLIDE CONTENT === */
+.slide-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 48px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.h-display {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 700;
+  font-size: clamp(48px, 5.2vw, 84px);
+  line-height: 0.96;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: 24px;
+}
+
+.h-display .accent { color: var(--accent); font-style: italic; font-weight: 600; }
+.h-display .warm { color: var(--warm); }
+
+.h-medium {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 600;
+  font-size: clamp(32px, 3.2vw, 48px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+
+.h-small {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.lead {
+  font-size: 22px;
+  line-height: 1.45;
+  color: var(--ink-soft);
+  max-width: 880px;
+  font-weight: 400;
+}
+
+.body {
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+.body-small {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* === BULLETS === */
+.bullets {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.bullets li {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  font-size: 18px;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+
+.bullets li::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  margin-top: 12px;
+  flex-shrink: 0;
+}
+
+.bullets-num {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  counter-reset: bullet;
+}
+
+.bullets-num li {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  font-size: 18px;
+  line-height: 1.45;
+  color: var(--ink-soft);
+  counter-increment: bullet;
+}
+
+.bullets-num li::before {
+  content: counter(bullet, decimal-leading-zero);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+  font-weight: 600;
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+
+/* === GRID LAYOUTS === */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  flex: 1;
+}
+
+.three-col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+.four-col {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+/* === CARDS === */
+.card {
+  border: 1px solid var(--line-strong);
+  padding: 28px;
+  background: rgba(255, 255, 255, 0.4);
+  position: relative;
+}
+
+.card-num {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+}
+
+.card-title {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 1.15;
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+
+.card-body {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+.card-accent {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+.card-accent .card-title { color: var(--paper); }
+.card-accent .card-body { color: rgba(243, 239, 230, 0.75); }
+.card-accent .card-num { color: rgba(243, 239, 230, 0.55); }
+
+/* === TABLES === */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+.table th {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: left;
+  padding: 14px 16px 14px 0;
+  border-bottom: 1.5px solid var(--ink);
+  font-weight: 500;
+}
+
+.table td {
+  padding: 14px 16px 14px 0;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+  line-height: 1.4;
+}
+
+.table .strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.table .accent-cell {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* === BIG METRICS === */
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.metric {
+  padding: 28px 0;
+  border-right: 1px solid var(--line);
+  padding-right: 32px;
+}
+
+.metric:last-child { border-right: none; }
+
+.metric-value {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 700;
+  font-size: 56px;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.metric-value .unit {
+  font-size: 28px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.metric-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.metric-desc {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.4;
+}
+
+/* === COVER SLIDE === */
+.cover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.cover .slide-header,
+.cover .slide-footer {
+  border-color: rgba(243, 239, 230, 0.15);
+  color: rgba(243, 239, 230, 0.5);
+}
+
+.cover .slide-header .meta span { color: rgba(243, 239, 230, 0.8); }
+.cover .slide-num { color: var(--paper); }
+.cover .block-dot { background: rgba(243, 239, 230, 0.2); }
+.cover .block-dot.active { background: var(--paper); }
+
+.cover-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 64px 0;
+}
+
+.cover-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(243, 239, 230, 0.5);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.cover-eyebrow::before, .cover-eyebrow::after {
+  content: '';
+  flex: 0 0 32px;
+  height: 1px;
+  background: rgba(243, 239, 230, 0.3);
+}
+
+.cover-title {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 800;
+  font-size: clamp(72px, 9vw, 144px);
+  line-height: 0.88;
+  letter-spacing: -0.04em;
+  margin-bottom: 24px;
+}
+
+.cover-title .v2 {
+  font-style: italic;
+  font-weight: 600;
+  color: var(--warm);
+}
+
+.cover-sub {
+  font-size: 26px;
+  line-height: 1.3;
+  color: rgba(243, 239, 230, 0.75);
+  max-width: 720px;
+  font-weight: 400;
+  margin-bottom: 48px;
+}
+
+.cover-authors {
+  display: flex;
+  gap: 48px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  color: rgba(243, 239, 230, 0.6);
+}
+
+.cover-authors strong {
+  color: var(--paper);
+  font-weight: 600;
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 4px;
+}
+
+/* === LADDER (8 LEVELS) === */
+.ladder {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 16px;
+}
+
+.ladder-row {
+  display: grid;
+  grid-template-columns: 60px 180px 1fr 220px;
+  gap: 20px;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  align-items: center;
+  background: rgba(255, 255, 255, 0.3);
+  transition: all 0.3s;
+}
+
+.ladder-row.target {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+.ladder-row.target .ladder-num { color: var(--warm); }
+.ladder-row.target .ladder-name { color: var(--paper); }
+.ladder-row.target .ladder-desc { color: rgba(243, 239, 230, 0.7); }
+.ladder-row.target .ladder-tag {
+  background: var(--warm);
+  color: var(--ink);
+  border-color: var(--warm);
+}
+
+.ladder-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+}
+
+.ladder-name {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 600;
+  font-size: 17px;
+  letter-spacing: -0.01em;
+}
+
+.ladder-desc {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.35;
+}
+
+.ladder-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border: 1px solid var(--line-strong);
+  text-align: center;
+  color: var(--muted);
+}
+
+/* === FLOW DIAGRAM === */
+.flow {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0;
+  align-items: stretch;
+  margin-top: 32px;
+}
+
+.flow-step {
+  position: relative;
+  padding: 24px 20px;
+  border: 1px solid var(--line-strong);
+  background: rgba(255, 255, 255, 0.5);
+  margin-right: 24px;
+}
+
+.flow-step:last-child { margin-right: 0; }
+
+.flow-step::after {
+  content: '→';
+  position: absolute;
+  right: -22px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 22px;
+  color: var(--accent);
+  z-index: 2;
+  font-weight: 500;
+}
+
+.flow-step:last-child::after { display: none; }
+
+.flow-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+
+.flow-title {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.flow-desc {
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+/* === MATERIAL LIST === */
+.materials {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px 32px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  margin-top: 16px;
+}
+
+.material-item {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 8px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--line);
+  align-items: baseline;
+}
+
+.material-item .num {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.material-item .name {
+  color: var(--ink);
+  font-family: 'Manrope', sans-serif;
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+.materials-full {
+  grid-template-columns: 1fr;
+}
+
+/* === TIER COMPARE === */
+.tiers {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  margin-top: 16px;
+}
+
+.tier {
+  padding: 28px 24px;
+  border: 1px solid var(--line-strong);
+  border-right: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tier:last-child { border-right: 1px solid var(--line-strong); }
+
+.tier.premium {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+.tier.premium .tier-name { color: var(--warm); }
+.tier.premium .tier-features li { color: rgba(243, 239, 230, 0.85); border-color: rgba(243, 239, 230, 0.15); }
+.tier.premium .tier-price { color: var(--paper); }
+.tier.premium .tier-price-label { color: rgba(243, 239, 230, 0.55); }
+
+.tier-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.tier-title {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.tier-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  margin-top: 8px;
+}
+
+.tier-features li {
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--ink-soft);
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.tier-price {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  padding-top: 16px;
+  border-top: 1px solid var(--line-strong);
+}
+
+.tier-price-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+/* === SCENARIO === */
+.scenario {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.scenario-card {
+  padding: 28px;
+  border: 1.5px solid var(--line-strong);
+  background: rgba(255, 255, 255, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.scenario-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.12em;
+  font-weight: 600;
+}
+
+.scenario-title {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.scenario-desc {
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+
+.scenario-pros, .scenario-cons {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.scenario-pros { color: var(--green); }
+.scenario-cons { color: var(--red); }
+
+.scenario ul {
+  list-style: none;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--ink-soft);
+  padding-left: 16px;
+}
+
+.scenario ul li {
+  position: relative;
+  padding-left: 12px;
+  margin-bottom: 4px;
+}
+
+.scenario ul li::before {
+  content: '–';
+  position: absolute;
+  left: 0;
+  color: var(--muted);
+}
+
+/* === QUOTE === */
+.quote {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 38px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  position: relative;
+  padding-left: 32px;
+  border-left: 3px solid var(--accent);
+  max-width: 900px;
+}
+
+.quote-author {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 24px;
+  display: block;
+}
+
+/* === CONTROLS === */
+.controls {
+  position: fixed;
+  bottom: 24px;
+  right: 32px;
+  display: flex;
+  gap: 8px;
+  z-index: 100;
+}
+
+.ctrl-btn {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--line-strong);
+  background: var(--paper);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  color: var(--ink);
+  transition: all 0.2s;
+}
+
+.ctrl-btn:hover {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+/* === OVERVIEW === */
+.overview {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 21, 26, 0.94);
+  z-index: 200;
+  padding: 48px 64px;
+  overflow-y: auto;
+  display: none;
+}
+
+.overview.active { display: block; }
+
+.overview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  color: var(--paper);
+}
+
+.overview-title {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 600;
+  font-size: 28px;
+  letter-spacing: -0.01em;
+}
+
+.overview-close {
+  background: transparent;
+  border: 1px solid rgba(243, 239, 230, 0.3);
+  color: var(--paper);
+  padding: 10px 18px;
+  cursor: pointer;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.overview-thumb {
+  background: var(--paper);
+  border: 1px solid transparent;
+  padding: 18px;
+  cursor: pointer;
+  min-height: 130px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.2s;
+}
+
+.overview-thumb:hover {
+  border-color: var(--warm);
+  transform: translateY(-2px);
+}
+
+.overview-thumb.current {
+  border-color: var(--warm);
+  outline: 2px solid var(--warm);
+}
+
+.thumb-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  font-weight: 600;
+}
+
+.thumb-title {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.15;
+  color: var(--ink);
+  margin-top: 8px;
+}
+
+.thumb-block {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: auto;
+}
+
+/* === DECORATIVE === */
+.decor {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.decor-circle {
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+}
+
+/* === ANIMATIONS === */
+.slide.active .eyebrow,
+.slide.active .h-display,
+.slide.active .h-medium,
+.slide.active .lead,
+.slide.active .bullets li,
+.slide.active .bullets-num li,
+.slide.active .card,
+.slide.active .metric,
+.slide.active .ladder-row,
+.slide.active .flow-step,
+.slide.active .tier,
+.slide.active .scenario-card,
+.slide.active .material-item,
+.slide.active .table tr,
+.slide.active .quote,
+.slide.active .cover-title,
+.slide.active .cover-sub,
+.slide.active .cover-eyebrow,
+.slide.active .cover-authors {
+  animation: revealUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+.slide.active .eyebrow { animation-delay: 0.1s; }
+.slide.active .h-display { animation-delay: 0.18s; }
+.slide.active .h-medium { animation-delay: 0.18s; }
+.slide.active .lead { animation-delay: 0.26s; }
+.slide.active .cover-eyebrow { animation-delay: 0.1s; }
+.slide.active .cover-title { animation-delay: 0.18s; }
+.slide.active .cover-sub { animation-delay: 0.34s; }
+.slide.active .cover-authors { animation-delay: 0.5s; }
+
+.slide.active .bullets li:nth-child(1),
+.slide.active .bullets-num li:nth-child(1),
+.slide.active .card:nth-child(1),
+.slide.active .metric:nth-child(1),
+.slide.active .ladder-row:nth-child(1),
+.slide.active .flow-step:nth-child(1),
+.slide.active .tier:nth-child(1),
+.slide.active .scenario-card:nth-child(1) { animation-delay: 0.3s; }
+
+.slide.active .bullets li:nth-child(2),
+.slide.active .bullets-num li:nth-child(2),
+.slide.active .card:nth-child(2),
+.slide.active .metric:nth-child(2),
+.slide.active .ladder-row:nth-child(2),
+.slide.active .flow-step:nth-child(2),
+.slide.active .tier:nth-child(2),
+.slide.active .scenario-card:nth-child(2) { animation-delay: 0.36s; }
+
+.slide.active .bullets li:nth-child(3),
+.slide.active .bullets-num li:nth-child(3),
+.slide.active .card:nth-child(3),
+.slide.active .metric:nth-child(3),
+.slide.active .ladder-row:nth-child(3),
+.slide.active .flow-step:nth-child(3),
+.slide.active .tier:nth-child(3),
+.slide.active .scenario-card:nth-child(3) { animation-delay: 0.42s; }
+
+.slide.active .bullets li:nth-child(4),
+.slide.active .bullets-num li:nth-child(4),
+.slide.active .card:nth-child(4),
+.slide.active .ladder-row:nth-child(4),
+.slide.active .flow-step:nth-child(4) { animation-delay: 0.48s; }
+
+.slide.active .bullets li:nth-child(5),
+.slide.active .bullets-num li:nth-child(5),
+.slide.active .ladder-row:nth-child(5),
+.slide.active .flow-step:nth-child(5) { animation-delay: 0.54s; }
+
+.slide.active .ladder-row:nth-child(6) { animation-delay: 0.6s; }
+.slide.active .ladder-row:nth-child(7) { animation-delay: 0.66s; }
+.slide.active .ladder-row:nth-child(8) { animation-delay: 0.72s; }
+.slide.active .ladder-row:nth-child(9) { animation-delay: 0.78s; }
+
+.slide.active .quote { animation-delay: 0.3s; }
+
+@keyframes revealUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === KEYBOARD HINT === */
+.hint {
+  position: fixed;
+  bottom: 24px;
+  left: 32px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  z-index: 100;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.hint kbd {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 4px 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  border-radius: 2px;
+}
+
+.cover ~ .hint { color: rgba(243, 239, 230, 0.5); }
+
+/* === GLOSSARY HIGHLIGHT === */
+.highlight {
+  background: linear-gradient(transparent 60%, rgba(216, 123, 42, 0.35) 60%);
+  padding: 0 2px;
+}
+
+.text-warm { color: var(--warm); font-weight: 600; }
+.text-accent { color: var(--accent); font-weight: 600; }
+
+/* === KPI ROW === */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+}
+
+.kpi {
+  padding: 18px 16px;
+  border-right: 1px solid var(--line);
+}
+
+.kpi:last-child { border-right: none; }
+
+.kpi-value {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.kpi-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 8px;
+  line-height: 1.3;
+}
+
+/* === DECISION BLOCK === */
+.decision {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 36px 40px;
+  margin-top: 24px;
+}
+
+.decision-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--warm);
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.decision-text {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE — TABLET (≤ 1024px)
+═══════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .slide { padding: 36px 48px; }
+  .slide-content { padding: 32px 0; }
+
+  .two-col { grid-template-columns: 1fr; gap: 32px; }
+  .three-col { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .four-col { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .metrics { grid-template-columns: repeat(2, 1fr); }
+  .metric:nth-child(2) { border-right: none; }
+  .scenario { grid-template-columns: 1fr; gap: 16px; }
+  .tiers { grid-template-columns: 1fr; }
+  .tier { border-right: 1px solid var(--line-strong); }
+  .kpi-row { grid-template-columns: repeat(3, 1fr); }
+  .flow { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .flow-step { margin-right: 0; }
+  .flow-step::after { display: none; }
+  .materials { grid-template-columns: 1fr; }
+  .ladder-row { grid-template-columns: 48px 1fr 140px; gap: 14px; }
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE — MOBILE (≤ 768px)
+═══════════════════════════════════════════ */
+@media (max-width: 768px) {
+  html, body { overflow-y: auto; height: auto; }
+
+  .deck {
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    transition: none;
+    transform: none !important;
+  }
+
+  .slide {
+    width: 100vw;
+    min-height: 100vh;
+    height: auto;
+    padding: 24px 20px 80px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  /* HEADER & FOOTER */
+  .slide-header { font-size: 9px; padding-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+  .slide-header .brand { gap: 10px; }
+  .slide-header .meta { gap: 12px; flex-wrap: wrap; }
+  .slide-footer { font-size: 9px; padding-top: 12px; flex-wrap: wrap; gap: 8px; }
+
+  /* CONTENT */
+  .slide-content { padding: 24px 0; }
+  .eyebrow { font-size: 10px; margin-bottom: 20px; gap: 8px; }
+  .eyebrow::before { width: 16px; }
+
+  /* TYPOGRAPHY */
+  .h-display { font-size: clamp(32px, 9vw, 48px); margin-bottom: 16px; }
+  .h-medium { font-size: clamp(24px, 7vw, 32px); margin-bottom: 14px; }
+  .h-small { font-size: 18px; }
+  .lead { font-size: 16px; line-height: 1.5; }
+  .body { font-size: 15px; }
+  .body-small { font-size: 13px; }
+
+  /* BULLETS */
+  .bullets li, .bullets-num li { font-size: 15px; gap: 12px; }
+  .bullets li::before { margin-top: 9px; }
+  .bullets-num li { gap: 14px; }
+
+  /* GRIDS — все в 1 колонку */
+  .two-col, .three-col, .four-col { grid-template-columns: 1fr; gap: 16px; }
+  .scenario { grid-template-columns: 1fr; gap: 12px; }
+  .tiers { grid-template-columns: 1fr; }
+  .metrics { grid-template-columns: 1fr; }
+  .metric { border-right: none; border-bottom: 1px solid var(--line); padding: 18px 0; padding-right: 0; }
+  .metric:last-child { border-bottom: none; }
+  .kpi-row { grid-template-columns: repeat(2, 1fr); }
+  .kpi { padding: 14px 12px; }
+  .kpi-value { font-size: 22px; }
+  .kpi-label { font-size: 9px; }
+
+  /* CARDS */
+  .card { padding: 20px; }
+  .card-title { font-size: 18px; }
+  .card-body { font-size: 14px; }
+
+  /* TABLES */
+  .table { font-size: 13px; }
+  .table th, .table td { padding: 10px 8px 10px 0; }
+
+  /* METRICS */
+  .metric-value { font-size: 36px; }
+  .metric-value .unit { font-size: 18px; }
+
+  /* COVER */
+  .cover-content { padding: 32px 0; }
+  .cover-eyebrow { font-size: 10px; gap: 10px; }
+  .cover-eyebrow::before, .cover-eyebrow::after { flex-basis: 20px; }
+  .cover-title { font-size: clamp(40px, 12vw, 64px); }
+  .cover-sub { font-size: 17px; margin-bottom: 28px; }
+  .cover-authors { gap: 24px; flex-wrap: wrap; font-size: 10px; }
+
+  /* LADDER */
+  .ladder-row {
+    grid-template-columns: 40px 1fr;
+    gap: 10px;
+    padding: 10px 12px;
+  }
+  .ladder-num { font-size: 18px; }
+  .ladder-name { font-size: 14px; }
+  .ladder-desc { grid-column: 1 / -1; font-size: 12px; padding-left: 50px; margin-top: -4px; }
+  .ladder-tag { grid-column: 1 / -1; justify-self: start; margin-left: 50px; font-size: 9px; padding: 3px 8px; }
+
+  /* FLOW */
+  .flow { grid-template-columns: 1fr; gap: 10px; margin-top: 20px; }
+  .flow-step { padding: 16px 14px; margin-right: 0; }
+  .flow-step::after { display: none; }
+  .flow-title { font-size: 14px; }
+  .flow-desc { font-size: 11px; }
+
+  /* TIERS */
+  .tier { padding: 20px 16px; border-right: 1px solid var(--line-strong); }
+  .tier-title { font-size: 22px; }
+  .tier-price { font-size: 20px; }
+
+  /* SCENARIO */
+  .scenario-card { padding: 18px; gap: 12px; }
+  .scenario-title { font-size: 18px; }
+  .scenario-desc { font-size: 13px; }
+
+  /* QUOTE */
+  .quote { font-size: 22px; padding-left: 20px; }
+  .quote-author { font-size: 10px; margin-top: 16px; }
+
+  /* DECISION */
+  .decision { padding: 24px 20px; }
+  .decision-text { font-size: 17px; }
+
+  /* MATERIALS */
+  .materials { grid-template-columns: 1fr; font-size: 11px; }
+  .material-item { padding: 6px 0; }
+  .material-item .name { font-size: 13px; }
+
+  /* CONTROLS — крупнее на тач-устройствах */
+  .controls { bottom: 12px; right: 12px; gap: 6px; }
+  .ctrl-btn { width: 44px; height: 44px; font-size: 16px; }
+  .hint { display: none; }
+
+  /* OVERVIEW */
+  .overview { padding: 24px 16px; }
+  .overview-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+  .overview-thumb { padding: 12px; min-height: 96px; }
+  .overview-title { font-size: 20px; }
+  .thumb-title { font-size: 13px; }
+
+  /* Отключаем горизонтальные анимации — на мобилке скролл вертикальный */
+  .slide.active .eyebrow,
+  .slide.active .h-display,
+  .slide.active .h-medium,
+  .slide.active .lead,
+  .slide.active .bullets li,
+  .slide.active .bullets-num li,
+  .slide.active .card,
+  .slide.active .metric,
+  .slide.active .ladder-row,
+  .slide.active .flow-step,
+  .slide.active .tier,
+  .slide.active .scenario-card,
+  .slide.active .material-item,
+  .slide.active .table tr,
+  .slide.active .quote,
+  .slide.active .cover-title,
+  .slide.active .cover-sub,
+  .slide.active .cover-eyebrow,
+  .slide.active .cover-authors {
+    animation: none;
+  }
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE — SMALL MOBILE (≤ 480px)
+═══════════════════════════════════════════ */
+@media (max-width: 480px) {
+  .slide { padding: 20px 16px 72px; }
+  .slide-header { font-size: 8px; }
+  .slide-header .meta { gap: 8px; }
+  .slide-footer { font-size: 8px; }
+  .block-dot { width: 10px; }
+
+  .eyebrow { font-size: 9px; margin-bottom: 16px; }
+
+  .h-display { font-size: clamp(28px, 9vw, 40px); }
+  .h-medium { font-size: clamp(20px, 7vw, 26px); }
+  .h-small { font-size: 16px; }
+  .lead { font-size: 15px; }
+  .body { font-size: 14px; }
+
+  .cover-title { font-size: clamp(34px, 13vw, 52px); }
+  .cover-sub { font-size: 15px; }
+  .cover-authors { font-size: 9px; gap: 18px; }
+
+  .kpi-row { grid-template-columns: 1fr; }
+  .kpi { border-right: none; border-bottom: 1px solid var(--line); padding: 14px 8px; }
+  .kpi:last-child { border-bottom: none; }
+
+  .quote { font-size: 19px; padding-left: 16px; border-left-width: 2px; }
+  .metric-value { font-size: 30px; }
+
+  .ladder-row { padding: 10px 10px; }
+  .ladder-desc { padding-left: 0; margin-top: 6px; }
+  .ladder-tag { margin-left: 0; }
+
+  .controls { right: 8px; bottom: 8px; }
+  .ctrl-btn { width: 40px; height: 40px; }
+}
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 1: COVER -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide cover">
+  <div class="slide-header">
+    <div class="brand">
+      <div class="brand-mark"></div>
+      <span>ИИ-ВИЗАЦИЯ // ВНУТРЕННИЙ ДОКУМЕНТ</span>
+    </div>
+    <div class="meta">
+      <span>Версия 0.1</span>
+      <span>Конфиденциально</span>
+    </div>
+  </div>
+
+  <div class="cover-content">
+    <div class="cover-eyebrow">Концепция • Дискуссионный документ • Май 2026</div>
+
+    <div>
+      <h1 class="cover-title">
+        ИИ-ВИЗАЦИЯ<br><span class="v2">2.0</span>
+      </h1>
+      <p class="cover-sub">
+        Концепция международной B2B-платформы диагностики, обучения и&nbsp;внедрения искусственного интеллекта в&nbsp;компании.
+      </p>
+    </div>
+
+    <div class="cover-authors">
+      <div>
+        <strong>Stas Pankov</strong>
+        Methodology · Content
+      </div>
+      <div>
+        <strong>Rafael</strong>
+        CEO · Production
+      </div>
+      <div>
+        <strong>Roman</strong>
+        Brand · Distribution
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <div class="block-indicator">
+      <span>Блок 1 — Контекст</span>
+      <div class="block-dots">
+        <span class="block-dot active"></span>
+        <span class="block-dot"></span>
+        <span class="block-dot"></span>
+        <span class="block-dot"></span>
+        <span class="block-dot"></span>
+        <span class="block-dot"></span>
+      </div>
+    </div>
+    <span class="slide-num">01 / 27</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 2: ЗАЧЕМ ЭТОТ ДОКУМЕНТ -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="brand"><div class="brand-mark"></div><span>ИИ-ВИЗАЦИЯ // ВНУТРЕННИЙ ДОКУМЕНТ</span></div>
+    <div class="meta"><span>Версия 0.1</span><span>Конфиденциально</span></div>
+  </div>
+
+  <div class="slide-content">
+    <div class="eyebrow">01 · Контекст</div>
+    <h2 class="h-display">Зачем этот<br>документ</h2>
+
+    <div class="two-col" style="margin-top: 32px; gap: 80px;">
+      <div>
+        <p class="lead">
+          Мы меняем позиционирование с&nbsp;edu-центра на&nbsp;<span class="text-accent">международную B2B-платформу</span> с&nbsp;уникальной методологией диагностики и&nbsp;внедрения AI.
+        </p>
+        <p class="lead" style="margin-top: 20px; font-size: 18px;">
+          Этот документ — основа для&nbsp;стратегического разговора партнёров перед&nbsp;переходом к&nbsp;внешнему инвест-питчу.
+        </p>
+      </div>
+
+      <div>
+        <div class="label" style="margin-bottom: 16px;">Что обсуждаем</div>
+        <ul class="bullets-num">
+          <li>Продуктовое видение и&nbsp;MVP</li>
+          <li>Архитектуру подписок и&nbsp;pricing</li>
+          <li>Маппинг существующих материалов</li>
+          <li>Три стратегические развилки</li>
+          <li>Открытые вопросы для&nbsp;партнёров</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <div class="block-indicator">
+      <span>Блок 1 — Контекст</span>
+      <div class="block-dots">
+        <span class="block-dot active"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span>
+      </div>
+    </div>
+    <span class="slide-num">02 / 27</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 3: ЧТО У НАС УЖЕ ЕСТЬ -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="brand"><div class="brand-mark"></div><span>ИИ-ВИЗАЦИЯ // ВНУТРЕННИЙ ДОКУМЕНТ</span></div>
+    <div class="meta"><span>Версия 0.1</span><span>Конфиденциально</span></div>
+  </div>
+
+  <div class="slide-content">
+    <div class="eyebrow">01 · Контекст</div>
+    <h2 class="h-display">Мы не&nbsp;на&nbsp;этапе гипотезы.<br><span class="accent">Мы зарабатываем.</span></h2>
+
+    <div class="kpi-row" style="margin-top: 40px;">
+      <div class="kpi">
+        <div class="kpi-value">$25K</div>
+        <div class="kpi-label">Интенсив OpenClaw<br>за&nbsp;неделю продаж</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-value">$62.5K</div>
+        <div class="kpi-label">Максимальный чек<br>на&nbsp;внедрение</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-value">15+</div>
+        <div class="kpi-label">Заявок на&nbsp;интеграцию<br>($4.5K–$62.5K)</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-value">100+</div>
+        <div class="kpi-label">Участников первой<br>платной конференции</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-value">130K</div>
+        <div class="kpi-label">Просмотров<br>последнего подкаста</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-value">6 000</div>
+        <div class="kpi-label">Подписчиков в&nbsp;Instagram<br>с&nbsp;нуля</div>
+      </div>
+    </div>
+
+    <div class="two-col" style="margin-top: 48px; gap: 64px;">
+      <div>
+        <div class="label" style="margin-bottom: 14px;">Команда</div>
+        <p class="body">3 партнёра с&nbsp;распределёнными ролями: <span class="text-accent">CEO</span>, <span class="text-accent">экспертность и&nbsp;методология</span>, <span class="text-accent">бренд и&nbsp;дистрибуция</span>. Продюсерский центр в&nbsp;штате.</p>
+      </div>
+      <div>
+        <div class="label" style="margin-bottom: 14px;">Контент</div>
+        <p class="body"><span class="text-warm">40+ единиц</span> готового образовательного контента: скринкасты, презентации, методички, шаблоны, банки промптов и&nbsp;курс «AI-офис под&nbsp;бизнес».</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <div class="block-indicator">
+      <span>Блок 1 — Контекст</span>
+      <div class="block-dots">
+        <span class="block-dot active"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span>
+      </div>
+    </div>
+    <span class="slide-num">03 / 27</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 4: ПОЧЕМУ СЕЙЧАС -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="brand"><div class="brand-mark"></div><span>ИИ-ВИЗАЦИЯ // ВНУТРЕННИЙ ДОКУМЕНТ</span></div>
+    <div class="meta"><span>Версия 0.1</span><span>Конфиденциально</span></div>
+  </div>
+
+  <div class="slide-content">
+    <div class="eyebrow">01 · Контекст</div>
+    <h2 class="h-display">Почему сейчас.<br>Окно <span class="accent">открыто.</span></h2>
+
+    <div class="quote" style="margin-top: 40px;">
+      «Сейчас открыто временное окно для&nbsp;внедрения&nbsp;AI, сравнимое с&nbsp;появлением мобильных сайтов в&nbsp;2013-м. Кто внедряет первым — снимает все сливки.»
+      <span class="quote-author">— Тезис подкаста, цитируемого Романом</span>
+    </div>
+
+    <div class="three-col" style="margin-top: 56px;">
+      <div class="card">
+        <div class="card-num">01</div>
+        <div class="card-title">Большинство компаний</div>
+        <div class="card-body">застряли на&nbsp;уровнях 0–2 ИИ-визации. Это и&nbsp;есть наш&nbsp;рынок.</div>
+      </div>
+      <div class="card">
+        <div class="card-num">02</div>
+        <div class="card-title">Конкуренты дают каталоги</div>
+        <div class="card-body">Coursera, Udemy, KnowBe4 — не&nbsp;диагностируют, не&nbsp;дают&nbsp;дорожную карту.</div>
+      </div>
+      <div class="card card-accent">
+        <div class="card-num">03</div>
+        <div class="card-title">Мы заходим в&nbsp;свободный участок</div>
+        <div class="card-body">Диагностика + Карта + Сопровождение. Никто так&nbsp;не&nbsp;делает.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <div class="block-indicator">
+      <span>Блок 1 — Контекст</span>
+      <div class="block-dots">
+        <span class="block-dot active"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span>
+      </div>
+    </div>
+    <span class="slide-num">04 / 27</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 5: ICP -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="brand"><div class="brand-mark"></div><span>ИИ-ВИЗАЦИЯ // ВНУТРЕННИЙ ДОКУМЕНТ</span></div>
+    <div class="meta"><span>Версия 0.1</span><span>Конфиденциально</span></div>
+  </div>
+
+  <div class="slide-content">
+    <div class="eyebrow">02 · Видение</div>
+    <h2 class="h-display">Кто наш<br>клиент</h2>
+
+    <div class="quote" style="margin-top: 32px; font-size: 30px;">
+      «Клиент, который чувствует, что&nbsp;опаздывает,<br>не&nbsp;знает, с&nbsp;чего начать. <span class="text-accent">Мы ему помогаем.</span>»
+      <span class="quote-author">— Формулировка ICP, Стас</span>
+    </div>
+
+    <div style="margin-top: 56px;">
+      <div class="label" style="margin-bottom: 18px;">Реальные кейсы (география и&nbsp;индустрия)</div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th style="width: 30%;">Кейс</th>
+            <th style="width: 25%;">География</th>
+            <th>Сигнал инвестору</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="strong">Прокат автомобилей</td>
+            <td>Дубай, ОАЭ • Микробизнес</td>
+            <td>Опыт работы на&nbsp;международном рынке</td>
+          </tr>
+          <tr>
+            <td class="strong">Инвестиционная компания</td>
+            <td>Москва • Крупный enterprise, 20&nbsp;лет</td>
+            <td>Продаёмся в&nbsp;большие финансовые структуры</td>
+          </tr>
+          <tr>
+            <td class="strong">Организатор ивентов для&nbsp;госов</td>
+            <td>РФ • Средний бизнес</td>
+            <td>Понимаем B2G-специфику и&nbsp;compliance</td>
+          </tr>
+          <tr>
+            <td class="strong">Строительная компания</td>
+            <td>Норильск • Подрядчик НПЗ/нефтедобычи</td>
+            <td>Тяжёлая промышленность, регулируемая среда</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <div class="block-indicator">
+      <span>Блок 2 — Видение</span>
+      <div class="block-dots">
+        <span class="block-dot"></span><span class="block-dot active"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span>
+      </div>
+    </div>
+    <span class="slide-num">05 / 27</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 6: ПРОДУКТОВОЕ ВИДЕНИЕ -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="brand"><div class="brand-mark"></div><span>ИИ-ВИЗАЦИЯ // ВНУТРЕННИЙ ДОКУМЕНТ</span></div>
+    <div class="meta"><span>Версия 0.1</span><span>Конфиденциально</span></div>
+  </div>
+
+  <div class="slide-content">
+    <div class="eyebrow">02 · Видение</div>
+    <h2 class="h-display">Не курсы. Не&nbsp;каталог.<br><span class="accent">Дорожная карта.</span></h2>
+
+    <p class="lead" style="margin-top: 24px; max-width: 1000px;">
+      Главное отличие от&nbsp;Coursera / Udemy / KnowBe4: мы&nbsp;знаем, <span class="text-warm">где</span> компания, и&nbsp;знаем, <span class="text-warm">куда</span> ей идти.
+    </p>
+
+    <div class="two-col" style="margin-top: 56px; gap: 80px;">
+      <div>
+        <div class="label" style="margin-bottom: 18px;">Аналогия</div>
+        <p class="body" style="font-size: 22px; line-height: 1.4; color: var(--ink);">
+          «Личный <span class="text-accent">AI-Chief of Staff</span> для&nbsp;компании, который&nbsp;ведёт её от&nbsp;уровня&nbsp;0 до&nbsp;уровня&nbsp;7.»
+        </p>
+      </div>
+
+      <div>
+        <div class="label" style="margin-bottom: 18px;">Три кита продукта</div>
+        <ul class="bullets-num">
+          <li><span class="strong">Диагностика</span> — где&nbsp;компания на&nbsp;шкале 0–8</li>
+          <li><span class="strong">Дорожная карта</span> — куда&nbsp;ей идти и&nbsp;как</li>
+          <li><span class="strong">Сопровождение</span> — контент, live, внедрение</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <div class="block-indicator">
+      <span>Блок 2 — Видение</span>
+      <div class="block-dots">
+        <span class="block-dot"></span><span class="block-dot active"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span>
+      </div>
+    </div>
+    <span class="slide-num">06 / 27</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 7: 8 УРОВНЕЙ РОМАНА -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="brand"><div class="brand-mark"></div><span>ИИ-ВИЗАЦИЯ // ВНУТРЕННИЙ ДОКУМЕНТ</span></div>
+    <div class="meta"><span>Версия 0.1</span><span>Конфиденциально</span></div>
+  </div>
+
+  <div class="slide-content">
+    <div class="eyebrow">02 · Видение · Сердце продукта</div>
+    <h2 class="h-medium">Фреймворк&nbsp;8 уровней ИИ-визации <span style="color: var(--muted); font-weight: 400; font-style: italic;">— авторская методика Романа</span></h2>
+
+    <div class="ladder">
+      <div class="ladder-row">
+        <div class="ladder-num">0</div>
+        <div class="ladder-name">Сопротивление</div>
+        <div class="ladder-desc">Запрет AI. Хайп, страх утечек. Сотрудники используют тайком.</div>
+        <div class="ladder-tag">Рынок · большинство</div>
+      </div>
+      <div class="ladder-row">
+        <div class="ladder-num">1</div>
+        <div class="ladder-name">Хаос</div>
+        <div class="ladder-desc">Точечное использование сотрудниками. Нет стандарта, нет масштаба.</div>
+        <div class="ladder-tag">Рынок · большинство</div>
+      </div>
+      <div class="ladder-row">
+        <div class="ladder-num">2</div>
+        <div class="ladder-name">Точечные инструменты</div>
+        <div class="ladder-desc">Купили подписки. Зоопарк сервисов без&nbsp;единой логики.</div>
+        <div class="ladder-tag">Точка входа клиента</div>
+      </div>
+      <div class="ladder-row target">
+        <div class="ladder-num">3</div>
+        <div class="ladder-name">Обучение команды</div>
+        <div class="ladder-desc">Корп-аккаунты, тренинги, кастомные GPTs, промпт-библиотека. +20–30% продуктивности.</div>
+        <div class="ladder-tag">Целевой уровень MVP</div>
+      </div>
+      <div class="ladder-row target">
+        <div class="ladder-num">4</div>
+        <div class="ladder-name">Процессные автоматизации</div>
+        <div class="ladder-desc">AI встроен в&nbsp;процессы. Транскрибация, авто-отчёты, поддержка. Появляется AI-lead.</div>
+        <div class="ladder-tag">Целевой уровень MVP</div>
+      </div>
+      <div class="ladder-row">
+        <div class="ladder-num">5</div>
+        <div class="ladder-name">AI-агенты</div>
+        <div class="ladder-desc">Автономные «сотрудники» с&nbsp;памятью. 24/7. Аналитика, мониторинг, отчёты.</div>
+        <div class="ladder-tag">Tier 3 · внедрение</div>
+      </div>
+      <div class="ladder-row">
+        <div class="ladder-num">6</div>
+        <div class="ladder-name">Мультиагентные системы</div>
+        <div class="ladder-desc">AI-офис: оркестратор + sub-агенты. Экономия ФОТ до&nbsp;60%.</div>
+        <div class="ladder-tag">Tier 3 · внедрение</div>
+      </div>
+      <div class="ladder-row">
+        <div class="ladder-num">7</div>
+        <div class="ladder-name">AI-first компания</div>
+        <div class="ladder-desc">Бизнес-процессы построены вокруг&nbsp;AI. AI — это ДНК, а&nbsp;не&nbsp;надстройка.</div>
+        <div class="ladder-tag">Стратегический горизонт</div>
+      </div>
+      <div class="ladder-row">
+        <div class="ladder-num">8</div>
+        <div class="ladder-name">Адаптивный AI</div>
+        <div class="ladder-desc">Самооптимизация в&nbsp;real-time. AI сам меняет процессы при&nbsp;падении метрик.</div>
+        <div class="ladder-tag">Горизонт 5+&nbsp;лет</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <div class="block-indicator">
+      <span>Блок 2 — Видение</span>
+      <div class="block-dots">
+        <span class="block-dot"></span><span class="block-dot active"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span>
+      </div>
+    </div>
+    <span class="slide-num">07 / 27</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 8: ПРОДУКТОВЫЙ ФЛОУ -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="brand"><div class="brand-mark"></div><span>ИИ-ВИЗАЦИЯ // ВНУТРЕННИЙ ДОКУМЕНТ</span></div>
+    <div class="meta"><span>Версия 0.1</span><span>Конфиденциально</span></div>
+  </div>
+
+  <div class="slide-content">
+    <div class="eyebrow">02 · Видение</div>
+    <h2 class="h-display">Как это<br>работает <span class="accent">для клиента</span></h2>
+
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-num">Шаг 01</div>
+        <div class="flow-title">Анкета · Интервью</div>
+        <div class="flow-desc">Сотрудник, руководитель, HRD. Можно голосом.</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">Шаг 02</div>
+        <div class="flow-title">Диагноз</div>
+        <div class="flow-desc">«Вы на&nbsp;уровне 2.3» — по&nbsp;фреймворку Романа.</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">Шаг 03</div>
+        <div class="flow-title">Дорожная карта</div>
+        <div class="flow-desc">«От 2.3 до&nbsp;4.0 за&nbsp;6&nbsp;месяцев». Шаги по&nbsp;отделам.</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">Шаг 04</div>
+        <div class="flow-title">Подписка</div>
+        <div class="flow-desc">Один из&nbsp;трёх тарифов: Self / Guided / Transformation.</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">Шаг 05</div>
+        <div class="flow-title">Re-assessment</div>
+        <div class="flow-desc">Раз в&nbsp;квартал. Клиент видит реальный рост.</div>
+      </div>
+    </div>
+
+    <div class="decision" style="margin-top: 56px;">
+      <div class="decision-label">Ключевая retention-механика</div>
+      <div class="decision-text">
+        Шаг 05 — это причина, по&nbsp;которой клиент не&nbsp;отменяет подписку. <br>Он&nbsp;видит, что заплатил → вырос → может показать совету директоров.
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <div class="block-indicator">
+      <span>Блок 2 — Видение</span>
+      <div class="block-dots">
+        <span class="block-dot"></span><span class="block-dot active"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span>
+      </div>
+    </div>
+    <span class="slide-num">08 / 27</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 9: СРАВНЕНИЕ С КОНКУРЕНТАМИ -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="brand"><div class="brand-mark"></div><span>ИИ-ВИЗАЦИЯ // ВНУТРЕННИЙ ДОКУМЕНТ</span></div>
+    <div class="meta"><span>Версия 0.1</span><span>Конфиденциально</span></div>
+  </div>
+
+  <div class="slide-content">
+    <div class="eyebrow">02 · Видение</div>
+    <h2 class="h-display">Чем мы<br><span class="accent">отличаемся</span></h2>
+
+    <table class="table" style="margin-top: 32px;">
+      <thead>
+        <tr>
+          <th style="width: 22%;">Игрок</th>
+          <th style="text-align: center;">Каталог<br>контента</th>
+          <th style="text-align: center;">Диагностика<br>компании</th>
+          <th style="text-align: center;">Дорожная<br>карта</th>
+          <th style="text-align: center;">Авторский<br>фреймворк</th>
+          <th style="text-align: center;">Внедрение<br>агентов</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="strong">Coursera Business</td>
+          <td style="text-align: center;">✓</td>
+          <td style="text-align: center; color: var(--muted);">—</td>
+          <td style="text-align: center; color: var(--muted);">—</td>
+          <td style="text-align: center; color: var(--muted);">—</td>
+          <td style="text-align: center; color: var(--muted);">—</td>
+        </tr>
+        <tr>
+          <td class="strong">Udemy Business</td>
+          <td style="text-align: center;">✓</td>
+          <td style="text-align: center; color: var(--muted);">—</td>
+          <td style="text-align: center; color: var(--muted);">—</td>
+          <td style="text-align: center; color: var(--muted);">—</td>
+          <td style="text-align: center; color: var(--muted);">—</td>
+        </tr>
+        <tr>
+          <td class="strong">KnowBe4</td>
+          <td style="text-align: center;">✓ <span style="color: var(--muted); font-size: 12px;">(security)</span></td>
+          <td style="text-align: center; color: var(--muted);">—</td>
+          <td style="text-align: center; color: var(--muted);">—</td>
+          <td style="text-align: center; color: var(--muted);">—</td>
+          <td style="text-align: center; color: var(--muted);">—</td>
+        </tr>
+        <tr>
+          <td class="strong">LinkedIn Learning</td>
+          <td style="text-align: center;">✓</td>
+          <td style="text-align: center; color: var(--muted);">—</td>
+          <td style="text-align: center; color: var(--muted);">— <span style="font-size: 12px;">(только реком.)</span></td>
+          <td style="text-align: center; color: var(--muted);">—</td>
+          <td style="text-align: center; color: var(--muted);">—</td>
+        </tr>
+        <tr style="background: rgba(216, 123, 42, 0.08);">
+          <td class="strong accent-cell" style="font-size: 17px;">ИИ-ВИЗАЦИЯ</td>
+          <td style="text-align: center;" class="accent-cell">✓</td>
+          <td style="text-align: center;" class="accent-cell">✓</td>
+          <td style="text-align: center;" class="accent-cell">✓</td>
+          <td style="text-align: center;" class="accent-cell">✓</td>
+          <td style="text-align: center;" class="accent-cell">✓</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="body" style="margin-top: 32px; font-size: 18px; color: var(--ink); max-width: 900px;">
+      <span class="text-warm">Defensibility:</span> мы единственные, кто собирает все&nbsp;пять элементов в&nbsp;один продукт. Это&nbsp;то, что инвестор называет <span class="text-accent">«category-defining»</span>.
+    </p>
+  </div>
+
+  <div class="slide-footer">
+    <div class="block-indicator">
+      <span>Блок 2 — Видение</span>
+      <div class="block-dots">
+        <span class="block-dot"></span><span class="block-dot active"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span>
+      </div>
+    </div>
+    <span class="slide-num">09 / 27</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 10: MVP — ТРИ КИТА -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="brand"><div class="brand-mark"></div><span>ИИ-ВИЗАЦИЯ // ВНУТРЕННИЙ ДОКУМЕНТ</span></div>
+    <div class="meta"><span>Версия 0.1</span><span>Конфиденциально</span></div>
+  </div>
+
+  <div class="slide-content">
+    <div class="eyebrow">03 · MVP</div>
+    <h2 class="h-display">MVP — <span class="accent">три кита</span></h2>
+    <p class="lead" style="margin-top: 16px;">Что входит в&nbsp;первую версию платформы.</p>
+
+    <div class="three-col" style="margin-top: 56px;">
+      <div class="card">
+        <div class="card-num">01</div>
+        <div class="card-title">Анкетирование</div>
+        <div class="card-body" style="margin-bottom: 16px;">Готовые шаблоны: входная, процессная, голосовой опрос. Уже&nbsp;используются.</div>
+        <div class="label" style="color: var(--green); font-size: 10px;">✓ 80% готово</div>
+      </div>
+      <div class="card">
+        <div class="card-num">02</div>
+        <div class="card-title">Диагностика по&nbsp;уровням</div>
+        <div class="card-body" style="margin-bottom: 16px;">Автоматический скоринг по&nbsp;фреймворку Романа. Выдача дорожной карты.</div>
+        <div class="label" style="color: var(--warm); font-size: 10px;">↗ Методология 1–2&nbsp;недели</div>
+      </div>
+      <div class="card card-accent">
+        <div class="card-num">03</div>
+        <div class="card-title">Платформа с&nbsp;контентом</div>
+        <div class="card-body" style="margin-bottom: 16px;">40+ материалов уже&nbsp;есть. Подключаем параллельно с&nbsp;анкетой. Подписка&nbsp;по&nbsp;тарифам.</div>
+        <div class="label" style="color: var(--warm); font-size: 10px;">→ Параллельная сборка</div>
+      </div>
+    </div>
+
+    <div class="decision" style="margin-top: 48px;">
+      <div class="decision-label">Приоритет запуска</div>
+      <div class="decision-text">
+        Начинаем с&nbsp;<span class="text-warm">анкеты и&nbsp;диагностики</span> (главный USP), параллельно&nbsp;разворачиваем&nbsp;контент. <br>Контента на&nbsp;русском уже&nbsp;уйма — пакуем в&nbsp;модули MVP.
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <div class="block-indicator">
+      <span>Блок 3 — MVP</span>
+      <div class="block-dots">
+        <span class="block-dot"></span><span class="block-dot"></span><span class="block-dot active"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span>
+      </div>
+    </div>
+    <span class="slide-num">10 / 27</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 11: АНКЕТА И ДИАГНОСТИКА -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="brand"><div class="brand-mark"></div><span>ИИ-ВИЗАЦИЯ // ВНУТРЕННИЙ ДОКУМЕНТ</span></div>
+    <div class="meta"><span>Версия 0.1</span><span>Конфиденциально</span></div>
+  </div>
+
+  <div class="slide-content">
+    <div class="eyebrow">03 · MVP</div>
+    <h2 class="h-display">Анкета и&nbsp;<span class="accent">диагностика</span></h2>
+
+    <div class="two-col" style="margin-top: 40px; gap: 80px;">
+      <div>
+        <div class="label" style="margin-bottom: 18px;">Что уже&nbsp;есть и&nbsp;работает</div>
+        <ul class="bullets-num">
+          <li><span class="strong">Входная анкета</span> — на&nbsp;сотрудника, замер «до» (8&nbsp;секций, 30+&nbsp;вопросов)</li>
+          <li><span class="strong">Анкета прогресса</span> — re-assessment после&nbsp;обучения, замер «после»</li>
+          <li><span class="strong">Аудит процессов</span> — для&nbsp;руководителей отделов, основа&nbsp;дорожной&nbsp;карты</li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="label" style="margin-bottom: 18px;">Что добавляем под&nbsp;фреймворк</div>
+        <ul class="bullets-num">
+          <li>Блок «AI на&nbsp;уровне компании» — корп-инфраструктура</li>
+          <li>Углублённый блок про&nbsp;агентов и&nbsp;автоматизации</li>
+          <li>Блок про&nbsp;интеграции с&nbsp;CRM/Workspace/базами</li>
+          <li>Маркер роли AI-lead — кто отвечает в&nbsp;компании</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="margin-top: 56px; padding: 24px 28px; background: rgba(24, 56, 245, 0.06); border-left: 3px solid var(--accent);">
+      <div class="label" style="color: var(--accent); margin-bottom: 8px;">Сроки</div>
+      <p class="body" style="font-size: 17px;">
+        Доработка анкет под&nbsp;фреймворк&nbsp;8&nbsp;уровней — <span class="strong">1–2 недели методической работы.</span> 80%&nbsp;уже&nbsp;готово.
+      </p>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <div class="block-indicator">
+      <span>Блок 3 — MVP</span>
+      <div class="block-dots">
+        <span class="block-dot"></span><span class="block-dot"></span><span class="block-dot active"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span>
+      </div>
+    </div>
+    <span class="slide-num">11 / 27</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 12: МЕТОДОЛОГИЯ ДИАГНОСТИКИ (НОВЫЙ СЛАЙД) -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="brand"><div class="brand-mark"></div><span>ИИ-ВИЗАЦИЯ // ВНУТРЕННИЙ ДОКУМЕНТ</span></div>
+    <div class="meta"><span>Версия 0.1</span><span>Конфиденциально</span></div>
+  </div>
+
+  <div class="slide-content">
+    <div class="eyebrow">03 · MVP · Уникальный актив</div>
+    <h2 class="h-medium">Методология диагностики — <span style="color: var(--warm); font-style: italic;">наш&nbsp;главный USP</span></h2>
+    <p class="lead" style="margin-top: 8px; max-width: 920px;">
+      Не «угадай уровень» — а&nbsp;измерь по&nbsp;5&nbsp;методам, покажи рост раз&nbsp;в&nbsp;квартал.
+    </p>
+
+    <div class="flow" style="margin-top: 56px; grid-template-columns: repeat(5, 1fr);">
+      <div class="flow-step">
+        <div class="flow-num">Метод 01</div>
+        <div class="flow-title">Анкета сотрудника</div>
+        <div class="flow-desc">Уверенность, инструменты, барьеры. 30+&nbsp;вопросов.</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">Метод 02</div>
+        <div class="flow-title">Интервью с&nbsp;HRD/CEO</div>
+        <div class="flow-desc">Стратегия, бюджеты, культура, AI-lead.</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">Метод 03</div>
+        <div class="flow-title">Анкета руководителя</div>
+        <div class="flow-desc">Процессы отдела, инструменты, точки автоматизации.</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">Метод 04</div>
+        <div class="flow-title">Голосовой опрос</div>
+        <div class="flow-desc">Свободный рассказ про&nbsp;боли. Транскрибация&nbsp;+&nbsp;AI-анализ.</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">Метод 05</div>
+        <div class="flow-title">Re-assessment</div>
+        <div class="flow-desc">Раз в&nbsp;квартал. Динамика, causal&nbsp;proof, retention.</div>
+      </div>
+    </div>
+
+    <div style="margin-top: 64px; display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">
+      <div style="padding: 24px 28px; background: var(--paper-2); border: 1px solid var(--line);">
+        <div class="label" style="margin-bottom: 8px;">Почему это&nbsp;сильно</div>
+        <p class="body-small" style="font-size: 15px; color: var(--ink-soft);">
+          Каждый метод даёт независимый источник данных. Скоринг получается&nbsp;<span class="strong">валидным</span>, а&nbsp;не&nbsp;«мнением».
+        </p>
+      </div>
+      <div style="padding: 24px 28px; background: var(--ink); color: var(--paper);">
+        <div class="label" style="margin-bottom: 8px; color: var(--warm);">Что это даёт продукту</div>
+        <p class="body-small" style="font-size: 15px; color: rgba(243, 239, 230, 0.85);">
+          Клиент получает не&nbsp;цифру, а&nbsp;<span style="color: var(--warm); font-weight: 600;">отчёт</span>, который можно показать совету директоров.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <div class="block-indicator">
+      <span>Блок 3 — MVP</span>
+      <div class="block-dots">
+        <span class="block-dot"></span><span class="block-dot"></span><span class="block-dot active"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span>
+      </div>
+    </div>
+    <span class="slide-num">12 / 27</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 13: ТРИ ТАРИФА -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="brand"><div class="brand-mark"></div><span>ИИ-ВИЗАЦИЯ // ВНУТРЕННИЙ ДОКУМЕНТ</span></div>
+    <div class="meta"><span>Версия 0.1</span><span>Конфиденциально</span></div>
+  </div>
+
+  <div class="slide-content">
+    <div class="eyebrow">03 · MVP · Монетизация</div>
+    <h2 class="h-medium">Три тарифа подписки</h2>
+
+    <div class="tiers" style="margin-top: 32px;">
+      <div class="tier">
+        <div>
+          <div class="tier-name">Tier 01</div>
+          <div class="tier-title">Self-Learning</div>
+        </div>
+        <ul class="tier-features">
+          <li>Доступ к&nbsp;библиотеке материалов</li>
+          <li>Анкета + автоматический диагноз</li>
+          <li>Базовая дорожная карта</li>
+          <li>Тесты и&nbsp;домашки без&nbsp;проверки</li>
+          <li>Сертификат по&nbsp;итогам уровня</li>
+        </ul>
+        <div>
+          <div class="tier-price-label">Цена-гипотеза</div>
+          <div class="tier-price">$100–150<span style="font-size: 14px; color: var(--muted); font-weight: 400;"> / user / year</span></div>
+        </div>
+      </div>
+
+      <div class="tier">
+        <div>
+          <div class="tier-name">Tier 02</div>
+          <div class="tier-title">Guided</div>
+        </div>
+        <ul class="tier-features">
+          <li>Всё из&nbsp;Tier 1</li>
+          <li>Live-вебинары и&nbsp;workshops</li>
+          <li>Live Q&amp;A раз в&nbsp;месяц со&nbsp;Стасом</li>
+          <li>Комьюнити сотрудников</li>
+          <li>Расширенная дорожная карта</li>
+        </ul>
+        <div>
+          <div class="tier-price-label">Цена-гипотеза</div>
+          <div class="tier-price">$250–400<span style="font-size: 14px; color: var(--muted); font-weight: 400;"> / user / year</span></div>
+        </div>
+      </div>
+
+      <div class="tier premium">
+        <div>
+          <div class="tier-name">Tier 03</div>
+          <div class="tier-title">Transformation</div>
+        </div>
+        <ul class="tier-features">
+          <li>Всё из&nbsp;Tier 2</li>
+          <li>Индивидуальная карта (вручную)</li>
+          <li>Внедрение AI-агентов и&nbsp;кейсов</li>
+          <li>Регулярные сессии с&nbsp;командой</li>
+          <li>Персональный куратор</li>
+        </ul>
+        <div>
+          <div class="tier-price-label">Цена-гипотеза</div>
+          <div class="tier-price">от $50K<span style="font-size: 14px; color: rgba(243, 239, 230, 0.55); font-weight: 400;"> / год · enterprise flat</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 40px; padding: 24px 28px; background: rgba(24, 56, 245, 0.06); border-left: 3px solid var(--accent);">
+      <div class="label" style="color: var(--accent); margin-bottom: 6px;">Юнит-экономика на&nbsp;пальцах</div>
+      <p class="body" style="font-size: 17px;">
+        Средний чек $300 × корпорация на&nbsp;100 человек = <span class="strong">$30K ARR с&nbsp;одного клиента.</span> 50&nbsp;корпораций → <span class="text-accent">$1.5M ARR</span> — это уровень, где&nbsp;venture начинает слушать.
+      </p>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <div class="block-indicator">
+      <span>Блок 3 — MVP</span>
+      <div class="block-dots">
+        <span class="block-dot"></span><span class="block-dot"></span><span class="block-dot active"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span>
+      </div>
+    </div>
+    <span class="slide-num">13 / 27</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 14: СЕРТИФИКАЦИЯ И ANTI-CHEAT -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="brand"><div class="brand-mark"></div><span>ИИ-ВИЗАЦИЯ // ВНУТРЕННИЙ ДОКУМЕНТ</span></div>
+    <div class="meta"><span>Версия 0.1</span><span>Конфиденциально</span></div>
+  </div>
+
+  <div class="slide-content">
+    <div class="eyebrow">03 · MVP · Качество</div>
+    <h2 class="h-display">Сертификация и&nbsp;<span class="warm">anti-cheat</span></h2>
+    <p class="lead" style="margin-top: 16px; max-width: 940px;">
+      Проблема: если базовый тариф = тесты без&nbsp;проверки, как защититься от&nbsp;«сотрудник&nbsp;натыкал&nbsp;AI&nbsp;ответы → получил сертификат»?
+    </p>
+
+    <div class="three-col" style="margin-top: 56px;">
+      <div class="card">
+        <div class="card-num">01</div>
+        <div class="card-title">Адаптивные тесты</div>
+        <div class="card-body">Каждый следующий вопрос зависит от&nbsp;предыдущего ответа. AI не&nbsp;спишет — контекст меняется.</div>
+      </div>
+      <div class="card">
+        <div class="card-num">02</div>
+        <div class="card-title">Таймер 5 секунд</div>
+        <div class="card-body">На ответ — 5&nbsp;секунд. Не&nbsp;успеешь скопировать в&nbsp;AI и&nbsp;вернуться. Проверка реального навыка.</div>
+      </div>
+      <div class="card card-accent">
+        <div class="card-num">03</div>
+        <div class="card-title">Live-финал</div>
+        <div class="card-body">Для крупных сертификатов — обязательная финальная сессия в&nbsp;живом формате. Защита от&nbsp;любых автоматизаций.</div>
+      </div>
+    </div>
+
+    <div style="margin-top: 48px;">
+      <div class="label" style="margin-bottom: 12px;">Цель</div>
+      <p class="body" style="font-size: 19px; color: var(--ink); max-width: 900px;">
+        Реальный навык, а&nbsp;не&nbsp;«потыкал ответы». Сертификат должен <span class="text-accent">что-то значить</span> для&nbsp;HRD и&nbsp;руководителя — иначе мы становимся очередной фабрикой бумажек.
+      </p>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <div class="block-indicator">
+      <span>Блок 3 — MVP</span>
+      <div class="block-dots">
+        <span class="block-dot"></span><span class="block-dot"></span><span class="block-dot active"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span>
+      </div>
+    </div>
+    <span class="slide-num">14 / 27</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 15: МУЛЬТИЯЗЫЧНОСТЬ -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="brand"><div class="brand-mark"></div><span>ИИ-ВИЗАЦИЯ // ВНУТРЕННИЙ ДОКУМЕНТ</span></div>
+    <div class="meta"><span>Версия 0.1</span><span>Конфиденциально</span></div>
+  </div>
+
+  <div class="slide-content">
+    <div class="eyebrow">03 · MVP · Roadmap</div>
+    <h2 class="h-display">Мультиязычность —<br><span class="accent">обязательно</span></h2>
+
+    <div class="three-col" style="margin-top: 56px;">
+      <div class="card">
+        <div class="card-num">Phase 01</div>
+        <div class="card-title">RU · M+0 → M+6</div>
+        <div class="card-body" style="margin-bottom: 16px;">Запуск на&nbsp;русском. 40+ материалов уже&nbsp;готовы. Рынок РФ и&nbsp;СНГ.</div>
+        <div class="label" style="color: var(--green);">✓ Контент готов</div>
+      </div>
+      <div class="card">
+        <div class="card-num">Phase 02</div>
+        <div class="card-title">EN · M+6 → M+12</div>
+        <div class="card-body" style="margin-bottom: 16px;">Перевод + культурная адаптация. Прицел на&nbsp;US/EU enterprise, ОАЭ.</div>
+        <div class="label" style="color: var(--warm);">↗ Локализация, не&nbsp;перевод</div>
+      </div>
+      <div class="card card-accent">
+        <div class="card-num">Phase 03</div>
+        <div class="card-title">ES · M+12 → M+18</div>
+        <div class="card-body" style="margin-bottom: 16px;">LatAm-рынок. Большой объём, низкая конкуренция в&nbsp;нише.</div>
+        <div class="label" style="color: var(--warm); font-size: 10px;">→ Третий язык</div>
+      </div>
+    </div>
+
+    <div style="margin-top: 48px; padding: 24px 28px; background: var(--paper-2); border-left: 3px solid var(--warm);">
+      <div class="label" style="color: var(--warm); margin-bottom: 8px;">Важно</div>
+      <p class="body" style="font-size: 17px;">
+        <span class="strong">Локализация, а&nbsp;не&nbsp;перевод.</span> Регуляторные и&nbsp;юридические концепты, бизнес-этикет, кейсы — адаптируются под&nbsp;каждый рынок. Это методическая работа, не&nbsp;Google Translate.
+      </p>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <div class="block-indicator">
+      <span>Блок 3 — MVP</span>
+      <div class="block-dots">
+        <span class="block-dot"></span><span class="block-dot"></span><span class="block-dot active"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span>
+      </div>
+    </div>
+    <span class="slide-num">15 / 27</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 16: СКРИНКАСТЫ -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="brand"><div class="brand-mark"></div><span>ИИ-ВИЗАЦИЯ // ВНУТРЕННИЙ ДОКУМЕНТ</span></div>
+    <div class="meta"><span>Версия 0.1</span><span>Конфиденциально</span></div>
+  </div>
+
+  <div class="slide-content">
+    <div class="eyebrow">04 · Инвентарь контента</div>
+    <h2 class="h-display">Скринкасты <span style="color: var(--muted); font-weight: 400; font-style: italic; font-size: 0.6em;">— 12&nbsp;видео</span></h2>
+
+    <div class="materials" style="margin-top: 32px;">
+      <div class="material-item"><span class="num">01</span><span class="name">Базовая работа с&nbsp;ChatGPT</span></div>
+      <div class="material-item"><span class="num">02</span><span class="name">Настройка профиля в&nbsp;ChatGPT</span></div>
+      <div class="material-item"><span class="num">03</span><span class="name">Управление корпоративным аккаунтом в&nbsp;ChatGPT</span></div>
+      <div class="material-item"><span class="num">04</span><span class="name">Распаковка личности и&nbsp;работы в&nbsp;ChatGPT</span></div>
+      <div class="material-item"><span class="num">05</span><span class="name">Базовая работа с&nbsp;Desktop Claude AI (+ чеклист)</span></div>
+      <div class="material-item"><span class="num">06</span><span class="name">Создание Artifacts в&nbsp;Claude AI</span></div>
+      <div class="material-item"><span class="num">07</span><span class="name">Создание проекта в&nbsp;Claude AI на&nbsp;базе распаковки (+ чеклист)</span></div>
+      <div class="material-item"><span class="num">08</span><span class="name">Создание skills в&nbsp;Claude AI</span></div>
+      <div class="material-item"><span class="num">09</span><span class="name">Настройка рабочего пространства для&nbsp;РФ — часть 1</span></div>
+      <div class="material-item"><span class="num">10</span><span class="name">Настройка рабочего пространства для&nbsp;РФ — часть 2</span></div>
+      <div class="material-item"><span class="num">11</span><span class="name">Настройка безопасности Google Account</span></div>
+      <div class="material-item"><span class="num">12</span><span class="name">Запуск и&nbsp;настройка Codex и&nbsp;подключение GitHub</span></div>
+    </div>
+
+    <div style="margin-top: 36px; padding: 18px 24px; background: rgba(255,255,255,0.5); border: 1px solid var(--line); display: flex; gap: 48px;">
+      <div>
+        <div class="label" style="margin-bottom: 4px;">Статус</div>
+        <p style="font-size: 14px; color: var(--green); font-weight: 600;">✓ Готовы к&nbsp;использованию в&nbsp;MVP</p>
+      </div>
+      <div>
+        <div class="label" style="margin-bottom: 4px;">Масштабирование</div>
+        <p style="font-size: 14px;">Субтитры EN/ES → перезапись для&nbsp;multilingual</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <div class="block-indicator">
+      <span>Блок 4 — Инвентарь</span>
+      <div class="block-dots">
+        <span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot active"></span><span class="block-dot"></span><span class="block-dot"></span>
+      </div>
+    </div>
+    <span class="slide-num">16 / 27</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 17: ПРЕЗЕНТАЦИИ -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="brand"><div class="brand-mark"></div><span>ИИ-ВИЗАЦИЯ // ВНУТРЕННИЙ ДОКУМЕНТ</span></div>
+    <div class="meta"><span>Версия 0.1</span><span>Конфиденциально</span></div>
+  </div>
+
+  <div class="slide-content">
+    <div class="eyebrow">04 · Инвентарь контента</div>
+    <h2 class="h-display">Презентации <span style="color: var(--muted); font-weight: 400; font-style: italic; font-size: 0.6em;">— 7&nbsp;штук</span></h2>
+
+    <div class="materials" style="margin-top: 32px;">
+      <div class="material-item"><span class="num">01</span><span class="name">Современные применения ИИ в&nbsp;работе и&nbsp;жизни</span></div>
+      <div class="material-item"><span class="num">02</span><span class="name">LLM: введение в&nbsp;работу нейросетей, ошибки и&nbsp;инсайты использования</span></div>
+      <div class="material-item"><span class="num">03</span><span class="name">Информационная безопасность при&nbsp;работе с&nbsp;нейросетями</span></div>
+      <div class="material-item"><span class="num">04</span><span class="name">Корпоративная политика использования ИИ (PPTX)</span></div>
+      <div class="material-item"><span class="num">05</span><span class="name">Тарифы ChatGPT</span></div>
+      <div class="material-item"><span class="num">06</span><span class="name">GEO — это новый цифровой канал</span></div>
+      <div class="material-item"><span class="num">07</span><span class="name">Codex vs Claude Code — когда какой инструмент использовать</span></div>
+    </div>
+
+    <div style="margin-top: 48px; padding: 18px 24px; background: rgba(255,255,255,0.5); border: 1px solid var(--line); display: flex; gap: 48px;">
+      <div>
+        <div class="label" style="margin-bottom: 4px;">Статус</div>
+        <p style="font-size: 14px; color: var(--green); font-weight: 600;">✓ Готовы. PPTX по&nbsp;корп-политике — шаблон для&nbsp;клиентов</p>
+      </div>
+      <div>
+        <div class="label" style="margin-bottom: 4px;">Масштабирование</div>
+        <p style="font-size: 14px;">Адаптация под&nbsp;B2B-формат с&nbsp;тестами и&nbsp;заданиями</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <div class="block-indicator">
+      <span>Блок 4 — Инвентарь</span>
+      <div class="block-dots">
+        <span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot active"></span><span class="block-dot"></span><span class="block-dot"></span>
+      </div>
+    </div>
+    <span class="slide-num">17 / 27</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 18: МЕТОДИЧКИ И ПАМЯТКИ -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="brand"><div class="brand-mark"></div><span>ИИ-ВИЗАЦИЯ // ВНУТРЕННИЙ ДОКУМЕНТ</span></div>
+    <div class="meta"><span>Версия 0.1</span><span>Конфиденциально</span></div>
+  </div>
+
+  <div class="slide-content">
+    <div class="eyebrow">04 · Инвентарь контента</div>
+    <h2 class="h-display">Методички &amp; памятки <span style="color: var(--muted); font-weight: 400; font-style: italic; font-size: 0.5em;">— 5 + 2 шт</span></h2>
+
+    <div class="two-col" style="margin-top: 40px; gap: 64px;">
+      <div>
+        <div class="label" style="margin-bottom: 18px; color: var(--accent);">Методички — 5&nbsp;шт</div>
+        <div class="materials materials-full">
+          <div class="material-item"><span class="num">01</span><span class="name">Карта инструментов</span></div>
+          <div class="material-item"><span class="num">02</span><span class="name">Промпт-инжиниринг</span></div>
+          <div class="material-item"><span class="num">03</span><span class="name">Техники промптинга</span></div>
+          <div class="material-item"><span class="num">04</span><span class="name">Промпты для&nbsp;работы с&nbsp;изображениями</span></div>
+          <div class="material-item"><span class="num">05</span><span class="name">Техника проведения глубоких исследований</span></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="label" style="margin-bottom: 18px; color: var(--warm);">Памятки — 2&nbsp;шт</div>
+        <div class="materials materials-full">
+          <div class="material-item"><span class="num">01</span><span class="name">Что можно и&nbsp;нельзя загружать в&nbsp;ИИ при&nbsp;работе с&nbsp;госзаказчиками</span></div>
+          <div class="material-item"><span class="num">02</span><span class="name">Как избежать галлюцинаций при&nbsp;общении с&nbsp;ИИ</span></div>
+        </div>
+
+        <div style="margin-top: 24px; padding: 16px 20px; background: rgba(216, 123, 42, 0.08); border-left: 2px solid var(--warm);">
+          <p style="font-size: 13px; line-height: 1.45; color: var(--ink-soft);">
+            <span class="text-warm">B2G-памятка</span> — уникальный актив. Никто на&nbsp;рынке так&nbsp;глубоко не&nbsp;покрывает работу с&nbsp;госзаказчиками.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 40px; padding: 18px 24px; background: rgba(255,255,255,0.5); border: 1px solid var(--line);">
+      <div class="label" style="margin-bottom: 4px;">Масштабирование</div>
+      <p style="font-size: 14px;">Конвертация в&nbsp;интерактивные модули на&nbsp;платформе с&nbsp;адаптивными тестами</p>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <div class="block-indicator">
+      <span>Блок 4 — Инвентарь</span>
+      <div class="block-dots">
+        <span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot active"></span><span class="block-dot"></span><span class="block-dot"></span>
+      </div>
+    </div>
+    <span class="slide-num">18 / 27</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 19: ШАБЛОНЫ И ИНСТРУКЦИИ -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="brand"><div class="brand-mark"></div><span>ИИ-ВИЗАЦИЯ // ВНУТРЕННИЙ ДОКУМЕНТ</span></div>
+    <div class="meta"><span>Версия 0.1</span><span>Конфиденциально</span></div>
+  </div>
+
+  <div class="slide-content">
+    <div class="eyebrow">04 · Инвентарь контента · Уникальный пласт</div>
+    <h2 class="h-medium">Шаблоны, инструкции, SOUL.md <span style="color: var(--muted); font-weight: 400; font-style: italic;">— 13&nbsp;единиц</span></h2>
+
+    <div class="two-col" style="margin-top: 32px; gap: 56px;">
+      <div>
+        <div class="label" style="margin-bottom: 16px; color: var(--accent);">Шаблоны и&nbsp;примеры · 6&nbsp;шт</div>
+        <div class="materials materials-full">
+          <div class="material-item"><span class="num">01</span><span class="name">Шаблон корпоративной политики использования ИИ</span></div>
+          <div class="material-item"><span class="num">02</span><span class="name">Шаблоны системных инструкций для&nbsp;ведения проектов в&nbsp;ChatGPT/LLM</span></div>
+          <div class="material-item"><span class="num">03</span><span class="name">Шаблон и&nbsp;пример инструкции для&nbsp;настройки GPTs/Gems</span></div>
+          <div class="material-item"><span class="num">04</span><span class="name">Инструкции для&nbsp;создания GPTs</span></div>
+          <div class="material-item"><span class="num">05</span><span class="name">Пример RAG-базы для&nbsp;обучения GPTs</span></div>
+          <div class="material-item"><span class="num">06</span><span class="name">Пример базы знаний для&nbsp;ведения проекта в&nbsp;LLM</span></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="label" style="margin-bottom: 16px; color: var(--warm);">Промпты · мета · агенты · 7&nbsp;шт</div>
+        <div class="materials materials-full">
+          <div class="material-item"><span class="num">01</span><span class="name">Метапромпт — короткая версия</span></div>
+          <div class="material-item"><span class="num">02</span><span class="name">Метапромпт — длинная версия</span></div>
+          <div class="material-item"><span class="num">03</span><span class="name">Банк шаблон-промптов для&nbsp;event-индустрии</span></div>
+          <div class="material-item"><span class="num">04</span><span class="name">Банк шаблонов промптов для&nbsp;строительной компании</span></div>
+          <div class="material-item"><span class="num">05</span><span class="name">Mentor SOUL.md (душа AI-агента наставника)</span></div>
+          <div class="material-item"><span class="num">06</span><span class="name">Бот-консьерж SOUL.md (душа AI-агента консьержа)</span></div>
+          <div class="material-item"><span class="num">07</span><span class="name">Skill: pdf-to-markdown + инструкция «Как создавать Skills в&nbsp;Claude.ai»</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 24px; padding: 18px 24px; background: var(--ink); color: var(--paper);">
+      <div class="label" style="color: var(--warm); margin-bottom: 4px;">Почему это&nbsp;стратегический актив</div>
+      <p style="font-size: 14px; line-height: 1.5; color: rgba(243, 239, 230, 0.85);">
+        Шаблоны системных инструкций, SOUL.md и&nbsp;RAG-базы — это&nbsp;<span style="color: var(--warm); font-weight: 600;">основа для&nbsp;Tier 3</span>. Никто на&nbsp;рынке&nbsp;edu не&nbsp;даёт «душу&nbsp;агента под&nbsp;ключ» с&nbsp;готовыми шаблонами.
+      </p>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <div class="block-indicator">
+      <span>Блок 4 — Инвентарь</span>
+      <div class="block-dots">
+        <span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot active"></span><span class="block-dot"></span><span class="block-dot"></span>
+      </div>
+    </div>
+    <span class="slide-num">19 / 27</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 20: КУРС AI-ОФИС -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="brand"><div class="brand-mark"></div><span>ИИ-ВИЗАЦИЯ // ВНУТРЕННИЙ ДОКУМЕНТ</span></div>
+    <div class="meta"><span>Версия 0.1</span><span>Конфиденциально</span></div>
+  </div>
+
+  <div class="slide-content">
+    <div class="eyebrow">04 · Инвентарь контента · USP</div>
+    <h2 class="h-display">Курс<br><span class="accent">«AI-офис под бизнес»</span></h2>
+    <p class="lead" style="margin-top: 16px;">5 уроков. Уникальный актив, которого нет&nbsp;ни&nbsp;у&nbsp;кого на&nbsp;рынке.</p>
+
+    <div class="materials" style="margin-top: 40px; grid-template-columns: 1fr;">
+      <div class="material-item" style="grid-template-columns: 24px 200px 1fr;">
+        <span class="num">02</span>
+        <span class="name" style="color: var(--accent); font-weight: 600;">Обзор AI-мира + Claude Project</span>
+        <span class="name" style="color: var(--muted); font-size: 13px;">Терминология • OpenRouter • Claude vs ChatGPT vs Gemini • OpenClaw</span>
+      </div>
+      <div class="material-item" style="grid-template-columns: 24px 200px 1fr;">
+        <span class="num">03</span>
+        <span class="name" style="color: var(--accent); font-weight: 600;">Инфраструктура OpenClaw</span>
+        <span class="name" style="color: var(--muted); font-size: 13px;">VPS Aeza • LLM-провайдеры • SSH-туннель • Telegram-бот • Whisper</span>
+      </div>
+      <div class="material-item" style="grid-template-columns: 24px 200px 1fr;">
+        <span class="num">04</span>
+        <span class="name" style="color: var(--accent); font-weight: 600;">GitHub + Домен + Вайб-кодинг</span>
+        <span class="name" style="color: var(--muted); font-size: 13px;">GitHub SSH/CLI • Porkbun • GitHub Pages • Дизайн-скиллы</span>
+      </div>
+      <div class="material-item" style="grid-template-columns: 24px 200px 1fr;">
+        <span class="num">05</span>
+        <span class="name" style="color: var(--accent); font-weight: 600;">n8n + Автоматизации + Cron</span>
+        <span class="name" style="color: var(--muted); font-size: 13px;">n8n • 2FA • MCP • Google-интеграция • workflow «встреча → напоминание»</span>
+      </div>
+      <div class="material-item" style="grid-template-columns: 24px 200px 1fr;">
+        <span class="num">06</span>
+        <span class="name" style="color: var(--warm); font-weight: 600;">Claude Code → второй мозг → AI-офис</span>
+        <span class="name" style="color: var(--muted); font-size: 13px;">4 части: Claude Code в&nbsp;TG • Obsidian-vault • AI-директор • Безопасность контура</span>
+      </div>
+    </div>
+
+    <div style="margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+      <div style="padding: 20px 24px; background: rgba(255,255,255,0.5); border: 1px solid var(--line);">
+        <div class="label" style="margin-bottom: 6px;">Статус</div>
+        <p style="font-size: 14px;"><span style="color: var(--green); font-weight: 600;">✓</span> Уроки 2–5 готовы · урок 6 в&nbsp;работе (3 из&nbsp;4&nbsp;частей)</p>
+      </div>
+      <div style="padding: 20px 24px; background: var(--ink); color: var(--paper);">
+        <div class="label" style="color: var(--warm); margin-bottom: 6px;">Применение</div>
+        <p style="font-size: 14px; color: rgba(243, 239, 230, 0.85);">Премиум-трек Tier 3. «AI-офис под&nbsp;ключ за&nbsp;3&nbsp;недели»</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <div class="block-indicator">
+      <span>Блок 4 — Инвентарь</span>
+      <div class="block-dots">
+        <span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot active"></span><span class="block-dot"></span><span class="block-dot"></span>
+      </div>
+    </div>
+    <span class="slide-num">20 / 27</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 21: КАРТА КОНТЕНТ → УРОВНИ -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="brand"><div class="brand-mark"></div><span>ИИ-ВИЗАЦИЯ // ВНУТРЕННИЙ ДОКУМЕНТ</span></div>
+    <div class="meta"><span>Версия 0.1</span><span>Конфиденциально</span></div>
+  </div>
+
+  <div class="slide-content">
+    <div class="eyebrow">04 · Инвентарь контента · Сводка</div>
+    <h2 class="h-medium">Карта: контент → 8&nbsp;уровней</h2>
+
+    <table class="table" style="margin-top: 32px;">
+      <thead>
+        <tr>
+          <th style="width: 12%;">Уровень</th>
+          <th style="width: 22%;">Название</th>
+          <th>Покрытие нашими материалами</th>
+          <th style="width: 18%; text-align: center;">Готовность</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="strong accent-cell">0</td>
+          <td class="strong">Сопротивление</td>
+          <td>Презентация «Современные применения ИИ» + Безопасность</td>
+          <td style="text-align: center; color: var(--green); font-weight: 600;">✓ Полное</td>
+        </tr>
+        <tr>
+          <td class="strong accent-cell">1</td>
+          <td class="strong">Хаос</td>
+          <td>Скринкасты ChatGPT, Карта инструментов, Тарифы</td>
+          <td style="text-align: center; color: var(--green); font-weight: 600;">✓ Полное</td>
+        </tr>
+        <tr>
+          <td class="strong accent-cell">2</td>
+          <td class="strong">Точечные инструменты</td>
+          <td>Промптинг, Claude AI, Базовая работа с&nbsp;Codex</td>
+          <td style="text-align: center; color: var(--green); font-weight: 600;">✓ Полное</td>
+        </tr>
+        <tr style="background: rgba(216, 123, 42, 0.08);">
+          <td class="strong accent-cell">3</td>
+          <td class="strong">Обучение команды</td>
+          <td>Корп-аккаунты, Custom GPTs, Промпт-банки, Корп-политика</td>
+          <td style="text-align: center; color: var(--green); font-weight: 600;">✓ Полное</td>
+        </tr>
+        <tr style="background: rgba(216, 123, 42, 0.08);">
+          <td class="strong accent-cell">4</td>
+          <td class="strong">Процессные автоматизации</td>
+          <td>Урок «n8n + Cron», Урок «Инфраструктура OpenClaw»</td>
+          <td style="text-align: center; color: var(--warm); font-weight: 600;">↗ Хорошее</td>
+        </tr>
+        <tr>
+          <td class="strong accent-cell">5</td>
+          <td class="strong">AI-агенты</td>
+          <td>SOUL.md, Mentor/Консьерж, Skills для&nbsp;Claude</td>
+          <td style="text-align: center; color: var(--warm); font-weight: 600;">↗ Частичное</td>
+        </tr>
+        <tr>
+          <td class="strong accent-cell">6</td>
+          <td class="strong">Мультиагентные системы</td>
+          <td>Урок 6.3 «AI-директор» (в&nbsp;работе)</td>
+          <td style="text-align: center; color: var(--warm); font-weight: 600;">↗ В&nbsp;разработке</td>
+        </tr>
+        <tr>
+          <td class="strong accent-cell">7–8</td>
+          <td class="strong">AI-first / Adaptive AI</td>
+          <td>Стратегический горизонт. Контент создаётся по&nbsp;запросу.</td>
+          <td style="text-align: center; color: var(--muted); font-weight: 600;">○ Roadmap</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="body" style="margin-top: 28px; font-size: 17px; max-width: 900px;">
+      <span class="text-warm">Вывод:</span> для&nbsp;MVP (целевые уровни 3–4) — <span class="strong">контент готов на&nbsp;90%.</span> Достаточно методической упаковки в&nbsp;модули.
+    </p>
+  </div>
+
+  <div class="slide-footer">
+    <div class="block-indicator">
+      <span>Блок 4 — Инвентарь</span>
+      <div class="block-dots">
+        <span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot active"></span><span class="block-dot"></span><span class="block-dot"></span>
+      </div>
+    </div>
+    <span class="slide-num">21 / 27</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 22: РАЗВИЛКА 1 - ЮР-СТРУКТУРА -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="brand"><div class="brand-mark"></div><span>ИИ-ВИЗАЦИЯ // ВНУТРЕННИЙ ДОКУМЕНТ</span></div>
+    <div class="meta"><span>Версия 0.1</span><span>Конфиденциально</span></div>
+  </div>
+
+  <div class="slide-content">
+    <div class="eyebrow">05 · Развилки · Решение Romа + Рафаэль</div>
+    <h2 class="h-medium">Развилка №1 — Юр-структура</h2>
+    <p class="lead" style="margin-top: 8px; max-width: 920px;">
+      Текущая «ИИ-ВИЗАЦИЯ» = RU-бизнес, $250K за&nbsp;20% («возврат инвестиций»). Новая платформа = venture-история ($1.5M+ ARR, x10). Это&nbsp;<span class="text-warm">разные компании</span>.
+    </p>
+
+    <div class="scenario">
+      <div class="scenario-card">
+        <div class="scenario-num">Сценарий 01</div>
+        <div class="scenario-title">Развести</div>
+        <div class="scenario-desc">«ИИ-ВИЗАЦИЯ» остаётся как&nbsp;RU-бизнес. SaaS-платформа — отдельное юрлицо.</div>
+        <div>
+          <div class="scenario-pros">+ Плюсы</div>
+          <ul><li>Чистая инвест-структура</li><li>Нет conflict of&nbsp;interest</li></ul>
+        </div>
+        <div>
+          <div class="scenario-cons">– Минусы</div>
+          <ul><li>Двойная нагрузка на&nbsp;команду</li></ul>
+        </div>
+      </div>
+
+      <div class="scenario-card">
+        <div class="scenario-num">Сценарий 02</div>
+        <div class="scenario-title">Объединить</div>
+        <div class="scenario-desc">«ИИ-ВИЗАЦИЯ» становится международной платформой. RU-бизнес — её&nbsp;вертикаль.</div>
+        <div>
+          <div class="scenario-pros">+ Плюсы</div>
+          <ul><li>Один бренд</li><li>Синергия каналов</li></ul>
+        </div>
+        <div>
+          <div class="scenario-cons">– Минусы</div>
+          <ul><li>Сложнее объяснить инвестору</li><li>Что вкладывают — в&nbsp;SaaS или edu?</li></ul>
+        </div>
+      </div>
+
+      <div class="scenario-card">
+        <div class="scenario-num">Сценарий 03</div>
+        <div class="scenario-title">Hold-co</div>
+        <div class="scenario-desc">Холдинг владеет двумя продуктами: RU-edu + Global&nbsp;SaaS.</div>
+        <div>
+          <div class="scenario-pros">+ Плюсы</div>
+          <ul><li>Гибкость</li><li>Разные инвесторы под&nbsp;разные продукты</li></ul>
+        </div>
+        <div>
+          <div class="scenario-cons">– Минусы</div>
+          <ul><li>Юр-сложность</li><li>Расходы на&nbsp;структуру</li></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <div class="block-indicator">
+      <span>Блок 5 — Развилки</span>
+      <div class="block-dots">
+        <span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot active"></span><span class="block-dot"></span>
+      </div>
+    </div>
+    <span class="slide-num">22 / 27</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 23: РАЗВИЛКА 2 - LMS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="brand"><div class="brand-mark"></div><span>ИИ-ВИЗАЦИЯ // ВНУТРЕННИЙ ДОКУМЕНТ</span></div>
+    <div class="meta"><span>Версия 0.1</span><span>Конфиденциально</span></div>
+  </div>
+
+  <div class="slide-content">
+    <div class="eyebrow">05 · Развилки</div>
+    <h2 class="h-medium">Развилка №2 — Своя платформа vs&nbsp;готовая&nbsp;LMS</h2>
+    <p class="lead" style="margin-top: 8px;">Стас хочет свою — это влияет на&nbsp;бюджет и&nbsp;timeline в&nbsp;5–10 раз.</p>
+
+    <div class="two-col" style="margin-top: 40px; gap: 48px;">
+      <div class="scenario-card">
+        <div class="scenario-num">Вариант A</div>
+        <div class="scenario-title">Сразу своя платформа</div>
+        <div class="scenario-desc">Кастомная LMS под&nbsp;диагностику и&nbsp;дорожную карту. Полный контроль.</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+          <div>
+            <div class="scenario-pros">+ Плюсы</div>
+            <ul><li>Контроль UX и&nbsp;бренда</li><li>Уникальные фичи</li><li>Defensibility для&nbsp;инвестора</li><li>Маржинальность в&nbsp;долгую</li></ul>
+          </div>
+          <div>
+            <div class="scenario-cons">– Минусы</div>
+            <ul><li>MVP 6–9 месяцев</li><li>$80K–$200K на&nbsp;разработку</li><li>Нужен CTO/тех-сооснователь</li><li>Команда поддержки in-house</li></ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="scenario-card" style="background: var(--ink); color: var(--paper); border-color: var(--ink);">
+        <div class="scenario-num" style="color: var(--warm);">Вариант B · РЕКОМЕНДАЦИЯ</div>
+        <div class="scenario-title" style="color: var(--paper);">Гибрид</div>
+        <div class="scenario-desc" style="color: rgba(243, 239, 230, 0.8);">M+0–6: MVP на&nbsp;готовой LMS (LearnWorlds/Docebo). M+6–18: своя&nbsp;платформа.</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+          <div>
+            <div class="scenario-pros" style="color: #6FB377;">+ Плюсы</div>
+            <ul style="color: rgba(243, 239, 230, 0.75);"><li>Быстрый запуск 1–2&nbsp;мес</li><li>Реальная выручка раньше</li><li>Тесты гипотез до&nbsp;инвестиций</li><li>Series A — на&nbsp;свою платформу</li></ul>
+          </div>
+          <div>
+            <div class="scenario-cons" style="color: #E07A7A;">– Минусы</div>
+            <ul style="color: rgba(243, 239, 230, 0.75);"><li>Ограничения готовой&nbsp;LMS</li><li>Миграция данных позже</li></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 32px; padding: 18px 24px; background: rgba(216, 123, 42, 0.1); border-left: 3px solid var(--warm);">
+      <p class="body" style="font-size: 15px;">
+        <span class="text-warm">Инвестору это&nbsp;звучит хорошо:</span> «MVP на&nbsp;готовом, Series A — на&nbsp;собственную платформу». Разумная история, а&nbsp;не&nbsp;«дайте $200K, сделаем как&nbsp;Coursera с&nbsp;нуля».
+      </p>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <div class="block-indicator">
+      <span>Блок 5 — Развилки</span>
+      <div class="block-dots">
+        <span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot active"></span><span class="block-dot"></span>
+      </div>
+    </div>
+    <span class="slide-num">23 / 27</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 24: РАЗВИЛКА 3 - КОМАНДА -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="brand"><div class="brand-mark"></div><span>ИИ-ВИЗАЦИЯ // ВНУТРЕННИЙ ДОКУМЕНТ</span></div>
+    <div class="meta"><span>Версия 0.1</span><span>Конфиденциально</span></div>
+  </div>
+
+  <div class="slide-content">
+    <div class="eyebrow">05 · Развилки</div>
+    <h2 class="h-medium">Развилка №3 — Команда</h2>
+    <p class="lead" style="margin-top: 8px;">Какие роли нужно закрыть до&nbsp;инвест-питча.</p>
+
+    <div class="three-col" style="margin-top: 48px;">
+      <div class="card">
+        <div class="card-num">01</div>
+        <div class="card-title">Технический сооснователь / CTO</div>
+        <div class="card-body">Если строим свою платформу — обязательно. Без&nbsp;этого инвестор&nbsp;увидит&nbsp;дыру в&nbsp;команде.</div>
+        <div class="label" style="color: var(--red); margin-top: 16px; font-size: 10px;">⚠ Критично при&nbsp;Варианте&nbsp;A</div>
+      </div>
+      <div class="card">
+        <div class="card-num">02</div>
+        <div class="card-title">Второй методолог</div>
+        <div class="card-body">Сейчас Стас — единственный носитель экспертизы и&nbsp;методологии. Это&nbsp;risk concentration.</div>
+        <div class="label" style="color: var(--warm); margin-top: 16px; font-size: 10px;">↗ Желательно для&nbsp;масштаба</div>
+      </div>
+      <div class="card card-accent">
+        <div class="card-num">03</div>
+        <div class="card-title">Product owner</div>
+        <div class="card-body">Кто отвечает за&nbsp;day-to-day продукта после&nbsp;MVP? Сейчас три&nbsp;партнёра, но&nbsp;не&nbsp;закреплён&nbsp;один.</div>
+        <div class="label" style="color: var(--warm); margin-top: 16px; font-size: 10px;">→ Решить сейчас</div>
+      </div>
+    </div>
+
+    <div class="decision" style="margin-top: 48px;">
+      <div class="decision-label">Открытый вопрос</div>
+      <div class="decision-text">
+        Готовы ли мы добавить четвёртого партнёра (CTO/тех-сооснователя) или&nbsp;будем&nbsp;нанимать&nbsp;in-house на&nbsp;зарплату с&nbsp;опционами?
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <div class="block-indicator">
+      <span>Блок 5 — Развилки</span>
+      <div class="block-dots">
+        <span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot active"></span><span class="block-dot"></span>
+      </div>
+    </div>
+    <span class="slide-num">24 / 27</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 25: ОТКРЫТЫЕ ВОПРОСЫ -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="brand"><div class="brand-mark"></div><span>ИИ-ВИЗАЦИЯ // ВНУТРЕННИЙ ДОКУМЕНТ</span></div>
+    <div class="meta"><span>Версия 0.1</span><span>Конфиденциально</span></div>
+  </div>
+
+  <div class="slide-content">
+    <div class="eyebrow">05 · Развилки</div>
+    <h2 class="h-display">Открытые<br>вопросы</h2>
+    <p class="lead" style="margin-top: 16px;">Что должны решить партнёры в&nbsp;ближайшие 2&nbsp;недели.</p>
+
+    <ul class="bullets-num" style="margin-top: 48px; max-width: 1100px;">
+      <li><span class="strong" style="color: var(--ink);">Сценарий юр-структуры:</span> 1, 2 или&nbsp;3? <span style="color: var(--muted);">— Развилка №1</span></li>
+      <li><span class="strong" style="color: var(--ink);">Платформа:</span> сразу своя или&nbsp;гибрид с&nbsp;готовой&nbsp;LMS на&nbsp;старте? <span style="color: var(--muted);">— Развилка №2</span></li>
+      <li><span class="strong" style="color: var(--ink);">CTO:</span> ищем технического сооснователя или&nbsp;нанимаем in-house? <span style="color: var(--muted);">— Развилка №3</span></li>
+      <li><span class="strong" style="color: var(--ink);">Бюджет на&nbsp;MVP:</span> $50K / $200K / $500K? Источник? <span style="color: var(--muted);">— Self-funding или&nbsp;pre-seed?</span></li>
+      <li><span class="strong" style="color: var(--ink);">Timeline до&nbsp;первого paying customer на&nbsp;платформе:</span> 3, 6 или&nbsp;9&nbsp;месяцев?</li>
+      <li><span class="strong" style="color: var(--ink);">Инвест-раунд:</span> кто отвечает за&nbsp;привлечение, какая&nbsp;цель, какие&nbsp;инвесторы?</li>
+      <li><span class="strong" style="color: var(--ink);">Product owner:</span> кто из&nbsp;партнёров отвечает за&nbsp;продукт day-to-day?</li>
+      <li><span class="strong" style="color: var(--ink);">Когда выходим:</span> к&nbsp;каким инвесторам и&nbsp;с&nbsp;каким&nbsp;питчем?</li>
+    </ul>
+  </div>
+
+  <div class="slide-footer">
+    <div class="block-indicator">
+      <span>Блок 5 — Развилки</span>
+      <div class="block-dots">
+        <span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot active"></span><span class="block-dot"></span>
+      </div>
+    </div>
+    <span class="slide-num">25 / 27</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 26: ЧТО РЕШАЕМ СЕГОДНЯ -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="brand"><div class="brand-mark"></div><span>ИИ-ВИЗАЦИЯ // ВНУТРЕННИЙ ДОКУМЕНТ</span></div>
+    <div class="meta"><span>Версия 0.1</span><span>Конфиденциально</span></div>
+  </div>
+
+  <div class="slide-content">
+    <div class="eyebrow">06 · Финал</div>
+    <h2 class="h-display">Что решаем<br><span class="accent">сегодня</span></h2>
+    <p class="lead" style="margin-top: 16px;">Три решения, без&nbsp;которых следующий шаг невозможен.</p>
+
+    <div class="three-col" style="margin-top: 56px;">
+      <div class="card">
+        <div class="card-num">01</div>
+        <div class="card-title" style="color: var(--accent);">Юр-структура</div>
+        <div class="card-body" style="margin-bottom: 24px;">Выбираем сценарий 1, 2 или&nbsp;3. От&nbsp;этого зависит ВСЁ: бренд, питч, инвесторы, юрисдикция.</div>
+        <div style="padding-top: 16px; border-top: 1px solid var(--line);">
+          <div class="label" style="color: var(--ink);">Решение принимают</div>
+          <p style="font-size: 14px; margin-top: 6px;">Рафаэль + Рома + Стас</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-num">02</div>
+        <div class="card-title" style="color: var(--accent);">Стек платформы</div>
+        <div class="card-body" style="margin-bottom: 24px;">Своя сразу или&nbsp;гибрид. От&nbsp;этого зависит бюджет MVP в&nbsp;5–10&nbsp;раз и&nbsp;timeline до&nbsp;запуска.</div>
+        <div style="padding-top: 16px; border-top: 1px solid var(--line);">
+          <div class="label" style="color: var(--ink);">Решение принимают</div>
+          <p style="font-size: 14px; margin-top: 6px;">Стас (как product) + Рафаэль (CEO)</p>
+        </div>
+      </div>
+
+      <div class="card card-accent">
+        <div class="card-num">03</div>
+        <div class="card-title" style="color: var(--warm);">Бюджет и&nbsp;source</div>
+        <div class="card-body" style="margin-bottom: 24px;">Сколько денег и&nbsp;откуда: self-funding из&nbsp;текущей выручки, дружественный raise, pre-seed&nbsp;round?</div>
+        <div style="padding-top: 16px; border-top: 1px solid rgba(243, 239, 230, 0.15);">
+          <div class="label" style="color: var(--warm);">Решение принимают</div>
+          <p style="font-size: 14px; margin-top: 6px; color: rgba(243, 239, 230, 0.85);">Рафаэль + Рома (инвест-каналы)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <div class="block-indicator">
+      <span>Блок 6 — Финал</span>
+      <div class="block-dots">
+        <span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot active"></span>
+      </div>
+    </div>
+    <span class="slide-num">26 / 27</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SLIDE 27: NEXT STEPS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div class="slide-header">
+    <div class="brand"><div class="brand-mark"></div><span>ИИ-ВИЗАЦИЯ // ВНУТРЕННИЙ ДОКУМЕНТ</span></div>
+    <div class="meta"><span>Версия 0.1</span><span>Конфиденциально</span></div>
+  </div>
+
+  <div class="slide-content">
+    <div class="eyebrow">06 · Финал · План действий</div>
+    <h2 class="h-display">Next <span class="accent">Steps</span></h2>
+
+    <div style="margin-top: 56px; display: grid; grid-template-columns: 80px 1fr 240px; gap: 32px; row-gap: 0;">
+      <div style="padding: 24px 0; border-top: 2px solid var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; color: var(--accent);">M+0</div>
+      <div style="padding: 24px 0; border-top: 2px solid var(--ink);">
+        <div class="h-small">Согласовать концепцию</div>
+        <p class="body-small" style="margin-top: 4px;">Партнёры читают этот документ. Закрываем 3&nbsp;ключевых решения.</p>
+      </div>
+      <div style="padding: 24px 0; border-top: 2px solid var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);">Стас, Рафаэль, Рома</div>
+
+      <div style="padding: 24px 0; border-top: 1px solid var(--line); font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; color: var(--accent);">M+2</div>
+      <div style="padding: 24px 0; border-top: 1px solid var(--line);">
+        <div class="h-small">Методическая анкета + диагностика</div>
+        <p class="body-small" style="margin-top: 4px;">Доработка под&nbsp;фреймворк 8&nbsp;уровней. Первый MVP-deliverable.</p>
+      </div>
+      <div style="padding: 24px 0; border-top: 1px solid var(--line); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);">Стас</div>
+
+      <div style="padding: 24px 0; border-top: 1px solid var(--line); font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; color: var(--accent);">M+2</div>
+      <div style="padding: 24px 0; border-top: 1px solid var(--line);">
+        <div class="h-small">Сбор 5–10 пилотных клиентов</div>
+        <p class="body-small" style="margin-top: 4px;">Бесплатная диагностика → кейсы → данные для&nbsp;питча инвестору.</p>
+      </div>
+      <div style="padding: 24px 0; border-top: 1px solid var(--line); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);">Рафаэль, продюсерский центр</div>
+
+      <div style="padding: 24px 0; border-top: 1px solid var(--line); font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; color: var(--accent);">M+3</div>
+      <div style="padding: 24px 0; border-top: 1px solid var(--line);">
+        <div class="h-small">Инвест-питч (10–12 слайдов)</div>
+        <p class="body-small" style="margin-top: 4px;">Внешний документ для&nbsp;инвесторов в&nbsp;Дубае. С&nbsp;TAM/SAM, comparables, x10-логикой.</p>
+      </div>
+      <div style="padding: 24px 0; border-top: 1px solid var(--line); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);">Стас + Рафаэль</div>
+
+      <div style="padding: 24px 0; border-top: 1px solid var(--line); border-bottom: 2px solid var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; color: var(--warm);">M+4</div>
+      <div style="padding: 24px 0; border-top: 1px solid var(--line); border-bottom: 2px solid var(--ink);">
+        <div class="h-small" style="color: var(--warm);">Первые встречи с&nbsp;инвесторами</div>
+        <p class="body-small" style="margin-top: 4px;">Дубай через&nbsp;Рому. Параллельно — RU/русскоязычные ангелы.</p>
+      </div>
+      <div style="padding: 24px 0; border-top: 1px solid var(--line); border-bottom: 2px solid var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);">Рома + Рафаэль</div>
+    </div>
+
+    <div style="margin-top: 48px; text-align: center; font-family: 'Bricolage Grotesque', sans-serif; font-style: italic; font-weight: 500; font-size: 24px; color: var(--ink);">
+      Жгу. Жду решения. — <span style="color: var(--accent);">Stas</span>
+    </div>
+  </div>
+
+  <div class="slide-footer">
+    <div class="block-indicator">
+      <span>Блок 6 — Финал</span>
+      <div class="block-dots">
+        <span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot"></span><span class="block-dot active"></span>
+      </div>
+    </div>
+    <span class="slide-num">27 / 27</span>
+  </div>
+</section>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- CONTROLS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="controls">
+  <button class="ctrl-btn" id="prevBtn" title="Назад (←)">←</button>
+  <button class="ctrl-btn" id="overviewBtn" title="Все слайды (Esc)">⊞</button>
+  <button class="ctrl-btn" id="nextBtn" title="Вперёд (→ / Space)">→</button>
+</div>
+
+<div class="hint">
+  <span><kbd>←</kbd> <kbd>→</kbd> навигация</span>
+  <span><kbd>Esc</kbd> все слайды</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- OVERVIEW -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="overview" id="overview">
+  <div class="overview-header">
+    <div class="overview-title">Все 27&nbsp;слайдов</div>
+    <button class="overview-close" id="overviewClose">Закрыть · Esc</button>
+  </div>
+  <div class="overview-grid" id="overviewGrid"></div>
+</div>
+
+<script>
+const deck = document.getElementById('deck');
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let current = 0;
+
+const slideMeta = [
+  {block: 'Контекст', title: 'Обложка'},
+  {block: 'Контекст', title: 'Зачем этот документ'},
+  {block: 'Контекст', title: 'Что у нас уже есть'},
+  {block: 'Контекст', title: 'Почему сейчас'},
+  {block: 'Видение', title: 'Кто наш клиент (ICP)'},
+  {block: 'Видение', title: 'Не курсы. Дорожная карта'},
+  {block: 'Видение', title: 'Фреймворк 8 уровней Романа'},
+  {block: 'Видение', title: 'Продуктовый флоу'},
+  {block: 'Видение', title: 'Сравнение с конкурентами'},
+  {block: 'MVP', title: 'MVP — три кита'},
+  {block: 'MVP', title: 'Анкета и диагностика'},
+  {block: 'MVP', title: 'Методология диагностики'},
+  {block: 'MVP', title: 'Три тарифа подписки'},
+  {block: 'MVP', title: 'Сертификация и anti-cheat'},
+  {block: 'MVP', title: 'Мультиязычность'},
+  {block: 'Инвентарь', title: 'Скринкасты (12)'},
+  {block: 'Инвентарь', title: 'Презентации (7)'},
+  {block: 'Инвентарь', title: 'Методички и памятки'},
+  {block: 'Инвентарь', title: 'Шаблоны и SOUL.md'},
+  {block: 'Инвентарь', title: 'Курс «AI-офис под бизнес»'},
+  {block: 'Инвентарь', title: 'Карта: контент → уровни'},
+  {block: 'Развилки', title: 'Развилка №1: Юр-структура'},
+  {block: 'Развилки', title: 'Развилка №2: LMS'},
+  {block: 'Развилки', title: 'Развилка №3: Команда'},
+  {block: 'Развилки', title: 'Открытые вопросы'},
+  {block: 'Финал', title: 'Что решаем сегодня'},
+  {block: 'Финал', title: 'Next Steps'}
+];
+
+function goTo(idx) {
+  if (idx < 0 || idx >= total) return;
+  current = idx;
+  deck.style.transform = `translateX(-${current * 100}vw)`;
+  slides.forEach((s, i) => s.classList.toggle('active', i === current));
+  updateOverview();
+}
+
+function next() { goTo(Math.min(current + 1, total - 1)); }
+function prev() { goTo(Math.max(current - 1, 0)); }
+
+document.getElementById('nextBtn').addEventListener('click', next);
+document.getElementById('prevBtn').addEventListener('click', prev);
+
+const overview = document.getElementById('overview');
+const overviewGrid = document.getElementById('overviewGrid');
+
+slideMeta.forEach((meta, i) => {
+  const thumb = document.createElement('div');
+  thumb.className = 'overview-thumb';
+  thumb.innerHTML = `
+    <div>
+      <div class="thumb-num">${String(i + 1).padStart(2, '0')} / 27</div>
+      <div class="thumb-title">${meta.title}</div>
+    </div>
+    <div class="thumb-block">Блок · ${meta.block}</div>
+  `;
+  thumb.addEventListener('click', () => {
+    goTo(i);
+    overview.classList.remove('active');
+  });
+  overviewGrid.appendChild(thumb);
+});
+
+function updateOverview() {
+  document.querySelectorAll('.overview-thumb').forEach((t, i) => {
+    t.classList.toggle('current', i === current);
+  });
+}
+
+document.getElementById('overviewBtn').addEventListener('click', () => {
+  overview.classList.toggle('active');
+});
+document.getElementById('overviewClose').addEventListener('click', () => {
+  overview.classList.remove('active');
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+    e.preventDefault();
+    next();
+  } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+    e.preventDefault();
+    prev();
+  } else if (e.key === 'Escape') {
+    overview.classList.toggle('active');
+  } else if (e.key === 'Home') {
+    goTo(0);
+  } else if (e.key === 'End') {
+    goTo(total - 1);
+  }
+});
+
+// Init
+goTo(0);
+</script>
+
+</body>
+</html>
