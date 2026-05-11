@@ -94,11 +94,13 @@ body::after {
   padding-bottom: 16px;
   border-bottom: 1px solid var(--line);
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 13px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--muted);
 }
+
+.slide-header .brand span { font-weight: 600; }
 
 .slide-header .brand {
   display: flex;
@@ -130,6 +132,7 @@ body::after {
 
 .slide-header .meta span {
   color: var(--ink-soft);
+  font-weight: 600;
 }
 
 /* === FOOTER === */
@@ -140,11 +143,13 @@ body::after {
   padding-top: 16px;
   border-top: 1px solid var(--line);
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 13px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--muted);
 }
+
+.block-indicator span { font-size: 13px; }
 
 .block-indicator {
   display: flex;
@@ -171,6 +176,7 @@ body::after {
 .slide-num {
   color: var(--ink);
   font-weight: 600;
+  font-size: 13px;
 }
 
 /* === SLIDE CONTENT === */
@@ -184,7 +190,7 @@ body::after {
 
 .eyebrow {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
+  font-size: 14px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--accent);
@@ -233,7 +239,7 @@ body::after {
 }
 
 .lead {
-  font-size: 24px;
+  font-size: 25px;
   line-height: 1.45;
   color: var(--ink-soft);
   max-width: 880px;
@@ -241,7 +247,7 @@ body::after {
 }
 
 .body {
-  font-size: 19px;
+  font-size: 20px;
   line-height: 1.55;
   color: var(--ink-soft);
 }
@@ -273,7 +279,7 @@ body::after {
   display: flex;
   gap: 18px;
   align-items: flex-start;
-  font-size: 20px;
+  font-size: 21px;
   line-height: 1.45;
   color: var(--ink-soft);
 }
@@ -315,6 +321,31 @@ body::after {
   font-weight: 600;
   margin-top: 5px;
   flex-shrink: 0;
+}
+
+.bullets-num li:has(.li-title) {
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.bullets-num li:has(.li-title) > .li-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.bullets-num .li-title {
+  font-weight: 600;
+  color: var(--ink);
+  font-size: 21px;
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+
+.bullets-num .li-desc {
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--muted);
 }
 
 /* === GRID LAYOUTS === */
@@ -365,7 +396,7 @@ body::after {
 }
 
 .card-body {
-  font-size: 17px;
+  font-size: 18px;
   line-height: 1.5;
   color: var(--ink-soft);
 }
@@ -1424,7 +1455,7 @@ body::after {
     <div class="two-col" style="margin-top: 32px; gap: 80px;">
       <div>
         <p class="lead">
-          Мы меняем позиционирование с&nbsp;edu-центра на <span class="text-accent">международную B2B-платформу</span> с&nbsp;уникальной методологией диагностики и внедрения AI.
+          Мы меняем позиционирование с&nbsp;образовательного центра на <span class="text-accent">международную B2B-платформу</span> с&nbsp;уникальной методологией диагностики и внедрения AI.
         </p>
         <p class="lead" style="margin-top: 20px; font-size: 18px;">
           Этот документ — основа для стратегического разговора партнёров перед переходом к&nbsp;внешнему инвест-питчу.
@@ -1576,12 +1607,12 @@ body::after {
   </div>
 
   <div class="slide-content">
-    <div class="eyebrow">02 · Видение · ICP — Ideal Client Portrait</div>
-    <h2 class="h-display">Кто наш клиент <span style="font-size: 0.42em; color: var(--muted); font-weight: 400; font-style: italic; letter-spacing: -0.01em;">(идеальный портрет)</span></h2>
+    <div class="eyebrow">02 · Видение · Идеальный портрет клиента</div>
+    <h2 class="h-display">Кто наш клиент</h2>
 
     <div class="quote" style="margin-top: 32px; font-size: 30px;">
       «Клиент, который чувствует, что опаздывает,<br>не знает, с&nbsp;чего начать. <span class="text-accent">Мы ему помогаем.</span>»
-      <span class="quote-author">— Формулировка ICP, Стас</span>
+      <span class="quote-author">— Формулировка идеального портрета, Стас</span>
     </div>
 
     <div style="margin-top: 56px;">
@@ -1802,7 +1833,7 @@ body::after {
     </div>
 
     <div class="decision" style="margin-top: 56px;">
-      <div class="decision-label">Ключевая retention-механика</div>
+      <div class="decision-label">Ключевой механизм удержания клиента</div>
       <div class="decision-text">
         Шаг 05 — это причина, по которой клиент не отменяет подписку. <br>Он видит, что заплатил → вырос → может показать совету директоров.
       </div>
@@ -1942,7 +1973,7 @@ body::after {
     <div class="decision" style="margin-top: 48px;">
       <div class="decision-label">Приоритет запуска</div>
       <div class="decision-text">
-        Начинаем с&nbsp;<span class="text-warm">анкеты и диагностики</span> (главный USP — Unique Selling Proposition, наш ключевой отличительный признак), параллельно разворачиваем контент. <br>Контента на русском уже уйма — пакуем в&nbsp;модули MVP.
+        Начинаем с&nbsp;<span class="text-warm">анкеты и диагностики</span> (наше главное УТП — уникальное торговое предложение), параллельно разворачиваем контент. <br>Контента на русском уже уйма — пакуем в&nbsp;модули MVP.
       </div>
     </div>
   </div>
@@ -1975,9 +2006,24 @@ body::after {
       <div>
         <div class="label" style="margin-bottom: 18px;">Что уже есть и работает</div>
         <ul class="bullets-num">
-          <li><span class="strong">Входная анкета</span> — на сотрудника, замер «до» (8&nbsp;секций, 30+&nbsp;вопросов)</li>
-          <li><span class="strong">Анкета прогресса</span> — re-assessment после обучения, замер «после»</li>
-          <li><span class="strong">Аудит процессов</span> — для руководителей отделов, основа дорожной карты</li>
+          <li>
+            <div class="li-content">
+              <div class="li-title">Входная анкета</div>
+              <div class="li-desc">На сотрудника, замер «до». 8&nbsp;секций, 30+&nbsp;вопросов.</div>
+            </div>
+          </li>
+          <li>
+            <div class="li-content">
+              <div class="li-title">Анкета прогресса</div>
+              <div class="li-desc">Повторная оценка после обучения, замер «после».</div>
+            </div>
+          </li>
+          <li>
+            <div class="li-content">
+              <div class="li-title">Аудит процессов</div>
+              <div class="li-desc">Для руководителей отделов, основа дорожной карты.</div>
+            </div>
+          </li>
         </ul>
       </div>
 
@@ -2022,7 +2068,7 @@ body::after {
 
   <div class="slide-content">
     <div class="eyebrow">03 · MVP · Уникальный актив</div>
-    <h2 class="h-medium">Методология диагностики — <span style="color: var(--warm); font-style: italic;">наш главный USP</span></h2>
+    <h2 class="h-medium">Методология диагностики — <span style="color: var(--warm); font-style: italic;">наше главное УТП</span></h2>
     <p class="lead" style="margin-top: 8px; max-width: 920px;">
       Не «угадай уровень» — а измерь по 5&nbsp;методам, покажи рост раз в&nbsp;квартал.
     </p>
@@ -2051,7 +2097,7 @@ body::after {
       <div class="flow-step">
         <div class="flow-num">Метод 05</div>
         <div class="flow-title">Re-assessment</div>
-        <div class="flow-desc">Раз в&nbsp;квартал. Динамика, causal proof, retention.</div>
+        <div class="flow-desc">Раз в&nbsp;квартал. Динамика, доказательство эффекта, удержание клиента.</div>
       </div>
     </div>
 
@@ -2239,20 +2285,20 @@ body::after {
     <div class="three-col" style="margin-top: 56px;">
       <div class="card">
         <div class="card-num">Phase 01</div>
-        <div class="card-title">RU · M+0 → M+3</div>
-        <div class="card-body" style="margin-bottom: 16px;">Запуск на русском. 40+ материалов уже готовы. Рынок РФ и СНГ.</div>
+        <div class="card-title">RU · M+0 → M+2</div>
+        <div class="card-body" style="margin-bottom: 16px;">Запуск на русском. 40+ материалов готовы. Рынок РФ и СНГ. 2 месяца на полный запуск.</div>
         <div class="label" style="color: var(--green);">✓ Контент готов</div>
       </div>
       <div class="card">
         <div class="card-num">Phase 02</div>
-        <div class="card-title">EN · M+3 → M+6</div>
-        <div class="card-body" style="margin-bottom: 16px;">Перевод + культурная адаптация. US/EU enterprise, ОАЭ. 3 месяца на полный запуск.</div>
+        <div class="card-title">EN · M+3 → M+4</div>
+        <div class="card-body" style="margin-bottom: 16px;">Локализация + культурная адаптация. US/EU enterprise, ОАЭ. 1–2 месяца на полный запуск.</div>
         <div class="label" style="color: var(--warm);">↗ Локализация, не перевод</div>
       </div>
       <div class="card card-accent">
         <div class="card-num">Phase 03</div>
-        <div class="card-title">ES · M+6 → M+9</div>
-        <div class="card-body" style="margin-bottom: 16px;">LatAm-рынок. Большой объём, низкая конкуренция в&nbsp;нише.</div>
+        <div class="card-title">ES · M+5 → M+6</div>
+        <div class="card-body" style="margin-bottom: 16px;">LatAm-рынок. Большой объём, низкая конкуренция в&nbsp;нише. 1–2 месяца на запуск.</div>
         <div class="label" style="color: var(--warm); font-size: 10px;">→ Третий язык</div>
       </div>
     </div>
@@ -2289,7 +2335,7 @@ body::after {
     <div class="eyebrow">04 · Инвентарь контента</div>
     <h2 class="h-display">Скринкасты <span style="color: var(--muted); font-weight: 400; font-style: italic; font-size: 0.6em;">— 12&nbsp;видео</span></h2>
 
-    <div class="materials" style="margin-top: 32px;">
+    <div class="materials" style="margin-top: 32px; grid-template-rows: repeat(6, auto); grid-auto-flow: column;">
       <div class="material-item"><span class="num">01</span><span class="name">Базовая работа с&nbsp;ChatGPT</span></div>
       <div class="material-item"><span class="num">02</span><span class="name">Настройка профиля в&nbsp;ChatGPT</span></div>
       <div class="material-item"><span class="num">03</span><span class="name">Управление корпоративным аккаунтом в&nbsp;ChatGPT</span></div>
@@ -2338,9 +2384,9 @@ body::after {
 
   <div class="slide-content">
     <div class="eyebrow">04 · Инвентарь контента</div>
-    <h2 class="h-display">Презентации <span style="color: var(--muted); font-weight: 400; font-style: italic; font-size: 0.6em;">— 7&nbsp;штук</span></h2>
+    <h2 class="h-display">Учебные презентации <span style="color: var(--muted); font-weight: 400; font-style: italic; font-size: 0.6em;">— 7&nbsp;штук</span></h2>
 
-    <div class="materials" style="margin-top: 32px;">
+    <div class="materials" style="margin-top: 32px; grid-template-rows: repeat(4, auto); grid-auto-flow: column;">
       <div class="material-item"><span class="num">01</span><span class="name">Современные применения ИИ в&nbsp;работе и жизни</span></div>
       <div class="material-item"><span class="num">02</span><span class="name">LLM: введение в&nbsp;работу нейросетей, ошибки и инсайты использования</span></div>
       <div class="material-item"><span class="num">03</span><span class="name">Информационная безопасность при работе с&nbsp;нейросетями</span></div>
@@ -2499,14 +2545,14 @@ body::after {
   </div>
 
   <div class="slide-content">
-    <div class="eyebrow">04 · Инвентарь контента · USP</div>
+    <div class="eyebrow">04 · Инвентарь контента · УТП</div>
     <h2 class="h-display">Курс<br><span class="accent">«AI-офис под бизнес»</span></h2>
     <p class="lead" style="margin-top: 16px;">7 модулей. Уникальный актив, которого нет ни у&nbsp;кого на рынке.</p>
 
     <div class="materials" style="margin-top: 40px; grid-template-columns: 1fr;">
       <div class="material-item" style="grid-template-columns: 24px 240px 1fr;">
         <span class="num">01</span>
-        <span class="name" style="color: var(--warm); font-weight: 600;">Настройка инфраструктуры под разные юрисдикции</span>
+        <span class="name" style="color: var(--accent); font-weight: 600;">Настройка инфраструктуры под разные юрисдикции</span>
         <span class="name" style="color: var(--muted); font-size: 13px;">VPN-контур • Аккаунты • Доступы для распределённых команд • RU/международные провайдеры</span>
       </div>
       <div class="material-item" style="grid-template-columns: 24px 240px 1fr;">
@@ -2536,7 +2582,7 @@ body::after {
       </div>
       <div class="material-item" style="grid-template-columns: 24px 240px 1fr;">
         <span class="num">07</span>
-        <span class="name" style="color: var(--warm); font-weight: 600;">Создание и расширение AI-офиса · Визуализация</span>
+        <span class="name" style="color: var(--accent); font-weight: 600;">Создание и расширение AI-офиса · Визуализация</span>
         <span class="name" style="color: var(--muted); font-size: 13px;">Финальная сборка под задачи бизнеса • Дашборды • Отчётность • Визуализация процессов</span>
       </div>
     </div>
@@ -2544,7 +2590,7 @@ body::after {
     <div style="margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
       <div style="padding: 20px 24px; background: rgba(255,255,255,0.5); border: 1px solid var(--line);">
         <div class="label" style="margin-bottom: 6px;">Статус</div>
-        <p style="font-size: 14px;"><span style="color: var(--green); font-weight: 600;">✓</span> Модули 02–05 готовы · 06 в&nbsp;работе (3 из 4&nbsp;частей) · 01 и 07 в&nbsp;проработке</p>
+        <p style="font-size: 14px;"><span style="color: var(--green); font-weight: 600;">✓</span> Все 7 модулей готовы к&nbsp;использованию</p>
       </div>
       <div style="padding: 20px 24px; background: var(--ink); color: var(--paper);">
         <div class="label" style="color: var(--warm); margin-bottom: 6px;">Применение</div>
@@ -2615,13 +2661,13 @@ body::after {
           <td class="strong accent-cell">4</td>
           <td class="strong">Процессные автоматизации</td>
           <td>Урок «n8n + Cron», Урок «Инфраструктура OpenClaw»</td>
-          <td style="text-align: center; color: var(--warm); font-weight: 600;">↗ Хорошее</td>
+          <td style="text-align: center; color: var(--green); font-weight: 600;">✓ Покрыто</td>
         </tr>
         <tr>
           <td class="strong accent-cell">5</td>
           <td class="strong">AI-агенты</td>
           <td>SOUL.md, Mentor/Консьерж, Skills для Claude</td>
-          <td style="text-align: center; color: var(--warm); font-weight: 600;">↗ Частичное</td>
+          <td style="text-align: center; color: var(--green); font-weight: 600;">✓ Покрыто</td>
         </tr>
         <tr>
           <td class="strong accent-cell">6</td>
@@ -2738,7 +2784,7 @@ body::after {
   <div class="slide-content">
     <div class="eyebrow">05 · Развилки</div>
     <h2 class="h-medium">Развилка №2 — Своя платформа vs готовая LMS</h2>
-    <p class="lead" style="margin-top: 8px;">Стас хочет свою — это влияет на бюджет и timeline в&nbsp;5–10 раз.</p>
+    <p class="lead" style="margin-top: 8px;">Решение влияет на бюджет и timeline в&nbsp;5–10 раз.</p>
 
     <div class="two-col" style="margin-top: 40px; gap: 48px;">
       <div class="scenario-card">
@@ -2822,7 +2868,7 @@ body::after {
       <div class="card card-accent">
         <div class="card-num">03</div>
         <div class="card-title">Product owner</div>
-        <div class="card-body">Кто отвечает за day-to-day продукта после MVP? Сейчас три партнёра, но не закреплён&nbsp;один.</div>
+        <div class="card-body">Кто отвечает за продукт ежедневно после запуска MVP? Сейчас три партнёра, но один человек на эту роль не закреплён.</div>
         <div class="label" style="color: var(--warm); margin-top: 16px; font-size: 10px;">→ Решить сейчас</div>
       </div>
     </div>
@@ -2867,7 +2913,7 @@ body::after {
       <li><span class="strong" style="color: var(--ink);">Бюджет на MVP:</span> $50K / $200K / $500K? Источник? <span style="color: var(--muted);">— Self-funding или pre-seed?</span></li>
       <li><span class="strong" style="color: var(--ink);">Timeline до первого paying customer на платформе:</span> 3, 6 или 9&nbsp;месяцев?</li>
       <li><span class="strong" style="color: var(--ink);">Инвест-раунд:</span> кто отвечает за привлечение, какая цель, какие инвесторы?</li>
-      <li><span class="strong" style="color: var(--ink);">Product owner:</span> кто из партнёров отвечает за продукт day-to-day?</li>
+      <li><span class="strong" style="color: var(--ink);">Product owner:</span> кто из партнёров отвечает за продукт ежедневно?</li>
       <li><span class="strong" style="color: var(--ink);">Когда выходим:</span> к&nbsp;каким инвесторам и с&nbsp;каким питчем?</li>
     </ul>
   </div>
@@ -2904,7 +2950,7 @@ body::after {
         <div class="card-body" style="margin-bottom: 24px;">Выбираем сценарий 1, 2 или 3. От этого зависит ВСЁ: бренд, питч, инвесторы, юрисдикция.</div>
         <div style="padding-top: 16px; border-top: 1px solid var(--line);">
           <div class="label" style="color: var(--ink);">Решение принимают</div>
-          <p style="font-size: 14px; margin-top: 6px;">Рафаэль + Рома + Стас</p>
+          <p style="font-size: 14px; margin-top: 6px;">Рафаэль + Роман + Стас</p>
         </div>
       </div>
 
@@ -2924,7 +2970,7 @@ body::after {
         <div class="card-body" style="margin-bottom: 24px;">Сколько денег и откуда: self-funding из текущей выручки, дружественный raise, pre-seed round?</div>
         <div style="padding-top: 16px; border-top: 1px solid rgba(243, 239, 230, 0.15);">
           <div class="label" style="color: var(--warm);">Решение принимают</div>
-          <p style="font-size: 14px; margin-top: 6px; color: rgba(243, 239, 230, 0.85);">Рафаэль + Рома (инвест-каналы)</p>
+          <p style="font-size: 14px; margin-top: 6px; color: rgba(243, 239, 230, 0.85);">Рафаэль + Роман (инвест-каналы)</p>
         </div>
       </div>
     </div>
@@ -2960,12 +3006,12 @@ body::after {
         <div class="h-small">Согласовать концепцию</div>
         <p class="body-small" style="margin-top: 4px;">Партнёры читают этот документ. Закрываем 3&nbsp;ключевых решения.</p>
       </div>
-      <div style="padding: 24px 0; border-top: 2px solid var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);">Стас, Рафаэль, Рома</div>
+      <div style="padding: 24px 0; border-top: 2px solid var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);">Стас, Рафаэль, Роман</div>
 
       <div style="padding: 24px 0; border-top: 1px solid var(--line); font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; color: var(--accent);">M+2</div>
       <div style="padding: 24px 0; border-top: 1px solid var(--line);">
         <div class="h-small">Методическая анкета + диагностика</div>
-        <p class="body-small" style="margin-top: 4px;">Доработка под фреймворк 8&nbsp;уровней. Первый MVP-deliverable.</p>
+        <p class="body-small" style="margin-top: 4px;">Доработка под фреймворк 8&nbsp;уровней. Первый рабочий результат для MVP.</p>
       </div>
       <div style="padding: 24px 0; border-top: 1px solid var(--line); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);">Стас</div>
 
@@ -2986,13 +3032,9 @@ body::after {
       <div style="padding: 24px 0; border-top: 1px solid var(--line); border-bottom: 2px solid var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; color: var(--warm);">M+4</div>
       <div style="padding: 24px 0; border-top: 1px solid var(--line); border-bottom: 2px solid var(--ink);">
         <div class="h-small" style="color: var(--warm);">Первые встречи с&nbsp;инвесторами</div>
-        <p class="body-small" style="margin-top: 4px;">Дубай через Рому. Параллельно — RU/русскоязычные ангелы.</p>
+        <p class="body-small" style="margin-top: 4px;">Дубай через Романа. Параллельно — русскоязычные ангелы.</p>
       </div>
-      <div style="padding: 24px 0; border-top: 1px solid var(--line); border-bottom: 2px solid var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);">Рома + Рафаэль</div>
-    </div>
-
-    <div style="margin-top: 48px; text-align: center; font-family: 'Bricolage Grotesque', sans-serif; font-style: italic; font-weight: 500; font-size: 24px; color: var(--ink);">
-      Жгу. Жду решения. — <span style="color: var(--accent);">Stas</span>
+      <div style="padding: 24px 0; border-top: 1px solid var(--line); border-bottom: 2px solid var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);">Роман + Рафаэль</div>
     </div>
   </div>
 
@@ -3045,7 +3087,7 @@ const slideMeta = [
   {block: 'Контекст', title: 'Зачем этот документ'},
   {block: 'Контекст', title: 'Что у нас уже есть'},
   {block: 'Контекст', title: 'Почему сейчас'},
-  {block: 'Видение', title: 'Кто наш клиент (ICP)'},
+  {block: 'Видение', title: 'Кто наш клиент (идеальный портрет)'},
   {block: 'Видение', title: 'Не курсы. Дорожная карта'},
   {block: 'Видение', title: 'Фреймворк 8 уровней Романа'},
   {block: 'Видение', title: 'Продуктовый флоу'},
