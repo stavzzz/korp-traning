@@ -70,12 +70,21 @@ body::after {
 .slide {
   width: 100vw;
   height: 100vh;
+  min-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--muted) transparent;
   flex-shrink: 0;
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: 48px 80px;
+  padding: 36px 64px 80px 64px;
 }
+
+.slide::-webkit-scrollbar { width: 6px; }
+.slide::-webkit-scrollbar-track { background: transparent; }
+.slide::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 3px; }
 
 /* === HEADER === */
 .slide-header {
@@ -169,9 +178,8 @@ body::after {
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 48px 0;
+  padding: 32px 0;
   position: relative;
-  overflow: hidden;
 }
 
 .eyebrow {
@@ -196,7 +204,7 @@ body::after {
 
 .h-display {
   font-family: 'Bricolage Grotesque', sans-serif;
-  font-weight: 700;
+  font-weight: 750;
   font-size: clamp(48px, 5.2vw, 84px);
   line-height: 0.96;
   letter-spacing: -0.025em;
@@ -219,13 +227,13 @@ body::after {
 .h-small {
   font-family: 'Bricolage Grotesque', sans-serif;
   font-weight: 600;
-  font-size: 24px;
+  font-size: 26px;
   line-height: 1.2;
   letter-spacing: -0.01em;
 }
 
 .lead {
-  font-size: 22px;
+  font-size: 24px;
   line-height: 1.45;
   color: var(--ink-soft);
   max-width: 880px;
@@ -233,20 +241,21 @@ body::after {
 }
 
 .body {
-  font-size: 17px;
+  font-size: 19px;
   line-height: 1.55;
   color: var(--ink-soft);
 }
 
 .body-small {
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.5;
   color: var(--muted);
 }
 
 .label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 12px;
+  font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted);
@@ -264,7 +273,7 @@ body::after {
   display: flex;
   gap: 18px;
   align-items: flex-start;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.45;
   color: var(--ink-soft);
 }
@@ -291,7 +300,7 @@ body::after {
   display: flex;
   gap: 24px;
   align-items: flex-start;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.45;
   color: var(--ink-soft);
   counter-increment: bullet;
@@ -300,7 +309,7 @@ body::after {
 .bullets-num li::before {
   content: counter(bullet, decimal-leading-zero);
   font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 0.05em;
   color: var(--accent);
   font-weight: 600;
@@ -341,7 +350,7 @@ body::after {
   top: 20px;
   right: 24px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 12px;
   color: var(--muted);
   letter-spacing: 0.1em;
 }
@@ -349,14 +358,14 @@ body::after {
 .card-title {
   font-family: 'Bricolage Grotesque', sans-serif;
   font-weight: 600;
-  font-size: 22px;
+  font-size: 24px;
   line-height: 1.15;
   margin-bottom: 12px;
   letter-spacing: -0.01em;
 }
 
 .card-body {
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1.5;
   color: var(--ink-soft);
 }
@@ -375,23 +384,23 @@ body::after {
 .table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 15px;
+  font-size: 16px;
 }
 
 .table th {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--muted);
   text-align: left;
-  padding: 14px 16px 14px 0;
+  padding: 12px 16px 12px 0;
   border-bottom: 1.5px solid var(--ink);
   font-weight: 500;
 }
 
 .table td {
-  padding: 14px 16px 14px 0;
+  padding: 12px 16px 12px 0;
   border-bottom: 1px solid var(--line);
   vertical-align: top;
   line-height: 1.4;
@@ -427,7 +436,7 @@ body::after {
 .metric-value {
   font-family: 'Bricolage Grotesque', sans-serif;
   font-weight: 700;
-  font-size: 56px;
+  font-size: 60px;
   line-height: 0.95;
   letter-spacing: -0.03em;
   color: var(--ink);
@@ -442,7 +451,7 @@ body::after {
 
 .metric-label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted);
@@ -450,7 +459,7 @@ body::after {
 }
 
 .metric-desc {
-  font-size: 14px;
+  font-size: 16px;
   color: var(--ink-soft);
   line-height: 1.4;
 }
@@ -477,7 +486,7 @@ body::after {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 64px 0;
+  padding: 48px 0;
 }
 
 .cover-eyebrow {
@@ -576,7 +585,7 @@ body::after {
 
 .ladder-num {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 24px;
+  font-size: 26px;
   font-weight: 600;
   color: var(--accent);
   letter-spacing: -0.02em;
@@ -585,19 +594,19 @@ body::after {
 .ladder-name {
   font-family: 'Bricolage Grotesque', sans-serif;
   font-weight: 600;
-  font-size: 17px;
+  font-size: 19px;
   letter-spacing: -0.01em;
 }
 
 .ladder-desc {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--ink-soft);
   line-height: 1.35;
 }
 
 .ladder-tag {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   padding: 4px 10px;
@@ -642,7 +651,7 @@ body::after {
 
 .flow-num {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 12px;
   color: var(--accent);
   letter-spacing: 0.1em;
   margin-bottom: 8px;
@@ -651,13 +660,13 @@ body::after {
 .flow-title {
   font-family: 'Bricolage Grotesque', sans-serif;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.2;
   margin-bottom: 6px;
 }
 
 .flow-desc {
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.4;
   color: var(--muted);
 }
@@ -668,7 +677,7 @@ body::after {
   grid-template-columns: repeat(2, 1fr);
   gap: 4px 32px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
+  font-size: 13px;
   margin-top: 16px;
 }
 
@@ -676,7 +685,7 @@ body::after {
   display: grid;
   grid-template-columns: 24px 1fr;
   gap: 8px;
-  padding: 7px 0;
+  padding: 9px 0;
   border-bottom: 1px solid var(--line);
   align-items: baseline;
 }
@@ -684,12 +693,13 @@ body::after {
 .material-item .num {
   color: var(--muted);
   font-weight: 600;
+  font-size: 14px;
 }
 
 .material-item .name {
   color: var(--ink);
   font-family: 'Manrope', sans-serif;
-  font-size: 14px;
+  font-size: 17px;
   line-height: 1.3;
 }
 
@@ -729,7 +739,7 @@ body::after {
 
 .tier-name {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--accent);
@@ -739,7 +749,7 @@ body::after {
 .tier-title {
   font-family: 'Bricolage Grotesque', sans-serif;
   font-weight: 700;
-  font-size: 28px;
+  font-size: 32px;
   line-height: 1;
   letter-spacing: -0.02em;
 }
@@ -754,7 +764,7 @@ body::after {
 }
 
 .tier-features li {
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.4;
   color: var(--ink-soft);
   padding: 8px 0;
@@ -764,7 +774,7 @@ body::after {
 .tier-price {
   font-family: 'Bricolage Grotesque', sans-serif;
   font-weight: 700;
-  font-size: 24px;
+  font-size: 28px;
   letter-spacing: -0.01em;
   color: var(--ink);
   padding-top: 16px;
@@ -773,7 +783,7 @@ body::after {
 
 .tier-price-label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted);
@@ -799,7 +809,7 @@ body::after {
 
 .scenario-num {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 12px;
   color: var(--accent);
   letter-spacing: 0.12em;
   font-weight: 600;
@@ -808,13 +818,13 @@ body::after {
 .scenario-title {
   font-family: 'Bricolage Grotesque', sans-serif;
   font-weight: 600;
-  font-size: 22px;
+  font-size: 24px;
   line-height: 1.1;
   letter-spacing: -0.01em;
 }
 
 .scenario-desc {
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.45;
   color: var(--ink-soft);
 }
@@ -833,7 +843,7 @@ body::after {
 
 .scenario ul {
   list-style: none;
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.45;
   color: var(--ink-soft);
   padding-left: 16px;
@@ -857,7 +867,7 @@ body::after {
   font-family: 'Bricolage Grotesque', sans-serif;
   font-style: italic;
   font-weight: 500;
-  font-size: 38px;
+  font-size: 34px;
   line-height: 1.15;
   letter-spacing: -0.02em;
   color: var(--ink);
@@ -880,11 +890,13 @@ body::after {
 /* === CONTROLS === */
 .controls {
   position: fixed;
-  bottom: 24px;
+  top: 80px;
   right: 32px;
   display: flex;
+  flex-direction: column;
   gap: 8px;
   z-index: 100;
+  box-shadow: 0 4px 12px rgba(20, 21, 26, 0.08);
 }
 
 .ctrl-btn {
@@ -987,7 +999,7 @@ body::after {
 .thumb-title {
   font-family: 'Bricolage Grotesque', sans-serif;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.15;
   color: var(--ink);
   margin-top: 8px;
@@ -1105,17 +1117,21 @@ body::after {
 /* === KEYBOARD HINT === */
 .hint {
   position: fixed;
-  bottom: 24px;
-  left: 32px;
+  bottom: 16px;
+  left: 64px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
   color: var(--muted);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  z-index: 100;
+  z-index: 90;
   display: flex;
   gap: 16px;
   align-items: center;
+  background: rgba(243, 239, 230, 0.85);
+  padding: 6px 12px;
+  border-radius: 2px;
+  backdrop-filter: blur(4px);
 }
 
 .hint kbd {
@@ -1127,7 +1143,10 @@ body::after {
   border-radius: 2px;
 }
 
-.cover ~ .hint { color: rgba(243, 239, 230, 0.5); }
+.cover ~ .hint {
+  background: rgba(20, 21, 26, 0.7);
+  color: rgba(243, 239, 230, 0.7);
+}
 
 /* === GLOSSARY HIGHLIGHT === */
 .highlight {
@@ -1157,7 +1176,7 @@ body::after {
 .kpi-value {
   font-family: 'Bricolage Grotesque', sans-serif;
   font-weight: 700;
-  font-size: 32px;
+  font-size: 36px;
   line-height: 1;
   letter-spacing: -0.02em;
   color: var(--ink);
@@ -1165,7 +1184,7 @@ body::after {
 
 .kpi-label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--muted);
@@ -1194,7 +1213,7 @@ body::after {
 .decision-text {
   font-family: 'Bricolage Grotesque', sans-serif;
   font-weight: 500;
-  font-size: 24px;
+  font-size: 22px;
   line-height: 1.25;
   letter-spacing: -0.01em;
 }
@@ -1203,9 +1222,8 @@ body::after {
    RESPONSIVE — TABLET (≤ 1024px)
 ═══════════════════════════════════════════ */
 @media (max-width: 1024px) {
-  .slide { padding: 36px 48px; }
-  .slide-content { padding: 32px 0; }
-
+  .slide { padding: 28px 40px 80px 40px; }
+  .slide-content { padding: 24px 0; }
   .two-col { grid-template-columns: 1fr; gap: 32px; }
   .three-col { grid-template-columns: repeat(2, 1fr); gap: 24px; }
   .four-col { grid-template-columns: repeat(2, 1fr); gap: 16px; }
@@ -1227,134 +1245,70 @@ body::after {
 ═══════════════════════════════════════════ */
 @media (max-width: 768px) {
   html, body { overflow-y: auto; height: auto; }
-
-  .deck {
-    flex-direction: column;
-    width: 100%;
-    height: auto;
-    transition: none;
-    transform: none !important;
-  }
-
-  .slide {
-    width: 100vw;
-    min-height: 100vh;
-    height: auto;
-    padding: 24px 20px 80px;
-    border-bottom: 1px solid var(--line);
-  }
-
-  /* HEADER & FOOTER */
+  .deck { flex-direction: column; width: 100%; height: auto; transition: none; transform: none !important; }
+  .slide { width: 100vw; min-height: 100vh; height: auto; padding: 24px 18px 72px; border-bottom: 1px solid var(--line); overflow-y: visible; }
   .slide-header { font-size: 9px; padding-bottom: 12px; flex-wrap: wrap; gap: 8px; }
-  .slide-header .brand { gap: 10px; }
-  .slide-header .meta { gap: 12px; flex-wrap: wrap; }
   .slide-footer { font-size: 9px; padding-top: 12px; flex-wrap: wrap; gap: 8px; }
-
-  /* CONTENT */
-  .slide-content { padding: 24px 0; }
-  .eyebrow { font-size: 10px; margin-bottom: 20px; gap: 8px; }
+  .slide-content { padding: 20px 0; }
+  .eyebrow { font-size: 10px; margin-bottom: 18px; gap: 8px; }
   .eyebrow::before { width: 16px; }
-
-  /* TYPOGRAPHY */
-  .h-display { font-size: clamp(32px, 9vw, 48px); margin-bottom: 16px; }
-  .h-medium { font-size: clamp(24px, 7vw, 32px); margin-bottom: 14px; }
-  .h-small { font-size: 18px; }
-  .lead { font-size: 16px; line-height: 1.5; }
-  .body { font-size: 15px; }
-  .body-small { font-size: 13px; }
-
-  /* BULLETS */
-  .bullets li, .bullets-num li { font-size: 15px; gap: 12px; }
-  .bullets li::before { margin-top: 9px; }
-  .bullets-num li { gap: 14px; }
-
-  /* GRIDS — все в 1 колонку */
+  .h-display { font-size: clamp(30px, 9vw, 48px); margin-bottom: 16px; }
+  .h-medium { font-size: clamp(22px, 7vw, 32px); margin-bottom: 14px; }
+  .h-small { font-size: 20px; }
+  .lead { font-size: 17px; }
+  .body { font-size: 16px; }
+  .body-small { font-size: 14px; }
+  .bullets li, .bullets-num li { font-size: 16px; gap: 12px; }
   .two-col, .three-col, .four-col { grid-template-columns: 1fr; gap: 16px; }
-  .scenario { grid-template-columns: 1fr; gap: 12px; }
-  .tiers { grid-template-columns: 1fr; }
-  .metrics { grid-template-columns: 1fr; }
-  .metric { border-right: none; border-bottom: 1px solid var(--line); padding: 18px 0; padding-right: 0; }
+  .scenario, .tiers, .metrics { grid-template-columns: 1fr; }
+  .metric { border-right: none; border-bottom: 1px solid var(--line); padding: 18px 0; }
   .metric:last-child { border-bottom: none; }
   .kpi-row { grid-template-columns: repeat(2, 1fr); }
   .kpi { padding: 14px 12px; }
-  .kpi-value { font-size: 22px; }
-  .kpi-label { font-size: 9px; }
-
-  /* CARDS */
-  .card { padding: 20px; }
-  .card-title { font-size: 18px; }
-  .card-body { font-size: 14px; }
-
-  /* TABLES */
-  .table { font-size: 13px; }
+  .kpi-value { font-size: 26px; }
+  .card { padding: 18px; }
+  .card-title { font-size: 19px; }
+  .card-body { font-size: 15px; }
+  .table { font-size: 14px; }
   .table th, .table td { padding: 10px 8px 10px 0; }
-
-  /* METRICS */
-  .metric-value { font-size: 36px; }
-  .metric-value .unit { font-size: 18px; }
-
-  /* COVER */
+  .metric-value { font-size: 40px; }
+  .metric-value .unit { font-size: 20px; }
   .cover-content { padding: 32px 0; }
   .cover-eyebrow { font-size: 10px; gap: 10px; }
   .cover-eyebrow::before, .cover-eyebrow::after { flex-basis: 20px; }
   .cover-title { font-size: clamp(40px, 12vw, 64px); }
   .cover-sub { font-size: 17px; margin-bottom: 28px; }
   .cover-authors { gap: 24px; flex-wrap: wrap; font-size: 10px; }
-
-  /* LADDER */
-  .ladder-row {
-    grid-template-columns: 40px 1fr;
-    gap: 10px;
-    padding: 10px 12px;
-  }
-  .ladder-num { font-size: 18px; }
-  .ladder-name { font-size: 14px; }
-  .ladder-desc { grid-column: 1 / -1; font-size: 12px; padding-left: 50px; margin-top: -4px; }
-  .ladder-tag { grid-column: 1 / -1; justify-self: start; margin-left: 50px; font-size: 9px; padding: 3px 8px; }
-
-  /* FLOW */
+  .ladder-row { grid-template-columns: 44px 1fr; gap: 10px; padding: 10px 12px; }
+  .ladder-num { font-size: 20px; }
+  .ladder-name { font-size: 16px; }
+  .ladder-desc { grid-column: 1 / -1; font-size: 13px; padding-left: 54px; margin-top: -2px; }
+  .ladder-tag { grid-column: 1 / -1; justify-self: start; margin-left: 54px; font-size: 10px; padding: 3px 8px; }
   .flow { grid-template-columns: 1fr; gap: 10px; margin-top: 20px; }
   .flow-step { padding: 16px 14px; margin-right: 0; }
   .flow-step::after { display: none; }
-  .flow-title { font-size: 14px; }
-  .flow-desc { font-size: 11px; }
-
-  /* TIERS */
+  .flow-title { font-size: 15px; }
   .tier { padding: 20px 16px; border-right: 1px solid var(--line-strong); }
-  .tier-title { font-size: 22px; }
-  .tier-price { font-size: 20px; }
-
-  /* SCENARIO */
+  .tier-title { font-size: 24px; }
+  .tier-price { font-size: 22px; }
   .scenario-card { padding: 18px; gap: 12px; }
-  .scenario-title { font-size: 18px; }
-  .scenario-desc { font-size: 13px; }
-
-  /* QUOTE */
+  .scenario-title { font-size: 19px; }
+  .scenario-desc { font-size: 14px; }
   .quote { font-size: 22px; padding-left: 20px; }
   .quote-author { font-size: 10px; margin-top: 16px; }
-
-  /* DECISION */
-  .decision { padding: 24px 20px; }
+  .decision { padding: 22px 18px; }
   .decision-text { font-size: 17px; }
-
-  /* MATERIALS */
-  .materials { grid-template-columns: 1fr; font-size: 11px; }
-  .material-item { padding: 6px 0; }
-  .material-item .name { font-size: 13px; }
-
-  /* CONTROLS — крупнее на тач-устройствах */
-  .controls { bottom: 12px; right: 12px; gap: 6px; }
+  .materials { grid-template-columns: 1fr; }
+  .material-item { padding: 8px 0; }
+  .material-item .name { font-size: 15px; }
+  .controls { top: auto; bottom: 12px; right: 12px; flex-direction: row; gap: 6px; }
   .ctrl-btn { width: 44px; height: 44px; font-size: 16px; }
   .hint { display: none; }
-
-  /* OVERVIEW */
   .overview { padding: 24px 16px; }
   .overview-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
   .overview-thumb { padding: 12px; min-height: 96px; }
   .overview-title { font-size: 20px; }
   .thumb-title { font-size: 13px; }
-
-  /* Отключаем горизонтальные анимации — на мобилке скролл вертикальный */
   .slide.active .eyebrow,
   .slide.active .h-display,
   .slide.active .h-medium,
@@ -1373,46 +1327,21 @@ body::after {
   .slide.active .cover-title,
   .slide.active .cover-sub,
   .slide.active .cover-eyebrow,
-  .slide.active .cover-authors {
-    animation: none;
-  }
+  .slide.active .cover-authors { animation: none; }
 }
 
-/* ═══════════════════════════════════════════
-   RESPONSIVE — SMALL MOBILE (≤ 480px)
-═══════════════════════════════════════════ */
 @media (max-width: 480px) {
-  .slide { padding: 20px 16px 72px; }
+  .slide { padding: 18px 14px 64px; }
   .slide-header { font-size: 8px; }
-  .slide-header .meta { gap: 8px; }
   .slide-footer { font-size: 8px; }
-  .block-dot { width: 10px; }
-
-  .eyebrow { font-size: 9px; margin-bottom: 16px; }
-
-  .h-display { font-size: clamp(28px, 9vw, 40px); }
-  .h-medium { font-size: clamp(20px, 7vw, 26px); }
-  .h-small { font-size: 16px; }
-  .lead { font-size: 15px; }
-  .body { font-size: 14px; }
-
-  .cover-title { font-size: clamp(34px, 13vw, 52px); }
+  .h-display { font-size: clamp(26px, 9vw, 38px); }
+  .cover-title { font-size: clamp(32px, 13vw, 48px); }
   .cover-sub { font-size: 15px; }
-  .cover-authors { font-size: 9px; gap: 18px; }
-
   .kpi-row { grid-template-columns: 1fr; }
-  .kpi { border-right: none; border-bottom: 1px solid var(--line); padding: 14px 8px; }
+  .kpi { border-right: none; border-bottom: 1px solid var(--line); padding: 12px 8px; }
   .kpi:last-child { border-bottom: none; }
-
-  .quote { font-size: 19px; padding-left: 16px; border-left-width: 2px; }
-  .metric-value { font-size: 30px; }
-
-  .ladder-row { padding: 10px 10px; }
-  .ladder-desc { padding-left: 0; margin-top: 6px; }
-  .ladder-tag { margin-left: 0; }
-
-  .controls { right: 8px; bottom: 8px; }
-  .ctrl-btn { width: 40px; height: 40px; }
+  .quote { font-size: 19px; padding-left: 14px; }
+  .metric-value { font-size: 32px; }
 }
 </style>
 </head>
@@ -1443,15 +1372,11 @@ body::after {
         ИИ-ВИЗАЦИЯ<br><span class="v2">2.0</span>
       </h1>
       <p class="cover-sub">
-        Концепция международной B2B-платформы диагностики, обучения и&nbsp;внедрения искусственного интеллекта в&nbsp;компании.
+        Концепция международной B2B-платформы диагностики, обучения и внедрения искусственного интеллекта в&nbsp;компании.
       </p>
     </div>
 
     <div class="cover-authors">
-      <div>
-        <strong>Stas Pankov</strong>
-        Methodology · Content
-      </div>
       <div>
         <strong>Rafael</strong>
         CEO · Production
@@ -1459,6 +1384,10 @@ body::after {
       <div>
         <strong>Roman</strong>
         Brand · Distribution
+      </div>
+      <div>
+        <strong>Stas Pankov</strong>
+        Methodology · Content
       </div>
     </div>
   </div>
@@ -1495,21 +1424,21 @@ body::after {
     <div class="two-col" style="margin-top: 32px; gap: 80px;">
       <div>
         <p class="lead">
-          Мы меняем позиционирование с&nbsp;edu-центра на&nbsp;<span class="text-accent">международную B2B-платформу</span> с&nbsp;уникальной методологией диагностики и&nbsp;внедрения AI.
+          Мы меняем позиционирование с&nbsp;edu-центра на <span class="text-accent">международную B2B-платформу</span> с&nbsp;уникальной методологией диагностики и внедрения AI.
         </p>
         <p class="lead" style="margin-top: 20px; font-size: 18px;">
-          Этот документ — основа для&nbsp;стратегического разговора партнёров перед&nbsp;переходом к&nbsp;внешнему инвест-питчу.
+          Этот документ — основа для стратегического разговора партнёров перед переходом к&nbsp;внешнему инвест-питчу.
         </p>
       </div>
 
       <div>
         <div class="label" style="margin-bottom: 16px;">Что обсуждаем</div>
         <ul class="bullets-num">
-          <li>Продуктовое видение и&nbsp;MVP</li>
-          <li>Архитектуру подписок и&nbsp;pricing</li>
+          <li>Продуктовое видение и MVP</li>
+          <li>Архитектуру подписок и pricing</li>
           <li>Маппинг существующих материалов</li>
           <li>Три стратегические развилки</li>
-          <li>Открытые вопросы для&nbsp;партнёров</li>
+          <li>Открытые вопросы для партнёров</li>
         </ul>
       </div>
     </div>
@@ -1537,20 +1466,20 @@ body::after {
 
   <div class="slide-content">
     <div class="eyebrow">01 · Контекст</div>
-    <h2 class="h-display">Мы не&nbsp;на&nbsp;этапе гипотезы.<br><span class="accent">Мы зарабатываем.</span></h2>
+    <h2 class="h-display">Мы не на этапе гипотезы.<br><span class="accent">Мы зарабатываем.</span></h2>
 
     <div class="kpi-row" style="margin-top: 40px;">
       <div class="kpi">
         <div class="kpi-value">$25K</div>
-        <div class="kpi-label">Интенсив OpenClaw<br>за&nbsp;неделю продаж</div>
+        <div class="kpi-label">Интенсив OpenClaw<br>за неделю продаж</div>
       </div>
       <div class="kpi">
         <div class="kpi-value">$62.5K</div>
-        <div class="kpi-label">Максимальный чек<br>на&nbsp;внедрение</div>
+        <div class="kpi-label">Максимальный чек<br>на внедрение</div>
       </div>
       <div class="kpi">
         <div class="kpi-value">15+</div>
-        <div class="kpi-label">Заявок на&nbsp;интеграцию<br>($4.5K–$62.5K)</div>
+        <div class="kpi-label">Заявок на интеграцию<br>($4.5K–$62.5K)</div>
       </div>
       <div class="kpi">
         <div class="kpi-value">100+</div>
@@ -1569,11 +1498,11 @@ body::after {
     <div class="two-col" style="margin-top: 48px; gap: 64px;">
       <div>
         <div class="label" style="margin-bottom: 14px;">Команда</div>
-        <p class="body">3 партнёра с&nbsp;распределёнными ролями: <span class="text-accent">CEO</span>, <span class="text-accent">экспертность и&nbsp;методология</span>, <span class="text-accent">бренд и&nbsp;дистрибуция</span>. Продюсерский центр в&nbsp;штате.</p>
+        <p class="body">3 партнёра с&nbsp;распределёнными ролями: <span class="text-accent">CEO</span>, <span class="text-accent">экспертность и методология</span>, <span class="text-accent">бренд и дистрибуция</span>. Продюсерский центр в&nbsp;штате.</p>
       </div>
       <div>
         <div class="label" style="margin-bottom: 14px;">Контент</div>
-        <p class="body"><span class="text-warm">40+ единиц</span> готового образовательного контента: скринкасты, презентации, методички, шаблоны, банки промптов и&nbsp;курс «AI-офис под&nbsp;бизнес».</p>
+        <p class="body"><span class="text-warm">40+ единиц</span> готового образовательного контента: скринкасты, презентации, методички, шаблоны, банки промптов и курс «AI-офис под бизнес».</p>
       </div>
     </div>
   </div>
@@ -1603,25 +1532,25 @@ body::after {
     <h2 class="h-display">Почему сейчас.<br>Окно <span class="accent">открыто.</span></h2>
 
     <div class="quote" style="margin-top: 40px;">
-      «Сейчас открыто временное окно для&nbsp;внедрения&nbsp;AI, сравнимое с&nbsp;появлением мобильных сайтов в&nbsp;2013-м. Кто внедряет первым — снимает все сливки.»
+      «Сейчас открыто временное окно для внедрения AI, сравнимое с&nbsp;появлением мобильных сайтов в&nbsp;2013-м. Кто внедряет первым — снимает все сливки.»
       <span class="quote-author">— Тезис подкаста, цитируемого Романом</span>
     </div>
 
-    <div class="three-col" style="margin-top: 56px;">
+    <div class="three-col" style="margin-top: 32px;">
       <div class="card">
         <div class="card-num">01</div>
         <div class="card-title">Большинство компаний</div>
-        <div class="card-body">застряли на&nbsp;уровнях 0–2 ИИ-визации. Это и&nbsp;есть наш&nbsp;рынок.</div>
+        <div class="card-body">застряли на уровнях 0–2 ИИ-визации. Это и есть наш рынок.</div>
       </div>
       <div class="card">
         <div class="card-num">02</div>
         <div class="card-title">Конкуренты дают каталоги</div>
-        <div class="card-body">Coursera, Udemy, KnowBe4 — не&nbsp;диагностируют, не&nbsp;дают&nbsp;дорожную карту.</div>
+        <div class="card-body">Coursera, Udemy, KnowBe4 — не диагностируют, не дают дорожную карту.</div>
       </div>
       <div class="card card-accent">
         <div class="card-num">03</div>
         <div class="card-title">Мы заходим в&nbsp;свободный участок</div>
-        <div class="card-body">Диагностика + Карта + Сопровождение. Никто так&nbsp;не&nbsp;делает.</div>
+        <div class="card-body">Диагностика + Карта + Сопровождение. Никто так не делает.</div>
       </div>
     </div>
   </div>
@@ -1647,16 +1576,16 @@ body::after {
   </div>
 
   <div class="slide-content">
-    <div class="eyebrow">02 · Видение</div>
-    <h2 class="h-display">Кто наш<br>клиент</h2>
+    <div class="eyebrow">02 · Видение · ICP — Ideal Client Portrait</div>
+    <h2 class="h-display">Кто наш клиент <span style="font-size: 0.42em; color: var(--muted); font-weight: 400; font-style: italic; letter-spacing: -0.01em;">(идеальный портрет)</span></h2>
 
     <div class="quote" style="margin-top: 32px; font-size: 30px;">
-      «Клиент, который чувствует, что&nbsp;опаздывает,<br>не&nbsp;знает, с&nbsp;чего начать. <span class="text-accent">Мы ему помогаем.</span>»
+      «Клиент, который чувствует, что опаздывает,<br>не знает, с&nbsp;чего начать. <span class="text-accent">Мы ему помогаем.</span>»
       <span class="quote-author">— Формулировка ICP, Стас</span>
     </div>
 
     <div style="margin-top: 56px;">
-      <div class="label" style="margin-bottom: 18px;">Реальные кейсы (география и&nbsp;индустрия)</div>
+      <div class="label" style="margin-bottom: 18px; font-size: 14px; font-weight: 700; color: var(--ink);">Реальные кейсы — география и индустрия</div>
       <table class="table">
         <thead>
           <tr>
@@ -1669,17 +1598,17 @@ body::after {
           <tr>
             <td class="strong">Прокат автомобилей</td>
             <td>Дубай, ОАЭ • Микробизнес</td>
-            <td>Опыт работы на&nbsp;международном рынке</td>
+            <td>Опыт работы на международном рынке</td>
           </tr>
           <tr>
             <td class="strong">Инвестиционная компания</td>
-            <td>Москва • Крупный enterprise, 20&nbsp;лет</td>
-            <td>Продаёмся в&nbsp;большие финансовые структуры</td>
+            <td>Москва • Средний бизнес</td>
+            <td>Продаёмся в&nbsp;финансовые структуры</td>
           </tr>
           <tr>
-            <td class="strong">Организатор ивентов для&nbsp;госов</td>
-            <td>РФ • Средний бизнес</td>
-            <td>Понимаем B2G-специфику и&nbsp;compliance</td>
+            <td class="strong">Организатор ивентов для госов</td>
+            <td>РФ • Крупный бизнес, 20+ лет на рынке</td>
+            <td>Понимаем B2G-специфику и compliance</td>
           </tr>
           <tr>
             <td class="strong">Строительная компания</td>
@@ -1713,25 +1642,25 @@ body::after {
 
   <div class="slide-content">
     <div class="eyebrow">02 · Видение</div>
-    <h2 class="h-display">Не курсы. Не&nbsp;каталог.<br><span class="accent">Дорожная карта.</span></h2>
+    <h2 class="h-display">Не курсы. Не каталог.<br><span class="accent">Дорожная карта.</span></h2>
 
     <p class="lead" style="margin-top: 24px; max-width: 1000px;">
-      Главное отличие от&nbsp;Coursera / Udemy / KnowBe4: мы&nbsp;знаем, <span class="text-warm">где</span> компания, и&nbsp;знаем, <span class="text-warm">куда</span> ей идти.
+      Главное отличие от Coursera / Udemy / KnowBe4: мы знаем, <span class="text-warm">где</span> компания, и знаем, <span class="text-warm">куда</span> ей идти.
     </p>
 
     <div class="two-col" style="margin-top: 56px; gap: 80px;">
       <div>
         <div class="label" style="margin-bottom: 18px;">Аналогия</div>
         <p class="body" style="font-size: 22px; line-height: 1.4; color: var(--ink);">
-          «Личный <span class="text-accent">AI-Chief of Staff</span> для&nbsp;компании, который&nbsp;ведёт её от&nbsp;уровня&nbsp;0 до&nbsp;уровня&nbsp;7.»
+          «Личный <span class="text-accent">AI-Chief of Staff</span> для компании, который ведёт её от уровня 0 до уровня 8.»
         </p>
       </div>
 
       <div>
         <div class="label" style="margin-bottom: 18px;">Три кита продукта</div>
         <ul class="bullets-num">
-          <li><span class="strong">Диагностика</span> — где&nbsp;компания на&nbsp;шкале 0–8</li>
-          <li><span class="strong">Дорожная карта</span> — куда&nbsp;ей идти и&nbsp;как</li>
+          <li><span class="strong">Диагностика</span> — где компания на шкале 0–8</li>
+          <li><span class="strong">Дорожная карта</span> — куда ей идти и как</li>
           <li><span class="strong">Сопровождение</span> — контент, live, внедрение</li>
         </ul>
       </div>
@@ -1760,7 +1689,7 @@ body::after {
 
   <div class="slide-content">
     <div class="eyebrow">02 · Видение · Сердце продукта</div>
-    <h2 class="h-medium">Фреймворк&nbsp;8 уровней ИИ-визации <span style="color: var(--muted); font-weight: 400; font-style: italic;">— авторская методика Романа</span></h2>
+    <h2 class="h-medium">Фреймворк 8 уровней ИИ-визации <span style="color: var(--muted); font-weight: 400; font-style: italic;">— авторская методика Романа</span></h2>
 
     <div class="ladder">
       <div class="ladder-row">
@@ -1778,7 +1707,7 @@ body::after {
       <div class="ladder-row">
         <div class="ladder-num">2</div>
         <div class="ladder-name">Точечные инструменты</div>
-        <div class="ladder-desc">Купили подписки. Зоопарк сервисов без&nbsp;единой логики.</div>
+        <div class="ladder-desc">Купили подписки. Зоопарк сервисов без единой логики.</div>
         <div class="ladder-tag">Точка входа клиента</div>
       </div>
       <div class="ladder-row target">
@@ -1802,19 +1731,19 @@ body::after {
       <div class="ladder-row">
         <div class="ladder-num">6</div>
         <div class="ladder-name">Мультиагентные системы</div>
-        <div class="ladder-desc">AI-офис: оркестратор + sub-агенты. Экономия ФОТ до&nbsp;60%.</div>
+        <div class="ladder-desc">AI-офис: оркестратор + sub-агенты. Экономия ФОТ до 60%.</div>
         <div class="ladder-tag">Tier 3 · внедрение</div>
       </div>
       <div class="ladder-row">
         <div class="ladder-num">7</div>
         <div class="ladder-name">AI-first компания</div>
-        <div class="ladder-desc">Бизнес-процессы построены вокруг&nbsp;AI. AI — это ДНК, а&nbsp;не&nbsp;надстройка.</div>
+        <div class="ladder-desc">Бизнес-процессы построены вокруг AI. AI — это ДНК, а не надстройка.</div>
         <div class="ladder-tag">Стратегический горизонт</div>
       </div>
       <div class="ladder-row">
         <div class="ladder-num">8</div>
         <div class="ladder-name">Адаптивный AI</div>
-        <div class="ladder-desc">Самооптимизация в&nbsp;real-time. AI сам меняет процессы при&nbsp;падении метрик.</div>
+        <div class="ladder-desc">Самооптимизация в&nbsp;real-time. AI сам меняет процессы при падении метрик.</div>
         <div class="ladder-tag">Горизонт 5+&nbsp;лет</div>
       </div>
     </div>
@@ -1853,17 +1782,17 @@ body::after {
       <div class="flow-step">
         <div class="flow-num">Шаг 02</div>
         <div class="flow-title">Диагноз</div>
-        <div class="flow-desc">«Вы на&nbsp;уровне 2.3» — по&nbsp;фреймворку Романа.</div>
+        <div class="flow-desc">«Вы на уровне 2.3» — по фреймворку Романа.</div>
       </div>
       <div class="flow-step">
         <div class="flow-num">Шаг 03</div>
         <div class="flow-title">Дорожная карта</div>
-        <div class="flow-desc">«От 2.3 до&nbsp;4.0 за&nbsp;6&nbsp;месяцев». Шаги по&nbsp;отделам.</div>
+        <div class="flow-desc">«От 2.3 до 4.0 за 6&nbsp;месяцев». Шаги по отделам.</div>
       </div>
       <div class="flow-step">
         <div class="flow-num">Шаг 04</div>
         <div class="flow-title">Подписка</div>
-        <div class="flow-desc">Один из&nbsp;трёх тарифов: Self / Guided / Transformation.</div>
+        <div class="flow-desc">Один из трёх тарифов: Self / Guided / Transformation.</div>
       </div>
       <div class="flow-step">
         <div class="flow-num">Шаг 05</div>
@@ -1875,7 +1804,7 @@ body::after {
     <div class="decision" style="margin-top: 56px;">
       <div class="decision-label">Ключевая retention-механика</div>
       <div class="decision-text">
-        Шаг 05 — это причина, по&nbsp;которой клиент не&nbsp;отменяет подписку. <br>Он&nbsp;видит, что заплатил → вырос → может показать совету директоров.
+        Шаг 05 — это причина, по которой клиент не отменяет подписку. <br>Он видит, что заплатил → вырос → может показать совету директоров.
       </div>
     </div>
   </div>
@@ -1960,7 +1889,7 @@ body::after {
     </table>
 
     <p class="body" style="margin-top: 32px; font-size: 18px; color: var(--ink); max-width: 900px;">
-      <span class="text-warm">Defensibility:</span> мы единственные, кто собирает все&nbsp;пять элементов в&nbsp;один продукт. Это&nbsp;то, что инвестор называет <span class="text-accent">«category-defining»</span>.
+      <span class="text-warm">Defensibility:</span> мы единственные, кто собирает все пять элементов в&nbsp;один продукт. Это то, что инвестор называет <span class="text-accent">«category-defining»</span>.
     </p>
   </div>
 
@@ -1993,19 +1922,19 @@ body::after {
       <div class="card">
         <div class="card-num">01</div>
         <div class="card-title">Анкетирование</div>
-        <div class="card-body" style="margin-bottom: 16px;">Готовые шаблоны: входная, процессная, голосовой опрос. Уже&nbsp;используются.</div>
+        <div class="card-body" style="margin-bottom: 16px;">Готовые шаблоны: входная, процессная, голосовой опрос. Уже используются.</div>
         <div class="label" style="color: var(--green); font-size: 10px;">✓ 80% готово</div>
       </div>
       <div class="card">
         <div class="card-num">02</div>
-        <div class="card-title">Диагностика по&nbsp;уровням</div>
-        <div class="card-body" style="margin-bottom: 16px;">Автоматический скоринг по&nbsp;фреймворку Романа. Выдача дорожной карты.</div>
+        <div class="card-title">Диагностика по уровням</div>
+        <div class="card-body" style="margin-bottom: 16px;">Автоматический скоринг по фреймворку Романа. Выдача дорожной карты.</div>
         <div class="label" style="color: var(--warm); font-size: 10px;">↗ Методология 1–2&nbsp;недели</div>
       </div>
       <div class="card card-accent">
         <div class="card-num">03</div>
         <div class="card-title">Платформа с&nbsp;контентом</div>
-        <div class="card-body" style="margin-bottom: 16px;">40+ материалов уже&nbsp;есть. Подключаем параллельно с&nbsp;анкетой. Подписка&nbsp;по&nbsp;тарифам.</div>
+        <div class="card-body" style="margin-bottom: 16px;">40+ материалов уже есть. Подключаем параллельно с&nbsp;анкетой. Подписка по тарифам.</div>
         <div class="label" style="color: var(--warm); font-size: 10px;">→ Параллельная сборка</div>
       </div>
     </div>
@@ -2013,7 +1942,7 @@ body::after {
     <div class="decision" style="margin-top: 48px;">
       <div class="decision-label">Приоритет запуска</div>
       <div class="decision-text">
-        Начинаем с&nbsp;<span class="text-warm">анкеты и&nbsp;диагностики</span> (главный USP), параллельно&nbsp;разворачиваем&nbsp;контент. <br>Контента на&nbsp;русском уже&nbsp;уйма — пакуем в&nbsp;модули MVP.
+        Начинаем с&nbsp;<span class="text-warm">анкеты и диагностики</span> (главный USP — Unique Selling Proposition, наш ключевой отличительный признак), параллельно разворачиваем контент. <br>Контента на русском уже уйма — пакуем в&nbsp;модули MVP.
       </div>
     </div>
   </div>
@@ -2040,24 +1969,24 @@ body::after {
 
   <div class="slide-content">
     <div class="eyebrow">03 · MVP</div>
-    <h2 class="h-display">Анкета и&nbsp;<span class="accent">диагностика</span></h2>
+    <h2 class="h-display">Анкета и <span class="accent">диагностика</span></h2>
 
     <div class="two-col" style="margin-top: 40px; gap: 80px;">
       <div>
-        <div class="label" style="margin-bottom: 18px;">Что уже&nbsp;есть и&nbsp;работает</div>
+        <div class="label" style="margin-bottom: 18px;">Что уже есть и работает</div>
         <ul class="bullets-num">
-          <li><span class="strong">Входная анкета</span> — на&nbsp;сотрудника, замер «до» (8&nbsp;секций, 30+&nbsp;вопросов)</li>
-          <li><span class="strong">Анкета прогресса</span> — re-assessment после&nbsp;обучения, замер «после»</li>
-          <li><span class="strong">Аудит процессов</span> — для&nbsp;руководителей отделов, основа&nbsp;дорожной&nbsp;карты</li>
+          <li><span class="strong">Входная анкета</span> — на сотрудника, замер «до» (8&nbsp;секций, 30+&nbsp;вопросов)</li>
+          <li><span class="strong">Анкета прогресса</span> — re-assessment после обучения, замер «после»</li>
+          <li><span class="strong">Аудит процессов</span> — для руководителей отделов, основа дорожной карты</li>
         </ul>
       </div>
 
       <div>
-        <div class="label" style="margin-bottom: 18px;">Что добавляем под&nbsp;фреймворк</div>
+        <div class="label" style="margin-bottom: 18px;">Что добавляем под фреймворк</div>
         <ul class="bullets-num">
-          <li>Блок «AI на&nbsp;уровне компании» — корп-инфраструктура</li>
-          <li>Углублённый блок про&nbsp;агентов и&nbsp;автоматизации</li>
-          <li>Блок про&nbsp;интеграции с&nbsp;CRM/Workspace/базами</li>
+          <li>Блок «AI на уровне компании» — корп-инфраструктура</li>
+          <li>Углублённый блок про агентов и автоматизации</li>
+          <li>Блок про интеграции с&nbsp;CRM/Workspace/базами</li>
           <li>Маркер роли AI-lead — кто отвечает в&nbsp;компании</li>
         </ul>
       </div>
@@ -2066,7 +1995,7 @@ body::after {
     <div style="margin-top: 56px; padding: 24px 28px; background: rgba(24, 56, 245, 0.06); border-left: 3px solid var(--accent);">
       <div class="label" style="color: var(--accent); margin-bottom: 8px;">Сроки</div>
       <p class="body" style="font-size: 17px;">
-        Доработка анкет под&nbsp;фреймворк&nbsp;8&nbsp;уровней — <span class="strong">1–2 недели методической работы.</span> 80%&nbsp;уже&nbsp;готово.
+        Доработка анкет под фреймворк 8&nbsp;уровней — <span class="strong">1–2 недели методической работы.</span> 80%&nbsp;уже готово.
       </p>
     </div>
   </div>
@@ -2093,9 +2022,9 @@ body::after {
 
   <div class="slide-content">
     <div class="eyebrow">03 · MVP · Уникальный актив</div>
-    <h2 class="h-medium">Методология диагностики — <span style="color: var(--warm); font-style: italic;">наш&nbsp;главный USP</span></h2>
+    <h2 class="h-medium">Методология диагностики — <span style="color: var(--warm); font-style: italic;">наш главный USP</span></h2>
     <p class="lead" style="margin-top: 8px; max-width: 920px;">
-      Не «угадай уровень» — а&nbsp;измерь по&nbsp;5&nbsp;методам, покажи рост раз&nbsp;в&nbsp;квартал.
+      Не «угадай уровень» — а измерь по 5&nbsp;методам, покажи рост раз в&nbsp;квартал.
     </p>
 
     <div class="flow" style="margin-top: 56px; grid-template-columns: repeat(5, 1fr);">
@@ -2117,26 +2046,26 @@ body::after {
       <div class="flow-step">
         <div class="flow-num">Метод 04</div>
         <div class="flow-title">Голосовой опрос</div>
-        <div class="flow-desc">Свободный рассказ про&nbsp;боли. Транскрибация&nbsp;+&nbsp;AI-анализ.</div>
+        <div class="flow-desc">Свободный рассказ про боли. Транскрибация +&nbsp;AI-анализ.</div>
       </div>
       <div class="flow-step">
         <div class="flow-num">Метод 05</div>
         <div class="flow-title">Re-assessment</div>
-        <div class="flow-desc">Раз в&nbsp;квартал. Динамика, causal&nbsp;proof, retention.</div>
+        <div class="flow-desc">Раз в&nbsp;квартал. Динамика, causal proof, retention.</div>
       </div>
     </div>
 
     <div style="margin-top: 64px; display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">
       <div style="padding: 24px 28px; background: var(--paper-2); border: 1px solid var(--line);">
-        <div class="label" style="margin-bottom: 8px;">Почему это&nbsp;сильно</div>
+        <div class="label" style="margin-bottom: 8px;">Почему это сильно</div>
         <p class="body-small" style="font-size: 15px; color: var(--ink-soft);">
-          Каждый метод даёт независимый источник данных. Скоринг получается&nbsp;<span class="strong">валидным</span>, а&nbsp;не&nbsp;«мнением».
+          Каждый метод даёт независимый источник данных. Скоринг получается <span class="strong">валидным</span>, а не «мнением».
         </p>
       </div>
       <div style="padding: 24px 28px; background: var(--ink); color: var(--paper);">
         <div class="label" style="margin-bottom: 8px; color: var(--warm);">Что это даёт продукту</div>
         <p class="body-small" style="font-size: 15px; color: rgba(243, 239, 230, 0.85);">
-          Клиент получает не&nbsp;цифру, а&nbsp;<span style="color: var(--warm); font-weight: 600;">отчёт</span>, который можно показать совету директоров.
+          Клиент получает не цифру, а <span style="color: var(--warm); font-weight: 600;">отчёт</span>, который можно показать совету директоров.
         </p>
       </div>
     </div>
@@ -2176,8 +2105,8 @@ body::after {
           <li>Доступ к&nbsp;библиотеке материалов</li>
           <li>Анкета + автоматический диагноз</li>
           <li>Базовая дорожная карта</li>
-          <li>Тесты и&nbsp;домашки без&nbsp;проверки</li>
-          <li>Сертификат по&nbsp;итогам уровня</li>
+          <li>Тесты и домашки без проверки</li>
+          <li>Сертификат по итогам уровня</li>
         </ul>
         <div>
           <div class="tier-price-label">Цена-гипотеза</div>
@@ -2191,9 +2120,9 @@ body::after {
           <div class="tier-title">Guided</div>
         </div>
         <ul class="tier-features">
-          <li>Всё из&nbsp;Tier 1</li>
-          <li>Live-вебинары и&nbsp;workshops</li>
-          <li>Live Q&amp;A раз в&nbsp;месяц со&nbsp;Стасом</li>
+          <li>Всё из Tier 1</li>
+          <li>Live-вебинары и workshops</li>
+          <li>Live Q&amp;A раз в&nbsp;месяц со Стасом</li>
           <li>Комьюнити сотрудников</li>
           <li>Расширенная дорожная карта</li>
         </ul>
@@ -2209,9 +2138,9 @@ body::after {
           <div class="tier-title">Transformation</div>
         </div>
         <ul class="tier-features">
-          <li>Всё из&nbsp;Tier 2</li>
+          <li>Всё из Tier 2</li>
           <li>Индивидуальная карта (вручную)</li>
-          <li>Внедрение AI-агентов и&nbsp;кейсов</li>
+          <li>Внедрение AI-агентов и кейсов</li>
           <li>Регулярные сессии с&nbsp;командой</li>
           <li>Персональный куратор</li>
         </ul>
@@ -2223,9 +2152,9 @@ body::after {
     </div>
 
     <div style="margin-top: 40px; padding: 24px 28px; background: rgba(24, 56, 245, 0.06); border-left: 3px solid var(--accent);">
-      <div class="label" style="color: var(--accent); margin-bottom: 6px;">Юнит-экономика на&nbsp;пальцах</div>
+      <div class="label" style="color: var(--accent); margin-bottom: 6px;">Юнит-экономика на пальцах</div>
       <p class="body" style="font-size: 17px;">
-        Средний чек $300 × корпорация на&nbsp;100 человек = <span class="strong">$30K ARR с&nbsp;одного клиента.</span> 50&nbsp;корпораций → <span class="text-accent">$1.5M ARR</span> — это уровень, где&nbsp;venture начинает слушать.
+        Средний чек $300 × корпорация на 100 человек = <span class="strong">$30K ARR с&nbsp;одного клиента.</span> 50&nbsp;корпораций → <span class="text-accent">$1.5M ARR</span> — это уровень, где venture начинает слушать.
       </p>
     </div>
   </div>
@@ -2252,33 +2181,33 @@ body::after {
 
   <div class="slide-content">
     <div class="eyebrow">03 · MVP · Качество</div>
-    <h2 class="h-display">Сертификация и&nbsp;<span class="warm">anti-cheat</span></h2>
+    <h2 class="h-display">Сертификация и <span class="warm">anti-cheat</span></h2>
     <p class="lead" style="margin-top: 16px; max-width: 940px;">
-      Проблема: если базовый тариф = тесты без&nbsp;проверки, как защититься от&nbsp;«сотрудник&nbsp;натыкал&nbsp;AI&nbsp;ответы → получил сертификат»?
+      Проблема: если базовый тариф = тесты без проверки, как защититься от «сотрудник натыкал AI ответы → получил сертификат»?
     </p>
 
     <div class="three-col" style="margin-top: 56px;">
       <div class="card">
         <div class="card-num">01</div>
         <div class="card-title">Адаптивные тесты</div>
-        <div class="card-body">Каждый следующий вопрос зависит от&nbsp;предыдущего ответа. AI не&nbsp;спишет — контекст меняется.</div>
+        <div class="card-body">Каждый следующий вопрос зависит от предыдущего ответа. AI не спишет — контекст меняется.</div>
       </div>
       <div class="card">
         <div class="card-num">02</div>
         <div class="card-title">Таймер 5 секунд</div>
-        <div class="card-body">На ответ — 5&nbsp;секунд. Не&nbsp;успеешь скопировать в&nbsp;AI и&nbsp;вернуться. Проверка реального навыка.</div>
+        <div class="card-body">На ответ — 5&nbsp;секунд. Не успеешь скопировать в&nbsp;AI и вернуться. Проверка реального навыка.</div>
       </div>
       <div class="card card-accent">
         <div class="card-num">03</div>
         <div class="card-title">Live-финал</div>
-        <div class="card-body">Для крупных сертификатов — обязательная финальная сессия в&nbsp;живом формате. Защита от&nbsp;любых автоматизаций.</div>
+        <div class="card-body">Для крупных сертификатов — обязательная финальная сессия в&nbsp;живом формате. Защита от любых автоматизаций.</div>
       </div>
     </div>
 
     <div style="margin-top: 48px;">
       <div class="label" style="margin-bottom: 12px;">Цель</div>
       <p class="body" style="font-size: 19px; color: var(--ink); max-width: 900px;">
-        Реальный навык, а&nbsp;не&nbsp;«потыкал ответы». Сертификат должен <span class="text-accent">что-то значить</span> для&nbsp;HRD и&nbsp;руководителя — иначе мы становимся очередной фабрикой бумажек.
+        Реальный навык, а не «потыкал ответы». Сертификат должен <span class="text-accent">что-то значить</span> для HRD и руководителя — иначе мы становимся очередной фабрикой бумажек.
       </p>
     </div>
   </div>
@@ -2310,19 +2239,19 @@ body::after {
     <div class="three-col" style="margin-top: 56px;">
       <div class="card">
         <div class="card-num">Phase 01</div>
-        <div class="card-title">RU · M+0 → M+6</div>
-        <div class="card-body" style="margin-bottom: 16px;">Запуск на&nbsp;русском. 40+ материалов уже&nbsp;готовы. Рынок РФ и&nbsp;СНГ.</div>
+        <div class="card-title">RU · M+0 → M+3</div>
+        <div class="card-body" style="margin-bottom: 16px;">Запуск на русском. 40+ материалов уже готовы. Рынок РФ и СНГ.</div>
         <div class="label" style="color: var(--green);">✓ Контент готов</div>
       </div>
       <div class="card">
         <div class="card-num">Phase 02</div>
-        <div class="card-title">EN · M+6 → M+12</div>
-        <div class="card-body" style="margin-bottom: 16px;">Перевод + культурная адаптация. Прицел на&nbsp;US/EU enterprise, ОАЭ.</div>
-        <div class="label" style="color: var(--warm);">↗ Локализация, не&nbsp;перевод</div>
+        <div class="card-title">EN · M+3 → M+6</div>
+        <div class="card-body" style="margin-bottom: 16px;">Перевод + культурная адаптация. US/EU enterprise, ОАЭ. 3 месяца на полный запуск.</div>
+        <div class="label" style="color: var(--warm);">↗ Локализация, не перевод</div>
       </div>
       <div class="card card-accent">
         <div class="card-num">Phase 03</div>
-        <div class="card-title">ES · M+12 → M+18</div>
+        <div class="card-title">ES · M+6 → M+9</div>
         <div class="card-body" style="margin-bottom: 16px;">LatAm-рынок. Большой объём, низкая конкуренция в&nbsp;нише.</div>
         <div class="label" style="color: var(--warm); font-size: 10px;">→ Третий язык</div>
       </div>
@@ -2331,7 +2260,7 @@ body::after {
     <div style="margin-top: 48px; padding: 24px 28px; background: var(--paper-2); border-left: 3px solid var(--warm);">
       <div class="label" style="color: var(--warm); margin-bottom: 8px;">Важно</div>
       <p class="body" style="font-size: 17px;">
-        <span class="strong">Локализация, а&nbsp;не&nbsp;перевод.</span> Регуляторные и&nbsp;юридические концепты, бизнес-этикет, кейсы — адаптируются под&nbsp;каждый рынок. Это методическая работа, не&nbsp;Google Translate.
+        <span class="strong">Локализация, а не перевод.</span> Регуляторные и юридические концепты, бизнес-этикет, кейсы — адаптируются под каждый рынок. Это методическая работа, не Google Translate.
       </p>
     </div>
   </div>
@@ -2364,15 +2293,15 @@ body::after {
       <div class="material-item"><span class="num">01</span><span class="name">Базовая работа с&nbsp;ChatGPT</span></div>
       <div class="material-item"><span class="num">02</span><span class="name">Настройка профиля в&nbsp;ChatGPT</span></div>
       <div class="material-item"><span class="num">03</span><span class="name">Управление корпоративным аккаунтом в&nbsp;ChatGPT</span></div>
-      <div class="material-item"><span class="num">04</span><span class="name">Распаковка личности и&nbsp;работы в&nbsp;ChatGPT</span></div>
+      <div class="material-item"><span class="num">04</span><span class="name">Распаковка личности и работы в&nbsp;ChatGPT</span></div>
       <div class="material-item"><span class="num">05</span><span class="name">Базовая работа с&nbsp;Desktop Claude AI (+ чеклист)</span></div>
       <div class="material-item"><span class="num">06</span><span class="name">Создание Artifacts в&nbsp;Claude AI</span></div>
-      <div class="material-item"><span class="num">07</span><span class="name">Создание проекта в&nbsp;Claude AI на&nbsp;базе распаковки (+ чеклист)</span></div>
+      <div class="material-item"><span class="num">07</span><span class="name">Создание проекта в&nbsp;Claude AI на базе распаковки (+ чеклист)</span></div>
       <div class="material-item"><span class="num">08</span><span class="name">Создание skills в&nbsp;Claude AI</span></div>
-      <div class="material-item"><span class="num">09</span><span class="name">Настройка рабочего пространства для&nbsp;РФ — часть 1</span></div>
-      <div class="material-item"><span class="num">10</span><span class="name">Настройка рабочего пространства для&nbsp;РФ — часть 2</span></div>
+      <div class="material-item"><span class="num">09</span><span class="name">Настройка рабочего пространства для РФ — часть 1</span></div>
+      <div class="material-item"><span class="num">10</span><span class="name">Настройка рабочего пространства для РФ — часть 2</span></div>
       <div class="material-item"><span class="num">11</span><span class="name">Настройка безопасности Google Account</span></div>
-      <div class="material-item"><span class="num">12</span><span class="name">Запуск и&nbsp;настройка Codex и&nbsp;подключение GitHub</span></div>
+      <div class="material-item"><span class="num">12</span><span class="name">Запуск и настройка Codex и подключение GitHub</span></div>
     </div>
 
     <div style="margin-top: 36px; padding: 18px 24px; background: rgba(255,255,255,0.5); border: 1px solid var(--line); display: flex; gap: 48px;">
@@ -2382,7 +2311,7 @@ body::after {
       </div>
       <div>
         <div class="label" style="margin-bottom: 4px;">Масштабирование</div>
-        <p style="font-size: 14px;">Субтитры EN/ES → перезапись для&nbsp;multilingual</p>
+        <p style="font-size: 14px;">Субтитры EN/ES → перезапись для multilingual</p>
       </div>
     </div>
   </div>
@@ -2412,9 +2341,9 @@ body::after {
     <h2 class="h-display">Презентации <span style="color: var(--muted); font-weight: 400; font-style: italic; font-size: 0.6em;">— 7&nbsp;штук</span></h2>
 
     <div class="materials" style="margin-top: 32px;">
-      <div class="material-item"><span class="num">01</span><span class="name">Современные применения ИИ в&nbsp;работе и&nbsp;жизни</span></div>
-      <div class="material-item"><span class="num">02</span><span class="name">LLM: введение в&nbsp;работу нейросетей, ошибки и&nbsp;инсайты использования</span></div>
-      <div class="material-item"><span class="num">03</span><span class="name">Информационная безопасность при&nbsp;работе с&nbsp;нейросетями</span></div>
+      <div class="material-item"><span class="num">01</span><span class="name">Современные применения ИИ в&nbsp;работе и жизни</span></div>
+      <div class="material-item"><span class="num">02</span><span class="name">LLM: введение в&nbsp;работу нейросетей, ошибки и инсайты использования</span></div>
+      <div class="material-item"><span class="num">03</span><span class="name">Информационная безопасность при работе с&nbsp;нейросетями</span></div>
       <div class="material-item"><span class="num">04</span><span class="name">Корпоративная политика использования ИИ (PPTX)</span></div>
       <div class="material-item"><span class="num">05</span><span class="name">Тарифы ChatGPT</span></div>
       <div class="material-item"><span class="num">06</span><span class="name">GEO — это новый цифровой канал</span></div>
@@ -2424,11 +2353,11 @@ body::after {
     <div style="margin-top: 48px; padding: 18px 24px; background: rgba(255,255,255,0.5); border: 1px solid var(--line); display: flex; gap: 48px;">
       <div>
         <div class="label" style="margin-bottom: 4px;">Статус</div>
-        <p style="font-size: 14px; color: var(--green); font-weight: 600;">✓ Готовы. PPTX по&nbsp;корп-политике — шаблон для&nbsp;клиентов</p>
+        <p style="font-size: 14px; color: var(--green); font-weight: 600;">✓ Готовы. PPTX по корп-политике — шаблон для клиентов</p>
       </div>
       <div>
         <div class="label" style="margin-bottom: 4px;">Масштабирование</div>
-        <p style="font-size: 14px;">Адаптация под&nbsp;B2B-формат с&nbsp;тестами и&nbsp;заданиями</p>
+        <p style="font-size: 14px;">Адаптация под B2B-формат с&nbsp;тестами и заданиями</p>
       </div>
     </div>
   </div>
@@ -2464,7 +2393,7 @@ body::after {
           <div class="material-item"><span class="num">01</span><span class="name">Карта инструментов</span></div>
           <div class="material-item"><span class="num">02</span><span class="name">Промпт-инжиниринг</span></div>
           <div class="material-item"><span class="num">03</span><span class="name">Техники промптинга</span></div>
-          <div class="material-item"><span class="num">04</span><span class="name">Промпты для&nbsp;работы с&nbsp;изображениями</span></div>
+          <div class="material-item"><span class="num">04</span><span class="name">Промпты для работы с&nbsp;изображениями</span></div>
           <div class="material-item"><span class="num">05</span><span class="name">Техника проведения глубоких исследований</span></div>
         </div>
       </div>
@@ -2472,13 +2401,13 @@ body::after {
       <div>
         <div class="label" style="margin-bottom: 18px; color: var(--warm);">Памятки — 2&nbsp;шт</div>
         <div class="materials materials-full">
-          <div class="material-item"><span class="num">01</span><span class="name">Что можно и&nbsp;нельзя загружать в&nbsp;ИИ при&nbsp;работе с&nbsp;госзаказчиками</span></div>
-          <div class="material-item"><span class="num">02</span><span class="name">Как избежать галлюцинаций при&nbsp;общении с&nbsp;ИИ</span></div>
+          <div class="material-item"><span class="num">01</span><span class="name">Что можно и нельзя загружать в&nbsp;ИИ при работе с&nbsp;госзаказчиками</span></div>
+          <div class="material-item"><span class="num">02</span><span class="name">Как избежать галлюцинаций при общении с&nbsp;ИИ</span></div>
         </div>
 
         <div style="margin-top: 24px; padding: 16px 20px; background: rgba(216, 123, 42, 0.08); border-left: 2px solid var(--warm);">
           <p style="font-size: 13px; line-height: 1.45; color: var(--ink-soft);">
-            <span class="text-warm">B2G-памятка</span> — уникальный актив. Никто на&nbsp;рынке так&nbsp;глубоко не&nbsp;покрывает работу с&nbsp;госзаказчиками.
+            <span class="text-warm">B2G-памятка</span> — уникальный актив. Никто на рынке так глубоко не покрывает работу с&nbsp;госзаказчиками.
           </p>
         </div>
       </div>
@@ -2486,7 +2415,7 @@ body::after {
 
     <div style="margin-top: 40px; padding: 18px 24px; background: rgba(255,255,255,0.5); border: 1px solid var(--line);">
       <div class="label" style="margin-bottom: 4px;">Масштабирование</div>
-      <p style="font-size: 14px;">Конвертация в&nbsp;интерактивные модули на&nbsp;платформе с&nbsp;адаптивными тестами</p>
+      <p style="font-size: 14px;">Конвертация в&nbsp;интерактивные модули на платформе с&nbsp;адаптивными тестами</p>
     </div>
   </div>
 
@@ -2516,14 +2445,14 @@ body::after {
 
     <div class="two-col" style="margin-top: 32px; gap: 56px;">
       <div>
-        <div class="label" style="margin-bottom: 16px; color: var(--accent);">Шаблоны и&nbsp;примеры · 6&nbsp;шт</div>
+        <div class="label" style="margin-bottom: 16px; color: var(--accent);">Шаблоны и примеры · 6&nbsp;шт</div>
         <div class="materials materials-full">
           <div class="material-item"><span class="num">01</span><span class="name">Шаблон корпоративной политики использования ИИ</span></div>
-          <div class="material-item"><span class="num">02</span><span class="name">Шаблоны системных инструкций для&nbsp;ведения проектов в&nbsp;ChatGPT/LLM</span></div>
-          <div class="material-item"><span class="num">03</span><span class="name">Шаблон и&nbsp;пример инструкции для&nbsp;настройки GPTs/Gems</span></div>
-          <div class="material-item"><span class="num">04</span><span class="name">Инструкции для&nbsp;создания GPTs</span></div>
-          <div class="material-item"><span class="num">05</span><span class="name">Пример RAG-базы для&nbsp;обучения GPTs</span></div>
-          <div class="material-item"><span class="num">06</span><span class="name">Пример базы знаний для&nbsp;ведения проекта в&nbsp;LLM</span></div>
+          <div class="material-item"><span class="num">02</span><span class="name">Шаблоны системных инструкций для ведения проектов в&nbsp;ChatGPT/LLM</span></div>
+          <div class="material-item"><span class="num">03</span><span class="name">Шаблон и пример инструкции для настройки GPTs/Gems</span></div>
+          <div class="material-item"><span class="num">04</span><span class="name">Инструкции для создания GPTs</span></div>
+          <div class="material-item"><span class="num">05</span><span class="name">Пример RAG-базы для обучения GPTs</span></div>
+          <div class="material-item"><span class="num">06</span><span class="name">Пример базы знаний для ведения проекта в&nbsp;LLM</span></div>
         </div>
       </div>
 
@@ -2532,8 +2461,8 @@ body::after {
         <div class="materials materials-full">
           <div class="material-item"><span class="num">01</span><span class="name">Метапромпт — короткая версия</span></div>
           <div class="material-item"><span class="num">02</span><span class="name">Метапромпт — длинная версия</span></div>
-          <div class="material-item"><span class="num">03</span><span class="name">Банк шаблон-промптов для&nbsp;event-индустрии</span></div>
-          <div class="material-item"><span class="num">04</span><span class="name">Банк шаблонов промптов для&nbsp;строительной компании</span></div>
+          <div class="material-item"><span class="num">03</span><span class="name">Банк шаблон-промптов для event-индустрии</span></div>
+          <div class="material-item"><span class="num">04</span><span class="name">Банк шаблонов промптов для строительной компании</span></div>
           <div class="material-item"><span class="num">05</span><span class="name">Mentor SOUL.md (душа AI-агента наставника)</span></div>
           <div class="material-item"><span class="num">06</span><span class="name">Бот-консьерж SOUL.md (душа AI-агента консьержа)</span></div>
           <div class="material-item"><span class="num">07</span><span class="name">Skill: pdf-to-markdown + инструкция «Как создавать Skills в&nbsp;Claude.ai»</span></div>
@@ -2542,9 +2471,9 @@ body::after {
     </div>
 
     <div style="margin-top: 24px; padding: 18px 24px; background: var(--ink); color: var(--paper);">
-      <div class="label" style="color: var(--warm); margin-bottom: 4px;">Почему это&nbsp;стратегический актив</div>
+      <div class="label" style="color: var(--warm); margin-bottom: 4px;">Почему это стратегический актив</div>
       <p style="font-size: 14px; line-height: 1.5; color: rgba(243, 239, 230, 0.85);">
-        Шаблоны системных инструкций, SOUL.md и&nbsp;RAG-базы — это&nbsp;<span style="color: var(--warm); font-weight: 600;">основа для&nbsp;Tier 3</span>. Никто на&nbsp;рынке&nbsp;edu не&nbsp;даёт «душу&nbsp;агента под&nbsp;ключ» с&nbsp;готовыми шаблонами.
+        Шаблоны системных инструкций, SOUL.md и RAG-базы — это <span style="color: var(--warm); font-weight: 600;">основа для Tier 3</span>. Никто на рынке edu не даёт «душу агента под ключ» с&nbsp;готовыми шаблонами.
       </p>
     </div>
   </div>
@@ -2572,44 +2501,54 @@ body::after {
   <div class="slide-content">
     <div class="eyebrow">04 · Инвентарь контента · USP</div>
     <h2 class="h-display">Курс<br><span class="accent">«AI-офис под бизнес»</span></h2>
-    <p class="lead" style="margin-top: 16px;">5 уроков. Уникальный актив, которого нет&nbsp;ни&nbsp;у&nbsp;кого на&nbsp;рынке.</p>
+    <p class="lead" style="margin-top: 16px;">7 модулей. Уникальный актив, которого нет ни у&nbsp;кого на рынке.</p>
 
     <div class="materials" style="margin-top: 40px; grid-template-columns: 1fr;">
-      <div class="material-item" style="grid-template-columns: 24px 200px 1fr;">
+      <div class="material-item" style="grid-template-columns: 24px 240px 1fr;">
+        <span class="num">01</span>
+        <span class="name" style="color: var(--warm); font-weight: 600;">Настройка инфраструктуры под разные юрисдикции</span>
+        <span class="name" style="color: var(--muted); font-size: 13px;">VPN-контур • Аккаунты • Доступы для распределённых команд • RU/международные провайдеры</span>
+      </div>
+      <div class="material-item" style="grid-template-columns: 24px 240px 1fr;">
         <span class="num">02</span>
-        <span class="name" style="color: var(--accent); font-weight: 600;">Обзор AI-мира + Claude Project</span>
+        <span class="name" style="color: var(--accent); font-weight: 600;">Обзор AI + Claude Project</span>
         <span class="name" style="color: var(--muted); font-size: 13px;">Терминология • OpenRouter • Claude vs ChatGPT vs Gemini • OpenClaw</span>
       </div>
-      <div class="material-item" style="grid-template-columns: 24px 200px 1fr;">
+      <div class="material-item" style="grid-template-columns: 24px 240px 1fr;">
         <span class="num">03</span>
         <span class="name" style="color: var(--accent); font-weight: 600;">Инфраструктура OpenClaw</span>
         <span class="name" style="color: var(--muted); font-size: 13px;">VPS Aeza • LLM-провайдеры • SSH-туннель • Telegram-бот • Whisper</span>
       </div>
-      <div class="material-item" style="grid-template-columns: 24px 200px 1fr;">
+      <div class="material-item" style="grid-template-columns: 24px 240px 1fr;">
         <span class="num">04</span>
         <span class="name" style="color: var(--accent); font-weight: 600;">GitHub + Домен + Вайб-кодинг</span>
         <span class="name" style="color: var(--muted); font-size: 13px;">GitHub SSH/CLI • Porkbun • GitHub Pages • Дизайн-скиллы</span>
       </div>
-      <div class="material-item" style="grid-template-columns: 24px 200px 1fr;">
+      <div class="material-item" style="grid-template-columns: 24px 240px 1fr;">
         <span class="num">05</span>
         <span class="name" style="color: var(--accent); font-weight: 600;">n8n + Автоматизации + Cron</span>
         <span class="name" style="color: var(--muted); font-size: 13px;">n8n • 2FA • MCP • Google-интеграция • workflow «встреча → напоминание»</span>
       </div>
-      <div class="material-item" style="grid-template-columns: 24px 200px 1fr;">
+      <div class="material-item" style="grid-template-columns: 24px 240px 1fr;">
         <span class="num">06</span>
-        <span class="name" style="color: var(--warm); font-weight: 600;">Claude Code → второй мозг → AI-офис</span>
+        <span class="name" style="color: var(--accent); font-weight: 600;">Claude Code → второй мозг → AI-офис</span>
         <span class="name" style="color: var(--muted); font-size: 13px;">4 части: Claude Code в&nbsp;TG • Obsidian-vault • AI-директор • Безопасность контура</span>
+      </div>
+      <div class="material-item" style="grid-template-columns: 24px 240px 1fr;">
+        <span class="num">07</span>
+        <span class="name" style="color: var(--warm); font-weight: 600;">Создание и расширение AI-офиса · Визуализация</span>
+        <span class="name" style="color: var(--muted); font-size: 13px;">Финальная сборка под задачи бизнеса • Дашборды • Отчётность • Визуализация процессов</span>
       </div>
     </div>
 
     <div style="margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
       <div style="padding: 20px 24px; background: rgba(255,255,255,0.5); border: 1px solid var(--line);">
         <div class="label" style="margin-bottom: 6px;">Статус</div>
-        <p style="font-size: 14px;"><span style="color: var(--green); font-weight: 600;">✓</span> Уроки 2–5 готовы · урок 6 в&nbsp;работе (3 из&nbsp;4&nbsp;частей)</p>
+        <p style="font-size: 14px;"><span style="color: var(--green); font-weight: 600;">✓</span> Модули 02–05 готовы · 06 в&nbsp;работе (3 из 4&nbsp;частей) · 01 и 07 в&nbsp;проработке</p>
       </div>
       <div style="padding: 20px 24px; background: var(--ink); color: var(--paper);">
         <div class="label" style="color: var(--warm); margin-bottom: 6px;">Применение</div>
-        <p style="font-size: 14px; color: rgba(243, 239, 230, 0.85);">Премиум-трек Tier 3. «AI-офис под&nbsp;ключ за&nbsp;3&nbsp;недели»</p>
+        <p style="font-size: 14px; color: rgba(243, 239, 230, 0.85);">Премиум-трек Tier 3. «AI-офис под ключ за 3&nbsp;недели»</p>
       </div>
     </div>
   </div>
@@ -2638,7 +2577,7 @@ body::after {
     <div class="eyebrow">04 · Инвентарь контента · Сводка</div>
     <h2 class="h-medium">Карта: контент → 8&nbsp;уровней</h2>
 
-    <table class="table" style="margin-top: 32px;">
+    <table class="table" style="margin-top: 20px;">
       <thead>
         <tr>
           <th style="width: 12%;">Уровень</th>
@@ -2681,7 +2620,7 @@ body::after {
         <tr>
           <td class="strong accent-cell">5</td>
           <td class="strong">AI-агенты</td>
-          <td>SOUL.md, Mentor/Консьерж, Skills для&nbsp;Claude</td>
+          <td>SOUL.md, Mentor/Консьерж, Skills для Claude</td>
           <td style="text-align: center; color: var(--warm); font-weight: 600;">↗ Частичное</td>
         </tr>
         <tr>
@@ -2693,14 +2632,14 @@ body::after {
         <tr>
           <td class="strong accent-cell">7–8</td>
           <td class="strong">AI-first / Adaptive AI</td>
-          <td>Стратегический горизонт. Контент создаётся по&nbsp;запросу.</td>
+          <td>Стратегический горизонт. Контент создаётся по запросу.</td>
           <td style="text-align: center; color: var(--muted); font-weight: 600;">○ Roadmap</td>
         </tr>
       </tbody>
     </table>
 
     <p class="body" style="margin-top: 28px; font-size: 17px; max-width: 900px;">
-      <span class="text-warm">Вывод:</span> для&nbsp;MVP (целевые уровни 3–4) — <span class="strong">контент готов на&nbsp;90%.</span> Достаточно методической упаковки в&nbsp;модули.
+      <span class="text-warm">Вывод:</span> для MVP (целевые уровни 3–4) — <span class="strong">контент готов на 90%.</span> Достаточно методической упаковки в&nbsp;модули.
     </p>
   </div>
 
@@ -2728,21 +2667,21 @@ body::after {
     <div class="eyebrow">05 · Развилки · Решение Romа + Рафаэль</div>
     <h2 class="h-medium">Развилка №1 — Юр-структура</h2>
     <p class="lead" style="margin-top: 8px; max-width: 920px;">
-      Текущая «ИИ-ВИЗАЦИЯ» = RU-бизнес, $250K за&nbsp;20% («возврат инвестиций»). Новая платформа = venture-история ($1.5M+ ARR, x10). Это&nbsp;<span class="text-warm">разные компании</span>.
+      Текущая «ИИ-ВИЗАЦИЯ» = RU-бизнес, $250K за 20% («возврат инвестиций»). Новая платформа = venture-история ($1.5M+ ARR, x10). Это <span class="text-warm">разные компании</span>.
     </p>
 
     <div class="scenario">
       <div class="scenario-card">
         <div class="scenario-num">Сценарий 01</div>
         <div class="scenario-title">Развести</div>
-        <div class="scenario-desc">«ИИ-ВИЗАЦИЯ» остаётся как&nbsp;RU-бизнес. SaaS-платформа — отдельное юрлицо.</div>
+        <div class="scenario-desc">«ИИ-ВИЗАЦИЯ» остаётся как RU-бизнес. SaaS-платформа — отдельное юрлицо.</div>
         <div>
           <div class="scenario-pros">+ Плюсы</div>
-          <ul><li>Чистая инвест-структура</li><li>Нет conflict of&nbsp;interest</li></ul>
+          <ul><li>Чистая инвест-структура</li><li>Нет conflict of interest</li></ul>
         </div>
         <div>
           <div class="scenario-cons">– Минусы</div>
-          <ul><li>Двойная нагрузка на&nbsp;команду</li></ul>
+          <ul><li>Двойная нагрузка на команду</li></ul>
         </div>
       </div>
 
@@ -2763,14 +2702,14 @@ body::after {
       <div class="scenario-card">
         <div class="scenario-num">Сценарий 03</div>
         <div class="scenario-title">Hold-co</div>
-        <div class="scenario-desc">Холдинг владеет двумя продуктами: RU-edu + Global&nbsp;SaaS.</div>
+        <div class="scenario-desc">Холдинг владеет двумя продуктами: RU-edu + Global SaaS.</div>
         <div>
           <div class="scenario-pros">+ Плюсы</div>
-          <ul><li>Гибкость</li><li>Разные инвесторы под&nbsp;разные продукты</li></ul>
+          <ul><li>Гибкость</li><li>Разные инвесторы под разные продукты</li></ul>
         </div>
         <div>
           <div class="scenario-cons">– Минусы</div>
-          <ul><li>Юр-сложность</li><li>Расходы на&nbsp;структуру</li></ul>
+          <ul><li>Юр-сложность</li><li>Расходы на структуру</li></ul>
         </div>
       </div>
     </div>
@@ -2798,22 +2737,22 @@ body::after {
 
   <div class="slide-content">
     <div class="eyebrow">05 · Развилки</div>
-    <h2 class="h-medium">Развилка №2 — Своя платформа vs&nbsp;готовая&nbsp;LMS</h2>
-    <p class="lead" style="margin-top: 8px;">Стас хочет свою — это влияет на&nbsp;бюджет и&nbsp;timeline в&nbsp;5–10 раз.</p>
+    <h2 class="h-medium">Развилка №2 — Своя платформа vs готовая LMS</h2>
+    <p class="lead" style="margin-top: 8px;">Стас хочет свою — это влияет на бюджет и timeline в&nbsp;5–10 раз.</p>
 
     <div class="two-col" style="margin-top: 40px; gap: 48px;">
       <div class="scenario-card">
         <div class="scenario-num">Вариант A</div>
         <div class="scenario-title">Сразу своя платформа</div>
-        <div class="scenario-desc">Кастомная LMS под&nbsp;диагностику и&nbsp;дорожную карту. Полный контроль.</div>
+        <div class="scenario-desc">Кастомная LMS под диагностику и дорожную карту. Полный контроль.</div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
           <div>
             <div class="scenario-pros">+ Плюсы</div>
-            <ul><li>Контроль UX и&nbsp;бренда</li><li>Уникальные фичи</li><li>Defensibility для&nbsp;инвестора</li><li>Маржинальность в&nbsp;долгую</li></ul>
+            <ul><li>Контроль UX и бренда</li><li>Уникальные фичи</li><li>Defensibility для инвестора</li><li>Маржинальность в&nbsp;долгую</li></ul>
           </div>
           <div>
             <div class="scenario-cons">– Минусы</div>
-            <ul><li>MVP 6–9 месяцев</li><li>$80K–$200K на&nbsp;разработку</li><li>Нужен CTO/тех-сооснователь</li><li>Команда поддержки in-house</li></ul>
+            <ul><li>MVP 6–9 месяцев</li><li>$80K–$200K на разработку</li><li>Нужен CTO/тех-сооснователь</li><li>Команда поддержки in-house</li></ul>
           </div>
         </div>
       </div>
@@ -2821,15 +2760,15 @@ body::after {
       <div class="scenario-card" style="background: var(--ink); color: var(--paper); border-color: var(--ink);">
         <div class="scenario-num" style="color: var(--warm);">Вариант B · РЕКОМЕНДАЦИЯ</div>
         <div class="scenario-title" style="color: var(--paper);">Гибрид</div>
-        <div class="scenario-desc" style="color: rgba(243, 239, 230, 0.8);">M+0–6: MVP на&nbsp;готовой LMS (LearnWorlds/Docebo). M+6–18: своя&nbsp;платформа.</div>
+        <div class="scenario-desc" style="color: rgba(243, 239, 230, 0.8);">M+0–6: MVP на готовой LMS (LearnWorlds/Docebo). M+6–18: своя платформа.</div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
           <div>
             <div class="scenario-pros" style="color: #6FB377;">+ Плюсы</div>
-            <ul style="color: rgba(243, 239, 230, 0.75);"><li>Быстрый запуск 1–2&nbsp;мес</li><li>Реальная выручка раньше</li><li>Тесты гипотез до&nbsp;инвестиций</li><li>Series A — на&nbsp;свою платформу</li></ul>
+            <ul style="color: rgba(243, 239, 230, 0.75);"><li>Быстрый запуск 1–2&nbsp;мес</li><li>Реальная выручка раньше</li><li>Тесты гипотез до инвестиций</li><li>Series A — на свою платформу</li></ul>
           </div>
           <div>
             <div class="scenario-cons" style="color: #E07A7A;">– Минусы</div>
-            <ul style="color: rgba(243, 239, 230, 0.75);"><li>Ограничения готовой&nbsp;LMS</li><li>Миграция данных позже</li></ul>
+            <ul style="color: rgba(243, 239, 230, 0.75);"><li>Ограничения готовой LMS</li><li>Миграция данных позже</li></ul>
           </div>
         </div>
       </div>
@@ -2837,7 +2776,7 @@ body::after {
 
     <div style="margin-top: 32px; padding: 18px 24px; background: rgba(216, 123, 42, 0.1); border-left: 3px solid var(--warm);">
       <p class="body" style="font-size: 15px;">
-        <span class="text-warm">Инвестору это&nbsp;звучит хорошо:</span> «MVP на&nbsp;готовом, Series A — на&nbsp;собственную платформу». Разумная история, а&nbsp;не&nbsp;«дайте $200K, сделаем как&nbsp;Coursera с&nbsp;нуля».
+        <span class="text-warm">Инвестору это звучит хорошо:</span> «MVP на готовом, Series A — на собственную платформу». Разумная история, а не «дайте $200K, сделаем как Coursera с&nbsp;нуля».
       </p>
     </div>
   </div>
@@ -2865,25 +2804,25 @@ body::after {
   <div class="slide-content">
     <div class="eyebrow">05 · Развилки</div>
     <h2 class="h-medium">Развилка №3 — Команда</h2>
-    <p class="lead" style="margin-top: 8px;">Какие роли нужно закрыть до&nbsp;инвест-питча.</p>
+    <p class="lead" style="margin-top: 8px;">Какие роли нужно закрыть до инвест-питча.</p>
 
     <div class="three-col" style="margin-top: 48px;">
       <div class="card">
         <div class="card-num">01</div>
         <div class="card-title">Технический сооснователь / CTO</div>
-        <div class="card-body">Если строим свою платформу — обязательно. Без&nbsp;этого инвестор&nbsp;увидит&nbsp;дыру в&nbsp;команде.</div>
-        <div class="label" style="color: var(--red); margin-top: 16px; font-size: 10px;">⚠ Критично при&nbsp;Варианте&nbsp;A</div>
+        <div class="card-body">Если строим свою платформу — обязательно. Без этого инвестор увидит дыру в&nbsp;команде.</div>
+        <div class="label" style="color: var(--red); margin-top: 16px; font-size: 10px;">⚠ Критично при Варианте A</div>
       </div>
       <div class="card">
         <div class="card-num">02</div>
-        <div class="card-title">Второй методолог</div>
-        <div class="card-body">Сейчас Стас — единственный носитель экспертизы и&nbsp;методологии. Это&nbsp;risk concentration.</div>
-        <div class="label" style="color: var(--warm); margin-top: 16px; font-size: 10px;">↗ Желательно для&nbsp;масштаба</div>
+        <div class="card-title">Усиление методологического слоя</div>
+        <div class="card-body">При масштабе до 50+ корпоративных клиентов одного методолога недостаточно. Нужен второй человек на эту роль — упаковщик/архитектор обучения.</div>
+        <div class="label" style="color: var(--warm); margin-top: 16px; font-size: 11px;">↗ Нанимаем после первых 10&nbsp;клиентов</div>
       </div>
       <div class="card card-accent">
         <div class="card-num">03</div>
         <div class="card-title">Product owner</div>
-        <div class="card-body">Кто отвечает за&nbsp;day-to-day продукта после&nbsp;MVP? Сейчас три&nbsp;партнёра, но&nbsp;не&nbsp;закреплён&nbsp;один.</div>
+        <div class="card-body">Кто отвечает за day-to-day продукта после MVP? Сейчас три партнёра, но не закреплён&nbsp;один.</div>
         <div class="label" style="color: var(--warm); margin-top: 16px; font-size: 10px;">→ Решить сейчас</div>
       </div>
     </div>
@@ -2891,7 +2830,7 @@ body::after {
     <div class="decision" style="margin-top: 48px;">
       <div class="decision-label">Открытый вопрос</div>
       <div class="decision-text">
-        Готовы ли мы добавить четвёртого партнёра (CTO/тех-сооснователя) или&nbsp;будем&nbsp;нанимать&nbsp;in-house на&nbsp;зарплату с&nbsp;опционами?
+        Готовы ли мы добавить четвёртого партнёра (CTO/тех-сооснователя) или будем нанимать in-house на зарплату с&nbsp;опционами?
       </div>
     </div>
   </div>
@@ -2922,14 +2861,14 @@ body::after {
     <p class="lead" style="margin-top: 16px;">Что должны решить партнёры в&nbsp;ближайшие 2&nbsp;недели.</p>
 
     <ul class="bullets-num" style="margin-top: 48px; max-width: 1100px;">
-      <li><span class="strong" style="color: var(--ink);">Сценарий юр-структуры:</span> 1, 2 или&nbsp;3? <span style="color: var(--muted);">— Развилка №1</span></li>
-      <li><span class="strong" style="color: var(--ink);">Платформа:</span> сразу своя или&nbsp;гибрид с&nbsp;готовой&nbsp;LMS на&nbsp;старте? <span style="color: var(--muted);">— Развилка №2</span></li>
-      <li><span class="strong" style="color: var(--ink);">CTO:</span> ищем технического сооснователя или&nbsp;нанимаем in-house? <span style="color: var(--muted);">— Развилка №3</span></li>
-      <li><span class="strong" style="color: var(--ink);">Бюджет на&nbsp;MVP:</span> $50K / $200K / $500K? Источник? <span style="color: var(--muted);">— Self-funding или&nbsp;pre-seed?</span></li>
-      <li><span class="strong" style="color: var(--ink);">Timeline до&nbsp;первого paying customer на&nbsp;платформе:</span> 3, 6 или&nbsp;9&nbsp;месяцев?</li>
-      <li><span class="strong" style="color: var(--ink);">Инвест-раунд:</span> кто отвечает за&nbsp;привлечение, какая&nbsp;цель, какие&nbsp;инвесторы?</li>
-      <li><span class="strong" style="color: var(--ink);">Product owner:</span> кто из&nbsp;партнёров отвечает за&nbsp;продукт day-to-day?</li>
-      <li><span class="strong" style="color: var(--ink);">Когда выходим:</span> к&nbsp;каким инвесторам и&nbsp;с&nbsp;каким&nbsp;питчем?</li>
+      <li><span class="strong" style="color: var(--ink);">Сценарий юр-структуры:</span> 1, 2 или 3? <span style="color: var(--muted);">— Развилка №1</span></li>
+      <li><span class="strong" style="color: var(--ink);">Платформа:</span> сразу своя или гибрид с&nbsp;готовой LMS на старте? <span style="color: var(--muted);">— Развилка №2</span></li>
+      <li><span class="strong" style="color: var(--ink);">CTO:</span> ищем технического сооснователя или нанимаем in-house? <span style="color: var(--muted);">— Развилка №3</span></li>
+      <li><span class="strong" style="color: var(--ink);">Бюджет на MVP:</span> $50K / $200K / $500K? Источник? <span style="color: var(--muted);">— Self-funding или pre-seed?</span></li>
+      <li><span class="strong" style="color: var(--ink);">Timeline до первого paying customer на платформе:</span> 3, 6 или 9&nbsp;месяцев?</li>
+      <li><span class="strong" style="color: var(--ink);">Инвест-раунд:</span> кто отвечает за привлечение, какая цель, какие инвесторы?</li>
+      <li><span class="strong" style="color: var(--ink);">Product owner:</span> кто из партнёров отвечает за продукт day-to-day?</li>
+      <li><span class="strong" style="color: var(--ink);">Когда выходим:</span> к&nbsp;каким инвесторам и с&nbsp;каким питчем?</li>
     </ul>
   </div>
 
@@ -2956,13 +2895,13 @@ body::after {
   <div class="slide-content">
     <div class="eyebrow">06 · Финал</div>
     <h2 class="h-display">Что решаем<br><span class="accent">сегодня</span></h2>
-    <p class="lead" style="margin-top: 16px;">Три решения, без&nbsp;которых следующий шаг невозможен.</p>
+    <p class="lead" style="margin-top: 16px;">Три решения, без которых следующий шаг невозможен.</p>
 
     <div class="three-col" style="margin-top: 56px;">
       <div class="card">
         <div class="card-num">01</div>
         <div class="card-title" style="color: var(--accent);">Юр-структура</div>
-        <div class="card-body" style="margin-bottom: 24px;">Выбираем сценарий 1, 2 или&nbsp;3. От&nbsp;этого зависит ВСЁ: бренд, питч, инвесторы, юрисдикция.</div>
+        <div class="card-body" style="margin-bottom: 24px;">Выбираем сценарий 1, 2 или 3. От этого зависит ВСЁ: бренд, питч, инвесторы, юрисдикция.</div>
         <div style="padding-top: 16px; border-top: 1px solid var(--line);">
           <div class="label" style="color: var(--ink);">Решение принимают</div>
           <p style="font-size: 14px; margin-top: 6px;">Рафаэль + Рома + Стас</p>
@@ -2972,7 +2911,7 @@ body::after {
       <div class="card">
         <div class="card-num">02</div>
         <div class="card-title" style="color: var(--accent);">Стек платформы</div>
-        <div class="card-body" style="margin-bottom: 24px;">Своя сразу или&nbsp;гибрид. От&nbsp;этого зависит бюджет MVP в&nbsp;5–10&nbsp;раз и&nbsp;timeline до&nbsp;запуска.</div>
+        <div class="card-body" style="margin-bottom: 24px;">Своя сразу или гибрид. От этого зависит бюджет MVP в&nbsp;5–10&nbsp;раз и timeline до запуска.</div>
         <div style="padding-top: 16px; border-top: 1px solid var(--line);">
           <div class="label" style="color: var(--ink);">Решение принимают</div>
           <p style="font-size: 14px; margin-top: 6px;">Стас (как product) + Рафаэль (CEO)</p>
@@ -2981,8 +2920,8 @@ body::after {
 
       <div class="card card-accent">
         <div class="card-num">03</div>
-        <div class="card-title" style="color: var(--warm);">Бюджет и&nbsp;source</div>
-        <div class="card-body" style="margin-bottom: 24px;">Сколько денег и&nbsp;откуда: self-funding из&nbsp;текущей выручки, дружественный raise, pre-seed&nbsp;round?</div>
+        <div class="card-title" style="color: var(--warm);">Бюджет и source</div>
+        <div class="card-body" style="margin-bottom: 24px;">Сколько денег и откуда: self-funding из текущей выручки, дружественный raise, pre-seed round?</div>
         <div style="padding-top: 16px; border-top: 1px solid rgba(243, 239, 230, 0.15);">
           <div class="label" style="color: var(--warm);">Решение принимают</div>
           <p style="font-size: 14px; margin-top: 6px; color: rgba(243, 239, 230, 0.85);">Рафаэль + Рома (инвест-каналы)</p>
@@ -3026,28 +2965,28 @@ body::after {
       <div style="padding: 24px 0; border-top: 1px solid var(--line); font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; color: var(--accent);">M+2</div>
       <div style="padding: 24px 0; border-top: 1px solid var(--line);">
         <div class="h-small">Методическая анкета + диагностика</div>
-        <p class="body-small" style="margin-top: 4px;">Доработка под&nbsp;фреймворк 8&nbsp;уровней. Первый MVP-deliverable.</p>
+        <p class="body-small" style="margin-top: 4px;">Доработка под фреймворк 8&nbsp;уровней. Первый MVP-deliverable.</p>
       </div>
       <div style="padding: 24px 0; border-top: 1px solid var(--line); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);">Стас</div>
 
       <div style="padding: 24px 0; border-top: 1px solid var(--line); font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; color: var(--accent);">M+2</div>
       <div style="padding: 24px 0; border-top: 1px solid var(--line);">
         <div class="h-small">Сбор 5–10 пилотных клиентов</div>
-        <p class="body-small" style="margin-top: 4px;">Бесплатная диагностика → кейсы → данные для&nbsp;питча инвестору.</p>
+        <p class="body-small" style="margin-top: 4px;">Бесплатная диагностика → кейсы → данные для питча инвестору.</p>
       </div>
       <div style="padding: 24px 0; border-top: 1px solid var(--line); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);">Рафаэль, продюсерский центр</div>
 
       <div style="padding: 24px 0; border-top: 1px solid var(--line); font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; color: var(--accent);">M+3</div>
       <div style="padding: 24px 0; border-top: 1px solid var(--line);">
         <div class="h-small">Инвест-питч (10–12 слайдов)</div>
-        <p class="body-small" style="margin-top: 4px;">Внешний документ для&nbsp;инвесторов в&nbsp;Дубае. С&nbsp;TAM/SAM, comparables, x10-логикой.</p>
+        <p class="body-small" style="margin-top: 4px;">Внешний документ для инвесторов в&nbsp;Дубае. С&nbsp;TAM/SAM, comparables, x10-логикой.</p>
       </div>
       <div style="padding: 24px 0; border-top: 1px solid var(--line); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);">Стас + Рафаэль</div>
 
       <div style="padding: 24px 0; border-top: 1px solid var(--line); border-bottom: 2px solid var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; color: var(--warm);">M+4</div>
       <div style="padding: 24px 0; border-top: 1px solid var(--line); border-bottom: 2px solid var(--ink);">
         <div class="h-small" style="color: var(--warm);">Первые встречи с&nbsp;инвесторами</div>
-        <p class="body-small" style="margin-top: 4px;">Дубай через&nbsp;Рому. Параллельно — RU/русскоязычные ангелы.</p>
+        <p class="body-small" style="margin-top: 4px;">Дубай через Рому. Параллельно — RU/русскоязычные ангелы.</p>
       </div>
       <div style="padding: 24px 0; border-top: 1px solid var(--line); border-bottom: 2px solid var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);">Рома + Рафаэль</div>
     </div>
