@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Свой VPN на своём VPS</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #0a0a0f;
+    --bg-card: #12121a;
+    --bg-card-hover: #181825;
+    --border: #1e1e2e;
+    --border-accent: #2a2a3e;
+    --text-primary: #e8e6f0;
+    --text-secondary: #8b879e;
+    --text-muted: #5a5670;
+    --accent: #7c5bf5;
+    --accent-glow: #9d7cff;
+    --accent-soft: rgba(124, 91, 245, 0.12);
+    --green: #34d399;
+    --green-glow: #6ee7b7;
+    --green-soft: rgba(52, 211, 153, 0.1);
+    --amber: #fbbf24;
+    --amber-soft: rgba(251, 191, 36, 0.1);
+    --red-soft: rgba(248, 113, 113, 0.1);
+    --red: #f87171;
+    --radius: 14px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Onest', sans-serif; background: var(--bg-deep); color: var(--text-primary); line-height: 1.65; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+  body::before { content: ''; position: fixed; inset: 0; background-image: radial-gradient(circle at 20% 20%, rgba(124,91,245,0.04) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(52,211,153,0.03) 0%, transparent 50%); pointer-events: none; z-index: 0; }
+  .wrapper { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; padding: 40px 20px 80px; }
+  .header { text-align: center; margin-bottom: 48px; }
+  .header__badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-glow); background: var(--accent-soft); border: 1px solid rgba(124,91,245,0.2); padding: 6px 16px; border-radius: 100px; margin-bottom: 24px; animation: fadeDown .6s ease both; }
+  .header__title { font-size: clamp(28px,6vw,40px); font-weight: 800; line-height: 1.15; letter-spacing: -0.5px; margin-bottom: 12px; animation: fadeDown .6s ease .1s both; }
+  .header__title span { background: linear-gradient(135deg, var(--accent-glow), var(--green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+  .header__topics { list-style:none; display:flex; flex-direction:column; gap:7px; max-width:460px; margin:16px auto 0; animation:fadeDown .6s ease .3s both; }
+  .header__topics li { font-size:13.5px; color:var(--text-secondary); display:flex; align-items:flex-start; gap:8px; text-align:left; }
+  .header__topics li::before { content:'→'; color:var(--accent); flex-shrink:0; font-family:'JetBrains Mono',monospace; font-size:11px; margin-top:3px; }
+
+  .header__subtitle { font-size: 15px; color: var(--text-secondary); max-width: 500px; margin: 0 auto; animation: fadeDown .6s ease .2s both; }
+  .progress-wrap { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 36px; position: sticky; top: 12px; z-index: 10; backdrop-filter: blur(16px); background: rgba(18,18,26,0.92); animation: fadeDown .6s ease .3s both; }
+  .progress-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .progress-label { font-size: 13px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; font-family: 'JetBrains Mono', monospace; }
+  .progress-count { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 700; color: var(--accent-glow); }
+  .progress-bar { width: 100%; height: 8px; background: var(--border); border-radius: 100px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--green)); border-radius: 100px; transition: width .5s cubic-bezier(.34,1.56,.64,1); width: 0%; }
+  .section { margin-bottom: 28px; }
+  .section__header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; padding-left: 2px; }
+  .section__num { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: var(--accent); background: var(--accent-soft); width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 8px; flex-shrink: 0; }
+  .section__title { font-size: 17px; font-weight: 700; letter-spacing: -0.2px; }
+  .section__card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: border-color .3s; }
+  .section__card:hover { border-color: var(--border-accent); }
+  .item { display: flex; align-items: flex-start; gap: 14px; padding: 16px 20px; border-bottom: 1px solid var(--border); transition: background .2s; cursor: pointer; user-select: none; }
+  .item:last-child { border-bottom: none; }
+  .item:hover { background: var(--bg-card-hover); }
+  .item.checked .item__text { color: var(--text-muted); text-decoration: line-through; }
+  .item.checked .item__link { opacity: 0.4; }
+  .item__check { position: relative; width: 22px; height: 22px; flex-shrink: 0; margin-top: 1px; }
+  .item__check input { position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; z-index: 2; }
+  .item__check .cm { width: 22px; height: 22px; border: 2px solid var(--border-accent); border-radius: 6px; display: flex; align-items: center; justify-content: center; transition: all .25s cubic-bezier(.34,1.56,.64,1); }
+  .item__check .cm svg { width: 12px; height: 12px; opacity: 0; transform: scale(0); transition: all .25s cubic-bezier(.34,1.56,.64,1); }
+  .item__check input:checked + .cm { background: var(--green); border-color: var(--green); }
+  .item__check input:checked + .cm svg { opacity: 1; transform: scale(1); }
+  .item__body { flex: 1; min-width: 0; }
+  .item__text { font-size: 14.5px; font-weight: 500; color: var(--text-primary); transition: all .3s; }
+  .item__hint { font-size: 13px; color: var(--text-secondary); margin-top: 4px; line-height: 1.6; }
+  .item__hint a { color: var(--accent-glow); text-decoration: none; font-weight: 600; }
+  .item__hint a.tg { color: #2dd4bf; text-decoration: underline; text-decoration-color: rgba(45,212,191,0.4); text-underline-offset: 2px; }
+  .item__hint a.tg:hover { color: #5eead4; text-decoration-color: #5eead4; }
+  .item__hint a:hover { text-decoration: underline; }
+  .item__hint strong { color: var(--text-primary); }
+  .item__link { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-family: 'JetBrains Mono', monospace; color: var(--accent-glow); text-decoration: none; margin-top: 5px; transition: all .2s; word-break: break-all; }
+  .item__link:hover { color: #bba4ff; text-decoration: underline; }
+  .item__link svg { width: 13px; height: 13px; flex-shrink: 0; }
+  .lnk { display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-family: 'JetBrains Mono', monospace; color: var(--accent-glow); text-decoration: none; word-break: break-all; }
+  .lnk:hover { color: #bba4ff; text-decoration: underline; }
+  .note { display: flex; align-items: flex-start; gap: 10px; padding: 14px 20px; font-size: 13px; color: var(--text-secondary); line-height: 1.6; border-bottom: 1px solid var(--border); }
+  .note:last-child { border-bottom: none; }
+  .note--warn { background: var(--amber-soft); color: var(--amber); }
+  .note--info { background: var(--accent-soft); }
+  .note--alert { background: var(--red-soft); color: var(--red); }
+  .note--green { background: var(--green-soft); color: var(--green-glow); }
+  .note__icon { flex-shrink: 0; font-size: 15px; }
+  .note a { color: var(--accent-glow); text-decoration: none; font-weight: 600; }
+  .note a:hover { text-decoration: underline; }
+  .note strong { color: inherit; }
+  .tg { color: #2dd4bf !important; font-weight: 700; text-decoration: underline; text-decoration-color: rgba(45,212,191,0.4); text-underline-offset: 2px; transition: all .2s; }
+  .tg:hover { color: #5eead4 !important; text-decoration-color: #5eead4; }
+  .spoiler { border-bottom: 1px solid var(--border); }
+  .spoiler:last-child { border-bottom: none; }
+  .spoiler summary { padding: 14px 20px; font-size: 13.5px; font-weight: 600; color: var(--text-secondary); cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px; transition: color .2s; }
+  .spoiler summary:hover { color: var(--text-primary); }
+  .spoiler summary::before { content: '▸'; font-size: 12px; transition: transform .2s; }
+  .spoiler[open] summary::before { transform: rotate(90deg); }
+  .spoiler__content { padding: 0 20px 16px 34px; font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+  .spoiler__content p { margin-bottom: 8px; }
+  .spoiler__content strong { color: var(--text-primary); font-weight: 600; }
+  .os-table { width: 100%; font-size: 13px; border-collapse: collapse; margin: 8px 0; }
+  .os-table th { text-align: left; font-weight: 600; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; padding: 6px 0; border-bottom: 1px solid var(--border); }
+  .os-table td { padding: 8px 0; border-bottom: 1px solid var(--border); color: var(--text-secondary); vertical-align: top; }
+  .os-table tr:last-child td { border-bottom: none; }
+  .os-table td:first-child { color: var(--text-primary); font-weight: 500; }
+  .footer { text-align: center; margin-top: 48px; }
+  .footer__done { display: none; background: var(--green-soft); border: 1px solid rgba(52,211,153,0.25); border-radius: var(--radius); padding: 32px 24px; margin-bottom: 24px; }
+  .footer__done.visible { display: block; animation: popIn .5s cubic-bezier(.34,1.56,.64,1) both; }
+  .footer__done-emoji { font-size: 48px; margin-bottom: 10px; }
+  .footer__done-text { font-size: 22px; font-weight: 800; color: var(--green); margin-bottom: 6px; }
+  .footer__done-sub { font-size: 15px; color: var(--text-secondary); }
+  .footer__schedule { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 20px; font-size: 14px; }
+  .footer__schedule-title { font-weight: 700; margin-bottom: 8px; font-size: 15px; }
+  .footer__schedule-row { display: flex; justify-content: space-between; padding: 4px 0; color: var(--text-secondary); }
+  .footer__schedule-row span:first-child { color: var(--text-primary); font-weight: 500; }
+  .footer__contact { font-size: 14px; color: var(--text-secondary); margin-bottom: 20px; }
+  .footer__contact a { color: #2dd4bf; text-decoration: underline; text-decoration-color: rgba(45,212,191,0.4); font-weight: 700; }
+  .btn-reset { background: none; border: 1px solid var(--border); color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 8px 20px; border-radius: 100px; cursor: pointer; transition: all .2s; }
+  .btn-reset:hover { border-color: var(--red); color: var(--red); }
+  #confetti-canvas { position: fixed; inset: 0; z-index: 9999; pointer-events: none; }
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+  @media (max-width: 480px) {
+    .wrapper { padding: 28px 14px 60px; }
+    .item { padding: 14px 16px; gap: 12px; }
+    .note { padding: 12px 16px; }
+    .spoiler summary { padding: 12px 16px; }
+    .spoiler__content { padding: 0 16px 14px 28px; }
+    .progress-wrap { padding: 16px 18px; top: 8px; }
+    .footer__schedule-row { flex-direction: column; gap: 2px; }
+  }
+
+  /* Checkbox: only circle triggers toggle, links still work */
+  .item { cursor: default; }
+  .item__body { pointer-events: none; user-select: text; }
+  .item__body a,
+  .item__body .item__link,
+  .item__body .lnk,
+  .item__body .tg { pointer-events: auto !important; cursor: pointer !important; }
+  .item__check { pointer-events: auto; cursor: pointer; }
+
+
+  /* Pointer cursor on checkbox hover */
+  .item__check:hover { cursor: pointer; }
+  .cm { cursor: pointer; }
+
+  /* Flexy support link — purple like other links */
+  .support-link {
+    color: var(--accent-glow) !important;
+    font-weight: 600;
+    pointer-events: auto !important;
+    display: inline-block;
+    margin-top: 6px;
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    transition: color .2s;
+  }
+  .support-link:hover { color: #bba4ff !important; text-decoration: underline; }
+
+</style>
+</head>
+<body>
+<canvas id="confetti-canvas"></canvas>
+<div class="wrapper">
+
+  <header class="header">
+    <div class="header__badge">СВОЙ VPN · СВОЙ VPS</div>
+    <h1 class="header__title">Свой VPN на <span>своём VPS</span></h1>
+    <ul class="header__topics">
+      <li>Свой профиль в Chrome — чистые куки, без следов</li>
+      <li>VPS-сервер в США у проверенных провайдеров</li>
+      <li>Amnezia VPN на компьютере (Windows / macOS)</li>
+      <li>Amnezia VPN на смартфоне (iPhone / Android)</li>
+      <li>Смена региона смартфона на США</li>
+    </ul>
+
+  </header>
+
+  <div class="progress-wrap">
+    <div class="progress-top">
+      <span class="progress-label">Прогресс</span>
+      <span class="progress-count" id="progressCount">0 / 0</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <div id="sections">
+
+<!-- ====== 01 CHROME ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">01</div><div class="section__title">Google Chrome</div></div>
+  <div class="section__card">
+    <div class="item" data-key="chrome-dl"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Скачать и установить Google Chrome</div>
+        <div class="item__hint">Если уже установлен — отметьте галочку и идите дальше.</div>
+        <a href="https://www.google.com/chrome/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> google.com/chrome — скачать браузер</a>
+      </div>
+    </div>
+    <div class="item" data-key="chrome-default"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Сделать Chrome браузером по умолчанию</div>
+        <div class="item__hint"><strong>macOS:</strong> Системные настройки → Рабочий стол и Dock → «Веб-браузер по умолчанию» → Google Chrome.<br><strong>Windows:</strong> Параметры → Приложения → Приложения по умолчанию → Google Chrome → «Использовать по умолчанию».</div>
+      </div>
+    </div>
+    <div class="item" data-key="chrome-profile"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Создать новый профиль в Chrome</div>
+        <div class="item__hint">Это важно! Новый профиль = чистые куки, нет старых данных, меньше риск блокировки.<br>Нажмите на иконку профиля (кружок в правом верхнем углу Chrome) → «Добавить» → введите любое имя → «Готово».</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 02 CHROME LOGIN ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">02</div><div class="section__title">Войти в Chrome</div></div>
+  <div class="section__card">
+    <div class="note note--info"><span class="note__icon">💡</span><span>Залогиньтесь в свой Google-аккаунт прямо в Chrome — синхронизация закладок, паролей и истории между устройствами.</span></div>
+    <div class="item" data-key="chrome-login"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Войти в Google-аккаунт в Chrome</div>
+        <div class="item__hint">Chrome → иконка профиля (правый верхний угол) → «Включить синхронизацию» → введите ваш Gmail и пароль.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 03 VPS ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">03</div><div class="section__title">VPS-сервер в США</div></div>
+  <div class="section__card">
+    <div class="note note--info"><span class="note__icon">💡</span><span>VPS — это удалённый компьютер (сервер), который работает 24/7 в США. Через него мы запустим свой личный VPN: без подписок, без чужих лимитов, никто кроме вас им не пользуется.</span></div>
+
+    <div class="note note--green"><span class="note__icon">⚙️</span><span><strong>Какой нужен сервер:</strong><br>• Локация: <strong>США</strong><br>• Минимум: <strong>1 vCPU / 2 ГБ RAM / 20 ГБ SSD</strong> (для VPN хватит с запасом)<br>• ОС: <strong>Ubuntu 22.04 или 24.04</strong></span></div>
+
+    <details class="spoiler" open>
+      <summary>🟢 Рекомендуем — провайдеры с серверами в США</summary>
+      <div class="spoiler__content">
+        <table class="os-table">
+          <tr><th>Провайдер</th><th>Цена / Локации США / Чем хорош</th></tr>
+          <tr><td><strong>Hetzner Cloud</strong><br><a href="https://www.hetzner.com/cloud" target="_blank" class="lnk">→ hetzner.com</a></td><td>от <strong>€3.79/мес</strong> · Ashburn (Вирджиния), Hillsboro (Орегон)<br><span style="color:var(--text-muted)">Дешёво, надёжно, без блокировок LLM-сервисов. Хороший дефолт.</span></td></tr>
+          <tr><td><strong>DigitalOcean</strong><br><a href="https://www.digitalocean.com/" target="_blank" class="lnk">→ digitalocean.com</a></td><td>от <strong>$4/мес</strong> · Нью-Йорк, Сан-Франциско, Атланта<br><span style="color:var(--text-muted)">Самая удобная панель. Студентам — $200 кредита через GitHub Student Pack.</span></td></tr>
+          <tr><td><strong>Vultr</strong><br><a href="https://www.vultr.com/" target="_blank" class="lnk">→ vultr.com</a></td><td>от <strong>$6/мес</strong> · много городов США<br><span style="color:var(--text-muted)">Альтернатива DigitalOcean — больше городов на выбор.</span></td></tr>
+          <tr><td><strong>Linode (Akamai)</strong><br><a href="https://www.linode.com/" target="_blank" class="lnk">→ linode.com</a></td><td>от <strong>$5/мес</strong> · США есть<br><span style="color:var(--text-muted)">Премиум-уровень, корпоративная репутация. Стабильно.</span></td></tr>
+        </table>
+      </div>
+    </details>
+
+    <details class="spoiler">
+      <summary>🟡 Без США — только Европа (если локация не критична)</summary>
+      <div class="spoiler__content">
+        <table class="os-table">
+          <tr><th>Провайдер</th><th>Цена / Локации / Чем хорош</th></tr>
+          <tr><td><strong>netcup</strong><br><a href="https://www.netcup.com/en/" target="_blank" class="lnk">→ netcup.com</a></td><td>от <strong>€5/мес</strong> · Германия, Австрия<br><span style="color:var(--text-muted)">Тихий немецкий хостер с чистой репутацией.</span></td></tr>
+          <tr><td><strong>Scaleway</strong><br><a href="https://www.scaleway.com/" target="_blank" class="lnk">→ scaleway.com</a></td><td>от <strong>€1.80/мес</strong> · Франция, Нидерланды, Польша<br><span style="color:var(--text-muted)">Самый дешёвый легитимный EU-вариант.</span></td></tr>
+        </table>
+        <p style="margin-top:10px;color:var(--text-muted)"><strong>Внимание:</strong> у этих провайдеров нет дата-центров в США — IP сервера будет европейский. Для общего VPN-доступа это ок, но если важен именно американский IP — выбирайте из зелёного списка выше.</p>
+      </div>
+    </details>
+
+    <details class="spoiler">
+      <summary>🔴 НЕ брать — испорченная репутация IP</summary>
+      <div class="spoiler__content">
+        <p><strong>Российские хостеры (Aeza, отдельные тарифы Timeweb, Reg.ru и т.п.)</strong> — их IP-диапазоны попадают в чёрные списки. Claude, ChatGPT и другие сервисы могут отказывать в подключении или давать ошибку 403.</p>
+        <p style="margin-top:8px"><strong>Contabo</strong> — много RAM за дёшево, но репутация IP-подсетей средняя. Для чистого VPN сработает, но не топ.</p>
+        <p style="margin-top:8px"><strong>Oracle Cloud Free Tier</strong> — бесплатно и заманчиво, но аккаунт могут заморозить за «неактивность», а free-tier IP часто блокируются.</p>
+      </div>
+    </details>
+
+    <div class="note note--info"><span class="note__icon">💳</span><span><strong>Карта для оплаты:</strong> зарубежные провайдеры <strong>не принимают карты РФ</strong>. Нужна зарубежная карта — виртуальная или физическая. У большинства она уже есть.</span></div>
+
+    <div class="item" data-key="vps-buy"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Выбрать провайдера, зарегистрироваться и купить VPS</div>
+        <div class="item__hint">1. Выберите провайдера из таблицы выше<br>2. Зарегистрируйтесь (email + пароль → подтвердите email)<br>3. Создайте сервер: <strong>Локация — США</strong>, <strong>1 vCPU / 2 ГБ RAM / 20 ГБ SSD</strong>, <strong>Ubuntu 22.04 или 24.04</strong><br>4. Оплатите зарубежной картой<br>5. Дождитесь активации (обычно 1–5 минут)</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="vps-autorenew"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Включить автопродление или оплатить на полгода-год вперёд</div>
+        <div class="item__hint">Если оплата протухнет — сервер выключится, VPN отвалится. В панели провайдера найдите <strong>Auto-renew</strong> / <strong>Automatic renewal</strong> и включите. Или сразу оплатите на 6–12 месяцев вперёд.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="vps-creds"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Сохранить IP-адрес и root-пароль в блокнотике</div>
+        <div class="item__hint">Откройте карточку сервера → скопируйте <strong>IP</strong> и <strong>пароль</strong> → сохраните в надёжных заметках. Также проверьте почту — провайдер пришлёт письмо с данными доступа.</div>
+      </div>
+    </div>
+
+    <div class="note note--warn"><span class="note__icon">⚡</span><span><strong>Не теряйте эти данные!</strong> IP и пароль нужны для настройки VPN на следующем шаге.</span></div>
+  </div>
+</div>
+
+<!-- ====== 04 AMNEZIA COMPUTER ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">04</div><div class="section__title">Amnezia VPN на компьютер</div></div>
+  <div class="section__card">
+    <div class="note note--info"><span class="note__icon">💡</span><span>Amnezia — бесплатная программа, которая превращает ваш VPS в персональный VPN. Вводите IP и пароль — она сама всё настроит на сервере.</span></div>
+    <div class="item" data-key="amnezia-dl"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Скачать Amnezia VPN на компьютер</div>
+      </div>
+    </div>
+    <details class="spoiler" open>
+      <summary>Файлы для скачивания — выберите свою ОС</summary>
+      <div class="spoiler__content">
+        <table class="os-table">
+          <tr><th>Ваша ОС</th><th>Скачать</th></tr>
+          <tr><td><strong>macOS 13+</strong><br><span style="color:var(--text-muted)">Ventura, Sonoma, Sequoia, Tahoe</span></td><td><a href="https://drive.google.com/file/d/1qRjbDfR0etnUueGgACJ1vJPfzpjGxT8N/view?usp=drive_link" target="_blank" class="lnk">📦 скачать .pkg</a></td></tr>
+          <tr><td><strong>macOS 12</strong><br><span style="color:var(--text-muted)">Monterey</span></td><td><a href="https://drive.google.com/file/d/1ceEArwQOipp7twBuhlo5ui3EQ3MSqEms/view?usp=drive_link" target="_blank" class="lnk">📦 скачать .zip</a></td></tr>
+          <tr><td><strong>macOS 10, 11</strong><br><span style="color:var(--text-muted)">Catalina, Big Sur</span></td><td><a href="https://drive.google.com/file/d/1eLQSh_pKMRxj2HBcsYXqQ9Y44kdWMWi_/view?usp=drive_link" target="_blank" class="lnk">📦 скачать .zip</a></td></tr>
+          <tr><td><strong>Windows 10 / 11</strong><br><span style="color:var(--text-muted)">64-bit</span></td><td><a href="https://drive.google.com/file/d/1GPR-HrFfkkb74ZH985KtqrxHpvQPgaYL/view?usp=drive_link" target="_blank" class="lnk">📦 скачать .exe</a></td></tr>
+        </table>
+        <p style="margin-top:10px"><strong>Не знаете версию macOS?</strong> Нажмите  → «Об этом Mac».<br><strong>Не знаете версию Windows?</strong> Win + I → «Система» → «О системе».</p>
+      </div>
+    </details>
+    <div class="note note--alert"><span class="note__icon">⚠</span><span>Windows 8 и старше — <strong>обновите систему</strong>. Старые ОС = проблемы с безопасностью и совместимостью.</span></div>
+    <div class="item" data-key="amnezia-install"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Установить Amnezia</div>
+        <div class="item__hint"><strong>macOS:</strong> откройте .pkg → следуйте инструкциям → разрешите в «Системных настройках».<br><strong>Windows:</strong> откройте .exe → «Далее» → «Установить» → «Готово».</div>
+      </div>
+    </div>
+    <div class="item" data-key="amnezia-connect"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Подключить Amnezia к серверу</div>
+        <div class="item__hint">1. Откройте Amnezia → «Настроить свой сервер» (Self-hosted VPN)<br>2. Введите <strong>IP-адрес</strong> и <strong>root-пароль</strong> из шага 03<br>3. «Подключиться» → подождите 2–3 минуты<br>4. «Подключено» → VPN работает!</div>
+      </div>
+    </div>
+    <details class="spoiler">
+      <summary>🛠 Ошибка 103: «Background service is not running»</summary>
+      <div class="spoiler__content">
+        <p><strong>macOS:</strong> Системные настройки → Основные → Объекты входа и расширения → найдите <strong>Privacy Technologies OU</strong> → разрешите работу в фоне. Перезапустите Amnezia.</p>
+        <p><strong>Windows:</strong> Ctrl+Alt+Del → Диспетчер задач → вкладка «Службы» → найдите <strong>AmneziaVPN-service</strong> → правой кнопкой → «Запустить». Перезапустите Amnezia.</p>
+        <p>Не помогло? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a>.</p>
+      </div>
+    </details>
+    <div class="note note--info"><span class="note__icon">🔗</span><span>Сайт Amnezia не открывается? Зеркала:<br>
+      <a href="https://amnezia.org/" target="_blank" class="lnk" style="display:block;margin-top:6px;margin-bottom:4px">🌐 Основной сайт Amnezia — amnezia.org</a>
+      <a href="https://storage.googleapis.com/amnezia/amnezia.org" target="_blank" class="lnk" style="display:block;margin-bottom:4px">🌐 Зеркало сайта Amnezia (Google Storage)</a>
+      <a href="https://m-d32971ff1d7d-3w5hsuiikq-ez.a.run.app/ru" target="_blank" class="lnk" style="display:block;margin-bottom:4px">🌐 Зеркало сайта Amnezia (на русском)</a>
+      <a href="https://m-docs-3w5hsuiikq-ez.a.run.app/ru/" target="_blank" class="lnk" style="display:block">📚 Зеркало документации Amnezia (коды ошибок, инструкции)</a>
+    </span></div>
+    <div class="note note--warn"><span class="note__icon">🆘</span><span>Любые ошибки — <strong>сразу пишите</strong> <a href="https://t.me/stavzzz" target="_blank" class="tg" style="color:#2dd4bf">@stavzzz</a> в Telegram!</span></div>
+  </div>
+</div>
+
+<!-- ====== 05 CHECK VPN ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">05</div><div class="section__title">Проверка VPN</div></div>
+  <div class="section__card">
+    <div class="item" data-key="vpn-check"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить, что IP — США</div>
+        <div class="item__hint">1. VPN включён (в Amnezia — «Подключено»)<br>2. Откройте любой сайт ниже<br>3. Страна должна быть <strong>США</strong> (United States)</div>
+        <div style="padding-top:6px">
+          <a href="https://2ip.ru/" target="_blank" class="item__link" onclick="event.stopPropagation()" style="display:block;margin-bottom:4px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> 2ip.ru — покажет IP и страну</a>
+          <a href="https://yandex.ru/internet/" target="_blank" class="item__link" onclick="event.stopPropagation()" style="display:block"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Яндекс Интернетометр — альтернативная проверка</a>
+        </div>
+      </div>
+    </div>
+    <div class="note note--warn"><span class="note__icon">🔒</span><span><strong>С этого момента VPN не выключаем — никогда!</strong> Вся работа с Claude и ChatGPT — только с включённым VPN.</span></div>
+    <div class="note note--alert"><span class="note__icon">⚠</span><span><strong>Если очень нужно выключить VPN — сначала разлогиньтесь</strong> из Claude и ChatGPT (в браузере: иконка профиля → выйти). Только потом отключайте VPN. Иначе сервис увидит смену IP с США на РФ → бан аккаунта.</span></div>
+  </div>
+</div>
+
+<!-- ====== 06 VPN SMARTPHONE ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">06</div><div class="section__title">Amnezia VPN на смартфон</div></div>
+  <div class="section__card">
+    <div class="note note--info"><span class="note__icon">📱</span><span>VPN на телефоне нужен для смены региона Google Play (Android) и доступа к зарубежным сервисам со смартфона.</span></div>
+    <div class="item" data-key="phone-vpn"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Скачать и установить VPN на смартфон</div>
+      </div>
+    </div>
+    <details class="spoiler" open>
+      <summary>🍎 iPhone</summary>
+      <div class="spoiler__content">
+        <p><strong>Аккаунт РФ в App Store:</strong> скачайте DefaultVPN (доступен из РФ без смены региона).</p>
+        <p><a href="https://apps.apple.com/ru/app/defaultvpn/id6744725017" target="_blank" class="lnk" style="display:block;margin-bottom:4px">📦 DefaultVPN — App Store (iPhone, аккаунт РФ)</a></p>
+        <p><strong>Аккаунт не РФ:</strong> скачайте AmneziaVPN.</p>
+        <p><a href="https://apps.apple.com/us/app/amneziavpn/id1600529900" target="_blank" class="lnk" style="display:block">📦 AmneziaVPN — App Store (iPhone, аккаунт не РФ)</a></p>
+      </div>
+    </details>
+    <details class="spoiler" open>
+      <summary>🤖 Android</summary>
+      <div class="spoiler__content">
+        <p><strong>Аккаунт РФ в Google Play:</strong> скачайте APK-файл напрямую (Google Play в РФ не даст скачать Amnezia).</p>
+        <p><a href="https://drive.google.com/file/d/1FUq7gwelSP3VVAEsR_O4S_ujZcow7R-j/view?usp=drive_link" target="_blank" class="lnk" style="display:block;margin-bottom:4px">📦 Скачать APK — Amnezia для Android (с Google Диска)</a>
+        <a href="https://storage.googleapis.com/amnezia/docs?m-path=/documentation/installing-apk-files-for-android" target="_blank" class="lnk" style="display:block">📚 Инструкция по установке APK на Android</a></p>
+        <p style="margin-top:6px"><strong>Аккаунт не РФ:</strong> скачайте из Google Play.</p>
+        <p><a href="https://play.google.com/store/apps/details?id=org.amnezia.vpn" target="_blank" class="lnk" style="display:block">📦 AmneziaVPN — Google Play (Android, аккаунт не РФ)</a></p>
+      </div>
+    </details>
+    <div class="item" data-key="phone-vpn-connect"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Подключить VPN на смартфоне</div>
+        <div class="item__hint"><strong>Шаг A — на компьютере</strong> (Amnezia уже подключена к серверу из шага 04):<br>1. Откройте Amnezia → нажмите иконку <strong>«Поделиться»</strong> (вторая иконка в нижнем меню)<br>2. Выберите сервер и протокол<br>3. Нажмите <strong>«Поделиться»</strong> → на экране появится <strong>QR-код</strong><br><br><strong>Шаг B — на смартфоне:</strong><br>1. Откройте AmneziaVPN (или DefaultVPN на iPhone РФ)<br>2. Нажмите <strong>➕</strong> (плюсик) или кнопку «Начать»<br>3. Выберите <strong>«QR-код»</strong> → наведите камеру на экран компьютера<br>4. «Continue» → «Подключиться»<br>5. Готово — VPN на смартфоне работает!</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 07 REGION CHANGE ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">07</div><div class="section__title">Смена региона на смартфоне</div></div>
+  <div class="section__card">
+    <div class="note note--info"><span class="note__icon">🌍</span><span>Чтобы скачивать зарубежные приложения, нужно сменить регион магазина на телефоне.</span></div>
+
+    <details class="spoiler" open>
+      <summary>🍎 iPhone (Apple ID)</summary>
+      <div class="spoiler__content">
+        <p style="margin-bottom:10px"><strong>Перед сменой региона — обязательно:</strong></p>
+        <p>1. Отмените все активные подписки (иначе Apple не даст сменить регион)<br>
+           <em>Настройки → ваше имя → Подписки → отмените каждую активную</em></p>
+        <p>2. Потратьте или обнулите баланс Apple ID (подарочные карты, остатки)</p>
+
+        <p style="margin-top:12px;margin-bottom:10px"><strong>Смена региона через телефон:</strong></p>
+        <p>1. <strong>Настройки</strong> → нажмите на своё имя вверху</p>
+        <p>2. <strong>Медиаматериалы и покупки</strong> → <strong>Просмотреть</strong></p>
+        <p>3. <strong>Страна или регион</strong> → <strong>Изменить</strong> → выберите <strong>США (United States)</strong></p>
+        <p>4. Способ оплаты → выберите <strong>«Нет»</strong> (достаточно для скачивания бесплатных приложений)</p>
+        <p>5. Адрес → введите <strong>американский биллинг-адрес с вашей зарубежной карты</strong></p>
+        <p>6. Телефон → введите любой американский номер, проверка не приходит. Пример: <em>+1 302 555 0100</em><br>
+           <a href="https://www.bestrandoms.com/random-phone-number" target="_blank" class="lnk" style="display:inline-block;margin-top:4px">🎲 bestrandoms.com — генератор номеров США</a></p>
+        <p>7. Нажмите <strong>Далее</strong> → <strong>Готово</strong> ✅</p>
+
+        <p style="margin-top:12px;margin-bottom:6px"><strong>Если не получается самостоятельно — поддержка Apple:</strong></p>
+        <div style="background:var(--accent-soft);border:1px solid rgba(124,91,245,0.2);border-radius:10px;padding:14px 16px;margin:8px 0;font-size:13px;line-height:1.7">
+          <p style="margin-bottom:6px">1. Откройте сайт <a href="https://getsupport.apple.com" target="_blank" class="lnk">getsupport.apple.com</a></p>
+          <p style="margin-bottom:6px">2. Выберите: <strong>Apple ID</strong> → <strong>Смена страны или региона</strong></p>
+          <p style="margin-bottom:6px">3. Нажмите <strong>Чат</strong> (иконка сообщения) — живой оператор</p>
+          <p style="margin-bottom:6px">4. Войдите в свой Apple ID, если попросит</p>
+          <p style="margin-bottom:10px">5. Напишите в чате примерно так:</p>
+          <div style="background:rgba(0,0,0,0.3);border-radius:8px;padding:12px 14px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-secondary);line-height:1.6">
+            Hello! I need help changing my Apple ID country to United States. I have no active subscriptions and no balance. Please help me switch the region to USA. My current region is Russia.
+          </div>
+          <p style="margin-top:10px;font-size:12px;color:var(--text-muted)">💬 Оператор ответит в течение 1–5 минут. Процедура занимает 5–10 минут. Работает круглосуточно.</p>
+        </div>
+
+        <p style="background:var(--amber-soft);padding:10px 14px;border-radius:8px;color:var(--amber);margin:8px 0;font-size:13px"><strong>⚠ VPN не нужен</strong> для смены региона на iPhone — Apple не блокирует по IP. Просто выполните шаги выше.</p>
+      </div>
+    </details>
+    <details class="spoiler" open>
+      <summary>🤖 Android (Google Play)</summary>
+      <div class="spoiler__content">
+        <p style="margin-bottom:10px"><strong>Важно перед началом:</strong></p>
+        <p>— VPN на телефоне уже должен быть установлен и подключён (шаг 06)<br>
+           — Без активного VPN с американским IP смена региона не появится</p>
+
+        <p style="margin-top:12px;margin-bottom:10px"><strong>Пошаговая инструкция:</strong></p>
+        <p>1. <strong>Включите VPN</strong> на телефоне (Amnezia или другой с американским IP) — статус «Подключено»</p>
+        <p>2. Откройте <strong>Google Play</strong></p>
+        <p>3. Нажмите на <strong>иконку профиля</strong> (фото или буква) в правом верхнем углу</p>
+        <p>4. Выберите <strong>Настройки</strong></p>
+        <p>5. Раздел <strong>Общие</strong> → <strong>Настройки аккаунта и устройства</strong></p>
+        <p>6. Если VPN активен и IP американский — появится пункт <strong>«Переключиться на Play Маркет США»</strong><br>
+           <em>Если пункта нет — проверьте VPN и перезапустите Google Play</em></p>
+        <p>7. Нажмите <strong>Продолжить</strong> → при запросе способа оплаты укажите вашу <strong>зарубежную карту</strong> или выберите <strong>«Пропустить»</strong></p>
+        <p>8. Подтвердите смену → готово ✅</p>
+
+        <div style="background:var(--accent-soft);border:1px solid rgba(124,91,245,0.2);border-radius:10px;padding:14px 16px;margin:12px 0;font-size:13px;line-height:1.7">
+          <p style="margin-bottom:4px"><strong>Если пункт «Переключиться» не появляется:</strong></p>
+          <p>— Убедитесь, что VPN подключён и показывает IP из США (проверьте на 2ip.ru)<br>
+          — Закройте Google Play полностью и откройте снова<br>
+          — Подождите 2–3 минуты с включённым VPN и попробуйте ещё раз<br>
+          — Иногда помогает: Настройки телефона → Приложения → Google Play → Очистить кеш → перезапустить</p>
+        </div>
+
+        <p style="background:var(--amber-soft);padding:10px 14px;border-radius:8px;color:var(--amber);margin:8px 0;font-size:13px">
+          <strong>⚠ Важно:</strong> смена региона Google Play вступает в силу в течение <strong>48 часов</strong>. Изменить регион можно только <strong>раз в год</strong>. Отменять подписки перед сменой не обязательно, но рекомендуется.
+        </p>
+      </div>
+    </details>
+    <div class="item" data-key="region-done"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Регион смартфона изменён на США</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer__done" id="doneBlock">
+      <div class="footer__done-emoji">🛡️</div>
+      <div class="footer__done-text">VPN готов!</div>
+      <div class="footer__done-sub">Теперь у тебя свой канал в интернет — без подписок и без блокировок.</div>
+    </div>
+    <div class="footer__contact">Возникли проблемы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
+    <button class="btn-reset" onclick="resetProgress()">Сбросить прогресс</button>
+  </div>
+
+</div>
+
+<script>
+// ====== CONFETTI ======
+const C = document.getElementById('confetti-canvas');
+const ctx = C.getContext('2d');
+let particles = [];
+let confettiActive = false;
+function resizeCanvas() { C.width = window.innerWidth; C.height = window.innerHeight; }
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+const COLORS = ['#7c5bf5','#9d7cff','#34d399','#6ee7b7','#fbbf24','#f87171','#fb7185','#38bdf8','#facc15','#a78bfa','#f472b6','#4ade80'];
+function rand(a,b){ return Math.random()*(b-a)+a; }
+function createBurst(x, y, count) {
+  for(let i=0;i<count;i++){
+    const angle=rand(0,Math.PI*2),speed=rand(4,14),size=rand(4,10);
+    particles.push({x,y,vx:Math.cos(angle)*speed+rand(-2,2),vy:Math.sin(angle)*speed*-0.8-rand(2,6),size,color:COLORS[Math.floor(Math.random()*COLORS.length)],rotation:rand(0,Math.PI*2),rotSpeed:rand(-0.2,0.2),gravity:rand(0.12,0.25),friction:rand(0.97,0.995),opacity:1,fadeSpeed:rand(0.005,0.015),shape:Math.random()>0.4?'rect':'circle'});
+  }
+}
+function launchConfetti(){
+  if(confettiActive)return;confettiActive=true;particles=[];
+  const W=C.width,H=C.height;
+  [[W*0.5,H*0.3,120],[W*0.15,H*0.2,80],[W*0.85,H*0.2,80],[W*0.5,H*0.1,100],[W*0.3,H*0.5,60],[W*0.7,H*0.5,60],[0,H*0.6,50],[W,H*0.6,50],[W*0.5,H*0.6,80]].forEach(([x,y,c],i)=>{setTimeout(()=>createBurst(x,y,c),i*150)});
+  setTimeout(()=>{createBurst(W*0.2,H*0.15,90);createBurst(W*0.8,H*0.15,90);createBurst(W*0.5,H*0.05,100)},1500);
+  setTimeout(()=>{createBurst(W*0.5,H*0.25,120);createBurst(W*0.1,H*0.4,60);createBurst(W*0.9,H*0.4,60)},2500);
+  animate();setTimeout(()=>{confettiActive=false},8000);
+}
+function animate(){
+  ctx.clearRect(0,0,C.width,C.height);
+  for(let i=particles.length-1;i>=0;i--){
+    const p=particles[i];p.vx*=p.friction;p.vy*=p.friction;p.vy+=p.gravity;p.x+=p.vx;p.y+=p.vy;p.rotation+=p.rotSpeed;p.opacity-=p.fadeSpeed;
+    if(p.opacity<=0){particles.splice(i,1);continue}
+    ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rotation);ctx.globalAlpha=p.opacity;ctx.fillStyle=p.color;
+    if(p.shape==='rect'){ctx.fillRect(-p.size/2,-p.size/4,p.size,p.size/2)}else{ctx.beginPath();ctx.arc(0,0,p.size/2,0,Math.PI*2);ctx.fill()}
+    ctx.restore();
+  }
+  if(particles.length>0||confettiActive){requestAnimationFrame(animate)}else{ctx.clearRect(0,0,C.width,C.height)}
+}
+
+// ====== CHECKLIST ======
+const STORAGE_KEY='self_hosted_vpn_v1';
+const items=document.querySelectorAll('.item[data-key]');
+const totalCount=items.length;
+let wasComplete=false;
+function loadState(){
+  try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');let c=0;items.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');if(s[item.dataset.key]){cb.checked=true;item.classList.add('checked');c++}});wasComplete=c===totalCount}catch(e){}
+  updateProgress(false);
+}
+function saveState(){const s={};items.forEach(item=>{s[item.dataset.key]=item.querySelector('input[type="checkbox"]').checked});try{localStorage.setItem(STORAGE_KEY,JSON.stringify(s))}catch(e){}}
+function updateProgress(canCelebrate=true){
+  let c=0;items.forEach(item=>{if(item.querySelector('input[type="checkbox"]').checked)c++});
+  document.getElementById('progressCount').textContent=`${c} / ${totalCount}`;
+  document.getElementById('progressFill').style.width=(totalCount>0?(c/totalCount)*100:0)+'%';
+  const done=document.getElementById('doneBlock');
+  if(c===totalCount){done.classList.add('visible');if(canCelebrate&&!wasComplete){launchConfetti()}wasComplete=true}else{done.classList.remove('visible');wasComplete=false}
+}
+items.forEach(item=>{
+  const cb=item.querySelector('input[type="checkbox"]');
+  item.addEventListener('click',function(e){
+    if(e.target.closest('a'))return;
+    if(e.target!==cb){cb.checked=!cb.checked;cb.dispatchEvent(new Event('change'))}
+  });
+  cb.addEventListener('change',function(){item.classList.toggle('checked',this.checked);saveState();updateProgress(true)});
+});
+function resetProgress(){if(!confirm('Сбросить весь прогресс?'))return;items.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasComplete=false;saveState();updateProgress(false)}
+loadState();
+</script>
+
+<script>
+(function() {
+  document.querySelectorAll('.item').forEach(function(item) {
+    var check = item.querySelector('.item__check');
+    if (!check) return;
+    item.addEventListener('click', function(e) {
+      if (e.target.closest('a')) return;
+      if (check.contains(e.target)) return;
+      e.preventDefault();
+      e.stopPropagation();
+    }, true);
+  });
+})();
+</script>
+
+</body>
+</html>
