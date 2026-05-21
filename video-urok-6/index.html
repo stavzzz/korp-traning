@@ -8708,7 +8708,7 @@ export const after_tool_call = async (ctx) =&gt; {
     <div class="progress-wrap progress-wrap--p4-ch01">
       <div class="progress-top">
         <span class="progress-label">Прогресс главы 01, части 04</span>
-        <span class="progress-count" id="progressCountP4Ch01">0 / 15</span>
+        <span class="progress-count" id="progressCountP4Ch01">0 / 16</span>
       </div>
       <div class="progress-bar"><div class="progress-fill" id="progressFillP4Ch01"></div></div>
     </div>
@@ -9350,6 +9350,145 @@ ID | Слой | Severity | Находка | Доказательство | Ре�
     <div class="note note--green">
       <span class="note__icon">✅</span>
       <span>Готово. У тебя на руках <span class="mono">AUDIT.md</span> — реестр находок и pipeline ремедиации. В Главе 02 ты пройдёшь по pipeline и закроешь всё, что касается сервера. В Главе 03 — всё, что касается агента. Аудитор нашёл — инженер чинит. Поехали дальше.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 142 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">142</div>
+    <div class="section__title">Бонус — база источников, чтобы аудит не устаревал</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">📚</span>
+      <span>Аудит из этой главы — это снимок угроз на сегодня. Но угрозы по агентам меняются каждый месяц: новые CVE, новые техники инъекций, новые кейсы. Ниже — проверенная база источников, на которой строилась методология этой главы. Возвращайся к ней перед каждым ре-аудитом.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Как с этим работать.</strong> Не нужно читать все 23 статьи глазами. Отдай список своему Claude Code (или инженеру по безопасности) — пусть прочитает источники, вытащит свежие техники атак и проверок и предложит, чем дополнить твой чек-лист аудита. Промпт для этого — в конце блока.</p>
+    </div>
+
+    <div class="res-block">
+      <div class="res-block__title">🧭 Фундамент — инъекции и «смертельная троица»</div>
+      <div class="res-block__sub">С этого начинается понимание угроз: концепция троицы, эталонный разбор инъекций, рейтинг OWASP.<br>
+        <a href="https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/" target="_blank" class="lnk" onclick="event.stopPropagation()" style="display:block;margin-top:4px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Simon Willison — The Lethal Trifecta</a>
+        <a href="https://genai.owasp.org/llmrisk/llm01-prompt-injection/" target="_blank" class="lnk" onclick="event.stopPropagation()" style="display:block;margin-top:4px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> OWASP GenAI — LLM01:2025 Prompt Injection</a>
+        <a href="https://www.lakera.ai/blog/indirect-prompt-injection" target="_blank" class="lnk" onclick="event.stopPropagation()" style="display:block;margin-top:4px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Lakera — Indirect Prompt Injection</a>
+        <a href="https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/" target="_blank" class="lnk" onclick="event.stopPropagation()" style="display:block;margin-top:4px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Unit 42 — Indirect Prompt Injection in the Wild</a>
+        <a href="https://atlan.com/know/prompt-injection-attacks-ai-agents/" target="_blank" class="lnk" onclick="event.stopPropagation()" style="display:block;margin-top:4px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Atlan — Prompt Injection Attacks on AI Agents 2026</a>
+      </div>
+    </div>
+
+    <div class="res-block">
+      <div class="res-block__title">🔌 MCP и цепочка поставок</div>
+      <div class="res-block__sub">Tool poisoning, вредные скиллы, отравленные описания инструментов.<br>
+        <a href="https://arxiv.org/pdf/2508.14925" target="_blank" class="lnk" onclick="event.stopPropagation()" style="display:block;margin-top:4px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> MCPTox — бенчмарк tool poisoning (arXiv)</a>
+        <a href="https://www.truefoundry.com/blog/blog-mcp-tool-poisoning-gateway-defense" target="_blank" class="lnk" onclick="event.stopPropagation()" style="display:block;margin-top:4px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> TrueFoundry — MCP Tool Poisoning (CVE-2025-54136)</a>
+      </div>
+    </div>
+
+    <div class="res-block">
+      <div class="res-block__title">🧬 Отравление памяти</div>
+      <div class="res-block__sub">Атаки, которые ждут: внедрённое сегодня срабатывает через месяцы.<br>
+        <a href="https://beyondscale.tech/blog/ai-agent-memory-poisoning-defense-guide" target="_blank" class="lnk" onclick="event.stopPropagation()" style="display:block;margin-top:4px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> BeyondScale — Memory Poisoning Defense Guide 2026</a>
+        <a href="https://christian-schneider.net/blog/persistent-memory-poisoning-in-ai-agents/" target="_blank" class="lnk" onclick="event.stopPropagation()" style="display:block;margin-top:4px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Christian Schneider — Persistent Memory Poisoning</a>
+      </div>
+    </div>
+
+    <div class="res-block">
+      <div class="res-block__title">🌐 Браузерные агенты и джейлбрейки</div>
+      <div class="res-block__sub">Как обходят guardrails и атакуют агентов через веб.<br>
+        <a href="https://layerxsecurity.com/blog/layerx-identifies-vulnerability-in-new-chatgpt-atlas-browser/" target="_blank" class="lnk" onclick="event.stopPropagation()" style="display:block;margin-top:4px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> LayerX — ChatGPT Atlas «Tainted Memories»</a>
+        <a href="https://thehackernews.com/2025/10/chatgpt-atlas-browser-can-be-tricked-by.html" target="_blank" class="lnk" onclick="event.stopPropagation()" style="display:block;margin-top:4px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> The Hacker News — Atlas Fake URLs Hidden Commands</a>
+        <a href="https://cyberscoop.com/openai-chatgpt-atlas-prompt-injection-browser-agent-security-update-head-of-preparedness/" target="_blank" class="lnk" onclick="event.stopPropagation()" style="display:block;margin-top:4px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> CyberScoop — OpenAI: инъекцию, возможно, не «решить»</a>
+        <a href="https://ringsafe.in/llm-jailbreaks-2026-universal-suffixes-many-shot-crescendo-and-what-constitutional-ai-actually-stops/" target="_blank" class="lnk" onclick="event.stopPropagation()" style="display:block;margin-top:4px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> RingSafe — LLM Jailbreaks 2026</a>
+        <a href="https://arxiv.org/pdf/2404.01833" target="_blank" class="lnk" onclick="event.stopPropagation()" style="display:block;margin-top:4px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Crescendo — многоходовый джейлбрейк (arXiv)</a>
+        <a href="https://checkmarx.com/zero-post/exploiting-markdown-injection-in-ai-agents-microsoft-copilot-chat-and-google-gemini/" target="_blank" class="lnk" onclick="event.stopPropagation()" style="display:block;margin-top:4px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Checkmarx — Markdown Injection в Copilot и Gemini</a>
+      </div>
+    </div>
+
+    <div class="res-block">
+      <div class="res-block__title">🦞 OpenClaw — конкретика нашего стека</div>
+      <div class="res-block__sub">Уязвимости именно той системы, которую ты настроил: CVE, экспозиция, разбор от IBM.<br>
+        <a href="https://cybersecuritynews.com/openclaw-chain-vulnerabilities/" target="_blank" class="lnk" onclick="event.stopPropagation()" style="display:block;margin-top:4px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> CyberSecurityNews — OpenClaw Chain Vulnerabilities</a>
+        <a href="https://www.armosec.io/blog/cve-2026-32922-openclaw-privilege-escalation-cloud-security/" target="_blank" class="lnk" onclick="event.stopPropagation()" style="display:block;margin-top:4px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> ARMO — CVE-2026-32922 Privilege Escalation</a>
+        <a href="https://www.ibm.com/think/x-force/agentic-ai-growing-fast-vulnerabilities" target="_blank" class="lnk" onclick="event.stopPropagation()" style="display:block;margin-top:4px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> IBM X-Force — Agentic AI security risks</a>
+      </div>
+    </div>
+
+    <div class="res-block">
+      <div class="res-block__title">📊 Реальные кейсы и обзоры</div>
+      <div class="res-block__sub">Что уже случилось в проде — учимся на чужих инцидентах.<br>
+        <a href="https://www.esecurityplanet.com/artificial-intelligence/ai-agent-attacks-in-q4-2025-signal-new-risks-for-2026/" target="_blank" class="lnk" onclick="event.stopPropagation()" style="display:block;margin-top:4px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> eSecurity Planet — AI Agent Attacks Q4 2025 → 2026</a>
+        <a href="https://www.lumenova.ai/blog/agentic-ai-risks-owasp-nist/" target="_blank" class="lnk" onclick="event.stopPropagation()" style="display:block;margin-top:4px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Lumenova — Agentic AI Risks: OWASP &amp; реальные инциденты</a>
+        <a href="https://beam.ai/agentic-insights/ai-agent-security-breaches-2026-lessons" target="_blank" class="lnk" onclick="event.stopPropagation()" style="display:block;margin-top:4px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Beam — 5 реальных взломов AI-агентов в 2026</a>
+        <a href="https://www.wiz.io/blog/exposed-moltbook-database-reveals-millions-of-api-keys" target="_blank" class="lnk" onclick="event.stopPropagation()" style="display:block;margin-top:4px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Wiz — Moltbook: утечка 1,5 млн API-ключей</a>
+        <a href="https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/" target="_blank" class="lnk" onclick="event.stopPropagation()" style="display:block;margin-top:4px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> CyberPress — Google DeepMind: AI Agent Traps</a>
+      </div>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">📅</span>
+      <span>Источники — живые: смотри дату публикации и проверяй, не вышло ли свежее. Безопасность агентов в 2026-м — самая быстро меняющаяся тема в ИБ. То, что верно сегодня, через квартал станет историей.</span>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: обновить аудит по свежим источникам</div>
+      <div class="prompt-block__text" id="p4c1promptSources">Я хочу освежить свой аудит безопасности OpenClaw под актуальные угрозы.
+
+Ниже — проверенные источники по безопасности AI-агентов. Прочитай их
+(используй веб-доступ; по библиотекам и стандартам — Context7):
+
+https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/
+https://genai.owasp.org/llmrisk/llm01-prompt-injection/
+https://www.lakera.ai/blog/indirect-prompt-injection
+https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/
+https://atlan.com/know/prompt-injection-attacks-ai-agents/
+https://arxiv.org/pdf/2508.14925
+https://www.truefoundry.com/blog/blog-mcp-tool-poisoning-gateway-defense
+https://beyondscale.tech/blog/ai-agent-memory-poisoning-defense-guide
+https://christian-schneider.net/blog/persistent-memory-poisoning-in-ai-agents/
+https://layerxsecurity.com/blog/layerx-identifies-vulnerability-in-new-chatgpt-atlas-browser/
+https://thehackernews.com/2025/10/chatgpt-atlas-browser-can-be-tricked-by.html
+https://cyberscoop.com/openai-chatgpt-atlas-prompt-injection-browser-agent-security-update-head-of-preparedness/
+https://ringsafe.in/llm-jailbreaks-2026-universal-suffixes-many-shot-crescendo-and-what-constitutional-ai-actually-stops/
+https://arxiv.org/pdf/2404.01833
+https://checkmarx.com/zero-post/exploiting-markdown-injection-in-ai-agents-microsoft-copilot-chat-and-google-gemini/
+https://cybersecuritynews.com/openclaw-chain-vulnerabilities/
+https://www.armosec.io/blog/cve-2026-32922-openclaw-privilege-escalation-cloud-security/
+https://www.ibm.com/think/x-force/agentic-ai-growing-fast-vulnerabilities
+https://www.esecurityplanet.com/artificial-intelligence/ai-agent-attacks-in-q4-2025-signal-new-risks-for-2026/
+https://www.lumenova.ai/blog/agentic-ai-risks-owasp-nist/
+https://beam.ai/agentic-insights/ai-agent-security-breaches-2026-lessons
+https://www.wiz.io/blog/exposed-moltbook-database-reveals-millions-of-api-keys
+https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
+
+Задачи:
+1. Из каждого источника выпиши актуальные техники атак и методы проверки,
+   которых ещё нет в моём чек-листе аудита из этой главы.
+2. Сверь с моим текущим AUDIT.md — что устарело, чего не хватает.
+3. Предложи 5-10 новых конкретных шагов аудита: для каждого — команда
+   или промпт, как его выполнить.
+4. Не переписывай AUDIT.md сам — сначала покажи список предложений,
+   я решу, что брать.
+
+Если источник недоступен или платный — пропусти и отметь это в ответе.</div>
+      <button class="btn-copy" onclick="copyBlock('p4c1promptSources', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="item" data-key="urok6-part4-ch01-sources">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Прогнать обновление аудита по источникам</div>
+        <div class="item__hint">Отправь промпт выше Claude Code — лучше всего раз в месяц, перед плановым ре-аудитом. Так твой чек-лист аудита будет жить и подстраиваться под новые угрозы, а не устаревать.</div>
+      </div>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">🎓</span>
+      <span>Теперь у тебя есть не только методология аудита, но и источник её обновления. Аудитор, который перестал читать, — перестаёт быть аудитором. На этом Глава 01 закрыта полностью.</span>
     </div>
   </div>
 </div>
