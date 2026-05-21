@@ -213,6 +213,14 @@
   .progress-wrap--p3-ch06 .progress-count { color:#db2777; }
   .progress-wrap--p3-ch06 .progress-fill { background:linear-gradient(90deg,#db2777,#dc2626); }
 
+  /* ─── PART 4 ГЛАВА 01 — красный акцент (аудит безопасности) ─── */
+  .chapter-marker--p4-ch01 { border-left-color:#ef4444; }
+  .chapter-marker--p4-ch01 .chapter-marker__label { color:#ef4444; }
+  .progress-wrap--p4-ch01 .progress-count { color:#ef4444; }
+  .progress-wrap--p4-ch01 .progress-fill { background:linear-gradient(90deg,#ef4444,#b91c1c); }
+  .term--p4-ch01 .term__name { color:#ef4444; }
+  .term--p4-ch01 .term__example { background:rgba(239,68,68,0.06); border-left-color:rgba(239,68,68,0.3); }
+
   /* финальный модификатор — золотое свечение для последней главы части */
   .chapter-marker--final { position:relative; box-shadow:0 0 0 1px rgba(251,191,36,0.18), 0 18px 38px -22px rgba(219,39,119,0.35); background:linear-gradient(135deg,rgba(251,191,36,0.04),transparent 50%), var(--bg-card); }
   .chapter-marker--final .chapter-marker__label { background:linear-gradient(90deg,#fbbf24,#db2777); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
@@ -421,7 +429,7 @@
 
       <div class="sidebar__part">
         <div class="sidebar__part-title">Часть 4 · Безопасность контура</div>
-        <span class="sidebar__link sidebar__link--soon">Глава 01 · Аудит безопасности <em>скоро</em></span>
+        <a href="#part4-chapter-01" class="sidebar__link" data-ch="p4-01">Глава 01 · Аудит безопасности</a>
         <span class="sidebar__link sidebar__link--soon">Глава 02 · Настройка сервера <em>скоро</em></span>
         <span class="sidebar__link sidebar__link--soon">Глава 03 · Безопасность агента <em>скоро</em></span>
       </div>
@@ -8687,6 +8695,680 @@ export const after_tool_call = async (ctx) =&gt; {
       <button class="btn-reset" onclick="resetProgressP3Ch06()">Сбросить прогресс главы 06, части 03</button>
     </div>
 
+<!-- ═══════════════════════════════════════════════════════════════
+     ЧАСТЬ 4 · ГЛАВА 01 — АУДИТ БЕЗОПАСНОСТИ
+═══════════════════════════════════════════════════════════════ -->
+    <div id="part4-chapter-01" class="chapter-divider"></div>
+
+    <div class="chapter-marker chapter-marker--p4-ch01">
+      <div class="chapter-marker__label">ЧАСТЬ 4 · ГЛАВА 01</div>
+      <div class="chapter-marker__title">Аудит безопасности <span>— смотрим на свой контур глазами атакующего</span></div>
+    </div>
+
+    <div class="progress-wrap progress-wrap--p4-ch01">
+      <div class="progress-top">
+        <span class="progress-label">Прогресс главы 01, части 04</span>
+        <span class="progress-count" id="progressCountP4Ch01">0 / 15</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFillP4Ch01"></div></div>
+    </div>
+
+<!-- ═══ 127 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">127</div>
+    <div class="section__title">Зачем аудит — и почему твой агент уже в зоне риска</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🛡️</span>
+      <span>Пять уроков ты строил: VPS, OpenClaw, Telegram-бота, GitHub, n8n, Google, а в Части 3 — целый AI-офис из sub-агентов. Ты строил — но ни разу не проверял это на прочность. Часть 4 — про безопасность. И начинается она не с настроек, а с честного аудита: что у тебя реально открыто.</span>
+    </div>
+    <div class="info-block">
+      <p><strong>Почему это не паранойя, а арифметика.</strong> На май 2026 сканеры Shodan и ZoomEye видят в открытом интернете около <strong>245 000 инстансов OpenClaw</strong>. По данным SecurityScorecard, <strong>35%</strong> из них помечены как уязвимые. Каждый такой инстанс — это чей-то агент с доступом к почте, календарю, деньгам и серверу.</p>
+      <p>Вопрос не «взломают ли вообще», а «ты в этих 35% или нет». И ответ можно получить только одним способом — аудитом.</p>
+    </div>
+    <div class="note note--warn">
+      <span class="note__icon">⚡</span>
+      <span><strong>Глава 01 — это только аудит. Мы ничего не чиним.</strong> Задача главы — честно найти и записать все дыры в файл <span class="mono">AUDIT.md</span>. Чинить будем строго по этому списку: в Главе 02 — сервер, в Главе 03 — агента. Аудитор находит, инженер чинит — это разные роли, и смешивать их нельзя.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 128 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">128</div>
+    <div class="section__title">Смертельная троица — оптика, через которую смотрит весь аудит</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🔭</span>
+      <span>Прежде чем что-то проверять — нужна оптика. Один концепт, через который смотрит на агентов любой безопасник в 2026 году. Запомни его — дальше вся глава держится на нём.</span>
+    </div>
+
+    <div class="term term--p4-ch01">
+      <div class="term__name">Смертельная троица · Lethal Trifecta</div>
+      <div class="term__def">Три способности агента, которые по отдельности безопасны, а вместе открывают прямой путь к краже твоих данных: <strong>(1)</strong> доступ к приватным данным, <strong>(2)</strong> контакт с недоверенным контентом, <strong>(3)</strong> канал во внешний мир.</div>
+      <div class="term__example">📌 Концепт сформулировал Саймон Уиллисон в 2025-м. Логика простая: если агент может ПРОЧИТАТЬ твой секрет, ПОЛУЧИТЬ инструкцию от чужака и ОТПРАВИТЬ что-то наружу — атакующему хватит одного отравленного письма, чтобы агент сам отнёс твои данные ему.</div>
+    </div>
+
+    <div class="arch-box">   НОГА 1               НОГА 2                  НОГА 3
+┌──────────────┐   ┌──────────────────┐   ┌──────────────────┐
+│ Приватные    │   │ Недоверенный     │   │ Внешний канал    │
+│ данные       │   │ контент          │   │ связи            │
+│ Gmail, Drive │   │ Telegram, веб,   │   │ HTTP, n8n-hook,  │
+│ календарь,   │   │ письма, описания │   │ отправка писем   │
+│ MEMORY.md    │   │ скиллов          │   │                  │
+└──────┬───────┘   └────────┬─────────┘   └────────┬─────────┘
+       └────────────────────┼──────────────────────┘
+                            ▼
+        ВСЕ ТРИ ЗАМКНУТЫ = кража данных одной инъекцией</div>
+
+    <div class="info-block">
+      <p><strong>Теперь посмотри на своего агента из уроков 3–5:</strong></p>
+      <p>— <strong>Нога 1, приватные данные:</strong> Gmail, Calendar, Drive, <span class="mono">MEMORY.md</span>, Obsidian-vault.<br>
+         — <strong>Нога 2, недоверенный вход:</strong> сообщения в Telegram, веб-страницы, письма, описания скиллов от чужаков.<br>
+         — <strong>Нога 3, внешний канал:</strong> HTTP-запросы, вызов n8n-webhook, отправка писем.</p>
+      <p>Твой агент замыкает все три ноги. Это не ошибка — это нормальная рабочая конфигурация. Но именно поэтому его и нужно аудировать.</p>
+    </div>
+
+    <div class="note note--alert">
+      <span class="note__icon">🎯</span>
+      <span>Троица — это не страшилка, это <strong>инструмент аудита</strong>. На каждом шаге главы спрашивай себя: какую ногу я сейчас проверяю и можно ли её ослабить? Разорвать хотя бы одну ногу — значит обрушить почти весь класс атак на агента.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 129 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">129</div>
+    <div class="section__title">Термины аудита — словарь главы</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">📖</span>
+      <span>Семь терминов, без которых аудит превращается в «посмотрел и вроде ок». Возвращайся к ним по ходу главы.</span>
+    </div>
+
+    <div class="term term--p4-ch01">
+      <div class="term__name">Аудит безопасности</div>
+      <div class="term__def">Систематическая проверка системы на слабые места по заранее заданной методологии. Ключевое слово — систематическая: не «глянул наугад», а прошёл слой за слоем по чек-листу.</div>
+      <div class="term__example">📌 Аудит ≠ настройка. Аудитор находит и документирует проблемы. Чинит их потом инженер — у нас это Главы 02 и 03.</div>
+    </div>
+
+    <div class="term term--p4-ch01">
+      <div class="term__name">Угроза · Уязвимость · Риск</div>
+      <div class="term__def"><strong>Угроза</strong> — кто или что может навредить (атакующий с инъекцией). <strong>Уязвимость</strong> — слабое место, через которое навредят (Gateway открыт в интернет). <strong>Риск</strong> — насколько это вероятно и насколько больно.</div>
+      <div class="term__example">📌 Уязвимость без угрозы — терпимо. Уязвимость + реальная угроза + ценные данные = риск, который чинят первым.</div>
+    </div>
+
+    <div class="term term--p4-ch01">
+      <div class="term__name">Поверхность атаки · Attack Surface</div>
+      <div class="term__def">Сумма всех точек, через которые в твою систему можно зайти: порты, аккаунты, боты, скиллы, интеграции. Чем больше поверхность — тем больше входов для атакующего.</div>
+      <div class="term__example">📌 Первый шаг аудита — нарисовать свою поверхность атаки. Нельзя защитить то, о существовании чего ты забыл.</div>
+    </div>
+
+    <div class="term term--p4-ch01">
+      <div class="term__name">Радиус поражения · Blast Radius</div>
+      <div class="term__def">Масштаб ущерба, если конкретный компонент скомпрометировали. Агент работает от root и имеет доступ ко всему — радиус поражения равен всему серверу и всем данным.</div>
+      <div class="term__example">📌 Хороший дизайн безопасности не обещает «нас не взломают». Он гарантирует: даже если взломают одно — остальное устоит.</div>
+    </div>
+
+    <div class="term term--p4-ch01">
+      <div class="term__name">Базовая линия · Baseline</div>
+      <div class="term__def">Зафиксированное «нормальное» состояние системы — то, с чем сравнивают, чтобы заметить отклонение.</div>
+      <div class="term__example">📌 Без baseline ты не отличишь «агент сделал новое полезное действие» от «агент делает то, что ему приказал злоумышленник».</div>
+    </div>
+
+    <div class="term term--p4-ch01">
+      <div class="term__name">Находка · Finding</div>
+      <div class="term__def">Одна конкретная проблема в отчёте аудита. У правильной находки есть четыре вещи: severity (Critical / High / Medium / Low), доказательство, рекомендация по исправлению и дедлайн.</div>
+      <div class="term__example">📌 «Безопасность 65/100» — это не находка, это пустой балл. «BOT_TOKEN лежит в открытом виде в 3 скриптах, severity High, исправить за 7 дней» — вот находка.</div>
+    </div>
+
+    <div class="term term--p4-ch01">
+      <div class="term__name">Принятый риск · Accepted Risk</div>
+      <div class="term__def">Уязвимость, которую ты осознанно решил не чинить. Это законно — но только если оформлено: кто принял, почему, какой компенсирующий контроль стоит взамен и дата пересмотра решения.</div>
+      <div class="term__example">📌 «Принятый риск» без даты пересмотра — это не решение, а способ убрать проблему с глаз. Настоящий принятый риск ты перечитываешь на каждом ре-аудите.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 130 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">130</div>
+    <div class="section__title">Карта контура — что именно мы аудируем</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p>Аудит начинается с инвентаризации. Нельзя проверить то, что ты не выписал. Ниже — типовая карта контура выпускника уроков 1–6. Сверься со своей: что-то у тебя есть, чего-то нет, что-то ты добавил сам.</p>
+    </div>
+
+    <table class="data-table">
+      <tr><th>Актив</th><th>Появился в</th><th>Что хранит / что умеет</th></tr>
+      <tr><td>VPS-сервер</td><td>Урок 3</td><td>Хост всего: ОС, файлы, root-доступ</td></tr>
+      <tr><td>OpenClaw Gateway</td><td>Урок 3</td><td>Мозг агента, порт 18789, gateway.token</td></tr>
+      <tr><td>Telegram-бот</td><td>Урок 3</td><td>Главный вход: сюда пишешь ты — и сюда же может писать чужак</td></tr>
+      <tr><td>LLM-провайдеры</td><td>Уроки 2–3</td><td>Ключи OpenRouter / Codex, доступ к моделям</td></tr>
+      <tr><td>Google-сервисы</td><td>Урок 5</td><td>OAuth-токены: Gmail, Calendar, Drive, Sheets</td></tr>
+      <tr><td>n8n + webhook</td><td>Урок 5</td><td>Автоматизации, отдельный сервер, webhook-URL</td></tr>
+      <tr><td>GitHub + токен</td><td>Урок 4</td><td>Репозитории, деплой, PAT-токен</td></tr>
+      <tr><td>Skills (ClawHub)</td><td>Уроки 3–4–6</td><td>Чужой код, исполняется внутри агента</td></tr>
+      <tr><td>MCP-серверы</td><td>Уроки 5–6</td><td>openclaw MCP, n8n-mcp, Context7</td></tr>
+      <tr><td>Obsidian-vault</td><td>Урок 6, Часть 2</td><td>«Второй мозг», общая память агентов</td></tr>
+      <tr><td>AI-офис: sub-агенты</td><td>Урок 6, Часть 3</td><td>Директор и sub-агенты, SOUL.md, MEMORY.md, heartbeats</td></tr>
+    </table>
+
+    <div class="note note--info">
+      <span class="note__icon">🗺️</span>
+      <span>Каждая строка таблицы — это часть твоей поверхности атаки. И каждая строка будет проверена в этой главе.</span>
+    </div>
+
+    <div class="item" data-key="urok6-part4-ch01-map">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Составить карту своего контура</div>
+        <div class="item__hint">Выпиши свою версию таблицы выше — с реальными именами, доменами и тем, что добавил сам. Этот список — вход в аудит: позже Claude Code будет с ним сверяться.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 131 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">131</div>
+    <div class="section__title">Модель угроз на пальцах — кто и через что бьёт</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🎯</span>
+      <span>Карта контура отвечает на вопрос «что у нас есть». Модель угроз — на вопрос «кто и через что по нам ударит». Без неё аудит превращается в проверку всего подряд без приоритетов.</span>
+    </div>
+
+    <table class="data-table">
+      <tr><th>Вектор входа</th><th>Кто атакует</th><th>Что хочет получить</th></tr>
+      <tr><td>Сообщение в Telegram</td><td>Любой, кто узнал бота</td><td>Заставить агента слить данные или выполнить команду</td></tr>
+      <tr><td>Веб-страница</td><td>Владелец сайта, который агент открыл</td><td>Непрямая инъекция → перехват действий агента</td></tr>
+      <tr><td>Письмо в Gmail</td><td>Кто угодно, знающий твой адрес</td><td>Скрытый промпт в письме → кража PII</td></tr>
+      <tr><td>Скилл с ClawHub</td><td>Автор вредоносного скилла</td><td>Исполнить свой код внутри агента</td></tr>
+      <tr><td>Описание MCP-тула</td><td>Автор вредоносного MCP-сервера</td><td>Tool poisoning — срабатывает при каждом вызове</td></tr>
+      <tr><td>Отравленная память</td><td>Тот, кто уже сделал одну инъекцию</td><td>Закрепиться в агенте надолго</td></tr>
+      <tr><td>Брут SSH или открытого порта</td><td>Автоматические сканеры</td><td>Захват сервера целиком</td></tr>
+    </table>
+
+    <div class="note note--warn">
+      <span class="note__icon">⚖️</span>
+      <span>Расставь эти векторы по реалистичности <strong>для себя</strong>. Бота знают три человека из команды — вектор Telegram ниже. Бот публичный — он вектор №1. Аудит без приоритетов = потраченное время.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 132 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">132</div>
+    <div class="section__title">Восемь слоёв аудита — методология главы</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🧱</span>
+      <span>Чтобы аудит был систематическим, а не «проверили что вспомнили» — идём по восьми слоям. Это и есть методология главы: каждый слой доводим до записи в AUDIT.md.</span>
+    </div>
+
+    <table class="data-table">
+      <tr><th>№</th><th>Слой</th><th>Что проверяем</th><th>Где чиним</th></tr>
+      <tr><td>1</td><td>Сеть и сервер</td><td>Открытые порты, firewall, hardening ОС</td><td>Глава 02</td></tr>
+      <tr><td>2</td><td>Доступ (SSH)</td><td>Вход на сервер: ключи, root, 2FA</td><td>Глава 02</td></tr>
+      <tr><td>3</td><td>Секреты</td><td>Токены и ключи: где лежат, как защищены</td><td>Глава 02</td></tr>
+      <tr><td>4</td><td>OpenClaw Gateway</td><td>Экспозиция, версия, известные CVE</td><td>Глава 02</td></tr>
+      <tr><td>5</td><td>Skills и MCP</td><td>Чужой код в агенте: источник, репутация</td><td>Глава 03</td></tr>
+      <tr><td>6</td><td>Агентский слой</td><td>Троица, права, инструменты, каналы</td><td>Глава 03</td></tr>
+      <tr><td>7</td><td>Память</td><td>SOUL.md, MEMORY.md, vault — целостность</td><td>Глава 03</td></tr>
+      <tr><td>8</td><td>Мониторинг и IR</td><td>Логи, алерты, готовность к инциденту</td><td>Главы 02–03</td></tr>
+    </table>
+
+    <div class="note note--warn">
+      <span class="note__icon">⚡</span>
+      <span>В этой главе мы проходим все восемь слоёв — но только <strong>находим</strong>. Колонка «Где чиним» — это карта Глав 02–03. Сейчас задача одна: довести каждый слой до строчки в AUDIT.md.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 133 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">133</div>
+    <div class="section__title">Claude Code как аудитор — подготовка</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🤖</span>
+      <span>Аудит будем гонять через локальный Claude Code в VS Code — тот самый, что ты прокачал в Части 1 этого урока: с MCP-серверами (openclaw, n8n-mcp, Context7) и SSH-доступом к серверу. У него есть и знание OpenClaw, и руки, и глаза.</span>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">🛡️</span>
+      <span><strong>Принцип: аудитор не должен быть аудируемым.</strong> Аудит проводит Claude Code — а НЕ сам твой OpenClaw-агент. Почему: если агент уже скомпрометирован (например, отравлена память), он напишет в отчёте «всё чисто» — потому что атакующий ему так велел. Независимый аудитор такого не сделает. Это называется разделение ролей, и это база.</span>
+    </div>
+
+    <div class="item" data-key="urok6-part4-ch01-vscode">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Открыть VS Code с рабочей папкой OpenClaw</div>
+        <div class="item__hint">Та же папка и сессия Claude Code, что и в Части 1 урока 6. Если закрывал — открой заново.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="urok6-part4-ch01-mcp">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить, что MCP-серверы подключены</div>
+        <div class="item__hint">В чате Claude Code выполни <span class="mono">/mcp</span>. В списке должны быть <span class="mono">openclaw</span>, <span class="mono">n8n-mcp</span> и <span class="mono">context7</span> со статусом connected. Если какого-то нет — вернись к Части 1 урока 6 или к уроку 5.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="urok6-part4-ch01-ssh">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить SSH-доступ к серверу</div>
+        <div class="item__hint">Попроси Claude Code выполнить <span class="mono">ssh root@&lt;IP&gt; "uptime"</span> — должен вернуться аптайм сервера. Значит, руки до сервера у аудитора есть.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 134 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">134</div>
+    <div class="section__title">Три проверки руками — то, что нельзя доверить агенту</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">👁️</span>
+      <span>Три вещи проверь своими глазами, прежде чем подключать агента к полному аудиту. Это слои 1, 2 и 4 — и именно эти находки нельзя делегировать: они либо красные, либо зелёные, без полутонов.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Проверка 1 — не в Shodan ли твой Gateway.</strong> OpenClaw Gateway должен слушать только loopback (127.0.0.1) — то есть быть доступен лишь с самого сервера, а наружу торчать строго через SSH-туннель, как в уроке 3. Если он привязан к 0.0.0.0 — он в открытом интернете, и ты в тех самых 245 000 инстансов.</p>
+    </div>
+
+    <div class="item" data-key="urok6-part4-ch01-shodan">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить, как привязан Gateway, и поискать сервер в Shodan</div>
+        <div class="item__hint">Попроси Claude Code выполнить команду ниже на сервере — ищи строку с портом 18789. И отдельно вбей IP своего сервера в поиск на <span class="mono">shodan.io</span>.</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="p4c1cmdBind">ssh root@&lt;IP&gt; "ss -tlnp | grep -E '18789|openclaw'"</span><button class="btn-copy" onclick="copyBlock('p4c1cmdBind',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span>Видишь <span class="mono">127.0.0.1:18789</span> — отлично, Gateway закрыт. Видишь <span class="mono">0.0.0.0:18789</span> или <span class="mono">*:18789</span> — это находка уровня Critical, записываем сразу.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Проверка 2 — версия OpenClaw против свежих CVE.</strong> «0 пакетов к обновлению» в системе — это про пакеты ОС. Сам OpenClaw обновляется отдельно. За 2026 год у OpenClaw уже 138 CVE, среди них критичные.</p>
+    </div>
+
+    <table class="data-table">
+      <tr><th>CVE</th><th>CVSS</th><th>Суть</th></tr>
+      <tr><td>CVE-2026-44112</td><td>9.6</td><td>Гонка в песочнице → запись наружу, персистентный бэкдор</td></tr>
+      <tr><td>CVE-2026-32922</td><td>крит.</td><td>Pairing-токен превращается в полный админ-доступ + RCE</td></tr>
+      <tr><td>CVE-2026-25253</td><td>8.8</td><td>One-click RCE, работает даже на localhost-инстансе</td></tr>
+      <tr><td>CVE-2026-44115</td><td>8.8</td><td>Утечка env-переменных — API-ключей и токенов</td></tr>
+      <tr><td>CVE-2026-44118</td><td>7.8</td><td>Эскалация до owner через подделку флага senderIsOwner</td></tr>
+    </table>
+
+    <div class="item" data-key="urok6-part4-ch01-version">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Узнать свою версию OpenClaw и сверить с CVE</div>
+        <div class="item__hint">Попроси Claude Code выполнить команду ниже, а затем через Context7 или веб-поиск проверить, попадает ли твоя версия под CVE из таблицы. Патчи вышли 23 апреля 2026 — версия должна быть новее.</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="p4c1cmdVersion">ssh root@&lt;IP&gt; "openclaw --version"</span><button class="btn-copy" onclick="copyBlock('p4c1cmdVersion',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Проверка 3 — кто реально может писать боту.</strong> В уроке 3 ты прописал <span class="mono">allowFrom</span> — белый список Telegram-аккаунтов, которым агент отвечает. Это нога №2 троицы (недоверенный вход). Проверь, что там только ты и твоя команда — и никого лишнего.</p>
+    </div>
+
+    <div class="item" data-key="urok6-part4-ch01-allowfrom">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить allowFrom в конфиге OpenClaw</div>
+        <div class="item__hint">Попроси Claude Code показать секции <span class="mono">allowFrom</span> и <span class="mono">groupAllowFrom</span> из конфига. Каждый ID должен быть опознан. Незнакомый ID = находка уровня Critical.</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="p4c1cmdAllow">ssh root@&lt;IP&gt; "grep -E 'allowFrom|groupAllowFrom' ~/.openclaw/openclaw.json"</span><button class="btn-copy" onclick="copyBlock('p4c1cmdAllow',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 135 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">135</div>
+    <div class="section__title">Встроенный аудит OpenClaw</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🔍</span>
+      <span>У OpenClaw есть собственная команда аудита — она знает свои же типичные дыры. С неё начинаем машинную часть проверки.</span>
+    </div>
+
+    <div class="item" data-key="urok6-part4-ch01-ocaudit">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Прогнать встроенный аудит OpenClaw</div>
+        <div class="item__hint">Попроси Claude Code выполнить обе команды на сервере и разобрать вывод. <span class="mono">security audit</span> — быстрая проверка, <span class="mono">--deep</span> — глубокая.</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="p4c1cmdOcAudit">ssh root@&lt;IP&gt; "openclaw security audit && openclaw security audit --deep"</span><button class="btn-copy" onclick="copyBlock('p4c1cmdOcAudit',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">⚙️</span>
+      <span>Вывод этой команды — не приговор, а сырьё. Claude Code должен не просто показать его, а превратить каждое замечание в находку с severity. Это уже часть будущего AUDIT.md.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 136 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">136</div>
+    <div class="section__title">Аудит сервера через Lynis</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🐧</span>
+      <span>Встроенный аудит OpenClaw смотрит на агента. Сервер целиком проверяет Lynis — стандартный опенсорс-аудитор Linux. Он выдаёт Hardening Index и список конкретных предложений по укреплению.</span>
+    </div>
+
+    <div class="item" data-key="urok6-part4-ch01-lynis">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Установить и прогнать Lynis на сервере</div>
+        <div class="item__hint">Попроси Claude Code установить Lynis, прогнать аудит системы и собрать из отчёта блоки <span class="mono">warnings</span> и <span class="mono">suggestions</span>.</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="p4c1cmdLynis">ssh root@&lt;IP&gt; "apt-get install -y lynis && lynis audit system"</span><button class="btn-copy" onclick="copyBlock('p4c1cmdLynis',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">📊</span>
+      <span>Hardening Index от Lynis (например, 74/100) — это ориентир, а не оценка в дневник. Важны не цифры, а конкретные <span class="mono">suggestions</span>: каждое релевантное предложение уходит в AUDIT.md как находка.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 137 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">137</div>
+    <div class="section__title">Аудит агентского слоя — троица, права, инструменты</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🧠</span>
+      <span>Слои 1–4 — это аудит инфраструктуры. Теперь — самое важное и самое забываемое: аудит самого агента. Что он умеет, докуда дотягивается и что будет, если его перехватят.</span>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: инвентаризация силы агента</div>
+      <div class="prompt-block__text" id="p4c1promptAgent">Проведи аудит агентского слоя моего OpenClaw. Подключись к серверу по SSH и сделай:
+
+1. Собери полный список инструментов (tools), доступных главному агенту и каждому sub-агенту: что прописано в конфиге ~/.openclaw/, какие skills и MCP подключены.
+2. Для каждого инструмента определи: даёт ли он доступ к приватным данным, может ли отправлять данные во внешний мир, может ли исполнять команды.
+3. Наложи это на «смертельную троицу»: для каждого агента ответь — замкнуты ли все три ноги (приватные данные + недоверенный вход + внешний канал).
+4. Оцени blast radius: если этого агента перехватят через инъекцию — до чего дотянется атакующий.
+5. Проверь ключевые настройки безопасности: exec.ask, workspaceOnly, requireMention, streaming и от какого пользователя запущен OpenClaw (root или нет).
+
+Ничего не чини. Выдай результат таблицей: инструмент → доступы → нога троицы. Каждую проблему оформи как находку с severity (Critical/High/Medium/Low) и короткой рекомендацией. Это пойдёт в AUDIT.md.</div>
+      <button class="btn-copy" onclick="copyBlock('p4c1promptAgent', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="info-block">
+      <p>Примерно так выглядит таблица, которую соберёт Claude Code — на ней сразу видно, где троица замкнута:</p>
+    </div>
+
+    <table class="data-table">
+      <tr><th>Инструмент агента</th><th>Что получает атакующий при перехвате</th><th>Ноги троицы</th></tr>
+      <tr><td>Чтение Telegram</td><td>Видит входящие сообщения</td><td>недоверенный вход</td></tr>
+      <tr><td>Gmail / Calendar</td><td>Читает почту и календарь, шлёт письма</td><td>данные + канал</td></tr>
+      <tr><td>HTTP / n8n-webhook</td><td>Готовый канал утечки наружу</td><td>внешний канал</td></tr>
+      <tr><td>Доступ к vault / MEMORY</td><td>Читает «второй мозг» целиком</td><td>приватные данные</td></tr>
+      <tr><td>exec на сервере</td><td>Полный контроль над VPS</td><td>все три — максимум</td></tr>
+    </table>
+
+    <div class="item" data-key="urok6-part4-ch01-agentlayer">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Прогнать инвентаризацию силы агента</div>
+        <div class="item__hint">Отправь промпт выше Claude Code. На выходе — таблица инструментов и явный ответ: где троица замкнута и какой blast radius при перехвате.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 138 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">138</div>
+    <div class="section__title">Аудит цепочки поставок — skills и MCP</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--alert">
+      <span class="note__icon">⚠️</span>
+      <span>Скиллы и MCP-серверы — это чужой код, который исполняется внутри твоего агента. По данным кампании ClawHavoc, около <strong>20% реестра ClawHub</strong> — вредоносные скиллы (раздают стилеры). MCP-серверы умеют прятать инструкции прямо в описаниях своих инструментов — это называется tool poisoning, и срабатывает оно при каждом вызове.</span>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: аудит skills и MCP</div>
+      <div class="prompt-block__text" id="p4c1promptSupply">Проведи аудит цепочки поставок моего OpenClaw — skills и MCP-серверы.
+
+1. Подключись к серверу и собери полный список установленных skills (clawhub list и содержимое папки skills).
+2. Для каждого skill определи: кто автор, откуда установлен, когда обновлялся, что просит SKILL.md (доступ к файловой системе, сети, exec). Скилл, который просит доступ не по своей функции — красный флаг.
+3. Собери список подключённых MCP-серверов (из .mcp.json и конфига). Для каждого тула проверь описание на скрытые инструкции (tool poisoning): нет ли в описании текста вида «также сделай...», «игнорируй...», скрытых команд.
+4. Отдельно проверь: какие из skills и MCP реально используются, а какие висят мёртвым грузом — неиспользуемый чужой код надо удалять.
+
+Ничего не удаляй и не чини. Выдай таблицу: skill/MCP → источник → запрошенные доступы → вердикт (доверять / проверить вручную / кандидат на удаление). Проблемные оформи как находки с severity для AUDIT.md.</div>
+      <button class="btn-copy" onclick="copyBlock('p4c1promptSupply', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="item" data-key="urok6-part4-ch01-supplychain">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Прогнать аудит цепочки поставок</div>
+        <div class="item__hint">Отправь промпт Claude Code. На выходе — список всех скиллов и MCP с вердиктом доверия по каждому.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 139 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">139</div>
+    <div class="section__title">Аудит памяти агента</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🧬</span>
+      <span>Отравление памяти — атака №6 в OWASP-рейтинге для агентов. Суть: злоумышленник один раз протащил инструкцию в постоянную память агента (SOUL.md, MEMORY.md, vault) — и она тихо влияет на каждое следующее действие. Атака и ущерб разнесены во времени: внедрили в марте, сработало в мае, атакующий давно ушёл.</span>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: аудит памяти агента</div>
+      <div class="prompt-block__text" id="p4c1promptMemory">Проведи аудит памяти моих OpenClaw-агентов на признаки отравления.
+
+1. Подключись к серверу и собери содержимое: SOUL.md, MEMORY.md, user.md, HEARTBEAT.md главного агента и каждого sub-агента, а также общий Obsidian-vault.
+2. Прочитай каждый файл и найди подозрительное: инструкции, противоречащие роли агента; команды вида «отправь / перешли / игнорируй прежние правила»; посторонние URL и адреса; текст, который выглядит вставленным, а не написанным владельцем.
+3. Если workspace агентов бэкапится в GitHub — пройди по истории коммитов SOUL.md и MEMORY.md: кто и когда вносил правки, нет ли изменений, которые я не делал сам.
+4. Проверь, кто и какой процесс имеет право записи в эти файлы.
+
+Ничего не правь. Выдай по каждому файлу вердикт: чисто или подозрительно — с точной цитатой. Подозрительное оформи как находку с severity для AUDIT.md.</div>
+      <button class="btn-copy" onclick="copyBlock('p4c1promptMemory', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">🌉</span>
+      <span>Если ты ведёшь бэкап агентов в GitHub (мост-глава Части 3) — у Claude Code есть с чем сравнивать: история коммитов показывает, кто и когда менял SOUL.md и MEMORY.md. Это и есть твой baseline для памяти.</span>
+    </div>
+
+    <div class="item" data-key="urok6-part4-ch01-memory">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Прогнать аудит памяти</div>
+        <div class="item__hint">Отправь промпт Claude Code. Он сверит память с baseline из GitHub и подсветит подозрительные записи.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 140 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">140</div>
+    <div class="section__title">Главный промпт — собираем AUDIT.md</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">📄</span>
+      <span>Восемь слоёв пройдены. Теперь Claude Code сводит всё в один документ — <span class="mono">AUDIT.md</span>. Это не балл и не отчёт «для галочки», а рабочий документ, по которому ты пройдёшь Главы 02 и 03.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>AUDIT.md состоит из двух частей.</strong> Часть 1 — реестр находок: каждая дыра отдельной строкой, с severity, доказательством, рекомендацией и дедлайном. Часть 2 — pipeline ремедиации: те же находки, выстроенные в порядок исправления, чтобы Claude Code в следующих главах шёл по нему сверху вниз и сам вносил правки.</p>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: собрать AUDIT.md</div>
+      <div class="prompt-block__text" id="p4c1promptMain">Собери итоговый аудит безопасности в файл AUDIT.md в корне рабочей папки.
+Используй все результаты, которые мы получили в этой главе: проверки сети и Gateway,
+встроенный аудит OpenClaw, отчёт Lynis, аудит агентского слоя, skills/MCP и памяти.
+
+СТРУКТУРА ФАЙЛА AUDIT.md:
+
+# Аудит безопасности OpenClaw — &lt;дата&gt;
+
+## Сводка
+- Дата аудита, кто проводил (Claude Code), версия OpenClaw.
+- Сколько находок по уровням: Critical / High / Medium / Low.
+- 1-2 предложения: главный вывод.
+
+## Часть 1. Реестр находок
+Таблица. Для КАЖДОЙ находки колонки:
+ID | Слой | Severity | Находка | Доказательство | Рекомендация | Дедлайн
+- ID: F-01, F-02 и так далее.
+- Severity строго один из: Critical / High / Medium / Low.
+- Доказательство: вывод команды, путь к файлу, строка конфига — конкретика, не «вроде бы».
+- Рекомендация: что именно сделать.
+- Дедлайн: Critical — сразу, High — 7 дней, Medium — 30 дней, Low — при случае.
+
+## Часть 2. Pipeline ремедиации
+Тот же список находок, выстроенный в ПОРЯДОК исправления:
+сначала все Critical, потом High, потом Medium, в конце Low.
+Для каждого пункта: что чинить, на каком сервере или в каком файле,
+и в какой главе урока это делается (Глава 02 — сервер, Глава 03 — агент).
+Этот раздел — план, по которому ты сам будешь вносить правки в следующих главах.
+
+ПРАВИЛА:
+- Никаких баллов «X/100» и оценок-эмодзи. Только находки с severity.
+- Не придумывай находки. Слой чистый — так и напиши «без находок».
+- Ничего не чини в этой главе. Только фиксируй.
+- «Принятый риск» помечай отдельно: с причиной и датой пересмотра.
+
+Покажи мне готовый AUDIT.md и подтверди, что он сохранён.</div>
+      <button class="btn-copy" onclick="copyBlock('p4c1promptMain', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="item" data-key="urok6-part4-ch01-runaudit">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Запустить сборку AUDIT.md</div>
+        <div class="item__hint">Отправь главный промпт Claude Code. Он соберёт результаты всех шагов главы в один файл <span class="mono">AUDIT.md</span> в рабочей папке.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="urok6-part4-ch01-checkmd">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить структуру AUDIT.md</div>
+        <div class="item__hint">Открой получившийся файл. Убедись: у каждой находки есть severity, доказательство, рекомендация и дедлайн; в конце — pipeline ремедиации по порядку. Находки без severity или без рекомендации — отправь Claude Code на доработку.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 141 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">141</div>
+    <div class="section__title">Реестр находок против геймификации — и каденс ре-аудита</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🏁</span>
+      <span>Последний шаг — про формат. От того, КАК записан аудит, напрямую зависит, починишь ты что-то или нет.</span>
+    </div>
+
+    <div class="info-block">
+      <p>Частая ошибка — гнаться за красивым баллом. Отчёт «Безопасность 88/100, цель достигнута, можно отдыхать» приятно читать, но для дела он бесполезен: инженер не знает, что чинить первым, а «принятые риски» там часто просто способ не терять очки. Сравни два формата:</p>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-head compare-head--bad">Геймификация — так НЕ надо</div>
+      <div class="compare-head compare-head--good">Реестр находок — так надо</div>
+      <div class="compare-cell">Общий балл «88/100»</div>
+      <div class="compare-cell">12 находок: 1 Critical, 3 High, 5 Medium, 3 Low</div>
+      <div class="compare-cell">«Секреты — 65/100»</div>
+      <div class="compare-cell">«F-03: BOT_TOKEN в открытом виде в 3 скриптах — High»</div>
+      <div class="compare-cell">«Принятый риск (−5)» без объяснений</div>
+      <div class="compare-cell">«Принятый риск: root. Причина: ... Пересмотр: дата»</div>
+      <div class="compare-cell">«Цель достигнута, иди отдыхай»</div>
+      <div class="compare-cell">Дедлайн на каждую находку + дата ре-аудита</div>
+      <div class="compare-cell">Балл рисует сам агент — проверить нечем</div>
+      <div class="compare-cell">Каждая находка подтверждена выводом команды</div>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">🔄</span>
+      <span>Аудит — это снимок на конкретную дату. Через месяц он устаревает: вышли новые CVE, ты поставил новый скилл, добавил sub-агента. Поэтому аудит — не разовое событие, а цикл.</span>
+    </div>
+
+    <div class="item" data-key="urok6-part4-ch01-recadit">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Назначить дату следующего ре-аудита</div>
+        <div class="item__hint">Поставь повторяющуюся задачу: полный ре-аудит раз в месяц плюс внеплановый — после любого крупного изменения (новый скилл, новый агент, новая интеграция). Можно оформить cron-задачей OpenClaw, как в уроке 5.</div>
+      </div>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span>Готово. У тебя на руках <span class="mono">AUDIT.md</span> — реестр находок и pipeline ремедиации. В Главе 02 ты пройдёшь по pipeline и закроешь всё, что касается сервера. В Главе 03 — всё, что касается агента. Аудитор нашёл — инженер чинит. Поехали дальше.</span>
+    </div>
+  </div>
+</div>
+
+    <!-- ═══ FOOTER ГЛАВЫ 01 ЧАСТИ 4 ═══ -->
+    <div class="footer">
+      <div class="footer__done" id="doneBlockP4Ch01">
+        <div class="footer__done-emoji">🔐</div>
+        <div class="footer__done-text">Аудит пройден — AUDIT.md на руках</div>
+        <div class="footer__done-sub">Восемь слоёв проверены, находки записаны с severity и дедлайнами, pipeline ремедиации готов. Ты знаешь точно, что у тебя открыто — и в каком порядке это закрывать. Дальше — Глава 02: чиним сервер.</div>
+      </div>
+      <div class="footer__schedule">
+        <div class="footer__schedule-title">Следующая глава</div>
+        <div class="footer__schedule-row"><span>Часть 4 · Глава 02</span><span>Настройка сервера — закрываем периметр по pipeline из AUDIT.md</span></div>
+      </div>
+      <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
+      <button class="btn-reset" onclick="resetProgressP4Ch01()">Сбросить прогресс главы 01, части 04</button>
+    </div>
+
   </main>
 </div><!-- /layout -->
 
@@ -8820,6 +9502,16 @@ function saveStateP3Ch06(){const s={};itemsP3Ch06.forEach(item=>{s[item.dataset.
 function updateProgressP3Ch06(canCelebrate=true){let c=0;itemsP3Ch06.forEach(item=>{if(item.querySelector('input[type="checkbox"]').checked)c++});const cnt=document.getElementById('progressCountP3Ch06');const fill=document.getElementById('progressFillP3Ch06');if(cnt){cnt.textContent=`${c} / ${totalCountP3Ch06}`;}if(fill){fill.style.width=(totalCountP3Ch06>0?(c/totalCountP3Ch06)*100:0)+'%';}const done=document.getElementById('doneBlockP3Ch06');if(done){if(c===totalCountP3Ch06){done.classList.add('visible');if(canCelebrate&&!wasCompleteP3Ch06){launchConfetti()}wasCompleteP3Ch06=true}else{done.classList.remove('visible');wasCompleteP3Ch06=false;}}}
 itemsP3Ch06.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.addEventListener('change',function(){item.classList.toggle('checked',this.checked);saveStateP3Ch06();updateProgressP3Ch06(true);});});
 
+// ──────────── ЧАСТЬ 4 ГЛАВА 01 (Аудит безопасности) ──────────────
+const STORAGE_KEY_P4_CH01='iivizaciya_checklist_urok6_part4_ch01_v1';
+const itemsP4Ch01=document.querySelectorAll('.item[data-key^="urok6-part4-ch01-"]');
+const totalCountP4Ch01=itemsP4Ch01.length;
+let wasCompleteP4Ch01=false;
+function loadStateP4Ch01(){try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY_P4_CH01)||'{}');let c=0;itemsP4Ch01.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');if(s[item.dataset.key]){cb.checked=true;item.classList.add('checked');c++}});wasCompleteP4Ch01=c===totalCountP4Ch01}catch(e){}updateProgressP4Ch01(false);}
+function saveStateP4Ch01(){const s={};itemsP4Ch01.forEach(item=>{s[item.dataset.key]=item.querySelector('input[type="checkbox"]').checked});try{localStorage.setItem(STORAGE_KEY_P4_CH01,JSON.stringify(s))}catch(e){}}
+function updateProgressP4Ch01(canCelebrate=true){let c=0;itemsP4Ch01.forEach(item=>{if(item.querySelector('input[type="checkbox"]').checked)c++});const cnt=document.getElementById('progressCountP4Ch01');const fill=document.getElementById('progressFillP4Ch01');if(cnt){cnt.textContent=`${c} / ${totalCountP4Ch01}`;}if(fill){fill.style.width=(totalCountP4Ch01>0?(c/totalCountP4Ch01)*100:0)+'%';}const done=document.getElementById('doneBlockP4Ch01');if(done){if(c===totalCountP4Ch01){done.classList.add('visible');if(canCelebrate&&!wasCompleteP4Ch01){launchConfetti()}wasCompleteP4Ch01=true}else{done.classList.remove('visible');wasCompleteP4Ch01=false;}}}
+itemsP4Ch01.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.addEventListener('change',function(){item.classList.toggle('checked',this.checked);saveStateP4Ch01();updateProgressP4Ch01(true);});});
+
 function resetProgressCh01(){if(!confirm('Сбросить прогресс главы 01, части 01?'))return;itemsCh01.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteCh01=false;saveStateCh01();updateProgressCh01(false);}
 function resetProgressCh02(){if(!confirm('Сбросить прогресс главы 02, части 01?'))return;itemsCh02.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteCh02=false;saveStateCh02();updateProgressCh02(false);}
 function resetProgressCh03(){if(!confirm('Сбросить прогресс главы 03, части 01?'))return;itemsCh03.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteCh03=false;saveStateCh03();updateProgressCh03(false);}
@@ -8832,6 +9524,7 @@ function resetProgressP3Bridge(){if(!confirm('Сбросить прогресс 
 function resetProgressP3Ch04(){if(!confirm('Сбросить прогресс главы 04, части 03?'))return;itemsP3Ch04.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteP3Ch04=false;saveStateP3Ch04();updateProgressP3Ch04(false);}
 function resetProgressP3Ch05(){if(!confirm('Сбросить прогресс главы 05, части 03?'))return;itemsP3Ch05.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteP3Ch05=false;saveStateP3Ch05();updateProgressP3Ch05(false);}
 function resetProgressP3Ch06(){if(!confirm('Сбросить прогресс главы 06, части 03?'))return;itemsP3Ch06.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteP3Ch06=false;saveStateP3Ch06();updateProgressP3Ch06(false);}
+function resetProgressP4Ch01(){if(!confirm('Сбросить прогресс главы 01, части 04?'))return;itemsP4Ch01.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteP4Ch01=false;saveStateP4Ch01();updateProgressP4Ch01(false);}
 loadStateCh01();
 loadStateCh02();
 loadStateCh03();
@@ -8844,6 +9537,7 @@ loadStateP3Bridge();
 loadStateP3Ch04();
 loadStateP3Ch05();
 loadStateP3Ch06();
+loadStateP4Ch01();
 
 // ──────────── SCROLL-SPY (sidebar активная глава + mobile topbar) ──────────────
 (function(){
@@ -8858,6 +9552,7 @@ loadStateP3Ch06();
   const p3c4Anchor=document.getElementById('part3-chapter-04');
   const p3c5Anchor=document.getElementById('part3-chapter-05');
   const p3c6Anchor=document.getElementById('part3-chapter-06');
+  const p4c1Anchor=document.getElementById('part4-chapter-01');
   const linkCh01=document.querySelector('.sidebar__link[data-ch="01"]');
   const linkCh02=document.querySelector('.sidebar__link[data-ch="02"]');
   const linkCh03=document.querySelector('.sidebar__link[data-ch="03"]');
@@ -8870,6 +9565,7 @@ loadStateP3Ch06();
   const linkP3C4=document.querySelector('.sidebar__link[data-ch="p3-04"]');
   const linkP3C5=document.querySelector('.sidebar__link[data-ch="p3-05"]');
   const linkP3C6=document.querySelector('.sidebar__link[data-ch="p3-06"]');
+  const linkP4C1=document.querySelector('.sidebar__link[data-ch="p4-01"]');
   const mobileTitle=document.querySelector('.mobile-topbar__title');
   if(!ch02Anchor||!linkCh01||!linkCh02)return;
   const THRESHOLD=200;
@@ -8885,17 +9581,19 @@ loadStateP3Ch06();
     'p3bridge':'Урок 6 · Ч.3 · 🌉 Мост',
     'p3c4':'Урок 6 · Ч.3 · Гл.04',
     'p3c5':'Урок 6 · Ч.3 · Гл.05',
-    'p3c6':'Урок 6 · Ч.3 · Гл.06 · Финал'
+    'p3c6':'Урок 6 · Ч.3 · Гл.06 · Финал',
+    'p4c1':'Урок 6 · Ч.4 · Гл.01'
   };
-  const ALL_LINKS=[linkCh01,linkCh02,linkCh03,linkP2C1,linkP2C2,linkP3C1,linkP3C2,linkP3C3,linkP3Bridge,linkP3C4,linkP3C5,linkP3C6];
+  const ALL_LINKS=[linkCh01,linkCh02,linkCh03,linkP2C1,linkP2C2,linkP3C1,linkP3C2,linkP3C3,linkP3Bridge,linkP3C4,linkP3C5,linkP3C6,linkP4C1];
   function setActive(key){
     ALL_LINKS.forEach(l=>l&&l.classList.remove('sidebar__link--active'));
-    const linkMap={'p1c1':linkCh01,'p1c2':linkCh02,'p1c3':linkCh03,'p2c1':linkP2C1,'p2c2':linkP2C2,'p3c1':linkP3C1,'p3c2':linkP3C2,'p3c3':linkP3C3,'p3bridge':linkP3Bridge,'p3c4':linkP3C4,'p3c5':linkP3C5,'p3c6':linkP3C6};
+    const linkMap={'p1c1':linkCh01,'p1c2':linkCh02,'p1c3':linkCh03,'p2c1':linkP2C1,'p2c2':linkP2C2,'p3c1':linkP3C1,'p3c2':linkP3C2,'p3c3':linkP3C3,'p3bridge':linkP3Bridge,'p3c4':linkP3C4,'p3c5':linkP3C5,'p3c6':linkP3C6,'p4c1':linkP4C1};
     const target=linkMap[key];
     if(target)target.classList.add('sidebar__link--active');
     if(mobileTitle)mobileTitle.textContent=TITLES[key]||TITLES['p1c1'];
   }
   function update(){
+    const p4c1Top=p4c1Anchor?p4c1Anchor.getBoundingClientRect().top:Infinity;
     const p3c6Top=p3c6Anchor?p3c6Anchor.getBoundingClientRect().top:Infinity;
     const p3c5Top=p3c5Anchor?p3c5Anchor.getBoundingClientRect().top:Infinity;
     const p3c4Top=p3c4Anchor?p3c4Anchor.getBoundingClientRect().top:Infinity;
@@ -8907,7 +9605,8 @@ loadStateP3Ch06();
     const p2c1Top=p2c1Anchor?p2c1Anchor.getBoundingClientRect().top:Infinity;
     const ch03Top=ch03Anchor?ch03Anchor.getBoundingClientRect().top:Infinity;
     const ch02Top=ch02Anchor.getBoundingClientRect().top;
-    if(p3c6Top<=THRESHOLD)setActive('p3c6');
+    if(p4c1Top<=THRESHOLD)setActive('p4c1');
+    else if(p3c6Top<=THRESHOLD)setActive('p3c6');
     else if(p3c5Top<=THRESHOLD)setActive('p3c5');
     else if(p3c4Top<=THRESHOLD)setActive('p3c4');
     else if(p3bridgeTop<=THRESHOLD)setActive('p3bridge');
