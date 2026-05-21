@@ -221,6 +221,14 @@
   .term--p4-ch01 .term__name { color:#ef4444; }
   .term--p4-ch01 .term__example { background:rgba(239,68,68,0.06); border-left-color:rgba(239,68,68,0.3); }
 
+  /* ─── PART 4 ГЛАВА 02 — оранжевый акцент (настройка сервера) ─── */
+  .chapter-marker--p4-ch02 { border-left-color:#f97316; }
+  .chapter-marker--p4-ch02 .chapter-marker__label { color:#f97316; }
+  .progress-wrap--p4-ch02 .progress-count { color:#f97316; }
+  .progress-wrap--p4-ch02 .progress-fill { background:linear-gradient(90deg,#f97316,#c2410c); }
+  .term--p4-ch02 .term__name { color:#f97316; }
+  .term--p4-ch02 .term__example { background:rgba(249,115,22,0.06); border-left-color:rgba(249,115,22,0.3); }
+
   /* финальный модификатор — золотое свечение для последней главы части */
   .chapter-marker--final { position:relative; box-shadow:0 0 0 1px rgba(251,191,36,0.18), 0 18px 38px -22px rgba(219,39,119,0.35); background:linear-gradient(135deg,rgba(251,191,36,0.04),transparent 50%), var(--bg-card); }
   .chapter-marker--final .chapter-marker__label { background:linear-gradient(90deg,#fbbf24,#db2777); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
@@ -430,7 +438,7 @@
       <div class="sidebar__part">
         <div class="sidebar__part-title">Часть 4 · Безопасность контура</div>
         <a href="#part4-chapter-01" class="sidebar__link" data-ch="p4-01">Глава 01 · Аудит безопасности</a>
-        <span class="sidebar__link sidebar__link--soon">Глава 02 · Настройка сервера <em>скоро</em></span>
+        <a href="#part4-chapter-02" class="sidebar__link" data-ch="p4-02">Глава 02 · Настройка сервера</a>
         <span class="sidebar__link sidebar__link--soon">Глава 03 · Безопасность агента <em>скоро</em></span>
       </div>
 
@@ -9514,6 +9522,730 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
       <button class="btn-reset" onclick="resetProgressP4Ch01()">Сбросить прогресс главы 01, части 04</button>
     </div>
 
+<!-- ═══════════════════════════════════════════════════════════════
+     ЧАСТЬ 4 · ГЛАВА 02 — НАСТРОЙКА СЕРВЕРА
+═══════════════════════════════════════════════════════════════ -->
+    <div id="part4-chapter-02" class="chapter-divider"></div>
+
+    <div class="chapter-marker chapter-marker--p4-ch02">
+      <div class="chapter-marker__label">ЧАСТЬ 4 · ГЛАВА 02</div>
+      <div class="chapter-marker__title">Настройка сервера <span>— закрываем периметр по pipeline из AUDIT.md</span></div>
+    </div>
+
+    <div class="progress-wrap progress-wrap--p4-ch02">
+      <div class="progress-top">
+        <span class="progress-label">Прогресс главы 02, части 04</span>
+        <span class="progress-count" id="progressCountP4Ch02">0 / 18</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFillP4Ch02"></div></div>
+    </div>
+
+<!-- ═══ 143 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">143</div>
+    <div class="section__title">От находок к фиксам — как работаем в этой главе</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🔧</span>
+      <span>Глава 01 дала тебе <span class="mono">AUDIT.md</span> — реестр находок и pipeline ремедиации. Это была работа аудитора: найти и записать. Глава 02 — работа инженера: взять список и закрыть всё, что касается сервера. Аудитор нашёл — инженер чинит.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Режим работы — пошаговый, с подтверждением.</strong> На каждом слое Claude Code работает по одной схеме:</p>
+      <p>1. <strong>Предлагает</strong> — показывает план и точные команды, объясняет, что и зачем меняет.<br>
+         2. <strong>Ты одобряешь</strong> — смотришь, задаёшь вопросы, даёшь ОК.<br>
+         3. <strong>Применяет</strong> — вносит изменение на сервер.<br>
+         4. <strong>Проверяете вместе</strong> — убеждаетесь, что фикс сработал и ничего не сломалось.</p>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">⚡</span>
+      <span><strong>Почему не автономно.</strong> Серверные правки необратимы и опасны: одна ошибка в конфиге SSH или firewall — и ты теряешь доступ к собственному серверу. Поэтому каждый шаг — через твоё «ОК». Claude Code не применяет ничего молча.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Порядок ремедиации.</strong> Идём по severity и по слоям: сначала Critical, потом High, Medium, Low. По слоям — снаружи внутрь: сначала Gateway и сеть (слои 4 и 1), потом доступ (слой 2), потом секреты (слой 3) и мониторинг (слой 8).</p>
+    </div>
+
+    <div class="item" data-key="urok6-part4-ch02-openaudit">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Открыть AUDIT.md и отсортировать находки по severity</div>
+        <div class="item__hint">Попроси Claude Code открыть <span class="mono">AUDIT.md</span> из Главы 01 и показать только серверные находки (слои 1–4, 8), отсортированные Critical → High → Medium → Low. Это твой план на главу.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 144 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">144</div>
+    <div class="section__title">Термины — словарь инженера по защите сервера</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">📖</span>
+      <span>Пять терминов, которыми оперирует эта глава. Возвращайся к ним по ходу.</span>
+    </div>
+
+    <div class="term term--p4-ch02">
+      <div class="term__name">Hardening · Закалка</div>
+      <div class="term__def">Сведение системы к минимально необходимому состоянию: всё лишнее выключено, всё открытое закрыто, у каждого процесса — только нужные права. Чем меньше «живого» на сервере, тем меньше можно атаковать.</div>
+      <div class="term__example">📌 Сервер из коробки удобен, но «болтлив»: куча включённых сервисов, открытых портов, разрешений. Hardening — это методичное «выключи, закрой, ограничь».</div>
+    </div>
+
+    <div class="term term--p4-ch02">
+      <div class="term__name">Firewall · Межсетевой экран</div>
+      <div class="term__def">Фильтр сетевого трафика на границе сервера. Решает, какие соединения пускать, а какие отбрасывать. Правильная настройка — «запрещено всё, кроме явно разрешённого».</div>
+      <div class="term__example">📌 Без firewall любой порт, который случайно слушает наружу, виден всему интернету. С firewall наружу торчит ровно то, что ты разрешил — и ничего больше.</div>
+    </div>
+
+    <div class="term term--p4-ch02">
+      <div class="term__name">Defense-in-depth · Эшелонированная оборона</div>
+      <div class="term__def">Несколько независимых слоёв защиты. Атакующий пробил один — упёрся в следующий. Ни один слой не считается непробиваемым.</div>
+      <div class="term__example">📌 Firewall + SSH-ключи + fail2ban + не-root — это четыре слоя. Пробить нужно все четыре. Пробить один — почти бесполезно.</div>
+    </div>
+
+    <div class="term term--p4-ch02">
+      <div class="term__name">IDS / IPS · Обнаружение и предотвращение вторжений</div>
+      <div class="term__def">Системы, которые следят за поведением (логами, трафиком) и реагируют на атаку — например, банят IP после серии неудачных входов. fail2ban и CrowdSec — это IPS.</div>
+      <div class="term__example">📌 Firewall — стена. IPS — охранник, который видит, что кто-то ломится в дверь, и захлопывает её перед ним.</div>
+    </div>
+
+    <div class="term term--p4-ch02">
+      <div class="term__name">Least Privilege на сервере</div>
+      <div class="term__def">Каждый процесс и пользователь работает с минимально нужными правами. Сервису, которому хватает обычного пользователя, не дают root.</div>
+      <div class="term__example">📌 OpenClaw от root — это весь сервер в радиусе поражения при перехвате. OpenClaw от отдельного пользователя — радиус сжимается до его папки. Это и есть least privilege.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 145 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">145</div>
+    <div class="section__title">Правила безопасных правок — как не сломать прод</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--alert">
+      <span class="note__icon">🚨</span>
+      <span><strong>Золотое правило главы.</strong> Когда правишь SSH или firewall — <strong>всегда держи открытой вторую SSH-сессию</strong> к серверу. Если новый конфиг закроет тебе вход — ты починишь его из второй, уже открытой сессии. Закрыл единственную сессию с битым конфигом — и всё, сервер потерян.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Четыре правила, которые экономят сервер:</strong></p>
+      <p>1. <strong>Бэкап до правок.</strong> Точка отката снимается ДО первого изменения — не после.<br>
+         2. <strong>По одной правке за раз.</strong> Применил → проверил → только потом следующая. Сломалось — точно знаешь, что именно.<br>
+         3. <strong>Не правь sshd и firewall на бегу.</strong> Эти два слоя — только когда есть время спокойно разобраться.<br>
+         4. <strong>После каждого слоя — обновляй AUDIT.md.</strong> Закрыл находку — отметь. В конце главы будет видно, что осталось.</p>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-head compare-head--bad">Так теряют серверы</div>
+      <div class="compare-head compare-head--good">Так чинят безопасно</div>
+      <div class="compare-cell">Правлю sshd, firewall и порты разом</div>
+      <div class="compare-cell">Один слой → проверка → следующий</div>
+      <div class="compare-cell">Одна SSH-сессия, её же и закрыл</div>
+      <div class="compare-cell">Вторая сессия открыта всё время правок</div>
+      <div class="compare-cell">«Потом забэкаплю»</div>
+      <div class="compare-cell">Бэкап снят до первой команды</div>
+    </div>
+
+    <div class="item" data-key="urok6-part4-ch02-second-session">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Открыть вторую SSH-сессию как страховку</div>
+        <div class="item__hint">Открой отдельное окно терминала и подключись к серверу второй раз: <span class="mono">ssh root@&lt;IP&gt;</span>. Не закрывай его до конца главы — это твой запасной вход.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 146 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">146</div>
+    <div class="section__title">Стартовый бэкап сервера — точка отката</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">💾</span>
+      <span>Перед первой правкой снимаем бэкап критичных конфигов. Если что-то пойдёт не так — откатишься на это состояние. Бэкап до правок, не после — это не обсуждается.</span>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: снять стартовый бэкап конфигов</div>
+      <div class="prompt-block__text" id="p4c2promptBackup">Подключись к моему серверу по SSH. Сделай стартовый бэкап перед настройкой безопасности.
+
+1. Собери в один архив копии: /etc/ssh/, конфиги текущего firewall, папку ~/.openclaw/ (конфиги, без больших данных), все мои служебные скрипты.
+2. Положи архив с датой в имени в надёжное место на сервере и продублируй в мой приватный backup-репозиторий на GitHub (тот, что заводили в мост-главе Части 3).
+3. Покажи мне список того, что попало в бэкап, и куда он сохранён.
+
+Работай в пошаговом режиме: сначала покажи план и команды, дождись моего ОК, потом выполняй.</div>
+      <button class="btn-copy" onclick="copyBlock('p4c2promptBackup', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="item" data-key="urok6-part4-ch02-backup">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Снять стартовый бэкап и проверить, что он на месте</div>
+        <div class="item__hint">Отправь промпт Claude Code. Одобри план, дай применить. В конце убедись своими глазами: архив существует и продублирован в GitHub.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 147 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">147</div>
+    <div class="section__title">Слой 4а — патч OpenClaw до свежей версии</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--alert">
+      <span class="note__icon">🚨</span>
+      <span>Начинаем с самого острого. Если в AUDIT.md есть CVE-находки по версии OpenClaw — это почти всегда Critical. Непропатченная версия с CVE 9.6 — это открытая дверь. Чиним первой.</span>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: обновить OpenClaw и закрыть CVE</div>
+      <div class="prompt-block__text" id="p4c2promptPatch">Подключись к серверу. Нужно закрыть CVE-находки из AUDIT.md по версии OpenClaw.
+
+1. Покажи текущую версию OpenClaw и какие CVE на неё заведены (сверься с AUDIT.md).
+2. Предложи план обновления до последней стабильной версии (новее патчей от 23 апреля 2026).
+3. После моего ОК — обнови OpenClaw, перезапусти gateway.
+4. Проверь: новая версия выше уязвимой, бот жив и отвечает в Telegram, ошибок в логах нет.
+5. Отметь CVE-находки в AUDIT.md как закрытые, с датой.
+
+Сначала план, потом, после ОК, — применение и проверка.</div>
+      <button class="btn-copy" onclick="copyBlock('p4c2promptPatch', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="item" data-key="urok6-part4-ch02-patch-openclaw">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Обновить OpenClaw, проверить и отметить находку закрытой</div>
+        <div class="item__hint">Одобри план, дай применить. Проверка обязательна: бот должен ответить в Telegram после обновления.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 148 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">148</div>
+    <div class="section__title">Слой 4б — закрываем Gateway</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p>OpenClaw Gateway должен слушать только loopback (127.0.0.1), а наружу — выходить строго через SSH-туннель, как в уроке 3. Если аудит показал binding на <span class="mono">0.0.0.0</span> — закрываем. Заодно ротируем токен и чистим pairing.</p>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: закрыть Gateway и ротировать токен</div>
+      <div class="prompt-block__text" id="p4c2promptGateway">Подключись к серверу. Нужно закрыть OpenClaw Gateway по находкам из AUDIT.md.
+
+1. Проверь текущий binding порта 18789. Если он слушает не только 127.0.0.1 — предложи изменить конфиг так, чтобы Gateway был доступен только с loopback.
+2. Ротируй gateway.token (создай новый, старый сделай недействительным). Напомни мне обновить токен в локальном Claude Code.
+3. Проверь pairing: покажи список привязанных устройств/токенов, предложи удалить всё, что я не опознаю.
+4. Убедись, что доступ к Web UI остаётся только через SSH-туннель из урока 3.
+5. После применения — отметь находки по Gateway в AUDIT.md закрытыми.
+
+Сначала покажи план, после моего ОК — применяй и проверяй.</div>
+      <button class="btn-copy" onclick="copyBlock('p4c2promptGateway', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="item" data-key="urok6-part4-ch02-close-gateway">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Закрыть Gateway на loopback, ротировать токен, почистить pairing</div>
+        <div class="item__hint">После применения проверь binding ещё раз — должно быть <span class="mono">127.0.0.1:18789</span>. Не забудь обновить gateway.token в локальном Claude Code, иначе MCP отвалится.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 149 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">149</div>
+    <div class="section__title">Слой 1а — firewall (UFW)</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🧱</span>
+      <span>UFW — простой firewall для Ubuntu. Ставим политику «запрещено всё входящее, кроме явно разрешённого». Наружу остаётся торчать только SSH-порт.</span>
+    </div>
+
+    <div class="note note--alert">
+      <span class="note__icon">🚨</span>
+      <span><strong>Порядок критичен.</strong> Сначала <strong>разрешить</strong> SSH-порт в правилах UFW — и только потом включать firewall. Включишь firewall раньше, чем разрешишь SSH — отрежешь себе вход мгновенно. Claude Code обязан выдержать этот порядок.</span>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: настроить firewall UFW</div>
+      <div class="prompt-block__text" id="p4c2promptUfw">Подключись к серверу. Настрой firewall UFW по находкам сетевого слоя из AUDIT.md.
+
+1. Установи UFW, если его нет.
+2. Покажи мне план правил: default deny incoming, default allow outgoing, allow на текущий SSH-порт. Если в этой главе мы будем менять SSH-порт — заложи allow и на новый порт тоже.
+3. КРИТИЧНО: правило allow на SSH-порт должно быть добавлено ДО команды enable. Подтверди в плане, что порядок именно такой.
+4. После моего ОК — примени правила и включи UFW.
+5. Проверь: ufw status показывает active, SSH-порт разрешён, лишних открытых портов нет. Я проверю вход из второй сессии.
+
+Сначала план с явным порядком команд, потом, после ОК, — применение.</div>
+      <button class="btn-copy" onclick="copyBlock('p4c2promptUfw', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="item" data-key="urok6-part4-ch02-ufw">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Включить UFW (deny by default) и проверить вход из второй сессии</div>
+        <div class="item__hint">После включения UFW сразу проверь, что вторая SSH-сессия жива и новый вход проходит. Только потом — дальше.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 150 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">150</div>
+    <div class="section__title">Слой 1б — kernel hardening</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p>Ядро Linux настраивается через параметры <span class="mono">sysctl</span>. Десяток правильных значений закрывают целый класс сетевых атак: IP-спуфинг, перенаправления трафика, SYN-флуд. Плюс блокируем загрузку ненужных сетевых протоколов.</p>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: применить kernel hardening</div>
+      <div class="prompt-block__text" id="p4c2promptKernel">Подключись к серверу. Примени kernel hardening по рекомендациям из отчёта Lynis (AUDIT.md, слой 1).
+
+1. Подготовь набор sysctl-параметров укрепления ядра: защита от IP-спуфинга, отключение приёма и отправки ICMP-редиректов и source routing, включение SYN cookies, защита от подмены, ASLR. Ориентируйся на рекомендации Lynis и CIS Benchmark — при необходимости сверься через Context7.
+2. Заблокируй через modprobe загрузку ненужных сетевых протоколов: dccp, sctp, rds, tipc.
+3. Покажи мне полный список параметров с пояснением, что каждый делает. После моего ОК — применяй и делай изменения постоянными (чтобы пережили перезагрузку).
+4. Проверь, что параметры реально активны.
+
+Сначала список с пояснениями, потом — применение.</div>
+      <button class="btn-copy" onclick="copyBlock('p4c2promptKernel', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="item" data-key="urok6-part4-ch02-kernel">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Применить sysctl-параметры и блок ненужных протоколов</div>
+        <div class="item__hint">Прочитай пояснения Claude Code — ты должен понимать, что включаешь. Проверь, что параметры активны после применения.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 151 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">151</div>
+    <div class="section__title">Слой 1в — сокращаем поверхность атаки</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p>Каждый запущенный сервис — потенциальный вход. На свежем VPS обычно крутится то, что тебе не нужно: служба печати, поиск устройств в сети, почтовый демон. Что не используется — выключаем.</p>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: убрать лишние сервисы и подчистить систему</div>
+      <div class="prompt-block__text" id="p4c2promptSurface">Подключись к серверу. Сократи поверхность атаки по находкам слоя 1 из AUDIT.md.
+
+1. Покажи список запущенных служб. Отметь те, что для нашего сценария (OpenClaw + n8n) не нужны — например, cups, avahi-daemon, postfix, ModemManager и подобные. Не трогай ничего, что нужно для работы сервера и агента.
+2. Предложи их отключить и замаскировать, чтобы не запускались снова.
+3. Включи автоматические обновления безопасности (unattended-upgrades).
+4. Отключи core dumps и выстави umask 027.
+5. Покажи план, после моего ОК — примени. По каждому сервису объясни, почему его можно выключить.
+
+Сначала план с обоснованием, потом — применение и проверка.</div>
+      <button class="btn-copy" onclick="copyBlock('p4c2promptSurface', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="item" data-key="urok6-part4-ch02-surface">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Отключить лишние сервисы, включить автообновления</div>
+        <div class="item__hint">Не выключай сервис, назначение которого Claude Code не смог объяснить. Лучше переспросить, чем погасить нужное.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 152 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">152</div>
+    <div class="section__title">Слой 2а — SSH-ключи</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--alert">
+      <span class="note__icon">🚨</span>
+      <span><strong>Порядок — это всё.</strong> Сначала настраиваем вход по ключу и <strong>убеждаемся, что он работает</strong>. И только в следующей секции отключаем вход по паролю. Сделаешь наоборот — запрёшь себя снаружи.</span>
+    </div>
+
+    <div class="info-block">
+      <p>SSH-ключ — это пара файлов: <strong>приватный</strong> ключ остаётся на твоём компьютере (его никому), <strong>публичный</strong> кладётся на сервер. Сервер пускает того, у кого есть приватная половина пары. Это надёжнее пароля и не поддаётся брутфорсу.</p>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Шаг 1. Сгенерировать ключ на своём компьютере.</strong> Выбери команду для своей ОС.</p>
+    </div>
+
+    <div class="cmd-block-os">
+      <div class="cmd-os-label">🍎 Mac (Terminal / iTerm)</div>
+      <div class="cmd-copy"><span class="cmd-copy__text" id="p4c2cmdKeygenMac">ssh-keygen -t ed25519 -C "openclaw-server"</span><button class="btn-copy" onclick="copyBlock('p4c2cmdKeygenMac',this)">📋 Скопировать</button></div>
+      <div class="cmd-os-label cmd-os-label--win">🪟 Windows (PowerShell)</div>
+      <div class="cmd-copy"><span class="cmd-copy__text" id="p4c2cmdKeygenWin">ssh-keygen -t ed25519 -C "openclaw-server"</span><button class="btn-copy" onclick="copyBlock('p4c2cmdKeygenWin',this)">📋 Скопировать</button></div>
+    </div>
+
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span>Команда одинаковая, но запускается в твоём терминале. На все вопросы можно жать Enter — путь по умолчанию подойдёт. Пароль на ключ (passphrase) задать стоит: это ещё один слой защиты.</span>
+    </div>
+
+    <div class="item" data-key="urok6-part4-ch02-sshkey-gen">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Сгенерировать SSH-ключ на своём компьютере</div>
+        <div class="item__hint">После генерации у тебя появятся два файла: <span class="mono">id_ed25519</span> (приватный — не трогать, не показывать) и <span class="mono">id_ed25519.pub</span> (публичный — его отдадим серверу).</div>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: добавить публичный ключ на сервер</div>
+      <div class="prompt-block__text" id="p4c2promptKeyAdd">Я сгенерировал SSH-ключ на своём компьютере. Помоги добавить публичный ключ на сервер.
+
+1. Подскажи команду, которая покажет содержимое моего публичного ключа (id_ed25519.pub).
+2. Я пришлю тебе эту строку. Добавь её в authorized_keys нужного пользователя на сервере, выставь правильные права на файл и папку .ssh.
+3. НЕ меняй пока никаких настроек sshd — вход по паролю должен остаться рабочим до следующей секции.
+4. Скажи мне, как проверить вход по ключу из новой сессии.
+
+Сначала покажи план, потом, после моего ОК и присланного ключа, — применяй.</div>
+      <button class="btn-copy" onclick="copyBlock('p4c2promptKeyAdd', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="item" data-key="urok6-part4-ch02-sshkey-add">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Добавить публичный ключ на сервер и проверить вход по ключу</div>
+        <div class="item__hint">Главная проверка секции: открой НОВУЮ SSH-сессию и убедись, что заходишь по ключу без запроса пароля. Не работает — не двигайся дальше, разбирайся с Claude Code.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 153 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">153</div>
+    <div class="section__title">Слой 2б — закалка sshd</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--alert">
+      <span class="note__icon">🚨</span>
+      <span>Самый рискованный шаг главы. Здесь вторая открытая SSH-сессия — не рекомендация, а обязательное условие. Не применяй ничего, пока вход по ключу из секции 152 не подтверждён и вторая сессия не открыта.</span>
+    </div>
+
+    <div class="info-block">
+      <p>Приводим конфиг SSH-сервера в боевой вид: вход — только по ключу, root по SSH запрещён, порт нестандартный, разрешён только твой пользователь, плюс лимиты на попытки входа.</p>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: закалить sshd_config</div>
+      <div class="prompt-block__text" id="p4c2promptSshd">Подключись к серверу. Нужно закалить конфигурацию SSH по находкам слоя 2 из AUDIT.md.
+
+Подготовь изменения sshd_config:
+- PasswordAuthentication no — вход только по ключу
+- PermitRootLogin no — root по SSH запрещён
+- Port — сменить на нестандартный (предложи вариант)
+- AllowUsers — только мой основной пользователь
+- LoginGraceTime 30, MaxAuthTries 3, MaxSessions 3
+- X11Forwarding no
+
+ВАЖНО, по шагам:
+1. Покажи мне полный diff будущего sshd_config. НЕ перезапускай sshd.
+2. Дождись, пока я подтвержу: вход по ключу работает и вторая SSH-сессия открыта.
+3. Только после моего явного ОК — примени конфиг и перезапусти sshd.
+4. Сразу после перезапуска скажи мне точную команду для входа на новом порту, чтобы я проверил вход из новой сессии, НЕ закрывая текущие.
+5. Если новый порт прописан в UFW — проверь это; если нет — добавь правило.
+
+Действуй строго по шагам, ничего не опережая.</div>
+      <button class="btn-copy" onclick="copyBlock('p4c2promptSshd', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="item" data-key="urok6-part4-ch02-sshd">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Применить закалку sshd и проверить вход на новом порту</div>
+        <div class="item__hint">Порядок: одобрил diff → дал применить → открыл новую сессию на новом порту по ключу → убедился, что заходит. Только после успешного входа можно закрывать старые сессии.</div>
+      </div>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span>Зашёл на новом порту по ключу, без пароля, под своим пользователем — значит SSH закалён правильно. Теперь старую сессию можно закрыть.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 154 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">154</div>
+    <div class="section__title">Слой 2в — fail2ban</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p>fail2ban следит за логами входов и автоматически банит IP, который слишком много раз ошибся паролем или ключом. Даже с закалённым SSH это нужно: сканеры интернета долбят порты круглосуточно.</p>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: настроить fail2ban</div>
+      <div class="prompt-block__text" id="p4c2promptFail2ban">Подключись к серверу. Настрой fail2ban по находкам слоя 2 из AUDIT.md.
+
+1. Установи fail2ban.
+2. Настрой jail для sshd — ВАЖНО: на тот порт, на который мы сменили SSH в прошлой секции, не на 22.
+3. Разумные параметры: maxretry 3-5, findtime 10 минут, bantime от часа и больше. Предложи конкретные значения.
+4. Покажи план, после ОК — примени и запусти.
+5. Проверь: fail2ban активен, jail sshd работает, мой текущий IP не забанен.
+
+Сначала план, потом — применение и проверка.</div>
+      <button class="btn-copy" onclick="copyBlock('p4c2promptFail2ban', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="item" data-key="urok6-part4-ch02-fail2ban">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Включить fail2ban с jail на новый SSH-порт</div>
+        <div class="item__hint">Убедись, что jail смотрит на актуальный SSH-порт. Jail на порт 22, когда SSH уже переехал, — бесполезен.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 155 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">155</div>
+    <div class="section__title">Слой 2г — CrowdSec</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🛰️</span>
+      <span>CrowdSec — IPS нового поколения. Помимо локального анализа логов он использует коллективную базу: IP, замеченный в атаках на тысячи других серверов, банится у тебя ещё до того, как доберётся. Это второй эшелон поверх fail2ban.</span>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: установить CrowdSec</div>
+      <div class="prompt-block__text" id="p4c2promptCrowdsec">Подключись к серверу. Установи и настрой CrowdSec как второй слой защиты доступа.
+
+1. Установи CrowdSec и firewall-bouncer (компонент, который реально блокирует IP).
+2. Подключи коллекции для базовых сценариев: ssh-bf (брутфорс SSH) и базовый linux.
+3. Убедись, что bouncer активен и связан с движком.
+4. Покажи план, после ОК — примени.
+5. Проверь: сервис активен, коллекции подгружены, bouncer работает. Покажи статус.
+
+Сначала план, потом — установка и проверка.</div>
+      <button class="btn-copy" onclick="copyBlock('p4c2promptCrowdsec', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="item" data-key="urok6-part4-ch02-crowdsec">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Установить CrowdSec и bouncer, проверить статус</div>
+        <div class="item__hint">CrowdSec без bouncer только наблюдает, но не банит. Проверь, что bouncer установлен и активен — иначе защита неполная.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 156 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">156</div>
+    <div class="section__title">Не-root для OpenClaw</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--alert">
+      <span class="note__icon">🚨</span>
+      <span>Если аудит показал, что OpenClaw запущен от root — это High-находка. От root радиус поражения при перехвате агента = весь сервер. Переносим OpenClaw под отдельного непривилегированного пользователя.</span>
+    </div>
+
+    <div class="info-block">
+      <p>Создаём отдельного пользователя, переносим под него конфиги и данные OpenClaw, запускаем сервис от его имени в <span class="mono">tmux</span>. Так агент остаётся рабочим, но при компрометации не дотянется до системных файлов и чужих данных.</p>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">⏳</span>
+      <span>Операция деликатная: на время переноса бот будет недоступен несколько минут. Делай её, когда есть время спокойно проверить результат, а не между делами.</span>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: перенести OpenClaw под non-root пользователя</div>
+      <div class="prompt-block__text" id="p4c2promptNonroot">Подключись к серверу. Нужно перенести OpenClaw с root на отдельного непривилегированного пользователя (находка слоя 4/least privilege в AUDIT.md).
+
+1. Покажи план: создание нового пользователя, перенос ~/.openclaw и данных агента под него, настройка прав, запуск gateway от его имени в tmux, автозапуск при перезагрузке сервера.
+2. Учти, что на время переноса бот будет недоступен — предупреди меня перед началом.
+3. После моего ОК — выполни перенос по шагам, комментируя каждый.
+4. Проверь: OpenClaw работает от нового пользователя (не root), бот отвечает в Telegram, gateway поднимается после перезагрузки.
+5. Отметь находку в AUDIT.md закрытой.
+
+Сначала подробный план, потом, после ОК, — перенос.</div>
+      <button class="btn-copy" onclick="copyBlock('p4c2promptNonroot', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="item" data-key="urok6-part4-ch02-nonroot">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Перенести OpenClaw под non-root и проверить работу бота</div>
+        <div class="item__hint">Контрольная проверка: бот отвечает в Telegram, а процесс OpenClaw запущен НЕ от root. Оба условия — обязательны.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 157 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">157</div>
+    <div class="section__title">Слой 3 — секреты</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--alert">
+      <span class="note__icon">🔑</span>
+      <span>Секреты в открытом виде и токены, захардкоженные в скриптах, — типовая High-находка. Логика простая: скомпрометировали хост — утекло сразу всё. Наводим порядок.</span>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: навести порядок в секретах</div>
+      <div class="prompt-block__text" id="p4c2promptSecrets">Подключись к серверу. Закрой находки слоя 3 (секреты) из AUDIT.md.
+
+1. Найди все файлы с секретами: конфиги OpenClaw, токены, ключи, .env, конфиги интеграций.
+2. Выстави на них права 600 (читать может только владелец).
+3. Проверь, что .gitignore покрывает все секреты — чтобы ничего не уехало в git.
+4. Найди захардкоженные токены прямо в тексте скриптов (например, BOT_TOKEN). Предложи вынести их в .env и подключать оттуда. Покажи, какие скрипты затронуты.
+5. Составь план ротации: какие токены и ключи стоит перевыпустить, с какой периодичностью. Запиши план в отдельный файл.
+
+Покажи план по каждому пункту, после моего ОК — применяй. Сами токены в чат не выводи.</div>
+      <button class="btn-copy" onclick="copyBlock('p4c2promptSecrets', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="item" data-key="urok6-part4-ch02-secrets">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Закрыть права на секреты, убрать хардкод, записать план ротации</div>
+        <div class="item__hint">План ротации — это тоже артефакт: отдельный файл, к которому ты вернёшься. Ротация без записанного плана не делается никогда.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 158 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">158</div>
+    <div class="section__title">Слой 8 — мониторинг и алерты</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p>Сервер укреплён — теперь надо <strong>видеть</strong>, что на нём происходит. Без мониторинга ты узнаешь о взломе последним. Ставим контроль целостности файлов, добиваем рекомендации Lynis и выводим алерты в Telegram.</p>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: настроить мониторинг и алерты</div>
+      <div class="prompt-block__text" id="p4c2promptMonitoring">Подключись к серверу. Закрой находки слоя 8 (мониторинг) из AUDIT.md.
+
+1. Установи AIDE — систему контроля целостности файлов. Создай базовую линию и настрой ежедневную проверку: AIDE должен замечать, если кто-то изменил системные файлы.
+2. Прогони Lynis повторно. Пройдись по оставшимся suggestions и предложи, что из них стоит закрыть. Что закрываем — применяй после моего ОК.
+3. Настрой алерты в Telegram через моего существующего бота: уведомление при входе по SSH, при использовании sudo, при бане IP в fail2ban/CrowdSec.
+4. Проверь: AIDE-проверка стоит в расписании, тестовый алерт дошёл в Telegram.
+
+Сначала план по каждому пункту, потом — применение и проверка.</div>
+      <button class="btn-copy" onclick="copyBlock('p4c2promptMonitoring', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="item" data-key="urok6-part4-ch02-monitoring">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Поставить AIDE, добить Lynis, включить алерты в Telegram</div>
+        <div class="item__hint">Проверка работает только если ты её увидел: дождись тестового алерта в Telegram. Не пришёл — мониторинг не настроен.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 159 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">159</div>
+    <div class="section__title">Обновляем AUDIT.md и сверяемся</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">📄</span>
+      <span>Серверный периметр закрыт. Финальный шаг — зафиксировать это в AUDIT.md и проверить независимым прогоном, что находки реально закрыты, а не «вроде бы».</span>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: обновить AUDIT.md и сверить</div>
+      <div class="prompt-block__text" id="p4c2promptUpdate">Подключись к серверу. Подведём итог Главы 02.
+
+1. Пройди по AUDIT.md. Каждой серверной находке (слои 1–4, 8), которую мы закрыли, проставь статус Fixed с датой и короткой пометкой, что именно сделано.
+2. Находки, которые остались (агентские слои 5–7), оставь как есть — ими займёмся в Главе 03.
+3. Прогони повторный аудит серверных слоёв — так же, как в Главе 01 (openclaw security audit, Lynis, проверка портов и Gateway).
+4. Сравни новый результат с исходным AUDIT.md: подтверди, что закрытые находки действительно закрыты. Если что-то всё ещё висит — честно скажи об этом.
+5. Покажи мне короткую сводку: было находок по серверу / закрыто / осталось.
+
+Сначала план, потом — выполнение.</div>
+      <button class="btn-copy" onclick="copyBlock('p4c2promptUpdate', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="item" data-key="urok6-part4-ch02-update-audit">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Обновить статусы находок в AUDIT.md</div>
+        <div class="item__hint">Каждая закрытая серверная находка — статус Fixed, дата, что сделано. AUDIT.md остаётся живым документом.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="urok6-part4-ch02-reaudit">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Прогнать повторный аудит сервера и сверить результат</div>
+        <div class="item__hint">Независимая проверка обязательна. «Закрыл» без повторного аудита — это надежда, а не факт.</div>
+      </div>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">🔒</span>
+      <span>Серверный периметр закрыт: OpenClaw пропатчен, Gateway на loopback, firewall и kernel укреплены, SSH закалён, fail2ban и CrowdSec ловят брутфорс, OpenClaw работает не от root, секреты прибраны, мониторинг шлёт алерты в Telegram. Осталось укрепить самого агента — это Глава 03.</span>
+    </div>
+  </div>
+</div>
+
+    <!-- ═══ FOOTER ГЛАВЫ 02 ЧАСТИ 4 ═══ -->
+    <div class="footer">
+      <div class="footer__done" id="doneBlockP4Ch02">
+        <div class="footer__done-emoji">🔒</div>
+        <div class="footer__done-text">Серверный периметр закрыт</div>
+        <div class="footer__done-sub">Все серверные находки из AUDIT.md отработаны: патчи, firewall, kernel hardening, закалённый SSH, fail2ban и CrowdSec, не-root для OpenClaw, прибранные секреты и мониторинг с алертами. Повторный аудит подтвердил. Дальше — Глава 03: безопасность самого агента.</div>
+      </div>
+      <div class="footer__schedule">
+        <div class="footer__schedule-title">Следующая глава</div>
+        <div class="footer__schedule-row"><span>Часть 4 · Глава 03</span><span>Безопасность агента — защита от инъекций, прав и отравления памяти</span></div>
+      </div>
+      <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
+      <button class="btn-reset" onclick="resetProgressP4Ch02()">Сбросить прогресс главы 02, части 04</button>
+    </div>
+
   </main>
 </div><!-- /layout -->
 
@@ -9657,6 +10389,16 @@ function saveStateP4Ch01(){const s={};itemsP4Ch01.forEach(item=>{s[item.dataset.
 function updateProgressP4Ch01(canCelebrate=true){let c=0;itemsP4Ch01.forEach(item=>{if(item.querySelector('input[type="checkbox"]').checked)c++});const cnt=document.getElementById('progressCountP4Ch01');const fill=document.getElementById('progressFillP4Ch01');if(cnt){cnt.textContent=`${c} / ${totalCountP4Ch01}`;}if(fill){fill.style.width=(totalCountP4Ch01>0?(c/totalCountP4Ch01)*100:0)+'%';}const done=document.getElementById('doneBlockP4Ch01');if(done){if(c===totalCountP4Ch01){done.classList.add('visible');if(canCelebrate&&!wasCompleteP4Ch01){launchConfetti()}wasCompleteP4Ch01=true}else{done.classList.remove('visible');wasCompleteP4Ch01=false;}}}
 itemsP4Ch01.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.addEventListener('change',function(){item.classList.toggle('checked',this.checked);saveStateP4Ch01();updateProgressP4Ch01(true);});});
 
+// ──────────── ЧАСТЬ 4 ГЛАВА 02 (Настройка сервера) ──────────────
+const STORAGE_KEY_P4_CH02='iivizaciya_checklist_urok6_part4_ch02_v1';
+const itemsP4Ch02=document.querySelectorAll('.item[data-key^="urok6-part4-ch02-"]');
+const totalCountP4Ch02=itemsP4Ch02.length;
+let wasCompleteP4Ch02=false;
+function loadStateP4Ch02(){try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY_P4_CH02)||'{}');let c=0;itemsP4Ch02.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');if(s[item.dataset.key]){cb.checked=true;item.classList.add('checked');c++}});wasCompleteP4Ch02=c===totalCountP4Ch02}catch(e){}updateProgressP4Ch02(false);}
+function saveStateP4Ch02(){const s={};itemsP4Ch02.forEach(item=>{s[item.dataset.key]=item.querySelector('input[type="checkbox"]').checked});try{localStorage.setItem(STORAGE_KEY_P4_CH02,JSON.stringify(s))}catch(e){}}
+function updateProgressP4Ch02(canCelebrate=true){let c=0;itemsP4Ch02.forEach(item=>{if(item.querySelector('input[type="checkbox"]').checked)c++});const cnt=document.getElementById('progressCountP4Ch02');const fill=document.getElementById('progressFillP4Ch02');if(cnt){cnt.textContent=`${c} / ${totalCountP4Ch02}`;}if(fill){fill.style.width=(totalCountP4Ch02>0?(c/totalCountP4Ch02)*100:0)+'%';}const done=document.getElementById('doneBlockP4Ch02');if(done){if(c===totalCountP4Ch02){done.classList.add('visible');if(canCelebrate&&!wasCompleteP4Ch02){launchConfetti()}wasCompleteP4Ch02=true}else{done.classList.remove('visible');wasCompleteP4Ch02=false;}}}
+itemsP4Ch02.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.addEventListener('change',function(){item.classList.toggle('checked',this.checked);saveStateP4Ch02();updateProgressP4Ch02(true);});});
+
 function resetProgressCh01(){if(!confirm('Сбросить прогресс главы 01, части 01?'))return;itemsCh01.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteCh01=false;saveStateCh01();updateProgressCh01(false);}
 function resetProgressCh02(){if(!confirm('Сбросить прогресс главы 02, части 01?'))return;itemsCh02.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteCh02=false;saveStateCh02();updateProgressCh02(false);}
 function resetProgressCh03(){if(!confirm('Сбросить прогресс главы 03, части 01?'))return;itemsCh03.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteCh03=false;saveStateCh03();updateProgressCh03(false);}
@@ -9670,6 +10412,7 @@ function resetProgressP3Ch04(){if(!confirm('Сбросить прогресс г
 function resetProgressP3Ch05(){if(!confirm('Сбросить прогресс главы 05, части 03?'))return;itemsP3Ch05.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteP3Ch05=false;saveStateP3Ch05();updateProgressP3Ch05(false);}
 function resetProgressP3Ch06(){if(!confirm('Сбросить прогресс главы 06, части 03?'))return;itemsP3Ch06.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteP3Ch06=false;saveStateP3Ch06();updateProgressP3Ch06(false);}
 function resetProgressP4Ch01(){if(!confirm('Сбросить прогресс главы 01, части 04?'))return;itemsP4Ch01.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteP4Ch01=false;saveStateP4Ch01();updateProgressP4Ch01(false);}
+function resetProgressP4Ch02(){if(!confirm('Сбросить прогресс главы 02, части 04?'))return;itemsP4Ch02.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasCompleteP4Ch02=false;saveStateP4Ch02();updateProgressP4Ch02(false);}
 loadStateCh01();
 loadStateCh02();
 loadStateCh03();
@@ -9683,6 +10426,7 @@ loadStateP3Ch04();
 loadStateP3Ch05();
 loadStateP3Ch06();
 loadStateP4Ch01();
+loadStateP4Ch02();
 
 // ──────────── SCROLL-SPY (sidebar активная глава + mobile topbar) ──────────────
 (function(){
@@ -9698,6 +10442,7 @@ loadStateP4Ch01();
   const p3c5Anchor=document.getElementById('part3-chapter-05');
   const p3c6Anchor=document.getElementById('part3-chapter-06');
   const p4c1Anchor=document.getElementById('part4-chapter-01');
+  const p4c2Anchor=document.getElementById('part4-chapter-02');
   const linkCh01=document.querySelector('.sidebar__link[data-ch="01"]');
   const linkCh02=document.querySelector('.sidebar__link[data-ch="02"]');
   const linkCh03=document.querySelector('.sidebar__link[data-ch="03"]');
@@ -9711,6 +10456,7 @@ loadStateP4Ch01();
   const linkP3C5=document.querySelector('.sidebar__link[data-ch="p3-05"]');
   const linkP3C6=document.querySelector('.sidebar__link[data-ch="p3-06"]');
   const linkP4C1=document.querySelector('.sidebar__link[data-ch="p4-01"]');
+  const linkP4C2=document.querySelector('.sidebar__link[data-ch="p4-02"]');
   const mobileTitle=document.querySelector('.mobile-topbar__title');
   if(!ch02Anchor||!linkCh01||!linkCh02)return;
   const THRESHOLD=200;
@@ -9727,17 +10473,19 @@ loadStateP4Ch01();
     'p3c4':'Урок 6 · Ч.3 · Гл.04',
     'p3c5':'Урок 6 · Ч.3 · Гл.05',
     'p3c6':'Урок 6 · Ч.3 · Гл.06 · Финал',
-    'p4c1':'Урок 6 · Ч.4 · Гл.01'
+    'p4c1':'Урок 6 · Ч.4 · Гл.01',
+    'p4c2':'Урок 6 · Ч.4 · Гл.02'
   };
-  const ALL_LINKS=[linkCh01,linkCh02,linkCh03,linkP2C1,linkP2C2,linkP3C1,linkP3C2,linkP3C3,linkP3Bridge,linkP3C4,linkP3C5,linkP3C6,linkP4C1];
+  const ALL_LINKS=[linkCh01,linkCh02,linkCh03,linkP2C1,linkP2C2,linkP3C1,linkP3C2,linkP3C3,linkP3Bridge,linkP3C4,linkP3C5,linkP3C6,linkP4C1,linkP4C2];
   function setActive(key){
     ALL_LINKS.forEach(l=>l&&l.classList.remove('sidebar__link--active'));
-    const linkMap={'p1c1':linkCh01,'p1c2':linkCh02,'p1c3':linkCh03,'p2c1':linkP2C1,'p2c2':linkP2C2,'p3c1':linkP3C1,'p3c2':linkP3C2,'p3c3':linkP3C3,'p3bridge':linkP3Bridge,'p3c4':linkP3C4,'p3c5':linkP3C5,'p3c6':linkP3C6,'p4c1':linkP4C1};
+    const linkMap={'p1c1':linkCh01,'p1c2':linkCh02,'p1c3':linkCh03,'p2c1':linkP2C1,'p2c2':linkP2C2,'p3c1':linkP3C1,'p3c2':linkP3C2,'p3c3':linkP3C3,'p3bridge':linkP3Bridge,'p3c4':linkP3C4,'p3c5':linkP3C5,'p3c6':linkP3C6,'p4c1':linkP4C1,'p4c2':linkP4C2};
     const target=linkMap[key];
     if(target)target.classList.add('sidebar__link--active');
     if(mobileTitle)mobileTitle.textContent=TITLES[key]||TITLES['p1c1'];
   }
   function update(){
+    const p4c2Top=p4c2Anchor?p4c2Anchor.getBoundingClientRect().top:Infinity;
     const p4c1Top=p4c1Anchor?p4c1Anchor.getBoundingClientRect().top:Infinity;
     const p3c6Top=p3c6Anchor?p3c6Anchor.getBoundingClientRect().top:Infinity;
     const p3c5Top=p3c5Anchor?p3c5Anchor.getBoundingClientRect().top:Infinity;
@@ -9750,7 +10498,8 @@ loadStateP4Ch01();
     const p2c1Top=p2c1Anchor?p2c1Anchor.getBoundingClientRect().top:Infinity;
     const ch03Top=ch03Anchor?ch03Anchor.getBoundingClientRect().top:Infinity;
     const ch02Top=ch02Anchor.getBoundingClientRect().top;
-    if(p4c1Top<=THRESHOLD)setActive('p4c1');
+    if(p4c2Top<=THRESHOLD)setActive('p4c2');
+    else if(p4c1Top<=THRESHOLD)setActive('p4c1');
     else if(p3c6Top<=THRESHOLD)setActive('p3c6');
     else if(p3c5Top<=THRESHOLD)setActive('p3c5');
     else if(p3c4Top<=THRESHOLD)setActive('p3c4');
