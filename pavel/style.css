@@ -484,6 +484,82 @@ img, svg { display: block; max-width: 100%; }
 }
 
 /* ============================================================
+   SUPPORT GRID (Поддержка после гарантии)
+   ============================================================ */
+
+.support-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+.support-card {
+  padding: 32px 28px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.support-card--yes {
+  border-color: rgba(0, 217, 163, 0.35);
+  background: linear-gradient(180deg, rgba(0, 217, 163, 0.06) 0%, var(--surface) 60%);
+}
+
+.support-card--no {
+  border-color: rgba(255, 107, 53, 0.3);
+  background: linear-gradient(180deg, rgba(255, 107, 53, 0.06) 0%, var(--surface) 60%);
+}
+
+.support-card__label {
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 16px;
+  color: var(--success);
+}
+
+.support-card--no .support-card__label {
+  color: var(--accent);
+}
+
+.support-card__list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.support-card__list li {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text);
+  padding-left: 20px;
+  position: relative;
+}
+
+.support-card__list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--text-muted);
+  font-weight: 800;
+}
+
+.support-note {
+  text-align: center;
+  margin-top: 32px;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+@media (max-width: 720px) {
+  .support-grid { grid-template-columns: 1fr; }
+}
+
+/* ============================================================
    TIMELINE
    ============================================================ */
 
