@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ИИ-ВИЗАЦИЯ · Скринкаст · Базовая работа с Claude</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #0a0a0f; --bg-card: #12121a; --bg-card-hover: #181825;
+    --border: #1e1e2e; --border-accent: #2a2a3e;
+    --text-primary: #e8e6f0; --text-secondary: #8b879e; --text-muted: #5a5670;
+    --accent: #7c5bf5; --accent-glow: #9d7cff; --accent-soft: rgba(124,91,245,0.12);
+    --green: #34d399; --green-glow: #6ee7b7; --green-soft: rgba(52,211,153,0.1);
+    --amber: #fbbf24; --amber-soft: rgba(251,191,36,0.1);
+    --red-soft: rgba(248,113,113,0.1); --red: #f87171;
+    --radius: 14px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; scroll-padding-top:90px; }
+  body { font-family:'Onest',system-ui,sans-serif; background:var(--bg-deep); color:var(--text-primary); line-height:1.65; min-height:100vh; -webkit-font-smoothing:antialiased; }
+  body::before { content:''; position:fixed; inset:0; background-image:radial-gradient(circle at 20% 20%,rgba(124,91,245,0.045) 0%,transparent 50%),radial-gradient(circle at 80% 80%,rgba(52,211,153,0.03) 0%,transparent 50%); pointer-events:none; z-index:0; }
+  .wrapper { position:relative; z-index:1; max-width:720px; margin:0 auto; padding:40px 20px 80px; }
+
+  /* ─── HEADER ─── */
+  .header { text-align:center; margin-bottom:48px; }
+  .header__badge { display:inline-block; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; color:var(--accent-glow); background:var(--accent-soft); border:1px solid rgba(124,91,245,0.2); padding:6px 16px; border-radius:100px; margin-bottom:24px; animation:fadeDown .6s ease both; }
+  .header__title { font-size:clamp(24px,5.2vw,38px); font-weight:800; line-height:1.18; letter-spacing:-0.6px; margin-bottom:22px; animation:fadeDown .6s ease .1s both; }
+  .header__title span { background:linear-gradient(135deg,var(--accent-glow) 0%,var(--green) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .header__topics { list-style:none; display:flex; flex-direction:column; gap:8px; max-width:540px; margin:0 auto; animation:fadeDown .6s ease .2s both; }
+  .header__topics li { font-size:13.5px; color:var(--text-secondary); display:flex; align-items:flex-start; gap:9px; text-align:left; }
+  .header__topics li::before { content:'→'; color:var(--accent); flex-shrink:0; font-family:'JetBrains Mono',monospace; font-size:11px; margin-top:3px; }
+
+  /* ─── PROGRESS ─── */
+  .progress-wrap { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:20px 24px; margin-bottom:36px; position:sticky; top:12px; z-index:10; backdrop-filter:blur(16px); background:rgba(18,18,26,0.92); animation:fadeDown .6s ease .3s both; }
+  .progress-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+  .progress-label { font-size:13px; font-weight:600; color:var(--text-secondary); text-transform:uppercase; letter-spacing:1px; font-family:'JetBrains Mono',monospace; }
+  .progress-count { font-family:'JetBrains Mono',monospace; font-size:14px; font-weight:700; color:var(--accent-glow); }
+  .progress-bar { width:100%; height:8px; background:var(--border); border-radius:100px; overflow:hidden; }
+  .progress-fill { height:100%; background:linear-gradient(90deg,var(--accent),var(--green)); border-radius:100px; transition:width .5s cubic-bezier(.34,1.56,.64,1); width:0%; }
+
+  /* ─── TOC ─── */
+  .toc { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:20px 24px; margin-bottom:36px; }
+  .toc__title { font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; color:var(--text-secondary); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:14px; }
+  .toc__list { list-style:none; display:flex; flex-direction:column; gap:2px; }
+  .toc__list a { display:flex; align-items:center; gap:12px; padding:8px 10px; border-radius:8px; color:var(--text-secondary); text-decoration:none; font-size:14px; transition:all .2s; }
+  .toc__list a:hover { background:var(--bg-card-hover); color:var(--text-primary); }
+  .toc__num { font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; color:var(--accent); width:28px; flex-shrink:0; }
+
+  /* ─── SECTION ─── */
+  .section { margin-bottom:28px; }
+  .section__header { display:flex; align-items:flex-start; gap:12px; margin-bottom:14px; padding-left:2px; }
+  .section__num { font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; color:var(--accent); background:var(--accent-soft); width:32px; height:32px; display:flex; align-items:center; justify-content:center; border-radius:8px; flex-shrink:0; margin-top:2px; }
+  .section__title { font-size:17px; font-weight:700; letter-spacing:-0.2px; line-height:1.35; }
+  .section__card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; transition:border-color .3s; }
+  .section__card:hover { border-color:var(--border-accent); }
+
+  /* ─── ITEM (checkbox) ─── */
+  .item { display:flex; align-items:flex-start; gap:14px; padding:16px 20px; border-bottom:1px solid var(--border); transition:background .2s; cursor:default; }
+  .item:last-child { border-bottom:none; }
+  .item:hover { background:var(--bg-card-hover); }
+  .item.checked .item__text { color:var(--text-muted); text-decoration:line-through; }
+  .item__check { position:relative; width:22px; height:22px; flex-shrink:0; margin-top:1px; pointer-events:auto; cursor:pointer; }
+  .item__check input { position:absolute; opacity:0; width:100%; height:100%; cursor:pointer; z-index:2; }
+  .item__check .cm { width:22px; height:22px; border:2px solid var(--border-accent); border-radius:6px; display:flex; align-items:center; justify-content:center; transition:all .25s cubic-bezier(.34,1.56,.64,1); cursor:pointer; }
+  .item__check .cm svg { width:12px; height:12px; opacity:0; transform:scale(0); transition:all .25s cubic-bezier(.34,1.56,.64,1); }
+  .item__check input:checked + .cm { background:var(--green); border-color:var(--green); }
+  .item__check input:checked + .cm svg { opacity:1; transform:scale(1); }
+  .item__body { flex:1; min-width:0; user-select:text; }
+  .item__text { font-size:14.5px; font-weight:500; color:var(--text-primary); transition:all .3s; }
+  .item__hint { font-size:13px; color:var(--text-secondary); margin-top:6px; line-height:1.65; }
+  .item__hint strong { color:var(--text-primary); }
+  .item__hint code { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--accent-glow); background:var(--accent-soft); padding:1px 6px; border-radius:4px; }
+
+  /* ─── LNK ─── */
+  .lnk { font-family:'JetBrains Mono',monospace; color:var(--accent-glow); text-decoration:none; transition:color .2s; word-break:break-word; border-bottom:1px dashed rgba(157,124,255,0.35); padding-bottom:1px; }
+  .lnk:hover { color:#bba4ff; border-bottom-color:var(--accent-glow); }
+  .item__hint .lnk, .note .lnk, .info-block .lnk { font-size:inherit; }
+
+  /* ─── NOTE ─── */
+  .note { display:flex; align-items:flex-start; gap:10px; padding:14px 20px; font-size:13px; color:var(--text-secondary); line-height:1.65; border-bottom:1px solid var(--border); }
+  .note:last-child { border-bottom:none; }
+  .note--warn { background:var(--amber-soft); color:var(--amber); }
+  .note--info { background:var(--accent-soft); }
+  .note--alert { background:var(--red-soft); color:var(--red); }
+  .note--green { background:var(--green-soft); color:var(--green-glow); }
+  .note__icon { flex-shrink:0; font-size:15px; }
+  .note strong { color:inherit; }
+  .note code { font-family:'JetBrains Mono',monospace; font-size:11.5px; background:rgba(0,0,0,0.25); padding:1px 5px; border-radius:4px; color:inherit; }
+
+  /* ─── INFO BLOCK ─── */
+  .info-block { padding:14px 20px; border-bottom:1px solid var(--border); font-size:13.5px; color:var(--text-secondary); line-height:1.7; }
+  .info-block:last-child { border-bottom:none; }
+  .info-block strong { color:var(--text-primary); font-weight:600; }
+  .info-block p { margin-bottom:8px; }
+  .info-block p:last-child { margin-bottom:0; }
+  .info-block code { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--accent-glow); background:var(--accent-soft); padding:1px 6px; border-radius:4px; }
+
+  /* ─── FOOTER ─── */
+  .footer { text-align:center; margin-top:48px; }
+  .footer__done { display:none; background:var(--green-soft); border:1px solid rgba(52,211,153,0.25); border-radius:var(--radius); padding:32px 24px; margin-bottom:24px; }
+  .footer__done.visible { display:block; animation:popIn .5s cubic-bezier(.34,1.56,.64,1) both; }
+  .footer__done-emoji { font-size:48px; margin-bottom:10px; }
+  .footer__done-text { font-size:22px; font-weight:800; color:var(--green); margin-bottom:6px; }
+  .footer__done-sub { font-size:15px; color:var(--text-secondary); }
+  .footer__contact { font-size:14px; color:var(--text-secondary); margin-bottom:20px; }
+  .footer__contact a { color:#2dd4bf; text-decoration:underline; text-decoration-color:rgba(45,212,191,0.4); font-weight:700; }
+  .btn-reset { background:none; border:1px solid var(--border); color:var(--text-muted); font-family:'JetBrains Mono',monospace; font-size:12px; padding:8px 20px; border-radius:100px; cursor:pointer; transition:all .2s; }
+  .btn-reset:hover { border-color:var(--red); color:var(--red); }
+  .tg { color:#2dd4bf !important; font-weight:700; text-decoration:underline; text-decoration-color:rgba(45,212,191,0.4); }
+
+  #confetti-canvas { position:fixed; inset:0; z-index:9999; pointer-events:none; }
+  @keyframes fadeDown { from{opacity:0;transform:translateY(-12px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes popIn { from{opacity:0;transform:scale(0.85)} to{opacity:1;transform:scale(1)} }
+
+  .reveal { opacity:0; transform:translateY(16px); transition:opacity .55s ease, transform .55s cubic-bezier(.34,1.56,.64,1); }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+
+  @media (max-width:560px) {
+    .wrapper { padding:28px 14px 60px; }
+    .item, .note, .info-block { padding:12px 16px; }
+    .progress-wrap { padding:16px 18px; top:8px; }
+    .toc { padding:16px 18px; }
+    .header__title { font-size:24px; }
+  }
+</style>
+</head>
+<body>
+<canvas id="confetti-canvas"></canvas>
+<div class="wrapper">
+
+<!-- ═══ HEADER ═══ -->
+<header class="header">
+  <div class="header__badge">ИИ-ВИЗАЦИЯ · Скринкаст · Базовый функционал Claude</div>
+  <h1 class="header__title">Базовая работа с Claude<br><span>десктоп-приложение для macOS</span></h1>
+  <ul class="header__topics">
+    <li>Установка десктоп-приложения и глобальный вызов из любой программы</li>
+    <li>Полный разбор всех настроек: Profile, Privacy, Billing, Usage, Memory</li>
+    <li>Коннекторы: Gmail, Calendar, Drive, Cowork, Claude in Chrome</li>
+    <li>История чатов: поиск, переименование, share-ссылки, ветки диалога</li>
+    <li>Модели Sonnet / Opus / Haiku и адаптивный режим Opus 4.7</li>
+    <li>Режимы Extended Thinking, Web Search, Research, Styles</li>
+    <li>Артефакты, файлы, голосовой ввод и шорткаты macOS</li>
+    <li>Что НЕ показываем: Проекты, Скиллы, Claude Code, Dispatch — отдельно</li>
+  </ul>
+</header>
+
+<!-- ═══ PROGRESS ═══ -->
+<div class="progress-wrap">
+  <div class="progress-top">
+    <span class="progress-label">Прогресс</span>
+    <span class="progress-count" id="progressCount">0 / 0</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<!-- ═══ TOC ═══ -->
+<nav class="toc">
+  <div class="toc__title">Содержание</div>
+  <ul class="toc__list">
+    <li><a href="#s00"><span class="toc__num">00</span><span>Интро · что покажем</span></a></li>
+    <li><a href="#s01"><span class="toc__num">01</span><span>Установка и первый запуск</span></a></li>
+    <li><a href="#s02"><span class="toc__num">02</span><span>Settings · Profile и метапромпт</span></a></li>
+    <li><a href="#s03"><span class="toc__num">03</span><span>Settings · Appearance и Account</span></a></li>
+    <li><a href="#s04"><span class="toc__num">04</span><span>Settings · Privacy</span></a></li>
+    <li><a href="#s05"><span class="toc__num">05</span><span>Settings · Billing</span></a></li>
+    <li><a href="#s06"><span class="toc__num">06</span><span>Settings · Usage и лимиты</span></a></li>
+    <li><a href="#s07"><span class="toc__num">07</span><span>Settings · Memory</span></a></li>
+    <li><a href="#s08"><span class="toc__num">08</span><span>Settings · Connectors</span></a></li>
+    <li><a href="#s09"><span class="toc__num">09</span><span>Шорткаты macOS</span></a></li>
+    <li><a href="#s10"><span class="toc__num">10</span><span>История чатов и навигация</span></a></li>
+    <li><a href="#s11"><span class="toc__num">11</span><span>Новый чат · модели</span></a></li>
+    <li><a href="#s12"><span class="toc__num">12</span><span>Поле ввода · полный разбор</span></a></li>
+    <li><a href="#s13"><span class="toc__num">13</span><span>Режимы работы Claude</span></a></li>
+    <li><a href="#s14"><span class="toc__num">14</span><span>Артефакты и работа с файлами</span></a></li>
+    <li><a href="#s15"><span class="toc__num">15</span><span>Безопасность · итоговое напоминание</span></a></li>
+    <li><a href="#s16"><span class="toc__num">16</span><span>Заключение и навигация дальше</span></a></li>
+  </ul>
+</nav>
+
+<div id="sections">
+
+<!-- ═══════════════════════════════════════════
+     00 — ИНТРО
+═══════════════════════════════════════════ -->
+<div class="section reveal" id="s00">
+  <div class="section__header">
+    <div class="section__num">00</div>
+    <div class="section__title">Интро · о чём этот скринкаст</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🎬</span>
+      <span>Этот скринкаст — базовый онбординг по десктоп-приложению Claude. Логика прохождения: <strong>сначала ставим → потом настраиваем под себя → потом работаем</strong>. Проекты, скиллы и Claude Code — в отдельных видео программы.</span>
+    </div>
+
+    <div class="item" data-key="s00-intro-scope">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Озвучить, что покажем в скринкасте</div>
+        <div class="item__hint">Установка → все настройки → история и работа с чатом. Универсальный обзор без привязки к конкретным задачам.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s00-intro-out">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Озвучить, что вынесено в отдельные скринкасты</div>
+        <div class="item__hint"><strong>Проекты, Скиллы, Claude Code</strong> — у каждого свой ролик. Здесь только базовый функционал десктоп-приложения.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s00-intro-why-desktop">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Зачем десктоп вместо браузера — короткий ответ</div>
+        <div class="item__hint">Глобальный hotkey, быстрый запуск из dock, нативный drag &amp; drop, отдельное окно вне браузера, автообновления.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     01 — УСТАНОВКА
+═══════════════════════════════════════════ -->
+<div class="section reveal" id="s01">
+  <div class="section__header">
+    <div class="section__num">01</div>
+    <div class="section__title">Установка и первый запуск</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">📥</span>
+      <span>Скачиваем строго с официального сайта <a href="https://claude.ai/download" target="_blank" class="lnk">claude.ai/download</a>. Никаких сторонних зеркал — это безопасность аккаунта.</span>
+    </div>
+
+    <div class="item" data-key="s01-open-site">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Открыть <a href="https://claude.ai/" target="_blank" class="lnk">claude.ai</a> и найти кнопку Download</div>
+        <div class="item__hint">Кнопка обычно в подвале или в меню профиля. Прямой адрес страницы загрузки: <a href="https://claude.ai/download" target="_blank" class="lnk">claude.ai/download</a>.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s01-download-mac">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Скачать дистрибутив для macOS</div>
+        <div class="item__hint">Apple Silicon vs Intel — показать, как выбрать правильную сборку.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s01-install">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Установить — перенести Claude в Applications</div>
+        <div class="item__hint">Стандартный для macOS жест: drag &amp; drop из dmg в папку Applications.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s01-first-launch">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Первый запуск и системные разрешения</div>
+        <div class="item__hint">macOS спросит про доступ к accessibility, микрофону, уведомлениям — пройтись по каждому диалогу и объяснить, что зачем.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s01-login">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Авторизация в существующем аккаунте</div>
+        <div class="item__hint">Открывается браузер для входа → возвращает в приложение. Показать, что это нормальный поток.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s01-first-screen">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Первый экран приложения · карта окна</div>
+        <div class="item__hint">Сайдбар слева · поле ввода в центре · переключатель модели сверху · профиль внизу. Просто показываем, ничего пока не нажимаем.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s01-hotkey">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Глобальный hotkey — киллер-фича десктопа</div>
+        <div class="item__hint">Вызов Claude из любого приложения по комбинации клавиш. Показать дефолт + где сменить шорткат.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s01-version">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Где смотреть версию приложения и автообновление</div>
+        <div class="item__hint">Меню Claude → About. Обновления приходят автоматически — не нужно следить руками.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     02 — SETTINGS · PROFILE
+═══════════════════════════════════════════ -->
+<div class="section reveal" id="s02">
+  <div class="section__header">
+    <div class="section__num">02</div>
+    <div class="section__title">Settings · Profile и метапромпт</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">👤</span>
+      <span>Profile — это не косметика. Поле «What should Claude know about you» работает как <strong>метапромпт</strong> и подмешивается в каждый ваш чат. Грамотно настроенный профиль экономит на повторных пояснениях в каждом диалоге.</span>
+    </div>
+
+    <div class="item" data-key="s02-open">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Открыть Settings · показать вкладку Profile</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s02-avatar">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Аватар — как загрузить и зачем</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s02-fullname">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Полное имя · как Claude к вам обращается</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s02-meta">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Поле «What should Claude know about you» — настройка метапромпта</div>
+        <div class="item__hint">Объяснить логику: что писать, что НЕ писать, как это влияет на ответы. Это самое важное поле во всех настройках.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s02-meta-demo">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Подтверждающее мини-демо · как метапромпт меняет ответ</div>
+        <div class="item__hint">Сравнить ответ до и после заполнения поля — на одном простом запросе.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s02-style">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Поле «How should Claude respond» — стилевые предпочтения</div>
+        <div class="item__hint">Краткость, структура, тон, язык. Отличие от метапромпта: это про форму, а метапромпт — про контекст.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     03 — APPEARANCE & ACCOUNT
+═══════════════════════════════════════════ -->
+<div class="section reveal" id="s03">
+  <div class="section__header">
+    <div class="section__num">03</div>
+    <div class="section__title">Settings · Appearance и Account</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🎨</span>
+      <span>Внешний вид и базовые настройки аккаунта. Быстро, но обязательно к показу — иначе у людей возникают вопросы.</span>
+    </div>
+
+    <div class="item" data-key="s03-theme">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Темы · светлая, тёмная, системная</div>
+        <div class="item__hint">Переключить все три, показать как меняется интерфейс.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s03-fonts">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Размер шрифта</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s03-email">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Account · email и базовая информация аккаунта</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s03-notify">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Настройки уведомлений</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s03-logout">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Выход со всех устройств · когда использовать</div>
+        <div class="item__hint">Сценарий: потеряли ноутбук, ушёл сотрудник, забыли разлогиниться на чужом компьютере.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     04 — PRIVACY
+═══════════════════════════════════════════ -->
+<div class="section reveal" id="s04">
+  <div class="section__header">
+    <div class="section__num">04</div>
+    <div class="section__title">Settings · Privacy</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--alert">
+      <span class="note__icon">🛡️</span>
+      <span>B2G-критично. Эту вкладку обязательно проходим до начала рабочих диалогов с Claude. Один тумблер — и ваши данные не уходят на обучение моделей.</span>
+    </div>
+
+    <div class="item" data-key="s04-train-off">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Отключить использование данных для обучения моделей</div>
+        <div class="item__hint">Главный пункт всей вкладки. Объяснить, что это значит и почему для нас это must-have.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s04-history">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Видимость и удаление истории чатов</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s04-export">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Экспорт данных аккаунта</div>
+        <div class="item__hint">Право на выгрузку всей истории — стандарт для корпоративного использования.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s04-policy">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Где смотреть политику конфиденциальности Anthropic</div>
+        <div class="item__hint">Прямая ссылка: <a href="https://www.anthropic.com/legal/privacy" target="_blank" class="lnk">anthropic.com/legal/privacy</a>. Условия использования: <a href="https://www.anthropic.com/legal/consumer-terms" target="_blank" class="lnk">anthropic.com/legal/consumer-terms</a>.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     05 — BILLING
+═══════════════════════════════════════════ -->
+<div class="section reveal" id="s05">
+  <div class="section__header">
+    <div class="section__num">05</div>
+    <div class="section__title">Settings · Billing</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">💳</span>
+      <span>Тарификация Claude — отдельная история. Разбираем, что такое план, extra usage и auto-reload, чтобы участники не удивлялись внезапным списаниям. Полный список тарифов: <a href="https://www.claude.com/pricing" target="_blank" class="lnk">claude.com/pricing</a>.</span>
+    </div>
+
+    <div class="item" data-key="s05-current">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Текущий план · что входит в Max</div>
+        <div class="item__hint">Прямая ссылка в аккаунте: <a href="https://claude.ai/settings/billing" target="_blank" class="lnk">claude.ai/settings/billing</a>.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s05-change">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Как сменить план</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s05-cancel">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Как отменить план</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s05-upgrade">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Как добавить или апгрейднуть план</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s05-extra">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Что такое Extra Usage</div>
+        <div class="item__hint">Когда вы упёрлись в лимит плана и докупаете объём сверху — как это устроено, как считается.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s05-autoreload">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Auto-reload · что включает и зачем</div>
+        <div class="item__hint">Автоматическое пополнение, когда заканчивается лимит. Удобно — но требует осознанности.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     06 — USAGE
+═══════════════════════════════════════════ -->
+<div class="section reveal" id="s06">
+  <div class="section__header">
+    <div class="section__num">06</div>
+    <div class="section__title">Settings · Usage и лимиты</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">📊</span>
+      <span>Здесь видно, сколько у вас осталось до сброса лимитов. Отдельно — счётчик Extra Usage. Полезно проверять перед длинной сессией.</span>
+    </div>
+
+    <div class="item" data-key="s06-sessions">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Счётчик сессий · 5-часовые окна</div>
+        <div class="item__hint">Объяснить логику: лимит обновляется не раз в сутки, а скользящими 5-часовыми окнами.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s06-extra">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Extra Usage · как читать цифры</div>
+        <div class="item__hint">Текущий формат отображения и что значит каждое число.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s06-indicator">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Индикатор лимита прямо в окне чата</div>
+        <div class="item__hint">Не нужно постоянно лезть в Settings — оставшийся ресурс виден в основном интерфейсе.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     07 — MEMORY
+═══════════════════════════════════════════ -->
+<div class="section reveal" id="s07">
+  <div class="section__header">
+    <div class="section__num">07</div>
+    <div class="section__title">Settings · Memory</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--green">
+      <span class="note__icon">🧠</span>
+      <span>Memory — это то, что Claude запоминает между разными чатами. Полезно для долгосрочной работы, опасно для конфиденциальных данных. Разбираем оба контекста.</span>
+    </div>
+
+    <div class="item" data-key="s07-what">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Что Claude запоминает между чатами</div>
+        <div class="item__hint">Имена, должности, повторяющиеся задачи, предпочтения по формату ответов.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s07-list">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Просмотр списка памяти · что Claude уже знает обо мне</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s07-delete-one">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Удаление отдельной записи памяти</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s07-clear-all">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Полная очистка памяти</div>
+        <div class="item__hint">Когда применять: смена проекта, передача аккаунта, ротация задач.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s07-import">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Импорт памяти из ChatGPT и других LLM · миграция</div>
+        <div class="item__hint">Как перенести наработанный контекст с другой модели и не начинать с нуля. Откуда берём данные: <a href="https://chatgpt.com/" target="_blank" class="lnk">chatgpt.com</a> · <a href="https://gemini.google.com/" target="_blank" class="lnk">gemini.google.com</a>.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     08 — CONNECTORS
+═══════════════════════════════════════════ -->
+<div class="section reveal" id="s08">
+  <div class="section__header">
+    <div class="section__num">08</div>
+    <div class="section__title">Settings · Connectors</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🔌</span>
+      <span>Коннекторы подключают Claude к внешним сервисам. Каталог встроенных коннекторов: <a href="https://claude.ai/directory" target="_blank" class="lnk">claude.ai/directory</a>. Прямая ссылка на настройки: <a href="https://claude.ai/settings/connectors" target="_blank" class="lnk">claude.ai/settings/connectors</a>. Cowork и Claude in Chrome здесь только упоминаем — детальные демо в отдельных скринкастах.</span>
+    </div>
+
+    <div class="item" data-key="s08-concept">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Что такое коннекторы · общий принцип</div>
+        <div class="item__hint">Это мост между Claude и внешним сервисом. Claude получает разрешение читать или писать данные.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s08-gmail">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Gmail — настройки доступа на демо-аккаунте</div>
+        <div class="item__hint">Подключаемый сервис: <a href="https://mail.google.com/" target="_blank" class="lnk">mail.google.com</a>.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s08-calendar">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Google Calendar — настройки доступа</div>
+        <div class="item__hint">Подключаемый сервис: <a href="https://calendar.google.com/" target="_blank" class="lnk">calendar.google.com</a>.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s08-drive">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Google Drive — что подключается, какие права</div>
+        <div class="item__hint">Подключаемый сервис: <a href="https://drive.google.com/" target="_blank" class="lnk">drive.google.com</a>.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s08-approval">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Что значит флаг «Needs approval»</div>
+        <div class="item__hint">Действие, которое Claude выполнит только после явного подтверждения. Защита от автоматических операций.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s08-custom">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Как добавить кастомный коннектор</div>
+        <div class="item__hint">Просто показать кнопку и вводимые поля. Без углубления в MCP-серверы.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s08-cowork">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Cowork — упомянуть как коннектор</div>
+        <div class="item__hint">Только показать иконку в списке. Демо использования — вне этого скринкаста.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s08-chrome">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Claude in Chrome — упомянуть как коннектор</div>
+        <div class="item__hint">Тоже просто показать. Без демо.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s08-developer">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Developer-раздел · мельком</div>
+        <div class="item__hint">«Это для разработчиков, в нашей программе не используется» — и едем дальше.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     09 — ШОРТКАТЫ
+═══════════════════════════════════════════ -->
+<div class="section reveal" id="s09">
+  <div class="section__header">
+    <div class="section__num">09</div>
+    <div class="section__title">Шорткаты macOS</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">⌨️</span>
+      <span>Шорткаты — то, что отделяет уверенного пользователя от новичка. Показываем основные комбинации, чтобы участники сразу взяли их в работу.</span>
+    </div>
+
+    <div class="item" data-key="s09-list">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Где найти полный список шорткатов в приложении</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s09-global">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Глобальный hotkey вызова окна</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s09-newchat">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Новый чат</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s09-search">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Поиск по чатам</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s09-model">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Переключение моделей</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s09-branches">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Навигация между ветками ответов</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     10 — ИСТОРИЯ ЧАТОВ
+═══════════════════════════════════════════ -->
+<div class="section reveal" id="s10">
+  <div class="section__header">
+    <div class="section__num">10</div>
+    <div class="section__title">История чатов и навигация</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">📚</span>
+      <span>Сайдбар слева — главный навигационный инструмент. Когда чатов становится много, без поиска и переименования вы утонете.</span>
+    </div>
+
+    <div class="item" data-key="s10-sidebar">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Сайдбар слева · где живут все чаты</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s10-collapse">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Свернуть и развернуть сайдбар</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s10-search">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Поиск по истории · ключевые слова из старых чатов</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s10-rename">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Переименование чата · давать осмысленные названия</div>
+        <div class="item__hint">Дисциплина. Без этого через месяц работы найти нужный чат невозможно.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s10-delete">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Удаление чата</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s10-share">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Поделиться чатом по ссылке (Share)</div>
+        <div class="item__hint">Сразу с предупреждением: <strong>не делитесь чатами с данными заказчика</strong>. Ссылка — это публичный доступ.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s10-newwindow">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Открыть чат в новом окне</div>
+        <div class="item__hint">Удобно для параллельной работы — два чата на двух мониторах.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     11 — НОВЫЙ ЧАТ И МОДЕЛИ
+═══════════════════════════════════════════ -->
+<div class="section reveal" id="s11">
+  <div class="section__header">
+    <div class="section__num">11</div>
+    <div class="section__title">Новый чат · модели</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">💬</span>
+      <span>База диалога: создание чата, отправка, регенерация и ветки. Плюс главный выбор каждого нового запроса — какую модель брать.</span>
+    </div>
+
+    <div class="item" data-key="s11-new">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Создание нового чата</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s11-send">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Отправка сообщения · копирование ответа</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s11-regen">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Регенерация ответа · когда не понравился результат</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s11-edit">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Правка своего сообщения · появление веток</div>
+        <div class="item__hint">Не пишем «забудь предыдущее, сделай так» — а возвращаемся к запросу и редактируем его. Получается ветка.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s11-branches">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Переключение между версиями ответа</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s11-model-switch">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Переключатель модели в шапке чата</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s11-sonnet">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Sonnet — рабочая лошадка</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s11-opus">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Opus — самый умный, для сложных задач</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s11-haiku">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Haiku — быстрый и дешёвый, для простых запросов</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s11-adaptive">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Адаптивный режим Opus 4.7 — что это и когда работает</div>
+        <div class="item__hint">Модель сама думает, сколько времени и ресурсов потратить на ответ — в зависимости от сложности запроса.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     12 — ПОЛЕ ВВОДА
+═══════════════════════════════════════════ -->
+<div class="section reveal" id="s12">
+  <div class="section__header">
+    <div class="section__num">12</div>
+    <div class="section__title">Поле ввода · полный разбор кнопок</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">⚙️</span>
+      <span>В поле ввода спрятано больше функций, чем кажется. Проходимся по каждой кнопке слева и справа от текстового поля.</span>
+    </div>
+
+    <div class="item" data-key="s12-attach">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Прикрепление файлов · кнопка + drag &amp; drop</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s12-formats">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Поддерживаемые форматы и ограничения по размеру</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s12-skills">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Выбор скиллов · только использование готовых</div>
+        <div class="item__hint">Создание скиллов — отдельный скринкаст. Здесь только показываем, как подключить готовый скилл к запросу.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s12-connectors">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Выбор коннекторов прямо из чата</div>
+        <div class="item__hint">Не нужно идти в Settings — коннектор можно подключить к конкретному запросу одним кликом.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s12-voice">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Запись голосом</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s12-mic">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Выбор микрофона</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     13 — РЕЖИМЫ РАБОТЫ
+═══════════════════════════════════════════ -->
+<div class="section reveal" id="s13">
+  <div class="section__header">
+    <div class="section__num">13</div>
+    <div class="section__title">Режимы работы Claude</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🎚️</span>
+      <span>Режимы определяют, как Claude будет думать над запросом. Глубже / в интернет / в большой ресёрч / в готовом стиле.</span>
+    </div>
+
+    <div class="item" data-key="s13-thinking">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Extended Thinking · когда включать</div>
+        <div class="item__hint">Сложный анализ, длинные документы, многошаговые рассуждения. Простые запросы — без него.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s13-search">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Web Search · когда включать</div>
+        <div class="item__hint">Свежие НПА, актуальные курсы, проверка факта. Сразу оговорка: не заменяет проверку юристом или специалистом.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s13-research">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Research · что это и чем отличается от Web Search</div>
+        <div class="item__hint">Web Search — быстрый поиск. Research — глубокое исследование с обходом множества источников и финальным отчётом.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s13-styles">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Styles · выбор готового стиля ответа</div>
+        <div class="item__hint">Только показ существующих стилей. Создание кастомных — в модуле по промптингу.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     14 — АРТЕФАКТЫ И ФАЙЛЫ
+═══════════════════════════════════════════ -->
+<div class="section reveal" id="s14">
+  <div class="section__header">
+    <div class="section__num">14</div>
+    <div class="section__title">Артефакты и работа с файлами</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--green">
+      <span class="note__icon">📦</span>
+      <span>Артефакт — это живой документ, который Claude собирает прямо в чате. Не нужно копировать вручную: попросили — доработал — скачали.</span>
+    </div>
+
+    <div class="item" data-key="s14-art-what">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Что такое артефакт · как открывается панель</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s14-art-edit">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Правка артефакта по комментарию · итеративная доработка</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s14-art-versions">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Версионирование · переключение между версиями</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s14-art-download">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Скачивание артефакта в нужном формате</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s14-file-pdf">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Загрузка PDF · что Claude «видит» в документе</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s14-file-docx">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Загрузка DOCX</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s14-file-img">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Загрузка изображения или скриншота</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s14-file-multi">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Несколько файлов в одном запросе</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     15 — БЕЗОПАСНОСТЬ
+═══════════════════════════════════════════ -->
+<div class="section reveal" id="s15">
+  <div class="section__header">
+    <div class="section__num">15</div>
+    <div class="section__title">Безопасность · итоговое напоминание</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--alert">
+      <span class="note__icon">🚨</span>
+      <span>Короткий блок в финале скринкаста. Проговариваем 4 правила и отсылаем к корпоративной политике использования ИИ.</span>
+    </div>
+
+    <div class="item" data-key="s15-anonymize">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Не загружать документы с реальными ФИО, суммами, номерами договоров без анонимизации</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s15-secrets">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Не вставлять пароли, токены, скан-копии паспортов</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s15-share">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Не делиться по Share-ссылке чатами с данными заказчика</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s15-memory-clean">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Регулярно чистить Memory от рабочих данных</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s15-policy-ref">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Сослаться на Модуль 2 и корпоративную политику использования ИИ</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     16 — ЗАКЛЮЧЕНИЕ
+═══════════════════════════════════════════ -->
+<div class="section reveal" id="s16">
+  <div class="section__header">
+    <div class="section__num">16</div>
+    <div class="section__title">Заключение и навигация дальше</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--green">
+      <span class="note__icon">🎯</span>
+      <span>Финальная минута: рекап + куда двигаться дальше + мини-задание для самостоятельной отработки.</span>
+    </div>
+
+    <div class="item" data-key="s16-recap">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Короткий рекап · что вы теперь умеете</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s16-next">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Что дальше в программе · Проекты → Скиллы → Claude Code</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s16-chat">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Куда писать вопросы · учебный Telegram-чат</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="s16-hw">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Мини-ДЗ · пройти этот же чек-лист на своём аккаунте</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /sections -->
+
+<!-- ═══ FOOTER ═══ -->
+<div class="footer">
+  <div class="footer__done" id="doneBlock">
+    <div class="footer__done-emoji">🎬</div>
+    <div class="footer__done-text">Скринкаст записан!</div>
+    <div class="footer__done-sub">Все блоки пройдены. Можно отдавать на монтаж.</div>
+  </div>
+  <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
+  <button class="btn-reset" onclick="resetProgress()">Сбросить прогресс</button>
+</div>
+
+</div><!-- /wrapper -->
+
+<script>
+// ─── CONFETTI ─────────────────────────────────────
+const C=document.getElementById('confetti-canvas'),ctx=C.getContext('2d');
+let particles=[],confettiActive=false;
+function resizeCanvas(){C.width=window.innerWidth;C.height=window.innerHeight;}
+window.addEventListener('resize',resizeCanvas);resizeCanvas();
+const COLORS=['#7c5bf5','#9d7cff','#34d399','#6ee7b7','#fbbf24','#f87171','#fb7185','#38bdf8','#facc15','#a78bfa','#f472b6','#4ade80'];
+function rand(a,b){return Math.random()*(b-a)+a;}
+function createBurst(x,y,count){for(let i=0;i<count;i++){const angle=rand(0,Math.PI*2),speed=rand(4,14),size=rand(4,10);particles.push({x,y,vx:Math.cos(angle)*speed+rand(-2,2),vy:Math.sin(angle)*speed*-0.8-rand(2,6),size,color:COLORS[Math.floor(Math.random()*COLORS.length)],rotation:rand(0,Math.PI*2),rotSpeed:rand(-0.2,0.2),gravity:rand(0.12,0.25),friction:rand(0.97,0.995),opacity:1,fadeSpeed:rand(0.005,0.015),shape:Math.random()>0.4?'rect':'circle'});}}
+function launchConfetti(){if(confettiActive)return;confettiActive=true;particles=[];const W=C.width,H=C.height;[[W*.5,H*.3,120],[W*.15,H*.2,80],[W*.85,H*.2,80],[W*.5,H*.1,100],[W*.3,H*.5,60],[W*.7,H*.5,60],[0,H*.6,50],[W,H*.6,50],[W*.5,H*.6,80]].forEach(([x,y,c],i)=>{setTimeout(()=>createBurst(x,y,c),i*150)});setTimeout(()=>{createBurst(W*.2,H*.15,90);createBurst(W*.8,H*.15,90);createBurst(W*.5,H*.05,100)},1500);setTimeout(()=>{createBurst(W*.5,H*.25,120);createBurst(W*.1,H*.4,60);createBurst(W*.9,H*.4,60)},2500);animate();setTimeout(()=>{confettiActive=false},8000);}
+function animate(){ctx.clearRect(0,0,C.width,C.height);for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.vx*=p.friction;p.vy*=p.friction;p.vy+=p.gravity;p.x+=p.vx;p.y+=p.vy;p.rotation+=p.rotSpeed;p.opacity-=p.fadeSpeed;if(p.opacity<=0){particles.splice(i,1);continue}ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rotation);ctx.globalAlpha=p.opacity;ctx.fillStyle=p.color;if(p.shape==='rect'){ctx.fillRect(-p.size/2,-p.size/4,p.size,p.size/2)}else{ctx.beginPath();ctx.arc(0,0,p.size/2,0,Math.PI*2);ctx.fill()}ctx.restore();}if(particles.length>0||confettiActive){requestAnimationFrame(animate)}else{ctx.clearRect(0,0,C.width,C.height);}}
+
+// ─── PROGRESS / CHECKLIST ─────────────────────────
+const STORAGE_KEY='iivizaciya_psmk_basic_v1';
+const allItems=document.querySelectorAll('.item[data-key]');
+const requiredItems=document.querySelectorAll('.item[data-key]:not([data-optional])');
+const totalRequired=requiredItems.length;
+let wasComplete=false;
+
+function loadState(){
+  try{
+    const s=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');
+    let c=0;
+    allItems.forEach(item=>{
+      const cb=item.querySelector('input[type="checkbox"]');
+      if(s[item.dataset.key]){
+        cb.checked=true;
+        item.classList.add('checked');
+        if(!item.dataset.optional) c++;
+      }
+    });
+    wasComplete=c===totalRequired;
+  }catch(e){}
+  updateProgress(false);
+}
+
+function saveState(){
+  const s={};
+  allItems.forEach(item=>{
+    s[item.dataset.key]=item.querySelector('input[type="checkbox"]').checked;
+  });
+  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(s))}catch(e){}
+}
+
+function updateProgress(canCelebrate=true){
+  let c=0;
+  requiredItems.forEach(item=>{
+    if(item.querySelector('input[type="checkbox"]').checked) c++;
+  });
+  document.getElementById('progressCount').textContent=`${c} / ${totalRequired}`;
+  document.getElementById('progressFill').style.width=(totalRequired>0?(c/totalRequired)*100:0)+'%';
+  const done=document.getElementById('doneBlock');
+  if(c===totalRequired){
+    done.classList.add('visible');
+    if(canCelebrate&&!wasComplete){launchConfetti()}
+    wasComplete=true;
+  }else{
+    done.classList.remove('visible');
+    wasComplete=false;
+  }
+}
+
+allItems.forEach(item=>{
+  const cb=item.querySelector('input[type="checkbox"]');
+  cb.addEventListener('change',function(){
+    item.classList.toggle('checked',this.checked);
+    saveState();
+    updateProgress(true);
+  });
+});
+
+function resetProgress(){
+  if(!confirm('Сбросить весь прогресс?'))return;
+  allItems.forEach(item=>{
+    const cb=item.querySelector('input[type="checkbox"]');
+    cb.checked=false;
+    item.classList.remove('checked');
+  });
+  wasComplete=false;
+  saveState();
+  updateProgress(false);
+}
+
+loadState();
+
+// ─── REVEAL ON SCROLL ─────────────────────────────
+const revealObserver=new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+
+document.querySelectorAll('.reveal').forEach(el=>revealObserver.observe(el));
+</script>
+</body>
+</html>
