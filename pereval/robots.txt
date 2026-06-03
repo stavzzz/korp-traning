@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://stavzzz.github.io/open-sites/pereval/sitemap.xml
