@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Покупка BTC на 600 000 ₽, вывод на Ledger, горизонт 3-4 года (без продажи на просадках) — Инвест-комитет Finance1</title>
+<meta name="robots" content="noindex">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap');
+
+:root{
+  --paper:#FFFFFF; --app:#F5F7FA; --line:#E4E8EF; --line-2:#EEF1F6;
+  --ink:#16202E; --body:#404B5C; --muted:#8A94A6;
+  --accent:#F59E0B; --pos:#0E9F6E; --neg:#DC2626; --warn:#D97706; --info:#0EA5E9;
+  --r:14px; --r-sm:10px; --sp:clamp(20px,4vw,40px);
+  --shadow:0 1px 2px rgba(16,32,46,.04),0 6px 24px rgba(16,32,46,.05);
+  --font:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html,body{overflow-x:clip;margin:0}
+body{font-family:var(--font);background:var(--app);color:var(--body);
+  font-feature-settings:"cv05","ss01";-webkit-font-smoothing:antialiased;line-height:1.55}
+.num{font-variant-numeric:tabular-nums}
+.wrap{max-width:920px;margin:0 auto;padding:0 clamp(16px,4vw,28px)}
+.muted{color:var(--muted)}
+
+.bar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.86);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;align-items:center;gap:14px;min-height:56px;flex-wrap:wrap}
+.brand{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600;white-space:nowrap}
+.bar .sep{flex:1}
+.badge{display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:13px;
+  padding:5px 12px;border-radius:999px;border:1px solid transparent}
+.dot{width:8px;height:8px;border-radius:50%}
+.lv-green{background:#E7F7EF;color:#0B7A53;border-color:#BCEBD6}.lv-green .dot{background:var(--pos)}
+.lv-amber{background:#FEF4E6;color:#9A5B07;border-color:#FBE0BB}.lv-amber .dot{background:var(--warn)}
+.lv-red{background:#FDECEC;color:#B11D1D;border-color:#F7C7C7}.lv-red .dot{background:var(--neg)}
+.scorepill{font-variant-numeric:tabular-nums;font-weight:700;color:var(--ink);font-size:14px;
+  background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 12px}
+.scorepill span{color:var(--muted);font-weight:600}
+.kicker{font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap}
+
+.hero{padding:calc(var(--sp)*1.1) 0 calc(var(--sp)*.5)}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:600}
+h1{font-size:clamp(28px,5vw,42px);line-height:1.1;letter-spacing:-.02em;color:var(--ink);
+  font-weight:700;margin:.35em 0 .25em;overflow-wrap:anywhere;min-width:0}
+.meta{display:flex;gap:18px;flex-wrap:wrap;color:var(--muted);font-size:14px;margin-top:8px}
+.meta b{color:var(--body);font-weight:600}
+.draft-banner{background:#FEF4E6;border:1px solid #FBE0BB;color:#9A5B07;border-radius:var(--r-sm);
+  padding:10px 14px;margin:12px 0;font-size:13.5px;font-weight:500}
+
+.scores{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:calc(var(--sp)*.7) 0}
+.sc{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-sm);padding:12px 12px 14px}
+.sc-h{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.sc-v{font-size:22px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;margin:2px 0 8px}
+.sc-v span{font-size:12px;color:var(--muted);font-weight:600}
+.sc-bar{height:5px;border-radius:99px;background:var(--line-2);overflow:hidden}
+.sc-bar i{display:block;height:100%}
+.t-ok{background:var(--pos)}.t-warn{background:var(--warn)}.t-bad{background:var(--neg)}
+.sc-cav{font-size:10px;color:var(--warn);margin-top:5px;min-height:12px}
+
+section{margin:calc(var(--sp)*.5) 0}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);
+  box-shadow:var(--shadow);padding:clamp(18px,3.4vw,30px);margin-bottom:18px}
+h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+  font-weight:700;margin:0 0 16px;display:flex;align-items:center;gap:10px}
+h2::before{content:"";width:18px;height:2px;background:var(--accent);border-radius:2px;flex:none}
+h3{font-size:16px;color:var(--ink);font-weight:600;margin:0 0 8px}
+.lead{font-size:18px;line-height:1.5;color:var(--ink)}
+table{width:100%;border-collapse:collapse;font-size:14.5px}
+th,td{text-align:left;padding:11px 4px;border-bottom:1px solid var(--line-2);vertical-align:top}
+tbody tr:last-child th,tbody tr:last-child td{border-bottom:0}
+th{color:var(--muted);font-weight:500;width:42%}
+td{color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums}
+.table-wrap{overflow-x:auto}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.chartbox{min-height:240px;min-width:0}
+.chart{width:100%;height:260px}
+.cap{font-size:12px;color:var(--muted);margin:0 0 10px}
+
+.bullets{margin:0;padding-left:18px}.bullets li{margin:5px 0}
+.next{margin-top:6px}
+ol.steps{margin:8px 0 0;padding-left:0;list-style:none;counter-reset:s}
+ol.steps li{counter-increment:s;position:relative;padding:8px 0 8px 38px;border-top:1px solid var(--line-2);line-height:1.5}
+ol.steps li:first-child{border-top:0}
+ol.steps li::before{content:counter(s);position:absolute;left:0;top:7px;width:24px;height:24px;border-radius:50%;
+  background:var(--accent);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;font-variant-numeric:tabular-nums}
+.chips{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.chip{padding:9px 12px;border-radius:var(--r-sm);font-size:14px;border-left:3px solid;line-height:1.45}
+.chip--red{background:#FDECEC;border-color:var(--neg);color:#7F1D1D}
+.chip--amber{background:#FEF7EC;border-color:var(--warn);color:#7C4A06}
+
+.callout{border:1px solid var(--line);border-left:4px solid var(--accent);background:#F7F9FF;
+  border-radius:var(--r-sm);padding:16px 18px}
+.callout.green{border-left-color:var(--pos);background:#F2FBF7}
+.callout.amber{border-left-color:var(--warn);background:#FFFaf1}
+.callout.red{border-left-color:var(--neg);background:#FEF5F5}
+.rec-status{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--ink);font-size:18px;margin-bottom:6px}
+
+.mermaid{display:flex;justify-content:center;overflow-x:auto}
+.mermaid svg{max-width:100%;height:auto}
+footer{padding:calc(var(--sp)*.8) 0 calc(var(--sp)*1.3);color:var(--muted);font-size:13px;line-height:1.5}
+footer .discl{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-sm);padding:14px 16px;margin-bottom:12px}
+.sig{font-size:12px;letter-spacing:.04em}
+
+@media(max-width:640px){
+  .scores{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .grid2{grid-template-columns:1fr}
+  th{width:48%}
+}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+</style>
+</head>
+<body>
+<header class="bar">
+  <div class="wrap">
+    <span class="brand">Инвест-комитет · Finance1</span>
+    <span class="kicker">· Криптовалюта · актив для изучения</span>
+    <span class="sep"></span>
+    <span class="badge lv-amber"><span class="dot"></span>Под вопросом / изучить глубже</span>
+    <span class="scorepill num">90<span>/100</span></span>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <div class="eyebrow">Изучение крипто-актива</div>
+    <h1>Покупка BTC на 600 000 ₽, вывод на Ledger, горизонт 3-4 года (без продажи на просадках)</h1>
+    <div class="meta">
+      <span>Дата разбора: <b>2026-06-04</b></span>
+      <span>Класс актива: <b>криптовалюта (Bitcoin, BTC)</b></span>
+      <span>Вердикт: <b>запросить документы</b></span>
+    </div>
+    
+  </div>
+
+  <div class="scores"><div class="sc"><div class="sc-h">Исследователь</div><div class="sc-v">9<span>/10</span></div><div class="sc-bar"><i class="t-ok" style="width:90%"></i></div><div class="sc-cav"></div></div><div class="sc"><div class="sc-h">Аналитик</div><div class="sc-v">9<span>/10</span></div><div class="sc-bar"><i class="t-ok" style="width:90%"></i></div><div class="sc-cav"></div></div><div class="sc"><div class="sc-h">Финмоделист</div><div class="sc-v">9<span>/10</span></div><div class="sc-bar"><i class="t-ok" style="width:90%"></i></div><div class="sc-cav"></div></div><div class="sc"><div class="sc-h">Риск</div><div class="sc-v">9<span>/10</span></div><div class="sc-bar"><i class="t-ok" style="width:90%"></i></div><div class="sc-cav"></div></div><div class="sc"><div class="sc-h">Секретарь</div><div class="sc-v">9<span>/10</span></div><div class="sc-bar"><i class="t-ok" style="width:90%"></i></div><div class="sc-cav"></div></div></div>
+
+  <section><div class="card"><h2>Главное</h2><p class="lead">Разовая покупка BTC на 600К ₽ (≈$8 075) на споте с выводом на Ledger, горизонт 3-4 года ≈ один halving-цикл 2024→2028. Базовый сценарий +25%/год даёт 1,46 млн ₽ (×2,44) за 4 года; стресс −80% на 2-м году → 324К ₽ (хуже депозита 14,5%). 6+ критических параметров неизвестны (доля портфеля, канал покупки, цена входа, модель Ledger), drawdown −50…−80% — типичный, не исключительный.</p></div></section><section><div class="card"><h2>Изучение актива</h2><div class="table-wrap"><table><tbody><tr><th>Инвесттезис (сценарий, не гарантия)</th><td>Структурно обоснована лучше типичной розничной покупки: горизонт 3-4 года = полный halving-цикл 2024→2028, self-custody снимает биржевой риск (Mt.Gox, FTX), спот без плеча, без деривативов. 4-летние окна BTC в USD ни разу не заканчивались убытком (по эмпирике 2010-2024), если вход не в абсолютном пике; разброс ×1,4…×35+. Сценарий, не гарантия.</td></tr><tr><th>Инструмент</th><td>BTC spot (без плеча, без деривативов)</td></tr><tr><th>Горизонт</th><td>3–4 года (2026-06-05 → 2029–2030) ≈ полный halving-цикл 2024→2028 + начало следующего</td></tr><tr><th>Ликвидность / спред</th><td>спред 1–15% в зависимости от канала (CEX/P2P/OTC); выход на крупных CEX высоколиквиден, но доступ для резидентов РФ ограничен (часть бирж с 2022-2025 гг. ограничили обслуживание)</td></tr></tbody></table></div></div></section><section><div class="card"><h2>Площадка · Кастоди</h2><div class="table-wrap"><table><tbody><tr><th>Площадка / где купить</th><td>крупная CEX через инфраструктурного посредника (конкретная биржа — [НУЖНО УТОЧНИТЬ])</td></tr><tr><th>Кастоди (хранение)</th><td>self (Ledger, аппаратный кошелёк, модель [НУЖНО УТОЧНИТЬ])</td></tr><tr><th>Ликвидность / спред</th><td>спред 1–15% в зависимости от канала (CEX/P2P/OTC); выход на крупных CEX высоколиквиден, но доступ для резидентов РФ ограничен (часть бирж с 2022-2025 гг. ограничили обслуживание)</td></tr></tbody></table></div></div></section><section><div class="card"><h2>Регуляторика РФ · налоги</h2><div class="table-wrap"><table><tbody><tr><th>Регуляторный статус в РФ</th><td>РФ: ФЗ-259 (2020) — крипта = «цифровая валюта», разрешена к владению/покупке/продаже, запрещена как средство платежа; ФЗ-221 (2024) — майнинг легален. Статус подвижен, изменения вероятны за 3-4 года. Позиция ЦБ РФ (2022) — высокорисковый актив.</td></tr><tr><th>Налоги</th><td>НДФЛ 13% (15% при доходе &gt;5 млн ₽/год), крипта = имущество, ст. 214.7 НК РФ (актуальная редакция требует сверки), валютная переоценка USD→RUB на дату реализации, 3-НДФЛ по факту продажи, ИИС не применим</td></tr></tbody></table></div></div></section><section><div class="card"><h2>Просадка и ценовые сценарии</h2><p class="cap">Ключевая ставка ЦБ РФ — <b>14,50%</b>, USD/RUB 74.2956, EUR/RUB 86.2712 (ЦБ РФ, на 2026-06-05)</p><div class="grid2"><div class="chartbox"><h3>Ценовые сценарии (год)</h3><p class="cap">Бычий / базовый / медвежий — ожидаемая годовая доходность, СЦЕНАРИЙ, не прогноз.</p><div id="cScen" class="chart"></div></div><div class="chartbox"><h3>Профиль риска</h3><p class="cap">Волатильность и историческая макс-просадка против безрисковой ставки.</p><div id="cCmp" class="chart"></div></div></div></div></section><section><div class="card"><h2>Риски</h2><div class="grid2"><div><h3 style="color:var(--neg)">Красные флаги</h3><ul class="chips"><li class="chip chip--red">Покупка Ledger не у официального реселлера → риск подмены прошивки/перехвата seed при генерации</li><li class="chip chip--red">Нет плана по хранению seed-фразы (металлический бэкап, географическое разделение копий) — по эмпирике ~20% BTC утеряны именно так</li><li class="chip chip--red">Позиция &gt;20–30% от портфеля — критическая концентрация (доля не указана)</li><li class="chip chip--red">Нет ликвидного резерва в RUB отдельно от позиции → принудительная продажа в минус при life-event на 2-м году</li><li class="chip chip--red">Психологическая неготовность к drawdown 50%+ (декларация «не продавать» ≠ реальное поведение ~50% розничных инвесторов)</li></ul></div><div><h3 style="color:var(--warn)">Жёлтые флаги</h3><ul class="chips"><li class="chip chip--amber">Волатильность 50–90% годовых и drawdown −50…−80% — типичный сценарий (3 из 4 циклов BTC)</li><li class="chip chip--amber">Регуляторный риск РФ: ФЗ-259/ФЗ-221 могут измениться за 3-4 года (полный запрет оборота, ограничения P2P)</li><li class="chip chip--amber">Санкционный/ликвидный риск доступа к CEX/P2P из РФ — динамический, часть крупных бирж ограничили резидентов РФ</li><li class="chip chip--amber">Налоговая неопределённость: ст. 214.7 НК РФ в актуальной редакции, методика валютной переоценки USD→RUB</li><li class="chip chip--amber">Timing risk: вход 2026-06-05 — где относительно пика halving-цикла? (по эмпирике возможна ранняя медвежья фаза)</li></ul></div></div><h3 style="margin-top:20px">Матрица риск / доходность</h3><pre class="mermaid">quadrantChart
+    x-axis Низкий риск --&gt; Высокий риск
+    y-axis Низкая доходность --&gt; Высокая доходность
+    quadrant-1 Спекулятивно
+    quadrant-2 Оптимально
+    quadrant-3 Консервативно
+    quadrant-4 Невыгодно
+    &quot;Актив&quot;: [0.90, 0.71]
+    &quot;Депозит/ОФЗ&quot;: [0.18, 0.36]</pre></div></section><section><div class="card"><h2>Что неизвестно · что изучить по активу</h2><div class="grid2"><div><h3>Неизвестно / требует проверки</h3><ul class="bullets"><li>Цена BTC на 2026-06-05 (live) и позиция в halving-цикле</li><li>Доля 600К ₽ от общего капитала инвестора</li><li>Канал покупки (CEX/P2P/OTC), конкретная биржа, спред, лимиты, KYC для резидентов РФ</li><li>Модель Ledger (Nano S Plus / Nano X / Stax)</li><li>Банковский канал перевода ₽ на CEX (173-ФЗ, 115-ФЗ); доступность BTC-ETF/ЦФА на BTC</li></ul></div><div><h3>Что проверить по данным</h3><ul class="bullets"><li>Свежая цена BTC и позиция в halving-цикле на 2026-06-05 (определение timing risk)</li><li>Подтверждение канала покупки (CEX/P2P/OTC) и применимости для резидента РФ в 2026 г.</li><li>Спецификация Ledger (модель, чек от официального реселлера, голограммная наклейка) + план хранения seed-фразы</li><li>Заключение юриста по 173-ФЗ, 115-ФЗ, ФЗ-259, банковскому каналу в адрес иностранного CEX</li><li>Заключение налогового консультанта по ст. 214.7 НК РФ, валютной переоценке, учёту убытков, стандарту первички</li></ul></div></div></div></section><section><div class="card"><h2>Рекомендация комитета</h2><div class="callout amber"><div class="rec-status"><span class="dot" style="width:10px;height:10px;border-radius:50%;background:var(--warn)"></span>запросить документы</div><p>Не покупать до закрытия DD: определить канал покупки (CEX/P2P/OTC), биржу, модель Ledger, долю от портфеля, банковский канал. Передать юридические и налоговые вопросы профильным специалистам. Финальный вердикт — за инвестором.</p><div class="next"><b>Следующий шаг:</b><p>Запросить у инвестора: доля 600К ₽ от портфеля, наличие ликвидного резерва в RUB, канал покупки, модель Ledger, готовность вести реестр 3-4 года. Передать юристу (173-ФЗ, 115-ФЗ, ФЗ-259, банковский канал) и налоговому консультанту (ст. 214.7 НК РФ, валютная переоценка).</p></div></div></div></section>
+
+  <footer>
+    <div class="discl">Это вспомогательный инструмент инвестклуба Finance1. Он НЕ даёт инвестиционных, юридических или налоговых рекомендаций, НЕ обещает доходность и НЕ принимает решение за человека. Любые расчёты — модель, а не прогноз. Всё спорное — на проверку специалистом. Итоговое решение принимает инвестор.</div>
+    <div class="sig">Собрано ИИ-комитетом Finance1 · Исследователь → Аналитик → Финмоделист → Риск → Секретарь · приёмка председателя со скорингом · итог 90/100.</div>
+  </footer>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<script>
+(function(){
+  function fmt(o){
+    if(o&&o.tooltip&&o.tooltip.valueFormatter==='PCT'){o.tooltip.valueFormatter=function(v){return (v==null?'—':v+'%');};}
+    if(o&&o.tooltip&&o.tooltip.valueFormatter==='PLAIN'){delete o.tooltip.valueFormatter;}
+    return o;
+  }
+  function mk(id,opt){ var el=document.getElementById(id); if(!el||!window.echarts) return;
+    var c=echarts.init(el,null,{renderer:'svg'}); c.setOption(fmt(opt));
+    window.addEventListener('resize',function(){c.resize();}); }
+  mk("cScen", {"grid": {"left": 8, "right": 16, "top": 24, "bottom": 8, "containLabel": true}, "tooltip": {"trigger": "axis", "valueFormatter": "PCT"}, "xAxis": {"type": "category", "data": ["бычий", "базовый", "медвежий"], "axisLine": {"lineStyle": {"color": "#E4E8EF"}}, "axisLabel": {"color": "#8A94A6", "interval": 0, "hideOverlap": true, "width": 96, "overflow": "break", "lineHeight": 13, "fontSize": 11, "margin": 10}}, "yAxis": {"type": "value", "axisLabel": {"color": "#8A94A6", "formatter": "{value}%"}, "splitLine": {"lineStyle": {"color": "#EEF1F6"}}}, "series": [{"type": "bar", "data": [{"value": 100.0, "itemStyle": {"color": "#0E9F6E"}}, {"value": 25.0, "itemStyle": {"color": "#0E9F6E"}}, {"value": -20.0, "itemStyle": {"color": "#DC2626"}}], "barWidth": "46%", "label": {"show": true, "position": "top", "color": "#404B5C", "formatter": "{c}%"}}]});
+  mk("cCmp", {"grid": {"left": 8, "right": 16, "top": 24, "bottom": 8, "containLabel": true}, "tooltip": {"trigger": "axis", "valueFormatter": "PCT"}, "xAxis": {"type": "category", "data": ["Волатильность (год)", "Макс. просадка", "Ставка ЦБ (безриск)"], "axisLine": {"lineStyle": {"color": "#E4E8EF"}}, "axisLabel": {"color": "#8A94A6", "interval": 0, "hideOverlap": true, "width": 96, "overflow": "break", "lineHeight": 13, "fontSize": 11, "margin": 10}}, "yAxis": {"type": "value", "axisLabel": {"color": "#8A94A6", "formatter": "{value}%"}, "splitLine": {"lineStyle": {"color": "#EEF1F6"}}}, "series": [{"type": "bar", "data": [{"value": 60.0, "itemStyle": {"color": "#F59E0B"}}, {"value": -80.0, "itemStyle": {"color": "#DC2626"}}, {"value": 14.5, "itemStyle": {"color": "#0EA5E9"}}], "barWidth": "40%", "label": {"show": true, "position": "top", "color": "#404B5C", "formatter": "{c}%"}}]});
+  if(window.mermaid){ mermaid.initialize({startOnLoad:true, theme:'neutral',
+    themeVariables:{quadrant1Fill:'#FDECEC',quadrant2Fill:'#E7F7EF',quadrant3Fill:'#F5F7FA',quadrant4Fill:'#FEF7EC',
+      quadrantPointFill:'#F59E0B',quadrantPointTextFill:'#16202E',quadrantTitleFill:'#16202E'} }); }
+})();
+</script>
+</body>
+</html>
