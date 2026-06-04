@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Заём 1,2 млн под 30% под залог помещения — Инвест-комитет Finance1</title>
+<meta name="robots" content="noindex">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap');
+
+:root{
+  --paper:#FFFFFF; --app:#F5F7FA; --line:#E4E8EF; --line-2:#EEF1F6;
+  --ink:#16202E; --body:#404B5C; --muted:#8A94A6;
+  --accent:#1D4ED8; --pos:#0E9F6E; --neg:#DC2626; --warn:#D97706; --info:#0EA5E9;
+  --r:14px; --r-sm:10px; --sp:clamp(20px,4vw,40px);
+  --shadow:0 1px 2px rgba(16,32,46,.04),0 6px 24px rgba(16,32,46,.05);
+  --font:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html,body{overflow-x:clip;margin:0}
+body{font-family:var(--font);background:var(--app);color:var(--body);
+  font-feature-settings:"cv05","ss01";-webkit-font-smoothing:antialiased;line-height:1.55}
+.num{font-variant-numeric:tabular-nums}
+.wrap{max-width:920px;margin:0 auto;padding:0 clamp(16px,4vw,28px)}
+.muted{color:var(--muted)}
+.bar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;align-items:center;gap:14px;min-height:56px;flex-wrap:wrap}
+.brand{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600;white-space:nowrap}
+.bar .sep{flex:1}
+.badge{display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:13px;padding:5px 12px;border-radius:999px;border:1px solid transparent}
+.dot{width:8px;height:8px;border-radius:50%}
+.lv-green{background:#E7F7EF;color:#0B7A53;border-color:#BCEBD6}.lv-green .dot{background:var(--pos)}
+.lv-amber{background:#FEF4E6;color:#9A5B07;border-color:#FBE0BB}.lv-amber .dot{background:var(--warn)}
+.lv-red{background:#FDECEC;color:#B11D1D;border-color:#F7C7C7}.lv-red .dot{background:var(--neg)}
+.kicker{font-size:11px;color:var(--muted);font-weight:600;white-space:nowrap}
+.hero{padding:calc(var(--sp)*1.1) 0 calc(var(--sp)*.5)}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:600}
+h1{font-size:clamp(28px,5vw,42px);line-height:1.1;letter-spacing:-.02em;color:var(--ink);font-weight:700;margin:.35em 0 .25em;overflow-wrap:anywhere;min-width:0}
+.meta{display:flex;gap:18px;flex-wrap:wrap;color:var(--muted);font-size:14px;margin-top:8px}
+.meta b{color:var(--body);font-weight:600}
+.draft-banner{background:#FEF4E6;border:1px solid #FBE0BB;color:#9A5B07;border-radius:var(--r-sm);padding:10px 14px;margin:12px 0;font-size:13.5px;font-weight:500}
+section{margin:calc(var(--sp)*.5) 0}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:clamp(18px,3.4vw,30px);margin-bottom:18px}
+h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:0 0 16px;display:flex;align-items:center;gap:10px}
+h2::before{content:"";width:18px;height:2px;background:var(--accent);border-radius:2px;flex:none}
+h3{font-size:16px;color:var(--ink);font-weight:600;margin:0 0 8px}
+.lead{font-size:18px;line-height:1.5;color:var(--ink)}
+table{width:100%;border-collapse:collapse;font-size:14.5px}
+th,td{text-align:left;padding:11px 4px;border-bottom:1px solid var(--line-2);vertical-align:top}
+tbody tr:last-child th,tbody tr:last-child td{border-bottom:0}
+th{color:var(--muted);font-weight:500;width:42%}
+td{color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums}
+.table-wrap{overflow-x:auto}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.chartbox{min-height:240px;min-width:0}
+.chart{width:100%;height:280px}
+.cap{font-size:12px;color:var(--muted);margin:0 0 10px}
+.bullets{margin:0;padding-left:18px}.bullets li{margin:5px 0}
+.next{margin-top:10px}
+ol.steps{margin:8px 0 0;padding-left:0;list-style:none;counter-reset:s}
+ol.steps li{counter-increment:s;position:relative;padding:8px 0 8px 38px;border-top:1px solid var(--line-2);line-height:1.5}
+ol.steps li:first-child{border-top:0}
+ol.steps li::before{content:counter(s);position:absolute;left:0;top:7px;width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.chips{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.chip{padding:9px 12px;border-radius:var(--r-sm);font-size:14px;border-left:3px solid;line-height:1.45}
+.chip--red{background:#FDECEC;border-color:var(--neg);color:#7F1D1D}
+.chip--amber{background:#FEF7EC;border-color:var(--warn);color:#7C4A06}
+.args{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.arg{padding:10px 12px;border-radius:var(--r-sm);border-left:3px solid var(--line);background:#FAFBFD}
+.arg-claim{color:var(--ink);font-weight:600;font-size:14.5px;line-height:1.4}
+.arg-ev{color:var(--muted);font-size:12.5px;margin-top:4px;line-height:1.4}
+.arg--red{border-left-color:var(--neg);background:#FDECEC}.arg--red .arg-claim{color:#7F1D1D}
+.arg--amber{border-left-color:var(--warn);background:#FEF7EC}
+.arg--minor{border-left-color:var(--info);background:#F1F7FD}
+.callout{border:1px solid var(--line);border-left:4px solid var(--accent);background:#F7F9FF;border-radius:var(--r-sm);padding:16px 18px}
+.callout.green{border-left-color:var(--pos);background:#F2FBF7}
+.callout.amber{border-left-color:var(--warn);background:#FFFaf1}
+.callout.red{border-left-color:var(--neg);background:#FEF5F5}
+.rec-status{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--ink);font-size:18px;margin-bottom:6px}
+.mermaid{display:flex;justify-content:center;overflow-x:auto}
+.mermaid svg{max-width:100%;height:auto}
+footer{padding:calc(var(--sp)*.8) 0 calc(var(--sp)*1.3);color:var(--muted);font-size:13px;line-height:1.5}
+footer .discl{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-sm);padding:14px 16px;margin-bottom:12px}
+.sig{font-size:12px;letter-spacing:.04em}
+@media(max-width:640px){.grid2{grid-template-columns:1fr}th{width:48%}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+</style>
+</head>
+<body>
+<header class="bar">
+  <div class="wrap">
+    <span class="brand">Инвест-комитет · Finance1</span>
+    <span class="kicker">· Сделка с контрагентом</span>
+    <span class="sep"></span>
+    <span class="badge lv-red"><span class="dot"></span>Высокий риск — по правилу не входить</span>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <div class="eyebrow">Разбор сделки</div>
+    <h1>Заём 1,2 млн под 30% под залог помещения</h1>
+    <div class="meta">
+      <span>Дата разбора: <b>2026-06-04</b></span>
+      <span>Класс актива: <b>заём под залог коммерческой недвижимости</b></span>
+      <span>Вердикт: <b>Высокий риск — по правилу не входить</b></span>
+    </div>
+    
+  </div>
+
+  <section><div class="card"><h2>Главное</h2><p class="lead">Займ 1 200 000 ₽ на 10 мес под 30% годовых (премия +15,5 п.п. к КС ЦБ 14,5%) под залог коммерческого помещения 45 м² с заявленной оценкой ~2 млн ₽. LTV 60% — верхняя граница банковского коридора. Оценка залога подозрительно низкая для street retail 45 м² в Москве (типичный минимум 4+ млн ₽ по cian.ru/bn.ru). Третий запрос с дельтой = 0: ИНН ИП не указан → DaData, ЕГРН, ФССП, арбитраж, банкротство, реестр залогов, оценка СРО, договор аренды — не проведены. Без закрытия пробелов выдавать нельзя.</p></div></section><section><div class="card"><h2>Вердикт комитета</h2><div class="callout red"><div class="rec-status"><span class="dot" style="width:11px;height:11px;border-radius:50%;background:var(--neg)"></span>Высокий риск — по правилу не входить</div><p>Под атакой выжил критичный красный риск с уликой: «Полное отсутствие due diligence по контрагенту и предмету: ИНН ИП не указан → невозможны DaData, ЕГРЮЛ/ЕГРИП, ФССП, kad.arbitr.ru, bankrot.fedresurs.ru, reestr.zalogov.ru; выписка ЕГРН (не старше 1 мес) не заказана; независимая оценка СРО не проведена. Без закрытия этих пробелов ни кредитный риск заёмщика, ни юридическая чистота залога, ни наличие/отсутствие обременений (аресты, ипотеки, залоги, запреты) — не верифицированы. Это третий запрос с дельтой = 0: новой информации не поступило, устойчивые пробелы повторяются».</p><p class="cap">Вердикт — следствие <b>правила светофора</b> по аргументам, пережившим атаку с уликой, а НЕ балла и не вкуса судьи.</p><div class="next"><b>Следующий шаг:</b><p>Запросить у контрагента ИНН ИП, адрес и кадастровый номер помещения 45 м², копию договора аренды с платёжными документами за 6-12 мес, документ-основание права собственности, паспорт собственника. Заказать выписку ЕГРН (не старше 1 мес), провести ручную проверку по egrul.nalog.gov.ru / fssp.gov.ru / kad.arbitr.ru / bankrot.fedresurs.ru / reestr.zalogov.ru. Передать юристу (правовой режим залога, ФЗ-102 ст. 19/22/37, ФЗ-229) и налоговому консультанту (НДФЛ 13/15% с процентов, 3-НДФЛ).</p></div></div></div></section><section><div class="card"><h2>Итог спора · что выжило под атакой</h2><p class="cap">Адвокат (за) и Прокурор (против) на разных моделях спорили 3 раунда. Засчитано только то, что пережило атаку оппонента <b>с уликой</b>. Голословное «не согласен» не считается.</p><div class="grid2"><div><h3 style="color:var(--pos)">Выжило ЗА</h3><ul class="args"><li class="arg "><div class="arg-claim">Премия +15,5 п.п. к КС ЦБ 14,5% генерирует 171 105 ₽ процентов за 10 мес — на 27 765 ₽ выше безрискового депозитного дохода 143 340 ₽; total_return 1 371 105 ₽</div><div class="arg-ev">улика: [finmodel: premium_over_deposit_pp 15.5, total_interest 171105, deposit_alt_profit 143340, total_return 1371105, stress_annual_pct 14.77]; досье «ИЗВЕСТНО»: КС ЦБ 14,50% на 2026-06-05 (cbr.ru)</div></li></ul></div><div><h3 style="color:var(--neg)">Выжило ПРОТИВ</h3><ul class="args"><li class="arg arg--red"><div class="arg-claim">Полное отсутствие due diligence по контрагенту и предмету: ИНН ИП не указан → невозможны DaData, ЕГРЮЛ/ЕГРИП, ФССП, kad.arbitr.ru, bankrot.fedresurs.ru, reestr.zalogov.ru; выписка ЕГРН (не старше 1 мес) не заказана; независимая оценка СРО не проведена. Без закрытия этих пробелов ни кредитный риск заёмщика, ни юридическая чистота залога, ни наличие/отсутствие обременений (аресты, ипотеки, залоги, запреты) — не верифицированы. Это третий запрос с дельтой = 0: новой информации не поступило, устойчивые пробелы повторяются</div><div class="arg-ev">улика: ИНН ИП-контрагента в [НЕИЗВЕСТНО]; обязательные шаги до выдачи (ЕГРН, СРО, ФССП, арбитраж, банкротство, договор аренды) — не выполнены; [finmodel] построен на заявленных параметрах без сверки; без них выдача = кредит вслепую</div></li><li class="arg arg--amber"><div class="arg-claim">Заявленная рыночная оценка залога 2 млн ₽ подозрительно низкая для street retail 45 м² в Москве — типичный минимум 4+ млн ₽, медиана 4–10 млн ₽ (cian.ru/bn.ru). Расхождение требует объяснения: периферия, подвал, аварийное состояние, либо ошибка ввода. До проверки СРО LTV 60% недостоверен: при реальной стоимости 4 млн ₽ LTV = 30% (комфортно), при 2 млн ₽ (если занижение — ошибка) ликвидная 1,4 млн ₽ покрывает тело с запасом, не учитывающим реальное состояние объекта</div><div class="arg-ev">улика: cian.ru/bn.ru — диапазон для 45 м² street retail Москва: 6,5–45+ млн ₽; заявленные 2 млн ₽ вне диапазона; [finmodel] LTV 60% и coverage ×1.17 — расчёт на заявленной базе, не на верифицированной СРО</div></li><li class="arg arg--amber"><div class="arg-claim">Двухступенчатый риск источника возврата: дефолт заёмщика-ИП + дефолт/уход арендатора. Договор аренды не показан (стороны, срок, ежемесячная ставка, условия расторжения, обеспечительный платёж), история платежей арендатора за 6–12 мес не подтверждена. Аннуитет 137 111 ₽/мес требует стабильного арендного потока; если арендатор съедет или просрочит — у ИП нет альтернативного источника для обслуживания долга. Заявление «источник — аренда» без документов = нарратив, не актив</div><div class="arg-ev">улика: договор аренды и платёжные документы в [НЕИЗВЕСТНО]; [finmodel] baseline-доходность 30% годовых предполагает бесперебойную аренду, не проверенную; арендатор-сеть = плюс к надёжности, но не её гарантия</div></li><li class="arg arg--amber"><div class="arg-claim">Покрытие ×1,17 в стресс-сценарии [finmodel] — бумажное: не учитывает время публичных торгов (3–12 мес, при оспаривании до 18–24 мес), в течение которого инвестор теряет ожидаемые ~274 000 ₽ платежей за мес 6–10; судебные/исполнительные расходы 50–200 тыс. ₽ съедают запас; рыночная просадка ниже ликвид. цены при торгах реалистична, если арендатор съехал к моменту реализации. Эффективный остаток после всех потерь может оказаться ≤ тела долга</div><div class="arg-ev">улика: [finmodel] coverage_ratio 1.17 — расчёт без учёта time-value потерянных платежей и судебных; ФЗ-229 ст. 89–95 публичные торги 3–12 мес; практика ФССП по коммерческой недвижимости 2024–2026 — оспаривание до 18–24 мес</div></li><li class="arg arg--minor"><div class="arg-claim">30% годовых — выше банковского коридора 18–24% на 6–12 п.п. Это эмпирический сигнал, что заёмщик не прошёл банковский андеррайтинг (или не хотел). Причина непроходимости (плохая кредитная история, недостаточный доход, проблемы с залогом, скрытые обременения) — главный кредитный риск сделки. Без прямого ответа на вопрос «почему не банк?» риск-профиль остаётся недоопределённым: ставка 30% — не «премия за риск», а ставка «от безысходности заёмщика»</div><div class="arg-ev">улика: банковский коридор 18–24% по коммерческой ипотеке (medium); премия 15,5 п.п. над КС 14,5% — больше, чем требуется для обоснованной премии за риск; стандартный андеррайтинг банка не пройден — причина не названа</div></li><li class="arg arg--amber"><div class="arg-claim">Стресс-сценарий [finmodel] (дефолт на мес 5, взыскание по ликвид. цене с дисконтом 30%) покрывает только 1 из 5 реалистичных сценариев: (а) каскад дефолтов ИП+арендатор одновременно, (б) двойной залог — помещение в ипотеке у банка, последующая ипотека субординирована или недействительна (ст. 37 ФЗ-102), (в) оспаривание сделки супругой/наследниками заёмщика, (г) регуляторный/санкционный риск каналов возврата (P2P/OTC под 115-ФЗ при сумме 1,2 млн). Эти сценарии в finmodel не покрыты — сумма потерь не оценена</div><div class="arg-ev">улика: [finmodel] stress_annual_pct 14.77 — единственный сценарий; прочие 4 сценария требуют отдельного расчёта; ст. 37 ФЗ-102 требует согласия банка-залогодержателя, без проверки ЕГРН этот риск невидим</div></li></ul></div></div><p class="cap" style="margin-top:14px">Пало под атакой (не подтвердилось уликой): тезисов ЗА — 5, рисков ПРОТИВ — 0. Это часть честного разбора, а не слабость.</p></div></section><section><div class="card"><h2>Структура сделки</h2><div class="table-wrap"><table><tbody><tr><th>Сумма входа</th><td>1 200 000 ₽</td></tr><tr><th>Срок</th><td>10 мес</td></tr><tr><th>Заявленная доходность</th><td>30% годовых</td></tr><tr><th>Источник выплат</th><td>арендный поток коммерческого помещения 45 м² (договор аренды и платёжные документы не предоставлены)</td></tr><tr><th>Обеспечение</th><td>залог коммерческого помещения 45 м² (заявленная оценка ~2 млн ₽; подозрительно низкая для street retail 45 м² в Москве, типичный минимум 4+ млн ₽; LTV 60% — верхняя граница банковского коридора)</td></tr><tr><th>Ликвидность выхода</th><td>низкая; ФССП-торги 3-12 мес (до 18-24 при оспаривании); ликвидац. ст-ть ~60-80% от рыночной; coverage_ratio 1,17 по заявленной оценке</td></tr></tbody></table></div></div></section><section><div class="card"><h2>Проверка контрагента</h2><p class="cap">Открытые источники (реестр), с пометкой достоверности. Где данных нет — указано честно.</p><div class="table-wrap"><table><tbody><tr><th>тип</th><td>ИП</td></tr><tr><th>ИНН</th><td>не указан</td></tr><tr><th>DaData</th><td>не проверено (ИНН не указан)</td></tr><tr><th>ЕГРЮЛ/ЕГРИП</th><td>не проверено (ИНН не указан)</td></tr><tr><th>ФССП/арбитраж/банкротство/реестр залогов</th><td>не проверено (ИНН не указан)</td></tr></tbody></table></div></div></section><section><div class="card"><h2>Расчёты finmodel · числа считал код</h2><p class="cap">Все числа ниже посчитаны детерминированным модулем (не «придуманы» моделью). Финмоделист их только интерпретирует. Сценарии — в годовых %, согласованы между собой.</p><ul class="bullets"><li>Тело займа 1 200 000 ₽ под 30.0% годовых на 10 мес.</li><li>Проценты к получению за срок: 171 105 ₽; всего возврат: 1 371 105 ₽.</li><li>LTV 60%; залог при дисконте 30% покрывает тело ×1.17 (с запасом).</li><li>Премия к депозиту ЦБ: +15.5 п.п. годовых (30.0% vs 14.5%).</li></ul><p class="cap" style="margin-top:10px">Допущения модели: Стресс-сценарий: дефолт на месяце 5, взыскание залога по ликвид-цене (дисконт 30%).</p><div class="grid2" style="margin-top:16px"><div class="chartbox"><h3>График погашения (остаток тела и проценты)</h3><div id="cLine" class="chart"></div></div><div class="chartbox"><h3>Доходность: базовый / депозит / стресс</h3><div id="cScen" class="chart"></div></div></div><div class="chartbox" style="margin-top:8px"><h3>Сравнение с альтернативой</h3><div id="cCmp" class="chart"></div></div><p class="cap" style="margin-top:8px">Ключевая ставка ЦБ РФ — <b>14,50%</b>, USD/RUB 74.2956 (ЦБ РФ, на 2026-06-05)</p></div></section><section><div class="card"><h2>Риски (выжившие под атакой)</h2><div class="grid2"><div><h3 style="color:var(--neg)">Красные флаги</h3><ul class="chips"><li class="chip chip--red">Полное отсутствие due diligence по контрагенту и предмету: ИНН ИП не указан → невозможны DaData, ЕГРЮЛ/ЕГРИП, ФССП, kad.arbitr.ru, bankrot.fedresurs.ru, reestr.zalogov.ru; выписка ЕГРН (не старше 1 мес) не заказана; независимая оценка СРО не проведена. Без закрытия этих пробелов ни кредитный риск заёмщика, ни юридическая чистота залога, ни наличие/отсутствие обременений (аресты, ипотеки, залоги, запреты) — не верифицированы. Это третий запрос с дельтой = 0: новой информации не поступило, устойчивые пробелы повторяются</li></ul></div><div><h3 style="color:var(--warn)">Жёлтые флаги</h3><ul class="chips"><li class="chip chip--amber">Заявленная рыночная оценка залога 2 млн ₽ подозрительно низкая для street retail 45 м² в Москве — типичный минимум 4+ млн ₽, медиана 4–10 млн ₽ (cian.ru/bn.ru). Расхождение требует объяснения: периферия, подвал, аварийное состояние, либо ошибка ввода. До проверки СРО LTV 60% недостоверен: при реальной стоимости 4 млн ₽ LTV = 30% (комфортно), при 2 млн ₽ (если занижение — ошибка) ликвидная 1,4 млн ₽ покрывает тело с запасом, не учитывающим реальное состояние объекта</li><li class="chip chip--amber">Двухступенчатый риск источника возврата: дефолт заёмщика-ИП + дефолт/уход арендатора. Договор аренды не показан (стороны, срок, ежемесячная ставка, условия расторжения, обеспечительный платёж), история платежей арендатора за 6–12 мес не подтверждена. Аннуитет 137 111 ₽/мес требует стабильного арендного потока; если арендатор съедет или просрочит — у ИП нет альтернативного источника для обслуживания долга. Заявление «источник — аренда» без документов = нарратив, не актив</li><li class="chip chip--amber">Покрытие ×1,17 в стресс-сценарии [finmodel] — бумажное: не учитывает время публичных торгов (3–12 мес, при оспаривании до 18–24 мес), в течение которого инвестор теряет ожидаемые ~274 000 ₽ платежей за мес 6–10; судебные/исполнительные расходы 50–200 тыс. ₽ съедают запас; рыночная просадка ниже ликвид. цены при торгах реалистична, если арендатор съехал к моменту реализации. Эффективный остаток после всех потерь может оказаться ≤ тела долга</li><li class="chip chip--amber">Стресс-сценарий [finmodel] (дефолт на мес 5, взыскание по ликвид. цене с дисконтом 30%) покрывает только 1 из 5 реалистичных сценариев: (а) каскад дефолтов ИП+арендатор одновременно, (б) двойной залог — помещение в ипотеке у банка, последующая ипотека субординирована или недействительна (ст. 37 ФЗ-102), (в) оспаривание сделки супругой/наследниками заёмщика, (г) регуляторный/санкционный риск каналов возврата (P2P/OTC под 115-ФЗ при сумме 1,2 млн). Эти сценарии в finmodel не покрыты — сумма потерь не оценена</li></ul></div></div><h3 style="margin-top:20px">Матрица риск / доходность</h3><pre class="mermaid">quadrantChart
+    x-axis Низкий риск --&gt; Высокий риск
+    y-axis Низкая доходность --&gt; Высокая доходность
+    quadrant-1 Спекулятивно
+    quadrant-2 Оптимально
+    quadrant-3 Консервативно
+    quadrant-4 Невыгодно
+    &quot;Сделка&quot;: [0.72, 0.75]
+    &quot;Депозит/ОФЗ&quot;: [0.18, 0.36]</pre></div></section><section><div class="card"><h2>Что неизвестно · какие документы запросить</h2><div class="grid2"><div><h3>Неизвестно / требует проверки</h3><ul class="bullets"><li>ИНН ИП-контрагента и полный DD: DaData, ЕГРИП, ФССП, kad.arbitr.ru, bankrot.fedresurs.ru, reestr.zalogov.ru</li><li>Свежая выписка ЕГРН (≤1 мес) — обременения, аресты, ипотеки, запреты, проверка ст.37 ФЗ-102 на последующий залог</li><li>Независимая оценка СРО для верификации залоговой стоимости ~2 млн ₽ (вне рыночного диапазона 4+ млн ₽ для 45 м² street retail Москва)</li><li>Договор аренды (стороны, срок, ставка, расторжение, обеспечительный платёж) + история платежей арендатора-сети за 6–12 мес + ИНН арендатора</li><li>Прямой ответ: почему заёмщик не прошёл банковский андеррайтинг (КИ, доход, залог, документация, срок, тикет)?</li><li>Расширение finmodel: каскадный дефолт ИП+арендатор, двойной залог (ст.37 ФЗ-102), оспаривание сделки супругой/наследниками, риск 115-ФЗ при P2P-канале возврата на 1,2 млн</li></ul></div><div><h3>Запросить документы</h3><ul class="bullets"><li>Свежая выписка из ЕГРН (не старше 1 мес) на помещение + документ-основание права собственности + паспорт собственника</li><li>Независимая оценка СРО с объяснением расхождения заявленных ~2 млн ₽ с рынком (типичный минимум 4+ млн ₽ для street retail 45 м² в Москве)</li><li>Договор аренды с арендатором + платёжные документы за 6-12 мес + акт приёма-передачи + все допсоглашения</li><li>Выписки из ЕГРИП по ИНН ИП (egrul.nalog.gov.ru) + справки ФССП, kad.arbitr.ru, bankrot.fedresurs.ru, reestr.zalogov.ru</li><li>Заключения юриста (ст. 22/37 ФЗ-102, ФЗ-229) и налогового консультанта (НДФЛ 13/15% с процентов, 3-НДФЛ)</li></ul></div></div></div></section>
+
+  <footer>
+    <div class="discl">Это вспомогательный инструмент инвестклуба Finance1. Он НЕ даёт инвестиционных, юридических или налоговых рекомендаций, НЕ обещает доходность и НЕ принимает решение за человека. Любые расчёты — модель, а не прогноз. Всё спорное — на проверку специалистом. Итоговое решение принимает инвестор.</div>
+    <div class="sig">Состязательный комитет Finance1 · нейтральные факты (Исследователь→Аналитик→finmodel) → спор Адвокат↔Прокурор (3 раунда, разные модели) → Судья выносит вердикт по правилу. Без баллов: только то, что выжило под атакой с уликой.</div>
+  </footer>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<script>
+(function(){
+  function fmt(o){
+    if(o&&o.tooltip&&o.tooltip.valueFormatter==='PCT'){o.tooltip.valueFormatter=function(v){return (v==null?'—':v+'%');};}
+    if(o&&o.tooltip&&o.tooltip.valueFormatter==='MONEY'){o.tooltip.valueFormatter=function(v){return (v==null?'—':Number(v).toLocaleString('ru-RU')+' ₽');};}
+    if(o&&o.tooltip&&o.tooltip.valueFormatter==='PLAIN'){delete o.tooltip.valueFormatter;}
+    return o;
+  }
+  function mk(id,opt){ var el=document.getElementById(id); if(!el||!window.echarts) return;
+    var c=echarts.init(el,null,{renderer:'svg'}); c.setOption(fmt(opt));
+    window.addEventListener('resize',function(){c.resize();}); }
+  mk("cScen", {"grid": {"left": 8, "right": 16, "top": 24, "bottom": 8, "containLabel": true}, "tooltip": {"trigger": "axis", "valueFormatter": "PCT"}, "xAxis": {"type": "category", "data": ["Базовый (платит)", "Депозит (ЦБ)", "Стресс (дефолт→залог)"], "axisLine": {"lineStyle": {"color": "#E4E8EF"}}, "axisLabel": {"color": "#8A94A6", "interval": 0, "hideOverlap": true, "width": 96, "overflow": "break", "lineHeight": 13, "fontSize": 11, "margin": 10}}, "yAxis": {"type": "value", "axisLabel": {"color": "#8A94A6", "formatter": "{value}%"}, "splitLine": {"lineStyle": {"color": "#EEF1F6"}}}, "series": [{"type": "bar", "data": [{"value": 30.0, "itemStyle": {"color": "#0E9F6E"}}, {"value": 14.5, "itemStyle": {"color": "#0E9F6E"}}, {"value": 14.8, "itemStyle": {"color": "#0E9F6E"}}], "barWidth": "46%", "label": {"show": true, "position": "top", "color": "#404B5C", "formatter": "{c}%"}}]});
+  mk("cCmp", {"grid": {"left": 8, "right": 16, "top": 24, "bottom": 8, "containLabel": true}, "tooltip": {"trigger": "axis", "valueFormatter": "PCT"}, "xAxis": {"type": "category", "data": ["Заём (ставка)", "Депозит (ЦБ)"], "axisLine": {"lineStyle": {"color": "#E4E8EF"}}, "axisLabel": {"color": "#8A94A6", "interval": 0, "hideOverlap": true, "width": 96, "overflow": "break", "lineHeight": 13, "fontSize": 11, "margin": 10}}, "yAxis": {"type": "value", "axisLabel": {"color": "#8A94A6", "formatter": "{value}%"}, "splitLine": {"lineStyle": {"color": "#EEF1F6"}}}, "series": [{"type": "bar", "data": [{"value": 30.0, "itemStyle": {"color": "#1D4ED8"}}, {"value": 14.5, "itemStyle": {"color": "#0E9F6E"}}], "barWidth": "42%", "label": {"show": true, "position": "top", "color": "#404B5C", "formatter": "{c}%"}}]});
+  mk("cLine", {"grid": {"left": 8, "right": 18, "top": 30, "bottom": 8, "containLabel": true}, "tooltip": {"trigger": "axis", "valueFormatter": "MONEY"}, "legend": {"top": 0, "textStyle": {"color": "#8A94A6", "fontSize": 11}, "icon": "roundRect"}, "xAxis": {"type": "category", "data": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], "name": "Месяц", "nameTextStyle": {"color": "#8A94A6", "fontSize": 10}, "axisLine": {"lineStyle": {"color": "#E4E8EF"}}, "axisLabel": {"color": "#8A94A6", "fontSize": 10}}, "yAxis": {"type": "value", "axisLabel": {"color": "#8A94A6", "fontSize": 10}, "splitLine": {"lineStyle": {"color": "#EEF1F6"}}}, "series": [{"type": "line", "name": "Остаток тела, ₽", "data": [1200000, 1092889, 983101, 870568, 755222, 636992, 515806, 391591, 264270, 133766, 0], "smooth": true, "showSymbol": false, "lineStyle": {"width": 2.5, "color": "#1D4ED8"}, "itemStyle": {"color": "#1D4ED8"}, "areaStyle": {"opacity": 0.05}}, {"type": "line", "name": "Накопленные проценты, ₽", "data": [0, 30000, 57322, 81900, 103664, 122545, 138469, 151364, 161154, 167761, 171105], "smooth": true, "showSymbol": false, "lineStyle": {"width": 2.5, "color": "#0E9F6E"}, "itemStyle": {"color": "#0E9F6E"}, "areaStyle": null}]});
+  if(window.mermaid){ mermaid.initialize({startOnLoad:true, theme:'neutral',
+    themeVariables:{quadrant1Fill:'#FDECEC',quadrant2Fill:'#E7F7EF',quadrant3Fill:'#F5F7FA',quadrant4Fill:'#FEF7EC',
+      quadrantPointFill:'#1D4ED8',quadrantPointTextFill:'#16202E',quadrantTitleFill:'#16202E'} }); }
+})();
+</script>
+</body>
+</html>
