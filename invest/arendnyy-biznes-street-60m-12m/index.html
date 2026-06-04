@@ -98,7 +98,8 @@ td{color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums}
 .callout.red{border-left-color:var(--neg);background:#FEF5F5}
 .rec-status{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--ink);font-size:18px;margin-bottom:6px}
 
-.mermaid{display:flex;justify-content:center}
+.mermaid{display:flex;justify-content:center;overflow-x:auto}
+.mermaid svg{max-width:100%;height:auto}
 footer{padding:calc(var(--sp)*.8) 0 calc(var(--sp)*1.3);color:var(--muted);font-size:13px;line-height:1.5}
 footer .discl{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-sm);padding:14px 16px;margin-bottom:12px}
 .sig{font-size:12px;letter-spacing:.04em}
@@ -179,13 +180,12 @@ footer .discl{background:var(--paper);border:1px solid var(--line);border-radius
       </div>
     </div>
     <h3 style="margin-top:20px">Матрица риск / доходность</h3><pre class="mermaid">quadrantChart
-    title Риск / доходность
     x-axis Низкий риск --&gt; Высокий риск
     y-axis Низкая доходность --&gt; Высокая доходность
-    quadrant-1 Высокая доходность, высокий риск
-    quadrant-2 Высокая доходность, низкий риск
-    quadrant-3 Низкая доходность, низкий риск
-    quadrant-4 Низкая доходность, высокий риск
+    quadrant-1 Спекулятивно
+    quadrant-2 Оптимально
+    quadrant-3 Консервативно
+    quadrant-4 Невыгодно
     &quot;Сделка&quot;: [0.72, 0.22]
     &quot;Депозит/ОФЗ&quot;: [0.18, 0.36]</pre>
   </div></section>
