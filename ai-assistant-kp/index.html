@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI-ассистент под ключ · Твой личный джарвис 24/7</title>
+  <meta name="description" content="Персональный AI-ассистент уровня «правая рука». Планирование, встречи, CRM, чаты — на твоём сервере, под твоим контролем.">
+  <meta property="og:title" content="AI-ассистент под ключ · Твой личный джарвис 24/7">
+  <meta property="og:description" content="Персональный AI-ассистент уровня «правая рука». Планирование, встречи, CRM, чаты — на твоём сервере, под твоим контролем.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container header__inner">
+      <a href="#" class="logo">🤖 STAZIS · AI</a>
+      <nav class="nav">
+        <a href="#features">Что умеет</a>
+        <a href="#stack">Под капотом</a>
+        <a href="#integrations">Интеграции</a>
+        <a href="#subagent">Шпион в чатах</a>
+        <a href="#price">Цена</a>
+        <a href="#contact" class="nav__cta">Связаться</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero__bg"></div>
+    <div class="container hero__inner">
+      <div class="hero__badge">v 0.1 · черновик для обсуждения</div>
+      <h1 class="hero__title">
+        Твой AI-джарвис.<br>
+        <span class="gradient-text">Работает, пока ты спишь.</span>
+      </h1>
+      <p class="hero__sub">
+        Персональный AI-ассистент уровня «правая рука» — планирование, встречи, CRM, чаты, документы.
+        Разворачивается на <b>твоём</b> сервере, под <b>твоим</b> root-доступом, без подписок и слежки.
+      </p>
+      <div class="hero__cta">
+        <a href="#contact" class="btn btn--primary">Заказать своего →</a>
+        <a href="#features" class="btn btn--ghost">Что умеет</a>
+      </div>
+      <div class="hero__chips">
+        <span class="chip">⚡ 24/7</span>
+        <span class="chip">🛡️ Свой сервер</span>
+        <span class="chip">🧠 GPT-уровень</span>
+        <span class="chip">🔌 5+ интеграций</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Для кого -->
+  <section class="section section--muted">
+    <div class="container">
+      <h2 class="section__title">Для кого это</h2>
+      <p class="section__lead">Если ты тонешь в рутине — это для тебя.</p>
+      <div class="audience">
+        <div class="audience__card">
+          <span class="audience__emoji">🚀</span>
+          <h3>Предприниматели</h3>
+          <p>Команда 5–50 человек. Хочется делегировать рутину, но не нанимать ещё 2-х людей.</p>
+        </div>
+        <div class="audience__card">
+          <span class="audience__emoji">👔</span>
+          <h3>Руководители</h3>
+          <p>Контроль дедлайнов, отчёты, эскалации — без выгорания и без excel-щитов в 3 часа ночи.</p>
+        </div>
+        <div class="audience__card">
+          <span class="audience__emoji">💡</span>
+          <h3>Продакты и фаундеры</h3>
+          <p>Встречи, документы, CRM, чаты — всё в одном месте, всё в фоне, всё вовремя.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Что умеет -->
+  <section id="features" class="section">
+    <div class="container">
+      <h2 class="section__title">Что умеет</h2>
+      <p class="section__lead">Шесть вещей, на которые у тебя уходит больше всего времени.</p>
+      <div class="features">
+        <div class="feature">
+          <div class="feature__icon">📅</div>
+          <h3>Планирование</h3>
+          <p>Сам собирает встречи, синхронизирует календари, не даёт пересечься в 17:00 дважды.</p>
+        </div>
+        <div class="feature">
+          <div class="feature__icon">⏰</div>
+          <h3>Контроль дедлайнов</h3>
+          <p>Видит, что горит, и пинает заранее — а не за 5 минут до сдачи.</p>
+        </div>
+        <div class="feature">
+          <div class="feature__icon">🎙️</div>
+          <h3>Расшифровка встреч</h3>
+          <p>Zoom-встречи → в текст → в задачи. Ничего не теряется, всё в логе.</p>
+        </div>
+        <div class="feature">
+          <div class="feature__icon">📄</div>
+          <h3>Подготовка документов</h3>
+          <p>КП, ТЗ, отчёты, презентации — по твоему шаблону, голосом или текстом.</p>
+        </div>
+        <div class="feature">
+          <div class="feature__icon">👀</div>
+          <h3>Мониторинг чатов</h3>
+          <p>Сидит во всех рабочих чатах, выделяет задачи, дедлайны и «проёбы».</p>
+        </div>
+        <div class="feature">
+          <div class="feature__icon">🚨</div>
+          <h3>Эскалация срочного</h3>
+          <p>Алёрт в Telegram, если в чате мелькнуло «срочно», «горит» или твоё имя.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Под капотом -->
+  <section id="stack" class="section section--muted">
+    <div class="container">
+      <h2 class="section__title">Под капотом</h2>
+      <p class="section__lead">Без маркетинговой воды — как это собрано.</p>
+      <div class="stack">
+        <div class="stack__card">
+          <div class="stack__icon">🖥️</div>
+          <h3>Свой VPS</h3>
+          <p>Нидерланды / Германия / Финляндия — на выбор. Ubuntu 24.04 LTS, 4 vCPU / 8 GB RAM / 80 GB NVMe.</p>
+          <span class="stack__tag">root-доступ — у тебя</span>
+        </div>
+        <div class="stack__card">
+          <div class="stack__icon">🤖</div>
+          <h3>AI-модель</h3>
+          <p>Подключаем LLM через API: MiniMax или Claude Sonnet/Opus — на твой выбор. Можно две: дешёвую для рутины, умную для сложного.</p>
+          <span class="stack__tag">~$50/мес при базовой нагрузке</span>
+        </div>
+        <div class="stack__card">
+          <div class="stack__icon">⚙️</div>
+          <h3>Платформа OpenClaw</h3>
+          <p>Runtime ассистента. Docker, systemd, веб-админка для настройки skills, MCP-каналов и безопасности. Домен + SSL из коробки.</p>
+          <span class="stack__tag">свой движок, не чужой SaaS</span>
+        </div>
+        <div class="stack__card">
+          <div class="stack__icon">🔒</div>
+          <h3>Безопасность</h3>
+          <p>SSH по ключам (пароли выключены), UFW + fail2ban + CrowdSec, авто-обновления, ежедневные бэкапы в зашифрованное хранилище, 2FA на всех аккаунтах, аудит логов.</p>
+          <span class="stack__tag">по дефолту, а не «по запросу»</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Интеграции -->
+  <section id="integrations" class="section">
+    <div class="container">
+      <h2 class="section__title">5 интеграций в комплекте</h2>
+      <p class="section__lead">Ассистент работает в твоих инструментах, а не вместо них.</p>
+      <div class="integrations">
+        <div class="integration">
+          <div class="integration__icon" data-color="github">🐙</div>
+          <h3>GitHub</h3>
+          <p>Создаёт / правит репозитории, открывает PR, ревьюит код, деплоит статику на Pages.</p>
+        </div>
+        <div class="integration">
+          <div class="integration__icon" data-color="google">📧</div>
+          <h3>Google Workspace</h3>
+          <p>Gmail, Drive, Docs, Sheets, Slides, Forms, Calendar — всё под рукой, всё с правами.</p>
+        </div>
+        <div class="integration">
+          <div class="integration__icon" data-color="yandex">📞</div>
+          <h3>Яндекс.Телемост</h3>
+          <p>Создаёт встречи по запросу, кидает ссылку и пароль, приглашает участников, синхронизирует с Calendar.</p>
+        </div>
+        <div class="integration">
+          <div class="integration__icon" data-color="crm">💼</div>
+          <h3>amoCRM</h3>
+          <p>Сделки, контакты, компании, задачи, воронки, аналитика. Webhook'и о новых лидах → в Telegram.</p>
+        </div>
+        <div class="integration">
+          <div class="integration__icon" data-color="tasks">✅</div>
+          <h3>WIC</h3>
+          <p>Управление задачами, контроль дедлайнов, чек-листы, связь с CRM и календарём. Утренний и недельный отчёт.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Субагент -->
+  <section id="subagent" class="section section--accent">
+    <div class="container">
+      <div class="subagent">
+        <div class="subagent__emoji">🕵️</div>
+        <h2 class="section__title">Субагент: твой шпион в чатах</h2>
+        <p class="subagent__lead">Отдельный модуль, который сидит во всех рабочих Telegram / Slack / Discord и не спит.</p>
+        <div class="subagent__grid">
+          <div class="subagent__item">
+            <span class="subagent__bullet">📌</span>
+            <h4>Ловит задачи</h4>
+            <p>Из любой переписки — в задачи WIC, с ответственным и дедлайном.</p>
+          </div>
+          <div class="subagent__item">
+            <span class="subagent__bullet">⏳</span>
+            <h4>Следит за «проёбами»</h4>
+            <p>Запомнил, что пообещали? Ассистент запомнил тоже — и напомнит, если не сделано.</p>
+          </div>
+          <div class="subagent__item">
+            <span class="subagent__bullet">📊</span>
+            <h4>Утренний дайджест</h4>
+            <p>Что горит, что обещали, что забыли — одним сообщением в Telegram в 9:00.</p>
+          </div>
+          <div class="subagent__item">
+            <span class="subagent__bullet">🔔</span>
+            <h4>Алёрты в реал-тайме</h4>
+            <p>«Срочно», «ASAP», «горит», твоё имя, дедлайны — отдельный канал с эскалацией.</p>
+          </div>
+          <div class="subagent__item">
+            <span class="subagent__bullet">🔐</span>
+            <h4>Журнал зашифрован</h4>
+            <p>chat-intel.md хранится в зашифрованном виде, доступ только у тебя.</p>
+          </div>
+          <div class="subagent__item">
+            <span class="subagent__bullet">🤐</span>
+            <h4>Молчит, пока не спросят</h4>
+            <p>Читает в фоне, не спамит. В чатах не отвечает без тега или прямого запроса.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Бонусы -->
+  <section class="section section--muted">
+    <div class="container">
+      <h2 class="section__title">Опции, если захочется ещё</h2>
+      <p class="section__lead">Подключаются по необходимости, цена обсуждается индивидуально.</p>
+      <div class="extras">
+        <div class="extra">🎤 <b>Голос → текст</b><br><span>транскрибация Zoom и голосовых</span></div>
+        <div class="extra">✍️ <b>Генерация контента</b><br><span>посты, презентации, лендинги, КП</span></div>
+        <div class="extra">🎯 <b>Анализ тональности</b><br><span>парсинг почты и чатов</span></div>
+        <div class="extra">📑 <b>PDF-отчёт руководителю</b><br><span>ежедневно / еженедельно</span></div>
+        <div class="extra">🔔 <b>Mobile push</b><br><span>через Telegram-бот</span></div>
+        <div class="extra">📚 <b>Notion / Airtable / Roam</b><br><span>как база знаний</span></div>
+        <div class="extra">💳 <b>Финтрекер</b><br><span>интеграция с банками, учёт расходов</span></div>
+        <div class="extra">👥 <b>Групповой ассистент</b><br><span>на 3–5 руководителей</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Цена -->
+  <section id="price" class="section">
+    <div class="container">
+      <h2 class="section__title">Сколько стоит</h2>
+      <p class="section__lead">Прозрачно. Без скрытых платежей.</p>
+      <div class="pricing">
+        <div class="price-card price-card--featured">
+          <div class="price-card__badge">разово</div>
+          <h3>Настройка под ключ</h3>
+          <p class="price-card__amount"><span class="price-card__num">$ ______</span></p>
+          <p class="price-card__note">обсуждается индивидуально после брифа</p>
+          <ul>
+            <li>✓ Свой сервер + OpenClaw</li>
+            <li>✓ 5 интеграций</li>
+            <li>✓ Субагент мониторинга</li>
+            <li>✓ Документация + видео-инструкция</li>
+            <li>✓ 30 дней поддержки — бесплатно</li>
+          </ul>
+        </div>
+        <div class="price-card">
+          <h3>Постоянные расходы</h3>
+          <p class="price-card__amount"><span class="price-card__num">$65–75</span><span class="price-card__per">/мес</span></p>
+          <p class="price-card__note">платишь хостеру и за AI API напрямую</p>
+          <ul>
+            <li>VPS-сервер: <b>$15–25/мес</b></li>
+            <li>API AI-модели: <b>~$50/мес</b></li>
+            <li class="muted">(базовая нагрузка 1–2 тыс. сообщений/день)</li>
+          </ul>
+        </div>
+        <div class="price-card">
+          <h3>Поддержка после сдачи</h3>
+          <p class="price-card__amount"><span class="price-card__num">опция</span></p>
+          <p class="price-card__note">для тех, кто хочет «под ключ и забыл»</p>
+          <ul>
+            <li>мониторинг сервера 24/7</li>
+            <li>мелкие правки и доработки</li>
+            <li>апдейты безопасности</li>
+            <li>консультации по использованию</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Сроки -->
+  <section class="section section--muted">
+    <div class="container">
+      <h2 class="section__title">Сколько по времени</h2>
+      <p class="section__lead">От старта до работающего ассистента — <b>5–10 рабочих дней</b>.</p>
+      <div class="timeline">
+        <div class="timeline__item">
+          <div class="timeline__num">1</div>
+          <h4>Сервер + OpenClaw</h4>
+          <span>1–2 дня</span>
+        </div>
+        <div class="timeline__item">
+          <div class="timeline__num">2</div>
+          <h4>5 интеграций</h4>
+          <span>2–5 дней</span>
+        </div>
+        <div class="timeline__item">
+          <div class="timeline__num">3</div>
+          <h4>Субагент мониторинга</h4>
+          <span>1–2 дня</span>
+        </div>
+        <div class="timeline__item">
+          <div class="timeline__num">4</div>
+          <h4>Документация + сдача</h4>
+          <span>1 день</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Что получишь -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section__title">Что уезжает к тебе</h2>
+      <div class="deliverables">
+        <div class="deliverable">🤖 Работающий AI-ассистент 24/7 на твоём сервере</div>
+        <div class="deliverable">🔑 Полный root-доступ к серверу и настройкам</div>
+        <div class="deliverable">📖 Документация: как пользоваться, менять, бэкапить</div>
+        <div class="deliverable">🛡️ 30 дней гарантийной поддержки — бесплатно</div>
+        <div class="deliverable">🔐 Все credentials, API-ключи, доступы — передаются</div>
+        <div class="deliverable">🎥 Записанная видео-инструкция по работе с системой</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Контакты -->
+  <section id="contact" class="section section--cta">
+    <div class="container cta">
+      <h2 class="section__title">Готов поговорить?</h2>
+      <p class="section__lead">Расскажи, какие задачи хочешь отдать ассистенту — подберём конфигурацию под тебя.</p>
+      <div class="cta__buttons">
+        <a href="https://t.me/stavzzz" class="btn btn--primary btn--lg" target="_blank" rel="noopener">💬 Telegram: @stavzzz</a>
+        <a href="mailto:staspankov@gmail.com" class="btn btn--ghost btn--lg">✉️ staspankov@gmail.com</a>
+      </div>
+      <p class="cta__signature">— Стас Панков<br><span>исполнитель</span></p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>🤖 STAZIS · AI · 2026 · Черновик v0.1 для обсуждения</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
