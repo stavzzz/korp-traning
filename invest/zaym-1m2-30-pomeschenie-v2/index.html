@@ -3,196 +3,189 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Заём 1,2 млн под 30% под залог помещения — инвест-разбор</title>
+<title>Займ 1 200 000 рублей на 10 месяцев под 30 процентов годовых знакомому предпринимателю под залог коммерческого помещения 45 квадратных метров — инвест-разбор</title>
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Onest:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap');
 
 :root{
-  --paper:#FAF8F3; --panel:#FFFFFF; --ink:#1C1B19; --body:#4A4742; --muted:#908A80;
-  --line:#E8E2D8; --line-2:#F0EBE2; --accent:#B23A2E; --accent-soft:#FBEAE7;
-  --pos:#2F7A52; --neg:#B23A2E; --warn:#B07A1E;
-  --serif:"Lora",Georgia,serif; --sans:"Onest",-apple-system,system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+  --paper:#FAF8F3; --panel:#FFFFFF; --ink:#1A1916; --body:#454039; --muted:#8C8579;
+  --line:#E7E0D4; --line-2:#F0EADF; --accent:#C0392B; --accent-soft:#FBEAE7;
+  --pos:#2E7D55; --neg:#C0392B; --warn:#C8881C;
+  --sans:"Onest",-apple-system,system-ui,"Segoe UI",sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace;
 }
 *{box-sizing:border-box}
 html,body{margin:0;overflow-x:clip}
-body{background:var(--paper);color:var(--body);font-family:var(--sans);line-height:1.6;
-  -webkit-font-smoothing:antialiased;font-size:16px}
-.wrap{max-width:880px;margin:0 auto;padding:0 clamp(18px,5vw,32px)}
+body{background:var(--paper);color:var(--body);font-family:var(--sans);line-height:1.62;font-size:17px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:880px;margin:0 auto;padding:0 clamp(20px,5vw,36px)}
 .muted{color:var(--muted)}
-b{color:var(--ink);font-weight:600}
+b{color:var(--ink);font-weight:700}
+a{color:var(--accent);text-underline-offset:2px}
 
-/* top bar */
-.bar{position:sticky;top:0;z-index:30;background:rgba(250,248,243,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-.bar .wrap{display:flex;align-items:center;gap:14px;min-height:54px}
-.bar-title{font-family:var(--serif);font-weight:600;color:var(--ink);font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0}
-.pill{display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:13px;padding:5px 13px;border-radius:999px;
-  background:var(--accent-soft);color:var(--accent);white-space:nowrap}
-.pill .dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.bar{position:sticky;top:0;z-index:30;background:rgba(250,248,243,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;align-items:center;gap:14px;min-height:56px}
+.brand{font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:12.5px;color:var(--muted);flex:1}
+.pill{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:13.5px;padding:6px 14px;border-radius:999px;
+  background:var(--accent-soft);color:var(--accent);white-space:nowrap;opacity:0;transform:translateY(-6px);transition:.3s}
+.pill.show{opacity:1;transform:none}
+.pill .dot{width:9px;height:9px;border-radius:50%;background:var(--accent)}
 
-/* hero */
-.hero{padding:clamp(48px,9vw,96px) 0 clamp(30px,5vw,52px)}
-.hero .eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:18px}
-.hero h1{font-family:var(--serif);font-weight:600;color:var(--ink);font-size:clamp(30px,6vw,52px);line-height:1.08;
-  letter-spacing:-.01em;margin:0 0 28px;overflow-wrap:anywhere}
-.verdict{display:flex;align-items:flex-start;gap:18px;padding:24px 26px;background:var(--panel);border:1px solid var(--line);
-  border-left:5px solid var(--accent);border-radius:16px;box-shadow:0 10px 40px rgba(28,27,25,.05)}
-.verdict-dot{width:46px;height:46px;border-radius:50%;background:var(--accent);flex:none;margin-top:2px;
-  box-shadow:0 0 0 6px var(--accent-soft)}
-.verdict-t{font-family:var(--serif);font-size:clamp(22px,4vw,30px);font-weight:600;color:var(--ink);line-height:1.15}
-.verdict-s{color:var(--muted);font-size:14.5px;margin-top:4px}
-.takeaway{font-family:var(--serif);font-size:clamp(18px,2.6vw,22px);line-height:1.5;color:var(--ink);margin:28px 0 0;
-  padding-left:18px;border-left:2px solid var(--accent)}
-.hero-meta{display:flex;gap:22px;flex-wrap:wrap;color:var(--muted);font-size:13.5px;margin-top:26px}
-.hero-meta b{color:var(--body);font-weight:600}
-.draft{background:#FBF1DF;border:1px solid #ECD9B0;color:#8A5E12;border-radius:10px;padding:10px 14px;margin-top:18px;font-size:13.5px}
+.hero{padding:clamp(44px,8vw,84px) 0 clamp(28px,5vw,46px)}
+.hero .eyebrow{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:20px}
+.hero h1{font-weight:800;color:var(--ink);font-size:clamp(32px,6.2vw,56px);line-height:1.05;letter-spacing:-.02em;margin:0 0 30px;overflow-wrap:anywhere}
+.verdict{display:flex;align-items:center;gap:20px;padding:24px 28px;background:var(--panel);border:1px solid var(--line);
+  border-left:6px solid var(--accent);border-radius:18px;box-shadow:0 12px 44px rgba(26,25,22,.06)}
+.verdict-dot{width:42px;height:42px;border-radius:50%;background:var(--accent);flex:none;box-shadow:0 0 0 7px var(--accent-soft)}
+.verdict-t{font-size:clamp(24px,4vw,32px);font-weight:800;color:var(--ink);line-height:1.1;letter-spacing:-.01em}
+.verdict-s{color:var(--muted);font-size:15.5px;margin-top:5px;font-weight:500}
+.takeaway{font-size:clamp(19px,2.7vw,23px);line-height:1.5;color:var(--ink);font-weight:500;margin:30px 0 0;padding-left:20px;border-left:3px solid var(--accent)}
+.hero-meta{display:flex;gap:26px;flex-wrap:wrap;color:var(--muted);font-size:14.5px;margin-top:28px}
+.hero-meta b{color:var(--body);font-weight:700}
+.draft{background:#FBF1DF;border:1px solid #ECD9B0;color:#8A5E12;border-radius:12px;padding:12px 16px;margin-top:20px;font-size:14.5px}
 
-/* panels */
-.panel{padding:clamp(34px,6vw,60px) 0;border-top:1px solid var(--line)}
-.p-head{display:flex;gap:18px;align-items:baseline;margin-bottom:24px}
-.p-num{font-family:var(--mono);font-size:14px;color:var(--accent);font-weight:600;letter-spacing:.05em;flex:none;padding-top:6px}
-.p-eyebrow{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:4px}
-.panel h2{font-family:var(--serif);font-weight:600;color:var(--ink);font-size:clamp(23px,3.6vw,32px);margin:0;line-height:1.15}
-.p-intro{color:var(--body);font-size:15.5px;max-width:62ch;margin:0 0 24px}
-.lead{font-family:var(--serif);font-size:clamp(18px,2.6vw,21px);line-height:1.55;color:var(--ink);max-width:64ch}
+.panel{padding:clamp(36px,6vw,64px) 0;border-top:1px solid var(--line)}
+.p-head{display:flex;gap:20px;align-items:baseline;margin-bottom:26px}
+.p-num{font-family:var(--mono);font-size:15px;color:var(--accent);font-weight:700;flex:none;padding-top:7px}
+.p-eyebrow{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:5px}
+.panel h2{font-weight:800;color:var(--ink);font-size:clamp(25px,4vw,36px);margin:0;line-height:1.12;letter-spacing:-.015em}
+.p-intro{color:var(--body);font-size:16.5px;max-width:64ch;margin:0 0 26px}
+.lead{font-size:clamp(19px,2.6vw,23px);line-height:1.55;color:var(--ink);max-width:66ch;font-weight:500}
 
-/* duel */
-.duel{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.duel-h{font-weight:600;font-size:13px;letter-spacing:.04em;padding:8px 0;margin-bottom:6px;border-bottom:2px solid;text-transform:uppercase}
+.duel{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.duel-h{font-weight:800;font-size:14px;letter-spacing:.03em;padding:9px 0;margin-bottom:8px;border-bottom:2px solid;text-transform:uppercase}
 .duel-h--for{color:var(--pos);border-color:var(--pos)}
 .duel-h--against{color:var(--neg);border-color:var(--neg)}
-.arg{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:12px}
-.arg-claim{color:var(--ink);font-weight:600;font-size:15px;line-height:1.4}
-.arg-ev{color:var(--muted);font-size:13px;margin-top:7px;line-height:1.5}
-.arg--for{border-left:3px solid var(--pos)}
-.arg--red{border-left:3px solid var(--neg);background:#FCF2F0}
-.arg--amber{border-left:3px solid var(--warn);background:#FBF6EC}
-.arg--minor{border-left:3px solid #B6AFA3}
-.fell{color:var(--muted);font-size:13.5px;margin-top:18px;font-style:italic}
+.arg{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:13px}
+.arg-claim{color:var(--ink);font-weight:700;font-size:16px;line-height:1.42}
+.arg-ev{color:var(--body);font-size:14.5px;margin-top:9px;line-height:1.5}
+.arg--for{border-left:4px solid var(--pos)}
+.arg--red{border-left:4px solid var(--neg);background:#FCF3F1}
+.arg--amber{border-left:4px solid var(--warn);background:#FBF7EF}
+.arg--minor{border-left:4px solid #C3BBAD}
+.fell{color:var(--muted);font-size:14.5px;margin-top:20px}
 
-/* stats */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
-.stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 16px}
-.stat-label{font-size:12px;color:var(--muted);font-weight:600;line-height:1.3;min-height:30px}
-.stat-val{font-family:var(--mono);font-size:clamp(18px,2.4vw,23px);font-weight:600;color:var(--ink);margin:6px 0 2px;letter-spacing:-.01em}
-.stat-sub{font-size:11.5px;color:var(--muted)}
-.facts{margin:0 0 26px;padding:0;list-style:none}
-.facts li{position:relative;padding:7px 0 7px 22px;border-top:1px solid var(--line-2);color:var(--body);font-size:14.5px;line-height:1.5}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:30px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 18px}
+.stat-label{font-size:13px;color:var(--muted);font-weight:600;line-height:1.35;min-height:34px}
+.stat-val{font-family:var(--mono);font-size:clamp(20px,2.5vw,25px);font-weight:700;color:var(--ink);margin:8px 0 3px;letter-spacing:-.01em}
+.stat-sub{font-size:12.5px;color:var(--muted)}
+.facts{margin:0 0 28px;padding:0;list-style:none}
+.facts li{position:relative;padding:9px 0 9px 24px;border-top:1px solid var(--line-2);color:var(--body);font-size:15.5px;line-height:1.5}
 .facts li:first-child{border-top:0}
-.facts li::before{content:"";position:absolute;left:2px;top:15px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.facts li::before{content:"";position:absolute;left:2px;top:17px;width:7px;height:7px;border-radius:50%;background:var(--accent)}
 
-/* charts */
-.charts{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.chartbox{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 16px 14px;min-width:0;margin-bottom:18px}
-.chartbox--wide{grid-column:1/-1}
-.chartbox h3{font-family:var(--sans);font-size:13.5px;color:var(--ink);font-weight:600;margin:0 0 12px}
-.chart{width:100%;height:248px}
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.chartbox{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 18px 16px;min-width:0;margin-bottom:20px}
+.chartbox--wide{margin-top:0}
+.chartbox h3{font-size:15.5px;color:var(--ink);font-weight:700;margin:0 0 4px}
+.chart-cap{font-size:13.5px;color:var(--muted);margin:0 0 14px;line-height:1.45}
+.chart{width:100%;height:300px}
+.chart--short{height:240px}
 
-/* tables */
-.kv{width:100%;border-collapse:collapse;font-size:14.5px}
-.kv th,.kv td{text-align:left;padding:12px 4px;border-bottom:1px solid var(--line-2);vertical-align:top}
+.kv{width:100%;border-collapse:collapse;font-size:15.5px}
+.kv th,.kv td{text-align:left;padding:13px 4px;border-bottom:1px solid var(--line-2);vertical-align:top}
 .kv tbody tr:last-child th,.kv tbody tr:last-child td{border-bottom:0}
 .kv th{color:var(--muted);font-weight:500;width:42%}
-.kv td{color:var(--ink);font-weight:500}
-.sub{font-family:var(--sans);font-size:14px;font-weight:600;color:var(--ink);margin:22px 0 10px}
+.kv td{color:var(--ink);font-weight:600}
+.sub{font-size:15px;font-weight:700;color:var(--ink);margin:24px 0 12px}
 .sub--red{color:var(--neg)}.sub--amber{color:var(--warn)}
 
-/* risks */
-.risk-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px}
-.chips{display:flex;flex-direction:column;gap:9px}
-.chip{padding:10px 13px;border-radius:10px;font-size:14px;line-height:1.45;border-left:3px solid}
-.chip--red{background:#FCF2F0;border-color:var(--neg);color:#7A271C}
-.chip--amber{background:#FBF6EC;border-color:var(--warn);color:#6E4D11}
+.risk-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.chips{display:flex;flex-direction:column;gap:10px}
+.chip{padding:12px 15px;border-radius:12px;font-size:15px;line-height:1.45;border-left:4px solid}
+.chip--red{background:#FCF3F1;border-color:var(--neg);color:#7C271D}
+.chip--amber{background:#FBF7EF;border-color:var(--warn);color:#6B4D12}
 .checklist{margin:0;padding:0;list-style:none}
-.checklist li{position:relative;padding:8px 0 8px 26px;border-top:1px solid var(--line-2);font-size:14.5px;line-height:1.5}
+.checklist li{position:relative;padding:10px 0 10px 28px;border-top:1px solid var(--line-2);font-size:15.5px;line-height:1.5}
 .checklist li:first-child{border-top:0}
-.checklist li::before{content:"□";position:absolute;left:2px;top:7px;color:var(--accent);font-size:15px}
-.nextstep{margin-top:24px;background:var(--accent-soft);border-radius:14px;padding:18px 20px}
-.ns-label{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:700}
-.nextstep p{margin:6px 0 0;color:var(--ink);font-size:15.5px;font-weight:500}
-.note{font-size:13px;color:var(--muted);margin:14px 0 0;line-height:1.5}
+.checklist li::before{content:"□";position:absolute;left:2px;top:9px;color:var(--accent);font-size:16px}
+.nextstep{margin-top:26px;background:var(--accent-soft);border-radius:16px;padding:22px 24px}
+.ns-label{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:800}
+.nextstep p{margin:8px 0 0;color:var(--ink);font-size:16.5px;font-weight:600}
+.ns-steps{margin:12px 0 0;padding:0;list-style:none;counter-reset:ns}
+.ns-steps li{counter-increment:ns;position:relative;padding:9px 0 9px 40px;color:var(--ink);font-size:16px;font-weight:500;line-height:1.5;border-top:1px solid rgba(0,0,0,.06)}
+.ns-steps li:first-child{border-top:0}
+.ns-steps li::before{content:counter(ns);position:absolute;left:0;top:8px;width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;font-family:var(--mono)}
+.note{font-size:14px;color:var(--muted);margin:16px 0 0;line-height:1.55}
 
-.mermaid{display:flex;justify-content:center;overflow-x:auto;margin-top:6px}
+.mermaid{display:flex;justify-content:center;overflow-x:auto;margin-top:8px}
 .mermaid svg{max-width:100%;height:auto}
+footer{border-top:1px solid var(--line);padding:44px 0 72px;color:var(--muted);font-size:14px;line-height:1.65}
+.disc{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:16px}
+.sig{font-size:13.5px}
 
-footer{border-top:1px solid var(--line);padding:40px 0 64px;color:var(--muted);font-size:13px;line-height:1.6}
-.disc{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:14px}
-.sig{font-size:12.5px}
-
-/* reveal */
-.panel,.hero>*{opacity:0;transform:translateY(14px);animation:rise .7s cubic-bezier(.2,.7,.2,1) forwards}
+.panel,.hero>*{opacity:0;transform:translateY(16px);animation:rise .7s cubic-bezier(.2,.7,.2,1) forwards}
 .hero .eyebrow{animation-delay:.02s}.hero h1{animation-delay:.08s}.hero .verdict{animation-delay:.16s}
 .hero .takeaway{animation-delay:.24s}.hero .hero-meta{animation-delay:.3s}
 @keyframes rise{to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){.panel,.hero>*{animation:none;opacity:1;transform:none}}
 
 @media(max-width:680px){
-  .duel,.charts,.risk-grid,.stats{grid-template-columns:1fr}
+  body{font-size:16px}
+  .duel,.charts,.risk-grid{grid-template-columns:1fr}
   .stats{grid-template-columns:1fr 1fr}
-  .p-head{gap:12px}.kv th{width:48%}
+  .p-head{gap:13px}.kv th{width:50%}
 }
 
 </style>
 </head>
 <body>
 <header class="bar"><div class="wrap">
-  <span class="bar-title">Заём 1,2 млн под 30% под залог помещения</span>
-  <span class="pill"><span class="dot"></span>Высокий риск</span>
+  <span class="brand">Инвест-разбор</span>
+  <span class="pill" id="vpill"><span class="dot"></span>Высокий риск</span>
 </div></header>
 
 <main class="wrap">
   <div class="hero">
-    <div class="eyebrow">Инвест-разбор · Сделка с контрагентом</div>
-    <h1>Заём 1,2 млн под 30% под залог помещения</h1>
+    <div class="eyebrow">Сделка с контрагентом</div>
+    <h1>Займ 1 200 000 рублей на 10 месяцев под 30 процентов годовых знакомому предпринимателю под залог коммерческого помещения 45 квадратных метров</h1>
     <div class="verdict">
       <div class="verdict-dot"></div>
       <div><div class="verdict-t">Высокий риск</div><div class="verdict-s">По правилу — не входить, пока риски не сняты</div></div>
     </div>
-    <p class="takeaway">Займ 1 200 000 рублей под 30 процентов годовых на 10 месяцев под залог коммерческого помещения 45 квадратных метров с заявленной оценкой около 2 миллионов рублей.</p>
     <div class="hero-meta">
-      <span>Дата разбора: <b>2026-06-04</b></span>
+      <span>Дата разбора: <b>2026-06-05</b></span>
       <span>Класс: <b>заём под залог коммерческой недвижимости</b></span>
       <span>Устояло: <b>за 3 · против 6</b></span>
     </div>
     
   </div>
 
-  <section class="panel"><div class="p-head"><span class="p-num">01</span><div><h2>Главное</h2></div></div><p class="lead">Займ 1 200 000 рублей под 30 процентов годовых на 10 месяцев под залог коммерческого помещения 45 квадратных метров с заявленной оценкой около 2 миллионов рублей. Контрагент — индивидуальный предприниматель, ИНН не указан, источник возврата — арендный поток помещения, верификация которого отсутствует. Четвёртый повтор той же сделки с дельтой ноль: новая информация не поступила, устойчивые пробелы не закрыты, а полное отсутствие проверки контрагента и предмета залога превращает выдачу в кредит вслепую.</p></section><section class="panel"><div class="p-head"><span class="p-num">02</span><div><div class="p-eyebrow">Состязательный разбор</div><h2>Итог спора</h2></div></div><p class="p-intro">Два независимых аналитика на разных моделях спорили три раунда: один строил доводы «за», другой искал, почему не входить. Ниже — только то, что устояло под атакой <b>с доказательством</b>.</p><div class="duel"><div class="duel-col"><div class="duel-h duel-h--for">Что устояло ЗА</div><div class="arg arg--for"><div class="arg-claim">Доходность заметно выше безрискового якоря: сделка имеет смысл только как премия за риск ИП и залога, а не как безопасная альтернатива депозиту</div><div class="arg-ev">Ставка займа 30% годовых против ключевой ставки ЦБ 14,5%, премия +15,5 п.п.; за 10 месяцев проценты к получению 171 105 ₽, всего возврат 1 371 105 ₽.</div></div><div class="arg arg--for"><div class="arg-claim">Стресс-сценарий не выглядит фатальным по остатку тела, если залог реально существует и продаётся по ликвид-цене</div><div class="arg-ev">При дефолте на 5-м месяце инвестор уже получает 5 платежей по 137 111 ₽, всего 685 555 ₽; остаток тела около 637 000 ₽, а ликвидационная стоимость залога 1 400 000 ₽.</div></div><div class="arg arg--for"><div class="arg-claim">Юридическую силу залога можно сделать проверяемым условием до выдачи: сделка работает только после нотариуса и регистрации ипотеки</div><div class="arg-ev">В досье указано: ипотека регулируется ФЗ-102 и ГК РФ; без регистрации в ЕГРН залог не возникает; нотариальное удостоверение договора ипотеки обязательно для коммерческой недвижимости.</div></div></div><div class="duel-col"><div class="duel-h duel-h--against">Что устояло ПРОТИВ</div><div class="arg arg--red"><div class="arg-claim">Полное отсутствие проверки контрагента и предмета залога. Без этого выдача — это кредит вслепую, а не обеспеченный займ</div><div class="arg-ev">ИНН предпринимателя не указан, поэтому невозможны ни проверка по реестрам, ни по судам, ни по банкротству, ни по приставам. Свежая выписка из реестра недвижимости не заказана, независимая оценка не проведена. Это уже четвёртый повтор без новой информации — пробелы не закрываются. Все ключевые параметры остаются словами автора</div></div><div class="arg arg--red"><div class="arg-claim">Заявленная оценка залога в два миллиона подозрительно низкая для торгового помещения сорок пять метров в Москве — это либо проблемный объект, либо ошибка, либо занижение базы</div><div class="arg-ev">Типичный минимум для такого помещения в Москве — от четырёх миллионов и выше. Расхождение вдвое требует объяснения: периферия, подвал, аварийное состояние. Покрытие залогом в один и семнадцать сотых посчитано на этой непроверенной цифре; реальная стоимость может оказаться ещё ниже заявленной — тогда запас исчезает</div></div><div class="arg arg--red"><div class="arg-claim">Залога юридически ещё не существует. Без нотариального удостоверения и регистрации в реестре недвижимости ипотека не возникает вовсе</div><div class="arg-ev">По закону об ипотеке для коммерческой недвижимости нотариальное удостоверение обязательно, а без госрегистрации залог не возникает. В сделке эти шаги не выполнены. До регистрации инвестор фактически даёт необеспеченный заём, и приоритет перед другими кредиторами не возникает</div></div><div class="arg arg--amber"><div class="arg-claim">Запас покрытия в один и семнадцать сотых — бумажный. После времени и расходов на взыскание он может полностью растаять</div><div class="arg-ev">Публичные торги идут от трёх до двенадцати месяцев, при оспаривании до полутора-двух лет, и всё это время инвестор не получает ни платежей, ни процентов — теряет около двухсот семидесяти четырёх тысяч ожидаемых поступлений. Судебные и исполнительные расходы — пятьдесят-двести тысяч. Плюс возможная просадка ниже ликвидационной цены. После всех вычетов остаток может оказаться не выше тела долга</div></div><div class="arg arg--amber"><div class="arg-claim">Источник возврата — арендный поток — не подтверждён ни одним документом. Это двойной риск: сначала может отвалиться арендатор, потом заёмщик</div><div class="arg-ev">Договор аренды не показан: ни срок, ни ставка, ни условия расторжения, ни обеспечительный платёж. История платежей арендатора за полгода-год не предъявлена. Месячный платёж сто тридцать семь тысяч требует стабильной аренды, но проверить её нечем — это нарратив, а не актив</div></div><div class="arg arg--amber"><div class="arg-claim">Ставка тридцать процентов выше банковского коридора — это сигнал, что заёмщику отказали в банке. Причина отказа и есть главный скрытый риск</div><div class="arg-ev">Банки под залог коммерческой недвижимости дают восемнадцать-двадцать четыре процента, премия к ставке ЦБ здесь плюс пятнадцать с половиной пунктов. Заёмщик платит дороже банка — значит либо не прошёл андеррайтинг, либо есть проблема с залогом или историей. Причина не названа, а без неё ставка тридцать процентов — не премия за риск, а признак безвыходности заёмщика</div></div></div></div><p class="fell">Не подтвердилось под атакой: доводов «за» — 3, рисков «против» — 0. Это часть честного разбора.</p></section><section class="panel"><div class="p-head"><span class="p-num">03</span><div><div class="p-eyebrow">Финансовая модель</div><h2>Цифры</h2></div></div><p class="p-intro">Все числа ниже посчитаны автоматически по формулам (не выдуманы моделью). Сценарии — в годовых процентах.</p><div class="stats"><div class="stat"><div class="stat-label">Ставка по займу</div><div class="stat-val">30.0%</div><div class="stat-sub">годовых</div></div><div class="stat"><div class="stat-label">Премия к ставке ЦБ</div><div class="stat-val">+15.5 п.п.</div><div class="stat-sub">сверх безриска</div></div><div class="stat"><div class="stat-label">Покрытие залогом</div><div class="stat-val">×1.17</div><div class="stat-sub">при дисконте</div></div><div class="stat"><div class="stat-label">Проценты за срок</div><div class="stat-val">171 105 ₽</div><div class="stat-sub">к получению</div></div></div><ul class="facts"><li>Тело займа 1 200 000 ₽ под 30.0% годовых на 10 мес.</li><li>Проценты к получению за срок: 171 105 ₽; всего возврат: 1 371 105 ₽.</li><li>LTV 60%; залог при дисконте 30% покрывает тело ×1.17 (с запасом).</li><li>Премия к депозиту ЦБ: +15.5 п.п. годовых (30.0% vs 14.5%).</li></ul><div class="charts"><div class="chartbox"><h3>Как гасится долг</h3><div id="cLine" class="chart"></div></div><div class="chartbox"><h3>Доходность: базовый · депозит · стресс</h3><div id="cScen" class="chart"></div></div></div><div class="chartbox chartbox--wide"><h3>Сравнение с альтернативой</h3><div id="cCmp" class="chart"></div></div><p class="note">Ставка ЦБ РФ — <b>14.5%</b> (на 2026-06-05) — безрисковый ориентир.</p><p class="note"><b>Допущения модели:</b> Стресс-сценарий: дефолт на месяце 5, взыскание залога по ликвид-цене (дисконт 30%)..</p></section><section class="panel"><div class="p-head"><span class="p-num">04</span><div><div class="p-eyebrow">Сделка с контрагентом</div><h2>Параметры сделки</h2></div></div><table class="kv"><tbody><tr><th>Сумма входа</th><td>1 200 000 рублей</td></tr><tr><th>Срок</th><td>10 месяцев</td></tr><tr><th>Заявленная доходность</th><td>30,0% годовых</td></tr><tr><th>Источник выплат</th><td>аннуитетный платёж индивидуального предпринимателя из арендного потока коммерческого помещения, верификация источника отсутствует</td></tr><tr><th>Обеспечение</th><td>залог коммерческого помещения 45 квадратных метров с заявленной рыночной оценкой около 2 миллионов рублей, заявленная оценка противоречит рыночному минимуму 4 и более миллионов</td></tr><tr><th>Ликвидность выхода</th><td>низкая: при дефолте возврат через торги по ФЗ-229 занимает 3–12 месяцев, при оспаривании до 18–24 месяцев; залог при дисконте 30 процентов покрывает тело с коэффициентом 1,17</td></tr></tbody></table><h3 class="sub">Контрагент</h3><table class="kv"><tbody><tr><th>тип</th><td>индивидуальный предприниматель</td></tr><tr><th>ИНН</th><td>не указан</td></tr><tr><th>Дата</th><td>не проверено</td></tr><tr><th>ЕГРИП</th><td>не проверено</td></tr><tr><th>ФССП, арбитраж, банкротство, реестр залогов</th><td>не проверено</td></tr></tbody></table></section><section class="panel"><div class="p-head"><span class="p-num">05</span><div><div class="p-eyebrow">Что реально угрожает</div><h2>Риски, устоявшие под атакой</h2></div></div><div class="risk-grid"><div><h3 class="sub sub--red">Красные флаги</h3><div class="chips"><span class="chip chip--red">Полное отсутствие проверки контрагента и предмета залога. Без этого выдача — это кредит вслепую, а не обеспеченный займ</span><span class="chip chip--red">Заявленная оценка залога в два миллиона подозрительно низкая для торгового помещения сорок пять метров в Москве — это либо проблемный объект, либо ошибка, либо занижение базы</span><span class="chip chip--red">Залога юридически ещё не существует. Без нотариального удостоверения и регистрации в реестре недвижимости ипотека не возникает вовсе</span></div></div><div><h3 class="sub sub--amber">Жёлтые флаги</h3><div class="chips"><span class="chip chip--amber">Запас покрытия в один и семнадцать сотых — бумажный. После времени и расходов на взыскание он может полностью растаять</span><span class="chip chip--amber">Источник возврата — арендный поток — не подтверждён ни одним документом. Это двойной риск: сначала может отвалиться арендатор, потом заёмщик</span><span class="chip chip--amber">Ставка тридцать процентов выше банковского коридора — это сигнал, что заёмщику отказали в банке. Причина отказа и есть главный скрытый риск</span></div></div></div><h3 class="sub">Риск и доходность</h3><pre class="mermaid">quadrantChart
-    x-axis Низкий риск --&gt; Высокий риск
-    y-axis Низкая доходность --&gt; Высокая доходность
-    quadrant-1 Спекулятивно
-    quadrant-2 Оптимально
-    quadrant-3 Консервативно
-    quadrant-4 Невыгодно
-    &quot;Сделка&quot;: [0.72, 0.75]
-    &quot;Депозит&quot;: [0.18, 0.36]</pre></section><section class="panel"><div class="p-head"><span class="p-num">06</span><div><div class="p-eyebrow">Дальнейшие действия</div><h2>Что проверить дальше</h2></div></div><div class="risk-grid"><div><h3 class="sub">Открытые вопросы</h3><ul class="checklist"><li>Идентификационный номер контрагента и базовая проверка по базам долгов, судов и банкротств</li><li>Свежая выписка из государственного реестра недвижимости и документ от независимого оценщика</li><li>Копия договора аренды с историей реальных платежей арендатора за последние полгода</li><li>Подтверждение нотариального удостоверения и фиксации залога в государственном реестре</li><li>Настоящая причина, по которой заемщику недоступен обычный банковский кредит</li></ul></div><div><h3 class="sub">Какие документы запросить</h3><ul class="checklist"><li>Свежая выписка из ЕГРН на помещение не старше одного месяца с историей переходов прав и обременений</li><li>Независимая оценка рыночной стоимости от оценщика СРО с разбором расхождения заявленных 2 миллионов с рыночным диапазоном 4 и более миллионов</li><li>Договор аренды с сетевым магазином, акт приёма-передачи, все дополнительные соглашения и платёжные документы за последние 6–12 месяцев</li><li>Выписка из ЕГРИП по ИНН индивидуального предпринимателя, справки об отсутствии исполнительных производств, проверка по картотеке арбитражных дел и федресурсу банкротств</li><li>Заключение юриста по правовому режиму залога и заключение налогового консультанта по налогообложению процентов по займу</li></ul></div></div><div class="nextstep"><span class="ns-label">Следующий шаг</span><p>Запросить у контрагента ИНН индивидуального предпринимателя, адрес и кадастровый номер помещения, копию договора аренды с платёжными документами и актом приёма-передачи, документ-основание права собственности, паспорт собственника для сверки с данными ЕГРН. Заказать выписку из ЕГРН не старше одного месяца и независимую оценку СРО. Провести ручную проверку по открытым реестрам: ЕГРИП на сайте ФНС, ФССП, картотека арбитражных дел, федресурс банкротств, реестр уведомлений о залоге движимого имущества. Передать юридические и налоговые вопросы профильным специалистам и вернуться к разбору с заполненной карточкой и заключениями.</p></div></section>
+  <section class="panel"><div class="p-head"><span class="p-num">01</span><div class="p-headtxt"><div class="p-eyebrow">Коротко о решении</div><h2>Главное</h2></div></div><p class="lead">Займ 1 200 000 рублей под 30 процентов годовых на 10 месяцев под залог коммерческого помещения 45 квадратных метров с заявленной оценкой около 2 миллионов рублей. Контрагент — индивидуальный предприниматель, ИНН не указан, источник возврата — арендный поток помещения, верификация которого отсутствует. Четвёртый повтор той же сделки с дельтой ноль: новая информация не поступила, устойчивые пробелы не закрыты, а полное отсутствие проверки контрагента и предмета залога превращает выдачу в кредит вслепую.</p></section><section class="panel"><div class="p-head"><span class="p-num">02</span><div class="p-headtxt"><div class="p-eyebrow">Состязательный разбор</div><h2>Итог спора</h2></div></div><p class="p-intro">Два независимых аналитика на разных моделях спорили три раунда. В вердикт идёт только то, что пережило атаку оппонента с доказательством.</p><div class="duel"><div class="duel-col"><div class="duel-h duel-h--for">Аргументы ЗА</div><div class="arg arg--for"><div class="arg-claim">Доходность заметно выше безрискового якоря: сделка имеет смысл только как премия за риск ИП и залога, а не как безопасная альтернатива депозиту</div><div class="arg-ev">Ставка займа 30% годовых против ключевой ставки ЦБ 14,5%, премия +15,5 п.п.; за 10 месяцев проценты к получению 171 105 ₽, всего возврат 1 371 105 ₽.</div></div><div class="arg arg--for"><div class="arg-claim">Стресс-сценарий не выглядит фатальным по остатку тела, если залог реально существует и продаётся по ликвид-цене</div><div class="arg-ev">При дефолте на 5-м месяце инвестор уже получает 5 платежей по 137 111 ₽, всего 685 555 ₽; остаток тела около 637 000 ₽, а ликвидационная стоимость залога 1 400 000 ₽.</div></div><div class="arg arg--for"><div class="arg-claim">Юридическую силу залога можно сделать проверяемым условием до выдачи: сделка работает только после нотариуса и регистрации ипотеки</div><div class="arg-ev">В досье указано: ипотека регулируется ФЗ-102 и ГК РФ; без регистрации в ЕГРН залог не возникает; нотариальное удостоверение договора ипотеки обязательно для коммерческой недвижимости.</div></div></div><div class="duel-col"><div class="duel-h duel-h--against">Аргументы ПРОТИВ</div><div class="arg arg--red"><div class="arg-claim">Полное отсутствие проверки контрагента и предмета залога. Без этого выдача — это кредит вслепую, а не обеспеченный займ</div><div class="arg-ev">ИНН предпринимателя не указан, поэтому невозможны ни проверка по реестрам, ни по судам, ни по банкротству, ни по приставам. Свежая выписка из реестра недвижимости не заказана, независимая оценка не проведена. Это уже четвёртый повтор без новой информации — пробелы не закрываются. Все ключевые параметры остаются словами автора</div></div><div class="arg arg--red"><div class="arg-claim">Заявленная оценка залога в два миллиона подозрительно низкая для торгового помещения сорок пять метров в Москве — это либо проблемный объект, либо ошибка, либо занижение базы</div><div class="arg-ev">Типичный минимум для такого помещения в Москве — от четырёх миллионов и выше. Расхождение вдвое требует объяснения: периферия, подвал, аварийное состояние. Покрытие залогом в один и семнадцать сотых посчитано на этой непроверенной цифре; реальная стоимость может оказаться ещё ниже заявленной — тогда запас исчезает</div></div><div class="arg arg--red"><div class="arg-claim">Залога юридически ещё не существует. Без нотариального удостоверения и регистрации в реестре недвижимости ипотека не возникает вовсе</div><div class="arg-ev">По закону об ипотеке для коммерческой недвижимости нотариальное удостоверение обязательно, а без госрегистрации залог не возникает. В сделке эти шаги не выполнены. До регистрации инвестор фактически даёт необеспеченный заём, и приоритет перед другими кредиторами не возникает</div></div><div class="arg arg--amber"><div class="arg-claim">Запас покрытия в один и семнадцать сотых — бумажный. После времени и расходов на взыскание он может полностью растаять</div><div class="arg-ev">Публичные торги идут от трёх до двенадцати месяцев, при оспаривании до полутора-двух лет, и всё это время инвестор не получает ни платежей, ни процентов — теряет около двухсот семидесяти четырёх тысяч ожидаемых поступлений. Судебные и исполнительные расходы — пятьдесят-двести тысяч. Плюс возможная просадка ниже ликвидационной цены. После всех вычетов остаток может оказаться не выше тела долга</div></div><div class="arg arg--amber"><div class="arg-claim">Источник возврата — арендный поток — не подтверждён ни одним документом. Это двойной риск: сначала может отвалиться арендатор, потом заёмщик</div><div class="arg-ev">Договор аренды не показан: ни срок, ни ставка, ни условия расторжения, ни обеспечительный платёж. История платежей арендатора за полгода-год не предъявлена. Месячный платёж сто тридцать семь тысяч требует стабильной аренды, но проверить её нечем — это нарратив, а не актив</div></div><div class="arg arg--amber"><div class="arg-claim">Ставка тридцать процентов выше банковского коридора — это сигнал, что заёмщику отказали в банке. Причина отказа и есть главный скрытый риск</div><div class="arg-ev">Банки под залог коммерческой недвижимости дают восемнадцать-двадцать четыре процента, премия к ставке ЦБ здесь плюс пятнадцать с половиной пунктов. Заёмщик платит дороже банка — значит либо не прошёл андеррайтинг, либо есть проблема с залогом или историей. Причина не названа, а без неё ставка тридцать процентов — не премия за риск, а признак безвыходности заёмщика</div></div></div></div><p class="fell">Отсеялось как голословное: доводов — 3, рисков — 0.</p></section><section class="panel"><div class="p-head"><span class="p-num">03</span><div class="p-headtxt"><div class="p-eyebrow">Финансовая модель</div><h2>Цифры</h2></div></div><p class="p-intro">Все числа посчитаны автоматически по формулам, не выдуманы. Сценарии — в процентах годовых.</p><div class="stats"><div class="stat"><div class="stat-label">Ставка по займу</div><div class="stat-val">30.0%</div><div class="stat-sub">годовых</div></div><div class="stat"><div class="stat-label">Премия к ставке ЦБ</div><div class="stat-val">+15.5 п.п.</div><div class="stat-sub">сверх безриска</div></div><div class="stat"><div class="stat-label">Покрытие залогом</div><div class="stat-val">×1.17</div><div class="stat-sub">при дисконте</div></div><div class="stat"><div class="stat-label">Проценты за срок</div><div class="stat-val">171 105 ₽</div><div class="stat-sub">к получению</div></div></div><ul class="facts"><li>Тело займа 1 200 000 ₽ под 30.0% годовых на 10 мес.</li><li>Проценты к получению за срок: 171 105 ₽; всего возврат: 1 371 105 ₽.</li><li>LTV 60%; залог при дисконте 30% покрывает тело ×1.17 (с запасом).</li><li>Премия к депозиту ЦБ: +15.5 п.п. годовых (30.0% vs 14.5%).</li></ul><div class="charts"><div class="chartbox"><h3>Как гасится долг</h3><p class="chart-cap">Линии: остаток тела долга падает, накопленные проценты растут. Ось X — месяц, ось Y — сумма.</p><div id="cLine" class="chart"></div></div><div class="chartbox"><h3>Доходность: базовый · депозит · стресс</h3><p class="chart-cap">Ожидаемая доходность в процентах годовых по сценариям. Это допущение модели, а не прогноз.</p><div id="cScen" class="chart"></div></div></div><div class="charts"><div class="chartbox"><h3>Из чего складывается возврат</h3><p class="chart-cap">Из чего складывается полный возврат: тело и проценты.</p><div id="cDonut" class="chart"></div></div></div><div class="chartbox chartbox--wide"><h3>Сравнение с альтернативой</h3><p class="chart-cap">Стратегия против безрискового банковского вклада, в процентах годовых.</p><div id="cCmp" class="chart chart--short"></div></div><p class="note">Ставка <a href="https://www.cbr.ru/hd_base/keyrate/">ЦБ РФ</a> — <b>14.5%</b> (на 2026-06-05) — безрисковый ориентир для сравнения.</p><p class="note"><b>Допущения модели:</b> Стресс-сценарий: дефолт на месяце 5, взыскание залога по ликвид-цене (дисконт 30%)..</p></section><section class="panel"><div class="p-head"><span class="p-num">04</span><div class="p-headtxt"><div class="p-eyebrow">Сделка с контрагентом</div><h2>Параметры сделки</h2></div></div><table class="kv"><tbody><tr><th>Сумма входа</th><td>1 200 000 рублей</td></tr><tr><th>Срок</th><td>10 месяцев</td></tr><tr><th>Заявленная доходность</th><td>30,0% годовых</td></tr><tr><th>Источник выплат</th><td>аннуитетный платёж индивидуального предпринимателя из арендного потока коммерческого помещения, верификация источника отсутствует</td></tr><tr><th>Обеспечение</th><td>залог коммерческого помещения 45 квадратных метров с заявленной рыночной оценкой около 2 миллионов рублей, заявленная оценка противоречит рыночному минимуму 4 и более миллионов</td></tr><tr><th>Ликвидность выхода</th><td>низкая: при дефолте возврат через торги по ФЗ-229 занимает 3–12 месяцев, при оспаривании до 18–24 месяцев; залог при дисконте 30 процентов покрывает тело с коэффициентом 1,17</td></tr></tbody></table><h3 class="sub">Контрагент</h3><table class="kv"><tbody><tr><th>тип</th><td>индивидуальный предприниматель</td></tr><tr><th>ИНН</th><td>не указан</td></tr><tr><th>Дата</th><td>не проверено</td></tr><tr><th>ЕГРИП</th><td>не проверено</td></tr><tr><th>ФССП, арбитраж, банкротство, реестр залогов</th><td>не проверено</td></tr></tbody></table></section><section class="panel"><div class="p-head"><span class="p-num">05</span><div class="p-headtxt"><div class="p-eyebrow">Что реально угрожает</div><h2>Риски, устоявшие под атакой</h2></div></div><div class="risk-grid"><div><h3 class="sub sub--red">Красные флаги</h3><div class="chips"><span class="chip chip--red">Полное отсутствие проверки контрагента и предмета залога. Без этого выдача — это кредит вслепую, а не обеспеченный займ</span><span class="chip chip--red">Заявленная оценка залога в два миллиона подозрительно низкая для торгового помещения сорок пять метров в Москве — это либо проблемный объект, либо ошибка, либо занижение базы</span><span class="chip chip--red">Залога юридически ещё не существует. Без нотариального удостоверения и регистрации в реестре недвижимости ипотека не возникает вовсе</span></div></div><div><h3 class="sub sub--amber">Жёлтые флаги</h3><div class="chips"><span class="chip chip--amber">Запас покрытия в один и семнадцать сотых — бумажный. После времени и расходов на взыскание он может полностью растаять</span><span class="chip chip--amber">Источник возврата — арендный поток — не подтверждён ни одним документом. Это двойной риск: сначала может отвалиться арендатор, потом заёмщик</span><span class="chip chip--amber">Ставка тридцать процентов выше банковского коридора — это сигнал, что заёмщику отказали в банке. Причина отказа и есть главный скрытый риск</span></div></div></div><h3 class="sub">Карта «риск — доходность»</h3><p class="chart-cap">Чем правее точка — тем выше риск; чем выше — тем выше ожидаемая доходность. Идею сравниваем с банковским вкладом.</p><div id="cMatrix" class="chart chart--short"></div></section><section class="panel"><div class="p-head"><span class="p-num">06</span><div class="p-headtxt"><div class="p-eyebrow">Дальнейшие действия</div><h2>Что проверить дальше</h2></div></div><div class="risk-grid"><div><h3 class="sub">Открытые вопросы</h3><ul class="checklist"><li>Идентификационный номер контрагента и базовая проверка по базам долгов, судов и банкротств</li><li>Свежая выписка из государственного реестра недвижимости и документ от независимого оценщика</li><li>Копия договора аренды с историей реальных платежей арендатора за последние полгода</li><li>Подтверждение нотариального удостоверения и фиксации залога в государственном реестре</li><li>Настоящая причина, по которой заемщику недоступен обычный банковский кредит</li></ul></div><div><h3 class="sub">Какие документы запросить</h3><ul class="checklist"><li>Свежая выписка из ЕГРН на помещение не старше одного месяца с историей переходов прав и обременений</li><li>Независимая оценка рыночной стоимости от оценщика СРО с разбором расхождения заявленных 2 миллионов с рыночным диапазоном 4 и более миллионов</li><li>Договор аренды с сетевым магазином, акт приёма-передачи, все дополнительные соглашения и платёжные документы за последние 6–12 месяцев</li><li>Выписка из ЕГРИП по ИНН индивидуального предпринимателя, справки об отсутствии исполнительных производств, проверка по картотеке арбитражных дел и федресурсу банкротств</li><li>Заключение юриста по правовому режиму залога и заключение налогового консультанта по налогообложению процентов по займу</li></ul></div></div><div class="nextstep"><span class="ns-label">Следующие шаги</span><ol class="ns-steps"><li>Запросить у контрагента ИНН индивидуального предпринимателя, адрес и кадастровый номер помещения, копию договора аренды с платёжными документами и актом приёма-передачи, документ-основание права собственности, паспорт собственника для сверки с данными ЕГРН</li><li>Заказать выписку из ЕГРН не старше одного месяца и независимую оценку СРО</li><li>Провести ручную проверку по открытым реестрам: ЕГРИП на сайте ФНС, ФССП, картотека арбитражных дел, федресурс банкротств, реестр уведомлений о залоге движимого имущества</li><li>Передать юридические и налоговые вопросы профильным специалистам и вернуться к разбору с заполненной карточкой и заключениями</li></ol></div></section>
 
   <footer>
     <div class="disc">Это вспомогательный аналитический инструмент. Он не даёт инвестиционных, юридических или налоговых рекомендаций, не обещает доходность и не принимает решение за вас. Все расчёты — модель, а не прогноз. Спорное — на проверку специалисту. Итоговое решение принимаете вы.</div>
-    <div class="sig">Собрано состязательным ИИ-разбором: нейтральные факты и расчёты → спор двух аналитиков на разных моделях (3 раунда) → независимый арбитр выносит вердикт по правилу. Без баллов — только то, что устояло под атакой с доказательством.</div>
+    <div class="sig">Состязательный ИИ-разбор: нейтральные факты и расчёты → спор двух аналитиков на разных моделях (3 раунда) → независимый арбитр выносит вердикт по правилу. Без баллов — только то, что устояло под атакой с доказательством.</div>
   </footer>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
 <script>
 (function(){
+  var CURSYM='₽';
+  function abbr(v){if(v==null)return '—';var a=Math.abs(v);
+    if(a>=1e6)return (v/1e6).toLocaleString('ru-RU',{maximumFractionDigits:1})+' млн';
+    if(a>=1e3)return Math.round(v/1e3).toLocaleString('ru-RU')+' тыс';
+    return v.toLocaleString('ru-RU');}
   function fmt(o){
     if(o&&o.tooltip&&o.tooltip.valueFormatter==='PCT'){o.tooltip.valueFormatter=function(v){return (v==null?'—':v+'%');};}
-    if(o&&o.tooltip&&o.tooltip.valueFormatter==='MONEY'){o.tooltip.valueFormatter=function(v){return (v==null?'—':Number(v).toLocaleString('ru-RU')+' ₽');};}
+    if(o&&o.tooltip&&o.tooltip.valueFormatter==='MONEY'){o.tooltip.valueFormatter=function(v){return (v==null?'—':Number(v).toLocaleString('ru-RU')+' '+CURSYM);};}
+    if(o&&o.yAxis&&o.yAxis.axisLabel&&o.yAxis.axisLabel.formatter==='MONEYK'){o.yAxis.axisLabel.formatter=function(v){return abbr(v)+' '+CURSYM;};}
     return o;
   }
   function mk(id,opt){var el=document.getElementById(id);if(!el||!window.echarts)return;
     var c=echarts.init(el,null,{renderer:'svg'});c.setOption(fmt(opt));
     window.addEventListener('resize',function(){c.resize();});}
-  mk("cLine", {"grid": {"left": 14, "right": 18, "top": 36, "bottom": 34, "containLabel": true}, "tooltip": {"trigger": "axis", "valueFormatter": "MONEY"}, "legend": {"top": 2, "textStyle": {"color": "#908A80", "fontSize": 11, "fontFamily": "Onest"}, "icon": "roundRect", "itemHeight": 8}, "xAxis": {"type": "category", "data": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], "name": "Месяц", "nameLocation": "middle", "nameGap": 26, "nameTextStyle": {"color": "#7C766C", "fontSize": 11, "fontWeight": 600}, "axisLine": {"lineStyle": {"color": "#E8E2D8"}}, "axisTick": {"show": false}, "axisLabel": {"color": "#908A80", "fontSize": 10}}, "yAxis": {"type": "value", "name": "Сумма, ₽", "nameLocation": "end", "nameGap": 12, "nameTextStyle": {"color": "#7C766C", "fontSize": 11, "fontWeight": 600}, "axisLabel": {"color": "#908A80", "fontSize": 10}, "splitLine": {"lineStyle": {"color": "#F0EBE2"}}}, "series": [{"type": "line", "name": "Остаток тела", "data": [1200000, 1092889, 983101, 870568, 755222, 636992, 515806, 391591, 264270, 133766, 0], "smooth": true, "showSymbol": false, "lineStyle": {"width": 2.5, "color": "#3B6FA0"}, "itemStyle": {"color": "#3B6FA0"}, "areaStyle": {"opacity": 0.05, "color": "#3B6FA0"}}, {"type": "line", "name": "Накопленные проценты", "data": [0, 30000, 57322, 81900, 103664, 122545, 138469, 151364, 161154, 167761, 171105], "smooth": true, "showSymbol": false, "lineStyle": {"width": 2.5, "color": "#2F7A52"}, "itemStyle": {"color": "#2F7A52"}, "areaStyle": null}]});
-  mk("cScen", {"grid": {"left": 14, "right": 14, "top": 26, "bottom": 38, "containLabel": true}, "tooltip": {"trigger": "axis", "valueFormatter": "PCT"}, "xAxis": {"type": "category", "data": ["Базовый (платит)", "Депозит (ЦБ)", "Стресс (дефолт→залог)"], "name": "Сценарий", "nameLocation": "middle", "nameGap": 26, "nameTextStyle": {"color": "#7C766C", "fontSize": 11, "fontWeight": 600}, "axisLine": {"lineStyle": {"color": "#E8E2D8"}}, "axisTick": {"show": false}, "axisLabel": {"color": "#908A80", "interval": 0, "hideOverlap": true, "width": 90, "overflow": "break", "fontSize": 11}}, "yAxis": {"type": "value", "name": "% годовых", "nameLocation": "end", "nameGap": 12, "nameTextStyle": {"color": "#7C766C", "fontSize": 11, "fontWeight": 600}, "axisLabel": {"color": "#908A80", "formatter": "{value}%", "fontSize": 10}, "splitLine": {"lineStyle": {"color": "#F0EBE2"}}}, "series": [{"type": "bar", "data": [{"value": 30.0, "itemStyle": {"color": "#2F7A52", "borderRadius": [4, 4, 0, 0]}}, {"value": 14.5, "itemStyle": {"color": "#2F7A52", "borderRadius": [4, 4, 0, 0]}}, {"value": 14.8, "itemStyle": {"color": "#2F7A52", "borderRadius": [4, 4, 0, 0]}}], "barWidth": "46%", "label": {"show": true, "position": "top", "color": "#4A4742", "fontFamily": "JetBrains Mono", "fontSize": 11, "formatter": "{c}%"}}]});
-  mk("cCmp", {"grid": {"left": 14, "right": 14, "top": 26, "bottom": 38, "containLabel": true}, "tooltip": {"trigger": "axis", "valueFormatter": "PCT"}, "xAxis": {"type": "category", "data": ["Заём (ставка)", "Депозит (ЦБ)"], "name": "Вариант", "nameLocation": "middle", "nameGap": 26, "nameTextStyle": {"color": "#7C766C", "fontSize": 11, "fontWeight": 600}, "axisLine": {"lineStyle": {"color": "#E8E2D8"}}, "axisTick": {"show": false}, "axisLabel": {"color": "#908A80", "interval": 0, "hideOverlap": true, "width": 90, "overflow": "break", "fontSize": 11}}, "yAxis": {"type": "value", "name": "% годовых", "nameLocation": "end", "nameGap": 12, "nameTextStyle": {"color": "#7C766C", "fontSize": 11, "fontWeight": 600}, "axisLabel": {"color": "#908A80", "formatter": "{value}%", "fontSize": 10}, "splitLine": {"lineStyle": {"color": "#F0EBE2"}}}, "series": [{"type": "bar", "data": [{"value": 30.0, "itemStyle": {"color": "#B23A2E", "borderRadius": [4, 4, 0, 0]}}, {"value": 14.5, "itemStyle": {"color": "#2F7A52", "borderRadius": [4, 4, 0, 0]}}], "barWidth": "46%", "label": {"show": true, "position": "top", "color": "#4A4742", "fontFamily": "JetBrains Mono", "fontSize": 11, "formatter": "{c}%"}}]});
-  if(window.mermaid){mermaid.initialize({startOnLoad:true,theme:'base',themeVariables:{
-    quadrant1Fill:'#FCF2F0',quadrant2Fill:'#E8F3EC',quadrant3Fill:'#F7F4EE',quadrant4Fill:'#FBF6EC',
-    quadrantPointFill:'#B23A2E',quadrantPointTextFill:'#1C1B19',quadrantTitleFill:'#1C1B19',
-    quadrantInternalBorderStrokeFill:'#E8E2D8',quadrantExternalBorderStrokeFill:'#E8E2D8'}});}
+  mk("cLine", {"grid": {"left": 10, "right": 22, "top": 58, "bottom": 46, "containLabel": true}, "tooltip": {"trigger": "axis", "valueFormatter": "MONEY"}, "legend": {"top": 10, "left": "center", "textStyle": {"color": "#6E675C", "fontSize": 12, "fontFamily": "Onest"}, "icon": "roundRect", "itemHeight": 9, "itemGap": 16}, "xAxis": {"type": "category", "data": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], "boundaryGap": false, "name": "Месяц", "nameLocation": "middle", "nameGap": 30, "nameTextStyle": {"color": "#6E675C", "fontSize": 12, "fontWeight": 600, "fontFamily": "Onest"}, "axisLine": {"lineStyle": {"color": "#E0D9CC"}}, "axisTick": {"show": false}, "axisLabel": {"color": "#908A80", "fontSize": 11}}, "yAxis": {"type": "value", "axisLabel": {"color": "#908A80", "fontSize": 11, "formatter": "MONEYK"}, "splitLine": {"lineStyle": {"color": "#EEE8DD"}}}, "series": [{"type": "line", "name": "Остаток тела", "data": [1200000, 1092889, 983101, 870568, 755222, 636992, 515806, 391591, 264270, 133766, 0], "smooth": true, "showSymbol": false, "lineStyle": {"width": 2.5, "color": "#3B6FA0"}, "itemStyle": {"color": "#3B6FA0"}, "areaStyle": {"opacity": 0.05, "color": "#3B6FA0"}}, {"type": "line", "name": "Накопленные проценты", "data": [0, 30000, 57322, 81900, 103664, 122545, 138469, 151364, 161154, 167761, 171105], "smooth": true, "showSymbol": false, "lineStyle": {"width": 2.5, "color": "#2F7A52"}, "itemStyle": {"color": "#2F7A52"}, "areaStyle": null}]});
+  mk("cScen", {"grid": {"left": 10, "right": 16, "top": 24, "bottom": 42, "containLabel": true}, "tooltip": {"trigger": "axis", "valueFormatter": "PCT"}, "xAxis": {"type": "category", "data": ["Базовый", "Депозит", "Стресс"], "name": "Сценарий", "nameLocation": "middle", "nameGap": 28, "nameTextStyle": {"color": "#6E675C", "fontSize": 12, "fontWeight": 600, "fontFamily": "Onest"}, "axisLine": {"lineStyle": {"color": "#E0D9CC"}}, "axisTick": {"show": false}, "axisLabel": {"color": "#6E675C", "interval": 0, "hideOverlap": true, "width": 92, "overflow": "break", "fontSize": 12}}, "yAxis": {"type": "value", "name": "% годовых", "nameTextStyle": {"color": "#6E675C", "fontSize": 12, "fontWeight": 600, "fontFamily": "Onest"}, "nameGap": 14, "axisLabel": {"color": "#908A80", "formatter": "{value}%", "fontSize": 11}, "splitLine": {"lineStyle": {"color": "#EEE8DD"}}}, "series": [{"type": "bar", "data": [{"value": 30.0, "itemStyle": {"color": "#2E7D55", "borderRadius": [5, 5, 0, 0]}}, {"value": 14.5, "itemStyle": {"color": "#2E7D55", "borderRadius": [5, 5, 0, 0]}}, {"value": 14.8, "itemStyle": {"color": "#2E7D55", "borderRadius": [5, 5, 0, 0]}}], "barWidth": "48%", "label": {"show": true, "position": "top", "color": "#4A4742", "fontFamily": "JetBrains Mono", "fontSize": 12, "formatter": "{c}%"}}]});
+  mk("cMatrix", {"grid": {"left": 20, "right": 30, "top": 18, "bottom": 38, "containLabel": true}, "tooltip": {"show": false}, "xAxis": {"type": "value", "min": 0, "max": 1, "interval": 0.5, "axisLabel": {"show": false}, "axisLine": {"show": false}, "axisTick": {"show": false}, "splitLine": {"lineStyle": {"color": "#EEE8DD"}}, "name": "Риск →", "nameLocation": "middle", "nameGap": 22, "nameTextStyle": {"color": "#6E675C", "fontSize": 12, "fontWeight": 600, "fontFamily": "Onest"}}, "yAxis": {"type": "value", "min": 0, "max": 1, "interval": 0.5, "axisLabel": {"show": false}, "axisLine": {"show": false}, "axisTick": {"show": false}, "splitLine": {"lineStyle": {"color": "#EEE8DD"}}, "name": "Доходность →", "nameGap": 8, "nameTextStyle": {"color": "#6E675C", "fontSize": 12, "fontWeight": 600, "fontFamily": "Onest"}}, "series": [{"type": "scatter", "data": [{"name": "Эта сделка", "value": [0.72, 0.75], "symbolSize": 17, "itemStyle": {"color": "#3B6FA0", "borderColor": "#fff", "borderWidth": 2}, "label": {"show": true, "formatter": "Эта сделка", "position": "left", "distance": 9, "color": "#1A1916", "fontFamily": "Onest", "fontSize": 12, "fontWeight": "bold"}}, {"name": "Вклад", "value": [0.18, 0.362], "symbolSize": 17, "itemStyle": {"color": "#2E7D55", "borderColor": "#fff", "borderWidth": 2}, "label": {"show": true, "formatter": "Вклад", "position": "right", "distance": 9, "color": "#1A1916", "fontFamily": "Onest", "fontSize": 12, "fontWeight": "bold"}}], "z": 3}]});
+  mk("cDonut", {"tooltip": {"trigger": "item", "valueFormatter": "MONEY"}, "legend": {"bottom": 2, "left": "center", "textStyle": {"color": "#6E675C", "fontSize": 12, "fontFamily": "Onest"}, "icon": "circle"}, "series": [{"type": "pie", "radius": ["46%", "70%"], "center": ["50%", "44%"], "avoidLabelOverlap": true, "itemStyle": {"borderColor": "#FFFFFF", "borderWidth": 3}, "label": {"show": true, "formatter": "{d}%", "color": "#1A1916", "fontWeight": "bold", "fontFamily": "JetBrains Mono", "fontSize": 13}, "labelLine": {"show": false}, "data": [{"name": "Тело займа", "value": 1200000.0, "itemStyle": {"color": "#3B6FA0"}}, {"name": "Проценты", "value": 171105.0, "itemStyle": {"color": "#2E7D55"}}]}]});
+  mk("cCmp", {"grid": {"left": 10, "right": 16, "top": 24, "bottom": 42, "containLabel": true}, "tooltip": {"trigger": "axis", "valueFormatter": "PCT"}, "xAxis": {"type": "category", "data": ["Заём", "Депозит"], "name": "Вариант", "nameLocation": "middle", "nameGap": 28, "nameTextStyle": {"color": "#6E675C", "fontSize": 12, "fontWeight": 600, "fontFamily": "Onest"}, "axisLine": {"lineStyle": {"color": "#E0D9CC"}}, "axisTick": {"show": false}, "axisLabel": {"color": "#6E675C", "interval": 0, "hideOverlap": true, "width": 92, "overflow": "break", "fontSize": 12}}, "yAxis": {"type": "value", "name": "% годовых", "nameTextStyle": {"color": "#6E675C", "fontSize": 12, "fontWeight": 600, "fontFamily": "Onest"}, "nameGap": 14, "axisLabel": {"color": "#908A80", "formatter": "{value}%", "fontSize": 11}, "splitLine": {"lineStyle": {"color": "#EEE8DD"}}}, "series": [{"type": "bar", "data": [{"value": 30.0, "itemStyle": {"color": "#3B6FA0", "borderRadius": [5, 5, 0, 0]}}, {"value": 14.5, "itemStyle": {"color": "#2E7D55", "borderRadius": [5, 5, 0, 0]}}], "barWidth": "48%", "label": {"show": true, "position": "top", "color": "#4A4742", "fontFamily": "JetBrains Mono", "fontSize": 12, "formatter": "{c}%"}}]});
+  // плашка-вердикт в шапке — только после прокрутки за hero (без дубля на первом экране)
+  var pill=document.getElementById('vpill');
+  function onScroll(){if(window.scrollY>320){pill.classList.add('show');}else{pill.classList.remove('show');}}
+  window.addEventListener('scroll',onScroll);onScroll();
 })();
 </script>
 </body>
