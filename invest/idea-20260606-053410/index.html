@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Разбор инвестидеи — инвест-разбор</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Ctext%20x%3D%2250%22%20y%3D%2254%22%20font-size%3D%2278%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22central%22%3E%F0%9F%A5%87%3C/text%3E%3C/svg%3E">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap');
+
+:root{
+  --paper:#FAF8F3; --panel:#FFFFFF; --ink:#1A1916; --body:#454039; --muted:#8C8579;
+  --line:#E7E0D4; --line-2:#F0EADF; --accent:#C0392B; --accent-soft:#FBEAE7;
+  --pos:#2E7D55; --neg:#C0392B; --warn:#C8881C;
+  --sans:"Onest",-apple-system,system-ui,"Segoe UI",sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;overflow-x:clip}
+body{background:var(--paper);color:var(--body);font-family:var(--sans);line-height:1.62;font-size:17px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:880px;margin:0 auto;padding:0 clamp(20px,5vw,36px)}
+.muted{color:var(--muted)}
+b{color:var(--ink);font-weight:700}
+a{color:var(--accent);text-underline-offset:2px}
+
+.bar{position:sticky;top:0;z-index:30;background:rgba(250,248,243,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;align-items:center;gap:14px;min-height:56px}
+.brand{font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:12.5px;color:var(--muted);flex:1}
+.pill{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:13.5px;padding:6px 14px;border-radius:999px;
+  background:var(--accent-soft);color:var(--accent);white-space:nowrap;opacity:0;transform:translateY(-6px);transition:.3s}
+.pill.show{opacity:1;transform:none}
+.pill .dot{width:9px;height:9px;border-radius:50%;background:var(--accent)}
+
+.hero{padding:clamp(44px,8vw,84px) 0 clamp(28px,5vw,46px)}
+.hero .eyebrow{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:20px}
+.hero h1{font-weight:800;color:var(--ink);font-size:clamp(32px,6.2vw,56px);line-height:1.05;letter-spacing:-.02em;margin:0 0 30px;overflow-wrap:anywhere}
+.verdict{display:flex;align-items:center;gap:20px;padding:24px 28px;background:var(--panel);border:1px solid var(--line);
+  border-left:6px solid var(--accent);border-radius:18px;box-shadow:0 12px 44px rgba(26,25,22,.06)}
+.verdict-dot{width:42px;height:42px;border-radius:50%;background:var(--accent);flex:none;box-shadow:0 0 0 7px var(--accent-soft)}
+.verdict-t{font-size:clamp(24px,4vw,32px);font-weight:800;color:var(--ink);line-height:1.1;letter-spacing:-.01em}
+.verdict-s{color:var(--muted);font-size:15.5px;margin-top:5px;font-weight:500}
+.takeaway{font-size:clamp(19px,2.7vw,23px);line-height:1.5;color:var(--ink);font-weight:500;margin:30px 0 0;padding-left:20px;border-left:3px solid var(--accent)}
+.hero-meta{display:flex;gap:26px;flex-wrap:wrap;color:var(--muted);font-size:14.5px;margin-top:28px}
+.hero-meta b{color:var(--body);font-weight:700}
+.draft{background:#FBF1DF;border:1px solid #ECD9B0;color:#8A5E12;border-radius:12px;padding:12px 16px;margin-top:20px;font-size:14.5px}
+
+.panel{padding:clamp(36px,6vw,64px) 0;border-top:1px solid var(--line)}
+.p-head{display:flex;gap:20px;align-items:baseline;margin-bottom:26px}
+.p-num{font-family:var(--mono);font-size:15px;color:var(--accent);font-weight:700;flex:none;padding-top:7px}
+.p-eyebrow{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:5px}
+.panel h2{font-weight:800;color:var(--ink);font-size:clamp(25px,4vw,36px);margin:0;line-height:1.12;letter-spacing:-.015em}
+.p-intro{color:var(--body);font-size:16.5px;max-width:64ch;margin:0 0 26px}
+.lead{font-size:clamp(19px,2.6vw,23px);line-height:1.55;color:var(--ink);max-width:66ch;font-weight:500}
+
+.duel{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.duel-h{font-weight:800;font-size:14px;letter-spacing:.03em;padding:9px 0;margin-bottom:8px;border-bottom:2px solid;text-transform:uppercase}
+.duel-h--for{color:var(--pos);border-color:var(--pos)}
+.duel-h--against{color:var(--neg);border-color:var(--neg)}
+.arg{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:13px}
+.arg-claim{color:var(--ink);font-weight:700;font-size:16px;line-height:1.42}
+.arg-ev{color:var(--body);font-size:14.5px;margin-top:9px;line-height:1.5}
+.arg--for{border-left:4px solid var(--pos)}
+.arg--red{border-left:4px solid var(--neg);background:#FCF3F1}
+.arg--amber{border-left:4px solid var(--warn);background:#FBF7EF}
+.arg--minor{border-left:4px solid #C3BBAD}
+.fell{color:var(--muted);font-size:14.5px;margin-top:20px}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:30px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px 18px}
+.stat-label{font-size:13px;color:var(--muted);font-weight:600;line-height:1.35;min-height:34px}
+.stat-val{font-family:var(--mono);font-size:clamp(20px,2.5vw,25px);font-weight:700;color:var(--ink);margin:8px 0 3px;letter-spacing:-.01em}
+.stat-sub{font-size:12.5px;color:var(--muted)}
+.facts{margin:0 0 28px;padding:0;list-style:none}
+.facts li{position:relative;padding:9px 0 9px 24px;border-top:1px solid var(--line-2);color:var(--body);font-size:15.5px;line-height:1.5}
+.facts li:first-child{border-top:0}
+.facts li::before{content:"";position:absolute;left:2px;top:17px;width:7px;height:7px;border-radius:50%;background:var(--accent)}
+
+/* один график в ряд — всегда (консистентно на всех ширинах) */
+.charts{display:grid;grid-template-columns:1fr;gap:20px}
+.chartbox{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px 22px 18px;min-width:0;margin-bottom:20px}
+.chartbox--wide{margin-top:0}
+.chartbox h3{font-size:16.5px;color:var(--ink);font-weight:700;margin:0 0 4px}
+.chart-cap{font-size:14px;color:var(--muted);margin:0 0 16px;line-height:1.5}
+.chart{width:100%;height:360px}
+.chart--short{height:320px}
+
+.kv{width:100%;border-collapse:collapse;font-size:15.5px}
+.kv th,.kv td{text-align:left;padding:13px 4px;border-bottom:1px solid var(--line-2);vertical-align:top}
+.kv tbody tr:last-child th,.kv tbody tr:last-child td{border-bottom:0}
+.kv th{color:var(--muted);font-weight:500;width:42%}
+.kv td{color:var(--ink);font-weight:600}
+.sub{font-size:15px;font-weight:700;color:var(--ink);margin:24px 0 12px}
+.sub--red{color:var(--neg)}.sub--amber{color:var(--warn)}
+
+.risk-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.chips{display:flex;flex-direction:column;gap:10px}
+.chip{padding:12px 15px;border-radius:12px;font-size:15px;line-height:1.45;border-left:4px solid}
+.chip--red{background:#FCF3F1;border-color:var(--neg);color:#7C271D}
+.chip--amber{background:#FBF7EF;border-color:var(--warn);color:#6B4D12}
+.checklist{margin:0;padding:0;list-style:none}
+.checklist li{position:relative;padding:10px 0 10px 28px;border-top:1px solid var(--line-2);font-size:15.5px;line-height:1.5}
+.checklist li:first-child{border-top:0}
+.checklist li::before{content:"□";position:absolute;left:2px;top:9px;color:var(--accent);font-size:16px}
+.nextstep{margin-top:26px;background:var(--accent-soft);border-radius:16px;padding:22px 24px}
+.ns-label{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:800}
+.nextstep p{margin:8px 0 0;color:var(--ink);font-size:16.5px;font-weight:600}
+.ns-steps{margin:12px 0 0;padding:0;list-style:none;counter-reset:ns}
+.ns-steps li{counter-increment:ns;position:relative;padding:9px 0 9px 40px;color:var(--ink);font-size:16px;font-weight:500;line-height:1.5;border-top:1px solid rgba(0,0,0,.06)}
+.ns-steps li:first-child{border-top:0}
+.ns-steps li::before{content:counter(ns);position:absolute;left:0;top:8px;width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;font-family:var(--mono)}
+.note{font-size:14px;color:var(--muted);margin:16px 0 0;line-height:1.55}
+
+.mermaid{display:flex;justify-content:center;overflow-x:auto;margin-top:8px}
+.mermaid svg{max-width:100%;height:auto}
+footer{border-top:1px solid var(--line);padding:44px 0 72px;color:var(--muted);font-size:14px;line-height:1.65}
+.disc{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:16px}
+.sig{font-size:13.5px}
+
+.panel,.hero>*{opacity:0;transform:translateY(16px);animation:rise .7s cubic-bezier(.2,.7,.2,1) forwards}
+.hero .eyebrow{animation-delay:.02s}.hero h1{animation-delay:.08s}.hero .verdict{animation-delay:.16s}
+.hero .takeaway{animation-delay:.24s}.hero .hero-meta{animation-delay:.3s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.panel,.hero>*{animation:none;opacity:1;transform:none}}
+
+@media(max-width:680px){
+  body{font-size:16px}
+  .duel,.charts,.risk-grid{grid-template-columns:1fr}
+  .stats{grid-template-columns:1fr 1fr}
+  .p-head{gap:13px}.kv th{width:50%}
+}
+
+</style>
+</head>
+<body>
+<header class="bar"><div class="wrap">
+  <span class="brand">Инвест-разбор</span>
+  <span class="pill" id="vpill"><span class="dot"></span>Высокий риск</span>
+</div></header>
+
+<main class="wrap">
+  <div class="hero">
+    <div class="eyebrow">Стратегия накопления</div>
+    <h1>Разбор инвестидеи</h1>
+    <div class="verdict">
+      <div class="verdict-dot"></div>
+      <div><div class="verdict-t">Высокий риск</div><div class="verdict-s">По правилу — не входить, пока риски не сняты</div></div>
+    </div>
+    <div class="hero-meta">
+      <span>Дата разбора: <b>2026-06-06</b></span>
+      <span>Класс: <b>Золото</b></span>
+      <span>Устояло: <b>за 3 · против 6</b></span>
+    </div>
+    
+  </div>
+
+  <section class="panel"><div class="p-head"><span class="p-num">01</span><div class="p-headtxt"><div class="p-eyebrow">Коротко о решении</div><h2>Главное</h2></div></div><p class="lead">План еженедельного накопления в золоте на горизонте пяти лет при базовой ожидаемой доходности 6 процентов годовых даёт портфель около 3 025 707 рублей при общих взносах 2 600 000 рублей. В медвежьем сценарии минус 6 процентов годовых стоимость портфеля падает до 2 207 714 рублей, и усреднение убыток смягчает, но не отменяет. Комитет присвоил статус красный: депозит под ставку ЦБ обыгрывает золото во всех сценариях кроме бычьего и не несёт рыночного риска.</p></section><section class="panel"><div class="p-head"><span class="p-num">02</span><div class="p-headtxt"><div class="p-eyebrow">Состязательный разбор</div><h2>Итог спора</h2></div></div><p class="p-intro">Два независимых аналитика на разных моделях спорили три раунда. В вердикт идёт только то, что пережило атаку оппонента с доказательством.</p><div class="duel"><div class="duel-col"><div class="duel-h duel-h--for">Аргументы ЗА</div><div class="arg arg--for"><div class="arg-claim">План может работать как дисциплинированное накопление золота, если цель — не обогнать депозит, а постепенно собрать твёрдый актив без попытки угадать точку входа.</div><div class="arg-ev">Взнос 10 000 ₽ каждое воскресенье на 5 лет даёт общий объём около 2 600 000 ₽; усреднение в медвежьем сценарии смягчает результат по сравнению с разовым входом, хотя убыток не отменяет.</div></div><div class="arg arg--for"><div class="arg-claim">В номинальном базовом сценарии золото даёт положительный рублёвый результат, если инвестор принимает риск реальной просадки покупательной способности.</div><div class="arg-ev">При доходности 6% годовых портфель вырастает до 3 025 707 ₽, это плюс 425 707 ₽ или +16,37% к внесённым 2 600 000 ₽.</div></div><div class="arg arg--for"><div class="arg-claim">У идеи есть защитный бычий сценарий на случай сильного спроса на твёрдые активы и ослабления рубля, но он работает только если девальвационный фон продолжится быстрее издержек и налогов.</div><div class="arg-ev">В бычьем сценарии 15% годовых портфель достигает 3 812 862 ₽, то есть +46,65%; валюта вложения — рубль, а в досье указан девальвационный фон как двигатель валютных и твёрдо-активных идей.</div></div></div><div class="duel-col"><div class="duel-h duel-h--against">Аргументы ПРОТИВ</div><div class="arg arg--red"><div class="arg-claim">Депозит под ставку ЦБ обыгрывает золото во всех сценариях, кроме бычьего, и без всякого рыночного риска</div><div class="arg-ev">Те же деньги на вкладе под четырнадцать с половиной процентов дают около пяти миллионов ста тысяч рублей, а золото в базовом сценарии — лишь около трёх миллионов. Разрыв в пользу вклада больше двух миллионов рублей при нулевом риске цены</div></div><div class="arg arg--red"><div class="arg-claim">В реальном выражении план теряет покупательную способность почти всегда</div><div class="arg-ev">При инфляции рубля порядка девяти с половиной процентов в год базовый сценарий даёт реальный минус двадцать шесть процентов, медвежий — минус сорок шесть, и даже бычий уходит в минус почти семь. Номинальный плюс шестнадцать процентов — это потеря, а не прибыль</div></div><div class="arg arg--red"><div class="arg-claim">Форма владения золотом не названа, а именно она решает, сколько съедят спред, НДС и комиссии</div><div class="arg-ev">Не указано: слитки, обезличенный металлический счёт, биржевые паи или фьючерс. Налогообложение, НДС, спред покупки-продажи и плата за хранение — все помечены как неизвестные. На горизонте пяти лет спред и комиссии легко отнимают несколько процентов сверх и без того отрицательной реальной доходности</div></div><div class="arg arg--red"><div class="arg-claim">Контрагент не назван и не проверен — нет ни наименования, ни ИНН, ни лицензии</div><div class="arg-ev">Реквизиты банка или дилера отсутствуют, проверка по реестру пропущена за неимением данных. Непроверенный контрагент на пять лет регулярных взносов — это риск, который сам не исчезнет</div></div><div class="arg arg--red"><div class="arg-claim">Длинный пятилетний горизонт в РФ-2026 — это рост макро-неопределённости, а не гарантия «всё вырастет»</div><div class="arg-ev">Идущая четвёртый год война давит на курс, ставку и санкционный режим; есть прецеденты заморозки и блокировки активов резидентов, риск ужесточения валютного контроля и роста налогов. Пять лет умножают эту неопределённость, а не сглаживают её</div></div><div class="arg arg--minor"><div class="arg-claim">Усреднение по воскресеньям снижает результат при росте и не страхует от убытка</div><div class="arg-ev">По расчёту усреднение даёт на семнадцать с лишним процентных пунктов меньше разового входа в базовом сценарии, а в медвежьем всё равно оставляет минус пятнадцать процентов номинально. Дисциплина взносов не отменяет ни падение цены, ни инфляцию</div></div></div></div><p class="fell">Отсеялось как голословное: доводов — 1, рисков — 0.</p></section><section class="panel"><div class="p-head"><span class="p-num">03</span><div class="p-headtxt"><div class="p-eyebrow">Финансовая модель</div><h2>Цифры</h2></div></div><p class="p-intro">Все числа посчитаны автоматически по формулам, не выдуманы. Сценарии — в процентах годовых.</p><div class="stats"><div class="stat"><div class="stat-label">Всего вложено</div><div class="stat-val">2,6 млн ₽</div><div class="stat-sub">за весь срок</div></div><div class="stat"><div class="stat-label">Базовый сценарий</div><div class="stat-val">3,03 млн ₽</div><div class="stat-sub">к концу горизонта</div></div><div class="stat"><div class="stat-label">Итог базового</div><div class="stat-val">+16.4%</div><div class="stat-sub">к вложенному</div></div><div class="stat"><div class="stat-label">Медвежий сценарий</div><div class="stat-val">-15.1%</div><div class="stat-sub">к вложенному</div></div><div class="stat"><div class="stat-label">Риск потери</div><div class="stat-val">~25.0%</div><div class="stat-sub">теряешь ~-46.1% реальных</div></div><div class="stat"><div class="stat-label">Ожидаемая доходность</div><div class="stat-val">-27.2%</div><div class="stat-sub">взвешено по вероятностям, реальн.</div></div><div class="stat"><div class="stat-label">Реальная стоимость</div><div class="stat-val">1,92 млн ₽</div><div class="stat-sub">в нынешних ₽, за вычетом инфляции</div></div><div class="stat"><div class="stat-label">Реальный итог</div><div class="stat-val">-26.1%</div><div class="stat-sub">покупательная способность</div></div></div><ul class="facts"><li>Вложено за 60 мес.: 2 600 000 ₽ (по 43 333 ₽/мес).</li><li>Стоимость портфеля (база 6%/год): 3 025 707 ₽ → P&amp;L +16%.</li><li>Медвежий (-6%/год): 2 207 714 ₽ (-15%) — усреднение смягчает, но НЕ отменяет убыток.</li><li>Эффект усреднения vs разовый вход тех же денег: -17.4 п.п. (DCA менее агрессивен на росте).</li><li>Альтернатива — депозит ЦБ 14.5%: 5 116 828 ₽.</li></ul><div class="charts"><div class="chartbox"><h3>Сценарии доходности</h3><p class="chart-cap">Ожидаемая доходность в процентах годовых по сценариям. Это допущение модели, а не прогноз.</p><div id="cScen" class="chart"></div></div><div class="chartbox"><h3>Стоимость к концу срока по сценариям</h3><p class="chart-cap">Во что превращается вложенное к концу срока в каждом сценарии. Шкала логарифмическая — иначе бычий сценарий расплющил бы остальные.</p><div id="cFinals" class="chart"></div></div><div class="chartbox"><h3>Вложено и стоимость портфеля</h3><p class="chart-cap">Серая линия — сколько вложено; цветные — стоимость портфеля в бычьем, базовом и медвежьем сценариях. Шкала логарифмическая, чтобы бычий сценарий не расплющивал остальные. Ось X — месяц, ось Y — сумма. Фиолетовый пунктир — базовый сценарий в реальных рублях (за вычетом инфляции): это покупательная способность, она ниже номинала.</p><div id="cLine" class="chart"></div></div></div><div class="chartbox chartbox--wide"><h3>Сравнение с альтернативой</h3><p class="chart-cap">Стратегия против безрискового банковского вклада, в процентах годовых.</p><div id="cCmp" class="chart chart--short"></div></div><div class="chartbox chartbox--wide"><h3>Ставка ЦБ за 10 лет и средняя</h3><p class="chart-cap">Ключевая ставка ЦБ РФ по годам (ориентиры — оценка, не точные данные) и средняя за период (пунктир). Спот может быть пиком или дном цикла — для длинного горизонта честнее ориентироваться на долгосрочную среднюю. Ось X — год, ось Y — ставка.</p><div id="cRate" class="chart chart--short"></div></div><p class="note">Ставка <a href="https://www.cbr.ru/hd_base/keyrate/">ЦБ РФ</a> — <b>14.5%</b> (на 2026-06-06) — безрисковый ориентир для сравнения.</p><p class="note">Но в <b>реальном</b> выражении: вклад под 14.5% при инфляции ₽ ~9.5% даёт ≈ <b>+5.0%</b> годовых — положительная, но скромная. Сравнивать доходность честно только за вычетом инфляции.</p><p class="note"><b>Допущения модели:</b> Сценарные доходности (годовых): медв. -6% / база 6% / быч. 15% — допущение модели под класс «gold», НЕ прогноз (разброс сужен под длинный горизонт).; Реальные значения — за вычетом рублёвой инфляции ~9.5%/год (покупательная способность инвестора в ₽); инфляция — оценка/из данных, не прогноз.; Вероятности сценариев (медв./база/быч.) ≈ 25/55/20% — допущение модели под класс «gold», не прогноз; дают ожидаемую ценность и риск потери..</p></section><section class="panel"><div class="p-head"><span class="p-num">04</span><div class="p-headtxt"><div class="p-eyebrow">Стратегия накопления</div><h2>Параметры стратегии</h2></div></div><table class="kv"><tbody><tr><th>Инструмент</th><td>Золото, конкретная форма не указана</td></tr><tr><th>Горизонт</th><td>5 лет</td></tr><tr><th>Регулярность</th><td>Еженедельно по воскресеньям, по 10 000 рублей, всего 260 взносов на 2 600 000 рублей</td></tr><tr><th>Сглаживание входа</th><td>Еженедельные покупки усредняют цену входа; в медвежьем сценарии это смягчает убыток, но не компенсирует его, а на восходящем рынке DCA проигрывает разовому вложению тех же средств около 17.4 процентных пункта итоговой доходности</td></tr><tr><th>Идея (сценарий)</th><td>Регулярное накопление в золоте как долгосрочная сберегательная стратегия с горизонтом 5 лет; иная мотивация и целевая сумма автором не раскрыты</td></tr></tbody></table></section><section class="panel"><div class="p-head"><span class="p-num">05</span><div class="p-headtxt"><div class="p-eyebrow">Подходит ли это лично тебе</div><h2>Пригодность для тебя</h2></div></div><p class="p-intro">Подходит ли вложение лично тебе — зависит не от актива, а от твоей ситуации. Чего не хватает в вводных — помечено как уточнение.</p><table class="kv"><tbody><tr><th>Взнос к свободному потоку</th><td>[НУЖНО УТОЧНИТЬ: свободный денежный поток в месяц после расходов]</td></tr><tr><th>Срок до нужды в деньгах</th><td>деньги работают ~5 г.; есть ли подушка, чтобы не продавать на просадке? [НУЖНО УТОЧНИТЬ]</td></tr><tr><th>Переживёшь медвежий путь</th><td>в плохом сценарии просадка до -46.1% — досидишь или продашь на дне? [НУЖНО УТОЧНИТЬ: терпимость к просадке]</td></tr><tr><th>Цель вложения</th><td>[НУЖНО УТОЧНИТЬ]</td></tr><tr><th>Капитал и обязательства</th><td>[НУЖНО УТОЧНИТЬ: весь свободный капитал и крупные обязательства]</td></tr></tbody></table></section><section class="panel"><div class="p-head"><span class="p-num">06</span><div class="p-headtxt"><div class="p-eyebrow">Что реально угрожает</div><h2>Риски, устоявшие под атакой</h2></div></div><div class="risk-grid"><div><h3 class="sub sub--red">Красные флаги</h3><div class="chips"><span class="chip chip--red">Депозит под ставку ЦБ обыгрывает золото во всех сценариях, кроме бычьего, и без всякого рыночного риска</span><span class="chip chip--red">В реальном выражении план теряет покупательную способность почти всегда</span><span class="chip chip--red">Форма владения золотом не названа, а именно она решает, сколько съедят спред, НДС и комиссии</span><span class="chip chip--red">Контрагент не назван и не проверен — нет ни наименования, ни ИНН, ни лицензии</span><span class="chip chip--red">Длинный пятилетний горизонт в РФ-2026 — это рост макро-неопределённости, а не гарантия «всё вырастет»</span></div></div><div><h3 class="sub sub--amber">Жёлтые флаги</h3><p class="muted">Не отмечено.</p></div></div><h3 class="sub">Карта «риск — доходность»</h3><p class="chart-cap">Чем правее точка — тем выше риск; чем выше — тем выше ожидаемая доходность. Идею сравниваем с банковским вкладом.</p><div id="cMatrix" class="chart chart--short"></div></section><section class="panel"><div class="p-head"><span class="p-num">07</span><div class="p-headtxt"><div class="p-eyebrow">Дальнейшие действия</div><h2>Что проверить дальше</h2></div></div><div class="risk-grid"><div><h3 class="sub">Открытые вопросы</h3><ul class="checklist"><li>Форма владения золотом (ОМС, слитки, монеты, биржевые инструменты)?</li><li>Кто конкретно выступает контрагентом (наименование, ИНН, лицензия)?</li><li>Какие заложены спреды, комиссии за хранение и налоги (включая НДС и НДФЛ)?</li></ul></div><div><h3 class="sub">Что проверить по данным</h3><ul class="checklist"><li>Описание идеи в обращении автора</li><li>Расчёт сценариев от финансовой модели</li></ul></div></div><div class="nextstep"><span class="ns-label">Следующий шаг</span><p>Уточнить форму актива, конкретный инструмент и цены, налогообложение, инфляционные предпосылки и регуляторные детали; при сохранении цели накопления рассмотреть рублёвые безрисковые инструменты</p></div></section>
+
+  <footer>
+    <div class="disc">Это вспомогательный аналитический инструмент. Он не даёт инвестиционных, юридических или налоговых рекомендаций, не обещает доходность и не принимает решение за вас. Все расчёты — модель, а не прогноз. Спорное — на проверку специалисту. Итоговое решение принимаете вы.</div>
+    <div class="sig">Состязательный ИИ-разбор: нейтральные факты и расчёты → спор двух аналитиков на разных моделях (3 раунда) → независимый арбитр выносит вердикт по правилу. Без баллов — только то, что устояло под атакой с доказательством.</div>
+  </footer>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+<script>
+(function(){
+  var CURSYM='₽';
+  function abbr(v){if(v==null)return '—';var a=Math.abs(v);
+    if(a>=1e6)return (v/1e6).toLocaleString('ru-RU',{maximumFractionDigits:1})+' млн';
+    if(a>=1e3)return Math.round(v/1e3).toLocaleString('ru-RU')+' тыс';
+    return v.toLocaleString('ru-RU');}
+  function fmt(o){
+    if(o&&o.tooltip&&o.tooltip.valueFormatter==='PCT'){o.tooltip.valueFormatter=function(v){return (v==null?'—':v+'%');};}
+    if(o&&o.tooltip&&o.tooltip.valueFormatter==='MONEY'){o.tooltip.valueFormatter=function(v){return (v==null?'—':Number(v).toLocaleString('ru-RU')+' '+CURSYM);};}
+    if(o&&o.yAxis&&o.yAxis.axisLabel&&o.yAxis.axisLabel.formatter==='MONEYK'){o.yAxis.axisLabel.formatter=function(v){return abbr(v)+' '+CURSYM;};}
+    return o;
+  }
+  function mk(id,opt){var el=document.getElementById(id);if(!el||!window.echarts)return;
+    var c=echarts.init(el,null,{renderer:'svg'});c.setOption(fmt(opt));
+    window.addEventListener('resize',function(){c.resize();});}
+  mk("cLine", {"grid": {"left": 22, "right": 28, "top": 74, "bottom": 52, "containLabel": true}, "tooltip": {"trigger": "axis", "valueFormatter": "MONEY"}, "legend": {"top": 6, "left": "center", "textStyle": {"color": "#6E675C", "fontSize": 12, "fontFamily": "Onest"}, "icon": "roundRect", "itemHeight": 9, "itemGap": 13}, "xAxis": {"type": "category", "data": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60], "boundaryGap": false, "name": "Месяц", "nameLocation": "middle", "nameGap": 32, "nameTextStyle": {"color": "#6E675C", "fontSize": 12, "fontWeight": 600, "fontFamily": "Onest"}, "axisLine": {"lineStyle": {"color": "#E0D9CC"}}, "axisTick": {"show": false}, "axisLabel": {"color": "#908A80", "fontSize": 11}}, "yAxis": {"type": "log", "name": "Сумма, ₽", "nameLocation": "middle", "nameGap": 56, "nameTextStyle": {"color": "#6E675C", "fontSize": 12, "fontWeight": 600, "fontFamily": "Onest"}, "axisLabel": {"color": "#908A80", "fontSize": 11, "formatter": "MONEYK"}, "splitLine": {"lineStyle": {"color": "#EEE8DD"}}}, "series": [{"type": "line", "name": "Вложено", "data": [null, 43333, 86667, 130000, 173333, 216667, 260000, 303333, 346667, 390000, 433333, 476667, 520000, 563333, 606667, 650000, 693333, 736667, 780000, 823333, 866667, 910000, 953333, 996667, 1040000, 1083333, 1126667, 1170000, 1213333, 1256667, 1300000, 1343333, 1386667, 1430000, 1473333, 1516667, 1560000, 1603333, 1646667, 1690000, 1733333, 1776667, 1820000, 1863333, 1906667, 1950000, 1993333, 2036667, 2080000, 2123333, 2166667, 2210000, 2253333, 2296667, 2340000, 2383333, 2426667, 2470000, 2513333, 2556667, 2600000], "smooth": true, "showSymbol": false, "lineStyle": {"width": 2.5, "color": "#9C958A"}, "itemStyle": {"color": "#9C958A"}, "connectNulls": true, "areaStyle": null}, {"type": "line", "name": "Бычий сценарий", "data": [null, 43850, 88224, 133128, 178567, 224549, 271079, 318165, 365812, 414029, 462821, 512195, 562158, 612718, 663881, 715654, 768046, 821063, 874712, 929002, 983940, 1039533, 1095790, 1152718, 1210326, 1268621, 1327612, 1387307, 1447715, 1508843, 1570701, 1633297, 1696641, 1760740, 1825604, 1891242, 1957664, 2024878, 2092895, 2161723, 2231373, 2301854, 2373176, 2445350, 2518385, 2592291, 2667079, 2742760, 2819345, 2896843, 2975266, 3054625, 3134931, 3216196, 3298430, 3381646, 3465855, 3551069, 3637300, 3724561, 3812862], "smooth": true, "showSymbol": false, "lineStyle": {"width": 2.5, "color": "#2E7D55"}, "itemStyle": {"color": "#2E7D55"}, "connectNulls": true, "areaStyle": null}, {"type": "line", "name": "Базовый сценарий", "data": [null, 43544, 87300, 131270, 175453, 219851, 264466, 309297, 354347, 399616, 445105, 490816, 536750, 582906, 629288, 675895, 722730, 769792, 817083, 864605, 912357, 960343, 1008561, 1057015, 1105704, 1154630, 1203795, 1253199, 1302843, 1352729, 1402858, 1453230, 1503848, 1554713, 1605825, 1657185, 1708796, 1760658, 1812772, 1865140, 1917763, 1970642, 2023779, 2077174, 2130829, 2184745, 2238924, 2293366, 2348073, 2403047, 2458288, 2513798, 2569578, 2625630, 2681955, 2738554, 2795428, 2852579, 2910009, 2967717, 3025707], "smooth": true, "showSymbol": false, "lineStyle": {"width": 2.5, "color": "#3B6FA0"}, "itemStyle": {"color": "#3B6FA0"}, "connectNulls": true, "areaStyle": null}, {"type": "line", "name": "Медвежий сценарий", "data": [null, 43095, 85953, 128576, 170965, 213120, 255044, 296737, 338201, 379437, 420447, 461231, 501791, 542128, 582244, 622138, 661814, 701272, 740512, 779537, 818348, 856945, 895330, 933504, 971468, 1009223, 1046771, 1084113, 1121249, 1158181, 1194911, 1231438, 1267764, 1303891, 1339820, 1375551, 1411085, 1446424, 1481569, 1516521, 1551280, 1585849, 1620227, 1654417, 1688419, 1722234, 1755862, 1789307, 1822567, 1855644, 1888540, 1921255, 1953790, 1986146, 2018324, 2050326, 2082151, 2113802, 2145278, 2176582, 2207714], "smooth": true, "showSymbol": false, "lineStyle": {"width": 2.5, "color": "#C0392B"}, "itemStyle": {"color": "#C0392B"}, "connectNulls": true, "areaStyle": null}, {"type": "line", "name": "Реальный", "data": [null, 43216, 85989, 128325, 170225, 211693, 252733, 293349, 333544, 373321, 412684, 451637, 490183, 528323, 566065, 603409, 640360, 676919, 713091, 748880, 784286, 819316, 853971, 888255, 922169, 955719, 988907, 1021735, 1054207, 1086326, 1118094, 1149515, 1180591, 1211327, 1241723, 1271783, 1301511, 1330908, 1359978, 1388723, 1417146, 1445249, 1473037, 1500510, 1527672, 1554525, 1581073, 1607316, 1633259, 1658904, 1684253, 1709308, 1734073, 1758549, 1782740, 1806647, 1830273, 1853620, 1876691, 1899487, 1922013], "smooth": true, "showSymbol": false, "lineStyle": {"width": 2, "color": "#7E6BB0", "type": "dashed"}, "itemStyle": {"color": "#7E6BB0"}, "connectNulls": true, "areaStyle": null}]});
+  mk("cScen", {"grid": {"left": 18, "right": 18, "top": 28, "bottom": 48, "containLabel": true}, "tooltip": {"trigger": "axis", "valueFormatter": "PCT"}, "xAxis": {"type": "category", "data": ["Медвежий", "Базовый", "Бычий"], "name": "Сценарий", "nameLocation": "middle", "nameGap": 32, "nameTextStyle": {"color": "#6E675C", "fontSize": 12, "fontWeight": 600, "fontFamily": "Onest"}, "axisLine": {"lineStyle": {"color": "#E0D9CC"}}, "axisTick": {"show": false}, "axisLabel": {"color": "#6E675C", "interval": 0, "hideOverlap": true, "width": 92, "overflow": "break", "fontSize": 12}}, "yAxis": {"type": "value", "name": "% годовых", "nameLocation": "middle", "nameGap": 40, "nameTextStyle": {"color": "#6E675C", "fontSize": 12, "fontWeight": 600, "fontFamily": "Onest"}, "axisLabel": {"color": "#908A80", "formatter": "{value}%", "fontSize": 11}, "splitLine": {"lineStyle": {"color": "#EEE8DD"}}}, "series": [{"type": "bar", "data": [{"value": -6.0, "itemStyle": {"color": "#C0392B", "borderRadius": [5, 5, 0, 0]}}, {"value": 6.0, "itemStyle": {"color": "#2E7D55", "borderRadius": [5, 5, 0, 0]}}, {"value": 15.0, "itemStyle": {"color": "#2E7D55", "borderRadius": [5, 5, 0, 0]}}], "barWidth": "48%", "label": {"show": true, "position": "top", "color": "#4A4742", "fontFamily": "JetBrains Mono", "fontSize": 12, "formatter": "{c}%"}}]});
+  mk("cMatrix", {"grid": {"left": 46, "right": 30, "top": 24, "bottom": 44, "containLabel": true}, "tooltip": {"show": false}, "xAxis": {"type": "value", "min": 0, "max": 1, "interval": 0.5, "axisLabel": {"show": false}, "axisLine": {"show": false}, "axisTick": {"show": false}, "splitLine": {"lineStyle": {"color": "#D8D0C2"}}, "name": "Риск →", "nameLocation": "middle", "nameGap": 24, "nameTextStyle": {"color": "#6E675C", "fontSize": 12, "fontWeight": 600, "fontFamily": "Onest"}}, "yAxis": {"type": "value", "min": 0, "max": 1, "interval": 0.5, "axisLabel": {"show": false}, "axisLine": {"show": false}, "axisTick": {"show": false}, "splitLine": {"lineStyle": {"color": "#D8D0C2"}}, "name": "Доходность", "nameLocation": "middle", "nameRotate": 90, "nameGap": 20, "nameTextStyle": {"color": "#6E675C", "fontSize": 12, "fontWeight": 600, "fontFamily": "Onest"}}, "series": [{"type": "scatter", "data": [{"name": "Эта идея", "value": [0.5, 0.55], "symbolSize": 18, "itemStyle": {"color": "#3B6FA0", "borderColor": "#fff", "borderWidth": 2, "shadowColor": "rgba(0,0,0,0.18)", "shadowBlur": 6}, "label": {"show": true, "formatter": "Эта идея", "position": "right", "distance": 10, "color": "#1A1916", "fontFamily": "Onest", "fontSize": 12, "fontWeight": "bold"}}, {"name": "Вклад", "value": [0.18, 0.362], "symbolSize": 18, "itemStyle": {"color": "#2E7D55", "borderColor": "#fff", "borderWidth": 2, "shadowColor": "rgba(0,0,0,0.18)", "shadowBlur": 6}, "label": {"show": true, "formatter": "Вклад", "position": "right", "distance": 10, "color": "#1A1916", "fontFamily": "Onest", "fontSize": 12, "fontWeight": "bold"}}], "z": 3, "markArea": {"silent": true, "label": {"show": true, "color": "#9A9285", "fontFamily": "Onest", "fontSize": 10, "fontWeight": 600}, "data": [[{"name": "Идеально", "xAxis": 0, "yAxis": 0.5, "itemStyle": {"color": "rgba(46,125,85,0.08)"}, "label": {"position": "insideTop"}}, {"xAxis": 0.5, "yAxis": 1}], [{"name": "Рост с риском", "xAxis": 0.5, "yAxis": 0.5, "itemStyle": {"color": "rgba(200,136,28,0.08)"}, "label": {"position": "insideTop"}}, {"xAxis": 1, "yAxis": 1}], [{"name": "Консервативно", "xAxis": 0, "yAxis": 0, "itemStyle": {"color": "rgba(59,111,160,0.06)"}, "label": {"position": "insideBottom"}}, {"xAxis": 0.5, "yAxis": 0.5}], [{"name": "Худшее", "xAxis": 0.5, "yAxis": 0, "itemStyle": {"color": "rgba(192,57,43,0.08)"}, "label": {"position": "insideBottom"}}, {"xAxis": 1, "yAxis": 0.5}]]}}]});
+  mk("cFinals", {"grid": {"left": 22, "right": 18, "top": 24, "bottom": 48, "containLabel": true}, "tooltip": {"trigger": "axis", "valueFormatter": "MONEY"}, "xAxis": {"type": "category", "data": ["Медвежий", "Базовый", "Бычий"], "name": "Сценарий", "nameLocation": "middle", "nameGap": 32, "nameTextStyle": {"color": "#6E675C", "fontSize": 12, "fontWeight": 600, "fontFamily": "Onest"}, "axisLine": {"lineStyle": {"color": "#E0D9CC"}}, "axisTick": {"show": false}, "axisLabel": {"color": "#6E675C", "fontSize": 12}}, "yAxis": {"type": "log", "name": "Сумма, ₽", "nameLocation": "middle", "nameGap": 56, "nameTextStyle": {"color": "#6E675C", "fontSize": 12, "fontWeight": 600, "fontFamily": "Onest"}, "axisLabel": {"color": "#908A80", "fontSize": 11, "formatter": "MONEYK"}, "splitLine": {"lineStyle": {"color": "#EEE8DD"}}}, "series": [{"type": "bar", "data": [{"value": 2207714.0, "itemStyle": {"color": "#C0392B", "borderRadius": [5, 5, 0, 0]}}, {"value": 3025707.0, "itemStyle": {"color": "#3B6FA0", "borderRadius": [5, 5, 0, 0]}}, {"value": 3812862.0, "itemStyle": {"color": "#2E7D55", "borderRadius": [5, 5, 0, 0]}}], "barWidth": "48%"}]});
+  mk("cCmp", {"grid": {"left": 18, "right": 18, "top": 28, "bottom": 48, "containLabel": true}, "tooltip": {"trigger": "axis", "valueFormatter": "PCT"}, "xAxis": {"type": "category", "data": ["DCA база (год)", "Депозит (ЦБ)"], "name": "Вариант", "nameLocation": "middle", "nameGap": 32, "nameTextStyle": {"color": "#6E675C", "fontSize": 12, "fontWeight": 600, "fontFamily": "Onest"}, "axisLine": {"lineStyle": {"color": "#E0D9CC"}}, "axisTick": {"show": false}, "axisLabel": {"color": "#6E675C", "interval": 0, "hideOverlap": true, "width": 92, "overflow": "break", "fontSize": 12}}, "yAxis": {"type": "value", "name": "% годовых", "nameLocation": "middle", "nameGap": 40, "nameTextStyle": {"color": "#6E675C", "fontSize": 12, "fontWeight": 600, "fontFamily": "Onest"}, "axisLabel": {"color": "#908A80", "formatter": "{value}%", "fontSize": 11}, "splitLine": {"lineStyle": {"color": "#EEE8DD"}}}, "series": [{"type": "bar", "data": [{"value": 6.0, "itemStyle": {"color": "#3B6FA0", "borderRadius": [5, 5, 0, 0]}}, {"value": 14.5, "itemStyle": {"color": "#2E7D55", "borderRadius": [5, 5, 0, 0]}}], "barWidth": "48%", "label": {"show": true, "position": "top", "color": "#4A4742", "fontFamily": "JetBrains Mono", "fontSize": 12, "formatter": "{c}%"}}]});
+  mk("cRate", {"grid": {"left": 22, "right": 28, "top": 24, "bottom": 48, "containLabel": true}, "tooltip": {"trigger": "axis", "valueFormatter": "PCT"}, "xAxis": {"type": "category", "data": ["2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026"], "boundaryGap": false, "name": "Год", "nameLocation": "middle", "nameGap": 32, "nameTextStyle": {"color": "#6E675C", "fontSize": 12, "fontWeight": 600, "fontFamily": "Onest"}, "axisLine": {"lineStyle": {"color": "#E0D9CC"}}, "axisTick": {"show": false}, "axisLabel": {"color": "#908A80", "fontSize": 11}}, "yAxis": {"type": "value", "name": "Ставка, %", "nameLocation": "middle", "nameGap": 40, "nameTextStyle": {"color": "#6E675C", "fontSize": 12, "fontWeight": 600, "fontFamily": "Onest"}, "axisLabel": {"color": "#908A80", "fontSize": 11, "formatter": "{value}%"}, "splitLine": {"lineStyle": {"color": "#EEE8DD"}}}, "series": [{"type": "line", "name": "Ставка ЦБ", "data": [10.0, 8.25, 7.75, 6.5, 4.25, 8.5, 7.5, 16.0, 21.0, 21.0, 14.5], "smooth": true, "showSymbol": true, "symbolSize": 6, "lineStyle": {"width": 2.5, "color": "#C0392B"}, "itemStyle": {"color": "#C0392B"}, "areaStyle": {"opacity": 0.05, "color": "#C0392B"}, "markLine": {"silent": true, "symbol": "none", "lineStyle": {"color": "#7E6BB0", "type": "dashed", "width": 2}, "label": {"formatter": "среднее 11.39%", "position": "insideEndTop", "color": "#6E5AA0", "fontFamily": "Onest", "fontSize": 11}, "data": [{"yAxis": 11.39}]}}]});
+  // плашка-вердикт в шапке — только после прокрутки за hero (без дубля на первом экране)
+  var pill=document.getElementById('vpill');
+  function onScroll(){if(window.scrollY>320){pill.classList.add('show');}else{pill.classList.remove('show');}}
+  window.addEventListener('scroll',onScroll);onScroll();
+})();
+</script>
+</body>
+</html>
