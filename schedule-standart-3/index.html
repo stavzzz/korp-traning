@@ -216,6 +216,23 @@
     .event__actions .btn-secondary { width: 100%; justify-content: center; }
   }
 
+  /* === BONUS PARTS LIST === */
+  .bonus-part { margin-top: 12px; }
+  .bonus-part__title {
+    font-family: 'JetBrains Mono', monospace; font-size: 11.5px; font-weight: 700;
+    color: var(--accent-glow); text-transform: uppercase; letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  .bonus-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+  .bonus-list li {
+    position: relative; padding-left: 16px;
+    font-size: 13px; color: var(--text-secondary); line-height: 1.5;
+  }
+  .bonus-list li::before {
+    content: ''; position: absolute; left: 0; top: 8px;
+    width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0;
+  }
+
 </style>
 </head>
 <body>
@@ -266,7 +283,30 @@
         <div class="event__body">
           <div class="event__time">12:00 МСК</div>
           <div class="event__name">Бонусный урок — Базовая работа с нейросетями</div>
-          <div class="event__topic">Часть 1 — ChatGPT: интерфейс, профиль, распаковка · Часть 2 — Claude AI: десктоп, Artifacts, проект, Skills · Часть 3 — безопасность Google Account</div>
+          <div class="event__topic">Лёгкий вход для тех, кто впервые работает с нейросетями. Три части:</div>
+          <div class="bonus-part">
+            <div class="bonus-part__title">Часть 1 — ChatGPT</div>
+            <ul class="bonus-list">
+              <li>Базовая работа: интерфейс, чаты, первые задачи</li>
+              <li>Настройка профиля под свои задачи</li>
+              <li>Распаковка личности и работы — персональные ответы под ваш контекст</li>
+            </ul>
+          </div>
+          <div class="bonus-part">
+            <div class="bonus-part__title">Часть 2 — Claude AI</div>
+            <ul class="bonus-list">
+              <li>Базовая работа с Claude Desktop: интерфейс, чаты, проекты</li>
+              <li>Создание Artifacts: документы, код, мини-приложения</li>
+              <li>Проект на базе распаковки — все ответы под ваш контекст</li>
+              <li>Создание собственных Skills под свои задачи</li>
+            </ul>
+          </div>
+          <div class="bonus-part">
+            <div class="bonus-part__title">Часть 3 — Безопасность Google Account</div>
+            <ul class="bonus-list">
+              <li>Двухфакторная аутентификация и ключевые параметры защиты аккаунта</li>
+            </ul>
+          </div>
         </div>
         <div class="event__tag event__tag--video">Бонус</div>
       </div>
