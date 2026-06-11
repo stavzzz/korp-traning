@@ -236,6 +236,13 @@
         <a href="https://t.me/DexPilotWalletBot" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> @DexPilotWalletBot — альтернативный бот для выпуска карт</a>
       </div>
     </div>
+    <div class="item" data-key="card-wanttopay"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Ещё вариант — <a href="https://t.me/WantToPayBot" target="_blank" class="tg" onclick="event.stopPropagation()">@WantToPayBot</a> (карта Easy)</div>
+        <div class="item__hint">Тоже выпускает карту с биллинг-адресом США. Откройте <a href="https://t.me/WantToPayBot" target="_blank" class="tg" onclick="event.stopPropagation()">@WantToPayBot</a> → «Запустить» → зарегистрируйтесь → выберите карту <strong>Easy</strong> (она подходит для оплаты Claude, ChatGPT и других подписок) → пополните баланс → выпустите карту.</div>
+        <a href="https://t.me/WantToPayBot" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> @WantToPayBot — выпуск виртуальной карты США, тариф Easy (Telegram)</a>
+      </div>
+    </div>
     <div class="item" data-key="card-save"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Сохранить реквизиты карты и биллинг-адрес</div>
@@ -489,20 +496,46 @@
 
 <!-- ====== 08 MOBILESMS ====== -->
 <div class="section">
-  <div class="section__header"><div class="section__num">08</div><div class="section__title">Резидентский номер телефона США</div></div>
+  <div class="section__header"><div class="section__num">08</div><div class="section__title">Номер телефона США для SMS</div></div>
   <div class="section__card">
-    <div class="note note--info"><span class="note__icon">📱</span><span>Резидентский номер США для приёма SMS. Нужен для верификации Gmail, Claude и других сервисов. Арендуем минимум на 1 месяц — номер закреплён за вами, SMS приходят в личный кабинет на сайте.</span></div>
+    <div class="note note--info"><span class="note__icon">📱</span><span>Для регистрации в Gmail, Claude и других сервисах нужен номер США — на него придёт SMS с кодом. Есть два варианта: подешевле (разовые номера) и понадёжнее (резидентский на месяц). Достаточно одного.</span></div>
+    <div class="note note--warn"><span class="note__icon">⚠</span><span><strong>Выберите один вариант ниже.</strong> Не уверены — для экономии начните с <strong>hero-sms</strong> (Вариант А).</span></div>
     <div class="item" data-key="sms-rent"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Арендовать резидентский номер США</div>
-        <div class="item__hint">1. Откройте <a href="https://mobilesms.io/" target="_blank" onclick="event.stopPropagation()">mobilesms.io</a> → зарегистрируйтесь<br>2. Перейдите в <strong>Long Term Rentals</strong> → <strong>USA</strong><br>3. Тип: строго <strong>Physical / Non-VoIP</strong> (резидентский)<br>4. Выберите сервис: <strong>Claude / Anthropic</strong> (или Universal)<br>5. Срок аренды: минимум <strong>1 месяц</strong><br>6. Оплатите и сохраните номер</div>
-        <a href="https://mobilesms.io/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> MobileSMS.io — аренда резидентских номеров США</a>
+        <div class="item__text">Получить номер США для SMS</div>
+        <div class="item__hint">Выберите вариант ниже и получите номер. Он понадобится при регистрации Gmail (шаг 09) и Claude (шаг 11).</div>
       </div>
     </div>
+    <details class="spoiler" open>
+      <summary>💸 Вариант А — hero-sms (дешевле, разовые номера)</summary>
+      <div class="spoiler__content">
+        <p>Кому подходит: <strong>кто хочет сэкономить</strong>. Это онлайн-номера для разового приёма SMS, не резидентские симки. Но для регистрации в Claude они обычно проходят.</p>
+        <p>1. Откройте <a href="https://hero-sms.com/" target="_blank" class="lnk">hero-sms.com</a> → зарегистрируйтесь → пополните баланс (нужно немного).</p>
+        <p>2. В поиске сервисов выберите нужный: <strong>Claude</strong> (или другой, который регистрируете).</p>
+        <p>3. Страна: <strong>США (USA)</strong>.</p>
+        <p>4. Купите номер → скопируйте его в форму регистрации на сайте сервиса.</p>
+        <p>5. Дождитесь SMS-кода в личном кабинете hero-sms → введите код.</p>
+        <a href="https://hero-sms.com/" target="_blank" class="lnk" style="display:block;margin-top:6px">📱 hero-sms.com — разовые номера для приёма SMS</a>
+        <p style="margin-top:8px;color:var(--text-muted);font-size:12px">💡 Номер разовый — на одну регистрацию. Для следующего сервиса берёте новый номер.</p>
+      </div>
+    </details>
+    <details class="spoiler" open>
+      <summary>🛡 Вариант Б — mobilesms.io (надёжнее, резидентский на месяц)</summary>
+      <div class="spoiler__content">
+        <p>Кому подходит: <strong>кто хочет максимально надёжно</strong>. Резидентский (физический) номер закреплён за вами на месяц, один номер на все сервисы.</p>
+        <p>1. Откройте <a href="https://mobilesms.io/" target="_blank" class="lnk">mobilesms.io</a> → зарегистрируйтесь.</p>
+        <p>2. Перейдите в <strong>Long Term Rentals</strong> → <strong>USA</strong>.</p>
+        <p>3. Тип: строго <strong>Physical / Non-VoIP</strong> (резидентский).</p>
+        <p>4. Выберите сервис: <strong>Claude / Anthropic</strong> (или Universal).</p>
+        <p>5. Срок аренды: минимум <strong>1 месяц</strong>.</p>
+        <p>6. Оплатите и сохраните номер.</p>
+        <a href="https://mobilesms.io/" target="_blank" class="lnk" style="display:block;margin-top:6px">📱 mobilesms.io — аренда резидентских номеров США</a>
+      </div>
+    </details>
     <div class="item" data-key="sms-save"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Сохранить номер и проверить приём SMS</div>
-        <div class="item__hint">Номер и входящие SMS отображаются в личном кабинете на сайте <a href="https://mobilesms.io/" target="_blank" onclick="event.stopPropagation()">mobilesms.io</a>. Никаких eSIM и Wi-Fi Calling не нужно — просто заходите на сайт и смотрите коды.</div>
+        <div class="item__hint">Сохраните номер. SMS-коды приходят в личный кабинет того сервиса, где брали номер (hero-sms.com или mobilesms.io). Никаких eSIM и Wi-Fi Calling не нужно — просто заходите на сайт и смотрите коды.</div>
       </div>
     </div>
   </div>
@@ -517,7 +550,7 @@
     <div class="item" data-key="gmail-create"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Создать новый Gmail</div>
-        <div class="item__hint">1. VPN включён!<br>2. Откройте <strong>gmail.com</strong> → «Создать аккаунт»<br>3. Придумайте <strong>нормальный адрес</strong> (имя.фамилия@gmail.com). Не соглашайтесь на автоматически предложенный — введите свой вручную!<br>4. Номер телефона → введите <strong>номер из MobileSMS</strong> (шаг 08). SMS-код появится в личном кабинете mobilesms.io</div>
+        <div class="item__hint">1. VPN включён!<br>2. Откройте <strong>gmail.com</strong> → «Создать аккаунт»<br>3. Придумайте <strong>нормальный адрес</strong> (имя.фамилия@gmail.com). Не соглашайтесь на автоматически предложенный — введите свой вручную!<br>4. Номер телефона → введите <strong>номер из шага 08</strong>. SMS-код придёт в кабинет сервиса, где брали номер</div>
         <a href="https://gmail.com" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> gmail.com — создание почты Google</a>
       </div>
     </div>
@@ -561,7 +594,7 @@
     <div class="item" data-key="claude-phone"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Подтвердить номер телефона</div>
-        <div class="item__hint">Claude попросит номер → введите <strong>номер из MobileSMS</strong> (шаг 08). SMS-код появится в личном кабинете mobilesms.io.</div>
+        <div class="item__hint">Claude попросит номер → введите <strong>номер из шага 08</strong>. SMS-код придёт в кабинет сервиса, где брали номер.</div>
       </div>
     </div>
     <div class="item" data-key="claude-test"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
@@ -580,10 +613,11 @@
   <div class="section__card">
     <div class="note note--info"><span class="note__icon">💎</span><span>Claude Max — полный доступ ко всем моделям без ограничений. Именно на ней будет работать «мозг» вашего OpenClaw.</span></div>
     <div class="note note--alert"><span class="note__icon">🔴</span><span><strong>Это обязательная подписка — без неё никуда.</strong> Claude Max ($100/мес) нужен всем участникам интенсива. Без неё пройти курс и собрать рабочий OpenClaw не получится.</span></div>
+    <div class="note note--warn"><span class="note__icon">🔥</span><span><strong>Не платите сразу — сначала «прогрейте» аккаунт!</strong> Свежий аккаунт, который в первый же день платит $100, выглядит подозрительно, и его чаще банят. Делайте поэтапно:<br>1. <strong>1–2 дня</strong> просто пользуйтесь бесплатной версией: позадавайте вопросы, потыкайте.<br>2. Потом оформите <strong>Claude Pro за $20</strong> и попользуйтесь ещё <strong>1–3 дня</strong>.<br>3. И только потом поднимите до <strong>Claude Max ($100)</strong>. Так аккаунт в безопасности.</span></div>
     <div class="item" data-key="claude-pay"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Оплатить Claude Max</div>
-        <div class="item__hint">1. VPN включён (США)<br>2. В Claude: иконка профиля → <strong>Settings</strong> → <strong>Billing</strong><br>3. <strong>Upgrade</strong> → выберите <strong>Max</strong><br>4. Введите реквизиты <strong>карты США</strong> из шага 02 (номер, срок, CVV)<br>5. <strong>Номер телефона</strong> → введите <strong>номер из MobileSMS</strong> (шаг 08)<br>6. Адрес для оплаты → введите <strong>биллинг-адрес карты США</strong> (шаг 02)<br>7. Оплатите → готово!</div>
+        <div class="item__text">Оформить подписку: сначала Pro $20, через пару дней Max $100</div>
+        <div class="item__hint">Порядок оплаты одинаковый для Pro и Max:<br>1. VPN включён (США)<br>2. В Claude: иконка профиля → <strong>Settings</strong> → <strong>Billing</strong> → <strong>Upgrade</strong><br>3. Сначала выберите <strong>Pro ($20)</strong> и оплатите. Через 1–3 дня снова <strong>Upgrade</strong> → <strong>Max ($100)</strong>.<br>4. Карта: реквизиты <strong>карты США</strong> из шага 02 (номер, срок, CVV)<br>5. Номер телефона: <strong>из шага 08</strong><br>6. Адрес: <strong>биллинг-адрес карты США</strong> (шаг 02)</div>
       </div>
     </div>
     <div class="item" data-key="claude-verify"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
@@ -615,12 +649,13 @@
         <p><strong>Регистрация:</strong></p>
         <p>1. VPN включён. Откройте <a href="https://chatgpt.com/" target="_blank" class="lnk">chatgpt.com</a> → «Sign up».</p>
         <p>2. Введите Gmail из шага 09 (email + пароль).</p>
-        <p>3. Номер телефона → <strong>номер из MobileSMS</strong> (шаг 08). SMS-код появится в личном кабинете mobilesms.io.</p>
-        <p style="margin-top:10px"><strong>Оплата:</strong></p>
-        <p>4. Иконка профиля → <strong>Settings</strong> → <strong>Subscription</strong> → <strong>Upgrade</strong> → выберите <strong>Pro</strong>.</p>
-        <p>5. Введите реквизиты <strong>карты США</strong> из шага 02 (номер, срок, CVV).</p>
-        <p>6. Биллинг-адрес → <strong>карты США</strong> (шаг 02). Оплатите.</p>
-        <p>7. Проверка: Settings → Subscription → должно быть написано <strong>«Pro»</strong>. ✅</p>
+        <p>3. Номер телефона → <strong>номер из шага 08</strong>. SMS-код придёт в кабинет сервиса, где брали номер.</p>
+        <p style="margin-top:10px"><strong>🔥 Прогрейте аккаунт — не платите сразу!</strong> Свежий аккаунт с оплатой $100 в первый день чаще банят. Поэтапно: 1–2 дня бесплатно потыкайте → потом ChatGPT Plus за $20 → ещё через 1–3 дня ChatGPT Pro за $100.</p>
+        <p style="margin-top:10px"><strong>Оплата (одинаково для Plus и Pro):</strong></p>
+        <p>4. Иконка профиля → <strong>Settings</strong> → <strong>Subscription</strong> → <strong>Upgrade</strong>.</p>
+        <p>5. Сначала выберите <strong>Plus ($20)</strong> и оплатите. Через 1–3 дня снова <strong>Upgrade</strong> → <strong>Pro ($100)</strong>.</p>
+        <p>6. Карта: реквизиты <strong>карты США</strong> из шага 02. Биллинг-адрес — тоже карты США (шаг 02).</p>
+        <p>7. Проверка: Settings → Subscription → активная подписка (Plus, затем Pro). ✅</p>
       </div>
     </details>
 
