@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ИИ-ВИЗАЦИЯ: OPENCLAW — Расписание Премиум (Поток 3)</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #0a0a0f;
+    --bg-card: #12121a;
+    --bg-card-hover: #181825;
+    --border: #1e1e2e;
+    --border-accent: #2a2a3e;
+    --text-primary: #e8e6f0;
+    --text-secondary: #8b879e;
+    --text-muted: #5a5670;
+    --accent: #7c5bf5;
+    --accent-glow: #9d7cff;
+    --accent-soft: rgba(124, 91, 245, 0.12);
+    --green: #34d399;
+    --green-glow: #6ee7b7;
+    --green-soft: rgba(52, 211, 153, 0.1);
+    --amber: #fbbf24;
+    --amber-glow: #fcd34d;
+    --amber-soft: rgba(251, 191, 36, 0.1);
+    --radius: 14px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Onest', sans-serif;
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    line-height: 1.65;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(124,91,245,0.04) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(52,211,153,0.03) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .wrapper {
+    position: relative; z-index: 1;
+    max-width: 680px; margin: 0 auto; padding: 40px 20px 80px;
+  }
+  .header { text-align: center; margin-bottom: 40px; }
+  .header__badge {
+    display: inline-block; font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--amber); background: var(--amber-soft);
+    border: 1px solid rgba(251, 191, 36, 0.25);
+    padding: 6px 16px; border-radius: 100px;
+    margin-bottom: 24px; animation: fadeDown .6s ease both;
+  }
+  .header__title {
+    font-size: clamp(28px, 6vw, 40px); font-weight: 800;
+    line-height: 1.15; letter-spacing: -0.5px;
+    margin-bottom: 12px; animation: fadeDown .6s ease .1s both;
+  }
+  .header__title span {
+    background: linear-gradient(135deg, var(--amber), var(--green));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .header__subtitle {
+    font-size: 15px; color: var(--text-secondary);
+    max-width: 520px; margin: 0 auto; animation: fadeDown .6s ease .2s both;
+  }
+  .legend {
+    display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;
+    margin-bottom: 36px; animation: fadeDown .6s ease .3s both;
+  }
+  .legend__item { display: flex; align-items: center; gap: 7px; font-size: 12.5px; font-weight: 500; color: var(--text-secondary); }
+  .legend__dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+  .legend__dot--video { background: var(--accent); }
+  .legend__dot--meet { background: var(--green); }
+  .legend__dot--workshop { background: var(--amber); }
+  .module { margin-bottom: 28px; }
+  .module__header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; padding-left: 2px; }
+  .module__num {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700;
+    color: var(--accent); background: var(--accent-soft);
+    width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+    border-radius: 8px; flex-shrink: 0;
+  }
+  .module__num--vip {
+    color: var(--amber); background: var(--amber-soft);
+  }
+  .module__info { flex: 1; min-width: 0; }
+  .module__title { font-size: 17px; font-weight: 700; letter-spacing: -0.2px; }
+  .module__name { font-size: 12px; color: var(--text-muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 1px; }
+  .module__vip-badge {
+    display: inline-block; font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    color: var(--amber); background: var(--amber-soft);
+    border: 1px solid rgba(251, 191, 36, 0.2);
+    padding: 2px 8px; border-radius: 4px; margin-left: 8px; vertical-align: middle;
+  }
+  .module__card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden; transition: border-color .3s;
+  }
+  .module__card:hover { border-color: var(--border-accent); }
+  .event {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 16px 20px; border-bottom: 1px solid var(--border); transition: background .2s;
+  }
+  .event:last-child { border-bottom: none; }
+  .event:hover { background: var(--bg-card-hover); }
+  .event__indicator { width: 4px; min-height: 36px; border-radius: 4px; flex-shrink: 0; margin-top: 2px; align-self: stretch; }
+  .event__indicator--video { background: var(--accent); }
+  .event__indicator--meet { background: var(--green); }
+  .event__indicator--workshop { background: var(--amber); }
+  .event__date { flex-shrink: 0; width: 52px; text-align: center; }
+  .event__day-num { font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 700; line-height: 1.1; }
+  .event__day-name { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+  .event__month { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; opacity: 0.7; }
+  .event__body { flex: 1; min-width: 0; }
+  .event__time { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 3px; }
+  .event__name { font-size: 14.5px; font-weight: 600; }
+  .event__topic { font-size: 13px; color: var(--text-secondary); margin-top: 3px; line-height: 1.5; }
+  .event__duration {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    color: var(--green); background: var(--green-soft);
+    padding: 3px 10px; border-radius: 6px; margin-top: 6px;
+  }
+  .event__tag {
+    display: inline-block; font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 5px; flex-shrink: 0; margin-top: 3px;
+  }
+  .event__tag--video { color: var(--accent-glow); background: var(--accent-soft); }
+  .event__tag--meet { color: var(--green-glow); background: var(--green-soft); }
+  .event__tag--workshop { color: var(--amber-glow); background: var(--amber-soft); }
+  .summary {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 24px; margin-top: 36px; margin-bottom: 24px;
+  }
+  .summary__title { font-size: 15px; font-weight: 700; margin-bottom: 16px; }
+  .summary__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .summary__item {
+    text-align: center; padding: 16px 8px;
+    background: var(--bg-card-hover); border-radius: 10px; border: 1px solid var(--border);
+  }
+  .summary__item-num { font-family: 'JetBrains Mono', monospace; font-size: 28px; font-weight: 700; line-height: 1; margin-bottom: 6px; }
+  .summary__item-num--accent { color: var(--accent-glow); }
+  .summary__item-num--green { color: var(--green-glow); }
+  .summary__item-num--amber { color: var(--amber-glow); }
+  .summary__item-label { font-size: 12px; color: var(--text-secondary); line-height: 1.3; }
+  .note {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 14px 20px; font-size: 13px; color: var(--text-secondary); line-height: 1.6;
+    background: var(--amber-soft); border-radius: var(--radius);
+    border: 1px solid rgba(251, 191, 36, 0.15); margin-bottom: 24px;
+  }
+  .note__icon { flex-shrink: 0; font-size: 15px; }
+  .note strong { color: var(--amber); }
+  .footer { text-align: center; margin-top: 48px; }
+  .footer__contact { font-size: 14px; color: var(--text-secondary); margin-bottom: 20px; }
+  .footer__contact a {
+    color: #2dd4bf; text-decoration: underline; text-decoration-color: rgba(45,212,191,0.4);
+    font-weight: 700; text-underline-offset: 2px; transition: all .2s;
+  }
+  .footer__contact a:hover { color: #5eead4; text-decoration-color: #5eead4; }
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
+  @media (max-width: 480px) {
+    .wrapper { padding: 28px 14px 60px; }
+    .event { padding: 14px 16px; gap: 10px; }
+    .event__date { width: 42px; }
+    .event__day-num { font-size: 17px; }
+    .legend { gap: 14px; }
+    .summary__grid { gap: 8px; }
+    .summary__item { padding: 12px 6px; }
+    .summary__item-num { font-size: 22px; }
+    .module__name { display: none; }
+    .module__vip-badge { display: none; }
+  }
+  .gcal-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    color: var(--green-glow); background: var(--green-soft);
+    border: 1px solid rgba(52,211,153,0.2); padding: 5px 12px;
+    border-radius: 8px; text-decoration: none; margin-top: 8px;
+    transition: all .2s; cursor: pointer;
+  }
+  .gcal-btn:hover { background: rgba(52,211,153,0.2); border-color: rgba(52,211,153,0.4); color: #6ee7b7; text-decoration: none; }
+  .gcal-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+  /* === BUTTON HIERARCHY === */
+  .event__actions { display: flex; gap: 10px; margin-top: 8px; flex-wrap: wrap; }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
+    padding: 6px 14px; border-radius: 8px; text-decoration: none;
+    transition: all 0.2s ease; cursor: pointer; border: none;
+  }
+  .btn-primary:hover { filter: brightness(1.15); transform: translateY(-1px); text-decoration: none; }
+  .btn-primary--video { background: #7c5bf5; color: #fff; }
+  .btn-primary--meet { background: #34d399; color: #0a0a0f; }
+  .btn-primary--workshop { background: #fbbf24; color: #0a0a0f; }
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
+    padding: 6px 14px; border-radius: 8px; text-decoration: none;
+    background: transparent; color: #5a5670; border: 1px solid #5a5670;
+    transition: all 0.2s ease; cursor: pointer;
+  }
+  .btn-secondary:hover { color: #8b879e; border-color: #8b879e; background: rgba(139, 135, 158, 0.06); text-decoration: none; }
+  .link-util {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+    color: #5a5670; text-decoration: none; margin-top: 8px;
+    padding: 5px 12px; border-radius: 7px;
+    border: 1px solid rgba(90, 86, 112, 0.4); background: transparent;
+    transition: all 0.2s ease; cursor: pointer;
+  }
+  .link-util:hover { color: #8b879e; border-color: #8b879e; background: rgba(139, 135, 158, 0.08); text-decoration: none; }
+  @media (max-width: 480px) {
+    .event__actions { flex-direction: column; }
+    .event__actions .btn-primary,
+    .event__actions .btn-secondary { width: 100%; justify-content: center; }
+  }
+
+  /* === BONUS PARTS LIST === */
+  .bonus-part { margin-top: 12px; }
+  .bonus-part__title {
+    font-family: 'JetBrains Mono', monospace; font-size: 11.5px; font-weight: 700;
+    color: var(--accent-glow); text-transform: uppercase; letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  .bonus-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+  .bonus-list li {
+    position: relative; padding-left: 16px;
+    font-size: 13px; color: var(--text-secondary); line-height: 1.5;
+  }
+  .bonus-list li::before {
+    content: ''; position: absolute; left: 0; top: 8px;
+    width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0;
+  }
+
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header class="header">
+    <div class="header__badge">ИИ-ВИЗАЦИЯ: OPENCLAW · ПРЕМИУМ · ПОТОК 3</div>
+    <h1 class="header__title">Расписание <span>занятий</span></h1>
+    <p class="header__subtitle">Все видеоуроки, онлайн-встречи и воркшопы VIP-группы третьего потока. Время&nbsp;— московское (МСК).</p>
+  </header>
+
+  <div class="legend">
+    <div class="legend__item"><div class="legend__dot legend__dot--video"></div>Видеоурок</div>
+    <div class="legend__item"><div class="legend__dot legend__dot--meet"></div>Онлайн-встреча</div>
+    <div class="legend__item"><div class="legend__dot legend__dot--workshop"></div>VIP-воркшоп</div>
+  </div>
+
+  <div class="summary">
+    <div class="summary__title">Премиум — итого</div>
+    <div class="summary__grid">
+      <div class="summary__item">
+        <div class="summary__item-num summary__item-num--accent">7</div>
+        <div class="summary__item-label">видео&shy;уроков</div>
+      </div>
+      <div class="summary__item">
+        <div class="summary__item-num summary__item-num--green">8</div>
+        <div class="summary__item-label">онлайн-встреч</div>
+      </div>
+      <div class="summary__item">
+        <div class="summary__item-num summary__item-num--amber">2</div>
+        <div class="summary__item-label">VIP-ворк&shy;шопа</div>
+      </div>
+      <div class="summary__item">
+        <div class="summary__item-num" style="color:#f0abfc">5</div>
+        <div class="summary__item-label">модулей</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ БОНУСНЫЙ МОДУЛЬ ═══ -->
+  <div class="module">
+    <div class="module__header">
+      <div class="module__num">★</div>
+      <div class="module__info">
+        <div class="module__title">Базовая работа с нейросетями</div>
+        <div class="module__name">Бонусный урок</div>
+      </div>
+    </div>
+    <div class="module__card">
+      <div class="event">
+        <div class="event__indicator event__indicator--video"></div>
+        <div class="event__date"><div class="event__day-num">10</div><div class="event__day-name">СР</div><div class="event__month">ИЮН</div></div>
+        <div class="event__body">
+          <div class="event__time">12:00 МСК</div>
+          <div class="event__name">Бонусный урок — Базовая работа с нейросетями</div>
+          <div class="event__topic">Лёгкий вход для тех, кто впервые работает с нейросетями. Три части:</div>
+          <div class="bonus-part">
+            <div class="bonus-part__title">Часть 1 — ChatGPT</div>
+            <ul class="bonus-list">
+              <li>Базовая работа: интерфейс, чаты, первые задачи</li>
+              <li>Настройка профиля под свои задачи</li>
+              <li>Распаковка личности и работы — персональные ответы под ваш контекст</li>
+            </ul>
+          </div>
+          <div class="bonus-part">
+            <div class="bonus-part__title">Часть 2 — Claude AI</div>
+            <ul class="bonus-list">
+              <li>Базовая работа с Claude Desktop: интерфейс, чаты, проекты</li>
+              <li>Создание Artifacts: документы, код, мини-приложения</li>
+              <li>Проект на базе распаковки — все ответы под ваш контекст</li>
+              <li>Создание собственных Skills под свои задачи</li>
+            </ul>
+          </div>
+          <div class="bonus-part">
+            <div class="bonus-part__title">Часть 3 — Безопасность Google Account</div>
+            <ul class="bonus-list">
+              <li>Двухфакторная аутентификация и ключевые параметры защиты аккаунта</li>
+            </ul>
+          </div>
+          <div class="event__actions"><a href="https://mainroom.pro/pl/teach/control/lesson/view?id=348675045&editMode=0" target="_blank" class="btn-primary btn-primary--video" onclick="event.stopPropagation()">▶ Бонусный урок</a></div>
+        </div>
+        <div class="event__tag event__tag--video">Бонус</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ МОДУЛЬ 1 ═══ -->
+  <div class="module">
+    <div class="module__header">
+      <div class="module__num">01</div>
+      <div class="module__info">
+        <div class="module__title">Подготовка рабочей среды</div>
+        <div class="module__name">Модуль 1</div>
+      </div>
+    </div>
+    <div class="module__card">
+      <div class="event">
+        <div class="event__indicator event__indicator--video"></div>
+        <div class="event__date"><div class="event__day-num">10</div><div class="event__day-name">СР</div><div class="event__month">ИЮН</div></div>
+        <div class="event__body">
+          <div class="event__time">12:00 МСК</div>
+          <div class="event__name">Видеоурок 1</div>
+          <div class="event__topic">Подготовка рабочей среды: сервер и VPN, виртуальная карта и зарубежный номер, почта с 2FA, подписки ChatGPT и Claude, оплата из России и Беларуси</div>
+          <div class="event__actions"><a href="https://mainroom.pro/pl/teach/control/lesson/view?id=348563728&editMode=0" target="_blank" class="btn-primary btn-primary--video" onclick="event.stopPropagation()">▶ Видеоурок 1</a></div>
+        </div>
+        <div class="event__tag event__tag--video">Урок</div>
+      </div>
+      <div class="event">
+        <div class="event__indicator event__indicator--meet"></div>
+        <div class="event__date"><div class="event__day-num">17</div><div class="event__day-name">СР</div><div class="event__month">ИЮН</div></div>
+        <div class="event__body">
+          <div class="event__time">17:00 МСК</div>
+          <div class="event__name">Онлайн-встреча 1 — разбор урока 1</div>
+          <div class="event__topic">Знакомство, проверка готовности, ответы по установке, регистрации и оплате</div>
+          <div class="event__duration">⏱ 2 часа: 1 ч / 5 мин перерыв / 1 ч</div>
+          <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=%D0%98%D0%98-%D0%92%D0%98%D0%97%D0%90%D0%A6%D0%98%D0%AF%3A%20OPENCLAW%20%7C%20%D0%A0%D0%B0%D0%B7%D0%B1%D0%BE%D1%80%20%D1%83%D1%80%D0%BE%D0%BA%D0%B0%201%20%28VIP%29&dates=20260617T170000/20260617T190000&ctz=Europe/Moscow&details=%D0%9A%D0%BE%D0%BD%D1%81%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%86%D0%B8%D1%8F%20%D0%BF%D0%BE%20%D0%BF%D0%BE%D0%B4%D0%B3%D0%BE%D1%82%D0%BE%D0%B2%D0%BA%D0%B5%2C%20%D0%BE%D1%82%D0%B2%D0%B5%D1%82%D1%8B%20%D0%BF%D0%BE%20%D1%83%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B5%2C%20%D1%80%D0%B5%D0%B3%D0%B8%D1%81%D1%82%D1%80%D0%B0%D1%86%D0%B8%D0%B8%20%D0%B8%20%D0%BE%D0%BF%D0%BB%D0%B0%D1%82%D0%B5%2C%20%D0%BF%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D0%BA%D0%B0%20%D0%B3%D0%BE%D1%82%D0%BE%D0%B2%D0%BD%D0%BE%D1%81%D1%82%D0%B8" target="_blank" class="link-util" onclick="event.stopPropagation()">📅 Добавить встречу в Google Календарь</a>
+        </div>
+        <div class="event__tag event__tag--meet">Встреча</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ МОДУЛЬ 2 ═══ -->
+  <div class="module">
+    <div class="module__header">
+      <div class="module__num">02</div>
+      <div class="module__info">
+        <div class="module__title">Фундамент</div>
+        <div class="module__name">Модуль 2</div>
+      </div>
+    </div>
+    <div class="module__card">
+      <div class="event">
+        <div class="event__indicator event__indicator--video"></div>
+        <div class="event__date"><div class="event__day-num">15</div><div class="event__day-name">ПН</div><div class="event__month">ИЮН</div></div>
+        <div class="event__body">
+          <div class="event__time">12:00 МСК</div>
+          <div class="event__name">Видеоурок 2</div>
+          <div class="event__topic">Обзор AI-мира и архитектура командного пункта: модели и агенты, OpenRouter, бесплатные модели, распаковка бизнеса, персональный проект в Claude</div>
+        </div>
+        <div class="event__tag event__tag--video">Урок</div>
+      </div>
+      <div class="event">
+        <div class="event__indicator event__indicator--meet"></div>
+        <div class="event__date"><div class="event__day-num">23</div><div class="event__day-name">ВТ</div><div class="event__month">ИЮН</div></div>
+        <div class="event__body">
+          <div class="event__time">17:00 МСК</div>
+          <div class="event__name">Онлайн-встреча 2 — разбор урока 2</div>
+          <div class="event__topic">Консультация по изученному материалу, помощь с заданиями</div>
+          <div class="event__duration">⏱ 2 часа: 1 ч / 5 мин перерыв / 1 ч</div>
+          <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=%D0%98%D0%98-%D0%92%D0%98%D0%97%D0%90%D0%A6%D0%98%D0%AF%3A%20OPENCLAW%20%7C%20%D0%A0%D0%B0%D0%B7%D0%B1%D0%BE%D1%80%20%D1%83%D1%80%D0%BE%D0%BA%D0%B0%202%20%28VIP%29&dates=20260623T170000/20260623T190000&ctz=Europe/Moscow&details=%D0%9A%D0%BE%D0%BD%D1%81%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%86%D0%B8%D1%8F%20%D0%BF%D0%BE%20%D0%B8%D0%B7%D1%83%D1%87%D0%B5%D0%BD%D0%BD%D0%BE%D0%BC%D1%83%20%D0%BC%D0%B0%D1%82%D0%B5%D1%80%D0%B8%D0%B0%D0%BB%D1%83%2C%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%20%D1%81%20%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F%D0%BC%D0%B8" target="_blank" class="link-util" onclick="event.stopPropagation()">📅 Добавить встречу в Google Календарь</a>
+        </div>
+        <div class="event__tag event__tag--meet">Встреча</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ МОДУЛЬ 3 ═══ -->
+  <div class="module">
+    <div class="module__header">
+      <div class="module__num">03</div>
+      <div class="module__info">
+        <div class="module__title">Вайб-кодинг и интеграции</div>
+        <div class="module__name">Модуль 3</div>
+      </div>
+    </div>
+    <div class="module__card">
+      <div class="event">
+        <div class="event__indicator event__indicator--video"></div>
+        <div class="event__date"><div class="event__day-num">18</div><div class="event__day-name">ЧТ</div><div class="event__month">ИЮН</div></div>
+        <div class="event__body">
+          <div class="event__time">12:00 МСК</div>
+          <div class="event__name">Видеоурок 3</div>
+          <div class="event__topic">Инфраструктура OpenClaw: сервер, SSH, установка, основной + резервный провайдер, Telegram-бот, голосовой ввод, веб-панель управления</div>
+        </div>
+        <div class="event__tag event__tag--video">Урок</div>
+      </div>
+      <div class="event">
+        <div class="event__indicator event__indicator--video"></div>
+        <div class="event__date"><div class="event__day-num">22</div><div class="event__day-name">ПН</div><div class="event__month">ИЮН</div></div>
+        <div class="event__body">
+          <div class="event__time">12:00 МСК</div>
+          <div class="event__name">Видеоурок 4</div>
+          <div class="event__topic">GitHub, домен и вайб-кодинг: репозиторий, GitHub Pages, HTTPS, дизайн-скиллы, первый лендинг одним диалогом, настройка DNS</div>
+        </div>
+        <div class="event__tag event__tag--video">Урок</div>
+      </div>
+      <div class="event">
+        <div class="event__indicator event__indicator--meet"></div>
+        <div class="event__date"><div class="event__day-num">24</div><div class="event__day-name">СР</div><div class="event__month">ИЮН</div></div>
+        <div class="event__body">
+          <div class="event__time">17:00 МСК</div>
+          <div class="event__name">Онлайн-встреча 3 — разбор урока 3</div>
+          <div class="event__topic">Консультация по изученному материалу, помощь с заданиями</div>
+          <div class="event__duration">⏱ 2 часа: 1 ч / 5 мин перерыв / 1 ч</div>
+          <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=%D0%98%D0%98-%D0%92%D0%98%D0%97%D0%90%D0%A6%D0%98%D0%AF%3A%20OPENCLAW%20%7C%20%D0%A0%D0%B0%D0%B7%D0%B1%D0%BE%D1%80%20%D1%83%D1%80%D0%BE%D0%BA%D0%B0%203%20%28VIP%29&dates=20260624T170000/20260624T190000&ctz=Europe/Moscow&details=%D0%9A%D0%BE%D0%BD%D1%81%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%86%D0%B8%D1%8F%20%D0%BF%D0%BE%20%D0%B8%D0%B7%D1%83%D1%87%D0%B5%D0%BD%D0%BD%D0%BE%D0%BC%D1%83%20%D0%BC%D0%B0%D1%82%D0%B5%D1%80%D0%B8%D0%B0%D0%BB%D1%83%2C%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%20%D1%81%20%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F%D0%BC%D0%B8" target="_blank" class="link-util" onclick="event.stopPropagation()">📅 Добавить встречу в Google Календарь</a>
+        </div>
+        <div class="event__tag event__tag--meet">Встреча</div>
+      </div>
+      <div class="event">
+        <div class="event__indicator event__indicator--meet"></div>
+        <div class="event__date"><div class="event__day-num">30</div><div class="event__day-name">ВТ</div><div class="event__month">ИЮН</div></div>
+        <div class="event__body">
+          <div class="event__time">17:00 МСК</div>
+          <div class="event__name">Онлайн-встреча 4 — разбор урока 4</div>
+          <div class="event__topic">Консультация по изученному материалу, помощь с заданиями</div>
+          <div class="event__duration">⏱ 2 часа: 1 ч / 5 мин перерыв / 1 ч</div>
+          <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=%D0%98%D0%98-%D0%92%D0%98%D0%97%D0%90%D0%A6%D0%98%D0%AF%3A%20OPENCLAW%20%7C%20%D0%A0%D0%B0%D0%B7%D0%B1%D0%BE%D1%80%20%D1%83%D1%80%D0%BE%D0%BA%D0%B0%204%20%28VIP%29&dates=20260630T170000/20260630T190000&ctz=Europe/Moscow&details=%D0%9A%D0%BE%D0%BD%D1%81%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%86%D0%B8%D1%8F%20%D0%BF%D0%BE%20%D0%B8%D0%B7%D1%83%D1%87%D0%B5%D0%BD%D0%BD%D0%BE%D0%BC%D1%83%20%D0%BC%D0%B0%D1%82%D0%B5%D1%80%D0%B8%D0%B0%D0%BB%D1%83%2C%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%20%D1%81%20%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F%D0%BC%D0%B8" target="_blank" class="link-util" onclick="event.stopPropagation()">📅 Добавить встречу в Google Календарь</a>
+        </div>
+        <div class="event__tag event__tag--meet">Встреча</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ МОДУЛЬ 4 ═══ -->
+  <div class="module">
+    <div class="module__header">
+      <div class="module__num">04</div>
+      <div class="module__info">
+        <div class="module__title">Агенты и офис</div>
+        <div class="module__name">Модуль 4</div>
+      </div>
+    </div>
+    <div class="module__card">
+      <div class="event">
+        <div class="event__indicator event__indicator--video"></div>
+        <div class="event__date"><div class="event__day-num">25</div><div class="event__day-name">ЧТ</div><div class="event__month">ИЮН</div></div>
+        <div class="event__body">
+          <div class="event__time">12:00 МСК</div>
+          <div class="event__name">Видеоурок 5</div>
+          <div class="event__topic">n8n, автоматизации и Cron Jobs: визуальный конструктор, Google-сервисы, задачи по расписанию, 10 готовых сценариев под ниши</div>
+        </div>
+        <div class="event__tag event__tag--video">Урок</div>
+      </div>
+      <div class="event">
+        <div class="event__indicator event__indicator--video"></div>
+        <div class="event__date"><div class="event__day-num">29</div><div class="event__day-name">ПН</div><div class="event__month">ИЮН</div></div>
+        <div class="event__body">
+          <div class="event__time">12:00 МСК</div>
+          <div class="event__name">Видеоурок 6</div>
+          <div class="event__topic">Прокачка Claude Code, «второй мозг», создание AI-агентов и безопасность инфраструктуры: режим бога, Obsidian-синхронизация, главный агент и суб-агенты, аудит. Урок гигантский (4 части) — два разбора</div>
+        </div>
+        <div class="event__tag event__tag--video">Урок</div>
+      </div>
+      <div class="event">
+        <div class="event__indicator event__indicator--meet"></div>
+        <div class="event__date"><div class="event__day-num">01</div><div class="event__day-name">СР</div><div class="event__month">ИЮЛ</div></div>
+        <div class="event__body">
+          <div class="event__time">17:00 МСК</div>
+          <div class="event__name">Онлайн-встреча 5 — разбор урока 5</div>
+          <div class="event__topic">Консультация по изученному материалу, помощь с заданиями</div>
+          <div class="event__duration">⏱ 2 часа: 1 ч / 5 мин перерыв / 1 ч</div>
+          <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=%D0%98%D0%98-%D0%92%D0%98%D0%97%D0%90%D0%A6%D0%98%D0%AF%3A%20OPENCLAW%20%7C%20%D0%A0%D0%B0%D0%B7%D0%B1%D0%BE%D1%80%20%D1%83%D1%80%D0%BE%D0%BA%D0%B0%205%20%28VIP%29&dates=20260701T170000/20260701T190000&ctz=Europe/Moscow&details=%D0%9A%D0%BE%D0%BD%D1%81%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%86%D0%B8%D1%8F%20%D0%BF%D0%BE%20%D0%B8%D0%B7%D1%83%D1%87%D0%B5%D0%BD%D0%BD%D0%BE%D0%BC%D1%83%20%D0%BC%D0%B0%D1%82%D0%B5%D1%80%D0%B8%D0%B0%D0%BB%D1%83%2C%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%20%D1%81%20%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D1%8F%D0%BC%D0%B8" target="_blank" class="link-util" onclick="event.stopPropagation()">📅 Добавить встречу в Google Календарь</a>
+        </div>
+        <div class="event__tag event__tag--meet">Встреча</div>
+      </div>
+      <div class="event">
+        <div class="event__indicator event__indicator--meet"></div>
+        <div class="event__date"><div class="event__day-num">07</div><div class="event__day-name">ВТ</div><div class="event__month">ИЮЛ</div></div>
+        <div class="event__body">
+          <div class="event__time">17:00 МСК</div>
+          <div class="event__name">Онлайн-встреча 6а — разбор урока 6, части 1 и 2</div>
+          <div class="event__topic">Разбор урока 6, части 1 и 2</div>
+          <div class="event__duration">⏱ 2 часа: 1 ч / 5 мин перерыв / 1 ч</div>
+          <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=%D0%98%D0%98-%D0%92%D0%98%D0%97%D0%90%D0%A6%D0%98%D0%AF%3A%20OPENCLAW%20%7C%20%D0%A0%D0%B0%D0%B7%D0%B1%D0%BE%D1%80%20%D1%83%D1%80%D0%BE%D0%BA%D0%B0%206%2C%20%D1%87%D0%B0%D1%81%D1%82%D0%B8%201%E2%80%932%20%28VIP%29&dates=20260707T170000/20260707T190000&ctz=Europe/Moscow&details=%D0%A0%D0%B0%D0%B7%D0%B1%D0%BE%D1%80%20%D1%83%D1%80%D0%BE%D0%BA%D0%B0%206%2C%20%D1%87%D0%B0%D1%81%D1%82%D0%B8%201%20%D0%B8%202" target="_blank" class="link-util" onclick="event.stopPropagation()">📅 Добавить встречу в Google Календарь</a>
+        </div>
+        <div class="event__tag event__tag--meet">Встреча</div>
+      </div>
+      <div class="event">
+        <div class="event__indicator event__indicator--meet"></div>
+        <div class="event__date"><div class="event__day-num">08</div><div class="event__day-name">СР</div><div class="event__month">ИЮЛ</div></div>
+        <div class="event__body">
+          <div class="event__time">17:00 МСК</div>
+          <div class="event__name">Онлайн-встреча 6б — разбор урока 6, части 3 и 4</div>
+          <div class="event__topic">Разбор урока 6, части 3 и 4</div>
+          <div class="event__duration">⏱ 2 часа: 1 ч / 5 мин перерыв / 1 ч</div>
+          <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=%D0%98%D0%98-%D0%92%D0%98%D0%97%D0%90%D0%A6%D0%98%D0%AF%3A%20OPENCLAW%20%7C%20%D0%A0%D0%B0%D0%B7%D0%B1%D0%BE%D1%80%20%D1%83%D1%80%D0%BE%D0%BA%D0%B0%206%2C%20%D1%87%D0%B0%D1%81%D1%82%D0%B8%203%E2%80%934%20%28VIP%29&dates=20260708T170000/20260708T190000&ctz=Europe/Moscow&details=%D0%A0%D0%B0%D0%B7%D0%B1%D0%BE%D1%80%20%D1%83%D1%80%D0%BE%D0%BA%D0%B0%206%2C%20%D1%87%D0%B0%D1%81%D1%82%D0%B8%203%20%D0%B8%204" target="_blank" class="link-util" onclick="event.stopPropagation()">📅 Добавить встречу в Google Календарь</a>
+        </div>
+        <div class="event__tag event__tag--meet">Встреча</div>
+      </div>
+      <div class="event">
+        <div class="event__indicator event__indicator--video"></div>
+        <div class="event__date"><div class="event__day-num">09</div><div class="event__day-name">ЧТ</div><div class="event__month">ИЮЛ</div></div>
+        <div class="event__body">
+          <div class="event__time">12:00 МСК</div>
+          <div class="event__name">Видеоурок 7</div>
+          <div class="event__topic">AI-офис и итоговая дорожная карта: несколько агентов под разные роли, инструменты визуализации, индивидуальный план внедрения</div>
+        </div>
+        <div class="event__tag event__tag--video">Урок</div>
+      </div>
+      <div class="event">
+        <div class="event__indicator event__indicator--meet"></div>
+        <div class="event__date"><div class="event__day-num">15</div><div class="event__day-name">СР</div><div class="event__month">ИЮЛ</div></div>
+        <div class="event__body">
+          <div class="event__time">17:00 МСК</div>
+          <div class="event__name">Онлайн-встреча 7 — финальная</div>
+          <div class="event__topic">Разбор урока 7, демо участников (5–10 мин каждый) + дорожная карта на 3 месяца</div>
+          <div class="event__duration">⏱ 2 часа: 1 ч / 5 мин перерыв / 1 ч</div>
+          <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=%D0%98%D0%98-%D0%92%D0%98%D0%97%D0%90%D0%A6%D0%98%D0%AF%3A%20OPENCLAW%20%7C%20%D0%A0%D0%B0%D0%B7%D0%B1%D0%BE%D1%80%20%D1%83%D1%80%D0%BE%D0%BA%D0%B0%207%20%E2%80%94%20%D1%84%D0%B8%D0%BD%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9%20%28VIP%29&dates=20260715T170000/20260715T190000&ctz=Europe/Moscow&details=%D0%9A%D0%BE%D0%BD%D1%81%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%86%D0%B8%D1%8F%2C%20%D0%B4%D0%B5%D0%BC%D0%BE%20%D1%83%D1%87%D0%B0%D1%81%D1%82%D0%BD%D0%B8%D0%BA%D0%BE%D0%B2%20%285%E2%80%9310%20%D0%BC%D0%B8%D0%BD%20%D0%BA%D0%B0%D0%B6%D0%B4%D1%8B%D0%B9%29%20%D0%B8%20%D0%B4%D0%BE%D1%80%D0%BE%D0%B6%D0%BD%D0%B0%D1%8F%20%D0%BA%D0%B0%D1%80%D1%82%D0%B0%20%D0%BD%D0%B0%203%20%D0%BC%D0%B5%D1%81%D1%8F%D1%86%D0%B0" target="_blank" class="link-util" onclick="event.stopPropagation()">📅 Добавить встречу в Google Календарь</a>
+        </div>
+        <div class="event__tag event__tag--meet">Встреча</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ МОДУЛЬ 5 ═══ -->
+  <div class="module">
+    <div class="module__header">
+      <div class="module__num module__num--vip">05</div>
+      <div class="module__info">
+        <div class="module__title">Разработка ИИ-сотрудников<span class="module__vip-badge">VIP</span></div>
+        <div class="module__name">Модуль 5</div>
+      </div>
+    </div>
+    <div class="module__card">
+      <div class="event">
+        <div class="event__indicator event__indicator--workshop"></div>
+        <div class="event__date"><div class="event__day-num">17</div><div class="event__day-name">ПТ</div><div class="event__month">ИЮЛ</div></div>
+        <div class="event__body">
+          <div class="event__time">17:00 МСК</div>
+          <div class="event__name">VIP-воркшоп 1</div>
+          <div class="event__topic">Создание индивидуальных ИИ-сотрудников и агентов под запрос, групповая работа и обмен опытом</div>
+          <div class="event__duration">⏱ 2 часа: 1 ч / 5 мин перерыв / 1 ч</div>
+          <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=%D0%98%D0%98-%D0%92%D0%98%D0%97%D0%90%D0%A6%D0%98%D0%AF%3A%20OPENCLAW%20%7C%20VIP-%D0%B2%D0%BE%D1%80%D0%BA%D1%88%D0%BE%D0%BF%201&dates=20260717T170000/20260717T190000&ctz=Europe/Moscow&details=%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%B8%D0%BD%D0%B4%D0%B8%D0%B2%D0%B8%D0%B4%D1%83%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D1%85%20%D0%98%D0%98-%D1%81%D0%BE%D1%82%D1%80%D1%83%D0%B4%D0%BD%D0%B8%D0%BA%D0%BE%D0%B2%20%D0%B8%20%D0%B0%D0%B3%D0%B5%D0%BD%D1%82%D0%BE%D0%B2%20%D0%BF%D0%BE%D0%B4%20%D0%B7%D0%B0%D0%BF%D1%80%D0%BE%D1%81%2C%20%D0%B3%D1%80%D1%83%D0%BF%D0%BF%D0%BE%D0%B2%D0%B0%D1%8F%20%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0%20%D0%B8%20%D0%BE%D0%B1%D0%BC%D0%B5%D0%BD%20%D0%BE%D0%BF%D1%8B%D1%82%D0%BE%D0%BC" target="_blank" class="link-util" onclick="event.stopPropagation()">📅 Добавить встречу в Google Календарь</a>
+        </div>
+        <div class="event__tag event__tag--workshop">Воркшоп</div>
+      </div>
+      <div class="event">
+        <div class="event__indicator event__indicator--workshop"></div>
+        <div class="event__date"><div class="event__day-num">20</div><div class="event__day-name">ПН</div><div class="event__month">ИЮЛ</div></div>
+        <div class="event__body">
+          <div class="event__time">17:00 МСК</div>
+          <div class="event__name">VIP-воркшоп 2</div>
+          <div class="event__topic">Создание индивидуальных ИИ-сотрудников и агентов под запрос, групповая работа и обмен опытом</div>
+          <div class="event__duration">⏱ 2 часа: 1 ч / 5 мин перерыв / 1 ч</div>
+          <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=%D0%98%D0%98-%D0%92%D0%98%D0%97%D0%90%D0%A6%D0%98%D0%AF%3A%20OPENCLAW%20%7C%20VIP-%D0%B2%D0%BE%D1%80%D0%BA%D1%88%D0%BE%D0%BF%202&dates=20260720T170000/20260720T190000&ctz=Europe/Moscow&details=%D0%A1%D0%BE%D0%B7%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%B8%D0%BD%D0%B4%D0%B8%D0%B2%D0%B8%D0%B4%D1%83%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D1%85%20%D0%98%D0%98-%D1%81%D0%BE%D1%82%D1%80%D1%83%D0%B4%D0%BD%D0%B8%D0%BA%D0%BE%D0%B2%20%D0%B8%20%D0%B0%D0%B3%D0%B5%D0%BD%D1%82%D0%BE%D0%B2%20%D0%BF%D0%BE%D0%B4%20%D0%B7%D0%B0%D0%BF%D1%80%D0%BE%D1%81%2C%20%D0%B3%D1%80%D1%83%D0%BF%D0%BF%D0%BE%D0%B2%D0%B0%D1%8F%20%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0%20%D0%B8%20%D0%BE%D0%B1%D0%BC%D0%B5%D0%BD%20%D0%BE%D0%BF%D1%8B%D1%82%D0%BE%D0%BC" target="_blank" class="link-util" onclick="event.stopPropagation()">📅 Добавить встречу в Google Календарь</a>
+        </div>
+        <div class="event__tag event__tag--workshop">Воркшоп</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    <span class="note__icon">💡</span>
+    <span><strong>Все онлайн-встречи и воркшопы записываются.</strong> Записи доступны в личном кабинете на GetCourse в течение 6 месяцев с даты публикации.</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank">@stavzzz</a> в&nbsp;Telegram</div>
+  </div>
+
+</div>
+</body>
+</html>
