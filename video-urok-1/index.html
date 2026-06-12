@@ -174,7 +174,7 @@
     <ul class="header__topics">
       <li>Виртуальная карта США для оплаты зарубежных подписок</li>
       <li>VPS-сервер за рубежом и настройка личного VPN</li>
-      <li>Резидентский номер США и Gmail для верификации</li>
+      <li>Зарубежный номер и Gmail для верификации</li>
       <li>Регистрация в Claude, ChatGPT и MiniMax</li>
       <li>Подписки: Claude Max + второй ИИ на выбор</li>
     </ul>
@@ -255,14 +255,15 @@
 
 <!-- ====== 03 VPS ====== -->
 <div class="section">
-  <div class="section__header"><div class="section__num">03</div><div class="section__title">VPS-сервер в США</div></div>
+  <div class="section__header"><div class="section__num">03</div><div class="section__title">VPS-сервер за рубежом — США или Европа</div></div>
   <div class="section__card">
-    <div class="note note--info"><span class="note__icon">💡</span><span>VPS — это компьютер-сервер в США, который работает круглосуточно. На нём настроим личный VPN, и интернет у вас будет работать «как из Америки». Это нужно, чтобы открывались Claude и ChatGPT и проходила оплата подписок.</span></div>
+    <div class="note note--info"><span class="note__icon">💡</span><span>VPS — это компьютер-сервер за рубежом (США или Европа), который работает круглосуточно. На нём настроим личный VPN, и интернет у вас будет работать как из выбранной страны. Это нужно, чтобы открывались Claude и ChatGPT и проходила оплата подписок.</span></div>
     <div class="note note--alert"><span class="note__icon">🚫</span><span><strong>Не берите российские хостинги</strong> (Aeza, Timeweb, Reg.ru и похожие). С российских серверов многие зарубежные сайты просто не открываются: Claude, ChatGPT, Google и почта часто блокируют такие адреса. VPN-то включится, но половина нужных сайтов работать не будет. Берите только зарубежную компанию из таблицы ниже.</span></div>
+    <div class="note note--green"><span class="note__icon">🧭</span><span><strong>Выберите одну страну — США или Европа — и держите её во всём:</strong> сервер, VPN и номер телефона должны быть одной страны. Рекомендуем США — проще, и всё совпадает. <strong>Карта и регион магазина — всегда США</strong>, даже если сервер европейский: зарубежные виртуальные карты выпускаются только с биллингом США. Это нормально.</span></div>
     <div class="item" data-key="vps-buy"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Выбрать провайдера и купить VPS</div>
-        <div class="item__hint">Выберите компанию из таблицы ниже и купите сервер. Настройки при покупке для всех одинаковые:<br>• <strong>Страна сервера:</strong> США<br>• <strong>Размер:</strong> 2 ядра процессора, 4 ГБ оперативной памяти, 60 ГБ диска<br>• <strong>Система:</strong> Ubuntu 24.04<br>• <strong>Оплата:</strong> картой США из шага 02 или криптовалютой</div>
+        <div class="item__hint">Выберите компанию из таблицы ниже и купите сервер. Настройки при покупке для всех одинаковые:<br>• <strong>Страна сервера:</strong> США или Европа<br>• <strong>Размер:</strong> 2 ядра процессора, 4 ГБ оперативной памяти, 60 ГБ диска<br>• <strong>Система:</strong> Ubuntu 24.04<br>• <strong>Оплата:</strong> картой США из шага 02 или криптовалютой</div>
       </div>
     </div>
     <details class="spoiler" open>
@@ -276,13 +277,13 @@
           <tr><td><strong>Vultr</strong><br><a href="https://www.vultr.com/" target="_blank" class="lnk">vultr.com</a></td><td>от $6</td><td>Серверы во многих городах США</td></tr>
           <tr><td><strong>Linode</strong><br><a href="https://www.linode.com/" target="_blank" class="lnk">linode.com</a></td><td>от $5</td><td>Крупный надёжный провайдер, есть серверы в США</td></tr>
         </table>
-        <p style="margin-top:10px">Все эти компании зарубежные и надёжные, у всех есть серверы в США. <strong>netcup</strong> — самый выгодный по цене. При покупке обязательно выбирайте страну <strong>США</strong> (у netcup это город Манассас). Новичку проще всего на <strong>netcup</strong> или <strong>Hetzner</strong>.</p>
+        <p style="margin-top:10px">Все эти компании зарубежные и надёжные, серверы есть и в США, и в Европе. <strong>netcup</strong> — самый выгодный по цене. При покупке выбирайте страну <strong>США или Европу</strong> (США проще; у netcup США — это город Манассас). Новичку проще всего на <strong>netcup</strong> или <strong>Hetzner</strong>.</p>
       </div>
     </details>
     <details class="spoiler">
       <summary>🧭 По каким критериям выбирать VPS</summary>
       <div class="spoiler__content">
-        <p><strong>1. Страна сервера — США.</strong> При покупке выбирайте США (у netcup это Манассас). Тогда интернет будет «как из Америки», и Claude с ChatGPT работают нормально. Главное — не Россия.</p>
+        <p><strong>1. Страна сервера — США или Европа.</strong> Выберите одну и держите её же для VPN и номера. США проще — всё совпадает (у netcup это Манассас). Главное — не Россия.</p>
         <p><strong>2. Только зарубежная компания.</strong> С российских серверов многие сайты не открываются. Берите из таблицы выше.</p>
         <p><strong>3. Чем платить.</strong> Картой США из шага 02 или криптовалютой. Карты РФ зарубежные компании обычно не принимают.</p>
         <p><strong>4. Размер.</strong> Минимум 2 ядра процессора и 4 ГБ оперативной памяти — этого хватит.</p>
@@ -359,8 +360,8 @@
   <div class="section__card">
     <div class="item" data-key="vpn-check"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Проверить, что IP — США</div>
-        <div class="item__hint">1. VPN включён (в Amnezia — «Подключено»)<br>2. Откройте любой сайт ниже<br>3. Страна должна быть <strong>США</strong> (United States)</div>
+        <div class="item__text">Проверить, что IP — нужной страны</div>
+        <div class="item__hint">1. VPN включён (в Amnezia — «Подключено»)<br>2. Откройте любой сайт ниже<br>3. Страна должна быть та, что вы выбрали для сервера — <strong>США или Европа</strong>, не Россия</div>
         <div style="padding-top:6px">
           <a href="https://2ip.ru/" target="_blank" class="item__link" onclick="event.stopPropagation()" style="display:block;margin-bottom:4px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> 2ip.ru — покажет IP и страну</a>
           <a href="https://yandex.ru/internet/" target="_blank" class="item__link" onclick="event.stopPropagation()" style="display:block"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Яндекс Интернетометр — альтернативная проверка</a>
@@ -618,7 +619,7 @@
         <div class="item__hint">Напишите «Привет! Расскажи о себе». Получили ответ — работает!</div>
       </div>
     </div>
-    <div class="note note--alert"><span class="note__icon">🚨</span><span><strong>НЕ экспериментируйте с аккаунтом!</strong> Anthropic может заблокировать, если вы:<br>• Часто меняете VPN и страны<br>• Привязываете разные карты<br>• Создаёте несколько аккаунтов<br><br><strong>Один VPN (США), одна карта, один аккаунт. Точка.</strong></span></div>
+    <div class="note note--alert"><span class="note__icon">🚨</span><span><strong>НЕ экспериментируйте с аккаунтом!</strong> Anthropic может заблокировать, если вы:<br>• Часто меняете VPN и страны<br>• Привязываете разные карты<br>• Создаёте несколько аккаунтов<br><br><strong>Один VPN, одна карта, один аккаунт. Точка.</strong></span></div>
   </div>
 </div>
 
@@ -632,7 +633,7 @@
     <div class="item" data-key="claude-pay"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Оформить подписку: сначала Pro $20, через пару дней Max $100</div>
-        <div class="item__hint">Порядок оплаты одинаковый для Pro и Max:<br>1. VPN включён (США)<br>2. В Claude: иконка профиля → <strong>Settings</strong> → <strong>Billing</strong> → <strong>Upgrade</strong><br>3. Сначала выберите <strong>Pro ($20)</strong> и оплатите. Через 1–3 дня снова <strong>Upgrade</strong> → <strong>Max ($100)</strong>.<br>4. Карта: реквизиты <strong>карты США</strong> из шага 02 (номер, срок, CVV)<br>5. Номер телефона: <strong>из шага 08</strong><br>6. Адрес: <strong>биллинг-адрес карты США</strong> (шаг 02)</div>
+        <div class="item__hint">Порядок оплаты одинаковый для Pro и Max:<br>1. VPN включён<br>2. В Claude: иконка профиля → <strong>Settings</strong> → <strong>Billing</strong> → <strong>Upgrade</strong><br>3. Сначала выберите <strong>Pro ($20)</strong> и оплатите. Через 1–3 дня снова <strong>Upgrade</strong> → <strong>Max ($100)</strong>.<br>4. Карта: реквизиты <strong>карты США</strong> из шага 02 (номер, срок, CVV)<br>5. Номер телефона: <strong>из шага 08</strong><br>6. Адрес: <strong>биллинг-адрес карты США</strong> (шаг 02)</div>
       </div>
     </div>
     <div class="item" data-key="claude-verify"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
@@ -654,7 +655,7 @@
     <div class="item" data-key="second-ai"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Оформить второй ИИ — ChatGPT Pro <strong>или</strong> MiniMax</div>
-        <div class="item__hint">Выберите один из вариантов ниже и пройдите по инструкции. VPN всегда включён (США).</div>
+        <div class="item__hint">Выберите один из вариантов ниже и пройдите по инструкции. VPN всегда включён.</div>
       </div>
     </div>
 
@@ -684,7 +685,7 @@
           <tr><td><strong>Max</strong></td><td>$50</td><td>Для активной ежедневной работы</td></tr>
         </table>
         <p style="margin-top:10px"><strong>Как оформить:</strong></p>
-        <p>1. VPN включён (США). Откройте <a href="https://platform.minimax.io/" target="_blank" class="lnk">platform.minimax.io</a> → <strong>Sign up</strong>.</p>
+        <p>1. VPN включён. Откройте <a href="https://platform.minimax.io/" target="_blank" class="lnk">platform.minimax.io</a> → <strong>Sign up</strong>.</p>
         <p>2. Войдите через Gmail из шага 09 (или email + пароль) → подтвердите почту.</p>
         <p>3. Откройте страницу подписки: <a href="https://platform.minimax.io/subscribe/token-plan" target="_blank" class="lnk">platform.minimax.io/subscribe/token-plan</a> (или в меню: <strong>Subscription</strong> → <strong>Token Plan</strong>).</p>
         <p>4. Выберите тариф: <strong>Plus ($20)</strong> или <strong>Max ($50)</strong> → нажмите <strong>Subscribe</strong>.</p>
