@@ -112,6 +112,7 @@
   .data-table td:first-child { color:var(--text-primary); font-weight:600; }
   .tag-free { display:inline-block; font-family:'JetBrains Mono',monospace; font-size:9px; font-weight:700; color:var(--green); background:var(--green-soft); border:1px solid rgba(52,211,153,0.25); padding:1px 6px; border-radius:100px; margin-left:5px; vertical-align:middle; }
   .model-string { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--accent-glow); display:block; margin-top:3px; }
+  .model-task { font-family:'Onest',sans-serif; font-size:11px; color:var(--text-muted); display:block; margin-top:4px; font-weight:400; }
 
   /* ─── CONCEPT GRID ─── */
   .concept-grid { display:grid; grid-template-columns:1fr 1fr; }
@@ -463,11 +464,15 @@
 
     <table class="data-table">
       <tr><th>Модель</th><th>Model String</th><th>Контекст</th></tr>
-      <tr><td>Google Gemma 3 27B <span class="tag-free">FREE</span></td><td><span class="model-string">google/gemma-3-27b-it:free</span></td><td>131K</td></tr>
-      <tr><td>Meta Llama 3.3 70B <span class="tag-free">FREE</span></td><td><span class="model-string">meta-llama/llama-3.3-70b-instruct:free</span></td><td>66K</td></tr>
-      <tr><td>Nous Hermes 3 405B <span class="tag-free">FREE</span></td><td><span class="model-string">nousresearch/hermes-3-llama-3.1-405b:free</span></td><td>131K</td></tr>
-      <tr><td>Google Gemma 3 12B <span class="tag-free">FREE</span></td><td><span class="model-string">google/gemma-3-12b-it:free</span></td><td>33K</td></tr>
+      <tr><td>Qwen3 Coder 480B <span class="tag-free">FREE</span><span class="model-task">📝 текст, код</span></td><td><span class="model-string">qwen/qwen3-coder:free</span></td><td>1M</td></tr>
+      <tr><td>NVIDIA Nemotron 3 Ultra 550B <span class="tag-free">FREE</span><span class="model-task">📝 текст</span></td><td><span class="model-string">nvidia/nemotron-3-ultra-550b-a55b:free</span></td><td>1M</td></tr>
+      <tr><td>Google Gemma 4 31B <span class="tag-free">FREE</span><span class="model-task">🖼 текст + фото/видео</span></td><td><span class="model-string">google/gemma-4-31b-it:free</span></td><td>262K</td></tr>
+      <tr><td>OpenAI gpt-oss 120B <span class="tag-free">FREE</span><span class="model-task">📝 текст</span></td><td><span class="model-string">openai/gpt-oss-120b:free</span></td><td>131K</td></tr>
+      <tr><td>Meta Llama 3.3 70B <span class="tag-free">FREE</span><span class="model-task">📝 текст</span></td><td><span class="model-string">meta-llama/llama-3.3-70b-instruct:free</span></td><td>131K</td></tr>
+      <tr><td>Nous Hermes 3 405B <span class="tag-free">FREE</span><span class="model-task">📝 текст</span></td><td><span class="model-string">nousresearch/hermes-3-llama-3.1-405b:free</span></td><td>131K</td></tr>
     </table>
+
+    <div style="margin-top:8px;color:var(--text-muted);font-size:12px">📅 Список актуален на 14 июня 2026 — бесплатные модели меняются, перед подключением сверяйтесь с официальным фильтром OpenRouter ниже.</div>
 
     <div class="res-block">
       <div class="res-block__title">🔍 Все бесплатные модели на OpenRouter</div>
