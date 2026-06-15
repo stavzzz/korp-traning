@@ -198,16 +198,17 @@
   /* === BUTTON HIERARCHY === */
   .event__actions { display: flex; gap: 10px; margin-top: 8px; flex-wrap: wrap; }
   .btn-primary {
-    display: inline-flex; align-items: center; gap: 5px;
-    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
-    padding: 6px 14px; border-radius: 8px; text-decoration: none;
-    transition: all 0.2s ease; cursor: pointer; border: none;
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: .3px;
+    padding: 7px 15px; border-radius: 9px; text-decoration: none;
+    transition: all 0.2s ease; cursor: pointer; border: 1px solid transparent;
   }
   .btn-primary:hover { filter: brightness(1.15); transform: translateY(-1px); text-decoration: none; }
   .btn-primary--video { background: #7c5bf5; color: #fff; }
   .btn-primary--meet { background: #34d399; color: #0a0a0f; }
   .btn-primary--workshop { background: #fbbf24; color: #0a0a0f; }
-  .btn-materials { background: linear-gradient(135deg, #9d7cff, #34d399); color: #fff; }
+  .btn-materials { background: rgba(124,91,245,0.14); color: #9d7cff; border-color: rgba(124,91,245,0.32); }
+  .btn-materials:hover { filter: none; background: rgba(124,91,245,0.22); border-color: rgba(124,91,245,0.55); color: #b9a3ff; }
   .btn-secondary {
     display: inline-flex; align-items: center; gap: 5px;
     font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
@@ -217,14 +218,14 @@
   }
   .btn-secondary:hover { color: #8b879e; border-color: #8b879e; background: rgba(139, 135, 158, 0.06); text-decoration: none; }
   .link-util {
-    display: inline-flex; align-items: center; gap: 5px;
-    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
-    color: #5a5670; text-decoration: none; margin-top: 8px;
-    padding: 5px 12px; border-radius: 7px;
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: .3px;
+    color: #6f6b85; text-decoration: none; margin-top: 8px;
+    padding: 7px 15px; border-radius: 9px;
     border: 1px solid rgba(90, 86, 112, 0.4); background: transparent;
     transition: all 0.2s ease; cursor: pointer;
   }
-  .link-util:hover { color: #8b879e; border-color: #8b879e; background: rgba(139, 135, 158, 0.08); text-decoration: none; }
+  .link-util:hover { color: #8b879e; border-color: #8b879e; background: rgba(139, 135, 158, 0.08); text-decoration: none; transform: translateY(-1px); }
   @media (max-width: 480px) {
     .event__actions { flex-direction: column; }
     .event__actions .btn-primary,
