@@ -390,6 +390,10 @@
       <span><strong>Минимальные параметры под OpenClaw.</strong> Меньше — нельзя: на 2 ядрах / 4 ГБ агент будет тормозить и падать. Больше — можно.</span>
     </div>
 
+    <div class="res-block" style="margin-top:14px;border-top:1px solid var(--border);border-radius:10px 10px 0 0;background:rgba(0,0,0,0.2)">
+      <div class="res-block__title">💻 Что заказать у хостинга — минимум</div>
+    </div>
+
     <table class="data-table">
       <tr><th>Параметр</th><th>Минимум</th></tr>
       <tr><td>CPU</td><td>4 ядра</td></tr>
@@ -500,7 +504,7 @@
     </div>
 
     <div class="info-block">
-      <p><strong>Шаг 1. Установка Node.js</strong> — нужен, чтобы запускались MCP-инструменты (они стартуют через <span class="mono">npx</span>). Ставим один раз.</p>
+      <p><strong>Шаг 1. Установка Node.js</strong> — бесплатная программа, на которой работают инструменты ниже. Они запускаются командой <span class="mono">npx</span> — это значит «скачать и запустить одной строкой», без ручной возни. Ставим Node.js один раз.</p>
     </div>
 
     <details class="spoiler">
@@ -605,7 +609,7 @@ claude mcp add --scope user taskmaster-ai -e DEFAULT_PROVIDER=claude-code -- npx
     <!-- ── TOOL 3: Playwright ── -->
     <div class="res-block">
       <div class="res-block__title">🎭 Playwright · MCP · браузер</div>
-      <div class="res-block__sub">Даёт агенту настоящий браузер: открывать сайты, делать скриншоты, кликать, заполнять формы. То, чем мы заменили старый «Browser».</div>
+      <div class="res-block__sub">Даёт агенту настоящий браузер: открывать сайты, делать скриншоты, кликать, заполнять формы.</div>
     </div>
     <div class="prompt-block">
       <div class="prompt-block__title">📋 Промпт: установить Playwright (в Claude Code)</div>
@@ -629,7 +633,7 @@ claude mcp add --scope user playwright -- npx -y @playwright/mcp@latest
     <!-- ── TOOL 4: AgentMemory ── -->
     <div class="res-block">
       <div class="res-block__title">🧬 AgentMemory · MCP · память</div>
-      <div class="res-block__sub">Долгосрочная память: агент запоминает важное между сессиями. То, чем мы заменили старый «Memory Bank». Работает сразу, отдельный сервер поднимать не нужно.</div>
+      <div class="res-block__sub">Долгосрочная память: агент запоминает важное между сессиями. Работает сразу, ничего дополнительно настраивать не нужно.</div>
     </div>
     <div class="prompt-block">
       <div class="prompt-block__title">📋 Промпт: установить AgentMemory (в Claude Code)</div>
@@ -662,7 +666,7 @@ claude mcp add --scope user agentmemory -- npx -y @agentmemory/mcp
     </div>
     <div class="note note--info">
       <span class="note__icon">🤝</span>
-      <span><strong>Этот инструмент устанавливаем «за ручку».</strong> Отправьте промпт ниже в Claude Code — он сам пройдёт с вами все шаги: поставит uv, скачает сервер, поможет создать OAuth-ключ в Google Cloud и подключит MCP. Если что-то непонятно — спрашивайте у него прямо в чате и присылайте скриншоты.</span>
+      <span><strong>Этот инструмент устанавливаем «за ручку».</strong> Отправьте промпт ниже в Claude Code — он сам пройдёт с вами все шаги: поставит uv, скачает сервер, поможет создать OAuth-ключ в Google Cloud и подключит MCP. Если что-то непонятно — спрашивайте у него прямо в чате и присылайте ему скриншоты.</span>
     </div>
     <div class="prompt-block">
       <div class="prompt-block__title">📋 Промпт: установить Workspace MCP (в Claude Code)</div>
@@ -715,38 +719,22 @@ claude mcp add --scope user agentmemory -- npx -y @agentmemory/mcp
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Установить скилл openclaw-docs</div>
-        <div class="item__hint">1. Скачайте архив скилла с Google Drive:<br>
+        <div class="item__hint">1. Скачайте архив с Google Drive и распакуйте его двойным кликом — получится папка <span class="mono">openclaw-docs</span>.<br>
         <a href="https://drive.google.com/file/d/1zShFMW8g3nqhJvuDaKnFzzkj1azpQ9sq/view?usp=sharing" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> openclaw-docs — скачать скилл (Google Drive)</a><br>
-        2. Распакуйте архив в папку <span class="mono">~/.claude/skills/</span> — внутри должна появиться папка <span class="mono">openclaw-docs</span> с файлом <span class="mono">SKILL.md</span>.<br>
-        3. Полностью перезапустите Claude Code.<br><br>
-        Проще всего — отправьте промпт ниже в Claude Code, он распакует сам. Или сделайте вручную командой для вашей ОС (спойлер ниже).</div>
+        2. Перетащите эту папку в папку вашего проекта, которая открыта в Claude Code (вы видите её в левой панели).<br>
+        3. Отправьте промпт ниже — Claude Code сам всё установит и подскажет, что делать дальше.</div>
       </div>
     </div>
 
     <div class="prompt-block">
       <div class="prompt-block__title">📋 Промпт: установить скилл openclaw-docs (в Claude Code)</div>
-      <div class="prompt-block__text" id="promptSkillDocs">Я скачал архив openclaw-docs-skill.zip (он в папке «Загрузки»). Установи его как скилл для Claude Code:
-1. Создай папку ~/.claude/skills/, если её ещё нет.
-2. Распакуй архив в ~/.claude/skills/ так, чтобы получилась папка ~/.claude/skills/openclaw-docs/ с файлом SKILL.md внутри.
-3. Покажи список файлов в ~/.claude/skills/openclaw-docs/ и подтверди, что SKILL.md на месте.
-4. Напомни мне полностью перезапустить Claude Code, чтобы скилл подхватился.</div>
+      <div class="prompt-block__text" id="promptSkillDocs">В папке моего проекта появилась папка openclaw-docs — это скилл с документацией OpenClaw. Установи его как скилл для Claude Code, чтобы он работал у меня всегда. Потом проверь, что всё на месте, и напомни мне перезапустить Claude Code.</div>
       <button class="btn-copy" onclick="copyBlock('promptSkillDocs', this)">📋 Скопировать промпт</button>
     </div>
 
-    <details class="spoiler">
-      <summary>⌨️ Или вручную — команды для вашей ОС</summary>
-      <div class="spoiler__content">
-        <p><strong>macOS</strong> (Терминал):</p>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdSkillMac">mkdir -p ~/.claude/skills && unzip -o ~/Downloads/openclaw-docs-skill.zip -d ~/.claude/skills/</span><button class="btn-copy" onclick="copyBlock('cmdSkillMac',this)">📋 Скопировать</button></div>
-        <p><strong>Windows</strong> (PowerShell):</p>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdSkillWin">Expand-Archive -Force "$HOME\Downloads\openclaw-docs-skill.zip" "$HOME\.claude\skills\"</span><button class="btn-copy" onclick="copyBlock('cmdSkillWin',this)">📋 Скопировать</button></div>
-        <p>После распаковки полностью перезапустите Claude Code.</p>
-      </div>
-    </details>
-
     <div class="note note--green">
       <span class="note__icon">✅</span>
-      <span><strong>Как работать со скиллом.</strong> Вызывать вручную ничего не нужно — Claude Code сам подхватывает его, когда речь про OpenClaw. Просто спрашивайте по-человечески: «как настроить канал Telegram в OpenClaw?», «какие команды есть у openclaw config?» — и агент отвечает строго по документации, без выдумок.</span>
+      <span><strong>Как работать со скиллом.</strong> Вызывать вручную ничего не нужно — Claude Code сам подхватывает его, когда речь про OpenClaw. Просто спрашивайте по-человечески: «как настроить Telegram в OpenClaw?», «как включить голосовые ответы?» — и агент отвечает строго по документации, без выдумок.</span>
     </div>
 
     <!-- ── 6.2 SSH-КЛЮЧ БЕЗ ПАРОЛЯ ── -->
@@ -757,7 +745,7 @@ claude mcp add --scope user agentmemory -- npx -y @agentmemory/mcp
 
     <div class="note note--info">
       <span class="note__icon">📺</span>
-      <span><strong>Видеоинструкция: создание SSH-ключа для подключения к VPS без пароля.</strong> Обязательно посмотрите дополнительное видео урока 3 — там я показываю это вживую.<br><br>
+      <span><strong>Видеоинструкция: создание SSH-ключа для подключения к VPS без пароля.</strong> Обязательно посмотрите дополнительное видео урока 3 — там всё показано вживую, по шагам.<br><br>
       <strong>Что такое alias (алиас).</strong> Короткое имя сервера: вместо <span class="mono">ssh root@123.45.67.89</span> с вводом пароля каждый раз — одна команда <span class="mono">ssh my-server</span>.<br>
       <strong>Что такое подключение по SSH-ключу.</strong> Вместо пароля ваш компьютер предъявляет серверу криптографический ключ. Это быстрее, безопаснее, и сервер нельзя сбрутфорсить (подобрать пароль).</span>
     </div>
