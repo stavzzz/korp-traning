@@ -363,20 +363,22 @@
       <span><strong>Сервер не должен принадлежать российской компании.</strong> Дело не в том, где физически стоит «железо» — IP у вас будет зарубежный. Дело в том, <strong>чьей компании принадлежат серверные стойки и этот IP</strong>. Российские хостеры (Aeza, Timeweb, Reg.ru и т.п.) сдают зарубежные локации, но владелец — российское юрлицо, и его диапазоны IP известны. OpenAI, Anthropic, MiniMax, Google такие диапазоны часто режут по гео или блокируют. Итог: модели то работают, то нет, бот «молчит», а причину не видно. Берите хостинг, который сам по себе — зарубежная компания.</span>
     </div>
 
-    <details class="spoiler" open>
-      <summary>📊 Проверенные зарубежные провайдеры — выберите свой</summary>
-      <div class="spoiler__content">
-        <table class="data-table">
-          <tr><th>Провайдер</th><th>Цена / мес</th><th>Чем хорош</th></tr>
-          <tr><td><strong>netcup</strong> ⭐<br><a href="https://www.netcup.com/" target="_blank" class="lnk" onclick="event.stopPropagation()">netcup.com</a></td><td>~€5</td><td>Лучшая цена и качество. Надёжный, есть сервер в США (город Манассас)</td></tr>
-          <tr><td><strong>Hetzner</strong> ⭐<br><a href="https://www.hetzner.com/cloud" target="_blank" class="lnk" onclick="event.stopPropagation()">hetzner.com</a></td><td>~€4–6</td><td>Дёшево и надёжно. Есть серверы в США</td></tr>
-          <tr><td><strong>DigitalOcean</strong><br><a href="https://www.digitalocean.com/" target="_blank" class="lnk" onclick="event.stopPropagation()">digitalocean.com</a></td><td>$6–12</td><td>Самый понятный сайт для новичка. Есть серверы в США</td></tr>
-          <tr><td><strong>Vultr</strong><br><a href="https://www.vultr.com/" target="_blank" class="lnk" onclick="event.stopPropagation()">vultr.com</a></td><td>от $6</td><td>Серверы во многих городах США</td></tr>
-          <tr><td><strong>Linode</strong><br><a href="https://www.linode.com/" target="_blank" class="lnk" onclick="event.stopPropagation()">linode.com</a></td><td>от $5</td><td>Крупный надёжный провайдер, есть серверы в США</td></tr>
-        </table>
-        <p style="margin-top:10px">Проще всего новичку — <strong>netcup</strong> или <strong>Hetzner</strong>. Это те же провайдеры, что в уроке 1: можно взять второй сервер в том же аккаунте.</p>
-      </div>
-    </details>
+    <div class="res-block">
+      <div class="res-block__title">📊 Проверенные зарубежные провайдеры — выберите свой</div>
+    </div>
+
+    <table class="data-table">
+      <tr><th>Провайдер</th><th>Цена / мес</th><th>Чем хорош</th></tr>
+      <tr><td><strong>netcup</strong> ⭐<br><a href="https://www.netcup.com/" target="_blank" class="lnk" onclick="event.stopPropagation()">netcup.com</a></td><td>~€5</td><td>Лучшая цена и качество. Надёжный, есть сервер в США (город Манассас)</td></tr>
+      <tr><td><strong>Hetzner</strong> ⭐<br><a href="https://www.hetzner.com/cloud" target="_blank" class="lnk" onclick="event.stopPropagation()">hetzner.com</a></td><td>~€4–6</td><td>Дёшево и надёжно. Есть серверы в США</td></tr>
+      <tr><td><strong>DigitalOcean</strong><br><a href="https://www.digitalocean.com/" target="_blank" class="lnk" onclick="event.stopPropagation()">digitalocean.com</a></td><td>$6–12</td><td>Самый понятный сайт для новичка. Есть серверы в США</td></tr>
+      <tr><td><strong>Vultr</strong><br><a href="https://www.vultr.com/" target="_blank" class="lnk" onclick="event.stopPropagation()">vultr.com</a></td><td>от $6</td><td>Серверы во многих городах США</td></tr>
+      <tr><td><strong>Linode</strong><br><a href="https://www.linode.com/" target="_blank" class="lnk" onclick="event.stopPropagation()">linode.com</a></td><td>от $5</td><td>Крупный надёжный провайдер, есть серверы в США</td></tr>
+    </table>
+
+    <div class="info-block">
+      <p>Проще всего новичку — <strong>netcup</strong> или <strong>Hetzner</strong>. Это те же провайдеры, что в уроке 1: можно взять второй сервер в том же аккаунте.</p>
+    </div>
 
     <div class="note note--warn">
       <span class="note__icon">⚠️</span>
@@ -401,8 +403,7 @@
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Купить новый VPS-сервер у того же хостинга, что в уроке 1</div>
-        <div class="item__hint">Тот же аккаунт (netcup / Hetzner), что в уроке 1 → создайте новый сервер → параметры из таблицы выше. Страна — США или Европа, как и сервер из урока 1.<br>
-        <a href="https://www.netcup.com/" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> netcup.com — купить VPS</a></div>
+        <div class="item__hint">Тот же аккаунт (netcup / Hetzner), что в уроке 1 → создайте новый сервер → параметры из таблицы выше. Страна — США или Европа, как и сервер из урока 1.</div>
       </div>
     </div>
 
