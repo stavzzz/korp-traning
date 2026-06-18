@@ -1336,29 +1336,29 @@ SOUL.md держи в пределах 20 000 символов.</div>
     <div class="section__title">Диагностика и починка</div>
   </div>
   <div class="section__card">
-    <div class="note note--info">
-      <span class="note__icon">🔧</span>
-      <span>Основные команды для диагностики OpenClaw. Используйте при любых проблемах.</span>
+    <div class="note note--green">
+      <span class="note__icon">🤝</span>
+      <span><strong>Самый простой способ.</strong> Не помните команду или что-то сломалось — просто опишите проблему <strong>в Claude Code</strong>. У него стоит скилл <span class="mono">openclaw-docs</span> с полной документацией OpenClaw: он сам подберёт нужную команду, подключится к серверу и починит. Таблица ниже — для тех, кто хочет разобраться руками.</span>
     </div>
 
-    <div class="code-block"><span class="code-block__label">Основные команды</span><span id="cmdDiag1"># Автоисправление конфига
+    <div class="info-block">
+      <p><strong>Основные команды диагностики.</strong> Выполняются на сервере — сначала подключитесь: <span class="mono">ssh my-server</span>.</p>
+    </div>
+
+    <table class="data-table">
+      <tr><th>Команда</th><th>Что делает</th></tr>
+      <tr><td><span class="mono">openclaw doctor --fix</span></td><td>Проверяет конфиг и сам чинит частые проблемы. Это первое, что стоит запустить.</td></tr>
+      <tr><td><span class="mono">openclaw status</span></td><td>Общий статус бота: что включено, какие модели подключены, всё ли работает.</td></tr>
+      <tr><td><span class="mono">openclaw logs --follow</span></td><td>Логи в реальном времени — видно, что бот делает сейчас и где ошибка. Выход — <span class="mono">Ctrl+C</span>.</td></tr>
+      <tr><td><span class="mono">openclaw models status</span></td><td>Какие модели авторизованы и сколько осталось лимитов.</td></tr>
+      <tr><td><span class="mono">openclaw gateway restart</span></td><td>Перезапускает «мотор» бота. Помогает, когда бот завис или молчит.</td></tr>
+      <tr><td><span class="mono">openclaw health</span></td><td>Быстрая проверка: жив ли бот прямо сейчас.</td></tr>
+      <tr><td><span class="mono">openclaw security audit</span></td><td>Проверка безопасности сервера и конфига. Флаг <span class="mono">--deep</span> — глубже, с живыми проверками.</td></tr>
+    </table>
+
+    <div class="code-block"><span class="code-block__label">Реанимация бота (если молчит) — выполнить по порядку</span><span id="cmdDiag2">ssh my-server
 openclaw doctor --fix
-
-# Логи в реальном времени
-openclaw logs --follow
-
-# Список моделей и авторизация
-openclaw models list
-openclaw models status
-
-# Аудит безопасности
-openclaw security audit
-openclaw security audit --deep</span>
-<button class="btn-copy" onclick="copyBlock('cmdDiag1', this)">📋 Скопировать</button></div>
-
-    <div class="code-block"><span class="code-block__label">Реанимация бота (если молчит)</span><span id="cmdDiag2">ssh root@IP_АДРЕС
-openclaw doctor --fix
-nohup openclaw gateway > /dev/null 2>&1 &
+openclaw gateway restart
 openclaw status</span>
 <button class="btn-copy" onclick="copyBlock('cmdDiag2', this)">📋 Скопировать</button></div>
   </div>
@@ -1373,16 +1373,18 @@ openclaw status</span>
     <div class="section__title">Частые ошибки и решения</div>
   </div>
   <div class="section__card">
+    <div class="note note--green">
+      <span class="note__icon">🤝</span>
+      <span><strong>Главное правило.</strong> Любую ошибку, которой нет в таблице (или если решение не помогло), просто скопируйте и отправьте <strong>в Claude Code</strong>. У него стоит скилл <span class="mono">openclaw-docs</span> с полной документацией OpenClaw — он найдёт причину и починит сам. Гуглить не нужно.</span>
+    </div>
+
     <table class="data-table">
-      <tr><th>Ошибка</th><th>Решение</th></tr>
-      <tr><td>403 Key limit exceeded</td><td>Увеличить Credit limit на openrouter.ai</td></tr>
-      <tr><td>Address already in use (порт 18789)</td><td>Использовать другой порт: <span class="mono">-L 38789:127.0.0.1:18789</span></td></tr>
-      <tr><td>Config invalid: Unrecognized key</td><td><span class="mono">openclaw doctor --fix</span></td></tr>
-      <tr><td>Failed to connect to bus: No medium</td><td><span class="mono">export XDG_RUNTIME_DIR=/run/user/0</span></td></tr>
-      <tr><td>Gateway not reachable</td><td><span class="mono">nohup openclaw gateway > /dev/null 2>&1 &</span></td></tr>
-      <tr><td>openclaw: command not found</td><td>Зашли не под root → <span class="mono">su - root</span></td></tr>
-      <tr><td>--provider не распознаётся</td><td>Дефисы <span class="mono">--</span> набирать вручную с клавиатуры (мессенджер заменяет на длинное тире)</td></tr>
-      <tr><td>SSH-туннель зависает после пароля</td><td>Нормальное поведение — не трогать окно, открыть браузер</td></tr>
+      <tr><th>Ошибка</th><th>Что значит и что делать</th></tr>
+      <tr><td><span class="mono">403 Key limit exceeded</span></td><td>Кончился баланс или лимит ключа на OpenRouter. Пополните баланс / поднимите лимит на <span class="mono">openrouter.ai</span>.</td></tr>
+      <tr><td><span class="mono">Config invalid: Unrecognized key</span></td><td>В конфиге опечатка или лишний параметр. Запустите <span class="mono">openclaw doctor --fix</span> — починит сам.</td></tr>
+      <tr><td><span class="mono">Gateway not reachable</span></td><td>«Мотор» бота не отвечает. Перезапустите его: <span class="mono">openclaw gateway restart</span>.</td></tr>
+      <tr><td><span class="mono">openclaw: command not found</span></td><td>Вы зашли на сервер не под root. Выполните <span class="mono">su - root</span> и повторите команду.</td></tr>
+      <tr><td>Длинное тире вместо <span class="mono">--</span> в команде</td><td>Telegram и другие мессенджеры заменяют два дефиса <span class="mono">--</span> на длинное тире «—». Наберите дефисы вручную с клавиатуры.</td></tr>
     </table>
   </div>
 </div>
