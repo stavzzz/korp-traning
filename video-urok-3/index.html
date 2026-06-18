@@ -862,12 +862,20 @@ claude mcp add --scope user agentmemory -- npx -y @agentmemory/mcp
   <div class="section__card">
     <div class="note note--info">
       <span class="note__icon">🧠</span>
-      <span>Прямо в запущенном мастере настройки (из шага 06) вам предложат выбрать основную модель бота. Берите ту, на которую оформили подписку <strong>в уроке 1</strong>: <strong>ChatGPT (Codex)</strong> или <strong>MiniMax M3</strong>. <strong>OpenRouter</strong> подключаем сверху как резерв (fallback).</span>
+      <span>В мастере настройки (из шага 06) вы выбираете <strong>основную модель</strong> бота — его «мозг». Она <strong>одна</strong>.</span>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">👉</span>
+      <span><strong>Выберите ОДИН вариант — А или Б</strong>, смотря какая подписка у вас из урока 1:<br>
+      • взяли <strong>ChatGPT</strong> → Вариант А<br>
+      • взяли <strong>MiniMax</strong> → Вариант Б<br>
+      <strong>Вариант В (OpenRouter) ставят все</strong> — это бесплатный резерв поверх основной модели.</span>
     </div>
 
     <div class="info-block">
-      <p><strong>Вариант А: OpenAI Codex (подписка ChatGPT) ✅ ОСНОВНОЙ</strong></p>
-      <p>OpenAI официально разрешает использование подписки в OpenClaw. Если в уроке 1 вы взяли ChatGPT Plus ($20) / Pro ($100) — берите этот вариант.</p>
+      <p><strong>Вариант А — ChatGPT (Codex)</strong></p>
+      <p>Берите, если ваша подписка из урока 1 — <strong>ChatGPT Plus ($20) / Pro ($100)</strong>. OpenAI официально разрешает использовать подписку в OpenClaw.</p>
     </div>
 
     <div class="item" data-key="llm-codex">
@@ -891,8 +899,8 @@ claude mcp add --scope user agentmemory -- npx -y @agentmemory/mcp
     </div>
 
     <div class="info-block">
-      <p><strong>Вариант Б: MiniMax M3 (подписка MiniMax) ✅ ОСНОВНОЙ</strong></p>
-      <p>Если в уроке 1 вы выбрали MiniMax — берите этот вариант. Дешевле ChatGPT Pro: MiniMax Plus ($20) / Max ($50).</p>
+      <p><strong>Вариант Б — MiniMax M3</strong></p>
+      <p>Берите, если ваша подписка из урока 1 — <strong>MiniMax Plus ($20) / Max ($50)</strong>. Дешевле, чем ChatGPT Pro.</p>
     </div>
 
     <div class="item" data-key="llm-minimax">
@@ -905,8 +913,8 @@ claude mcp add --scope user agentmemory -- npx -y @agentmemory/mcp
     </div>
 
     <div class="info-block">
-      <p><strong>Вариант В: OpenRouter (агрегатор) ✅ РЕЗЕРВ (fallback)</strong></p>
-      <p>Доступ к 600+ моделям (Claude, GPT, Gemini, DeepSeek, Qwen) с оплатой за каждый запрос. Идеально в качестве <strong>fallback</strong> — это резервная модель, которая автоматически подхватывает работу, если основная (ChatGPT или MiniMax) недоступна или закончились лимиты.</p>
+      <p><strong>Вариант В — OpenRouter · резерв (ставят все)</strong></p>
+      <p>Доступ к 600+ моделям (Claude, GPT, Gemini, DeepSeek, Qwen). Нужен как <strong>резерв</strong>: если основная модель (А или Б) недоступна или кончились лимиты — бот автоматически переключается на него и продолжает работать.</p>
       <p>Мы уже зарегистрировались на OpenRouter и пополнили баланс на $15 <strong>в уроке 2</strong>. Пришло время использовать ваш API-ключ от OpenRouter.</p>
     </div>
 
@@ -932,8 +940,17 @@ claude mcp add --scope user agentmemory -- npx -y @agentmemory/mcp
   </div>
   <div class="section__card">
     <div class="note note--info">
+      <span class="note__icon">🖥️</span>
+      <span><strong>Что такое Web UI.</strong> Это панель управления ботом в браузере — как личный кабинет. Видно настройки, каналы и логи, можно подключить Telegram и следить за работой. Удобнее, чем команды в терминале.</span>
+    </div>
+
+    <div class="note note--green">
       <span class="note__icon">🔒</span>
-      <span>Чтобы безопасно управлять OpenClaw через браузер, пробрасываем защищённый SSH-туннель с сервера на ваш компьютер.</span>
+      <span><strong>Что такое SSH-туннель.</strong> Панель живёт на сервере и наружу закрыта — чтобы её не открыл кто-то чужой. Туннель — это безопасная «труба» между вашим компьютером и сервером:<br>
+      • открываете её одной командой;<br>
+      • панель становится доступна у вас в браузере;<br>
+      • труба зашифрована — данные защищены.<br>
+      Пока окно с туннелем открыто — панель работает. Закрыли окно — труба закрылась.</span>
     </div>
 
     <div class="item" data-key="tunnel-token">
@@ -957,7 +974,7 @@ claude mcp add --scope user agentmemory -- npx -y @agentmemory/mcp
         <div class="cmd-copy"><span class="cmd-copy__text" id="cmdPort2">netstat -ano | findstr :18789</span><button class="btn-copy" onclick="copyBlock('cmdPort2',this)">📋 Скопировать</button></div>
         <div class="item__hint">(Если ничего не вывело — порт свободен. Если занят — используйте 38789)<br><br>
         <strong>Запуск туннеля:</strong></div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdTunnel">ssh -N -L 18789:127.0.0.1:18789 root@IP_АДРЕС</span><button class="btn-copy" onclick="copyBlock('cmdTunnel',this)">📋 Скопировать</button></div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdTunnel">ssh -N -L 18789:127.0.0.1:18789 my-server</span><button class="btn-copy" onclick="copyBlock('cmdTunnel',this)">📋 Скопировать</button></div>
         <div class="item__hint">После ввода пароля экран «зависнет» — <strong>это нормально</strong>, туннель работает в фоне. Не закрывайте окно!</div>
       </div>
     </div>
@@ -1041,70 +1058,78 @@ claude mcp add --scope user agentmemory -- npx -y @agentmemory/mcp
 <div class="section">
   <div class="section__header">
     <div class="section__num">10</div>
-    <div class="section__title">Голосовые сообщения: OpenAI Whisper + Groq Whisper</div>
+    <div class="section__title">Голосовые сообщения боту (распознавание речи)</div>
   </div>
   <div class="section__card">
     <div class="note note--info">
       <span class="note__icon">🎙️</span>
-      <span><strong>OpenAI Whisper</strong> — основная модель (платная, самая точная). <strong>Groq Whisper</strong> — резервная (бесплатная, подхватывает работу, если OpenAI недоступен). Все ключи и конфиги устанавливаем через Claude Code.</span>
+      <span>Чтобы бот понимал голосовые сообщения, ему нужен «слух» — модель, которая переводит речь в текст. Начинаем с <strong>бесплатной</strong>. Платная — только как запас, если бесплатная подведёт.</span>
     </div>
 
-    <div class="item" data-key="whisper-openai">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Получить API-ключ OpenAI и пополнить баланс</div>
-        <div class="item__hint">1. Зайдите на платформу OpenAI под своим логином ChatGPT<br>2. Создайте новый API-ключ (<strong>Create new secret key</strong>)<br>3. Пополните баланс в <strong>Billing</strong> — хотя бы на $10–$20<br>4. Скопируйте ключ (начинается с <span class="mono">sk-...</span>)<br>
-        <a href="https://platform.openai.com/api-keys" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> platform.openai.com — API-ключи</a></div>
-      </div>
+    <!-- ── ОСНОВНОЙ: Groq (бесплатно) ── -->
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span><strong>Шаг 1 — Groq Whisper (бесплатно).</strong> Распознаёт речь быстро и бесплатно. Начинаем с него — для большинства этого достаточно.</span>
     </div>
 
-    <div class="item" data-key="whisper-groq">
+    <div class="item" data-key="voice-groq-key">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Получить бесплатный API-ключ Groq</div>
-        <div class="item__hint">1. Зарегистрируйтесь на Groq<br>2. Перейдите в <strong>API Keys</strong> → <strong>Create API Key</strong><br>3. Скопируйте ключ (начинается с <span class="mono">gsk_...</span>)<br>
+        <div class="item__text">Получить бесплатный ключ Groq</div>
+        <div class="item__hint">1. Зарегистрируйтесь на Groq<br>2. Откройте <strong>API Keys</strong> → <strong>Create API Key</strong><br>3. Скопируйте ключ (начинается с <span class="mono">gsk_...</span>)<br>
         <a href="https://console.groq.com" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> console.groq.com — регистрация</a></div>
       </div>
     </div>
 
-    <div class="item" data-key="whisper-setup">
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: включить голос через Groq (в Claude Code)</div>
+      <div class="prompt-block__text" id="promptVoiceGroq">Подключись к моему серверу. Настрой распознавание голосовых сообщений через бесплатный Groq Whisper:
+
+1. Добавь ключ: openclaw config set env.GROQ_API_KEY "gsk_ВАШ_КЛЮЧ"
+
+2. В файле ~/.openclaw/openclaw.json в секции tools.media.audio:
+   - enabled = true
+   - в массиве models оставь один провайдер: provider "groq", model "whisper-large-v3", type "provider".
+
+3. Перезапусти: openclaw gateway restart. Проверь логи и подтверди, что ошибок нет.</div>
+      <button class="btn-copy" onclick="copyBlock('promptVoiceGroq', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="item" data-key="voice-test">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Настроить Whisper через Claude Code</div>
-        <div class="item__hint">Вставьте свои ключи OpenAI (<span class="mono">sk-...</span>) и Groq (<span class="mono">gsk_...</span>) в промпт ниже, скопируйте его и отправьте агенту <strong>в чат Claude Code внутри VS Code</strong>.</div>
+        <div class="item__text">Проверить голосовое сообщение</div>
+        <div class="item__hint">Откройте бота в Telegram → зажмите микрофон → скажите: «Привет, агент! Какая сегодня погода?» → отправьте.<br>
+        <strong>Бот должен прислать расшифровку и ответ. ✅</strong><br><br>
+        Не получилось? Отправьте агенту: <span class="mono">Проверь логи: openclaw logs --follow, найди ошибку в модуле audio.</span></div>
+      </div>
+    </div>
+
+    <!-- ── ЗАПАС: OpenAI (платно, только если Groq подвёл) ── -->
+    <div class="note note--warn">
+      <span class="note__icon">💸</span>
+      <span><strong>Шаг 2 — только если с Groq не получилось.</strong> Если голос через Groq не заработал или распознаёт плохо — подключите платный <strong>OpenAI Whisper</strong> как запасной вариант. Если Groq устраивает — этот шаг можно пропустить.</span>
+    </div>
+
+    <div class="item" data-key="voice-openai-key">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Получить ключ OpenAI и пополнить баланс</div>
+        <div class="item__hint">1. Зайдите на платформу OpenAI под своим логином ChatGPT<br>2. Создайте ключ: <strong>Create new secret key</strong><br>3. Пополните баланс в <strong>Billing</strong> — хотя бы на $10<br>4. Скопируйте ключ (начинается с <span class="mono">sk-...</span>)<br>
+        <a href="https://platform.openai.com/api-keys" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> platform.openai.com — API-ключи</a></div>
       </div>
     </div>
 
     <div class="prompt-block">
-      <div class="prompt-block__title">📋 Промпт для настройки голоса (отправить в Claude Code)</div>
-      <div class="prompt-block__text" id="promptVoice">Выполни следующие задачи по настройке голосовых сообщений:
+      <div class="prompt-block__title">📋 Промпт: добавить OpenAI как запас (в Claude Code)</div>
+      <div class="prompt-block__text" id="promptVoiceOpenai">Подключись к моему серверу. Добавь платный OpenAI Whisper как запасной вариант распознавания голоса (Groq остаётся основным):
 
-1. Добавь ключ OpenAI:
-   openclaw config set env.OPENAI_API_KEY "sk-ВАШ_КЛЮЧ"
+1. Добавь ключ: openclaw config set env.OPENAI_API_KEY "sk-ВАШ_КЛЮЧ"
 
-2. Добавь ключ Groq:
-   openclaw config set env.GROQ_API_KEY "gsk_ВАШ_КЛЮЧ"
+2. В файле ~/.openclaw/openclaw.json в секции tools.media.audio.models добавь ВТОРЫМ провайдером: provider "openai", model "whisper-1", type "provider". Первым (основным) оставь groq.
 
-3. Найди конфигурационный файл ~/.openclaw/openclaw.json.
-   Отредактируй в нём секцию tools.media.audio следующим образом:
-   - Убедись, что параметр enabled установлен в true.
-   - Настрой массив models строго в таком порядке:
-     Первый (основной) провайдер: provider "openai", model "whisper-1", type "provider".
-     Второй (резервный) провайдер: provider "groq", model "whisper-large-v3", type "provider".
-
-4. После изменения файла выполни: openclaw gateway restart
-   Проверь логи и подтверди, что ошибки конфигурации отсутствуют.</div>
-      <button class="btn-copy" onclick="copyBlock('promptVoice', this)">📋 Скопировать промпт</button>
-    </div>
-
-    <div class="item" data-key="whisper-test">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Протестировать голосовое сообщение</div>
-        <div class="item__hint">Откройте бота в Telegram → зажмите микрофон → скажите: «Привет, агент! Какая сегодня погода?» → отправьте.<br>
-        <strong>Бот должен прислать расшифровку аудио и ответ от модели. ✅</strong><br><br>
-        Если ошибка — отправьте агенту в Claude Code: <span class="mono">Проверь логи сервера командой openclaw logs --follow и найди ошибку в модуле audio.</span></div>
-      </div>
+3. Перезапусти: openclaw gateway restart. Проверь логи и подтверди, что ошибок нет.</div>
+      <button class="btn-copy" onclick="copyBlock('promptVoiceOpenai', this)">📋 Скопировать промпт</button>
     </div>
   </div>
 </div>
@@ -1118,95 +1143,86 @@ claude mcp add --scope user agentmemory -- npx -y @agentmemory/mcp
     <div class="section__title">Показ остатка лимитов ChatGPT в Telegram-боте</div>
   </div>
   <div class="section__card">
-    <div class="note note--info">
-      <span class="note__icon">📊</span>
-      <span>После настройки бот будет автоматически показывать остаток лимитов после каждого сообщения:<br><span class="mono">─────────────────</span><br><span class="mono">💬 день 83% · ⏱ 1h 49m | неделя 96% · ⏱ 6d 20h</span></span>
+    <div class="note note--warn">
+      <span class="note__icon">⚠️</span>
+      <span><strong>Этот шаг — только для тех, кто подключил OpenAI Codex (ChatGPT) в шаге 07</strong> и хочет видеть остаток лимитов прямо в боте. На MiniMax или если лимиты вам не нужны — смело пропускайте.</span>
     </div>
 
-    <div class="note note--warn">
-      <span class="note__icon">💡</span>
-      <span><strong>Требования:</strong> VPS с установленным OpenClaw, подключённый OpenAI Codex (ChatGPT OAuth), SSH-доступ под root.</span>
+    <div class="note note--info">
+      <span class="note__icon">📊</span>
+      <span><strong>Где смотреть лимиты вручную.</strong> Свои лимиты Codex можно открыть на странице OpenAI — залогиньтесь под той же почтой, на которую оформлен ваш ChatGPT, и увидите остаток.<br>
+      <a href="https://chatgpt.com/codex/cloud/settings/analytics" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> chatgpt.com — лимиты Codex</a></span>
     </div>
 
     <div class="info-block">
-      <p><strong>Весь блок ниже — единый промпт для Claude Code.</strong> Скопируйте целиком и отправьте агенту. Он выполнит все 4 шага автоматически.</p>
+      <p><strong>Чтобы каждый раз туда не заходить, мы в рамках курса подготовили удобное решение:</strong> бот сам дописывает остаток лимитов в конец каждого ответа в Telegram — вот так:</p>
+    </div>
+
+    <div class="note note--info">
+      <span class="note__icon">💬</span>
+      <span><span class="mono">─────────────────</span><br><span class="mono">💬 5ч 83% · ⏱ 1h 49m | неделя 96% · ⏱ 6d 20h</span></span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Как установить — 3 шага:</strong></p>
+      <p>1. Скачайте архив и распакуйте его — получится папка <span class="mono">openclaw-codex-footer</span>.</p>
+      <p>2. Перетащите эту папку в папку вашего проекта, которая открыта в Claude Code (вы видите её в левой панели).</p>
+      <p>3. Скопируйте промпт ниже и отправьте в Claude Code одним сообщением — он сам обследует сервер, всё настроит и проверит.</p>
+    </div>
+
+    <div class="item" data-key="footer-download">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Скачать архив и перенести папку в проект</div>
+        <div class="item__hint">Скачайте, распакуйте и перетащите папку <span class="mono">openclaw-codex-footer</span> в проект, открытый в Claude Code.<br>
+        <a href="https://drive.google.com/file/d/1vfmzFWhizma2jB4KOXYC4t77VKw6iysV/view?usp=sharing" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> openclaw-codex-footer — скачать архив (Google Drive)</a></div>
+      </div>
     </div>
 
     <div class="prompt-block">
-      <div class="prompt-block__title">📋 Промпт: настройка лимитов ChatGPT</div>
-      <div class="prompt-block__text" id="promptLimits">Выполни следующие 4 шага для настройки отображения лимитов ChatGPT в Telegram-боте.
+      <div class="prompt-block__title">📋 Промпт: установить показ лимитов (в Claude Code)</div>
+      <div class="prompt-block__text" id="promptCodexFooter">Ты — DevOps-инженер. Установи на мой сервер с OpenClaw механизм, который к каждому ответу бота в Telegram дописывает строку с остатком лимитов Codex (5-часовое окно и недельное). Всё нужное лежит в папке openclaw-codex-footer/ в этом проекте.
 
-ШАГ 1: Создай скрипт обновления лимитов.
-Создай файл /usr/local/bin/openclaw-usage-writer.sh со следующим содержимым:
+Работай аккуратно: сначала обследуй сервер, потом меняй. Не угадывай пути, имена контейнеров и команды — проверяй на реальном сервере. Не трогай другие сервисы.
 
-#!/bin/bash
-output=$(/usr/bin/openclaw models status 2>/dev/null)
-line=$(echo "$output" | grep 'openai-codex usage:')
-if [ -n "$line" ]; then
-  raw=$(echo "$line" | sed 's/.*openai-codex usage: //')
-  day_pct=$(echo "$raw" | grep -oP '(\d+)% left' | head -1 | grep -oP '\d+')
-  day_time=$(echo "$raw" | grep -oP '⏱[^·]+' | head -1 | sed 's/⏱//' | xargs)
-  week_pct=$(echo "$raw" | grep -oP 'Week\s+\K\d+')
-  week_time=$(echo "$raw" | grep -oP 'Week.*⏱\K.*' | xargs)
-  echo "день ${day_pct}% · ⏱ ${day_time} | неделя ${week_pct}% · ⏱ ${week_time}" > ~/.openclaw/workspace/gpt-usage.txt
-fi
+Что в папке:
+- scripts/openclaw-usage-writer.sh — хостовый скрипт: раз в минуту читает лимиты (openclaw models status) и пишет их в файл gpt-usage.txt в workspace агента. Файл перезаписывается целиком — не растёт.
+- plugin/codex-usage-footer/ — плагин OpenClaw: на хуке message_sending дописывает содержимое файла к исходящим сообщениям Telegram. Без участия модели, идемпотентно.
+- README.md — описание и ручная инструкция.
 
-Сделай файл исполняемым: chmod +x /usr/local/bin/openclaw-usage-writer.sh
+Сделай по шагам; перед каждым шагом одной фразой говори, что делаешь:
+1. Прочитай openclaw-codex-footer/README.md целиком.
+2. Обследуй мою установку OpenClaw (проверь командами, не угадывай): каталог docker-compose проекта (обычно /opt/openclaw) и имя сервиса gateway; id контейнера gateway (docker compose ps -q &lt;сервис&gt;); корень данных на хосте (обычно /opt/openclaw-data) и workspace агента. Если установка НЕ через Docker Compose или пути нестандартные — остановись и спроси меня.
+3. Впиши найденные значения в шапку scripts/openclaw-usage-writer.sh (OPENCLAW_DIR, GW_SERVICE, DATA_DIR).
+4. Поставь writer: скопируй в /opt/openclaw-ops/, chmod 755, запусти один раз и проверь cat &lt;DATA_DIR&gt;/workspace/gpt-usage.txt (ожидаемо строка вида 5ч NN% · ⏱ … | неделя NN% · ⏱ …).
+5. Поставь плагин: скопируй папку codex-usage-footer в &lt;DATA_DIR&gt;/state/plugins/, владелец 1000:1000, права не world-writable. Затем (gw = id контейнера gateway):
+   docker exec &lt;gw&gt; openclaw config set plugins.load.paths '["/home/node/.openclaw/plugins"]' --strict-json
+   docker exec &lt;gw&gt; openclaw config set plugins.entries.codex-usage-footer.enabled true --strict-json
+   docker exec &lt;gw&gt; openclaw config validate
+   перезапусти gateway: docker restart &lt;gw&gt;
+6. Добавь строку в хостовый crontab — ТОЛЬКО добавлением, не затирая существующие: * * * * * /opt/openclaw-ops/openclaw-usage-writer.sh &gt;/dev/null 2&gt;&amp;1
+7. Проверь: docker exec &lt;gw&gt; openclaw plugins list | grep codex-usage-footer → должен быть enabled. Затем напиши боту любое сообщение — внизу ответа должна появиться строка с лимитами.
+8. Короткий отчёт: что куда поставлено и что проверено.
 
-ШАГ 2: Добавь в cron автообновление каждую минуту:
-(crontab -l 2>/dev/null; echo '* * * * * /usr/local/bin/openclaw-usage-writer.sh') | crontab -
-
-Запусти скрипт первый раз вручную и покажи содержимое gpt-usage.txt.
-
-ШАГ 3: Добавь в конец файла ~/.openclaw/workspace/IDENTITY.md следующий блок:
-
-## Обязательный футер
-
-КРИТИЧЕСКИ ВАЖНО: Перед КАЖДЫМ ответом ты ОБЯЗАН заново прочитать файл
-gpt-usage.txt из workspace через инструмент read/fs.
-НИКОГДА не используй ранее прочитанные данные — они устаревают каждую минуту.
-ВСЕГДА делай свежее чтение файла.
-
-В самом конце КАЖДОГО сообщения добавь РОВНО одну конструкцию:
-
-─────────────────
-💬 [свежее содержимое файла gpt-usage.txt]
-
-Правила:
-- КАЖДЫЙ РАЗ читай файл заново — данные меняются каждую минуту
-- Вставляй содержимое КАК ЕСТЬ после 💬
-- Футер должен быть ОДИН РАЗ в самом конце
-- НЕ добавляй к футеру ничего от себя
-- Разделитель ───────────────── на отдельной строке
-
-ШАГ 4: Подтверди, что всё настроено корректно: скрипт работает, cron добавлен, IDENTITY.md обновлён.</div>
-      <button class="btn-copy" onclick="copyBlock('promptLimits', this)">📋 Скопировать промпт</button>
+Правила: не угадывай — что не подтверждено инспекцией сервера, не используй; не хватает данных — спроси; crontab меняй только добавлением; секреты в скрипты не вписывай; показывай реальный вывод команд; другие сервисы на сервере не трогай.</div>
+      <button class="btn-copy" onclick="copyBlock('promptCodexFooter', this)">📋 Скопировать промпт</button>
     </div>
 
-    <div class="item" data-key="limits-setup">
+    <div class="item" data-key="footer-install">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Настроить отображение лимитов через промпт в Claude Code</div>
-        <div class="item__hint">Скопируйте промпт выше и отправьте агенту. Он создаст скрипт, настроит cron и обновит IDENTITY.md.</div>
+        <div class="item__text">Отправить промпт в Claude Code</div>
+        <div class="item__hint">Скопируйте промпт выше и отправьте агенту одним сообщением. Он сам всё обследует, установит и проверит, по ходу рассказывая, что делает.</div>
       </div>
     </div>
 
-    <div class="item" data-key="limits-test">
+    <div class="item" data-key="footer-test">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Отправить /new боту и проверить футер</div>
-        <div class="item__hint">Отправьте боту <span class="mono">/new</span> в Telegram, чтобы он подхватил обновлённый IDENTITY.md. Затем напишите любое сообщение — в конце ответа должен быть футер с лимитами.</div>
+        <div class="item__text">Написать боту и проверить футер</div>
+        <div class="item__hint">Напишите боту любое сообщение в Telegram — внизу ответа должна появиться строка с остатком лимитов. Готово ✅</div>
       </div>
     </div>
-
-    <details class="spoiler">
-      <summary>🔧 Как это работает</summary>
-      <div class="spoiler__content">
-        <p><strong>Cron-скрипт</strong> каждую минуту запускает <span class="mono">openclaw models status</span> и записывает данные в файл <span class="mono">gpt-usage.txt</span> внутри workspace агента.</p>
-        <p><strong>Агент</strong> перед каждым ответом заново читает этот файл и добавляет футер.</p>
-        <p><strong>Важно:</strong> файл должен лежать внутри <span class="mono">~/.openclaw/workspace/</span>, иначе sandbox-ограничения не дадут его прочитать. При смене модели (не OpenAI Codex) нужно обновить grep-паттерн в скрипте.</p>
-      </div>
-    </details>
   </div>
 </div>
 
