@@ -726,11 +726,10 @@ claude mcp add --scope user agentmemory -- npx -y @agentmemory/mcp
     <div class="item" data-key="skill-openclaw-docs">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Установить скилл openclaw-docs</div>
-        <div class="item__hint">1. Скачайте архив с Google Drive и распакуйте его двойным кликом — получится папка <span class="mono">openclaw-docs</span>.<br>
+        <div class="item__text">Скачать скилл и перенести папку в проект</div>
+        <div class="item__hint">1. Скачайте архив и распакуйте его двойным кликом — получится папка <span class="mono">openclaw-docs</span>.<br>
         <a href="https://drive.google.com/uc?export=download&amp;id=1zShFMW8g3nqhJvuDaKnFzzkj1azpQ9sq" target="_blank" class="btn-dl" onclick="event.stopPropagation()">⬇️ Скачать .zip</a><br>
-        2. Перетащите эту папку в папку вашего проекта, которая открыта в Claude Code (вы видите её в левой панели).<br>
-        3. Отправьте промпт ниже — Claude Code сам всё установит и подскажет, что делать дальше.</div>
+        2. Перетащите эту папку в проект, открытый в Claude Code (видно в левой панели).</div>
       </div>
     </div>
 
@@ -738,6 +737,14 @@ claude mcp add --scope user agentmemory -- npx -y @agentmemory/mcp
       <div class="prompt-block__title">📋 Промпт: установить скилл openclaw-docs (в Claude Code)</div>
       <div class="prompt-block__text" id="promptSkillDocs">В папке моего проекта появилась папка openclaw-docs — это скилл с документацией OpenClaw. Установи его как скилл для Claude Code, чтобы он работал у меня всегда. Потом проверь, что всё на месте, и напомни мне перезапустить Claude Code.</div>
       <button class="btn-copy" onclick="copyBlock('promptSkillDocs', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="item" data-key="skill-install">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Отправить промпт в Claude Code и перезапустить</div>
+        <div class="item__hint">Claude Code установит скилл и напомнит перезапустить программу. После перезапуска скилл активен.</div>
+      </div>
     </div>
 
     <div class="note note--green">
@@ -1156,13 +1163,21 @@ claude mcp add --scope user agentmemory -- npx -y @agentmemory/mcp
 
     <div class="note note--green">
       <span class="note__icon">💬</span>
-      <span><strong>Сначала — дайте боту узнать вас.</strong> Чем больше он о вас знает, тем точнее соберёт свою «душу». Два пути на выбор:<br>
-      • <strong>Поговорить:</strong> проведите с ботом в Telegram одну долгую, полноценную сессию — расскажите о себе, своём бизнесе, задачах, привычках, о том, как любите, чтобы вам отвечали.<br>
-      • <strong>Загрузить готовое (быстрее):</strong> если в уроке 2 вы уже делали <strong>распаковку</strong> по своему бизнесу, работе и проектам — используйте её. Загрузите этот текст в OpenClaw: либо через Claude Code, либо отправьте его своему главному агенту прямо в Telegram. На базе распаковки бот узнает вас сразу и глубоко.</span>
+      <span><strong>Шаг 1. Дайте боту узнать вас.</strong> Прежде чем собирать душу, накопите информацию о себе — чем больше бот о вас знает, тем точнее получится. Два пути на выбор:<br>
+      • <strong>Поговорить.</strong> Проведите долгую, полноценную сессию общения с вашим ботом OpenClaw в Telegram. Расскажите ему, кто вы, чем занимаетесь, про свой бизнес, работу, проекты, задачи и привычки, а ещё — как любите, чтобы вам отвечали.<br>
+      • <strong>Использовать готовую распаковку (быстрее).</strong> Если вы уже делали распаковку в уроке 2 — не печатайте всё заново. Попросите ChatGPT (или сервис, где делали распаковку) выгрузить всю информацию о вас одним сообщением. Это сообщение отправьте боту в Telegram или прямо в Claude Code — на его основе и соберётся душа.</span>
+    </div>
+
+    <div class="item" data-key="soul-learn">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Дать боту узнать вас (сессия в Telegram или распаковка из урока 2)</div>
+        <div class="item__hint">Можно совместить оба пути. Главное — чтобы у бота были живые факты о вас и вашем деле.</div>
+      </div>
     </div>
 
     <div class="info-block">
-      <p><strong>Как выглядит хороший SOUL.md.</strong> Ниже — «анатомия» идеального файла: 8 разделов, которые реально влияют на поведение агента. <strong>Эту картинку можно прямо скопировать и отправить в Claude Code</strong> вместе с рекомендациями ниже — он соберёт по ним душу вашего агента.</p>
+      <p><strong>Шаг 2. Соберём душу.</strong> Теперь покажем боту, как выглядит хорошая «душа», и попросим собрать её. Ниже — «анатомия» идеального <span class="mono">SOUL.md</span>: 8 разделов, которые реально влияют на поведение агента.</p>
     </div>
 
     <img src="soul-anatomy.jpg" alt="Анатомия файла SOUL.md — 8 разделов" style="display:block;width:100%;border-radius:12px;margin:8px 0 14px;border:1px solid var(--border-accent)">
@@ -1190,34 +1205,17 @@ SOUL.md — это единственный файл, который вы пиш
       <button class="btn-copy" onclick="copyBlock('promptSoulGuide', this)">📋 Скопировать рекомендации</button>
     </div>
 
-    <div class="note note--info">
-      <span class="note__icon">🛠️</span>
-      <span><strong>Что делать дальше:</strong><br>
-      • дайте боту узнать вас — долгая сессия в Telegram <strong>или</strong> загрузите распаковку из урока 2 (через Claude Code либо сообщением агенту в Telegram);<br>
-      • скопируйте картинку выше и рекомендации, отправьте их в Claude Code;<br>
-      • попросите собрать SOUL.md и USER.md по этой структуре — на основе вашего разговора с ботом и распаковки;<br>
-      • Claude Code покажет готовый черновик прямо здесь, в VS Code — проверьте, и он сохранит файлы на сервер.</span>
-    </div>
-
     <div class="note note--alert">
       <span class="note__icon">🚨</span>
-      <span><strong>Важно:</strong> длина файла <span class="mono">SOUL.md</span> не должна превышать <strong>20 000 символов</strong>. Всё, что сверх этого лимита — будет обрезано и агент его не увидит.</span>
+      <span><strong>Важно:</strong> длина файла <span class="mono">SOUL.md</span> — не больше <strong>20 000 символов</strong>. Всё, что сверх лимита, обрезается, и агент этого не увидит.</span>
     </div>
 
     <div class="info-block">
-      <p>Все файлы лежат на сервере в рабочей папке агента <span class="mono">~/.openclaw/workspace/</span>. Вместо ручного редактирования — попросим Claude Code заполнить их за нас.</p>
-    </div>
-
-    <div class="item" data-key="soul-setup">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Собрать SOUL.md и USER.md через Claude Code</div>
-        <div class="item__hint">Отправьте картинку и рекомендации выше <strong>в Claude Code</strong> вместе с промптом ниже. Он соберёт черновик, покажет его в VS Code, а после вашего «ок» — сохранит на сервер.</div>
-      </div>
+      <p><strong>Соберите душу.</strong> Отправьте в Claude Code картинку выше, рекомендации и промпт ниже. Он соберёт черновики <span class="mono">SOUL.md</span> и <span class="mono">USER.md</span>, покажет их прямо в VS Code, а после вашего «ок» — сохранит на сервер.</p>
     </div>
 
     <div class="prompt-block">
-      <div class="prompt-block__title">📋 Промпт: собрать душу агента (отправить в Claude Code)</div>
+      <div class="prompt-block__title">📋 Промпт: собрать душу агента (в Claude Code)</div>
       <div class="prompt-block__text" id="promptSoul">Помоги собрать душу моего агента — файлы SOUL.md и USER.md.
 
 Я приложил картинку «Анатомия SOUL.md» и рекомендации с 8 разделами. Собери SOUL.md строго по этой структуре — конкретно, без воды, 30–80 строк.
@@ -1228,6 +1226,14 @@ SOUL.md — это единственный файл, который вы пиш
 
 SOUL.md держи в пределах 20 000 символов.</div>
       <button class="btn-copy" onclick="copyBlock('promptSoul', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="item" data-key="soul-setup">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Собрать SOUL.md и USER.md и сохранить на сервер</div>
+        <div class="item__hint">Проверьте черновик в VS Code и подтвердите — Claude Code сохранит файлы в рабочую папку агента. Готово ✅</div>
+      </div>
     </div>
 
     <div class="note note--green">
@@ -1436,14 +1442,6 @@ openclaw status</span>
       <div class="item__body">
         <div class="item__text">Скачать и распаковать</div>
         <div class="item__hint">Нажмите «Скачать», распакуйте архив и перетащите папку <span class="mono">openclaw-autoupdate-kit</span> в свой проект, открытый в VS Code с Claude Code.</div>
-      </div>
-    </div>
-
-    <div class="item" data-key="autoupd-prompt">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Скопировать промпт ниже</div>
-        <div class="item__hint">Нажмите кнопку «Скопировать» под промптом — он скопируется целиком.</div>
       </div>
     </div>
 
