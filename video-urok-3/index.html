@@ -123,6 +123,10 @@
   .btn-copy:hover { background:rgba(124,91,245,0.2); border-color:var(--accent); }
   .btn-copy.copied { color:var(--green); background:var(--green-soft); border-color:rgba(52,211,153,0.3); }
 
+  /* ─── BTN-DL — единая кнопка скачивания .zip ─── */
+  .btn-dl { display:inline-flex; align-items:center; gap:7px; font-family:'Onest',sans-serif; font-size:13px; font-weight:600; color:var(--accent-glow); background:var(--accent-soft); border:1px solid rgba(124,91,245,0.35); padding:9px 18px; border-radius:10px; text-decoration:none; transition:all .2s; cursor:pointer; }
+  .btn-dl:hover { background:rgba(124,91,245,0.2); border-color:var(--accent); }
+
   /* ─── CODE BLOCK ─── */
   .code-block { background:rgba(0,0,0,0.4); border:1px solid var(--border-accent); border-radius:10px; padding:16px 20px; margin:12px 16px; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--green-glow); line-height:1.8; white-space:pre-wrap; word-break:break-all; overflow-x:auto; }
   .code-block__label { font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:8px; display:block; }
@@ -724,7 +728,7 @@ claude mcp add --scope user agentmemory -- npx -y @agentmemory/mcp
       <div class="item__body">
         <div class="item__text">Установить скилл openclaw-docs</div>
         <div class="item__hint">1. Скачайте архив с Google Drive и распакуйте его двойным кликом — получится папка <span class="mono">openclaw-docs</span>.<br>
-        <a href="https://drive.google.com/file/d/1zShFMW8g3nqhJvuDaKnFzzkj1azpQ9sq/view?usp=sharing" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> openclaw-docs — скачать скилл (Google Drive)</a><br>
+        <a href="https://drive.google.com/uc?export=download&amp;id=1zShFMW8g3nqhJvuDaKnFzzkj1azpQ9sq" target="_blank" class="btn-dl" onclick="event.stopPropagation()">⬇️ Скачать .zip</a><br>
         2. Перетащите эту папку в папку вашего проекта, которая открыта в Claude Code (вы видите её в левой панели).<br>
         3. Отправьте промпт ниже — Claude Code сам всё установит и подскажет, что делать дальше.</div>
       </div>
@@ -1272,7 +1276,7 @@ SOUL.md держи в пределах 20 000 символов.</div>
       <div class="item__body">
         <div class="item__text">Скачать архив и перенести папку в проект</div>
         <div class="item__hint">Скачайте, распакуйте и перетащите папку <span class="mono">openclaw-codex-footer</span> в проект, открытый в Claude Code.<br>
-        <a href="https://drive.google.com/file/d/1vfmzFWhizma2jB4KOXYC4t77VKw6iysV/view?usp=sharing" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> openclaw-codex-footer — скачать архив (Google Drive)</a></div>
+        <a href="https://drive.google.com/uc?export=download&amp;id=1vfmzFWhizma2jB4KOXYC4t77VKw6iysV" target="_blank" class="btn-dl" onclick="event.stopPropagation()">⬇️ Скачать .zip</a></div>
       </div>
     </div>
 
@@ -1414,8 +1418,8 @@ openclaw status</span>
       <span>Ставите один раз — дальше бот обновляется без риска всё сломать. Это снимает главный страх новичка: «обновлюсь и сломаю рабочего бота».</span>
     </div>
 
-    <div style="text-align:center;margin:4px 0">
-      <a href="https://drive.google.com/uc?export=download&amp;id=1YCuriEfmm0LpFsMe9QKMD_Y6FfGewoCC" target="_blank" class="btn-copy" style="display:inline-flex;text-decoration:none;padding:12px 28px;font-size:13px">⬇️ Скачать набор (.zip)</a>
+    <div style="padding:6px 20px 12px">
+      <a href="https://drive.google.com/uc?export=download&amp;id=1YCuriEfmm0LpFsMe9QKMD_Y6FfGewoCC" target="_blank" class="btn-dl" onclick="event.stopPropagation()">⬇️ Скачать .zip</a>
     </div>
 
     <div class="note note--warn">
@@ -1426,24 +1430,43 @@ openclaw status</span>
     <div class="item" data-key="autoupd-download">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Скачать архив и перенести папку в проект</div>
-        <div class="item__hint">Скачайте архив (кнопка выше), распакуйте и перетащите папку в свой проект, открытый в VS Code с Claude Code.</div>
+        <div class="item__text">Скачать и распаковать</div>
+        <div class="item__hint">Нажмите «Скачать», распакуйте архив и перетащите папку <span class="mono">openclaw-autoupdate-kit</span> в свой проект, открытый в VS Code с Claude Code.</div>
       </div>
     </div>
 
     <div class="item" data-key="autoupd-prompt">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Открыть PROMPT.md и скопировать промпт</div>
-        <div class="item__hint">В распакованной папке откройте файл <span class="mono">PROMPT.md</span> и скопируйте промпт целиком — это готовая инструкция для Claude Code.</div>
+        <div class="item__text">Скопировать промпт ниже</div>
+        <div class="item__hint">Нажмите кнопку «Скопировать» под промптом — он скопируется целиком.</div>
       </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: установить набор (в Claude Code)</div>
+      <div class="prompt-block__text" id="promptAutoupd">Ты — DevOps-инженер. Разверни на моём сервере с OpenClaw набор из папки openclaw-autoupdate-kit/ (она уже в этом проекте): безопасное авто-обновление бота по моему подтверждению.
+
+Работай аккуратно: сначала обследуй сервер, потом меняй. Не угадывай пути, имена контейнеров и команды — проверяй на реальном сервере. Не трогай другие сервисы и проекты.
+
+По шагам, перед каждым шагом одной фразой говори, что делаешь:
+1. Прочитай файлы README.md и INSTALL.md из папки openclaw-autoupdate-kit/ целиком.
+2. Обследуй мою установку OpenClaw (проверь командами, не угадывай): каталог docker-compose проекта (обычно /opt/openclaw) и имя сервиса gateway; id контейнера gateway (docker compose ps -q &lt;сервис&gt;); корень данных на хосте (обычно /opt/openclaw-data) и папку workspace агента. Если установка НЕ через Docker Compose или пути нестандартные — остановись и спроси меня.
+3. Заполни scripts/lib-common.sh под мой сервер: пути, имя сервиса gateway, мой Telegram chat id, образ. В scripts/crontab.snippet выставь удобное время проверки.
+4. Поставь авто-обновление: по INSTALL.md (раздел «Часть A») — скилл агента и перезапуск gateway.
+5. Добавь строки в хостовый crontab — ТОЛЬКО добавлением, не затирая существующие задания.
+6. Проверь, ничего не ломая: smoke-test в режиме dry-run. Реальное обновление запускай только с моего явного разрешения.
+7. Дай короткий отчёт: что куда поставлено и что проверено.
+
+Правила: не угадывай — что не подтверждено на сервере, не используй; не хватает данных — спроси; crontab меняй только добавлением; секреты в скрипты не вписывай; показывай реальный вывод команд; другие сервисы не трогай.</div>
+      <button class="btn-copy" onclick="copyBlock('promptAutoupd', this)">📋 Скопировать промпт</button>
     </div>
 
     <div class="item" data-key="autoupd-install">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Вставить промпт в Claude Code</div>
-        <div class="item__hint">Вставьте промпт в Claude Code одним сообщением — он сам поставит набор на ваш сервер и проверит, по ходу рассказывая, что делает.</div>
+        <div class="item__hint">Вставьте промпт в Claude Code одним сообщением. Дальше он сам всё поставит на ваш сервер и по ходу расскажет, что делает.</div>
       </div>
     </div>
   </div>
