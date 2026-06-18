@@ -194,7 +194,7 @@
   <ul class="header__topics">
     <li>Вайб-кодинг и терминал — зачем нейросетям CLI</li>
     <li>VS Code + Claude Code — установка и настройка</li>
-    <li>4 must-have скилла и «Режим бога»</li>
+    <li>Прокачка Claude Code: скиллы, MCP и 4 инструмента</li>
     <li>Покупка VPS и автоматическая установка OpenClaw</li>
     <li>Подключение LLM-провайдеров: ChatGPT Codex и OpenRouter</li>
     <li>Создание Telegram-бота и голосовые сообщения</li>
@@ -355,15 +355,45 @@
 
     <div class="note note--alert">
       <span class="note__icon">🚨</span>
-      <span><strong>Критично:</strong> OpenClaw ставится на отдельный чистый сервер. Не на тот, где VPN, n8n или другие сервисы. Страна сервера — НЕ Россия (могут быть проблемы с доступом к API). Выбирайте локацию максимально близко к вашему реальному местоположению для минимального пинга.</span>
+      <span><strong>Критично:</strong> OpenClaw ставится на отдельный чистый сервер. Не на тот, где VPN, n8n или другие сервисы. Выбирайте локацию максимально близко к вашему реальному местоположению — для минимального пинга.</span>
+    </div>
+
+    <div class="note note--alert">
+      <span class="note__icon">🚫</span>
+      <span><strong>Сервер не должен принадлежать российской компании.</strong> Дело не в том, где физически стоит «железо» — IP у вас будет зарубежный. Дело в том, <strong>чьей компании принадлежат серверные стойки и этот IP</strong>. Российские хостеры (Aeza, Timeweb, Reg.ru и т.п.) сдают зарубежные локации, но владелец — российское юрлицо, и его диапазоны IP известны. OpenAI, Anthropic, MiniMax, Google такие диапазоны часто режут по гео или блокируют. Итог: модели то работают, то нет, бот «молчит», а причину не видно. Берите хостинг, который сам по себе — зарубежная компания.</span>
+    </div>
+
+    <details class="spoiler" open>
+      <summary>📊 Проверенные зарубежные провайдеры — выберите свой</summary>
+      <div class="spoiler__content">
+        <table class="data-table">
+          <tr><th>Провайдер</th><th>Цена / мес</th><th>Чем хорош</th></tr>
+          <tr><td><strong>netcup</strong> ⭐<br><a href="https://www.netcup.com/" target="_blank" class="lnk" onclick="event.stopPropagation()">netcup.com</a></td><td>~€5</td><td>Лучшая цена и качество. Надёжный, есть сервер в США (город Манассас)</td></tr>
+          <tr><td><strong>Hetzner</strong> ⭐<br><a href="https://www.hetzner.com/cloud" target="_blank" class="lnk" onclick="event.stopPropagation()">hetzner.com</a></td><td>~€4–6</td><td>Дёшево и надёжно. Есть серверы в США</td></tr>
+          <tr><td><strong>DigitalOcean</strong><br><a href="https://www.digitalocean.com/" target="_blank" class="lnk" onclick="event.stopPropagation()">digitalocean.com</a></td><td>$6–12</td><td>Самый понятный сайт для новичка. Есть серверы в США</td></tr>
+          <tr><td><strong>Vultr</strong><br><a href="https://www.vultr.com/" target="_blank" class="lnk" onclick="event.stopPropagation()">vultr.com</a></td><td>от $6</td><td>Серверы во многих городах США</td></tr>
+          <tr><td><strong>Linode</strong><br><a href="https://www.linode.com/" target="_blank" class="lnk" onclick="event.stopPropagation()">linode.com</a></td><td>от $5</td><td>Крупный надёжный провайдер, есть серверы в США</td></tr>
+        </table>
+        <p style="margin-top:10px">Проще всего новичку — <strong>netcup</strong> или <strong>Hetzner</strong>. Это те же провайдеры, что в уроке 1: можно взять второй сервер в том же аккаунте.</p>
+      </div>
+    </details>
+
+    <div class="note note--warn">
+      <span class="note__icon">⚠️</span>
+      <span><strong>Если зарубежный сервер купить никак не выходит</strong> — на крайний случай и <strong>на свой страх и риск</strong> можно взять <a href="https://aeza.net/" target="_blank" class="lnk" onclick="event.stopPropagation()">aeza.net</a> (локация США/Европа). Но помните: Aeza — российская компания, часть моделей и сервисов на нём может работать нестабильно или со временем отвалиться. Это временное решение для старта, не замена нормальному зарубежному серверу.</span>
+    </div>
+
+    <div class="note note--info">
+      <span class="note__icon">📦</span>
+      <span><strong>Минимальные параметры под OpenClaw.</strong> Меньше — нельзя: на 2 ядрах / 4 ГБ агент будет тормозить и падать. Больше — можно.</span>
     </div>
 
     <table class="data-table">
-      <tr><th>Параметр</th><th>Рекомендация</th></tr>
-      <tr><td>CPU / RAM</td><td>4 ядра / 8 ГБ (shared)</td></tr>
+      <tr><th>Параметр</th><th>Минимум</th></tr>
+      <tr><td>CPU</td><td>4 ядра</td></tr>
+      <tr><td>RAM</td><td>8 ГБ</td></tr>
       <tr><td>Диск</td><td>120 ГБ NVMe</td></tr>
       <tr><td>ОС</td><td>Ubuntu 24.04</td></tr>
-      <tr><td>Хостинг</td><td>netcup, Hetzner (как в уроке 1)</td></tr>
       <tr><td>Цена</td><td>~€20/месяц</td></tr>
     </table>
 
@@ -430,39 +460,42 @@
 </div>
 
 <!-- ═══════════════════════════════════════════
-     05 — СКИЛЛЫ + РЕЖИМ БОГА
+     05 — ПРОКАЧКА CLAUDE CODE
 ═══════════════════════════════════════════ -->
 <div class="section">
   <div class="section__header">
     <div class="section__num">05</div>
-    <div class="section__title">«Режим бога» и 4 must-have скилла для Claude Code</div>
+    <div class="section__title">Прокачка Claude Code: скиллы, MCP и 4 инструмента</div>
   </div>
   <div class="section__card">
     <div class="note note--info">
       <span class="note__icon">🔧</span>
-      <span>Скиллы — это расширения (плагины) для Claude Code. Они превращают агента из простого чат-бота в мощный рабочий инструмент: дебаг кода, планирование задач, ресёрч и долгосрочная память.</span>
-    </div>
-
-    <table class="data-table">
-      <tr><th>Скилл</th><th>Что делает</th></tr>
-      <tr><td>Superpowers</td><td>Фреймворк скиллов: TDD, дебаг, планирование, код-ревью</td></tr>
-      <tr><td>TaskMaster</td><td>Разбивка задач, прогресс, план проекта</td></tr>
-      <tr><td>Browser</td><td>Скриншоты, навигация, заполнение форм</td></tr>
-      <tr><td>Memory Bank</td><td>Долгосрочная память между сессиями</td></tr>
-    </table>
-
-    <div class="res-block">
-      <div class="res-block__title">📦 Репозитории скиллов на GitHub</div>
-      <div class="res-block__sub">
-        <a href="https://github.com/obra/superpowers" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Superpowers</a><br>
-        <a href="https://github.com/eyaltoledano/claude-task-master" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> TaskMaster</a><br>
-        <a href="https://github.com/anthropics/claude-quickstarts" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Browser</a><br>
-        <a href="https://github.com/alioshr/memory-bank-mcp" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Memory Bank</a>
-      </div>
+      <span>Базовый Claude Code — уже мощный, но его можно «прокачать»: добавить навыки и подключить внешние инструменты. Так агент из чат-бота превращается в рабочую станцию — браузер, память между сессиями, разбивка задач, работа с Google.</span>
     </div>
 
     <div class="info-block">
-      <p><strong>Шаг 1. Установка Node.js</strong> — критически необходим для работы скиллов.</p>
+      <p><strong>Сначала разберёмся в трёх словах</strong> — чтобы не путаться дальше:</p>
+      <p><strong>🧠 Скилл (Skill)</strong> — папка с инструкциями (Markdown), которая учит Claude Code методике или знанию. Подхватывается сам по теме запроса. <em>Примеры: Superpowers, наш скилл с документацией OpenClaw.</em></p>
+      <p><strong>📦 Плагин (Plugin)</strong> — готовый «бандл»: скиллы + команды + настройки одним пакетом из маркетплейса. <em>Superpowers распространяется как плагин.</em></p>
+      <p><strong>🔌 MCP (Model Context Protocol)</strong> — стандарт-«переходник», через который Claude Code управляет внешними сервисами: браузером, памятью, Google, задачами. Каждый MCP — отдельная программа-мост со своим набором команд. <em>Примеры: Playwright, AgentMemory, Workspace, TaskMaster.</em></p>
+    </div>
+
+    <table class="data-table">
+      <tr><th>Инструмент</th><th>Тип</th><th>Что даёт</th></tr>
+      <tr><td>Superpowers</td><td>Скилл</td><td>TDD, дебаг, планирование, код-ревью</td></tr>
+      <tr><td>TaskMaster</td><td>MCP</td><td>Разбивка задач, прогресс, план проекта</td></tr>
+      <tr><td>Playwright</td><td>MCP</td><td>Браузер: скриншоты, навигация, формы</td></tr>
+      <tr><td>AgentMemory</td><td>MCP</td><td>Долгосрочная память между сессиями</td></tr>
+      <tr><td>Workspace</td><td>MCP</td><td>Google: Docs, Sheets, Slides, Forms (продвинутое)</td></tr>
+    </table>
+
+    <div class="note note--info">
+      <span class="note__icon">🧭</span>
+      <span><strong>Ставьте только то, что реально нужно вам в работе.</strong> Каждый инструмент — по своему усмотрению; ничего из этого не обязательно для запуска самого бота. 4 базовых — Superpowers, TaskMaster, Playwright, AgentMemory. Workspace — бонус для тех, кому нужен Google.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Шаг 1. Установка Node.js</strong> — нужен, чтобы запускались MCP-инструменты (они стартуют через <span class="mono">npx</span>). Ставим один раз.</p>
     </div>
 
     <details class="spoiler">
@@ -502,10 +535,10 @@ source ~/.zshrc</span><button class="btn-copy" onclick="copyBlock('cmdMac4',this
     </div>
 
     <div class="info-block">
-      <p><strong>Шаг 2. Включение «Режима бога» (Bypass Permissions)</strong> — позволяет агенту автономно выполнять команды без ручного одобрения.</p>
+      <p><strong>Шаг 2. Автономный режим (Bypass Permissions)</strong> — чтобы Claude Code выполнял команды сам, не спрашивая разрешения на каждый шаг. Без него установки ниже и установка OpenClaw (шаг 06) будут спотыкаться на постоянных подтверждениях.</p>
     </div>
 
-    <div class="item" data-key="godmode">
+    <div class="item" data-key="bypass">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Включить Bypass Permissions в VS Code</div>
@@ -513,33 +546,142 @@ source ~/.zshrc</span><button class="btn-copy" onclick="copyBlock('cmdMac4',this
       </div>
     </div>
 
+    <div class="note note--warn">
+      <span class="note__icon">🔁</span>
+      <span><strong>Запомните, где переключается режим.</strong> Bypass Permissions нужно держать включённым каждый раз, когда даёте агенту установочные промпты. Переключатель — в <strong>правом нижнем углу окна чата</strong> с агентом. Если агент вдруг снова начал спрашивать подтверждения — проверьте, что там стоит <strong>Bypass permissions</strong>.</span>
+    </div>
+
     <div class="info-block">
-      <p><strong>Шаг 3. Автоматическая установка скиллов</strong> — копируйте промпт и отправляйте в чат Claude Code.</p>
+      <p><strong>Шаг 3. Устанавливаем инструменты.</strong> Дальше — карточки по каждому инструменту: что это, промпт для установки (отправляете в чат Claude Code), как протестировать и как пользоваться. Ставьте только нужные вам.</p>
     </div>
 
-    <div class="prompt-block">
-      <div class="prompt-block__title">📋 Промпт для установки скиллов</div>
-      <div class="prompt-block__text" id="promptSkills">Установи 4 скилла для Claude Code. Самостоятельно скачай их из репозиториев и установи необходимые npm-пакеты. Выполняй установку строго по очереди — дождись успешной установки одного, прежде чем переходить к следующему:
-
-1. Superpowers: https://github.com/obra/superpowers
-2. TaskMaster: https://github.com/eyaltoledano/claude-task-master
-3. Browser: https://github.com/anthropics/claude-quickstarts
-4. Memory Bank: https://github.com/alioshr/memory-bank-mcp
-
-После установки всех скиллов протестируй работу TaskMaster:
-— создай задачу «тестовый проект»
-— разбей на 5 подзадач
-— покажи прогресс
-
-Если что-то ломается на любом из этапов установки — остановись, объясни мне причину и сам исправь ошибку перед тем, как продолжить.</div>
-      <button class="btn-copy" onclick="copyBlock('promptSkills', this)">📋 Скопировать промпт</button>
+    <!-- ── TOOL 1: Superpowers ── -->
+    <div class="res-block">
+      <div class="res-block__title">🧠 Superpowers · Скилл (плагин)</div>
+      <div class="res-block__sub">Набор навыков: разработка через тесты (TDD), систематический дебаг, планирование, код-ревью. Claude Code сам подтягивает нужный навык под задачу.</div>
     </div>
-
-    <div class="item" data-key="skills-install">
+    <div class="info-block">
+      <p>Ставится одной командой <strong>в чат Claude Code</strong> (это slash-команда, не промпт) из официального маркетплейса:</p>
+    </div>
+    <div class="cmd-copy"><span class="cmd-copy__text" id="cmdSuperpowers">/plugin install superpowers@claude-plugins-official</span><button class="btn-copy" onclick="copyBlock('cmdSuperpowers',this)">📋 Скопировать</button></div>
+    <div class="item" data-key="tool-superpowers">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Установить 4 скилла через промпт и перезапустить VS Code</div>
-        <div class="item__hint">Дождитесь завершения всех команд агентом. После — обязательно перезапустите VS Code, чтобы скиллы инициализировались.</div>
+        <div class="item__text">Установить Superpowers</div>
+        <div class="item__hint"><strong>Тест:</strong> спросите агента «какие навыки Superpowers тебе доступны?».<br><strong>Как пользоваться:</strong> просто просите словами — «реши задачу через TDD», «запусти систематический дебаг», «составь план».<br>
+        <a href="https://github.com/obra/superpowers" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> github.com/obra/superpowers</a></div>
+      </div>
+    </div>
+
+    <!-- ── TOOL 2: TaskMaster ── -->
+    <div class="res-block">
+      <div class="res-block__title">📋 TaskMaster · MCP</div>
+      <div class="res-block__sub">Превращает большую задачу в дерево подзадач, ведёт прогресс и план проекта. Удобно, когда работаете над чем-то крупным.</div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: установить TaskMaster (в Claude Code)</div>
+      <div class="prompt-block__text" id="promptTaskmaster">Установи мне MCP-сервер TaskMaster для Claude Code. Выполни в терминале команду:
+
+claude mcp add --scope user taskmaster-ai -e DEFAULT_PROVIDER=claude-code -- npx -y task-master-ai
+
+Затем проверь список серверов командой: claude mcp list
+Если taskmaster-ai в статусе Connected — скажи мне. Если ошибка — покажи её и предложи, как починить.</div>
+      <button class="btn-copy" onclick="copyBlock('promptTaskmaster', this)">📋 Скопировать промпт</button>
+    </div>
+    <div class="item" data-key="tool-taskmaster">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Установить TaskMaster</div>
+        <div class="item__hint"><strong>Тест:</strong> «Создай тестовый проект, разбей на 5 подзадач, покажи прогресс».<br><strong>Как пользоваться:</strong> «разбей проект X на задачи», «покажи следующую задачу», «отметь задачу выполненной».<br>
+        <a href="https://github.com/eyaltoledano/claude-task-master" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> github.com/eyaltoledano/claude-task-master</a></div>
+      </div>
+    </div>
+
+    <!-- ── TOOL 3: Playwright ── -->
+    <div class="res-block">
+      <div class="res-block__title">🎭 Playwright · MCP · браузер</div>
+      <div class="res-block__sub">Даёт агенту настоящий браузер: открывать сайты, делать скриншоты, кликать, заполнять формы. То, чем мы заменили старый «Browser».</div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: установить Playwright (в Claude Code)</div>
+      <div class="prompt-block__text" id="promptPlaywright">Установи мне MCP-сервер Playwright для Claude Code. Выполни в терминале команду:
+
+claude mcp add --scope user playwright -- npx -y @playwright/mcp@latest
+
+Затем проверь список серверов командой: claude mcp list
+Если playwright в статусе Connected — скажи мне. Если ошибка — покажи её и предложи, как починить.</div>
+      <button class="btn-copy" onclick="copyBlock('promptPlaywright', this)">📋 Скопировать промпт</button>
+    </div>
+    <div class="item" data-key="tool-playwright">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Установить Playwright</div>
+        <div class="item__hint"><strong>Тест:</strong> «Playwright, открой example.com и сделай скриншот».<br><strong>Как пользоваться:</strong> «зайди на сайт X, сними скрин», «открой Y и заполни форму».<br>
+        <a href="https://github.com/microsoft/playwright-mcp" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> github.com/microsoft/playwright-mcp</a></div>
+      </div>
+    </div>
+
+    <!-- ── TOOL 4: AgentMemory ── -->
+    <div class="res-block">
+      <div class="res-block__title">🧬 AgentMemory · MCP · память</div>
+      <div class="res-block__sub">Долгосрочная память: агент запоминает важное между сессиями. То, чем мы заменили старый «Memory Bank». Работает сразу, отдельный сервер поднимать не нужно.</div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: установить AgentMemory (в Claude Code)</div>
+      <div class="prompt-block__text" id="promptAgentmemory">Установи мне MCP-сервер AgentMemory для Claude Code. Выполни в терминале команду:
+
+claude mcp add --scope user agentmemory -- npx -y @agentmemory/mcp
+
+Затем проверь список серверов командой: claude mcp list
+Если agentmemory в статусе Connected — скажи мне. Если ошибка — покажи её и предложи, как починить.</div>
+      <button class="btn-copy" onclick="copyBlock('promptAgentmemory', this)">📋 Скопировать промпт</button>
+    </div>
+    <div class="item" data-key="tool-agentmemory">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Установить AgentMemory</div>
+        <div class="item__hint"><strong>Тест:</strong> «Запомни: меня зовут …» → откройте новую сессию → «как меня зовут?». Если вспомнил — память работает.<br><strong>Как пользоваться:</strong> «запомни, что …», «что ты помнишь про …».<br>
+        <a href="https://github.com/rohitg00/agentmemory" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> github.com/rohitg00/agentmemory</a></div>
+      </div>
+    </div>
+
+    <!-- ── BONUS: Workspace MCP (Google) ── -->
+    <div class="section-divider" style="margin:32px 0 24px">
+      <div class="section-divider__line"></div>
+      <div class="section-divider__title">🔵 Бонус — для тех, кому нужен Google</div>
+    </div>
+
+    <div class="res-block">
+      <div class="res-block__title">📁 Workspace MCP · продвинутое</div>
+      <div class="res-block__sub">Подключает весь Google: Docs, Sheets, Slides, Forms. Мощно, но установка сложнее остальных — нужен <strong>uv</strong> (менеджер Python) и свой проект в Google Cloud с OAuth-ключом. Берите, только если реально работаете в Google-инструментах.</div>
+    </div>
+    <div class="note note--info">
+      <span class="note__icon">🤝</span>
+      <span><strong>Этот инструмент устанавливаем «за ручку».</strong> Отправьте промпт ниже в Claude Code — он сам пройдёт с вами все шаги: поставит uv, скачает сервер, поможет создать OAuth-ключ в Google Cloud и подключит MCP. Если что-то непонятно — спрашивайте у него прямо в чате и присылайте скриншоты.</span>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: установить Workspace MCP (в Claude Code)</div>
+      <div class="prompt-block__text" id="promptWorkspace">Помоги мне установить и подключить Google Workspace MCP к Claude Code. Я новичок — веди меня по шагам, объясняй простыми словами и после каждого шага дожидайся моего подтверждения.
+
+Репозиторий: https://github.com/taylorwilsdon/google_workspace_mcp
+
+План:
+1. Проверь, установлен ли менеджер пакетов uv (для Python). Если нет — установи его и объясни, что это.
+2. Скачай google_workspace_mcp с GitHub.
+3. Проведи меня по созданию OAuth-ключа в Google Cloud Console (создать проект → включить нужные API → создать OAuth client → скачать client_secret.json). Дай прямые ссылки и объясни каждый экран.
+4. Добавь сервер в Claude Code на уровне user (--scope user), пропиши путь к client_secret.json и нужные инструменты (docs, sheets, slides, forms).
+5. Проверь, что сервер в статусе Connected (claude mcp list), и пройди авторизацию в Google в браузере.
+6. Сделай тест: создай Google-документ с заголовком «Привет».
+
+Если на любом шаге возникнет ошибка — остановись, покажи её и объясни, как починить.</div>
+      <button class="btn-copy" onclick="copyBlock('promptWorkspace', this)">📋 Скопировать промпт</button>
+    </div>
+    <div class="item" data-key="tool-workspace">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Установить Workspace MCP (по желанию)</div>
+        <div class="item__hint"><strong>Тест:</strong> «Создай Google-документ с заголовком Привет».<br><strong>Как пользоваться:</strong> «создай таблицу с …», «прочитай мой документ …», «сделай презентацию по …».<br>
+        <a href="https://github.com/taylorwilsdon/google_workspace_mcp" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> github.com/taylorwilsdon/google_workspace_mcp</a></div>
       </div>
     </div>
   </div>
@@ -556,26 +698,136 @@ source ~/.zshrc</span><button class="btn-copy" onclick="copyBlock('cmdMac4',this
   <div class="section__card">
     <div class="note note--info">
       <span class="note__icon">🤖</span>
-      <span>Claude Code в «Режиме бога» сам подключится к серверу, установит Docker и OpenClaw. Вам нужно только отправить промпт и подставить свои данные.</span>
+      <span>Прокачанный Claude Code (с включённым Bypass Permissions) сам подключится к серверу, поставит Docker и установит OpenClaw в контейнере. Вам нужно только отправлять промпты и подставлять свои данные.</span>
+    </div>
+
+    <!-- ── 6.1 ПРОКАЧКА: скилл openclaw-docs ── -->
+    <div class="info-block">
+      <p><strong>Сначала — ещё одна прокачка Claude Code.</strong> Ставим наш скилл <span class="mono">openclaw-docs</span>: это полная документация OpenClaw прямо внутри Claude Code. С ним агент не выдумывает команды и параметры конфига, а ставит и настраивает OpenClaw строго по официальной доке. Сделайте это <strong>до</strong> установки — дальше будет в разы меньше ошибок.</p>
+    </div>
+
+    <div class="item" data-key="skill-openclaw-docs">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Установить скилл openclaw-docs</div>
+        <div class="item__hint">1. Скачайте архив скилла с Google Drive:<br>
+        <a href="https://drive.google.com/file/d/1zShFMW8g3nqhJvuDaKnFzzkj1azpQ9sq/view?usp=sharing" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> openclaw-docs — скачать скилл (Google Drive)</a><br>
+        2. Распакуйте архив в папку <span class="mono">~/.claude/skills/</span> — внутри должна появиться папка <span class="mono">openclaw-docs</span> с файлом <span class="mono">SKILL.md</span>.<br>
+        3. Полностью перезапустите Claude Code.<br><br>
+        Проще всего — отправьте промпт ниже в Claude Code, он распакует сам. Или сделайте вручную командой для вашей ОС (спойлер ниже).</div>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: установить скилл openclaw-docs (в Claude Code)</div>
+      <div class="prompt-block__text" id="promptSkillDocs">Я скачал архив openclaw-docs-skill.zip (он в папке «Загрузки»). Установи его как скилл для Claude Code:
+1. Создай папку ~/.claude/skills/, если её ещё нет.
+2. Распакуй архив в ~/.claude/skills/ так, чтобы получилась папка ~/.claude/skills/openclaw-docs/ с файлом SKILL.md внутри.
+3. Покажи список файлов в ~/.claude/skills/openclaw-docs/ и подтверди, что SKILL.md на месте.
+4. Напомни мне полностью перезапустить Claude Code, чтобы скилл подхватился.</div>
+      <button class="btn-copy" onclick="copyBlock('promptSkillDocs', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <details class="spoiler">
+      <summary>⌨️ Или вручную — команды для вашей ОС</summary>
+      <div class="spoiler__content">
+        <p><strong>macOS</strong> (Терминал):</p>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdSkillMac">mkdir -p ~/.claude/skills && unzip -o ~/Downloads/openclaw-docs-skill.zip -d ~/.claude/skills/</span><button class="btn-copy" onclick="copyBlock('cmdSkillMac',this)">📋 Скопировать</button></div>
+        <p><strong>Windows</strong> (PowerShell):</p>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdSkillWin">Expand-Archive -Force "$HOME\Downloads\openclaw-docs-skill.zip" "$HOME\.claude\skills\"</span><button class="btn-copy" onclick="copyBlock('cmdSkillWin',this)">📋 Скопировать</button></div>
+        <p>После распаковки полностью перезапустите Claude Code.</p>
+      </div>
+    </details>
+
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span><strong>Как работать со скиллом.</strong> Вызывать вручную ничего не нужно — Claude Code сам подхватывает его, когда речь про OpenClaw. Просто спрашивайте по-человечески: «как настроить канал Telegram в OpenClaw?», «какие команды есть у openclaw config?» — и агент отвечает строго по документации, без выдумок.</span>
+    </div>
+
+    <!-- ── 6.2 SSH-КЛЮЧ БЕЗ ПАРОЛЯ ── -->
+    <div class="section-divider" style="margin:32px 0 24px">
+      <div class="section-divider__line"></div>
+      <div class="section-divider__title">🔑 Подключение к серверу без пароля</div>
+    </div>
+
+    <div class="note note--info">
+      <span class="note__icon">📺</span>
+      <span><strong>Видеоинструкция: создание SSH-ключа для подключения к VPS без пароля.</strong> Обязательно посмотрите дополнительное видео урока 3 — там я показываю это вживую.<br><br>
+      <strong>Что такое alias (алиас).</strong> Короткое имя сервера: вместо <span class="mono">ssh root@123.45.67.89</span> с вводом пароля каждый раз — одна команда <span class="mono">ssh my-server</span>.<br>
+      <strong>Что такое подключение по SSH-ключу.</strong> Вместо пароля ваш компьютер предъявляет серверу криптографический ключ. Это быстрее, безопаснее, и сервер нельзя сбрутфорсить (подобрать пароль).</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Последовательность действий:</strong></p>
+      <p>1. Скопируйте промпт ниже.<br>
+      2. <strong>ВАЖНО:</strong> вместо <span class="mono">&lt;вставь сюда IP&gt;</span> впишите реальный IP вашего VPS.<br>
+      3. Откройте новую сессию Claude Code в любом проекте.<br>
+      4. Включите режим Bypass Permissions.<br>
+      5. Вставьте промпт и отправьте задачу.<br>
+      6. Выполняйте указания Claude Code. Непонятно — задавайте ему вопросы, присылайте скриншоты и текст из терминала.</p>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: настройка SSH-ключа (в Claude Code)</div>
+      <div class="prompt-block__text" id="promptSshKey">Привет!
+
+Я только что получил доступ к новому серверу. Его IP-адрес: <вставь сюда IP>
+
+Помоги мне настроить подключение к этому серверу по SSH-ключу без пароля.
+
+Пожалуйста, дай пошаговый план и проведи меня по нему, учитывая что:
+— я новичок и, скорее всего, SSH-ключа у меня ещё нет — нужно будет его сгенерировать;
+— файла ~/.ssh/config у меня тоже может не быть — его нужно создать или дополнить;
+— мне нужно, чтобы подключение работало и здесь, в Claude Code, и из любого терминала на моём устройстве (Terminal.app, iTerm, VSCode, Terminal Windows и т.д.) — одной короткой командой, например ssh my-server.
+
+План должен покрывать:
+— Проверку, есть ли уже SSH-ключ на моём компьютере (в папке ~/.ssh/).
+— Генерацию нового ключа (ed25519), если ключа нет — с понятным объяснением, что такое приватный и публичный ключ и зачем passphrase.
+— Копирование публичного ключа на сервер командой ssh-copy-id — с одним вводом пароля root.
+— Добавление алиаса в ~/.ssh/config (Host, HostName, User, IdentityFile), чтобы подключаться коротко.
+— Проверку, что подключение работает без пароля.
+— Базовый hardening сервера (опционально, но желательно): отключить парольный вход в /etc/ssh/sshd_config, чтобы сервер нельзя было брутфорсить — со страховкой «второй открытый терминал на случай, если что-то пойдёт не так».
+
+ВАЖНО:
+— Объясняй каждый шаг простыми словами — что мы делаем и зачем.
+— После каждого шага дождись моего подтверждения, прежде чем переходить к следующему.
+— Если я где-то ошибусь (например, вставлю команду не туда) — поправь и объясни, в чём была ошибка.
+
+Отвечай на русском, на «ты».</div>
+      <button class="btn-copy" onclick="copyBlock('promptSshKey', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="item" data-key="ssh-key">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Настроить SSH-ключ и алиас my-server</div>
+        <div class="item__hint">После этого подключаетесь к серверу одной командой <span class="mono">ssh my-server</span> — без пароля. Этот алиас используем на следующем шаге.</div>
+      </div>
+    </div>
+
+    <!-- ── 6.3 УСТАНОВКА OPENCLAW В DOCKER ── -->
+    <div class="section-divider" style="margin:32px 0 24px">
+      <div class="section-divider__line"></div>
+      <div class="section-divider__title">🦞 Установка OpenClaw в Docker</div>
     </div>
 
     <div class="note note--warn">
       <span class="note__icon">🔐</span>
-      <span><strong>Про безопасность:</strong> промпт ниже содержит пароль от вашего сервера, который будет передан через Claude Code. После первичной настройки рекомендуем сменить пароль или настроить SSH-ключи — но решение за вами, насколько вы готовы здесь рисковать.</span>
+      <span><strong>Если вы настроили SSH-ключ выше</strong> — пароль от сервера в промпте не нужен, агент подключится по алиасу <span class="mono">my-server</span>. Если ключ не настраивали — подключение пойдёт по <span class="mono">root@IP</span> с паролем (тогда пароль попадёт в чат Claude Code; после установки его лучше сменить).</span>
     </div>
 
     <div class="prompt-block">
       <div class="prompt-block__title">📋 Промпт для установки OpenClaw</div>
-      <div class="prompt-block__text" id="promptInstall">Подключись к моему VPS по SSH: 
-- IP: <ваш IP>
-- login: root
-- password: <ваш пароль>
+      <div class="prompt-block__text" id="promptInstall">Подключись к моему серверу по SSH — я настроил ключ и алиас, подключайся командой: ssh my-server
+Если алиас не сработает — спроси у меня IP и root-пароль.
 
-Выполни на сервере следующие задачи строго по порядку:
+Используй скилл openclaw-docs как источник истины по OpenClaw — команды и параметры не выдумывай, сверяйся с ним.
+
+Выполни на сервере строго по порядку:
 1. Обнови пакеты системы.
-2. Установи Docker и все зависимости (docker-ce, docker-ce-cli, containerd.io, docker-compose-plugin).
-3. Скачай и установи OpenClaw, выполнив команду: curl -fsSL https://openclaw.ai/install.sh | bash
-4. Убедись, что установка прошла успешно и команда openclaw отвечает. Ничего интерактивного не запускай, просто отчитайся об успехе.</div>
+2. Установи Docker и зависимости (docker-ce, docker-ce-cli, containerd.io, docker-compose-plugin) и убедись, что docker запускается.
+3. Установи OpenClaw: curl -fsSL --proto '=https' --tlsv1.2 https://openclaw.ai/install.sh | bash -s -- --no-onboard
+4. Проверь, что всё встало: openclaw --version и openclaw doctor. Ничего интерактивного не запускай — просто отчитайся об успехе и покажи вывод.</div>
       <button class="btn-copy" onclick="copyBlock('promptInstall', this)">📋 Скопировать промпт</button>
     </div>
 
@@ -595,8 +847,8 @@ source ~/.zshrc</span><button class="btn-copy" onclick="copyBlock('cmdMac4',this
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Пройти онбординг OpenClaw вручную</div>
-        <div class="item__hint">Откройте <strong>обычный Терминал</strong> (не в чате с агентом) и подключитесь:</div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdSsh1">ssh root@IP_АДРЕС</span><button class="btn-copy" onclick="copyBlock('cmdSsh1',this)">📋 Скопировать</button></div>
+        <div class="item__hint">Откройте <strong>обычный Терминал</strong> (не в чате с агентом) и подключитесь по алиасу (или по <span class="mono">root@IP_АДРЕС</span>, если ключ не настраивали):</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdSsh1">ssh my-server</span><button class="btn-copy" onclick="copyBlock('cmdSsh1',this)">📋 Скопировать</button></div>
         <div class="item__hint">Затем запустите мастер настройки:</div>
         <div class="cmd-copy"><span class="cmd-copy__text" id="cmdOnboard">openclaw onboard</span><button class="btn-copy" onclick="copyBlock('cmdOnboard',this)">📋 Скопировать</button></div>
         <div class="item__hint">В меню: <strong>Security → Yes</strong>, <strong>Mode → QuickStart</strong>.<br>
