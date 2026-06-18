@@ -46,11 +46,11 @@
 html{scroll-behavior:smooth;scroll-padding-top:84px;-webkit-text-size-adjust:100%}
 body{
   background:var(--bg); color:var(--text);
-  font-family:'Inter Tight',system-ui,-apple-system,sans-serif;
+  font-family:'Inter Tight',system-ui,-apple-system,'Segoe UI Symbol','Apple Color Emoji',sans-serif;
   font-size:18px; line-height:1.6; font-weight:400;
   overflow-x:hidden; -webkit-font-smoothing:antialiased;
 }
-h1,h2,h3,h4{font-family:'Clash Display',sans-serif;line-height:1.14;font-weight:600;letter-spacing:-.02em;text-wrap:balance}
+h1,h2,h3,h4{font-family:'Clash Display','Inter Tight',system-ui,'Segoe UI Symbol',sans-serif;line-height:1.14;font-weight:600;letter-spacing:-.02em;text-wrap:balance}
 h2{font-size:40px;margin-bottom:16px}
 h3{font-size:26px}
 p{color:var(--text);text-wrap:pretty}
@@ -130,10 +130,10 @@ section{padding:var(--pad-section) 0;position:relative}
   box-shadow:inset 0 0 60px rgba(247,147,26,.12);pointer-events:none}
 .hero-photo img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:center 18%}
 
-/* гигантская ₿-водяной знак (ТЗ §4.5) */
-.btc-watermark{position:absolute;font-family:'Clash Display',sans-serif;font-weight:700;
-  color:rgba(247,147,26,.035);font-size:clamp(280px,40vw,640px);line-height:.8;
-  z-index:0;pointer-events:none;user-select:none}
+/* гигантская ₿-водяной знак — SVG (ТЗ §4.5, v3 §1.2) */
+.btc-watermark{position:absolute;width:clamp(280px,40vw,640px);height:auto;
+  color:rgba(247,147,26,.04);z-index:0;pointer-events:none;user-select:none}
+.btc-ic{fill:currentColor}
 
 /* ============ КАРТОЧКИ / СЕТКИ ============ */
 .cards{display:grid;gap:20px}
@@ -182,8 +182,9 @@ section{padding:var(--pad-section) 0;position:relative}
   background:linear-gradient(var(--accent),rgba(247,147,26,.15))}
 .lesson{position:relative;padding-left:66px;margin-bottom:14px}
 .node{position:absolute;left:0;top:6px;width:48px;height:48px;border-radius:50%;background:var(--surface);
-  border:2px solid var(--border);display:flex;align-items:center;justify-content:center;z-index:1;
-  font-family:'Clash Display',sans-serif;font-weight:700;color:var(--accent);font-size:17px;transition:.3s var(--ease)}
+  border:2px solid var(--border);display:flex;align-items:center;justify-content:center;gap:2px;z-index:1;
+  font-family:'Clash Display','Inter Tight',sans-serif;font-weight:700;color:var(--accent);font-size:16px;transition:.3s var(--ease)}
+.node .btc-ic{width:13px;height:13px;flex:none}
 .lesson.active .node{border-color:var(--accent);box-shadow:var(--glow)}
 .acc{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:border-color .25s var(--ease)}
 .acc:hover{border-color:var(--accent)}
@@ -204,13 +205,16 @@ section{padding:var(--pad-section) 0;position:relative}
 /* счётчики (ТЗ §5) */
 .counters{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin:8px 0 0}
 .counter{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:30px 24px;text-align:center}
-.counter .val{font-family:'Clash Display',sans-serif;font-weight:700;font-size:52px;color:var(--accent);line-height:1}
+.counter .val{font-family:'Clash Display','Inter Tight',sans-serif;font-weight:700;font-size:52px;color:var(--accent);line-height:1;display:flex;align-items:center;justify-content:center;min-height:52px}
+.counter .inf-ic{width:70px;height:46px;color:var(--accent)}
 .counter .lbl{font-size:15px;color:var(--text-muted);margin-top:8px}
 
 /* «о наставнике» */
 .mentor-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:48px;align-items:center}
 .mentor-photo{position:relative;max-width:300px}
 .mentor-photo img{border-radius:20px;border:1px solid var(--border);width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:center 18%}
+.mentor-facts{margin-top:20px;max-width:none}
+.mentor-facts li{border-bottom:0;padding:6px 0}
 .mentor-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(247,147,26,.1);border:1px solid rgba(247,147,26,.3);
   color:var(--accent-hover);border-radius:999px;padding:7px 15px;font-size:14px;font-weight:600;margin-bottom:18px}
 .mentor-badge img{width:18px;height:18px}
@@ -237,8 +241,8 @@ section{padding:var(--pad-section) 0;position:relative}
 .final{text-align:center}
 .final-inner{max-width:680px;margin:0 auto;background:linear-gradient(160deg,var(--surface),var(--bg-alt));
   border:1px solid var(--border);border-radius:24px;padding:56px 40px;position:relative;overflow:hidden}
-.final-inner::before{content:"₿";position:absolute;right:-40px;bottom:-80px;font-family:'Clash Display';font-weight:700;
-  font-size:340px;color:rgba(247,147,26,.05);line-height:1}
+.final-btc{position:absolute;right:-40px;bottom:-80px;width:340px;height:auto;
+  color:rgba(247,147,26,.05);pointer-events:none;user-select:none}
 .final h2{font-size:44px;position:relative}
 .final p{color:var(--text-muted);font-size:19px;margin:14px auto 30px;max-width:46ch;position:relative}
 
@@ -298,6 +302,13 @@ section{padding:var(--pad-section) 0;position:relative}
 </head>
 <body>
 
+<!-- SVG-спрайт: бренд-знак ₿ (рисуется одинаково на всех устройствах, без зависимости от шрифта) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="btc" viewBox="5 4 22 22">
+    <path fill="currentColor" d="M23.1889526,13.0201846 C23.5025526,10.9239385 21.9064911,9.79704615 19.7240911,9.04529231 L20.4320295,6.20566154 L18.7035372,5.77489231 L18.0143065,8.53969231 C17.5599065,8.42646154 17.0931988,8.31963077 16.6294449,8.21378462 L17.3235988,5.43076923 L15.5960911,5 L14.8876603,7.83864615 C14.5115372,7.75298462 14.1423065,7.66830769 13.7839065,7.5792 L13.7858757,7.57033846 L11.4021218,6.97513846 L10.9423065,8.82129231 C10.9423065,8.82129231 12.224768,9.1152 12.1976911,9.13341538 C12.8977526,9.30818462 13.0242757,9.77144615 13.0031065,10.1387077 L12.1967065,13.3736615 C12.2449526,13.3859692 12.3074757,13.4036923 12.3763988,13.4312615 C12.3187988,13.4169846 12.2572603,13.4012308 12.1937526,13.3859692 L11.0634142,17.9176615 C10.9777526,18.1303385 10.7606449,18.4493538 10.2712911,18.3282462 C10.2885218,18.3533538 9.01492185,18.0146462 9.01492185,18.0146462 L8.15682954,19.9932308 L10.4061834,20.5539692 C10.8246449,20.6588308 11.2347372,20.7686154 11.6384295,20.872 L10.9231065,23.7441231 L12.6496295,24.1748923 L13.3580603,21.3332923 C13.8296911,21.4612923 14.2875372,21.5794462 14.7355372,21.6907077 L14.029568,24.5190154 L15.7580603,24.9497846 L16.4733834,22.0830769 C19.4208295,22.6408615 21.6371988,22.4158769 22.5701218,19.7500308 C23.3218757,17.6035692 22.5327065,16.3654154 20.9819372,15.5580308 C22.1112911,15.2976 22.9619988,14.5547077 23.1889526,13.0201846 L23.1889526,13.0201846 Z M19.2396603,18.5581538 C18.7055065,20.7046154 15.0914757,19.5442462 13.9197834,19.2532923 L14.8689526,15.4482462 C16.0406449,15.7406769 19.7979372,16.3196308 19.2396603,18.5581538 Z M19.7743065,12.9891692 C19.2869218,14.9416615 16.2789218,13.9496615 15.303168,13.7064615 L16.1637218,10.2553846 C17.1394757,10.4985846 20.2818757,10.9524923 19.7743065,12.9891692 Z"/>
+  </symbol>
+</svg>
+
 <!-- ============ ХЕДЕР ============ -->
 <header class="site-header" id="header">
   <div class="container nav">
@@ -326,7 +337,7 @@ section{padding:var(--pad-section) 0;position:relative}
 
 <!-- ============ HERO ============ -->
 <section class="hero" id="hero">
-  <span class="btc-watermark" style="top:-60px;right:-120px" aria-hidden="true">₿</span>
+  <svg class="btc-watermark btc-ic" style="top:-60px;right:-120px" aria-hidden="true"><use href="#btc"/></svg>
   <div class="container hero-grid">
     <div class="hero-copy">
       <h1 class="reveal">Индивидуальное наставничество по&nbsp;безопасной работе с&nbsp;криптовалютами</h1>
@@ -504,13 +515,13 @@ section{padding:var(--pad-section) 0;position:relative}
     <div class="counters" style="margin:36px 0 40px">
       <div class="counter reveal"><div class="val" data-count="9">0</div><div class="lbl">уроков</div></div>
       <div class="counter reveal"><div class="val" data-count="18">0</div><div class="lbl">часов практики</div></div>
-      <div class="counter reveal"><div class="val" data-inf="1">∞</div><div class="lbl">доступ к записям</div></div>
+      <div class="counter reveal"><div class="val"><svg class="inf-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" role="img" aria-label="бессрочно"><path d="M12 12c-2-2.67-4-4-6-4a4 4 0 1 0 0 8c2 0 4-1.33 6-4Zm0 0c2 2.67 4 4 6 4a4 4 0 0 0 0-8c-2 0-4 1.33-6 4Z"/></svg></div><div class="lbl">доступ к записям</div></div>
     </div>
 
     <div class="timeline" id="timeline">
       <!-- Урок 1 -->
       <div class="lesson reveal">
-        <div class="node">₿1</div>
+        <div class="node"><svg class="btc-ic" aria-hidden="true"><use href="#btc"/></svg>1</div>
         <div class="acc">
           <button class="acc-head"><span><span class="label">Урок 1</span>Безопасный фундамент</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button>
           <div class="acc-body"><div class="acc-inner">
@@ -522,7 +533,7 @@ section{padding:var(--pad-section) 0;position:relative}
       </div>
       <!-- Урок 2 -->
       <div class="lesson reveal">
-        <div class="node">₿2</div>
+        <div class="node"><svg class="btc-ic" aria-hidden="true"><use href="#btc"/></svg>2</div>
         <div class="acc">
           <button class="acc-head"><span><span class="label">Урок 2</span>Цифровая крепость</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button>
           <div class="acc-body"><div class="acc-inner">
@@ -534,7 +545,7 @@ section{padding:var(--pad-section) 0;position:relative}
       </div>
       <!-- Урок 3 -->
       <div class="lesson reveal">
-        <div class="node">₿3</div>
+        <div class="node"><svg class="btc-ic" aria-hidden="true"><use href="#btc"/></svg>3</div>
         <div class="acc">
           <button class="acc-head"><span><span class="label">Урок 3</span>Как живёт Bitcoin</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button>
           <div class="acc-body"><div class="acc-inner">
@@ -546,7 +557,7 @@ section{padding:var(--pad-section) 0;position:relative}
       </div>
       <!-- Урок 4 -->
       <div class="lesson reveal">
-        <div class="node">₿4</div>
+        <div class="node"><svg class="btc-ic" aria-hidden="true"><use href="#btc"/></svg>4</div>
         <div class="acc">
           <button class="acc-head"><span><span class="label">Урок 4</span>Мир Ethereum</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button>
           <div class="acc-body"><div class="acc-inner">
@@ -558,7 +569,7 @@ section{padding:var(--pad-section) 0;position:relative}
       </div>
       <!-- Урок 5 -->
       <div class="lesson reveal">
-        <div class="node">₿5</div>
+        <div class="node"><svg class="btc-ic" aria-hidden="true"><use href="#btc"/></svg>5</div>
         <div class="acc">
           <button class="acc-head"><span><span class="label">Урок 5</span>Карта сетей</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button>
           <div class="acc-body"><div class="acc-inner">
@@ -570,7 +581,7 @@ section{padding:var(--pad-section) 0;position:relative}
       </div>
       <!-- Урок 6 -->
       <div class="lesson reveal">
-        <div class="node">₿6</div>
+        <div class="node"><svg class="btc-ic" aria-hidden="true"><use href="#btc"/></svg>6</div>
         <div class="acc">
           <button class="acc-head"><span><span class="label">Урок 6</span>Ключи и кошельки</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button>
           <div class="acc-body"><div class="acc-inner">
@@ -582,7 +593,7 @@ section{padding:var(--pad-section) 0;position:relative}
       </div>
       <!-- Урок 7 -->
       <div class="lesson reveal">
-        <div class="node">₿7</div>
+        <div class="node"><svg class="btc-ic" aria-hidden="true"><use href="#btc"/></svg>7</div>
         <div class="acc">
           <button class="acc-head"><span><span class="label">Урок 7</span>Движение денег</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button>
           <div class="acc-body"><div class="acc-inner">
@@ -594,7 +605,7 @@ section{padding:var(--pad-section) 0;position:relative}
       </div>
       <!-- Урок 8 -->
       <div class="lesson reveal">
-        <div class="node">₿8</div>
+        <div class="node"><svg class="btc-ic" aria-hidden="true"><use href="#btc"/></svg>8</div>
         <div class="acc">
           <button class="acc-head"><span><span class="label">Урок 8</span>Между сетями</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button>
           <div class="acc-body"><div class="acc-inner">
@@ -606,7 +617,7 @@ section{padding:var(--pad-section) 0;position:relative}
       </div>
       <!-- Урок 9 -->
       <div class="lesson reveal">
-        <div class="node">₿9</div>
+        <div class="node"><svg class="btc-ic" aria-hidden="true"><use href="#btc"/></svg>9</div>
         <div class="acc">
           <button class="acc-head"><span><span class="label">Урок 9</span>Стратегия и портфель</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button>
           <div class="acc-body"><div class="acc-inner">
@@ -657,7 +668,13 @@ section{padding:var(--pad-section) 0;position:relative}
       <div class="reveal">
         <span class="eyebrow">О наставнике</span>
         <h2>Стас&nbsp;Панков</h2>
-        <p class="lead" style="margin-top:8px">Предприниматель, преподаватель и спикер. Более 10 лет на стыке образования, технологий, бизнеса и криптовалют. Обучил несколько тысяч человек; сильная сторона — объяснять сложные темы простым языком.</p>
+        <p class="lead" style="margin-top:8px">Предприниматель, преподаватель и спикер. Учу осознанно и без страха обращаться с криптовалютой.</p>
+        <ul class="check-list mentor-facts">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg><span>Более 10 лет на стыке образования, технологий, бизнеса и криптовалют</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg><span>Обучил несколько тысяч человек</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg><span>Объясняю сложные темы простым языком, без жаргона</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg><span>Биткоин-максималист — отношусь к биткоину как к честной технологии свободы</span></li>
+        </ul>
         <div class="apostle">
           <picture>
             <source srcset="img/mentor-apostle.webp" type="image/webp">
@@ -690,7 +707,7 @@ section{padding:var(--pad-section) 0;position:relative}
         <li><span class="k">Стоимость часа</span><span class="v">100 $</span></li>
         <li><span class="k">Урок (2 часа)</span><span class="v">200 $</span></li>
         <li><span class="k">Полный пакет</span><span class="v">1 800 $</span></li>
-        <li><span class="k">Оплата</span><span class="v">USDT (предпочтительно) / ₽-перевод</span></li>
+        <li><span class="k">Оплата</span><span class="v">USDT (предпочтительно) / рублёвый перевод</span></li>
         <li><span class="k">Условие</span><span class="v">полная предоплата за пакет</span></li>
       </ul>
       <a href="https://t.me/stavzzz" target="_blank" rel="noopener" class="btn btn-primary" style="width:100%;justify-content:center">
@@ -724,14 +741,14 @@ section{padding:var(--pad-section) 0;position:relative}
     </div>
     <div class="cards" id="faqList" style="max-width:860px;gap:14px">
       <!-- элементы добавляются ниже статично -->
-      <div class="acc reveal"><button class="acc-head"><span>Я совсем новичок, подойдёт ли мне?</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="acc-body"><div class="acc-inner"><p class="muted">Да, начинаем с нуля. Финансовый опыт и технические знания не нужны.</p></div></div></div>
-      <div class="acc reveal"><button class="acc-head"><span>Нужно ли что-то покупать заранее?</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="acc-body"><div class="acc-inner"><p class="muted">Да, к первому уроку есть подготовка; точный список выдаётся после записи.</p></div></div></div>
-      <div class="acc reveal"><button class="acc-head"><span>Останутся ли у меня записи?</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="acc-body"><div class="acc-inner"><p class="muted">Да, бессрочно. Записи, материалы и тесты остаются у вас навсегда.</p></div></div></div>
-      <div class="acc reveal"><button class="acc-head"><span>Как оплатить?</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="acc-body"><div class="acc-inner"><p class="muted">USDT (предпочтительно) или рублёвый перевод. Полная предоплата за весь пакет.</p></div></div></div>
-      <div class="acc reveal"><button class="acc-head"><span>Это про заработок на крипте?</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="acc-body"><div class="acc-inner"><p class="muted">Нет. Это про безопасность, понимание и самостоятельность.</p></div></div></div>
-      <div class="acc reveal"><button class="acc-head"><span>Сколько длится обучение?</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="acc-body"><div class="acc-inner"><p class="muted">9 уроков по 2 часа, темп свободный, по индивидуальному плану.</p></div></div></div>
-      <div class="acc reveal"><button class="acc-head"><span>Как составляется план?</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="acc-body"><div class="acc-inner"><p class="muted">На бесплатной установочной сессии перед стартом — под ваш уровень и цели.</p></div></div></div>
-      <div class="acc reveal"><button class="acc-head"><span>Есть ли поддержка между уроками?</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="acc-body"><div class="acc-inner"><p class="muted">Да, личный чат со мной в Telegram.</p></div></div></div>
+      <div class="acc reveal"><button class="acc-head"><span>Я совсем новичок, подойдёт ли мне?</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="acc-body"><div class="acc-inner"><p class="muted">Да, программа рассчитана с нуля. Финансовый опыт и технические знания не нужны — начинаем с базовой безопасности и идём шаг за шагом. Каждое действие повторяем вместе, я проверяю и подсказываю.</p></div></div></div>
+      <div class="acc reveal"><button class="acc-head"><span>Нужно ли что-то покупать заранее?</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="acc-body"><div class="acc-inner"><p class="muted">Да, к первому уроку есть короткая подготовка (отдельное устройство, смартфон, несколько флешек). Точный список и рекомендации даю на бесплатной установочной сессии — лишнего покупать не придётся.</p></div></div></div>
+      <div class="acc reveal"><button class="acc-head"><span>Останутся ли у меня записи?</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="acc-body"><div class="acc-inner"><p class="muted">Да, бессрочно. Все уроки в Zoom записываются, записи остаются у вас навсегда — вместе с материалами, таблицами, методичками и тестами. Можно пересматривать в любой момент.</p></div></div></div>
+      <div class="acc reveal"><button class="acc-head"><span>Как оплатить?</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="acc-body"><div class="acc-inner"><p class="muted">Полная предоплата за весь пакет. Принимаю USDT (предпочтительно) или рублёвый перевод. Реквизиты и порядок оплаты обсуждаем на установочной сессии.</p></div></div></div>
+      <div class="acc reveal"><button class="acc-head"><span>Это про заработок на крипте?</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="acc-body"><div class="acc-inner"><p class="muted">Нет. Это обучение безопасности, пониманию и самостоятельности. Я не обещаю доход и не даю инвестиционных советов — учу грамотно и без риска обращаться с криптовалютой.</p></div></div></div>
+      <div class="acc reveal"><button class="acc-head"><span>Сколько длится обучение?</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="acc-body"><div class="acc-inner"><p class="muted">9 уроков по 2 часа (1 час работы — 5 минут перерыв — 1 час работы). Темп свободный, по индивидуальному плану: расписание подстраиваем под вас.</p></div></div></div>
+      <div class="acc reveal"><button class="acc-head"><span>Как составляется план?</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="acc-body"><div class="acc-inner"><p class="muted">На бесплатной установочной сессии перед стартом. Знакомимся, определяем ваш уровень и цели, фиксируем график и стартовую подготовку.</p></div></div></div>
+      <div class="acc reveal"><button class="acc-head"><span>Есть ли поддержка между уроками?</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="acc-body"><div class="acc-inner"><p class="muted">Да, личный чат со мной в Telegram. Можно задавать вопросы по практике и домашним заданиям между занятиями.</p></div></div></div>
     </div>
   </div>
 </section>
@@ -740,6 +757,7 @@ section{padding:var(--pad-section) 0;position:relative}
 <section class="final" id="cta-final">
   <div class="container">
     <div class="final-inner reveal">
+      <svg class="final-btc btc-ic" aria-hidden="true"><use href="#btc"/></svg>
       <h2>Готовы начать с&nbsp;безопасности?</h2>
       <p>Напишите — обсудим ваш уровень и составим график.</p>
       <a href="https://t.me/stavzzz" target="_blank" rel="noopener" class="btn btn-primary">
