@@ -940,7 +940,7 @@ claude mcp add --scope user agentmemory -- npx -y @agentmemory/mcp
 <div class="section">
   <div class="section__header">
     <div class="section__num">08</div>
-    <div class="section__title">SSH-туннель для Web UI</div>
+    <div class="section__title">Веб-панель управления ботом (Web UI)</div>
   </div>
   <div class="section__card">
     <div class="note note--info">
@@ -957,50 +957,46 @@ claude mcp add --scope user agentmemory -- npx -y @agentmemory/mcp
       Пока окно с туннелем открыто — панель работает. Закрыли окно — труба закрылась.</span>
     </div>
 
-    <div class="item" data-key="tunnel-token">
+    <div class="note note--info">
+      <span class="note__icon">🤖</span>
+      <span><strong>Всё настроит Claude Code — в терминал лезть не нужно.</strong> Отправьте промпт ниже: он поднимет защищённую «трубу», достанет токен и пришлёт вам <strong>готовую ссылку</strong> на панель. Вам останется только открыть её в браузере.</span>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: открыть веб-панель (в Claude Code)</div>
+      <div class="prompt-block__text" id="promptWebui">Помоги мне открыть веб-панель (Web UI) моего OpenClaw в браузере. Сверяйся с документацией OpenClaw (скилл openclaw-docs), ничего не выдумывай.
+
+Сделай по шагам и объясняй простыми словами:
+1. Подключись к моему серверу по SSH (алиас my-server; если не сработает — спроси у меня IP и пароль).
+2. Узнай токен доступа к панели из конфига OpenClaw.
+3. Подними защищённый SSH-туннель с сервера на мой компьютер (порт 18789; если он занят — выбери свободный и скажи какой). Туннель оставь запущенным.
+4. Собери готовую ссылку для входа вида http://localhost:ПОРТ/#token=ТОКЕН и пришли её мне.
+5. Коротко объясни, что ты сделал, и дай мне команду, которой я смогу сам снова открыть туннель, если панель перестанет отвечать.
+
+Мой токен никуда не выводи, кроме этой ссылки для меня.</div>
+      <button class="btn-copy" onclick="copyBlock('promptWebui', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="item" data-key="webui-prompt">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Узнать токен авторизации</div>
-        <div class="item__hint">В терминале на сервере (VPS) выполните:</div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdToken">cat ~/.openclaw/openclaw.json | grep token</span><button class="btn-copy" onclick="copyBlock('cmdToken',this)">📋 Скопировать</button></div>
-        <div class="item__hint">Скопируйте полученную строку и сохраните — она нужна для входа в WebUI.</div>
+        <div class="item__text">Отправить промпт в Claude Code и получить ссылку</div>
+        <div class="item__hint">Скопируйте промпт выше и отправьте в Claude Code. Он всё настроит и пришлёт готовую ссылку на панель + команду, чтобы открыть туннель снова при необходимости.</div>
       </div>
     </div>
 
-    <div class="item" data-key="tunnel-launch">
+    <div class="item" data-key="webui-open">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Запустить SSH-туннель</div>
-        <div class="item__hint">Откройте <strong>НОВОЕ окно терминала на вашем компьютере</strong> (не на сервере!).<br><br>
-        <strong>Проверка порта (macOS):</strong></div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdPort1">lsof -i :18789</span><button class="btn-copy" onclick="copyBlock('cmdPort1',this)">📋 Скопировать</button></div>
-        <div class="item__hint"><strong>Проверка порта (Windows):</strong></div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdPort2">netstat -ano | findstr :18789</span><button class="btn-copy" onclick="copyBlock('cmdPort2',this)">📋 Скопировать</button></div>
-        <div class="item__hint">(Если ничего не вывело — порт свободен. Если занят — используйте 38789)<br><br>
-        <strong>Запуск туннеля:</strong></div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdTunnel">ssh -N -L 18789:127.0.0.1:18789 my-server</span><button class="btn-copy" onclick="copyBlock('cmdTunnel',this)">📋 Скопировать</button></div>
-        <div class="item__hint">После ввода пароля экран «зависнет» — <strong>это нормально</strong>, туннель работает в фоне. Не закрывайте окно!</div>
+        <div class="item__text">Открыть веб-панель по ссылке</div>
+        <div class="item__hint">Перейдите по ссылке от Claude Code в браузере — откроется панель управления ботом. Готово ✅</div>
       </div>
     </div>
 
-    <div class="item" data-key="tunnel-webui">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Открыть Web UI в браузере</div>
-        <div class="item__hint">Перейдите по ссылке, подставив ваш токен:<br>
-        <span class="mono">http://localhost:18789/#token=ВАШ_ТОКЕН</span><br>
-        (Если использовали порт 38789: <span class="mono">http://localhost:38789/#token=ВАШ_ТОКЕН</span>)</div>
-      </div>
+    <div class="note note--warn">
+      <span class="note__icon">🔁</span>
+      <span><strong>Если панель перестала открываться</strong> — значит, отвалился туннель (например, после перезагрузки или закрытия Claude Code). Просто попросите Claude Code «<strong>открой туннель к панели снова</strong>» или запустите команду, которую он вам дал. Данные при этом не теряются.</span>
     </div>
-
-    <details class="spoiler">
-      <summary>💡 Как закрыть зависший туннель</summary>
-      <div class="spoiler__content">
-        <p><strong>Windows:</strong> просто закройте окно PowerShell крестиком.</p>
-        <p><strong>macOS:</strong> нажмите <span class="mono">Ctrl + C</span> в окне терминала с туннелем, либо в новом окне:</p>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdKill">lsof -ti:18789 | xargs kill -9</span><button class="btn-copy" onclick="copyBlock('cmdKill',this)">📋 Скопировать</button></div>
-      </div>
-    </details>
   </div>
 </div>
 
@@ -1149,7 +1145,9 @@ claude mcp add --scope user agentmemory -- npx -y @agentmemory/mcp
   <div class="section__card">
     <div class="note note--info">
       <span class="note__icon">🧬</span>
-      <span><strong>SOUL.md — это душа вашего агента.</strong> В отличие от ChatGPT, OpenClaw хранит постоянную «личность» и знание о вас в двух Markdown-файлах: <span class="mono">SOUL.md</span> (характер, принципы, стиль) и <span class="mono">USER.md</span> (всё о вас). При каждом сообщении они подгружаются в самое начало системного промпта — раньше памяти, скиллов и инструментов.</span>
+      <span>В отличие от ChatGPT, OpenClaw хранит постоянную «личность» агента и знание о вас в <strong>двух отдельных</strong> Markdown-файлах. При каждом сообщении они подгружаются в самое начало системного промпта — раньше памяти, скиллов и инструментов.<br><br>
+      <strong>📄 SOUL.md — это про самого агента.</strong> Здесь живёт его «голос»: характер, принципы, стиль общения и границы — кто он, как разговаривает и чего никогда не делает. Это душа бота.<br><br>
+      <strong>📄 USER.md — это про вас.</strong> Это досье о вас: как зовут, как к вам обращаться, ваш часовой пояс, чем занимаетесь, ваши проекты и важные заметки. Чтобы агент всегда знал, с кем работает.</span>
     </div>
 
     <div class="note note--green">
