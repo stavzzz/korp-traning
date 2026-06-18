@@ -1389,31 +1389,30 @@ openclaw status</span>
 </div>
 
 <!-- ═══════════════════════════════════════════
-     АВТО-ОБНОВЛЕНИЕ + ЛИМИТЫ (НАБОР)
+     АВТО-ОБНОВЛЕНИЕ OPENCLAW (НАБОР)
 ═══════════════════════════════════════════ -->
 <div class="section">
   <div class="section__header">
     <div class="section__num">15</div>
-    <div class="section__title">Авто-обновление OpenClaw + лимиты Codex</div>
+    <div class="section__title">Авто-обновление OpenClaw</div>
   </div>
   <div class="section__card">
     <div class="note note--info">
-      <span class="note__icon">📦</span>
-      <span>Готовый набор для OpenClaw, который:<br>
-      • сам <strong>безопасно обновляет</strong> бота — по вашему подтверждению (бэкап → обновление → проверка → авто-откат при сбое);<br>
-      • если после обновления что-то ломается — <strong>чинит себя сам</strong>;<br>
-      • показывает <strong>остаток лимитов Codex</strong> в каждом ответе бота.</span>
+      <span class="note__icon">🔄</span>
+      <span><strong>Что это и зачем.</strong> OpenClaw часто выходит в новых версиях. Обновляться вручную страшно: одно неудачное обновление — и бот замолчал. Этот набор делает обновление <strong>безопасным</strong>:<br>
+      • перед обновлением сам делает <strong>резервную копию</strong>;<br>
+      • обновляет и <strong>проверяет</strong>, что бот живой;<br>
+      • если что-то пошло не так — <strong>откатывается назад</strong> на рабочую версию;<br>
+      • если после обновления что-то отвалилось — <strong>чинит себя сам</strong>.</span>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span>Ставите один раз — дальше бот обновляется без риска всё сломать. Это снимает главный страх новичка: «обновлюсь и сломаю рабочего бота».</span>
     </div>
 
     <div style="text-align:center;margin:4px 0">
       <a href="https://drive.google.com/uc?export=download&amp;id=1YCuriEfmm0LpFsMe9QKMD_Y6FfGewoCC" target="_blank" class="btn-copy" style="display:inline-flex;text-decoration:none;padding:12px 28px;font-size:13px">⬇️ Скачать набор (.zip)</a>
-    </div>
-
-    <div class="info-block">
-      <p><strong>Как поставить — 3 шага:</strong></p>
-      <p>1. Скачайте архив и распакуйте папку в свой проект (открытый в VS Code с Claude Code).</p>
-      <p>2. Откройте из архива файл <span class="mono">PROMPT.md</span> и скопируйте промпт.</p>
-      <p>3. Вставьте его в Claude Code — он сам поставит набор на ваш сервер и проверит.</p>
     </div>
 
     <div class="note note--warn">
@@ -1421,11 +1420,27 @@ openclaw status</span>
       <span><strong>Нужно заранее:</strong> OpenClaw развёрнут через Docker и есть доступ к серверу по SSH. Для опытных в архиве есть ручная инструкция <span class="mono">INSTALL.md</span>.</span>
     </div>
 
-    <div class="item" data-key="autokit-install">
+    <div class="item" data-key="autoupd-download">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Установить набор (авто-обновление + лимиты)</div>
-        <div class="item__hint">Скачайте архив → распакуйте папку в проект → откройте PROMPT.md → вставьте промпт в Claude Code. Он всё поставит и проверит.</div>
+        <div class="item__text">Скачать архив и перенести папку в проект</div>
+        <div class="item__hint">Скачайте архив (кнопка выше), распакуйте и перетащите папку в свой проект, открытый в VS Code с Claude Code.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="autoupd-prompt">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Открыть PROMPT.md и скопировать промпт</div>
+        <div class="item__hint">В распакованной папке откройте файл <span class="mono">PROMPT.md</span> и скопируйте промпт целиком — это готовая инструкция для Claude Code.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="autoupd-install">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Вставить промпт в Claude Code</div>
+        <div class="item__hint">Вставьте промпт в Claude Code одним сообщением — он сам поставит набор на ваш сервер и проверит, по ходу рассказывая, что делает.</div>
       </div>
     </div>
   </div>
