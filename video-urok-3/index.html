@@ -1100,7 +1100,7 @@ claude mcp add --scope user agentmemory -- npx -y @agentmemory/mcp
         <div class="item__text">Проверить голосовое сообщение</div>
         <div class="item__hint">Откройте бота в Telegram → зажмите микрофон → скажите: «Привет, агент! Какая сегодня погода?» → отправьте.<br>
         <strong>Бот должен прислать расшифровку и ответ. ✅</strong><br><br>
-        Не получилось? Отправьте агенту: <span class="mono">Проверь логи: openclaw logs --follow, найди ошибку в модуле audio.</span></div>
+        Не получилось? Отправьте в Claude Code: <span class="mono">Проверь логи: openclaw logs --follow, найди ошибку в модуле audio.</span></div>
       </div>
     </div>
 
@@ -1134,11 +1134,106 @@ claude mcp add --scope user agentmemory -- npx -y @agentmemory/mcp
 </div>
 
 <!-- ═══════════════════════════════════════════
-     11 — ЛИМИТЫ CHATGPT
+     16 — SOUL.MD И USER.MD
 ═══════════════════════════════════════════ -->
 <div class="section">
   <div class="section__header">
     <div class="section__num">11</div>
+    <div class="section__title">Настройка личности агента — SOUL.md и USER.md</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🧬</span>
+      <span><strong>SOUL.md — это душа вашего агента.</strong> В отличие от ChatGPT, OpenClaw хранит постоянную «личность» и знание о вас в двух Markdown-файлах: <span class="mono">SOUL.md</span> (характер, принципы, стиль) и <span class="mono">USER.md</span> (всё о вас). При каждом сообщении они подгружаются в самое начало системного промпта — раньше памяти, скиллов и инструментов.</span>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">💬</span>
+      <span><strong>Сначала — просто поживите с ботом.</strong> После настройки голоса (шаг 10) пообщайтесь с ним в Telegram несколько дней: рассказывайте о себе, своём бизнесе, задачах, привычках, о том, как любите, чтобы вам отвечали. Чем больше он о вас узнает — тем точнее потом соберёт свою «душу». Эту же информацию мы и занесём в SOUL.md и USER.md.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Как выглядит хороший SOUL.md.</strong> Ниже — «анатомия» идеального файла: 8 разделов, которые реально влияют на поведение агента. <strong>Эту картинку можно прямо скопировать и отправить в Claude Code</strong> вместе с рекомендациями ниже — он соберёт по ним душу вашего агента.</p>
+    </div>
+
+    <img src="soul-anatomy.jpg" alt="Анатомия файла SOUL.md — 8 разделов" style="display:block;width:100%;border-radius:12px;margin:8px 0 14px;border:1px solid var(--border-accent)">
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Рекомендации по SOUL.md — скопировать и отправить в Claude Code</div>
+      <div class="prompt-block__text" id="promptSoulGuide">Анатомия идеального файла SOUL.md для AI-агентов.
+
+SOUL.md — это единственный файл, который вы пишете для AI-агента самостоятельно. Он находится в самом начале системного промпта: до памяти, до скиллов и до инструментов. Именно он определяет, кем является агент, когда начинает работу. Час, потраченный на этот файл, влияет на каждое последующее взаимодействие.
+
+Вот 8 разделов, которые имеют значение:
+
+→ identity — одно предложение о том, кто агент, а не что он делает
+→ core truths — базовые принципы в повелительной форме, каждый с кратким пояснением в одну строку
+→ worldview — выраженные взгляды по разным областям, достаточно конкретные, чтобы по ним можно было предсказать поведение агента
+→ voice — конкретные правила общения агента, а не набор прилагательных
+→ expertise — основная область компетенции, инструменты, которыми агент владеет свободно, и ситуации, где он передаёт задачу другому специалисту
+→ boundaries — явные ограничения и вещи, которые агент делать не будет, без расплывчатых формулировок
+→ memory policy — правила того, что сохраняется в памяти, а что остаётся приватным
+→ pet peeves — фразы, речевые обороты и тон общения, которые агент никогда не использует
+
+Большинство пишут что-то вроде «будь полезным и профессиональным» — и на этом заканчивают. Это ничего не меняет: любая модель и так старается быть полезной. Агенты, которые реально становятся лучше со временем, имеют SOUL.md с настоящими взглядами, ограничениями и стилем общения — который можно предсказать ещё до прочтения ответа.
+
+Хороший SOUL.md обычно занимает от 30 до 80 строк. Конкретика важнее полноты охвата.</div>
+      <button class="btn-copy" onclick="copyBlock('promptSoulGuide', this)">📋 Скопировать рекомендации</button>
+    </div>
+
+    <div class="note note--info">
+      <span class="note__icon">🛠️</span>
+      <span><strong>Что делать дальше:</strong><br>
+      • несколько дней общайтесь с ботом в Telegram — расскажите о себе и о бизнесе;<br>
+      • скопируйте картинку выше и рекомендации, отправьте их в Claude Code;<br>
+      • попросите собрать SOUL.md и USER.md по этой структуре и на основе вашего разговора с ботом;<br>
+      • Claude Code покажет готовый черновик прямо здесь, в VS Code — проверьте, и он сохранит файлы на сервер.</span>
+    </div>
+
+    <div class="note note--alert">
+      <span class="note__icon">🚨</span>
+      <span><strong>Важно:</strong> длина файла <span class="mono">SOUL.md</span> не должна превышать <strong>20 000 символов</strong>. Всё, что сверх этого лимита — будет обрезано и агент его не увидит.</span>
+    </div>
+
+    <div class="info-block">
+      <p>Все файлы лежат на сервере в рабочей папке агента <span class="mono">~/.openclaw/workspace/</span>. Вместо ручного редактирования — попросим Claude Code заполнить их за нас.</p>
+    </div>
+
+    <div class="item" data-key="soul-setup">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Собрать SOUL.md и USER.md через Claude Code</div>
+        <div class="item__hint">Отправьте картинку и рекомендации выше <strong>в Claude Code</strong> вместе с промптом ниже. Он соберёт черновик, покажет его в VS Code, а после вашего «ок» — сохранит на сервер.</div>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: собрать душу агента (отправить в Claude Code)</div>
+      <div class="prompt-block__text" id="promptSoul">Помоги собрать душу моего агента — файлы SOUL.md и USER.md.
+
+Я приложил картинку «Анатомия SOUL.md» и рекомендации с 8 разделами. Собери SOUL.md строго по этой структуре — конкретно, без воды, 30–80 строк.
+
+Учитывай то, что я уже рассказывал о себе и своём бизнесе (в нашем разговоре и в переписке с ботом в Telegram). USER.md заполни фактами обо мне: имя, город, часовой пояс, чем занимаюсь, проекты, как ко мне обращаться, как отвечать (кратко/развёрнуто).
+
+Сначала покажи мне черновики обоих файлов здесь, в VS Code, — я проверю и подтвержу. После моего «ок» подключись к серверу и сохрани файлы в рабочую папку агента ~/.openclaw/workspace/ (SOUL.md и USER.md).
+
+SOUL.md держи в пределах 20 000 символов.</div>
+      <button class="btn-copy" onclick="copyBlock('promptSoul', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">🎉</span>
+      <span>Теперь ваш бот — не просто нейросеть, а персональный настроенный сотрудник с характером и знанием вашего контекста.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     11 — ЛИМИТЫ CHATGPT
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">12</div>
     <div class="section__title">Показ остатка лимитов ChatGPT в Telegram-боте</div>
   </div>
   <div class="section__card">
@@ -1211,7 +1306,7 @@ claude mcp add --scope user agentmemory -- npx -y @agentmemory/mcp
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Отправить промпт в Claude Code</div>
-        <div class="item__hint">Скопируйте промпт выше и отправьте агенту одним сообщением. Он сам всё обследует, установит и проверит, по ходу рассказывая, что делает.</div>
+        <div class="item__hint">Скопируйте промпт выше и отправьте в Claude Code одним сообщением. Он сам всё обследует, установит и проверит, по ходу рассказывая, что делает.</div>
       </div>
     </div>
 
@@ -1230,7 +1325,7 @@ claude mcp add --scope user agentmemory -- npx -y @agentmemory/mcp
 ═══════════════════════════════════════════ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">12</div>
+    <div class="section__num">13</div>
     <div class="section__title">Диагностика и починка</div>
   </div>
   <div class="section__card">
@@ -1267,7 +1362,7 @@ openclaw status</span>
 ═══════════════════════════════════════════ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">13</div>
+    <div class="section__num">14</div>
     <div class="section__title">Частые ошибки и решения</div>
   </div>
   <div class="section__card">
@@ -1294,11 +1389,54 @@ openclaw status</span>
 </div>
 
 <!-- ═══════════════════════════════════════════
+     АВТО-ОБНОВЛЕНИЕ + ЛИМИТЫ (НАБОР)
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">15</div>
+    <div class="section__title">Авто-обновление OpenClaw + лимиты Codex</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">📦</span>
+      <span>Готовый набор для OpenClaw, который:<br>
+      • сам <strong>безопасно обновляет</strong> бота — по вашему подтверждению (бэкап → обновление → проверка → авто-откат при сбое);<br>
+      • если после обновления что-то ломается — <strong>чинит себя сам</strong>;<br>
+      • показывает <strong>остаток лимитов Codex</strong> в каждом ответе бота.</span>
+    </div>
+
+    <div style="text-align:center;margin:4px 0">
+      <a href="https://drive.google.com/uc?export=download&amp;id=1YCuriEfmm0LpFsMe9QKMD_Y6FfGewoCC" target="_blank" class="btn-copy" style="display:inline-flex;text-decoration:none;padding:12px 28px;font-size:13px">⬇️ Скачать набор (.zip)</a>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Как поставить — 3 шага:</strong></p>
+      <p>1. Скачайте архив и распакуйте папку в свой проект (открытый в VS Code с Claude Code).</p>
+      <p>2. Откройте из архива файл <span class="mono">PROMPT.md</span> и скопируйте промпт.</p>
+      <p>3. Вставьте его в Claude Code — он сам поставит набор на ваш сервер и проверит.</p>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">⚙️</span>
+      <span><strong>Нужно заранее:</strong> OpenClaw развёрнут через Docker и есть доступ к серверу по SSH. Для опытных в архиве есть ручная инструкция <span class="mono">INSTALL.md</span>.</span>
+    </div>
+
+    <div class="item" data-key="autokit-install">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Установить набор (авто-обновление + лимиты)</div>
+        <div class="item__hint">Скачайте архив → распакуйте папку в проект → откройте PROMPT.md → вставьте промпт в Claude Code. Он всё поставит и проверит.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
      14 — ТОПИКИ В TELEGRAM
 ═══════════════════════════════════════════ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">14</div>
+    <div class="section__num">16</div>
     <div class="section__title">Организация работы в Telegram: группа с топиками</div>
   </div>
   <div class="section__card">
@@ -1360,7 +1498,7 @@ openclaw status</span>
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Настроить топики через Claude Code</div>
-        <div class="item__hint">Подставьте ваш chat_id в промпт ниже, скопируйте и отправьте агенту <strong>в чат Claude Code внутри VS Code</strong>.</div>
+        <div class="item__hint">Подставьте ваш chat_id в промпт ниже, скопируйте и отправьте <strong>в Claude Code</strong>.</div>
       </div>
     </div>
 
@@ -1410,7 +1548,7 @@ openclaw status</span>
 ═══════════════════════════════════════════ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">15</div>
+    <div class="section__num">17</div>
     <div class="section__title">Голосовые ответы бота (TTS — Text-to-Speech)</div>
   </div>
   <div class="section__card">
@@ -1423,7 +1561,7 @@ openclaw status</span>
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Включить голосовые ответы через Claude Code</div>
-        <div class="item__hint">Скопируйте промпт ниже и отправьте агенту <strong>в чат Claude Code внутри VS Code</strong>.</div>
+        <div class="item__hint">Скопируйте промпт ниже и отправьте <strong>в Claude Code</strong>.</div>
       </div>
     </div>
 
@@ -1443,62 +1581,6 @@ openclaw status</span>
         <div class="item__text">Проверить голосовой ответ</div>
         <div class="item__hint">Бот должен прислать голосовое сообщение в Telegram. Если не пришло — проверьте логи: <span class="mono">openclaw logs --follow</span></div>
       </div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════
-     16 — SOUL.MD И USER.MD
-═══════════════════════════════════════════ -->
-<div class="section">
-  <div class="section__header">
-    <div class="section__num">16</div>
-    <div class="section__title">Настройка личности и памяти агента (soul.md и user.md)</div>
-  </div>
-  <div class="section__card">
-    <div class="note note--info">
-      <span class="note__icon">🧬</span>
-      <span>Это самая важная часть вайб-кодинга! В отличие от ChatGPT, OpenClaw хранит постоянную «личность» и знание о вас в специальных Markdown-файлах. При каждом сообщении эти файлы подгружаются в системный промпт.</span>
-    </div>
-
-    <div class="note note--alert">
-      <span class="note__icon">🚨</span>
-      <span><strong>Важно:</strong> длина файла <span class="mono">SOUL.md</span> не должна превышать <strong>20 000 символов</strong>. Всё, что сверх этого лимита — будет обрезано и агент его не увидит.</span>
-    </div>
-
-    <div class="info-block">
-      <p>Все файлы лежат на сервере в рабочей папке агента <span class="mono">~/.openclaw/workspace/</span>. Вместо ручного редактирования — попросим Claude Code заполнить их за нас.</p>
-    </div>
-
-    <div class="item" data-key="soul-setup">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Настроить SOUL.md и USER.md через Claude Code</div>
-        <div class="item__hint">Заполните шаблон в промпте ниже своими данными (имя, город, профессия, проекты) и отправьте агенту <strong>в чат Claude Code внутри VS Code</strong>.</div>
-      </div>
-    </div>
-
-    <div class="prompt-block">
-      <div class="prompt-block__title">📋 Промпт: настройка личности агента (отправить в Claude Code)</div>
-      <div class="prompt-block__text" id="promptSoul">Подключись к моему серверу. Найди рабочую папку агента: ~/.openclaw/workspace/.
-Там есть служебные файлы. Я хочу, чтобы ты полностью перезаписал два из них по моим инструкциям.
-
-1. Файл USER.md (Всё обо мне). Запиши туда следующее:
-   "Меня зовут <ВАШЕ_ИМЯ>. Я живу в <ВАШ_ГОРОД> (часовой пояс <ВРЕМЯ>). Я работаю <ПРОФЕССИЯ>. Мой уровень технической подготовки: <ОПИШИТЕ УРОВЕНЬ>. Мои текущие проекты: <ОПИШИТЕ ПРОЕКТЫ>. Я предпочитаю, чтобы мне отвечали <КРАТКО/РАЗВЕРНУТО>. Мои инструменты: <VS CODE, TELEGRAM, NOTION и т.д.>"
-
-2. Файл SOUL.md (Философия и личность агента). Запиши туда следующее:
-   "Ты — мой личный ИИ-партнер и старший инженер. Твой стиль общения: профессиональный, но дружелюбный, слегка дерзкий, с юмором, без воды и лишних предисловий. Ты общаешься ИСКЛЮЧИТЕЛЬНО на русском языке. 
-   Ты не 'ИИ-модель', ты полноценный сотрудник. Твоя цель — экономить мое время. Если видишь, что можешь сделать рутину сам — делай."
-
-ВАЖНО: убедись, что итоговый файл SOUL.md НЕ превышает 20 000 символов. Всё, что сверх лимита, будет обрезано системой.
-
-Сохрани изменения в эти файлы и подтверди.</div>
-      <button class="btn-copy" onclick="copyBlock('promptSoul', this)">📋 Скопировать промпт</button>
-    </div>
-
-    <div class="note note--green">
-      <span class="note__icon">🎉</span>
-      <span>Теперь ваш бот — не просто нейросеть, а персональный настроенный сотрудник с характером и знанием вашего контекста.</span>
     </div>
   </div>
 </div>
