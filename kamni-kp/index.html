@@ -3,643 +3,403 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ИИ-ВИЗАЦИЯ · Коммерческое предложение для «Камни»</title>
+<title>Единый ИИ-контур для KAMNI · КП · ИИ-ВИЗАЦИЯ</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2321AA4D'/%3E%3Cpath d='M32 12l4.6 11.9L48 28l-11.4 4.1L32 44l-4.6-11.9L16 28l11.4-4.1z' fill='white'/%3E%3Ccircle cx='48' cy='16' r='4' fill='white'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
+/* DrukCyr — если есть файл, раскомментируйте:
+@font-face{font-family:'DrukCyr';src:url('DrukCyr-Bold.woff2') format('woff2');font-weight:700;font-display:swap;}
+*/
 :root{
-  --bg:#08080f;
-  --bg2:#0e0e18;
-  --bg3:#14141f;
-  --bg4:#1c1c2e;
-  --emerald:#00c896;
-  --emerald-bright:#00e6ad;
-  --emerald-dim:rgba(0,200,150,.07);
-  --emerald-glow:rgba(0,200,150,.14);
-  --amethyst:#a78bfa;
-  --amethyst-bright:#c4b5fd;
-  --amethyst-dim:rgba(167,139,250,.07);
-  --amethyst-glow:rgba(167,139,250,.13);
-  --gold:#d9b370;
-  --white:#ffffff;
-  --gray:#8c8caa;
-  --gray2:#56566f;
-  --border:rgba(255,255,255,.07);
-  --border2:rgba(255,255,255,.04);
-  --r-lg:26px;
-  --r-md:18px;
-  --r-sm:12px;
+  --accent:#21AA4D;
+  --accent-dark:#188A3D;
+  --bg:#FFFFFF;
+  --bg2:#F2F2F2;
+  --ink:#303030;
+  --gray:#6F6F6F;
+  --line:#E3E3E3;
+  --display:'DrukCyr','Oswald',sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{
-  background:var(--bg);
-  color:#dcdcec;
-  font-family:'Outfit',sans-serif;
-  font-size:16px;
-  line-height:1.65;
-  -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
-  position:relative;
-}
-/* grain overlay */
-body::after{
-  content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.035;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  mix-blend-mode:overlay;
-}
-::selection{background:var(--emerald);color:#000}
-a{color:inherit;text-decoration:none}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;font-weight:400;line-height:1.6;overflow-x:hidden}
+::selection{background:rgba(33,170,77,.25)}
+.container{max-width:1080px;margin:0 auto;padding:0 24px}
+section{padding:90px 0;position:relative}
+section.alt{background:var(--bg2)}
 
-.container{max-width:1000px;margin:0 auto;padding:0 28px}
-.mono{font-family:'JetBrains Mono',monospace}
-.serif{font-family:'Fraunces',serif;font-style:italic}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.fade{animation:fadeInUp .8s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.08s}.d2{animation-delay:.16s}.d3{animation-delay:.24s}.d4{animation-delay:.32s}
 
-/* ===== NAV ===== */
-.nav{position:sticky;top:0;z-index:100;background:rgba(8,8,15,.72);backdrop-filter:blur(14px);border-bottom:1px solid var(--border2)}
-.nav-inner{max-width:1000px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}
-.brand{display:flex;align-items:center;gap:11px;font-weight:700;letter-spacing:.02em;font-size:15px}
-.brand .gem{width:20px;height:20px;flex:none}
-.nav-links{display:flex;gap:6px;flex-wrap:wrap}
-.nav-links a{font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.04em;color:var(--gray);padding:6px 12px;border-radius:100px;border:1px solid transparent;transition:.2s}
-.nav-links a:hover{color:var(--white);border-color:var(--border);background:var(--bg3)}
-@media(max-width:760px){.nav-links{display:none}}
-
-/* ===== HERO ===== */
-.hero{position:relative;padding:96px 0 78px;overflow:hidden}
-.hero::before{content:"";position:absolute;top:-260px;right:-180px;width:760px;height:760px;border-radius:50%;
-  background:radial-gradient(circle,var(--emerald-glow) 0%,transparent 62%);animation:pulse 16s ease-in-out infinite;z-index:0}
-.hero::after{content:"";position:absolute;bottom:-340px;left:-220px;width:680px;height:680px;border-radius:50%;
-  background:radial-gradient(circle,var(--amethyst-glow) 0%,transparent 62%);animation:pulse 20s ease-in-out infinite reverse;z-index:0}
-@keyframes pulse{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.18);opacity:1}}
-.hero .container{position:relative;z-index:2}
+/* hero */
+.hero{min-height:88vh;display:flex;align-items:center;padding:110px 0 80px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;right:-220px;top:-220px;width:640px;height:640px;border-radius:50%;background:radial-gradient(circle,rgba(33,170,77,.12) 0%,transparent 65%);pointer-events:none}
 .badges{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:30px}
-.badge{font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.05em;padding:8px 15px;border-radius:100px;border:1px solid var(--border);background:var(--bg3);display:inline-flex;align-items:center;gap:8px}
-.badge .dot{width:7px;height:7px;border-radius:50%;background:var(--emerald);box-shadow:0 0 10px var(--emerald)}
-.badge.pur .dot{background:var(--amethyst);box-shadow:0 0 10px var(--amethyst)}
-.eyebrow{font-family:'Fraunces',serif;font-style:italic;font-size:20px;color:var(--gold);margin-bottom:18px;letter-spacing:.01em}
-h1{font-size:clamp(34px,6vw,64px);font-weight:800;line-height:1.04;letter-spacing:-.03em;color:#fff;margin-bottom:26px;max-width:18ch}
-h1 .g{background:linear-gradient(100deg,var(--emerald-bright),var(--amethyst));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.lead{font-size:clamp(16px,2vw,19px);color:var(--gray);max-width:60ch;line-height:1.6}
-.lead b{color:#cfcfe4;font-weight:600}
+.badge{font-size:12.5px;font-weight:600;letter-spacing:.04em;padding:8px 16px;border-radius:100px;border:1px solid var(--line);background:var(--bg);color:var(--gray)}
+.badge.green{border-color:var(--accent);color:var(--accent);background:rgba(33,170,77,.06)}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:18px}
+h1{font-family:var(--display);font-size:clamp(40px,6.4vw,78px);font-weight:700;line-height:1.04;letter-spacing:.01em;text-transform:uppercase;margin-bottom:26px}
+h1 .acc{color:var(--accent)}
+.hero-sub{font-size:18px;color:var(--gray);max-width:720px;margin-bottom:48px}
+.hero-sub b{color:var(--ink);font-weight:600}
+.metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.metric{background:var(--bg);padding:26px 14px;text-align:center}
+.metric .num{font-family:var(--display);font-size:clamp(22px,2.8vw,34px);font-weight:700;color:var(--accent);text-transform:uppercase;line-height:1}
+.metric .lbl{font-size:12px;color:var(--gray);margin-top:8px}
 
-.metrics{margin-top:52px;display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden;background:var(--bg2)}
-.metric{padding:24px 18px;border-right:1px solid var(--border)}
-.metric:last-child{border-right:none}
-.metric .v{font-family:'JetBrains Mono',monospace;font-size:clamp(20px,2.4vw,28px);font-weight:600;color:#fff;line-height:1}
-.metric .v.em{color:var(--emerald-bright)}
-.metric .k{font-size:12.5px;color:var(--gray2);margin-top:9px;line-height:1.35}
-@media(max-width:760px){.metrics{grid-template-columns:repeat(2,1fr)}.metric{border-bottom:1px solid var(--border)}.metric:nth-child(odd){border-right:1px solid var(--border)}.metric:nth-child(even){border-right:none}.metric:last-child{grid-column:1/-1}}
+/* section headers */
+.sec-num{font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.18em;margin-bottom:14px}
+h2{font-family:var(--display);font-size:clamp(30px,4.4vw,52px);font-weight:700;text-transform:uppercase;letter-spacing:.01em;line-height:1.06;margin-bottom:18px}
+.sec-sub{color:var(--gray);font-size:16.5px;max-width:700px;margin-bottom:52px}
+.sec-sub b{color:var(--ink);font-weight:600}
 
-/* gem in hero corner */
-.hero-gem{position:absolute;top:60px;right:40px;width:150px;height:150px;z-index:1;opacity:.9;animation:float 9s ease-in-out infinite;filter:drop-shadow(0 0 30px var(--emerald-glow))}
-@keyframes float{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-16px) rotate(4deg)}}
-@media(max-width:880px){.hero-gem{display:none}}
+/* cards */
+.grid{display:grid;gap:18px}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.card{background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:30px;transition:transform .3s,border-color .3s,box-shadow .3s}
+.card:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 12px 32px rgba(48,48,48,.08)}
+.card .emoji{font-size:26px;margin-bottom:14px}
+.card h3{font-size:18px;font-weight:700;margin-bottom:10px}
+.card h3 .ln{font-family:var(--display);color:var(--accent);text-transform:uppercase;letter-spacing:.02em;margin-right:8px}
+.card p{color:var(--gray);font-size:14.5px}
+.card p b{color:var(--ink);font-weight:600}
+.card .who{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;font-weight:600;color:var(--accent-dark)}
+section.alt .card{border-color:transparent}
+section.alt .card .who{border-top-color:var(--line)}
+.card-status{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.03em;padding:5px 12px;border-radius:100px;margin-bottom:14px}
+.card-status.ok{background:rgba(33,170,77,.14);color:var(--accent-dark)}
+.card-status.wip{background:#FBF0D7;color:#9A7220}
 
-/* ===== SECTIONS ===== */
-section{padding:78px 0;position:relative}
-.divider{border:none;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);max-width:1000px;margin:0 auto}
-.sec-head{margin-bottom:44px}
-.sec-eyebrow{font-family:'Fraunces',serif;font-style:italic;font-size:17px;color:var(--gold);margin-bottom:12px}
-.sec-num{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--emerald);margin-bottom:14px;display:flex;align-items:center;gap:10px}
-.sec-num::before{content:"";width:24px;height:1px;background:var(--emerald)}
-h2{font-size:clamp(27px,3.8vw,42px);font-weight:800;letter-spacing:-.02em;color:#fff;line-height:1.1}
-.sec-sub{color:var(--gray);font-size:17px;margin-top:16px;max-width:64ch}
+/* core (dark block) */
+.core{background:var(--ink);border-radius:24px;padding:48px 40px;color:#E9E9E9;position:relative;overflow:hidden}
+.core::before{content:'';position:absolute;right:-160px;top:-160px;width:460px;height:460px;border-radius:50%;background:radial-gradient(circle,rgba(33,170,77,.22) 0%,transparent 65%);pointer-events:none}
+.core-h{font-family:var(--display);font-size:clamp(22px,3vw,32px);text-transform:uppercase;text-align:center;margin-bottom:8px;position:relative}
+.core-sub{text-align:center;color:#9c9c9c;font-size:14px;margin-bottom:32px;position:relative}
+.core-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;position:relative}
+.core-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:28px}
+.core-card .ttl{font-weight:700;color:#fff;font-size:17px;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.core-card .ttl .dot{width:9px;height:9px;border-radius:50%;background:var(--accent)}
+.core-card ul{list-style:none}
+.core-card li{font-size:14px;color:#c4c4c4;padding:5px 0 5px 20px;position:relative}
+.core-card li::before{content:'·';position:absolute;left:6px;color:var(--accent);font-weight:800}
+.core-card li b{color:#fff;font-weight:600}
 
-/* reveal */
-.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
-.reveal.in{opacity:1;transform:none}
-.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}.d5{transition-delay:.4s}
+/* stages */
+.stagebox{border-radius:20px;padding:34px;margin-bottom:20px}
+.stage1{background:rgba(33,170,77,.07);border:1px solid rgba(33,170,77,.3)}
+.stage2{background:var(--bg);border:2px dashed var(--accent)}
+section.alt .stage2{background:var(--bg2)}
+.stagebox .lbl{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.stagebox h3{font-family:var(--display);font-size:22px;text-transform:uppercase;margin-bottom:12px;letter-spacing:.01em}
+.stagebox p{color:var(--gray);font-size:15px;margin-bottom:14px}
+.stagebox p b{color:var(--ink);font-weight:600}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chip{font-size:13px;font-weight:500;background:var(--bg);border:1px solid var(--line);border-radius:100px;padding:8px 16px;color:var(--ink)}
+.note{margin-top:16px;padding:14px 18px;border-radius:12px;background:var(--ink);color:#E9E9E9;font-size:14px}
+.note b{color:#fff;font-weight:700}
 
-/* current-state pain grid */
-.pain-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.pain{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--amethyst);border-radius:var(--r-sm);padding:24px 26px}
-.pain h4{color:#fff;font-size:16px;font-weight:600;margin-bottom:8px;display:flex;gap:9px;align-items:baseline}
-.pain h4 .ic{font-size:15px}
-.pain p{font-size:14.5px;color:var(--gray);line-height:1.55}
-.pain .src{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gray2);margin-top:12px;padding-top:10px;border-top:1px solid var(--border2)}
-.pain.win{border-left-color:var(--emerald)}
-@media(max-width:720px){.pain-grid{grid-template-columns:1fr}}
+/* roadmap */
+.stage{background:var(--bg);border:1px solid var(--line);border-radius:18px;padding:30px 34px;margin-bottom:16px}
+section.alt .stage{border-color:transparent}
+.stage-top{display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+.stage-top h3{font-size:18px;font-weight:700}
+.stage-top h3 .n{font-family:var(--display);color:var(--accent);margin-right:12px;text-transform:uppercase;font-size:20px}
+.stage-meta{font-size:12.5px;font-weight:600;color:var(--gray)}
+.stage p{color:var(--gray);font-size:14.5px}
+.stage p b{color:var(--ink);font-weight:600}
 
-/* layer overview cards */
-.layers{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.lcard{background:linear-gradient(160deg,var(--emerald-dim),transparent);border:1px solid var(--border);border-radius:var(--r-md);padding:28px;transition:.25s;position:relative;overflow:hidden}
-.lcard.p{background:linear-gradient(160deg,var(--amethyst-dim),transparent)}
-.lcard:hover{transform:translateY(-4px);border-color:var(--border);box-shadow:0 24px 50px -24px var(--emerald-glow)}
-.lcard.p:hover{box-shadow:0 24px 50px -24px var(--amethyst-glow)}
-.lcard .ln{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--emerald);text-transform:uppercase}
-.lcard.p .ln{color:var(--amethyst)}
-.lcard h3{font-size:20px;font-weight:700;color:#fff;margin:12px 0 10px}
-.lcard p{font-size:14.5px;color:var(--gray);line-height:1.55}
-.lcard .who{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#cfcfe4;margin-top:18px;padding-top:14px;border-top:1px solid var(--border2)}
-@media(max-width:760px){.layers{grid-template-columns:1fr}}
+/* price */
+.price-box{background:var(--ink);border-radius:24px;padding:64px 40px;text-align:center;position:relative;overflow:hidden;color:#E9E9E9}
+.price-box::before{content:'';position:absolute;left:-180px;bottom:-180px;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(33,170,77,.3) 0%,transparent 65%);pointer-events:none}
+.price-label{font-size:13px;font-weight:700;letter-spacing:.18em;color:#9c9c9c;text-transform:uppercase;margin-bottom:18px}
+.price-num{font-family:var(--display);font-weight:700;font-size:clamp(52px,9vw,108px);line-height:1;color:var(--accent);text-transform:uppercase}
+.price-sub{color:#b8b8b8;font-size:16px;margin-top:16px}
+.price-sub s{color:#8a8a8a}
+.price-rows{max-width:680px;margin:38px auto 0;text-align:left;position:relative}
+.price-row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.1);font-size:15px}
+.price-row .nm{color:#fff;font-weight:500}
+.price-row .nm small{display:block;color:#9c9c9c;font-weight:400;font-size:12.5px}
+.price-row .pr{white-space:nowrap;font-weight:700;color:var(--accent);font-size:16px}
+.old{color:#8a8a8a;text-decoration:line-through;font-weight:400;font-size:13.5px;margin-right:10px}
+.price-total{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:16px 0 0;font-size:15px;color:#fff;font-weight:700;border-top:2px solid rgba(33,170,77,.5)}
+.price-total .old{font-size:14px}
+.price-total > span:last-child{color:var(--accent);font-size:18px;white-space:nowrap}
+.price-extra{max-width:680px;margin:14px auto 0;text-align:left;font-size:13px;color:#9c9c9c}
+.price-extra b{color:#c9c9c9}
+.pay-stages{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:36px;position:relative}
+.pay{font-size:13px;font-weight:500;color:#c9c9c9;border:1px solid rgba(255,255,255,.2);border-radius:100px;padding:10px 20px}
+.pay b{color:var(--accent);font-weight:800}
+.cta{display:inline-block;margin-top:40px;padding:20px 54px;border-radius:100px;background:var(--accent);color:#fff;font-weight:700;font-size:17px;text-decoration:none;box-shadow:0 10px 34px rgba(33,170,77,.4);transition:transform .25s,box-shadow .25s,background .25s;position:relative}
+.cta:hover{transform:translateY(-3px);background:var(--accent-dark);box-shadow:0 16px 44px rgba(33,170,77,.5)}
 
-/* detailed stage block */
-.stage{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:40px;margin-bottom:18px;position:relative;overflow:hidden}
-.stage::before{content:"";position:absolute;top:-120px;right:-120px;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,var(--emerald-glow),transparent 62%);opacity:.5}
-.stage.p::before{background:radial-gradient(circle,var(--amethyst-glow),transparent 62%)}
-.stage>*{position:relative;z-index:1}
-.stage-top{display:flex;align-items:center;gap:16px;margin-bottom:8px;flex-wrap:wrap}
-.snum{font-family:'JetBrains Mono',monospace;font-weight:600;width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:13px;background:linear-gradient(135deg,var(--emerald),#007a5e);color:#04130d;font-size:18px;flex:none}
-.stage.p .snum{background:linear-gradient(135deg,var(--amethyst),#6d28d9);color:#150b2b}
-.stage-tags{display:flex;gap:8px;flex-wrap:wrap}
-.tag{font-family:'JetBrains Mono',monospace;font-size:11px;padding:5px 11px;border-radius:100px;border:1px solid var(--border);color:var(--gray);background:var(--bg3)}
-.stage h3{font-size:24px;font-weight:700;color:#fff;margin:14px 0 10px;letter-spacing:-.01em}
-.stage>p{color:var(--gray);font-size:15.5px;max-width:62ch}
-.items{margin-top:22px;display:grid;gap:11px}
-.item{display:flex;gap:12px;font-size:15px;color:#cdcde0;line-height:1.5}
-.item .ar{color:var(--emerald);flex:none;font-family:'JetBrains Mono',monospace}
-.stage.p .item .ar{color:var(--amethyst)}
-.item b{color:#fff;font-weight:600}
-.result{margin-top:24px;background:var(--emerald-dim);border:1px solid rgba(0,200,150,.2);border-radius:var(--r-sm);padding:16px 20px;font-size:14.5px;color:#a7f3d6}
-.stage.p .result{background:var(--amethyst-dim);border-color:rgba(167,139,250,.2);color:#ddd0fb}
-.result b{color:#fff}
-.note{margin-top:16px;background:rgba(217,179,112,.06);border:1px solid rgba(217,179,112,.22);border-radius:var(--r-sm);padding:14px 18px;font-size:13.5px;color:#e6d2ab;line-height:1.5}
-.note b{color:var(--gold)}
-.whorow{margin-top:22px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gray2);display:flex;flex-wrap:wrap;gap:6px 18px}
-.whorow b{color:#cfcfe4;font-weight:500}
-@media(max-width:600px){.stage{padding:28px 22px}}
+footer{border-top:1px solid var(--line);padding:44px 0;text-align:center;color:var(--gray);font-size:14px}
+footer .logo{font-family:var(--display);color:var(--accent);letter-spacing:.1em;text-transform:uppercase;font-size:18px;margin-bottom:8px}
 
-/* roadmap timeline */
-.timeline{position:relative;margin-top:10px;padding-left:34px}
-.timeline::before{content:"";position:absolute;left:9px;top:6px;bottom:6px;width:2px;background:linear-gradient(180deg,var(--emerald),var(--amethyst),var(--emerald))}
-.tl{position:relative;padding:0 0 30px}
-.tl:last-child{padding-bottom:0}
-.tl::before{content:"";position:absolute;left:-34px;top:4px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:2px solid var(--emerald);box-shadow:0 0 0 4px rgba(0,200,150,.14)}
-.tl.p::before{border-color:var(--amethyst);box-shadow:0 0 0 4px rgba(167,139,250,.14)}
-.tl .w{font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.06em;color:var(--emerald);text-transform:uppercase}
-.tl.p .w{color:var(--amethyst)}
-.tl h4{font-size:17px;color:#fff;font-weight:600;margin:5px 0 5px}
-.tl p{font-size:14.5px;color:var(--gray);line-height:1.5}
-.tl .by{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gray2);margin-top:6px}
-
-/* team */
-.team{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-.tcard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-md);padding:26px;display:flex;gap:18px;align-items:flex-start}
-.tav{width:52px;height:52px;border-radius:14px;flex:none;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:600;font-size:19px;background:linear-gradient(135deg,var(--emerald),#007a5e);color:#04130d}
-.tcard.p .tav{background:linear-gradient(135deg,var(--amethyst),#6d28d9);color:#150b2b}
-.tcard h4{color:#fff;font-size:17px;font-weight:600}
-.tcard .role{font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.04em;color:var(--emerald);text-transform:uppercase;margin:3px 0 9px}
-.tcard.p .role{color:var(--amethyst)}
-.tcard p{font-size:14px;color:var(--gray);line-height:1.5}
-@media(max-width:680px){.team{grid-template-columns:1fr}}
-
-/* outcomes */
-.outcomes{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.oc{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-md);padding:22px;transition:.2s}
-.oc:hover{border-color:rgba(0,200,150,.3);transform:translateY(-3px)}
-.oc .ic{font-size:22px;margin-bottom:12px}
-.oc h4{color:#fff;font-size:15px;font-weight:600;margin-bottom:6px}
-.oc p{font-size:13.5px;color:var(--gray);line-height:1.5}
-@media(max-width:760px){.outcomes{grid-template-columns:1fr}}
-
-/* pricing */
-.price-wrap{background:linear-gradient(160deg,var(--bg3),var(--bg2));border:1px solid var(--border);border-radius:var(--r-lg);padding:50px;text-align:center;position:relative;overflow:hidden}
-.price-wrap::before{content:"";position:absolute;top:-200px;left:-120px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,var(--emerald-glow),transparent 62%)}
-.price-wrap::after{content:"";position:absolute;bottom:-220px;right:-120px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,var(--amethyst-glow),transparent 62%)}
-.price-wrap>*{position:relative;z-index:1}
-.price-label{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gray)}
-.price-old{font-family:'JetBrains Mono',monospace;font-size:22px;color:var(--gray2);text-decoration:line-through;margin-top:18px}
-.price-main{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:clamp(54px,10vw,100px);line-height:1;letter-spacing:-.02em;margin-top:4px;
-  background:linear-gradient(180deg,#fff 28%,var(--emerald) 105%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.price-aed{font-family:'JetBrains Mono',monospace;font-size:16px;color:var(--gray);margin-top:14px}
-.price-save{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--gold);border:1px solid rgba(217,179,112,.3);background:rgba(217,179,112,.07);padding:7px 14px;border-radius:100px}
-.price-rows{margin:30px auto 0;max-width:560px;text-align:left}
-.prow{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:15px 0;border-bottom:1px solid var(--border2)}
-.prow .n{color:#e7e7f2;font-size:15px;font-weight:500}
-.prow .n small{display:block;color:var(--gray2);font-size:12.5px;font-weight:400;font-family:'JetBrains Mono',monospace;margin-top:3px}
-.prow .p{font-family:'JetBrains Mono',monospace;color:var(--gray2);text-decoration:line-through;font-size:14px;white-space:nowrap}
-.prow.total{border-bottom:none;border-top:1px solid var(--emerald);margin-top:6px;padding-top:18px}
-.prow.total .n{color:#fff;font-weight:700;font-size:17px}
-.prow.total .p{color:var(--emerald-bright);text-decoration:none;font-size:19px;font-weight:600}
-.excl{margin:28px auto 0;max-width:560px;text-align:left;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:18px 22px}
-.excl .h{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gray2);margin-bottom:12px}
-.excl .x{display:flex;gap:11px;font-size:13.5px;color:var(--gray);line-height:1.5;margin-bottom:10px}
-.excl .x:last-child{margin-bottom:0}
-.excl .x .ic{color:var(--amethyst);flex:none}
-.excl .x b{color:#cfcfe4;font-weight:600}
-.cta{display:inline-flex;align-items:center;gap:9px;margin-top:34px;background:var(--emerald);color:#04130d;font-weight:700;font-size:16px;padding:16px 34px;border-radius:100px;transition:.25s;box-shadow:0 10px 36px -8px rgba(0,200,150,.45)}
-.cta:hover{transform:translateY(-3px);box-shadow:0 16px 44px -8px rgba(0,200,150,.6);background:var(--emerald-bright)}
-.pay{margin-top:26px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.pchip{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--gray);border:1px solid var(--border);background:var(--bg);padding:9px 16px;border-radius:100px;display:inline-flex;gap:8px;align-items:center}
-.payplan{margin-top:22px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-.pstage{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gray);border:1px solid var(--border);border-radius:100px;padding:8px 15px}
-.pstage b{color:var(--emerald-bright);font-weight:600}
-@media(max-width:600px){.price-wrap{padding:34px 22px}}
-
-/* next wave */
-.next{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-.ncard{border:2px dashed rgba(167,139,250,.3);border-radius:var(--r-md);padding:24px;background:var(--amethyst-dim)}
-.ncard h4{color:#fff;font-size:16px;font-weight:600;margin-bottom:7px;display:flex;gap:9px;align-items:baseline}
-.ncard p{font-size:14px;color:var(--gray);line-height:1.5}
-@media(max-width:680px){.next{grid-template-columns:1fr}}
-
-/* footer */
-footer{padding:60px 0 70px;border-top:1px solid var(--border);text-align:center}
-.fbrand{display:inline-flex;align-items:center;gap:11px;font-weight:700;font-size:17px;color:#fff}
-footer p{color:var(--gray2);font-size:13px;margin-top:14px;font-family:'JetBrains Mono',monospace}
-footer .ser{font-family:'Fraunces',serif;font-style:italic;color:var(--gold);font-size:15px;margin-top:10px}
+@media(max-width:860px){
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .metric:last-child{grid-column:span 2}
+  .grid-2,.grid-3,.core-grid{grid-template-columns:1fr}
+  section{padding:64px 0}
+}
 </style>
 </head>
 <body>
 
-<!-- gem svg symbol -->
-<svg width="0" height="0" style="position:absolute"><defs>
-<linearGradient id="gemg" x1="0" y1="0" x2="1" y2="1">
-<stop offset="0" stop-color="#00e6ad"/><stop offset="1" stop-color="#a78bfa"/>
-</linearGradient></defs></svg>
-
-<nav class="nav">
-  <div class="nav-inner">
-    <div class="brand">
-      <svg class="gem" viewBox="0 0 24 24" fill="none"><path d="M5 3h14l3 6-10 12L2 9z" stroke="url(#gemg)" stroke-width="1.5" stroke-linejoin="round"/><path d="M2 9h20M8 3 5 9l7 12M16 3l3 6-7 12" stroke="url(#gemg)" stroke-width="1" opacity=".6"/></svg>
-      ИИ-ВИЗАЦИЯ
-    </div>
-    <div class="nav-links">
-      <a href="#state">Где вы сейчас</a>
-      <a href="#layers">3 слоя</a>
-      <a href="#roadmap">План</a>
-      <a href="#team">Команда</a>
-      <a href="#price">Стоимость</a>
-    </div>
-  </div>
-</nav>
-
-<!-- ===== HERO ===== -->
+<!-- HERO -->
 <header class="hero">
-  <svg class="hero-gem" viewBox="0 0 24 24" fill="none"><path d="M5 3h14l3 6-10 12L2 9z" stroke="url(#gemg)" stroke-width="1" stroke-linejoin="round"/><path d="M2 9h20M8 3 5 9l7 12M16 3l3 6-7 12" stroke="url(#gemg)" stroke-width=".7" opacity=".55"/></svg>
   <div class="container">
-    <div class="badges">
-      <span class="badge"><span class="dot"></span>ИИ-ВИЗАЦИЯ</span>
-      <span class="badge pur"><span class="dot"></span>для «Камни» · Дубай / Киев</span>
+    <div class="badges fade">
+      <span class="badge green">🤖 ИИ-ВИЗАЦИЯ</span>
+      <span class="badge">💎 KAMNI · персонализированная ювелирка</span>
+      <span class="badge">Дубай / Киев</span>
     </div>
-    <div class="eyebrow">Коммерческое предложение</div>
-    <h1>Единый <span class="g">ИИ-контур</span> для «Камни»: сервер, агенты и обученная команда</h1>
-    <p class="lead">Поднимаем корпоративную архитектуру на сервере в Дубае, подключаем каждого из C-level к личному агенту и <b>общей базе знаний в едином контексте</b>, и подтягиваем команду до рабочего уровня ИИ. Анализ камней и изображений выносим в отдельный трек — через discovery, без обещаний вслепую.</p>
-
-    <div class="metrics">
-      <div class="metric"><div class="v em">3</div><div class="k">слоя работ под ключ</div></div>
-      <div class="metric"><div class="v">~6</div><div class="k">недель до результата</div></div>
-      <div class="metric"><div class="v">1</div><div class="k">сервер · закрытый контур</div></div>
-      <div class="metric"><div class="v">12–15</div><div class="k">человек в контуре</div></div>
-      <div class="metric"><div class="v em">$10k</div><div class="k">под ключ</div></div>
+    <div class="eyebrow fade d1">Коммерческое предложение · внедрение и обучение</div>
+    <h1 class="fade d2">Единый ИИ-контур для KAMNI.<br><span class="acc">Сервер, агенты и обученная команда</span></h1>
+    <p class="hero-sub fade d3">Ставим сервер в Дубае, поднимаем OpenClaw и единую базу знаний, подключаем каждого руководителя к своему агенту и к общему агенту, который в контексте всех отделов. Параллельно подтягиваем команду до уверенной работы с ИИ. <b>Анализ камней выносим в отдельный трек через discovery.</b></p>
+    <div class="metrics fade d4">
+      <div class="metric"><div class="num">3</div><div class="lbl">Слоя работ под ключ</div></div>
+      <div class="metric"><div class="num">Дубай</div><div class="lbl">Сервер в закрытом контуре</div></div>
+      <div class="metric"><div class="num">7-8 нед.</div><div class="lbl">До результата</div></div>
+      <div class="metric"><div class="num">12-15</div><div class="lbl">Человек в контуре</div></div>
+      <div class="metric"><div class="num">$10 000</div><div class="lbl">Пакетом, под ключ</div></div>
     </div>
   </div>
 </header>
 
-<hr class="divider">
-
-<!-- ===== CURRENT STATE ===== -->
-<section id="state">
+<!-- ЧТО ВХОДИТ -->
+<section class="alt">
   <div class="container">
-    <div class="sec-head reveal">
-      <div class="sec-num">00 · Диагностика</div>
-      <h2>Где вы сейчас</h2>
-      <p class="sec-sub">Прошли по анкетам (заполнили 4 из 6 C-level) и по установочной встрече. Картина честная: фундамент сильный, но разрозненный.</p>
-    </div>
-    <div class="pain-grid">
-      <div class="pain win reveal d1">
-        <h4><span class="ic">💎</span>Двое уже на продвинутом уровне</h4>
-        <p>Дарья и Андрей (маркетинг) строят автономных агентов с долгосрочной памятью, тянут метрики по API, делают дайджесты и отчёты. Это ядро, на которое опираемся.</p>
-        <div class="src">анкета · самооценка 5/5</div>
+    <div class="sec-num">01 · ЧТО ВХОДИТ</div>
+    <h2>Три слоя параллельно</h2>
+    <p class="sec-sub">Один проект, три фронта. У каждого свой ответственный и свой результат на выходе.</p>
+    <div class="grid grid-3">
+      <div class="card">
+        <div class="emoji">🖥</div>
+        <h3><span class="ln">Слой 1</span>Инфраструктура</h3>
+        <p>Сервер в Дубае, OpenClaw, единая база знаний. Личный агент каждому руководителю и общий агент, который в контексте всех отделов.</p>
+        <div class="who">Роман + Ефим · офлайн, Дубай</div>
       </div>
-      <div class="pain reveal d2">
-        <h4><span class="ic">📈</span>Остальные — ИИ как чат</h4>
-        <p>CEO и операционка используют ИИ как помощника для переписок, переводов, документов. Большой потенциал роста — именно их и подтягиваем в программе.</p>
-        <div class="src">анкета · самооценка 2–3/5</div>
+      <div class="card">
+        <div class="emoji">🎓</div>
+        <h3><span class="ln">Слой 2</span>Команда</h3>
+        <p>1,5 недели аудита уровня и 3 недели программы. Подтягиваем 5-6 ключевых людей до уверенной работы с ИИ.</p>
+        <div class="who">Станислав Панков · онлайн</div>
       </div>
-      <div class="pain reveal d3">
-        <h4><span class="ic">🗂</span>Данные разрознены</h4>
-        <p>Notion, Google Drive, Shopify, Valigara, Excel, ClickUp, печатные документы, «в голове» у людей, локально на компьютерах. Единой точки правды нет.</p>
-        <div class="src">анкета · вопрос 4.3</div>
-      </div>
-      <div class="pain reveal d4">
-        <h4><span class="ic">🔑</span>Нет общей памяти</h4>
-        <p>Подписки на личных аккаунтах, без централизации. Уходит человек — уходят и его наработки. Конфиденциальность при этом критична (Дарья, Алина — 5/5).</p>
-        <div class="src">анкета · вопросы 2.2 / 4.5</div>
+      <div class="card">
+        <div class="emoji">💎</div>
+        <h3><span class="ln">Слой 3</span>Discovery</h3>
+        <p>Прорабатываем базу по камням, сертификатам и дизайнам с анализом изображений. Сейчас это только проработка.</p>
+        <div class="who">Игорь Масленников · разработка</div>
       </div>
     </div>
   </div>
 </section>
 
-<hr class="divider">
-
-<!-- ===== 3 LAYERS OVERVIEW ===== -->
-<section id="layers">
+<!-- ЕДИНЫЙ КОНТУР -->
+<section>
   <div class="container">
-    <div class="sec-head reveal">
-      <div class="sec-eyebrow">что мы делаем</div>
-      <div class="sec-num">01 · Структура работ</div>
-      <h2>Три слоя — параллельно, под ключ</h2>
-      <p class="sec-sub">Один проект, три фронта. Каждый со своим ответственным и своим результатом на выходе.</p>
-    </div>
-    <div class="layers">
-      <div class="lcard reveal d1">
-        <div class="ln">Слой 1 · Инфраструктура</div>
-        <h3>Сервер, OpenClaw и агенты</h3>
-        <p>Физически ставим сервер в Дубае, разворачиваем OpenClaw, поднимаем единую базу знаний и личных агентов для каждого C-level.</p>
-        <div class="who">→ Роман + Ефим · офлайн, Дубай</div>
-      </div>
-      <div class="lcard p reveal d2">
-        <div class="ln">Слой 2 · Команда</div>
-        <h3>Аудит и тренинг</h3>
-        <p>1,5 недели аудита уровня сотрудников + 3-недельная программа: подтягиваем 5–6 ключевых людей до уверенной работы с ИИ.</p>
-        <div class="who">→ Станислав Панков · онлайн</div>
-      </div>
-      <div class="lcard reveal d3">
-        <div class="ln">Слой 3 · Discovery</div>
-        <h3>Анализ камней</h3>
-        <p>Прорабатываем «внутреннюю Википедию» по камням, сертификатам и дизайнам с анализом изображений. На этом этапе — только discovery.</p>
-        <div class="who">→ Игорь Масленников · разработка</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="divider">
-
-<!-- ===== LAYER 1 DETAIL ===== -->
-<section id="layer1">
-  <div class="container">
-    <div class="sec-head reveal">
-      <div class="sec-num">02 · Слой 1 — детально</div>
-      <h2>Инфраструктура и агенты</h2>
-      <p class="sec-sub">Не «у каждого свой ИИ», а единый контур: артефакты, созданные сегодня, учитываются в ответах завтра — глобально по компании.</p>
-    </div>
-
-    <div class="stage reveal">
-      <div class="stage-top">
-        <div class="snum">1</div>
-        <div class="stage-tags">
-          <span class="tag">⏱ ~2 недели</span>
-          <span class="tag">🖥 сервер в Дубае</span>
-          <span class="tag">🔒 закрытый контур</span>
+    <div class="sec-num">02 · ЕДИНЫЙ КОНТУР</div>
+    <h2>Сервер в Дубае: ядро системы</h2>
+    <p class="sec-sub">Это не «у каждого свой ИИ», а единый контур: артефакт, созданный сегодня, учитывается в ответах завтра. Сервер стоит в Дубае, поэтому ничего не блокируется, а данные остаются под вашим контролем.</p>
+    <div class="core">
+      <div class="core-h">Единый контур на сервере</div>
+      <div class="core-sub">OpenClaw · единая база знаний · сеть агентов</div>
+      <div class="core-grid">
+        <div class="core-card">
+          <div class="ttl"><span class="dot"></span>Единая база знаний</div>
+          <ul>
+            <li>три слоя памяти: <b>файлы сессий → Obsidian → RAG</b></li>
+            <li>каталог камней, дизайны, регламенты, история</li>
+            <li><b>разграничение прав доступа</b> по направлениям</li>
+            <li>ответ на любой вопрос по базе за секунды</li>
+          </ul>
+        </div>
+        <div class="core-card">
+          <div class="ttl"><span class="dot"></span>Сеть агентов</div>
+          <ul>
+            <li>личный агент каждому руководителю</li>
+            <li>общий агент <b>в контексте всех отделов</b></li>
+            <li>работают на корп-подписке, <b>не жгут API</b></li>
+            <li>код и доступы остаются вашими</li>
+          </ul>
         </div>
       </div>
-      <h3>Сервер, OpenClaw и сеть агентов</h3>
-      <p>Привозим и ставим сервер в Дубае — там ничего не блокируется, данные остаются под вашим контролем. Разворачиваем OpenClaw и нашу софтину для управления сетью агентов. Один человек из команды становится оркестратором — поднимает и обновляет агентов.</p>
-      <div class="items">
-        <div class="item"><span class="ar">→</span><span><b>Личный агент каждому C-level</b> — работает на корпоративной подписке, а не жжёт extra-usage по API.</span></div>
-        <div class="item"><span class="ar">→</span><span><b>Общий корпоративный агент</b> — в контексте всех отделов, протягивает единую базу знаний и «в курсе всех дел».</span></div>
-        <div class="item"><span class="ar">→</span><span><b>Слои памяти:</b> файлы сессий → база знаний в Obsidian → RAG-«библиотекарь» для массовой загрузки документов и изображений.</span></div>
-        <div class="item"><span class="ar">→</span><span><b>Разграничение прав доступа</b> по направлениям — не всем нужно видеть всё, конфиденциальность зашита в архитектуру.</span></div>
-        <div class="item"><span class="ar">→</span><span><b>Подключение источников:</b> Google Workspace, Shopify, Valigara, CRM — через API в единый контур.</span></div>
-      </div>
-      <div class="result">✓ <b>Результат:</b> сервер поднят, у каждого C-level минимум один автономный агент-помощник, единая база знаний начала копиться. Компания перешла на следующий этап — не просто «ИИ у каждого», а живая экосистема.</div>
-      <div class="note"><b>Честно про движок.</b> OpenClaw часто обновляется и местами капризен. Если под ваши задачи лучше зайдёт более предсказуемое решение — подберём его. Определимся на старте, после первого прогона.</div>
-      <div class="whorow"><span>Ответственные: <b>Роман + Ефим</b></span><span>Формат: <b>офлайн, Дубай</b></span></div>
     </div>
   </div>
 </section>
 
-<hr class="divider">
-
-<!-- ===== LAYER 2 DETAIL ===== -->
-<section id="layer2">
+<!-- ЧТО СОГЛАСОВАНО -->
+<section class="alt">
   <div class="container">
-    <div class="sec-head reveal">
-      <div class="sec-num">03 · Слой 2 — детально</div>
-      <h2>Аудит и обучение команды</h2>
-      <p class="sec-sub">Из 12–15 человек двое уже сильны. Задача — поднять остальных в единый контур. Программа разноскоростная: сильных углубляем, остальных подтягиваем.</p>
-    </div>
-
-    <div class="stage p reveal">
-      <div class="stage-top">
-        <div class="snum">2</div>
-        <div class="stage-tags">
-          <span class="tag">⏱ 1,5 нед аудит + 3 нед программа</span>
-          <span class="tag">👥 5–6 человек в фокусе</span>
-          <span class="tag">💻 онлайн</span>
-        </div>
+    <div class="sec-num">03 · АРХИТЕКТУРА</div>
+    <h2>Что согласовано, что прорабатываем</h2>
+    <p class="sec-sub">Чтобы не выдавать желаемое за решённое, у каждого пункта поставили статус. Открытые вопросы закрываем на старте.</p>
+    <div class="grid grid-2">
+      <div class="card">
+        <span class="card-status ok">✓ Согласовано</span>
+        <h3>Сервер в Дубае, закрытый контур</h3>
+        <p>Ставим физически. Ничего не блокируется, данные остаются под вашим контролем. Один человек из команды становится оркестратором: поднимает и обновляет агентов.</p>
       </div>
-      <h3>Полтора недели аудита → три недели прокачки</h3>
-      <p>Сначала аудит: интервьюируем сотрудников (включая тех, кто не заполнял анкету), замеряем реальный уровень и собираем карту задач под ИИ. Затем — 3-недельная программа для 5–6 ключевых людей (тимлиды и перспективные на роль руководителей отделов).</p>
-      <div class="items">
-        <div class="item"><span class="ar">→</span><span><b>Карта инструментов</b> — какие нейросети что умеют и под какие задачи, без маркетинга.</span></div>
-        <div class="item"><span class="ar">→</span><span><b>Безопасность данных</b> — что можно и нельзя загружать в ИИ, как работать без рисков.</span></div>
-        <div class="item"><span class="ar">→</span><span><b>Промпт-инжиниринг и практика по отделам</b> — на реальных задачах команды, а не абстракциях.</span></div>
-        <div class="item"><span class="ar">→</span><span><b>Свои автономные агенты</b> — как упаковать повторяющуюся задачу в агента и делегировать.</span></div>
-        <div class="item"><span class="ar">→</span><span><b>Культура</b> — как теперь строится работа компании в едином ИИ-контуре.</span></div>
+      <div class="card">
+        <span class="card-status ok">✓ Согласовано</span>
+        <h3>Разграничение прав доступа</h3>
+        <p>Каждый видит только своё, конфиденциальность зашита в архитектуру. Для вашей работы это критично, по анкете у руководителей здесь 5 из 5.</p>
       </div>
-      <div class="result">✓ <b>Результат у каждого:</b> личный пул задач под ИИ, понимание безопасности, карта инструментов и навык, который остаётся навсегда — независимо от смены моделей и подписок.</div>
-      <div class="whorow"><span>Ответственный: <b>Станислав Панков</b></span><span>Формат: <b>онлайн</b></span></div>
-    </div>
-  </div>
-</section>
-
-<hr class="divider">
-
-<!-- ===== LAYER 3 DETAIL ===== -->
-<section id="layer3">
-  <div class="container">
-    <div class="sec-head reveal">
-      <div class="sec-num">04 · Слой 3 — детально</div>
-      <h2>Discovery по анализу камней</h2>
-      <p class="sec-sub">Это самый запрашиваемый блок (отметили все 4 в анкете) и одновременно самый сложный технически. Поэтому начинаем с проработки, а не с обещаний.</p>
-    </div>
-
-    <div class="stage reveal">
-      <div class="stage-top">
-        <div class="snum">3</div>
-        <div class="stage-tags">
-          <span class="tag">⏱ ~3 недели</span>
-          <span class="tag">📄 под NDA</span>
-          <span class="tag">🔎 только discovery</span>
-        </div>
+      <div class="card">
+        <span class="card-status wip">⟳ Прорабатываем</span>
+        <h3>Движок: OpenClaw или своё решение</h3>
+        <p>Важный нюанс: OpenClaw часто обновляется и местами капризен. Если под ваши задачи лучше зайдёт <b>более предсказуемое решение</b>, то мы подберём его. Определимся на старте после первого прогона.</p>
       </div>
-      <h3>Внутренняя «Википедия» по камням и дизайнам</h3>
-      <p>Цель — система, которая на запрос выдаёт команде и клиенту любую информацию: какие кольца в наличии, какие дизайны делали, характеристики камней, сертификаты — с анализом изображений (камень, сертификат, рендер).</p>
-      <div class="items">
-        <div class="item"><span class="ar">→</span><span><b>Что входит сейчас:</b> discovery — определяем техническую реализуемость, объём данных, нужные модели распознавания и дорожную карту.</span></div>
-        <div class="item"><span class="ar">→</span><span><b>Сначала собираем и анализируем</b> разрозненный визуальный и технический контент — без этого систематизация невозможна.</span></div>
-        <div class="item"><span class="ar">→</span><span><b>На выходе:</b> чёткое решение, сроки и стоимость самой разработки.</span></div>
-      </div>
-      <div class="note"><b>Что НЕ входит.</b> Сама разработка системы анализа камней — это вторая волна, отдельный просчёт по итогам discovery. В этот оффер входит только проработка, чтобы вы платили за разработку осознанно, а не вслепую.</div>
-      <div class="whorow"><span>Ответственный: <b>Игорь Масленников</b></span><span>Формат: <b>разработка, под NDA</b></span></div>
-    </div>
-  </div>
-</section>
-
-<hr class="divider">
-
-<!-- ===== ROADMAP ===== -->
-<section id="roadmap">
-  <div class="container">
-    <div class="sec-head reveal">
-      <div class="sec-eyebrow">как разворачивается проект</div>
-      <div class="sec-num">05 · Дорожная карта</div>
-      <h2>Около 6 недель, три фронта внахлёст</h2>
-      <p class="sec-sub">Слои идут параллельно — инфраструктура, обучение и discovery не ждут друг друга.</p>
-    </div>
-    <div class="timeline">
-      <div class="tl reveal">
-        <div class="w">Неделя 0 · старт</div>
-        <h4>Согласование и подготовка</h4>
-        <p>Подписываем NDA, закупаем сервер, открываем доступы. Назначаем оркестратора со стороны «Камни».</p>
-        <div class="by">все команды</div>
-      </div>
-      <div class="tl reveal d1">
-        <div class="w">Недели 1–2</div>
-        <h4>Инфраструктура + старт аудита</h4>
-        <p>Установка сервера и OpenClaw в Дубае, развёртывание памяти, первые личные агенты для C-level. Параллельно — аудит уровня команды.</p>
-        <div class="by">Роман + Ефим · Стас</div>
-      </div>
-      <div class="tl p reveal d2">
-        <div class="w">Недели 1–4 · параллельно</div>
-        <h4>Discovery по камням</h4>
-        <p>Сбор и анализ визуального контента, проверка технической реализуемости, дорожная карта по системе анализа изображений.</p>
-        <div class="by">Игорь Масленников</div>
-      </div>
-      <div class="tl p reveal d3">
-        <div class="w">Недели 2–5</div>
-        <h4>Программа обучения</h4>
-        <p>3 недели прокачки 5–6 ключевых сотрудников: инструменты, безопасность, практика по отделам, свои агенты.</p>
-        <div class="by">Станислав Панков · онлайн</div>
-      </div>
-      <div class="tl reveal d4">
-        <div class="w">Неделя 6 · финал</div>
-        <h4>Запуск и итоги</h4>
-        <p>У каждого работающий агент, база знаний копится, команда обучена, дорожная карта по камням готова. Переходим к разговору о волне 2.</p>
-        <div class="by">все команды</div>
+      <div class="card">
+        <span class="card-status wip">⟳ Прорабатываем</span>
+        <h3>Анализ камней и изображений</h3>
+        <p>Самый сложный блок. Сначала discovery: реализуемость, объём данных, модели распознавания. <b>Сама разработка идёт второй волной.</b></p>
       </div>
     </div>
   </div>
 </section>
 
-<hr class="divider">
-
-<!-- ===== TEAM ===== -->
-<section id="team">
+<!-- ОБУЧЕНИЕ -->
+<section>
   <div class="container">
-    <div class="sec-head reveal">
-      <div class="sec-num">06 · Команда</div>
-      <h2>Кто внедряет</h2>
-      <p class="sec-sub">Дубайскую часть ведём очно, обучение — онлайн, разработку — отдельным треком.</p>
+    <div class="sec-num">04 · ОБУЧЕНИЕ КОМАНДЫ</div>
+    <h2>Аудит, потом прокачка</h2>
+    <p class="sec-sub">Из 12-15 человек двое уже сильны. Остальных подтягиваем. Программа разноскоростная: сильных углубляем, остальных вводим в курс.</p>
+    <div class="stagebox stage1">
+      <div class="lbl">Шаг 1 · 1,5 недели</div>
+      <h3>Аудит уровня команды</h3>
+      <p>Интервью с сотрудниками, в том числе с теми, кто не заполнял анкету. Замеряем реальный уровень и собираем карту задач под ИИ. На этом строим персональную программу.</p>
     </div>
-    <div class="team">
-      <div class="tcard reveal d1">
-        <div class="tav">Р</div>
-        <div><h4>Роман</h4><div class="role">Архитектура и внедрение</div><p>Ведёт построение единого контура и развёртывание агентов. Офлайн в Дубае.</p></div>
-      </div>
-      <div class="tcard reveal d2">
-        <div class="tav">Е</div>
-        <div><h4>Ефим Герасимов</h4><div class="role">Эксперт · внедрение</div><p>Установка и настройка инфраструктуры на месте, в Дубае.</p></div>
-      </div>
-      <div class="tcard p reveal d3">
-        <div class="tav">С</div>
-        <div><h4>Станислав Панков</h4><div class="role">Методология и тренинг</div><p>Отвечает за аудит уровня команды и программу обучения. Онлайн.</p></div>
-      </div>
-      <div class="tcard p reveal d4">
-        <div class="tav">И</div>
-        <div><h4>Игорь Масленников</h4><div class="role">Разработка · discovery</div><p>Партнёр по разработке. Ведёт discovery по системе анализа камней.</p></div>
+    <div class="stagebox stage1">
+      <div class="lbl">Шаг 2 · 3 недели</div>
+      <h3>Программа для 5-6 ключевых людей</h3>
+      <p>Тимлиды и перспективные на роль руководителей. На выходе у каждого появляется <b>пул задач под ИИ и навык, который остаётся.</b></p>
+      <div class="chips">
+        <span class="chip">✓ Карта инструментов</span>
+        <span class="chip">✓ Безопасность данных</span>
+        <span class="chip">✓ Промпт-инжиниринг</span>
+        <span class="chip">✓ Практика по отделам</span>
+        <span class="chip">✓ Свои агенты</span>
+        <span class="chip">✓ Пул задач у каждого</span>
       </div>
     </div>
   </div>
 </section>
 
-<hr class="divider">
-
-<!-- ===== OUTCOMES ===== -->
-<section id="outcomes">
+<!-- DISCOVERY -->
+<section class="alt">
   <div class="container">
-    <div class="sec-head reveal">
-      <div class="sec-num">07 · Что остаётся у вас</div>
-      <h2>Конкретные артефакты на выходе</h2>
-    </div>
-    <div class="outcomes">
-      <div class="oc reveal d1"><div class="ic">🖥</div><h4>Сервер в Дубае</h4><p>OpenClaw в вашем закрытом контуре, данные под вашим контролем.</p></div>
-      <div class="oc reveal d2"><div class="ic">🤖</div><h4>Агенты у каждого</h4><p>Личный агент для C-level + общий корпоративный агент.</p></div>
-      <div class="oc reveal d3"><div class="ic">🧠</div><h4>Единая база знаний</h4><p>Три слоя памяти с разграничением прав доступа.</p></div>
-      <div class="oc reveal d1"><div class="ic">🔌</div><h4>Подключённые источники</h4><p>Workspace, Shopify, Valigara, CRM — в едином контуре.</p></div>
-      <div class="oc reveal d2"><div class="ic">🎓</div><h4>Обученная команда</h4><p>5–6 ключевых людей + пул ИИ-задач у каждого.</p></div>
-      <div class="oc reveal d3"><div class="ic">🔒</div><h4>Регламент безопасности</h4><p>Что можно и нельзя грузить в ИИ — зафиксировано.</p></div>
-      <div class="oc reveal d1"><div class="ic">🗺</div><h4>Карта по камням</h4><p>Дорожная карта и оценка разработки — итог discovery.</p></div>
-      <div class="oc reveal d2"><div class="ic">🔓</div><h4>Без вендор-лока</h4><p>Весь код и доступы — ваши. Дорабатываете сами или с любым подрядчиком.</p></div>
-      <div class="oc reveal d3"><div class="ic">⚙️</div><h4>Оркестратор в команде</h4><p>Свой человек умеет поднимать и обновлять агентов.</p></div>
+    <div class="sec-num">05 · DISCOVERY ПО КАМНЯМ</div>
+    <h2>Внутренняя база по камням и дизайнам</h2>
+    <p class="sec-sub">Этот блок запросили все в анкете, и он же самый сложный технически. Поэтому начинаем с проработки, а не с обещаний.</p>
+    <div class="stagebox stage2">
+      <div class="lbl">Слой 3 · только проработка</div>
+      <h3>Что входит сейчас</h3>
+      <p>Система выдаёт команде и клиенту инфо: наличие, дизайны, характеристики камней, сертификаты, с анализом изображений. На этом этапе проводим <b>discovery</b>: реализуемость, объём данных, нужные модели распознавания и дорожная карта.</p>
+      <div class="note"><b>Что НЕ входит.</b> Сама разработка системы идёт второй волной: отдельный просчёт по итогам discovery, под NDA. Так вы платите за разработку осознанно, а не вслепую.</div>
     </div>
   </div>
 </section>
 
-<hr class="divider">
-
-<!-- ===== PRICING ===== -->
-<section id="price">
+<!-- ПЛАН РАБОТ -->
+<section>
   <div class="container">
-    <div class="sec-head reveal" style="text-align:center">
-      <div class="sec-num" style="justify-content:center">08 · Стоимость</div>
-      <h2>Пакет под ключ</h2>
+    <div class="sec-num">06 · ПЛАН РАБОТ</div>
+    <h2>7-8 недель, три фронта параллельно</h2>
+    <p class="sec-sub">Слои идут параллельно. Инфраструктура, обучение и discovery не ждут друг друга.</p>
+    <div class="stage">
+      <div class="stage-top"><h3><span class="n">Нед. 0</span>Согласование и подготовка</h3><span class="stage-meta">старт</span></div>
+      <p>Подписываем NDA, закупаем сервер, открываем доступы. Назначаем оркестратора со стороны KAMNI.</p>
     </div>
-    <div class="price-wrap reveal">
-      <div class="price-label">Все три слоя · ~6 недель</div>
-      <div class="price-old">$11,000</div>
-      <div class="price-main">$10,000</div>
-      <div class="price-aed">≈ 36 700 AED</div>
-      <div class="price-save">◆ Скидка пакетом — экономия $1,000</div>
+    <div class="stage">
+      <div class="stage-top"><h3><span class="n">Нед. 1-3</span>Инфраструктура и первые агенты</h3><span class="stage-meta">Роман + Ефим</span></div>
+      <p>Установка сервера и OpenClaw в Дубае, развёртывание базы знаний, личные агенты для руководителей.</p>
+    </div>
+    <div class="stage">
+      <div class="stage-top"><h3><span class="n">Нед. 1-5</span>Discovery по камням</h3><span class="stage-meta">Игорь Масленников</span></div>
+      <p>Сбор и анализ визуального контента, проверка реализуемости, дорожная карта по системе анализа изображений.</p>
+    </div>
+    <div class="stage">
+      <div class="stage-top"><h3><span class="n">Нед. 3-7</span>Обучение команды</h3><span class="stage-meta">Станислав Панков</span></div>
+      <p>Аудит уровня и 3-недельная программа для 5-6 ключевых сотрудников.</p>
+    </div>
+    <div class="stage">
+      <div class="stage-top"><h3><span class="n">Нед. 8</span>Запуск и итоги</h3><span class="stage-meta">финал</span></div>
+      <p>У каждого работающий агент, база знаний копится, команда обучена, дорожная карта по камням готова. <b>Разработку анализа камней берём отдельно, второй волной.</b></p>
+    </div>
+  </div>
+</section>
 
+<!-- ЧТО ОСТАЁТСЯ -->
+<section class="alt">
+  <div class="container">
+    <div class="sec-num">07 · ЧТО ОСТАЁТСЯ У ВАС</div>
+    <h2>Конкретные артефакты на выходе</h2>
+    <p class="sec-sub">Код, база и доступы остаются вашими и живут на вашем сервере.</p>
+    <div class="grid grid-3">
+      <div class="card"><div class="emoji">🖥</div><h3>Сервер в Дубае</h3><p>OpenClaw в вашем закрытом контуре, данные под вашим контролем.</p></div>
+      <div class="card"><div class="emoji">🤖</div><h3>Агенты у каждого</h3><p>Личный агент для руководителей плюс общий корпоративный агент.</p></div>
+      <div class="card"><div class="emoji">🧠</div><h3>Единая база знаний</h3><p>Три слоя памяти с разграничением прав доступа.</p></div>
+      <div class="card"><div class="emoji">🎓</div><h3>Обученная команда</h3><p>5-6 ключевых людей и пул ИИ-задач у каждого.</p></div>
+      <div class="card"><div class="emoji">🗺</div><h3>Карта по камням</h3><p>Дорожная карта и оценка разработки по итогам discovery.</p></div>
+      <div class="card"><div class="emoji">🔓</div><h3>Без вендор-лока</h3><p>Весь код и доступы ваши. Дорабатываете сами или с любым подрядчиком.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- КОМАНДА -->
+<section>
+  <div class="container">
+    <div class="sec-num">08 · КТО ДЕЛАЕТ</div>
+    <h2>Команда проекта</h2>
+    <p class="sec-sub">Дубайскую часть ведём очно, обучение онлайн, разработку отдельным треком.</p>
+    <div class="grid grid-3">
+      <div class="card"><h3>Роман Пищулов</h3><p><b>Архитектура и внедрение.</b> Построение единого контура, развёртывание агентов. Офлайн в Дубае.</p></div>
+      <div class="card"><h3>Ефим Герасимов</h3><p><b>Внедрение.</b> Установка и настройка инфраструктуры на месте, в Дубае.</p></div>
+      <div class="card"><h3>Станислав Панков</h3><p><b>Методология и тренинг.</b> Аудит уровня команды и программа обучения. Онлайн.</p></div>
+      <div class="card"><h3>Игорь Масленников</h3><p><b>Разработка.</b> Ведёт discovery по системе анализа камней.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- СТОИМОСТЬ -->
+<section>
+  <div class="container">
+    <div class="sec-num">09 · СКОЛЬКО СТОИТ</div>
+    <div class="price-box">
+      <div class="price-label">Все три слоя · под ключ · пакетом дешевле</div>
+      <div class="price-num">$10 000</div>
+      <div class="price-sub">за весь пакет вместо <s>$11 000</s> по отдельным слоям · ≈ 36 700 AED</div>
       <div class="price-rows">
-        <div class="prow"><div class="n">Слой 1 · Инфраструктура и агенты<small>сервер · OpenClaw · база знаний · права доступа</small></div><div class="p">$5,000</div></div>
-        <div class="prow"><div class="n">Слой 2 · Аудит и обучение команды<small>1,5 нед аудит + 3 нед программа · 5–6 человек</small></div><div class="p">$4,000</div></div>
-        <div class="prow"><div class="n">Слой 3 · Discovery по анализу камней<small>проработка + дорожная карта, под NDA</small></div><div class="p">$2,000</div></div>
-        <div class="prow total"><div class="n">Пакетом, под ключ</div><div class="p">$10,000</div></div>
+        <div class="price-row"><span class="nm">Слой 1 · Инфраструктура и агенты<small>сервер, OpenClaw, база знаний, права доступа</small></span><span class="pr"><span class="old">$5 500</span>$5 000</span></div>
+        <div class="price-row"><span class="nm">Слой 2 · Аудит и обучение команды<small>1,5 нед аудит и 3 нед программа · 5-6 человек</small></span><span class="pr"><span class="old">$4 000</span>$3 500</span></div>
+        <div class="price-row"><span class="nm">Слой 3 · Discovery по анализу камней<small>проработка и дорожная карта, под NDA</small></span><span class="pr">$1 500</span></div>
+        <div class="price-total"><span>Итого пакетом</span><span><span class="old">$11 000</span>$10 000</span></div>
       </div>
-
-      <div class="excl">
-        <div class="h">Оплачивается отдельно</div>
-        <div class="x"><span class="ic">◇</span><span><b>Железо сервера</b> — по себестоимости, без наценки.</span></div>
-        <div class="x"><span class="ic">◇</span><span><b>Корп-подписки ~$200–250/чел в месяц</b> — прямой ежемесячный расход компании (GPT Team + Claude, при необходимости OpenRouter).</span></div>
-        <div class="x"><span class="ic">◇</span><span><b>Разработка системы анализа камней</b> — вторая волна, просчёт по итогам discovery.</span></div>
+      <div class="price-extra">
+        <p>＋ <b>Железо сервера:</b> по себестоимости, без наценки, оплата напрямую.</p>
+        <p style="margin-top:6px">＋ <b>Корп-подписки ~$200-250 на человека в месяц</b> (GPT Team и Claude, при необходимости OpenRouter), это прямой расход компании.</p>
+        <p style="margin-top:6px">＋ <b>Разработка системы анализа камней:</b> вторая волна, просчёт по итогам discovery.</p>
+        <p style="margin-top:6px">Оплата в <b>USDT</b> или <b>AED</b> на дубайскую компанию.</p>
       </div>
-
-      <a class="cta" href="https://t.me/ii_vizaciya" target="_blank" rel="noopener">Согласовать и стартовать →</a>
-
-      <div class="pay">
-        <span class="pchip">₿ Оплата в USDT</span>
-        <span class="pchip">🇦🇪 или AED на дубайскую компанию</span>
+      <div class="pay-stages">
+        <span class="pay"><b>40%</b> · на старте</span>
+        <span class="pay"><b>30%</b> · после поднятия инфраструктуры</span>
+        <span class="pay"><b>30%</b> · после финала</span>
       </div>
-      <div class="payplan">
-        <span class="pstage"><b>40%</b> на старте</span>
-        <span class="pstage"><b>30%</b> после поднятия инфраструктуры</span>
-        <span class="pstage"><b>30%</b> после финала</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="divider">
-
-<!-- ===== NEXT WAVE ===== -->
-<section id="next">
-  <div class="container">
-    <div class="sec-head reveal">
-      <div class="sec-eyebrow">что дальше</div>
-      <div class="sec-num">09 · Волна 2</div>
-      <h2>Куда растём после запуска</h2>
-      <p class="sec-sub">Этот оффер ставит фундамент. Дальше — на готовой архитектуре.</p>
-    </div>
-    <div class="next">
-      <div class="ncard reveal d1"><h4><span>💎</span>Разработка анализа камней</h4><p>По итогам discovery — система с распознаванием изображений, сертификатов и наличия. Отдельный просчёт.</p></div>
-      <div class="ncard reveal d2"><h4><span>🤝</span>Онбординг-агент</h4><p>Агент в Телеграме по всем регламентам вместо PDF на 70 страниц — закрывает открытие новых бутиков.</p></div>
-      <div class="ncard reveal d3"><h4><span>🇺🇦</span>Подключение Киева</h4><p>Когда экосистема устаканится — подключаем киевский офис и разграничиваем доступы.</p></div>
-      <div class="ncard reveal d4"><h4><span>🔮</span>«Второе видение»</h4><p>Предикшн-слой на C-level: анализ слепых зон и процессов. Трек на горизонт, когда база знаний накопит данные.</p></div>
+      <a class="cta" href="https://t.me/ii_vizaciya">Согласовать и стартовать →</a>
     </div>
   </div>
 </section>
 
 <footer>
-  <div class="container">
-    <div class="fbrand">
-      <svg class="gem" width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 3h14l3 6-10 12L2 9z" stroke="url(#gemg)" stroke-width="1.5" stroke-linejoin="round"/><path d="M2 9h20M8 3 5 9l7 12M16 3l3 6-7 12" stroke="url(#gemg)" stroke-width="1" opacity=".6"/></svg>
-      ИИ-ВИЗАЦИЯ
-    </div>
-    <div class="ser">Подготовлено индивидуально для «Камни»</div>
-    <p>Корпоративное внедрение ИИ · обучение · разработка</p>
-  </div>
+  <div class="logo">ИИ-ВИЗАЦИЯ</div>
+  <div>Коммерческое предложение · подготовлено индивидуально для KAMNI</div>
 </footer>
 
-<script>
-const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12,rootMargin:'0px 0px -40px 0px'});
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-</script>
 </body>
 </html>
