@@ -337,7 +337,7 @@
     <div class="term">
       <div class="term__name">Скиллы (Skills)</div>
       <div class="term__def">Плагины для Claude Code и OpenClaw. Файл SKILL.md с инструкциями, который учит агента делать конкретную вещь: создавать красивые сайты, работать с API, анализировать данные.</div>
-      <div class="term__example">📌 В уроке 3 мы ставили 4 инструмента (плагин Superpowers + 3 MCP: TaskMaster, Playwright, AgentMemory). Сейчас добавим 3 дизайнерских скилла.</div>
+      <div class="term__example">📌 В уроке 3 мы ставили 4 инструмента (плагин Superpowers + 3 MCP: TaskMaster, Playwright, AgentMemory). Сейчас добавим дизайн-скилл frontend-design (через Claude Code) и библиотеку стилей Refero.</div>
     </div>
 
     <div class="term">
@@ -698,31 +698,31 @@
     </div>
 
     <div class="info-block">
-      <p><strong>Шаг 2. Подключить GitHub MCP в OpenClaw (на VPS)</strong> — чтобы Telegram-агент тоже получил инструменты GitHub. Подключитесь к серверу по SSH. Переиспользуем тот же токен (PAT), что создали в Части 2 — отдельный заводить не нужно.</p>
+      <p><strong>Шаг 2. Подключить GitHub MCP в OpenClaw — руками в терминал не лезем.</strong> Это делает ваш инженер — Claude Code. Он подключён к серверу ещё с урока 3 и знает OpenClaw по официальной документации (скилл <span class="mono">openclaw-docs</span>). Вы просто ставите задачу промптом.</p>
     </div>
 
-    <div class="item" data-key="mcp-oc-add">
+    <div class="item" data-key="mcp-oc-prompt">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Добавить GitHub MCP в OpenClaw</div>
-        <div class="item__hint">Замените <span class="mono">&lt;ВАШ_ТОКЕН&gt;</span> на тот же PAT (начинается с <span class="mono">ghp_</span>), что в Части 2:</div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdMcpOcAdd">openclaw mcp add github --url https://api.githubcopilot.com/mcp/ --transport streamable-http --header "Authorization: Bearer <ВАШ_ТОКЕН>"</span><button class="btn-copy" onclick="copyBlock('cmdMcpOcAdd',this)">📋 Скопировать</button></div>
+        <div class="item__text">Поручить Claude Code подключить GitHub MCP в OpenClaw</div>
+        <div class="item__hint">Отправьте промпт ниже в Claude Code. Подставьте тот же PAT, что создали в Части 2:</div>
       </div>
     </div>
 
-    <div class="item" data-key="mcp-oc-check">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Проверить и применить</div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdMcpOcCheck">openclaw mcp doctor github --probe
-openclaw mcp reload</span><button class="btn-copy" onclick="copyBlock('cmdMcpOcCheck',this)">📋 Скопировать</button></div>
-        <div class="item__hint"><span class="mono">doctor --probe</span> подключится к серверу и покажет список инструментов. <span class="mono">reload</span> — чтобы агент сразу их увидел.</div>
-      </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: GitHub MCP в OpenClaw (через Claude Code)</div>
+      <div class="prompt-block__text" id="promptOcMcp">Подключи официальный GitHub MCP к моему OpenClaw на сервере.
+Сначала сверься с документацией OpenClaw — открой скилл openclaw-docs, раздел про MCP (команда «openclaw mcp»).
+Подключись к серверу по SSH, как обычно.
+Параметры: эндпоинт https://api.githubcopilot.com/mcp/, транспорт streamable-http, авторизация заголовком «Authorization: Bearer <ВАШ_ТОКЕН>» (это мой PAT из Части 2).
+После установки проверь подключение и список инструментов, затем примени изменения, чтобы агент сразу их увидел.
+Если что-то пойдёт не так — остановись, объясни причину и почини сам.</div>
+      <button class="btn-copy" onclick="copyBlock('promptOcMcp', this)">📋 Скопировать промпт</button>
     </div>
 
     <div class="note note--alert">
       <span class="note__icon">🔐</span>
-      <span><strong>Безопасность токена в OpenClaw:</strong> токен хранится в конфиге на вашем VPS (сервер защищён паролем), в логах OpenClaw он маскируется. Если хотите не держать токен в конфиге — OpenClaw умеет OAuth: <span class="mono">--auth oauth</span> вместо <span class="mono">--header</span>, затем <span class="mono">openclaw mcp login github</span> и вход в браузере.</span>
+      <span><strong>Безопасность токена:</strong> это тот же PAT, что вы уже создали — отдельный заводить не нужно. Claude Code пропишет его в конфиг на вашем сервере; в логах OpenClaw токен маскируется. Если не хотите держать токен в конфиге — попросите Claude Code подключить через OAuth (вход в браузере) вместо заголовка.</span>
     </div>
 
     <div class="note note--green">
@@ -907,80 +907,79 @@ openclaw mcp reload</span><button class="btn-copy" onclick="copyBlock('cmdMcpOcC
       <span>В уроке 3 мы ставили 4 инструмента (плагин Superpowers + 3 MCP: TaskMaster, Playwright, AgentMemory). Сейчас добавляем дизайнерские скиллы — они радикально поднимают качество создаваемых сайтов.</span>
     </div>
 
+    <div class="info-block">
+      <p><strong>Главный дизайн-скилл — frontend-design</strong> от Anthropic. Превращает агента в senior-дизайнера: смелая типографика, нестандартные лейауты, продакшн-качество. Без него — шаблон, с ним — уникальный сайт. Лежит в официальном репозитории <span class="mono">anthropics/skills</span>.</p>
+    </div>
+
+    <div class="note note--info">
+      <span class="note__icon">🛠️</span>
+      <span><strong>Скиллы ставим не руками, а через Claude Code.</strong> Claude Code — ваш инженер по OpenClaw: он знает платформу по документации (скилл <span class="mono">openclaw-docs</span> из урока 3) и подключён к серверу. Вы описываете задачу — он всё делает. В терминал руками лезть не нужно.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Глобально или локально?</strong> Скилл — это папка с файлом <span class="mono">SKILL.md</span>. Куда он лёг — так и доступен. В промпте просто говорите «глобально» или «локально»:</p>
+    </div>
+
     <table class="data-table">
-      <tr><th>Скилл</th><th>Что делает</th></tr>
-      <tr><td>frontend-design</td><td>От Anthropic. Превращает агента в senior-дизайнера: смелая типографика, нестандартные лейауты, продакшн-качество. Без него — шаблон. С ним — уникальный дизайн.</td></tr>
-      <tr><td>ui-designer-skill</td><td>Палитра визуальных стилей: Material You, Glassmorphism, Neo-Brutalism, Claymorphism, Minimalism.</td></tr>
-      <tr><td>landing-page-generator</td><td>Генерация лендингов с продающим копирайтингом, CTA, отзывами, структурой. Заточен под маркетинг.</td></tr>
+      <tr><th>Где</th><th>Глобально (везде)</th><th>Локально (точечно)</th></tr>
+      <tr><td>Claude&nbsp;Code</td><td><span class="mono">~/.claude/skills/</span> — во всех проектах</td><td><span class="mono">.claude/skills/</span> — только в этом проекте, едет в git</td></tr>
+      <tr><td>OpenClaw</td><td><span class="mono">~/.openclaw/skills/</span> — для всех агентов</td><td>папка <span class="mono">skills/</span> в воркспейсе одного агента</td></tr>
     </table>
 
-    <!-- Claude web -->
+    <!-- 1: Claude Code -->
     <div class="info-block">
-      <p><strong>Установка в Claude (веб-версия, claude.ai)</strong></p>
-      <p>В веб-версии Claude скиллы подключаются <strong>глобально на уровне аккаунта</strong>, а не внутри отдельного проекта. После подключения скилл доступен во <strong>всех диалогах и проектах</strong> — просто вызываешь его, где нужно.</p>
+      <p><strong>Шаг 1. Поставить frontend-design в Claude Code</strong> — ваш инструмент для вайб-кодинга на компьютере. Отправьте промпт в чат Claude Code.</p>
     </div>
 
-    <div class="item" data-key="skill-claude-web">
+    <div class="item" data-key="skill-cc-prompt">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Добавить скилл в Claude AI</div>
-        <div class="item__hint">1. Откройте <a href="https://claude.ai" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> claude.ai</a> → настройки аккаунта (⚙️) → раздел <strong>Capabilities</strong> / <strong>Skills</strong><br>2. Нажмите <strong>«Add skill»</strong> (или <strong>«Upload skill»</strong>)<br>3. Загрузите файл SKILL.md из GitHub-репозитория скилла<br>4. Сохраните — скилл подключится <strong>глобально</strong> и станет доступен во всех диалогах и проектах<br><br>
-        <a href="https://github.com/anthropics/skills" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> github.com/anthropics/skills — репозиторий frontend-design</a></div>
-      </div>
-    </div>
-
-    <!-- Claude Code in VS Code -->
-    <div class="info-block">
-      <p><strong>Установка в Claude Code (VS Code)</strong></p>
-      <p>Точно так же, как мы ставили 4 скилла в уроке 3 — через промпт в чат Claude Code.</p>
-    </div>
-
-    <div class="item" data-key="skill-claudecode">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Установить скиллы через промпт в Claude Code</div>
-        <div class="item__hint">Скопируйте промпт ниже и отправьте в чат Claude Code в VS Code. После установки — <strong>перезапустите VS Code</strong>.</div>
+        <div class="item__text">Поручить Claude Code установить frontend-design себе</div>
+        <div class="item__hint">По умолчанию ставим <strong>глобально</strong> (во всех проектах). Нужно только в текущем — поменяйте на «локально» в промпте. После установки перезапустите VS Code.</div>
       </div>
     </div>
 
     <div class="prompt-block">
-      <div class="prompt-block__title">📋 Промпт для установки 3 дизайнерских скиллов (Claude Code)</div>
-      <div class="prompt-block__text" id="promptSkillsInstall">Установи 3 дизайнерских скилла для создания сайтов. Скачай их из репозиториев и установи строго по очереди:
-
-1. Frontend Design: https://github.com/anthropics/skills (папка frontend-design)
-2. UI Designer Skill: найди на ClawHub и установи через clawhub install ui-designer-skill
-3. Landing Page Generator: найди на ClawHub и установи через clawhub install landing-page-generator
-
-После установки каждого скилла — подтверди, что SKILL.md на месте.
-Если что-то ломается — остановись, объясни причину и сам исправь.</div>
-      <button class="btn-copy" onclick="copyBlock('promptSkillsInstall', this)">📋 Скопировать промпт</button>
+      <div class="prompt-block__title">📋 Промпт: frontend-design в Claude Code</div>
+      <div class="prompt-block__text" id="promptSkillCC">Установи себе дизайн-скилл frontend-design от Anthropic.
+Возьми его из официального репозитория anthropics/skills (папка frontend-design).
+Поставь глобально — в ~/.claude/skills/ — чтобы он был доступен во всех моих проектах.
+(Если нужно только для текущего проекта — поставь в .claude/skills/ вместо глобального.)
+После установки убедись, что SKILL.md на месте и скилл подхватился.</div>
+      <button class="btn-copy" onclick="copyBlock('promptSkillCC', this)">📋 Скопировать промпт</button>
     </div>
 
-    <!-- OpenClaw on VPS -->
+    <!-- 2: OpenClaw через Claude Code -->
     <div class="info-block">
-      <p><strong>Установка в OpenClaw (на VPS)</strong></p>
-      <p>Подключитесь к серверу по SSH и выполните команды:</p>
+      <p><strong>Шаг 2. Поставить frontend-design в OpenClaw</strong> — чтобы ваш Telegram-агент тоже делал красивые сайты. Снова через Claude Code: он сверится с документацией и всё сделает на сервере.</p>
     </div>
 
-    <div class="item" data-key="skill-openclaw">
+    <div class="item" data-key="skill-oc-prompt">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Установить скиллы на VPS (OpenClaw)</div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdSkillOc">cd ~/.openclaw
-clawhub install anthropics/frontend-design
-clawhub install ui-designer-skill
-clawhub install landing-page-generator</span><button class="btn-copy" onclick="copyBlock('cmdSkillOc',this)">📋 Скопировать</button></div>
+        <div class="item__text">Поручить Claude Code установить frontend-design в OpenClaw</div>
+        <div class="item__hint">Отправьте промпт в Claude Code:</div>
       </div>
     </div>
 
-    <div class="item" data-key="skill-verify">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Проверить установленные скиллы</div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdSkillList">clawhub list</span><button class="btn-copy" onclick="copyBlock('cmdSkillList',this)">📋 Скопировать</button></div>
-        <div class="item__hint">Должны отобразиться все три скилла. Бот в Telegram начнёт использовать их при создании сайтов.</div>
-      </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: frontend-design в OpenClaw (через Claude Code)</div>
+      <div class="prompt-block__text" id="promptSkillOC">Установи дизайн-скилл frontend-design в мой OpenClaw на сервере.
+Сначала сверься с документацией OpenClaw — открой скилл openclaw-docs, раздел про скиллы и ClawHub (команды «openclaw skills»).
+Подключись к серверу по SSH. Скилл frontend-design возьми из репозитория anthropics/skills.
+Поставь глобально — для всех агентов (общая папка управляемых скиллов).
+(Если нужно только для одного агента — положи в папку skills/ его воркспейса.)
+После установки проверь, что OpenClaw видит скилл (openclaw skills list), и примени изменения.
+Если что-то пойдёт не так — остановись, объясни причину и почини сам.</div>
+      <button class="btn-copy" onclick="copyBlock('promptSkillOC', this)">📋 Скопировать промпт</button>
     </div>
+
+    <details class="spoiler">
+      <summary>🌐 Поставить скилл и в Claude AI (claude.ai, веб)</summary>
+      <div class="spoiler__content">
+        <p>В веб-версии Claude скиллы подключаются глобально на уровне аккаунта: настройки (⚙️) → раздел <strong>Capabilities / Skills</strong> → <strong>Add skill</strong> → загрузите файл <span class="mono">SKILL.md</span> скилла из репозитория <a href="https://github.com/anthropics/skills" target="_blank" class="lnk" onclick="event.stopPropagation()">anthropics/skills</a>. После этого скилл доступен во всех диалогах и проектах.</p>
+      </div>
+    </details>
 
     <!-- ─── BONUS: REFERO DESIGN ─── -->
     <div class="section-divider">
@@ -1026,7 +1025,7 @@ clawhub install landing-page-generator</span><button class="btn-copy" onclick="c
       <p><strong>1. Читайте SKILL.md перед установкой.</strong> Если дизайн-скилл просит доступ к вещам, не связанным с его функцией (файловая система, отправка данных наружу) — это 🚩 красный флаг.</p>
       <p><strong>2. Проверяйте на ClawHub через VirusTotal.</strong> На странице скилла есть отчёт VirusTotal — автоматическая проверка на вредоносный код. Если помечено как risky — не ставьте.</p>
       <p><strong>3. Смотрите репутацию.</strong> Кто автор, сколько звёзд на GitHub, когда последний коммит. Скилл от <span class="mono">anthropics</span> (Anthropic) — безопасен. Скилл от анонима с 0 звёзд — сомнителен.</p>
-      <p><strong>Наши 3 скилла безопасны:</strong> <span class="mono">frontend-design</span> — официальный от Anthropic; <span class="mono">ui-designer-skill</span> — проверен сообществом, чистый SKILL.md; <span class="mono">landing-page-generator</span> — генерирует только HTML/CSS.</p>
+      <p><strong>Наш frontend-design безопасен:</strong> официальный скилл от Anthropic (репозиторий <span class="mono">anthropics/skills</span>), генерирует только HTML/CSS. Это эталон надёжного источника.</p>
       <p><strong>Правило: если сомневаетесь — не ставьте. Лучше спросите в чате группы.</strong></p>
     </div>
 
