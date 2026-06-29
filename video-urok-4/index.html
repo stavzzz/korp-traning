@@ -329,9 +329,15 @@
     </div>
 
     <div class="term">
+      <div class="term__name">GitHub MCP</div>
+      <div class="term__def">Официальный MCP-сервер от GitHub (помните MCP из урока 3 — «переходник» к внешнему сервису). Даёт Claude Code и агенту OpenClaw готовые структурные инструменты для работы с GitHub: issues, pull requests, ревью кода, поиск по репозиториям.</div>
+      <div class="term__example">📌 SSH-ключ умеет пушить файлы, GitHub CLI — создавать репозитории. GitHub MCP добавляет третий слой: агент «видит» ваш GitHub структурно и работает с ним как с набором инструментов.</div>
+    </div>
+
+    <div class="term">
       <div class="term__name">Скиллы (Skills)</div>
       <div class="term__def">Плагины для Claude Code и OpenClaw. Файл SKILL.md с инструкциями, который учит агента делать конкретную вещь: создавать красивые сайты, работать с API, анализировать данные.</div>
-      <div class="term__example">📌 В уроке 3 мы ставили 4 скилла (Superpowers, TaskMaster, Browser, Memory Bank). Сейчас добавим 3 дизайнерских скилла.</div>
+      <div class="term__example">📌 В уроке 3 мы ставили 4 инструмента (плагин Superpowers + 3 MCP: TaskMaster, Playwright, AgentMemory). Сейчас добавим 3 дизайнерских скилла.</div>
     </div>
 
     <div class="term">
@@ -424,7 +430,7 @@
 <div class="section">
   <div class="section__header">
     <div class="section__num">04</div>
-    <div class="section__title">Подключение OpenClaw к GitHub: SSH + GitHub CLI</div>
+    <div class="section__title">Подключение к GitHub: SSH, GitHub CLI и MCP</div>
   </div>
   <div class="section__card">
     <div class="note note--info">
@@ -637,6 +643,92 @@
     <div class="info-block">
       <p><strong>Зачем это в будущем:</strong> когда вы создадите своего AI-агента (урок 6), его конфигурацию лучше хранить в отдельном репозитории на GitHub. Это бэкап: если OpenClaw что-то сломает в агенте — вы всегда можете откатить к рабочей версии. GitHub CLI позволяет OpenClaw самому создавать такие репозитории и поддерживать их актуальными.</p>
     </div>
+
+    <!-- ─── ЧАСТЬ 4: GITHUB MCP ─── -->
+
+    <div class="section-divider">
+      <div class="section-divider__line"></div>
+      <div class="section-divider__title">Часть 4: GitHub MCP</div>
+    </div>
+
+    <div class="note note--info">
+      <span class="note__icon">🔌</span>
+      <span><strong>Помните MCP из урока 3?</strong> Это «переходник», через который агент управляет внешним сервисом. Сейчас подключим официальный <strong>GitHub MCP</strong> — он даёт Claude Code и OpenClaw готовые структурные инструменты GitHub: issues, pull requests, ревью кода, поиск по репозиториям.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Три инструмента — три уровня, не дублируют друг друга:</strong></p>
+      <p>— <strong>SSH-ключ</strong> → пуш, клон, коммит файлов в репозитории<br>— <strong>GitHub CLI (gh)</strong> → создание репозиториев и Pages из консоли сервера<br>— <strong>GitHub MCP</strong> → структурные инструменты GitHub (issues, PR, ревью, поиск) для Claude Code на компьютере и для агента OpenClaw</p>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">✨</span>
+      <span><strong>Хорошая новость:</strong> GitHub MCP — это удалённый сервер от GitHub. Никакого Docker и установки не нужно, подключается одной командой.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Шаг 1. Подключить GitHub MCP в Claude Code (VS Code)</strong> — на вашем компьютере. Команда такая же по логике, как при подключении MCP в уроке 3.</p>
+    </div>
+
+    <div class="item" data-key="mcp-cc-add">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Добавить GitHub MCP в Claude Code</div>
+        <div class="item__hint">Откройте терминал в VS Code и выполните (одинаково на Mac и Windows):</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdMcpCcAdd">claude mcp add --transport http --scope user github https://api.githubcopilot.com/mcp/</span><button class="btn-copy" onclick="copyBlock('cmdMcpCcAdd',this)">📋 Скопировать</button></div>
+        <div class="item__hint"><span class="mono">--scope user</span> — MCP будет доступен во всех ваших проектах на этом компьютере, а не только в одном.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="mcp-cc-auth">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Авторизоваться через GitHub</div>
+        <div class="item__hint">1. Запустите Claude Code (команда <span class="mono">claude</span> или чат в VS Code)<br>2. Введите <span class="mono">/mcp</span><br>3. Выберите <strong>github</strong> → <strong>Authenticate</strong><br>4. Откроется браузер → войдите в свой GitHub → подтвердите доступ. Готово — токен вводить не нужно.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="mcp-cc-check">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить подключение</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdMcpCcList">claude mcp list</span><button class="btn-copy" onclick="copyBlock('cmdMcpCcList',this)">📋 Скопировать</button></div>
+        <div class="item__hint">Должно показать <strong>✓ Connected · github</strong>. Теперь Claude Code умеет работать с вашим GitHub структурно.</div>
+      </div>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Шаг 2. Подключить GitHub MCP в OpenClaw (на VPS)</strong> — чтобы Telegram-агент тоже получил инструменты GitHub. Подключитесь к серверу по SSH. Переиспользуем тот же токен (PAT), что создали в Части 2 — отдельный заводить не нужно.</p>
+    </div>
+
+    <div class="item" data-key="mcp-oc-add">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Добавить GitHub MCP в OpenClaw</div>
+        <div class="item__hint">Замените <span class="mono">&lt;ВАШ_ТОКЕН&gt;</span> на тот же PAT (начинается с <span class="mono">ghp_</span>), что в Части 2:</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdMcpOcAdd">openclaw mcp add github --url https://api.githubcopilot.com/mcp/ --transport streamable-http --header "Authorization: Bearer <ВАШ_ТОКЕН>"</span><button class="btn-copy" onclick="copyBlock('cmdMcpOcAdd',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+
+    <div class="item" data-key="mcp-oc-check">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить и применить</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdMcpOcCheck">openclaw mcp doctor github --probe
+openclaw mcp reload</span><button class="btn-copy" onclick="copyBlock('cmdMcpOcCheck',this)">📋 Скопировать</button></div>
+        <div class="item__hint"><span class="mono">doctor --probe</span> подключится к серверу и покажет список инструментов. <span class="mono">reload</span> — чтобы агент сразу их увидел.</div>
+      </div>
+    </div>
+
+    <div class="note note--alert">
+      <span class="note__icon">🔐</span>
+      <span><strong>Безопасность токена в OpenClaw:</strong> токен хранится в конфиге на вашем VPS (сервер защищён паролем), в логах OpenClaw он маскируется. Если хотите не держать токен в конфиге — OpenClaw умеет OAuth: <span class="mono">--auth oauth</span> вместо <span class="mono">--header</span>, затем <span class="mono">openclaw mcp login github</span> и вход в браузере.</span>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">🎉</span>
+      <span><strong>GitHub MCP подключён в обоих контурах!</strong> Теперь и Claude Code на компьютере, и агент OpenClaw в Telegram умеют не только пушить файлы, но и создавать issues, открывать pull requests, ревьюить код и искать по репозиториям.</span>
+    </div>
   </div>
 </div>
 
@@ -812,7 +904,7 @@
   <div class="section__card">
     <div class="note note--info">
       <span class="note__icon">🎨</span>
-      <span>В уроке 3 мы ставили 4 скилла (Superpowers, TaskMaster, Browser, Memory Bank). Сейчас добавляем 3 дизайнерских скилла — они радикально поднимают качество создаваемых сайтов.</span>
+      <span>В уроке 3 мы ставили 4 инструмента (плагин Superpowers + 3 MCP: TaskMaster, Playwright, AgentMemory). Сейчас добавляем дизайнерские скиллы — они радикально поднимают качество создаваемых сайтов.</span>
     </div>
 
     <table class="data-table">
@@ -889,6 +981,40 @@ clawhub install landing-page-generator</span><button class="btn-copy" onclick="c
         <div class="item__hint">Должны отобразиться все три скилла. Бот в Telegram начнёт использовать их при создании сайтов.</div>
       </div>
     </div>
+
+    <!-- ─── BONUS: REFERO DESIGN ─── -->
+    <div class="section-divider">
+      <div class="section-divider__line"></div>
+      <div class="section-divider__title">Бонус: готовые дизайн-стили Refero</div>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">🎨</span>
+      <span><strong>Refero Styles</strong> — библиотека из 2000+ дизайн-систем, снятых с топовых продуктов (Apple, Vercel, Linear, Resend и других). Каждый стиль — это готовый файл <span class="mono">DESIGN.md</span> с палитрой, типографикой, отступами и компонентами, который «понимает» Claude Code.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>Как пользоваться — 3 шага:</strong></p>
+      <p><strong>1.</strong> Откройте <a href="https://styles.refero.design/" target="_blank" class="lnk" onclick="event.stopPropagation()">styles.refero.design</a> и найдите подходящий стиль (вкладки Trending / Popular / Newest или поиск).<br>
+      <strong>2.</strong> Откройте карточку стиля и скопируйте его <span class="mono">DESIGN.md</span>.<br>
+      <strong>3.</strong> Отдайте этот <span class="mono">DESIGN.md</span> агенту: «Сделай лендинг для … в стиле из этого DESIGN.md» — и вставьте текст. Агент применит палитру, шрифты и отступы из выбранного стиля.</p>
+    </div>
+
+    <div class="item" data-key="refero-try">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Попробовать стиль из Refero на своём лендинге</div>
+        <div class="item__hint">Выберите стиль → скопируйте DESIGN.md → отдайте агенту вместе с задачей. Сравните результат с дизайном «по умолчанию».<br>
+        <a href="https://styles.refero.design/" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> styles.refero.design — библиотека DESIGN.md</a></div>
+      </div>
+    </div>
+
+    <details class="spoiler">
+      <summary>⚡ Для продвинутых: Refero MCP</summary>
+      <div class="spoiler__content">
+        <p>У Refero есть и <strong>официальный MCP-сервер</strong> — тогда агент сам ищет нужный стиль в библиотеке перед генерацией, без ручного копирования <span class="mono">DESIGN.md</span>. Требует аккаунт Refero (вход в браузере при первом вызове). Подключение — по инструкции на странице <a href="https://refero.design/mcp" target="_blank" class="lnk" onclick="event.stopPropagation()">refero.design/mcp</a>.</p>
+      </div>
+    </details>
 
     <!-- Безопасность -->
     <div class="note note--alert">
