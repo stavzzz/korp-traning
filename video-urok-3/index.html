@@ -840,7 +840,7 @@ claude mcp add --scope user agentmemory -- npx -y @agentmemory/mcp
 1. Обнови пакеты системы.
 2. Установи Docker и зависимости (docker-ce, docker-ce-cli, containerd.io, docker-compose-plugin) и убедись, что docker запускается.
 3. Установи OpenClaw: curl -fsSL --proto '=https' --tlsv1.2 https://openclaw.ai/install.sh | bash -s -- --no-onboard
-4. Проверь, что всё встало: openclaw --version и openclaw doctor. Ничего интерактивного не запускай — просто отчитайся об успехе и покажи вывод.</div>
+4. Проверь, что всё встало: openclaw --version и openclaw doctor. Если команда openclaw не находится (command not found) — это PATH после установки, а НЕ ошибка установки: открой новый терминал/shell или выполни hash -r и повтори, НЕ переустанавливай. Ничего интерактивного не запускай — просто отчитайся об успехе и покажи вывод.</div>
       <button class="btn-copy" onclick="copyBlock('promptInstall', this)">📋 Скопировать промпт</button>
     </div>
 
@@ -1297,7 +1297,7 @@ SOUL.md держи в пределах 20 000 символов.</div>
       <div class="prompt-block__title">📋 Промпт: установить показ лимитов (в Claude Code)</div>
       <div class="prompt-block__text" id="promptCodexFooter">Ты — DevOps-инженер. Установи на мой сервер с OpenClaw механизм, который к каждому ответу бота в Telegram дописывает строку с остатком лимитов Codex (5-часовое окно и недельное). Всё нужное лежит в папке openclaw-codex-footer/ в этом проекте.
 
-Работай аккуратно: сначала обследуй сервер, потом меняй. Не угадывай пути, имена контейнеров и команды — проверяй на реальном сервере. Не трогай другие сервисы.
+Работай аккуратно: сначала обследуй сервер, потом меняй. Не угадывай пути, имена сервисов и команды — проверяй на реальном сервере. Не трогай другие сервисы.
 
 Что в папке:
 - scripts/openclaw-usage-writer.sh — хостовый скрипт: раз в минуту читает лимиты (openclaw models status) и пишет их в файл gpt-usage.txt в workspace агента. Файл перезаписывается целиком — не растёт.
@@ -1306,16 +1306,16 @@ SOUL.md держи в пределах 20 000 символов.</div>
 
 Сделай по шагам; перед каждым шагом одной фразой говори, что делаешь:
 1. Прочитай openclaw-codex-footer/README.md целиком.
-2. Обследуй мою установку OpenClaw (проверь командами, не угадывай): каталог docker-compose проекта (обычно /opt/openclaw) и имя сервиса gateway; id контейнера gateway (docker compose ps -q &lt;сервис&gt;); корень данных на хосте (обычно /opt/openclaw-data) и workspace агента. Если установка НЕ через Docker Compose или пути нестандартные — остановись и спроси меня.
+2. Обследуй мою установку OpenClaw (проверь командами, не угадывай): убедись, что CLI доступен (openclaw --version, openclaw doctor); найди каталог данных OpenClaw (обычно ~/.openclaw) и папку workspace агента; имя systemd-сервиса gateway (обычно openclaw-gateway — проверь: systemctl status openclaw-gateway). Если установка нестандартная (например, в Docker-контейнере) — остановись и спроси меня.
 3. Впиши найденные значения в шапку scripts/openclaw-usage-writer.sh (OPENCLAW_DIR, GW_SERVICE, DATA_DIR).
 4. Поставь writer: скопируй в /opt/openclaw-ops/, chmod 755, запусти один раз и проверь cat &lt;DATA_DIR&gt;/workspace/gpt-usage.txt (ожидаемо строка вида 5ч NN% · ⏱ … | неделя NN% · ⏱ …).
-5. Поставь плагин: скопируй папку codex-usage-footer в &lt;DATA_DIR&gt;/state/plugins/, владелец 1000:1000, права не world-writable. Затем (gw = id контейнера gateway):
-   docker exec &lt;gw&gt; openclaw config set plugins.load.paths '["/home/node/.openclaw/plugins"]' --strict-json
-   docker exec &lt;gw&gt; openclaw config set plugins.entries.codex-usage-footer.enabled true --strict-json
-   docker exec &lt;gw&gt; openclaw config validate
-   перезапусти gateway: docker restart &lt;gw&gt;
+5. Поставь плагин: создай каталог &lt;DATA_DIR&gt;/plugins/ (если его нет) и скопируй туда папку codex-usage-footer (права обычные — читаемые пользователем, под которым работает gateway). Затем выполни:
+   openclaw config set plugins.load.paths '["&lt;DATA_DIR&gt;/plugins"]' --strict-json
+   openclaw config set plugins.entries.codex-usage-footer.enabled true --strict-json
+   openclaw config validate
+   перезапусти gateway: openclaw gateway restart
 6. Добавь строку в хостовый crontab — ТОЛЬКО добавлением, не затирая существующие: * * * * * /opt/openclaw-ops/openclaw-usage-writer.sh &gt;/dev/null 2&gt;&amp;1
-7. Проверь: docker exec &lt;gw&gt; openclaw plugins list | grep codex-usage-footer → должен быть enabled. Затем напиши боту любое сообщение — внизу ответа должна появиться строка с лимитами.
+7. Проверь: openclaw plugins list | grep codex-usage-footer → должен быть enabled. Затем напиши боту любое сообщение — внизу ответа должна появиться строка с лимитами.
 8. Короткий отчёт: что куда поставлено и что проверено.
 
 Правила: не угадывай — что не подтверждено инспекцией сервера, не используй; не хватает данных — спроси; crontab меняй только добавлением; секреты в скрипты не вписывай; показывай реальный вывод команд; другие сервисы на сервере не трогай.</div>
@@ -1439,7 +1439,7 @@ openclaw status</span>
 
     <div class="note note--warn">
       <span class="note__icon">⚙️</span>
-      <span><strong>Нужно заранее:</strong> OpenClaw развёрнут через Docker и есть доступ к серверу по SSH. Для опытных в архиве есть ручная инструкция <span class="mono">INSTALL.md</span>.</span>
+      <span><strong>Нужно заранее:</strong> OpenClaw установлен на сервере (по уроку выше) и есть доступ к серверу по SSH. Для опытных в архиве есть ручная инструкция <span class="mono">INSTALL.md</span>.</span>
     </div>
 
     <div class="item" data-key="autoupd-download">
@@ -1454,12 +1454,12 @@ openclaw status</span>
       <div class="prompt-block__title">📋 Промпт: установить набор (в Claude Code)</div>
       <div class="prompt-block__text" id="promptAutoupd">Ты — DevOps-инженер. Разверни на моём сервере с OpenClaw набор из папки openclaw-autoupdate-kit/ (она уже в этом проекте): безопасное авто-обновление бота по моему подтверждению.
 
-Работай аккуратно: сначала обследуй сервер, потом меняй. Не угадывай пути, имена контейнеров и команды — проверяй на реальном сервере. Не трогай другие сервисы и проекты.
+Работай аккуратно: сначала обследуй сервер, потом меняй. Не угадывай пути, имена сервисов и команды — проверяй на реальном сервере. Не трогай другие сервисы и проекты.
 
 По шагам, перед каждым шагом одной фразой говори, что делаешь:
 1. Прочитай файлы README.md и INSTALL.md из папки openclaw-autoupdate-kit/ целиком.
-2. Обследуй мою установку OpenClaw (проверь командами, не угадывай): каталог docker-compose проекта (обычно /opt/openclaw) и имя сервиса gateway; id контейнера gateway (docker compose ps -q &lt;сервис&gt;); корень данных на хосте (обычно /opt/openclaw-data) и папку workspace агента. Если установка НЕ через Docker Compose или пути нестандартные — остановись и спроси меня.
-3. Заполни scripts/lib-common.sh под мой сервер: пути, имя сервиса gateway, мой Telegram chat id, образ. В scripts/crontab.snippet выставь удобное время проверки.
+2. Обследуй мою установку OpenClaw (проверь командами, не угадывай): убедись, что CLI доступен (openclaw --version, openclaw doctor); найди каталог данных OpenClaw (обычно ~/.openclaw) и папку workspace агента; имя systemd-сервиса gateway (обычно openclaw-gateway — проверь: systemctl status openclaw-gateway). Если установка нестандартная (например, в Docker-контейнере) — остановись и спроси меня.
+3. Заполни scripts/lib-common.sh под мой сервер: пути, имя systemd-сервиса gateway, мой Telegram chat id. В scripts/crontab.snippet выставь удобное время проверки.
 4. Поставь авто-обновление: по INSTALL.md (раздел «Часть A») — скилл агента и перезапуск gateway.
 5. Добавь строки в хостовый crontab — ТОЛЬКО добавлением, не затирая существующие задания.
 6. Проверь, ничего не ломая: smoke-test в режиме dry-run. Реальное обновление запускай только с моего явного разрешения.
