@@ -198,7 +198,7 @@
   <ul class="header__topics">
     <li>Вайб-кодинг и терминал — зачем нейросетям CLI</li>
     <li>VS Code + Claude Code: установка и прокачка (скиллы, MCP, инструменты)</li>
-    <li>Покупка VPS и установка OpenClaw в Docker, доступ по SSH-ключу</li>
+    <li>Покупка VPS и установка OpenClaw на сервер, доступ по SSH-ключу</li>
     <li>Подключение моделей: ChatGPT (Codex) или MiniMax M3 + OpenRouter</li>
     <li>Telegram-бот, голосовые сообщения и веб-панель (Web UI)</li>
     <li>Личность агента: настройка SOUL.md и USER.md</li>
@@ -715,7 +715,7 @@ claude mcp add --scope user agentmemory -- npx -y @agentmemory/mcp
   <div class="section__card">
     <div class="note note--info">
       <span class="note__icon">🤖</span>
-      <span>Прокачанный Claude Code (с включённым Bypass Permissions) сам подключится к серверу, поставит Docker и установит OpenClaw в контейнере. Вам нужно только отправлять промпты и подставлять свои данные.</span>
+      <span>Прокачанный Claude Code (с включённым Bypass Permissions) сам подключится к серверу и установит OpenClaw. Вам нужно только отправлять промпты и подставлять свои данные.</span>
     </div>
 
     <!-- ── 6.1 ПРОКАЧКА: скилл openclaw-docs ── -->
@@ -813,10 +813,15 @@ claude mcp add --scope user agentmemory -- npx -y @agentmemory/mcp
       </div>
     </div>
 
-    <!-- ── 6.3 УСТАНОВКА OPENCLAW В DOCKER ── -->
+    <!-- ── 6.3 УСТАНОВКА OPENCLAW ── -->
     <div class="section-divider" style="margin:32px 0 24px">
       <div class="section-divider__line"></div>
-      <div class="section-divider__title">🦞 Установка OpenClaw в Docker</div>
+      <div class="section-divider__title">🦞 Установка OpenClaw</div>
+    </div>
+
+    <div class="note note--info">
+      <span class="note__icon">📦</span>
+      <span><strong>Куда ставится OpenClaw — простыми словами.</strong> OpenClaw устанавливается <strong>прямо на сервер</strong> (а не «внутрь Docker»). <strong>Docker</strong> — это система «коробок» для программ: в изолированной коробке-контейнере программа работает отдельно от остального сервера. Docker мы тоже ставим, но он нужен <strong>не для самого OpenClaw</strong>, а для безопасной «песочницы», в которой бот выполняет команды, не трогая сервер. Управляют OpenClaw командами <span class="mono">openclaw …</span> (например, <span class="mono">openclaw doctor</span>), а не через Docker.</span>
     </div>
 
     <div class="note note--warn">
