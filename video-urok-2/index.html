@@ -176,6 +176,11 @@
   .btn-copy:hover { background:rgba(124,91,245,0.2); border-color:var(--accent); }
   .btn-copy.copied { color:var(--green); background:var(--green-soft); border-color:rgba(52,211,153,0.3); }
 
+  .footer__final-part3 { background:linear-gradient(135deg,rgba(251,191,36,0.08),rgba(219,39,119,0.08)); border:1px solid rgba(251,191,36,0.25); border-radius:var(--radius); padding:34px 24px; margin-bottom:24px; text-align:center; position:relative; overflow:hidden; }
+  .footer__final-part3::before { content:''; position:absolute; inset:0; background:radial-gradient(circle at 20% 0%, rgba(251,191,36,0.12), transparent 50%), radial-gradient(circle at 80% 100%, rgba(219,39,119,0.12), transparent 50%); pointer-events:none; }
+  .footer__final-emoji { font-size:54px; margin-bottom:12px; line-height:1; position:relative; }
+  .footer__final-text { font-size:24px; font-weight:800; background:linear-gradient(90deg,#fbbf24,#db2777); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:10px; letter-spacing:-0.4px; position:relative; }
+  .footer__final-sub { font-size:15px; color:var(--text-secondary); line-height:1.6; max-width:560px; margin:0 auto; position:relative; }
 </style>
 </head>
 <body>
@@ -643,6 +648,15 @@
     <div class="footer__done-emoji">🚀</div>
     <div class="footer__done-text">Фундамент заложен!</div>
     <div class="footer__done-sub">OpenRouter подключён, Claude Project создан. Увидимся на встрече!</div>
+  </div>
+  <div class="note note--green">
+    <span class="note__icon">💡</span>
+    <span><strong>На будущее:</strong><br>• Сохраните распаковку бизнеса отдельным файлом. Вы будете переиспользовать её в проекте Claude, а позже в самом агенте при настройке его характера (SOUL).<br>• Держите на OpenRouter небольшой баланс, часть бесплатных моделей требует минимального депозита на счету.<br>• Правило экономии: простое отдавайте дешёвым и бесплатным моделям, дорогие берегите для сложных задач.</span>
+  </div>
+  <div class="footer__final-part3">
+    <div class="footer__final-emoji">🗺️</div>
+    <div class="footer__final-text">Урок 2 пройден!</div>
+    <div class="footer__final-sub">Вы видите всю карту AI-инструментов и понимаете, кто на что способен. Подключён OpenRouter, а это доступ к десяткам моделей, включая бесплатные. Бизнес распакован, собран персональный проект в Claude под ваш контекст.</div>
   </div>
   <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
   <button class="btn-reset" onclick="resetProgress()">Сбросить прогресс</button>
