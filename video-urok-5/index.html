@@ -180,6 +180,11 @@
     .code-block { margin:10px 12px; font-size:11px; }
     .header__title { font-size:22px; }
   }
+  .footer__final-part3 { background:linear-gradient(135deg,rgba(251,191,36,0.08),rgba(219,39,119,0.08)); border:1px solid rgba(251,191,36,0.25); border-radius:var(--radius); padding:34px 24px; margin-bottom:24px; text-align:center; position:relative; overflow:hidden; }
+  .footer__final-part3::before { content:''; position:absolute; inset:0; background:radial-gradient(circle at 20% 0%, rgba(251,191,36,0.12), transparent 50%), radial-gradient(circle at 80% 100%, rgba(219,39,119,0.12), transparent 50%); pointer-events:none; }
+  .footer__final-emoji { font-size:54px; margin-bottom:12px; line-height:1; position:relative; }
+  .footer__final-text { font-size:24px; font-weight:800; background:linear-gradient(90deg,#fbbf24,#db2777); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:10px; letter-spacing:-0.4px; position:relative; }
+  .footer__final-sub { font-size:15px; color:var(--text-secondary); line-height:1.6; max-width:560px; margin:0 auto; position:relative; }
 </style>
 </head>
 <body>
@@ -2439,14 +2444,7 @@ https://n8n.<ВАШ_ДОМЕН_2>/webhook/log-payment
       <div class="term__def">— Ежедневная сводка выручки в Sheets (владелец заносит голосом → агент обрабатывает)<br>— Еженедельный отчёт директору по Gmail<br>— Напоминания о закупках на основе графика<br>— Автоматическое поздравление постоянных клиентов с днём рождения</div>
     </div>
 
-    <div class="note note--green">
-      <span class="note__icon">🎓</span>
-      <span><strong>К концу урока 5 у вас:</strong><br>— Свой n8n на отдельном домене с двумя слоями защиты<br>— Google (Calendar, Drive, Sheets, Gmail) подключён и к n8n, и к OpenClaw<br>— OpenClaw умеет отправлять данные в n8n через webhook, а n8n умеет писать вам в Telegram<br>— Минимум 1 рабочий сценарий автоматизации собран и протестирован<br>— Cron Jobs внутри агента выполняют задачи по расписанию</span>
-    </div>
 
-    <div class="info-block">
-      <p><strong>На следующем уроке (урок 6):</strong> углублённо разбираем «душу» агента — SOUL.md, MEMORY.md, heartbeats, skills. Делаем агента проактивным и по-настоящему персональным.</p>
-    </div>
   </div>
 </div>
 
@@ -2457,6 +2455,15 @@ https://n8n.<ВАШ_ДОМЕН_2>/webhook/log-payment
     <div class="footer__done-emoji">🚀</div>
     <div class="footer__done-text">Автоматизации работают!</div>
     <div class="footer__done-sub">n8n + OpenClaw + Google в связке. До встречи 5!</div>
+  </div>
+  <div class="note note--green">
+    <span class="note__icon">💡</span>
+    <span><strong>На будущее:</strong><br>• Начните с одного сценария, который реально экономит вам время, а не пытайтесь собрать сразу все десять.<br>• Раз в неделю заглядывайте в раздел Executions, чтобы ловить сбои автоматизаций пока их немного.<br>• Прежде чем усложнять сценарий, прогоните его на тестовых данных, так вы не сломаете рабочий процесс.</span>
+  </div>
+  <div class="footer__final-part3">
+    <div class="footer__final-emoji">⚡</div>
+    <div class="footer__final-text">Урок 5 пройден!</div>
+    <div class="footer__final-sub">Свой n8n на отдельном домене с двумя слоями защиты. Google (Calendar, Drive, Sheets, Gmail) подключён и к n8n, и к OpenClaw. Собрана минимум одна рабочая автоматизация, а Cron Jobs выполняют задачи по расписанию сами.</div>
   </div>
   <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
   <button class="btn-reset" onclick="resetProgress()">Сбросить прогресс</button>
