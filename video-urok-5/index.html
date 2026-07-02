@@ -277,8 +277,8 @@
     <div class="item" data-key="prereq-card">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Карта для оплаты Домена №2 (~$10–15/год)</div>
-        <div class="item__hint">Та же карта, что покупали Домен №1 (Flexy Virtual USA).</div>
+        <div class="item__text">Карта для оплаты Домена №2 (~$8–15/год)</div>
+        <div class="item__hint">Та же зарубежная виртуальная карта, что покупали Домен №1.</div>
       </div>
     </div>
 
@@ -288,7 +288,7 @@
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Приложение-аутентификатор на телефоне</div>
-        <div class="item__hint">Google Authenticator / Authy / 1Password / Bitwarden. Нужно для 2FA в n8n. Если нет — поставьте любой из списка прямо сейчас.</div>
+        <div class="item__hint">Google Authenticator. Нужно для 2FA в n8n. Если нет — поставьте прямо сейчас.</div>
       </div>
     </div>
 
@@ -296,7 +296,7 @@
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Менеджер паролей (рекомендация)</div>
-        <div class="item__hint">1Password или Bitwarden. В этом уроке у вас будет появляться много критичных паролей и токенов — лучше хранить их нормально, а не в заметках.</div>
+        <div class="item__hint">Любой менеджер паролей. В этом уроке у вас будет появляться много критичных паролей и токенов — лучше хранить их нормально, а не в заметках.</div>
       </div>
     </div>
 
@@ -702,7 +702,7 @@
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">На форме регистрации ввести данные</div>
-        <div class="item__hint">— <strong>Email:</strong> ваш основной Gmail (из урока 1)<br>— <strong>First name / Last name</strong><br>— <strong>Password:</strong> 16+ символов, сгенерированный менеджером паролей<br>Не используйте «свой любимый пароль» — сгенерируйте новый в 1Password/Bitwarden.</div>
+        <div class="item__hint">— <strong>Email:</strong> ваш основной Gmail (из урока 1)<br>— <strong>First name / Last name</strong><br>— <strong>Password:</strong> 16+ символов, сгенерированный менеджером паролей<br>Не используйте «свой любимый пароль» — сгенерируйте новый в менеджере паролей.</div>
       </div>
     </div>
 
@@ -764,7 +764,7 @@
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Открыть приложение-аутентификатор на телефоне</div>
-        <div class="item__hint">Google Authenticator / Authy / 1Password.</div>
+        <div class="item__hint">Google Authenticator.</div>
       </div>
     </div>
 
@@ -840,7 +840,7 @@
 
     <div class="info-block">
       <p><strong>Есть два MCP-сервера для n8n:</strong></p>
-      <p>— <strong>Официальный</strong> от n8n GmbH — умеет искать, смотреть детали и запускать уже существующие workflow. Подключается в Claude Desktop одним кликом через Connectors → Directory → n8n.</p>
+      <p>— <strong>Официальный</strong> от n8n GmbH — встроен во все версии n8n (нужна 2.18.4+). Умеет искать, смотреть детали и запускать workflow, а после обновления весной 2026 — ещё и <strong>создавать и править workflow с нуля</strong> прямо в вашем n8n по текстовому запросу. Подключается в Claude Desktop одним кликом через Connectors → Directory → n8n. Как подключить — <a href="https://docs.n8n.io/connect/connect-to-n8n-mcp-server" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> офиц. документация n8n MCP</a>.</p>
       <p>— <strong>Community-пакет <span class="mono">n8n-mcp</span></strong> от Czlonkowski — даёт Claude Code полную документацию по всем нодам, умеет валидировать и <strong>создавать workflow с нуля</strong>. Для курса рекомендуем этот вариант — с ним вайб-кодинг автоматизаций работает в разы лучше.</p>
       <p>Дальше устанавливаем community-пакет в Claude Code.</p>
     </div>
@@ -2301,6 +2301,7 @@ https://n8n.<ВАШ_ДОМЕН_2>/webhook/log-payment
         — <span class="mono">&lt;FINANCE_SHEET_ID&gt;</span>, <span class="mono">&lt;CONTACTS_SHEET_ID&gt;</span> — ID ваших Google Sheets таблиц (берётся из URL таблицы: <span class="mono">docs.google.com/spreadsheets/d/&lt;ТУТ_ID&gt;/edit</span>)<br>
         — <span class="mono">&lt;EMAIL_WORKFLOW_ID&gt;</span>, <span class="mono">&lt;CONTACTS_WORKFLOW_ID&gt;</span>, <span class="mono">&lt;CALENDAR_WORKFLOW_ID&gt;</span>, <span class="mono">&lt;FINANCEANALYST_WORKFLOW_ID&gt;</span>, <span class="mono">&lt;FINANCELOGGER_WORKFLOW_ID&gt;</span> — <strong>только в MAIN</strong> — это ссылки на другие ваши workflow, их ID возьмёте после импорта остальных пяти<br>
         — <span class="mono">&lt;EXCHANGERATE_API_KEY&gt;</span> — <strong>только в FINANCE LOGGER</strong> — получите бесплатный ключ на <a href="https://www.exchangerate-api.com" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> exchangerate-api.com</a>, бесплатный тариф полностью хватает</p>
+        <p style="margin-top:10px"><strong>Что за &lt;OPENAI_CREDENTIAL_ID&gt; и зачем он нужен:</strong> OpenAI здесь — это «мозг» AI-агентов внутри workflow: языковая модель, которая понимает ваши сообщения, извлекает суммы, имена и категории, формулирует ответы. Чтобы эти workflow заработали, нужен ваш API-ключ OpenAI — создаётся в <a href="https://platform.openai.com/api-keys" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> platform.openai.com</a>, а затем в n8n добавляется как OpenAI credential через Settings → Credentials. Если предпочитаете другого провайдера — можно подключить свой ключ через OpenRouter, логика workflow при этом не меняется.</p>
         <p><strong>5. Активируйте workflow</strong> переключателем в правом верхнем углу.</p>
       </div>
     </details>
