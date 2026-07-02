@@ -332,6 +332,11 @@
       <div class="term__def">Официальный SDK Gather (WebSocket), которым программно «водят» аватаров: сажают за стол, показывают статус-пузыри, двигают.</div>
       <div class="term__example">📌 npm-пакет <span class="mono">@gathertown/gather-game-client</span>. Его поставит и использует наш мост.</div>
     </div>
+    <div class="term">
+      <div class="term__name">Файл <span class="mono">.env</span> (Environment Variables / Переменные окружения)</div>
+      <div class="term__def">Скрытый системный файл (начинается с точки), который используется как «сейф» для хранения паролей, API-ключей и токенов. Скрипты читают этот файл при запуске, подставляя ключи в память (например, <span class="mono">process.env.GATHER_API_KEY</span>). Это нужно, чтобы безопасно отделить секреты от кода: если код попадёт на GitHub или на экран во время созвона, ключи не утекут, так как файл <span class="mono">.env</span> остаётся только на вашем сервере.</div>
+      <div class="term__example">📌 В нашем мосте в <span class="mono">.env</span> лежат <span class="mono">GATEWAY_TOKEN</span>, <span class="mono">GATHER_API_KEY</span>, <span class="mono">GATHER_SPACE_ID</span> и <span class="mono">GATHER_MAP_ID</span>.</div>
+    </div>
   </div>
 </div>
 
@@ -419,7 +424,7 @@
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Создать пространство-офис в Gather</div>
-        <div class="item__hint">Из готового шаблона офиса. Расставьте «столы» (объекты) под ваши роли агентов.</div>
+        <div class="item__hint">При создании выберите версию <strong>Gather 2.0 Office (Beta)</strong> — она оптимизирована под постоянные виртуальные офисы удалённых команд, в отличие от версии 1.0 Event для разовых лекций. Бесплатного тарифа (Free Tier) хватит с запасом. Возьмите готовый шаблон офиса и расставьте «столы» (объекты) под ваши роли агентов.</div>
       </div>
     </div>
     <div class="item" data-key="g-apikey">
@@ -476,6 +481,14 @@
         <div class="item__hint">Remote-SSH к VPS, «Режим бога» в Claude Code включён.</div>
       </div>
     </div>
+    <div class="item" data-key="b-init">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Инициализировать проект</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdNpmInit">npm init -y</span><button class="btn-copy" onclick="copyBlock('cmdNpmInit',this)">📋 Скопировать</button></div>
+        <div class="item__hint">Создаст <span class="mono">package.json</span> в папке проекта — основу для установки зависимостей.</div>
+      </div>
+    </div>
     <div class="item" data-key="b-prompt">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
@@ -512,6 +525,10 @@
 В конце выведи: путь к созданным файлам и команду запуска.</div>
       <button class="btn-copy" onclick="copyBlock('promptBridge', this)">📋 Скопировать промпт</button>
     </div>
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span>Метод <span class="mono">mapSetObjects</span> из промпта меняет состояния <strong>неживых объектов</strong> на карте — столов, компьютеров. Статус-пузыри («работает», «ищет в вебе») появляются именно над предметами мебели, привязанными к ID агента. Полноценные «ходячие» боты-аватары — это следующий уровень сложности, выходящий за рамки базового моста.</span>
+    </div>
     <div class="item" data-key="b-config">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
@@ -545,7 +562,9 @@
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Запустить мост на сервере</div>
-        <div class="item__hint">Командой, которую вывел Claude Code (например <span class="mono">node office-bridge.js</span> или через pm2, чтобы работал в фоне).</div>
+        <div class="item__hint">Командой, которую вывел Claude Code — например <span class="mono">node office-bridge.js</span>. Чтобы мост работал в фоне, сначала установите менеджер процессов <span class="mono">pm2</span> глобально:</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdPm2Install">npm install -g pm2</span><button class="btn-copy" onclick="copyBlock('cmdPm2Install',this)">📋 Скопировать</button></div>
+        <div class="item__hint">Затем запускайте мост через <span class="mono">pm2</span>, чтобы он работал постоянно и не останавливался при закрытии терминала.</div>
       </div>
     </div>
     <div class="item" data-key="r-open-gather">
@@ -610,9 +629,47 @@
       </div>
     </div>
 
+  </div>
+</div>
+
+<!-- ═══ 08 — ТРАБЛШУТИНГ ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">08</div>
+    <div class="section__title">Траблшутинг: если пузырь не появился</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--warn">
+      <span class="note__icon">🛠️</span>
+      <span><strong>Что делать, если статус в Gather не меняется:</strong></span>
+    </div>
+    <div class="info-block">
+      <p><strong>1. Проверьте логи моста.</strong> Если запускали через <span class="mono">node</span> — смотрите прямо в терминал. Если через pm2 — введите <span class="mono">pm2 logs office-bridge</span>: там будут написаны ошибки, например неверный токен или сбой подключения к Gather.</p>
+      <p><strong>2. Проверьте <span class="mono">.env</span>.</strong> Убедитесь, что нет лишних пробелов, нет кавычек вокруг значений (если они не требуются) и что <span class="mono">SPACE_ID</span> написан через бэкслеш <span class="mono">\</span>, а не через обычный слэш <span class="mono">/</span>.</p>
+      <p><strong>3. Проверьте маппинг.</strong> ID агента из OpenClaw должен точно совпадать с ID в <span class="mono">config.json</span>, а сам объект должен реально существовать на карте Gather.</p>
+    </div>
     <div class="note note--info">
       <span class="note__icon">🤝</span>
-      <span>Застряли на любом шаге — пишите <a href="https://t.me/stavzzz" target="_blank" class="lnk" onclick="event.stopPropagation()">@stavzzz</a>.</span>
+      <span>Не помогло — пишите <a href="https://t.me/stavzzz" target="_blank" class="lnk" onclick="event.stopPropagation()">@stavzzz</a>.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 09 — БОНУС: КАСТОМНЫЙ ДИЗАЙН ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">09</div>
+    <div class="section__title">Бонус: кастомный дизайн пиксельного офиса</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🎨</span>
+      <span><strong>Хотите офис как из классических RPG?</strong> Базовые карты Gather отлично подходят для старта, но уникальный дизайн можно собрать самому.</span>
+    </div>
+    <div class="info-block">
+      <p><strong>1. Купите ассеты.</strong> На itch.io есть отличные наборы пиксельной графики от LimeZu. Обратите внимание на паки <a href="https://limezu.itch.io/moderninteriors" target="_blank" class="lnk" onclick="event.stopPropagation()">Modern Interiors</a> и <a href="https://limezu.itch.io/modernoffice" target="_blank" class="lnk" onclick="event.stopPropagation()">Modern Office</a>. На летней распродаже 2026 года они стоят всего $1.50 и $2.50.</p>
+      <p><strong>2. Соберите карту.</strong> Скачайте бесплатную программу <a href="https://www.mapeditor.org/" target="_blank" class="lnk" onclick="event.stopPropagation()">Tiled</a>, загрузите туда купленные ассеты и расставьте мебель по своему вкусу.</p>
+      <p><strong>3. Интеграция с Gather.</strong> Экспортируйте готовую карту из Tiled как единое изображение в формате PNG. В Mapmaker в Gather загрузите ваш PNG как Background (фон) и расставьте поверх невидимые «блоки препятствий», чтобы аватары не ходили сквозь столы. Ваш мост продолжит работать поверх нового красивого фона!</p>
     </div>
     <div class="note note--green">
       <span class="note__icon">💡</span>
