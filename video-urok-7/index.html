@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ИИ-ВИЗАЦИЯ: OPENCLAW — AI-офис и визуализация · Урок 7</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #0a0a0f; --bg-card: #12121a; --bg-card-hover: #181825;
+    --border: #1e1e2e; --border-accent: #2a2a3e;
+    --text-primary: #e8e6f0; --text-secondary: #8b879e; --text-muted: #5a5670;
+    --accent: #7c5bf5; --accent-glow: #9d7cff; --accent-soft: rgba(124,91,245,0.12);
+    --green: #34d399; --green-glow: #6ee7b7; --green-soft: rgba(52,211,153,0.1);
+    --amber: #fbbf24; --amber-soft: rgba(251,191,36,0.1);
+    --red-soft: rgba(248,113,113,0.1); --red: #f87171;
+    --radius: 14px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Onest',sans-serif; background:var(--bg-deep); color:var(--text-primary); line-height:1.65; min-height:100vh; -webkit-font-smoothing:antialiased; }
+  body::before { content:''; position:fixed; inset:0; background-image:radial-gradient(circle at 20% 20%,rgba(124,91,245,0.04) 0%,transparent 50%),radial-gradient(circle at 80% 80%,rgba(52,211,153,0.03) 0%,transparent 50%); pointer-events:none; z-index:0; }
+  .wrapper { position:relative; z-index:1; max-width:680px; margin:0 auto; padding:40px 20px 80px; }
+
+  /* ─── HEADER ─── */
+  .header { text-align:center; margin-bottom:48px; }
+  .header__badge { display:inline-block; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:var(--accent-glow); background:var(--accent-soft); border:1px solid rgba(124,91,245,0.2); padding:6px 16px; border-radius:100px; margin-bottom:24px; animation:fadeDown .6s ease both; }
+  .header__title { font-size:clamp(22px,5vw,34px); font-weight:800; line-height:1.2; letter-spacing:-0.5px; margin-bottom:20px; animation:fadeDown .6s ease .1s both; }
+  .header__title span { background:linear-gradient(135deg,var(--accent-glow),var(--green)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .header__topics { list-style:none; display:flex; flex-direction:column; gap:7px; max-width:460px; margin:0 auto; animation:fadeDown .6s ease .2s both; }
+  .header__topics li { font-size:13.5px; color:var(--text-secondary); display:flex; align-items:flex-start; gap:8px; text-align:left; }
+  .header__topics li::before { content:'→'; color:var(--accent); flex-shrink:0; font-family:'JetBrains Mono',monospace; font-size:11px; margin-top:3px; }
+
+  /* ─── PROGRESS ─── */
+  .progress-wrap { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:20px 24px; margin-bottom:36px; position:sticky; top:12px; z-index:10; backdrop-filter:blur(16px); background:rgba(18,18,26,0.92); animation:fadeDown .6s ease .3s both; }
+  .progress-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+  .progress-label { font-size:13px; font-weight:600; color:var(--text-secondary); text-transform:uppercase; letter-spacing:1px; font-family:'JetBrains Mono',monospace; }
+  .progress-count { font-family:'JetBrains Mono',monospace; font-size:14px; font-weight:700; color:var(--accent-glow); }
+  .progress-bar { width:100%; height:8px; background:var(--border); border-radius:100px; overflow:hidden; }
+  .progress-fill { height:100%; background:linear-gradient(90deg,var(--accent),var(--green)); border-radius:100px; transition:width .5s cubic-bezier(.34,1.56,.64,1); width:0%; }
+
+  /* ─── SECTION ─── */
+  .section { margin-bottom:28px; }
+  .section__header { display:flex; align-items:center; gap:12px; margin-bottom:14px; padding-left:2px; }
+  .section__num { font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; color:var(--accent); background:var(--accent-soft); width:32px; height:32px; display:flex; align-items:center; justify-content:center; border-radius:8px; flex-shrink:0; }
+  .section__title { font-size:16px; font-weight:700; letter-spacing:-0.2px; line-height:1.35; }
+  .section__card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; transition:border-color .3s; }
+  .section__card:hover { border-color:var(--border-accent); }
+
+  /* ─── CHECKLIST ITEM ─── */
+  .item { display:flex; align-items:flex-start; gap:14px; padding:16px 20px; border-bottom:1px solid var(--border); transition:background .2s; }
+  .item:last-child { border-bottom:none; }
+  .item:hover { background:var(--bg-card-hover); }
+  .item.checked .item__text { color:var(--text-muted); text-decoration:line-through; }
+  .item__check { position:relative; width:22px; height:22px; flex-shrink:0; margin-top:1px; pointer-events:auto; cursor:pointer; }
+  .item__check input { position:absolute; opacity:0; width:100%; height:100%; cursor:pointer; z-index:2; }
+  .item__check .cm { width:22px; height:22px; border:2px solid var(--border-accent); border-radius:6px; display:flex; align-items:center; justify-content:center; transition:all .25s cubic-bezier(.34,1.56,.64,1); cursor:pointer; }
+  .item__check .cm svg { width:12px; height:12px; opacity:0; transform:scale(0); transition:all .25s cubic-bezier(.34,1.56,.64,1); }
+  .item__check input:checked + .cm { background:var(--green); border-color:var(--green); }
+  .item__check input:checked + .cm svg { opacity:1; transform:scale(1); }
+  .item__body { flex:1; min-width:0; pointer-events:none; user-select:text; }
+  .item__body a, .item__body .lnk, .item__body .cmd-copy, .item__body .btn-copy { pointer-events:auto !important; cursor:pointer !important; }
+  .item__text { font-size:14.5px; font-weight:500; color:var(--text-primary); transition:all .3s; }
+  .item__hint { font-size:13px; color:var(--text-secondary); margin-top:5px; line-height:1.65; }
+  .item__hint strong { color:var(--text-primary); }
+
+  /* ─── LNK ─── */
+  .lnk { display:inline-flex; align-items:center; gap:5px; font-size:13px; font-family:'JetBrains Mono',monospace; color:var(--accent-glow); text-decoration:none; transition:color .2s; word-break:break-all; }
+  .lnk:hover { color:#bba4ff; text-decoration:underline; }
+  .lnk svg { width:13px; height:13px; flex-shrink:0; }
+
+  /* ─── RES-BLOCK ─── */
+  .res-block { padding:14px 20px; border-bottom:1px solid var(--border); transition:background .2s; }
+  .res-block:last-child { border-bottom:none; }
+  .res-block:hover { background:var(--bg-card-hover); }
+  .res-block__title { font-size:14px; font-weight:600; color:var(--text-primary); margin-bottom:3px; }
+  .res-block__sub { font-size:13px; color:var(--text-secondary); margin-bottom:7px; line-height:1.5; }
+
+  /* ─── NOTE ─── */
+  .note { display:flex; align-items:flex-start; gap:10px; padding:14px 20px; font-size:13px; color:var(--text-secondary); line-height:1.65; border-bottom:1px solid var(--border); }
+  .note:last-child { border-bottom:none; }
+  .note--warn { background:var(--amber-soft); color:var(--amber); }
+  .note--info { background:var(--accent-soft); }
+  .note--alert { background:var(--red-soft); color:var(--red); }
+  .note--green { background:var(--green-soft); color:var(--green-glow); }
+  .note__icon { flex-shrink:0; font-size:15px; }
+  .note strong { color:inherit; }
+  .note .lnk { color:var(--accent-glow); }
+
+  /* ─── INFO BLOCK ─── */
+  .info-block { padding:14px 20px; border-bottom:1px solid var(--border); font-size:13.5px; color:var(--text-secondary); line-height:1.7; }
+  .info-block:last-child { border-bottom:none; }
+  .info-block strong { color:var(--text-primary); font-weight:600; }
+  .info-block p { margin-bottom:8px; }
+  .info-block p:last-child { margin-bottom:0; }
+
+  /* ─── TERM ─── */
+  .term { padding:16px 20px; border-bottom:1px solid var(--border); }
+  .term:last-child { border-bottom:none; }
+  .term__name { font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; color:var(--accent-glow); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:7px; }
+  .term__def { font-size:14px; color:var(--text-primary); font-weight:500; margin-bottom:8px; line-height:1.55; }
+  .term__example { font-size:13px; color:var(--text-secondary); line-height:1.65; padding:10px 14px; background:rgba(124,91,245,0.06); border-left:2px solid rgba(124,91,245,0.3); border-radius:0 6px 6px 0; }
+  .mono { font-family:'JetBrains Mono',monospace; color:var(--accent-glow); font-size:12px; }
+
+  /* ─── TABLE ─── */
+  .data-table { width:100%; font-size:13px; border-collapse:collapse; }
+  .data-table th { text-align:left; font-weight:600; color:var(--text-muted); font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:1.2px; padding:10px 20px; border-bottom:1px solid var(--border); background:rgba(0,0,0,0.2); }
+  .data-table td { padding:11px 20px; border-bottom:1px solid var(--border); color:var(--text-secondary); vertical-align:top; line-height:1.5; }
+  .data-table tr:last-child td { border-bottom:none; }
+  .data-table td:first-child { color:var(--text-primary); font-weight:600; }
+
+  /* ─── ARCH BOX ─── */
+  .arch-box { background:rgba(0,0,0,0.3); border:1px solid var(--border-accent); border-radius:10px; padding:18px 22px; margin:12px 20px; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text-secondary); line-height:2; white-space:pre; overflow-x:auto; }
+
+  /* ─── PROMPT BLOCK ─── */
+  .prompt-block { background:rgba(0,0,0,0.25); border:1px solid var(--border-accent); border-radius:10px; padding:18px 20px; margin:12px 16px; }
+  .prompt-block__title { font-size:13px; font-weight:700; color:var(--accent-glow); margin-bottom:10px; display:flex; align-items:center; gap:8px; font-family:'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:1px; }
+  .prompt-block__text { font-size:13px; color:var(--text-secondary); line-height:1.7; white-space:pre-wrap; margin-bottom:14px; word-break:break-word; }
+  .btn-copy { display:inline-flex; align-items:center; gap:6px; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600; color:var(--accent-glow); background:var(--accent-soft); border:1px solid rgba(124,91,245,0.3); padding:8px 16px; border-radius:8px; cursor:pointer; transition:all .2s; text-transform:uppercase; letter-spacing:1px; }
+  .btn-copy:hover { background:rgba(124,91,245,0.2); border-color:var(--accent); }
+  .btn-copy.copied { color:var(--green); background:var(--green-soft); border-color:rgba(52,211,153,0.3); }
+
+  /* ─── CODE BLOCK ─── */
+  .code-block { background:rgba(0,0,0,0.4); border:1px solid var(--border-accent); border-radius:10px; padding:16px 20px; margin:12px 16px; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--green-glow); line-height:1.8; white-space:pre-wrap; word-break:break-all; overflow-x:auto; }
+  .code-block__label { font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:8px; display:block; }
+  .code-block .btn-copy { margin-top:12px; }
+
+  /* ─── CMD COPY ─── */
+  .cmd-copy { background:rgba(0,0,0,0.35); border:1px solid var(--border-accent); border-radius:8px; padding:10px 14px; margin:8px 0; display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  .cmd-copy__text { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--green-glow); line-height:1.6; word-break:break-all; flex:1; white-space:pre-wrap; }
+  .cmd-copy .btn-copy { flex-shrink:0; padding:5px 12px; font-size:10px; }
+
+  /* ─── SPOILER ─── */
+  .spoiler { border-bottom:1px solid var(--border); }
+  .spoiler:last-child { border-bottom:none; }
+  .spoiler summary { padding:14px 20px; font-size:13.5px; font-weight:600; color:var(--text-secondary); cursor:pointer; list-style:none; display:flex; align-items:center; gap:8px; transition:color .2s; }
+  .spoiler summary:hover { color:var(--text-primary); }
+  .spoiler summary::before { content:'▸'; font-size:12px; transition:transform .2s; }
+  .spoiler[open] summary::before { transform:rotate(90deg); }
+  .spoiler__content { padding:0 20px 16px 34px; font-size:13px; color:var(--text-secondary); line-height:1.7; }
+  .spoiler__content p { margin-bottom:8px; }
+  .spoiler__content strong { color:var(--text-primary); font-weight:600; }
+
+  /* ─── SECTION DIVIDER ─── */
+  .section-divider { text-align:center; margin:48px 0 32px; padding:0 20px; }
+  .section-divider__line { height:1px; background:linear-gradient(90deg,transparent,var(--accent),transparent); margin-bottom:20px; }
+  .section-divider__title { font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; color:var(--accent-glow); text-transform:uppercase; letter-spacing:3px; }
+
+  /* ─── FOOTER ─── */
+  .footer { text-align:center; margin-top:48px; }
+  .footer__done { display:none; background:var(--green-soft); border:1px solid rgba(52,211,153,0.25); border-radius:var(--radius); padding:32px 24px; margin-bottom:24px; }
+  .footer__done.visible { display:block; animation:popIn .5s cubic-bezier(.34,1.56,.64,1) both; }
+  .footer__done-emoji { font-size:48px; margin-bottom:10px; }
+  .footer__done-text { font-size:22px; font-weight:800; color:var(--green); margin-bottom:6px; }
+  .footer__done-sub { font-size:15px; color:var(--text-secondary); }
+  .footer__schedule { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:20px 24px; margin-bottom:20px; font-size:14px; }
+  .footer__schedule-title { font-weight:700; margin-bottom:8px; font-size:15px; }
+  .footer__schedule-row { display:flex; justify-content:space-between; padding:4px 0; color:var(--text-secondary); }
+  .footer__schedule-row span:first-child { color:var(--text-primary); font-weight:500; }
+  .footer__contact { font-size:14px; color:var(--text-secondary); margin-bottom:20px; }
+  .footer__contact a { color:#2dd4bf; text-decoration:underline; text-decoration-color:rgba(45,212,191,0.4); font-weight:700; }
+  .btn-reset { background:none; border:1px solid var(--border); color:var(--text-muted); font-family:'JetBrains Mono',monospace; font-size:12px; padding:8px 20px; border-radius:100px; cursor:pointer; transition:all .2s; }
+  .btn-reset:hover { border-color:var(--red); color:var(--red); }
+  .tg { color:#2dd4bf !important; font-weight:700; text-decoration:underline; text-decoration-color:rgba(45,212,191,0.4); }
+  #confetti-canvas { position:fixed; inset:0; z-index:9999; pointer-events:none; }
+  @keyframes fadeDown { from{opacity:0;transform:translateY(-12px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes popIn { from{opacity:0;transform:scale(0.8)} to{opacity:1;transform:scale(1)} }
+
+  @media (max-width:480px) {
+    .wrapper { padding:28px 14px 60px; }
+    .item,.note,.term,.info-block,.res-block { padding:12px 16px; }
+    .cmd-copy { padding:8px 12px; flex-direction:column; align-items:flex-start; }
+    .progress-wrap { padding:16px 18px; top:8px; }
+    .footer__schedule-row { flex-direction:column; gap:2px; }
+    .data-table th,.data-table td { padding:8px 14px; }
+    .arch-box { margin:10px 14px; font-size:11px; padding:14px 16px; }
+    .prompt-block { margin:10px 12px; }
+    .code-block { margin:10px 12px; font-size:11px; }
+    .header__title { font-size:22px; }
+  }
+</style>
+</head>
+<body>
+<canvas id="confetti-canvas"></canvas>
+<div class="wrapper">
+<!-- ═══ HEADER ═══ -->
+<header class="header">
+  <div class="header__badge">ИИ-ВИЗАЦИЯ: OPENCLAW · Урок 7</div>
+  <h1 class="header__title">AI-офис и его <span>визуализация</span></h1>
+  <ul class="header__topics">
+    <li>Показываю свой готовый AI-офис через веб-панель OpenClaw</li>
+    <li>Управление агентами и суб-агентами из Control UI</li>
+    <li>Зачем офису визуализация и что такое Gather</li>
+    <li>Пишем мост OpenClaw ↔ Gather (вайб-кодинг)</li>
+    <li>Результат: даёшь агенту задачу — аватар оживает в пиксельном офисе</li>
+    <li>Безопасность: ключи, токен, доступ только на чтение</li>
+  </ul>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-top">
+    <span class="progress-label">Прогресс</span>
+    <span class="progress-count" id="progressCount">0 / 0</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<!-- ═══ 00 — ПРЕДВАРИТЕЛЬНЫЕ ТРЕБОВАНИЯ ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">00</div>
+    <div class="section__title">Предварительные требования</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">📋</span>
+      <span>Урок финальный и демонстрационный: офис заново <strong>не собираем</strong> — он у вас уже собран за уроки 1–6. В этом уроке мы его <strong>визуализируем</strong>. Проверьте, что всё ниже готово.</span>
+    </div>
+
+    <div class="info-block"><p><strong>Из предыдущих уроков:</strong></p></div>
+    <div class="item" data-key="p7-openclaw">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">OpenClaw развёрнут на VPS, агент отвечает в Telegram (урок 3)</div>
+        <div class="item__hint">Основа всего — без рабочего OpenClaw визуализировать нечего.</div>
+      </div>
+    </div>
+    <div class="item" data-key="p7-office">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Собран AI-офис: главный агент + суб-агенты под роли (урок 6)</div>
+        <div class="item__hint">Именно этих агентов мы и будем показывать в пиксельном офисе.</div>
+      </div>
+    </div>
+    <div class="item" data-key="p7-ui">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Веб-панель OpenClaw (Control UI) открывается</div>
+        <div class="item__hint">Команда <span class="mono">openclaw dashboard</span> открывает панель в браузере (это база из урока 3).</div>
+      </div>
+    </div>
+    <div class="item" data-key="p7-cc">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Claude Code в VS Code + Remote-SSH к серверу, «Режим бога» (урок 3)</div>
+        <div class="item__hint">Мост будем писать вайб-кодингом прямо на сервере.</div>
+      </div>
+    </div>
+    <div class="item" data-key="p7-node">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Node.js установлен на сервере</div>
+        <div class="item__hint">Ставили в уроке 5 под n8n. На нём запустим скрипт-мост. Если нет — попросите Claude Code «установи Node.js».</div>
+      </div>
+    </div>
+
+    <div class="info-block"><p><strong>Что понадобится нового в этом уроке:</strong></p></div>
+    <div class="item" data-key="p7-gather-acc">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Бесплатный аккаунт Gather</div>
+        <div class="item__hint">Регистрация на <a href="https://www.gather.town" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> gather.town</a>.</div>
+      </div>
+    </div>
+    <div class="item" data-key="p7-gather-space">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Пространство-офис в Gather</div>
+        <div class="item__hint">Можно создать из готового шаблона офиса — расставим столы под роли агентов.</div>
+      </div>
+    </div>
+    <div class="item" data-key="p7-gw-token">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Операторский токен доступа к gateway OpenClaw</div>
+        <div class="item__hint">Нужен мосту, чтобы читать статусы агентов. Достаточно доступа <strong>только на чтение</strong> (scope <span class="mono">operator.read</span>).</div>
+      </div>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">🎬</span>
+      <span>Этот урок — демонстрация: сначала я показываю свой офис, потом мы вместе пишем мост к Gather. Повторяйте за мной по шагам.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 01 — НОВЫЕ ТЕРМИНЫ ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">01</div>
+    <div class="section__title">Новые термины урока</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">📖</span>
+      <span>Теоретический блок — смотрим вместе с видео. Ключевые понятия урока 7.</span>
+    </div>
+
+    <div class="term">
+      <div class="term__name">Control UI (веб-панель OpenClaw)</div>
+      <div class="term__def">Встроенная веб-панель управления агентами — открывается командой <span class="mono">openclaw dashboard</span>. Чат с агентами плюс управление агентами, скиллами и каналами.</div>
+      <div class="term__example">📌 Это «пульт» вашего офиса из урока 3. С него и начнём.</div>
+    </div>
+
+    <div class="term">
+      <div class="term__name">Gather</div>
+      <div class="term__def">Сервис 2D-пиксельного виртуального офиса с аватарами (как в игре). Мы используем его, чтобы наглядно «поселить» туда своих агентов.</div>
+      <div class="term__example">📌 <span class="mono">gather.town</span>. Каждый агент станет персонажем за столом.</div>
+    </div>
+
+    <div class="term">
+      <div class="term__name">Мост (bridge)</div>
+      <div class="term__def">Небольшой Node-скрипт, который связывает два мира: читает статусы агентов у OpenClaw и отражает их на аватарах в Gather. У OpenClaw нет аватаров, у Gather нет ИИ — мост соединяет их.</div>
+      <div class="term__example">📌 Именно его мы напишем вайб-кодингом в секции 04.</div>
+    </div>
+
+    <div class="term">
+      <div class="term__name">Gateway</div>
+      <div class="term__def">«Сервер» OpenClaw, к которому подключаются и веб-панель, и наш мост. Доступ — по токену с нужными правами.</div>
+      <div class="term__example">📌 Локально живёт на <span class="mono">ws://127.0.0.1:18789</span>. Наружу не выставляем.</div>
+    </div>
+
+    <div class="term">
+      <div class="term__name">gather-game-client</div>
+      <div class="term__def">Официальный SDK Gather (WebSocket), которым программно «водят» аватаров: сажают за стол, показывают статус-пузыри, двигают.</div>
+      <div class="term__example">📌 npm-пакет <span class="mono">@gathertown/gather-game-client</span>. Его поставит и использует наш мост.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 02 — МОЙ AI-ОФИС ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">02</div>
+    <div class="section__title">Мой AI-офис через веб-панель OpenClaw</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🖥️</span>
+      <span>Показываю вживую свой офис: какие агенты и суб-агенты у меня собраны за уроки 1–6 и как я ими управляю прямо из Control UI.</span>
+    </div>
+    <div class="item" data-key="o-open-ui">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Открыть свою веб-панель OpenClaw</div>
+        <div class="item__hint"><span class="mono">openclaw dashboard</span> → откроется Control UI в браузере (по умолчанию <span class="mono">http://127.0.0.1:18789</span>).</div>
+      </div>
+    </div>
+    <div class="item" data-key="o-review">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Посмотреть на свой офис: список агентов и их роли</div>
+        <div class="item__hint">Кто главный агент-оркестратор, какие есть суб-агенты, что каждый делает. Это отправная точка для визуализации.</div>
+      </div>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">💡</span>
+      <span>Control UI — это уже полноценный «пульт» управления офисом. Дальше делаем то, чего в нём нет: <strong>наглядную визуальную карту</strong> офиса.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 03 — ЗАЧЕМ ВИЗУАЛИЗАЦИЯ + GATHER ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">03</div>
+    <div class="section__title">Зачем визуализация и как устроен мост</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">
+      <p><strong>Проблема:</strong> когда агентов становится много, держать в голове «кто чем сейчас занят» невозможно.</p>
+      <p><strong>Решение:</strong> наглядная карта офиса, где каждый агент — персонаж, а его статус видно в реальном времени.</p>
+    </div>
+
+    <div class="arch-box">Вы ──▶ Telegram ──▶ OpenClaw (агенты, суб-агенты)
+                          │
+                          │  Gateway WebSocket
+                          │  события: кто сейчас работает
+                          ▼
+                   ┌──────────────┐
+                   │     МОСТ      │   Node-скрипт (office-bridge)
+                   └──────┬───────┘
+                          │  gather-game-client (WebSocket)
+                          ▼
+             Gather — пиксельный офис: аватары + статусы</div>
+
+    <div class="info-block">
+      <p><strong>Что делает что:</strong></p>
+      <p>— <strong>OpenClaw</strong> — мозги и агенты (уже собраны).<br>— <strong>Мост</strong> — читает у gateway, кто из агентов сейчас работает / зовёт инструмент / закончил.<br>— <strong>Gather</strong> — рисует это на аватарах: статус-пузырь над «столом» агента.</p>
+    </div>
+
+    <div class="note note--info">
+      <span class="note__icon">🎯</span>
+      <span>Важно: нативной интеграции OpenClaw ↔ Gather нет — мост мы пишем сами. Это несложно и полностью в духе курса.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 04 — ПОДГОТОВКА GATHER ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">04</div>
+    <div class="section__title">Подготовка Gather</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🏢</span>
+      <span>Готовим пространство-офис и достаём три вещи, которые понадобятся мосту: API-ключ, ID пространства и ID карты.</span>
+    </div>
+    <div class="item" data-key="g-create-space">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Создать пространство-офис в Gather</div>
+        <div class="item__hint">Из готового шаблона офиса. Расставьте «столы» (объекты) под ваши роли агентов.</div>
+      </div>
+    </div>
+    <div class="item" data-key="g-apikey">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Получить API-ключ</div>
+        <div class="item__hint">На странице <a href="https://gather.town/apiKeys" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> gather.town/apiKeys</a>. Сохраните в менеджер паролей.</div>
+      </div>
+    </div>
+    <div class="item" data-key="g-spaceid">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Взять SPACE_ID из URL пространства</div>
+        <div class="item__hint">Формат вида <span class="mono">5jnhRfDYRIUyDmbF/my-space</span>. В коде слэш меняется на бэкслеш.</div>
+      </div>
+    </div>
+    <div class="item" data-key="g-mapid">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Взять MAP_ID</div>
+        <div class="item__hint">Из панели <strong>Rooms</strong> в редакторе карт (Mapmaker).</div>
+      </div>
+    </div>
+    <div class="item" data-key="g-desks">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Записать, за каким столом сидит какой агент</div>
+        <div class="item__hint">Понадобится для маппинга «агент → персонаж на карте» в мосте.</div>
+      </div>
+    </div>
+
+    <div class="note note--info">
+      <span class="note__icon">🔎</span>
+      <span>Официальные доки для справки: <a href="https://support.gather.town/hc/en-us/articles/15910440433684-Gather-API" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Gather API</a>.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 05 — ПИШЕМ МОСТ ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">05</div>
+    <div class="section__title">Пишем мост OpenClaw ↔ Gather</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🚀</span>
+      <span>Всю работу делает Claude Code. Открываем VS Code с подключением к серверу и собираем мост одним промптом, дальше правим по ходу.</span>
+    </div>
+    <div class="item" data-key="b-open-vscode">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Открыть VS Code с подключением к серверу (как в уроке 3)</div>
+        <div class="item__hint">Remote-SSH к VPS, «Режим бога» в Claude Code включён.</div>
+      </div>
+    </div>
+    <div class="item" data-key="b-prompt">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Отправить Claude Code промпт ниже</div>
+        <div class="item__hint">Замените плейсхолдеры в <span class="mono">.env</span> на свои значения перед запуском. Ключи и токен — только в <span class="mono">.env</span>, не в коде.</div>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: собрать мост office-bridge</div>
+      <div class="prompt-block__text" id="promptBridge">Собери Node-сервис office-bridge, который связывает мой OpenClaw с пиксельным офисом Gather:
+
+1. Подключись к моему OpenClaw gateway по ws://127.0.0.1:18789 с операторским
+   токеном (scope operator.read). Токен возьми из .env (GATEWAY_TOKEN).
+   Вызови метод agents.list, затем подпишись через sessions.subscribe
+   и sessions.messages.subscribe.
+
+2. Подключись к Gather через пакет @gathertown/gather-game-client
+   (класс Game + connect). Не забудь global.WebSocket = require("isomorphic-ws").
+   GATHER_API_KEY, GATHER_SPACE_ID и GATHER_MAP_ID возьми из .env.
+
+3. Маппинг "agentId -> объект-персонаж на карте Gather" возьми из config.json.
+
+4. На события session.operation / session.tool / sessions.changed меняй
+   статус-пузырь над объектом соответствующего агента через
+   engine.sendAction({ $case: "mapSetObjects", ... }):
+   - идёт прогон -> "работает"
+   - вызов инструмента -> "ищет в вебе" / "пишет" / по имени инструмента
+   - закончил -> "готово"
+   - ждёт подтверждения -> "ждёт подтверждения"
+
+5. Все секреты только в .env, не хардкодь. Мосту нужен доступ только на чтение.
+
+В конце выведи: путь к созданным файлам и команду запуска.</div>
+      <button class="btn-copy" onclick="copyBlock('promptBridge', this)">📋 Скопировать промпт</button>
+    </div>
+    <div class="item" data-key="b-config">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Заполнить config.json: агент → персонаж на карте</div>
+        <div class="item__hint">Сопоставьте id каждого агента с объектом-столом в Gather (из секции 04).</div>
+      </div>
+    </div>
+    <div class="item" data-key="b-env">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Заполнить .env: токен gateway + ключ и ID Gather</div>
+        <div class="item__hint">GATEWAY_TOKEN, GATHER_API_KEY, GATHER_SPACE_ID, GATHER_MAP_ID.</div>
+      </div>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">💡</span>
+      <span>Начинаем с простого варианта — <strong>статус-пузыри над столами</strong>. Живые «ходячие» аватары можно добавить позже — логика та же.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 06 — ЗАПУСК И РЕЗУЛЬТАТ ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">06</div>
+    <div class="section__title">Запуск и результат</div>
+  </div>
+  <div class="section__card">
+    <div class="item" data-key="r-start">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Запустить мост на сервере</div>
+        <div class="item__hint">Командой, которую вывел Claude Code (например <span class="mono">node office-bridge.js</span> или через pm2, чтобы работал в фоне).</div>
+      </div>
+    </div>
+    <div class="item" data-key="r-open-gather">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Открыть своё пространство Gather в браузере</div>
+        <div class="item__hint">Увидите офис с персонажами-агентами.</div>
+      </div>
+    </div>
+    <div class="item" data-key="r-task">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Дать агенту задачу в Telegram</div>
+        <div class="item__hint">Например: «сделай короткий ресёрч по теме X».</div>
+      </div>
+    </div>
+    <div class="item" data-key="r-see">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить: аватар агента меняет статус в реальном времени</div>
+        <div class="item__hint">Над его «столом» появляется пузырь «работает» / «ищет в вебе» / «готово».</div>
+      </div>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">🎉</span>
+      <span>Если статус агента отражается в пиксельном офисе — <strong>мост работает</strong>. У вас теперь живая визуальная карта AI-офиса.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 07 — БЕЗОПАСНОСТЬ ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">07</div>
+    <div class="section__title">Безопасность</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--alert">
+      <span class="note__icon">🚨</span>
+      <span>API-ключ Gather и токен gateway = доступ к вашей системе. Обращайтесь с ними как с паролями.</span>
+    </div>
+    <div class="item" data-key="s-secrets">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Ключи и токен — только в .env, никогда не в коде и не на экране</div>
+        <div class="item__hint">Не коммитьте <span class="mono">.env</span> в git и не показывайте на записи/стриме.</div>
+      </div>
+    </div>
+    <div class="item" data-key="s-readonly">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Мосту дать доступ только на чтение</div>
+        <div class="item__hint">Для статус-пузырей достаточно <span class="mono">operator.read</span> — прав записи не давайте.</div>
+      </div>
+    </div>
+    <div class="item" data-key="s-gateway">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Gateway не выставлять в интернет</div>
+        <div class="item__hint">Мост держите на том же сервере; наружу смотрит только сам Gather.</div>
+      </div>
+    </div>
+
+    <div class="note note--info">
+      <span class="note__icon">🤝</span>
+      <span>Застряли на любом шаге — пишите <a href="https://t.me/stavzzz" target="_blank" class="lnk" onclick="event.stopPropagation()">@stavzzz</a>.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<div class="footer">
+  <div class="footer__done" id="doneBlock">
+    <div class="footer__done-emoji">🏢</div>
+    <div class="footer__done-text">AI-офис ожил!</div>
+    <div class="footer__done-sub">OpenClaw + Gather в связке. Поздравляю с финалом интенсива!</div>
+  </div>
+  <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
+  <button class="btn-reset" onclick="resetProgress()">Сбросить прогресс</button>
+</div>
+
+</div><!-- /wrapper -->
+
+<script>
+const C=document.getElementById('confetti-canvas'),ctx=C.getContext('2d');
+let particles=[],confettiActive=false;
+function resizeCanvas(){C.width=window.innerWidth;C.height=window.innerHeight;}
+window.addEventListener('resize',resizeCanvas);resizeCanvas();
+const COLORS=['#7c5bf5','#9d7cff','#34d399','#6ee7b7','#fbbf24','#f87171','#fb7185','#38bdf8','#facc15','#a78bfa','#f472b6','#4ade80'];
+function rand(a,b){return Math.random()*(b-a)+a;}
+function createBurst(x,y,count){for(let i=0;i<count;i++){const angle=rand(0,Math.PI*2),speed=rand(4,14),size=rand(4,10);particles.push({x,y,vx:Math.cos(angle)*speed+rand(-2,2),vy:Math.sin(angle)*speed*-0.8-rand(2,6),size,color:COLORS[Math.floor(Math.random()*COLORS.length)],rotation:rand(0,Math.PI*2),rotSpeed:rand(-0.2,0.2),gravity:rand(0.12,0.25),friction:rand(0.97,0.995),opacity:1,fadeSpeed:rand(0.005,0.015),shape:Math.random()>0.4?'rect':'circle'});}}
+function launchConfetti(){if(confettiActive)return;confettiActive=true;particles=[];const W=C.width,H=C.height;[[W*.5,H*.3,120],[W*.15,H*.2,80],[W*.85,H*.2,80],[W*.5,H*.1,100],[W*.3,H*.5,60],[W*.7,H*.5,60],[0,H*.6,50],[W,H*.6,50],[W*.5,H*.6,80]].forEach(([x,y,c],i)=>{setTimeout(()=>createBurst(x,y,c),i*150)});setTimeout(()=>{createBurst(W*.2,H*.15,90);createBurst(W*.8,H*.15,90);createBurst(W*.5,H*.05,100)},1500);setTimeout(()=>{createBurst(W*.5,H*.25,120);createBurst(W*.1,H*.4,60);createBurst(W*.9,H*.4,60)},2500);animate();setTimeout(()=>{confettiActive=false},8000);}
+function animate(){ctx.clearRect(0,0,C.width,C.height);for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.vx*=p.friction;p.vy*=p.friction;p.vy+=p.gravity;p.x+=p.vx;p.y+=p.vy;p.rotation+=p.rotSpeed;p.opacity-=p.fadeSpeed;if(p.opacity<=0){particles.splice(i,1);continue}ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rotation);ctx.globalAlpha=p.opacity;ctx.fillStyle=p.color;if(p.shape==='rect'){ctx.fillRect(-p.size/2,-p.size/4,p.size,p.size/2)}else{ctx.beginPath();ctx.arc(0,0,p.size/2,0,Math.PI*2);ctx.fill()}ctx.restore();}if(particles.length>0||confettiActive){requestAnimationFrame(animate)}else{ctx.clearRect(0,0,C.width,C.height);}}
+const STORAGE_KEY='iivizaciya_checklist_urok7_v1';
+const items=document.querySelectorAll('.item[data-key]');
+const totalCount=items.length;
+let wasComplete=false;
+function loadState(){try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');let c=0;items.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');if(s[item.dataset.key]){cb.checked=true;item.classList.add('checked');c++}});wasComplete=c===totalCount}catch(e){}updateProgress(false);}
+function saveState(){const s={};items.forEach(item=>{s[item.dataset.key]=item.querySelector('input[type="checkbox"]').checked});try{localStorage.setItem(STORAGE_KEY,JSON.stringify(s))}catch(e){}}
+function updateProgress(canCelebrate=true){let c=0;items.forEach(item=>{if(item.querySelector('input[type="checkbox"]').checked)c++});document.getElementById('progressCount').textContent=`${c} / ${totalCount}`;document.getElementById('progressFill').style.width=(totalCount>0?(c/totalCount)*100:0)+'%';const done=document.getElementById('doneBlock');if(c===totalCount){done.classList.add('visible');if(canCelebrate&&!wasComplete){launchConfetti()}wasComplete=true}else{done.classList.remove('visible');wasComplete=false;}}
+items.forEach(item=>{
+  const cb=item.querySelector('input[type="checkbox"]');
+  cb.addEventListener('change',function(){item.classList.toggle('checked',this.checked);saveState();updateProgress(true);});
+});
+function resetProgress(){if(!confirm('Сбросить весь прогресс?'))return;items.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasComplete=false;saveState();updateProgress(false);}
+loadState();
+
+function copyBlock(id, btn){
+  const text=document.getElementById(id).textContent;
+  navigator.clipboard.writeText(text).then(()=>{
+    const orig=btn.innerHTML;
+    btn.classList.add('copied');
+    btn.innerHTML='✅ Скопировано!';
+    setTimeout(()=>{btn.classList.remove('copied');btn.innerHTML=orig;},2000);
+  });
+}
+</script>
+</body>
+</html>
