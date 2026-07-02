@@ -162,6 +162,11 @@
   }
   .support-link:hover { color: #bba4ff !important; text-decoration: underline; }
 
+  .footer__final-part3 { background:linear-gradient(135deg,rgba(251,191,36,0.08),rgba(219,39,119,0.08)); border:1px solid rgba(251,191,36,0.25); border-radius:var(--radius); padding:34px 24px; margin-bottom:24px; text-align:center; position:relative; overflow:hidden; }
+  .footer__final-part3::before { content:''; position:absolute; inset:0; background:radial-gradient(circle at 20% 0%, rgba(251,191,36,0.12), transparent 50%), radial-gradient(circle at 80% 100%, rgba(219,39,119,0.12), transparent 50%); pointer-events:none; }
+  .footer__final-emoji { font-size:54px; margin-bottom:12px; line-height:1; position:relative; }
+  .footer__final-text { font-size:24px; font-weight:800; background:linear-gradient(90deg,#fbbf24,#db2777); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:10px; letter-spacing:-0.4px; position:relative; }
+  .footer__final-sub { font-size:15px; color:var(--text-secondary); line-height:1.6; max-width:560px; margin:0 auto; position:relative; }
 </style>
 </head>
 <body>
@@ -712,6 +717,15 @@
       <div class="footer__done-emoji">🎉</div>
       <div class="footer__done-text">Всё готово! Вы — огонь!</div>
       <div class="footer__done-sub">Полная готовность к обучению. Увидимся на онлайн-встрече!</div>
+    </div>
+    <div class="note note--green">
+      <span class="note__icon">💡</span>
+      <span><strong>На будущее:</strong><br>• Для хранения паролей подойдёт Google Password Manager, встроенный в Google Chrome. Если ваш Google-аккаунт защищён двухфакторной аутентификацией, это надёжный и бесплатный вариант.<br>• Складывайте туда каждый новый доступ сразу, дальше их будет много.<br>• Держите на карте небольшой запас и включите автопродление, чтобы подписки не отключились в середине потока.<br>• Раз в пару недель проверяйте, что VPN и карта живы, от этого зависит вся дальнейшая работа.</span>
+    </div>
+    <div class="footer__final-part3">
+      <div class="footer__final-emoji">🧰</div>
+      <div class="footer__final-text">Урок 1 пройден!</div>
+      <div class="footer__final-sub">Своя рабочая среда готова: сервер и VPN подняты, оформлены зарубежная виртуальная карта и номер, почта под защитой 2FA, оплачены подписки Claude, а также ChatGPT или MiniMax. Теперь вы можете платить за любые AI-сервисы и пользоваться ими из любой точки.</div>
     </div>
     <div class="footer__contact">Возникли проблемы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
     <button class="btn-reset" onclick="resetProgress()">Сбросить прогресс</button>
