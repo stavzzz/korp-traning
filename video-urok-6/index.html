@@ -2445,6 +2445,15 @@ EOF</span><button class="btn-copy" onclick="copyBlock('cmdCreateSystemd',this)">
         <div class="footer__done-text">Мобильный инженер в кармане</div>
         <div class="footer__done-sub">Claude Code установлен на сервере под non-root юзером, авторизован в claude.ai через OAuth, подключён к OpenClaw через MCP, имеет полный доступ к файлам агента через права на /root/.openclaw/. Telegram-бот закрыт allowlist-ом, систему запускает systemd. Всё это в твоём кармане 24/7.</div>
       </div>
+      <div class="note note--green">
+        <span class="note__icon">💡</span>
+        <span><strong>На будущее:</strong><br>• Перед рискованными изменениями на сервере делайте бэкап рабочего состояния, ведь в режиме бога полный доступ означает и полную ответственность.<br>• Если агент начал выдумывать команды, подключите документацию через скилл, дальше он будет опираться на неё.</span>
+      </div>
+      <div class="footer__final-part3">
+        <div class="footer__final-emoji">⚡</div>
+        <div class="footer__final-text">Часть 1 завершена</div>
+        <div class="footer__final-sub">Claude Code прокачан до режима бога: знание (документация под рукой), руки (доступ к серверу) и глаза с ушами. Вайб-кодинг через Claude Code на сервере вам доступен.</div>
+      </div>
       <div class="footer__schedule">
         <div class="footer__schedule-title">Следующая глава</div>
         <div class="footer__schedule-row"><span>Часть 2 · Глава 01</span><span>Obsidian-vault + GitHub-синхронизация</span></div>
@@ -3834,6 +3843,15 @@ sudo openclaw status --deep
         <div class="footer__done-emoji">🎯</div>
         <div class="footer__done-text">«Второй мозг» подключён ко всем агентам</div>
         <div class="footer__done-sub">Claude Code-бот читает и обновляет vault. OpenClaw-агент использует скиллы obsidian-search и obsidian-write. Все правки автоматически синхронизируются с GitHub и приходят в Obsidian на компьютер. Часть 2 завершена.</div>
+      </div>
+      <div class="note note--green">
+        <span class="note__icon">💡</span>
+        <span><strong>На будущее:</strong><br>• Наполняйте второй мозг понемногу, но регулярно, ценность растёт от количества выверенного контекста.<br>• Проверьте, что Git-синхронизация реально отрабатывает, иначе заметки останутся только на одной машине.</span>
+      </div>
+      <div class="footer__final-part3">
+        <div class="footer__final-emoji">🧠</div>
+        <div class="footer__final-text">Часть 2 завершена</div>
+        <div class="footer__final-sub">Поднят второй мозг на Obsidian: структура raw, wiki, daily, outputs и синхронизация через Git. Агенты опираются на вашу базу знаний и держат контекст между сессиями.</div>
       </div>
       <div class="footer__schedule">
         <div class="footer__schedule-title">Следующая часть</div>
@@ -8696,10 +8714,14 @@ export const after_tool_call = async (ctx) =&gt; {
         <div class="footer__done-sub">Cron присылает утренний брифинг и пятничное ретро на Opus, heartbeat каждые 2 часа делает обходы sub-агентов на дешёвой Haiku с anti-duplicate, концепт Hook'а понят и готов к реализации. Матрица «когда что выбирать» в голове. AI-офис теперь работает сам.</div>
       </div>
 
+      <div class="note note--green">
+        <span class="note__icon">💡</span>
+        <span><strong>На будущее:</strong><br>• Начните с одного-двух правил проактивности, потом добавляйте, иначе агент станет навязчивым.<br>• Характер в SOUL описывайте живым языком, а не списком функций, именно от этого зависит, каким получится агент.</span>
+      </div>
       <div class="footer__final-part3">
         <div class="footer__final-emoji">🎉</div>
         <div class="footer__final-text">Часть 3 завершена!</div>
-        <div class="footer__final-sub">Ваш AI-директор полностью готов: с душой, памятью, инструментами и проактивным расписанием. Дальше — закрываем периметр безопасности.</div>
+        <div class="footer__final-sub">AI-директор готов. Настроены характер (SOUL), память и проактивность (heartbeats), подключены нужные инструменты.</div>
       </div>
 
       <div class="footer__schedule">
@@ -11164,10 +11186,14 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
         <div class="footer__done-sub">Identity, Scope и Model выстроены по принципу OpenClaw. Все техники из модели угроз ATLAS закрыты конкретными настройками, защита проверена red-team, AUDIT.md сведён. Обманутая модель теперь упирается в границы, а не проходит сквозь них.</div>
       </div>
 
+      <div class="note note--green">
+        <span class="note__icon">💡</span>
+        <span><strong>На будущее:</strong><br>• Повторяйте аудит безопасности после каждого крупного изменения, а не один раз в самом начале.<br>• Любые ключи и пароли держите в защищённом месте, не в коде, не в чате и не на экране во время записи.</span>
+      </div>
       <div class="footer__final-part3">
         <div class="footer__final-emoji">🎓</div>
         <div class="footer__final-text">Часть 4 завершена · Урок 6 пройден</div>
-        <div class="footer__final-sub">Ты собрал AI-директора с офисом sub-агентов, прокачал Claude Code, поднял «второй мозг» — и закрыл весь периметр безопасности: от аудита до укрепления сервера и защиты агента. Это полноценная боевая AI-инфраструктура.</div>
+        <div class="footer__final-sub">Периметр безопасности закрыт: сервер укреплён, агент защищён, каналы утечки перекрыты, всё проверено красной командой. Вы собрали AI-директора с офисом суб-агентов, прокачали Claude Code, подняли второй мозг и закрыли весь периметр безопасности. Это полноценная боевая AI-инфраструктура.</div>
       </div>
       <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
       <button class="btn-reset" onclick="resetProgressP4Ch03()">Сбросить прогресс главы 03, части 04</button>
