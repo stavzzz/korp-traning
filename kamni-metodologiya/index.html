@@ -18,12 +18,13 @@
   --gray:#6F6F6F;
   --line:#E3E3E3;
   --display:'DrukCyr','Oswald',sans-serif;
+  --maxw:1200px; /* единая ширина сетки проекта KAMNI × ИИ-ВИЗАЦИЯ */
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;font-weight:400;line-height:1.6;overflow-x:hidden}
 ::selection{background:rgba(33,170,77,.25)}
-.container{max-width:1080px;margin:0 auto;padding:0 24px}
+.container{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 24px}
 section{padding:90px 0;position:relative}
 section.alt{background:var(--bg2)}
 
