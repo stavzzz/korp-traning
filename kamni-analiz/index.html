@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Анализ команды KAMNI · срез готовности к ИИ · ИИ-ВИЗАЦИЯ</title>
+<title>KAMNI · анализ команды и готовности к ИИ · ИИ-ВИЗАЦИЯ</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2321AA4D'/%3E%3Cpath d='M32 12l4.6 11.9L48 28l-11.4 4.1L32 44l-4.6-11.9L16 28l11.4-4.1z' fill='white'/%3E%3Ccircle cx='48' cy='16' r='4' fill='white'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,7 +37,7 @@ section.alt{background:var(--bg2)}
 .badge{font-size:12.5px;font-weight:600;letter-spacing:.04em;padding:8px 16px;border-radius:100px;border:1px solid var(--line);background:var(--bg);color:var(--gray)}
 .badge.green{border-color:var(--accent);color:var(--accent);background:rgba(33,170,77,.06)}
 .eyebrow{font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:18px}
-h1{font-family:var(--display);font-size:clamp(40px,6.4vw,78px);font-weight:700;line-height:1.04;letter-spacing:.01em;text-transform:uppercase;margin-bottom:26px}
+h1{font-family:var(--display);font-size:clamp(40px,6.4vw,78px);font-weight:700;line-height:1.14;letter-spacing:.01em;text-transform:uppercase;margin-bottom:26px}
 h1 .acc{color:var(--accent)}
 .hero-sub{font-size:18px;color:var(--gray);max-width:740px;margin-bottom:48px}
 .hero-sub b{color:var(--ink);font-weight:600}
@@ -47,7 +47,7 @@ h1 .acc{color:var(--accent)}
 .metric .lbl{font-size:12px;color:var(--gray);margin-top:8px}
 
 .sec-num{font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.18em;margin-bottom:14px}
-h2{font-family:var(--display);font-size:clamp(30px,4.4vw,52px);font-weight:700;text-transform:uppercase;letter-spacing:.01em;line-height:1.06;margin-bottom:18px}
+h2{font-family:var(--display);font-size:clamp(30px,4.4vw,52px);font-weight:700;text-transform:uppercase;letter-spacing:.01em;line-height:1.08;margin-bottom:18px}
 .sec-sub{color:var(--gray);font-size:16.5px;max-width:720px;margin-bottom:52px}
 .sec-sub b{color:var(--ink);font-weight:600}
 
@@ -60,9 +60,7 @@ h2{font-family:var(--display);font-size:clamp(30px,4.4vw,52px);font-weight:700;t
 .card h3{font-size:18px;font-weight:700;margin-bottom:10px}
 .card p{color:var(--gray);font-size:14.5px}
 .card p b{color:var(--ink);font-weight:600}
-.card .who{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;font-weight:600;color:var(--accent-dark)}
-section.alt .card{border-color:transparent}
-section.alt .card .who{border-top-color:var(--line)}
+.go{display:block;margin-top:10px;color:var(--accent);font-weight:600}
 
 .lvl{display:inline-flex;align-items:center;gap:8px;font-family:var(--display);font-size:14px;font-weight:700;color:var(--accent-dark);background:rgba(33,170,77,.14);border-radius:100px;padding:6px 15px;letter-spacing:.03em;text-transform:uppercase;margin-bottom:16px}
 .lvl .arw{color:var(--gray)}
@@ -94,12 +92,6 @@ section.alt .stage2{background:var(--bg2)}
 .note{margin-top:16px;padding:14px 18px;border-radius:12px;background:var(--ink);color:#E9E9E9;font-size:14px}
 .note b{color:#fff;font-weight:700}
 
-.cta{display:inline-block;margin-top:8px;padding:20px 54px;border-radius:100px;background:var(--accent);color:#fff;font-weight:700;font-size:17px;text-decoration:none;box-shadow:0 10px 34px rgba(33,170,77,.4);transition:transform .25s,box-shadow .25s,background .25s}
-.cta:hover{transform:translateY(-3px);background:var(--accent-dark);box-shadow:0 16px 44px rgba(33,170,77,.5)}
-.cta.ghost{background:transparent;color:var(--accent-dark);border:1px solid var(--accent);box-shadow:none}
-.cta.ghost:hover{background:rgba(33,170,77,.07);transform:translateY(-3px)}
-.cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:36px}
-
 footer{border-top:1px solid var(--line);padding:44px 0;text-align:center;color:var(--gray);font-size:14px}
 footer .logo{font-family:var(--display);color:var(--accent);letter-spacing:.1em;text-transform:uppercase;font-size:18px;margin-bottom:8px}
 
@@ -116,18 +108,17 @@ footer .logo{font-family:var(--display);color:var(--accent);letter-spacing:.1em;
 <header class="hero">
   <div class="container">
     <div class="badges fade">
-      <span class="badge green">🤖 ИИ-ВИЗАЦИЯ</span>
-      <span class="badge">💎 KAMNI · персонализированная ювелирка</span>
+      <span class="badge green">💎 KAMNI · персонализированная ювелирка</span>
       <span class="badge">Дубай / Киев</span>
     </div>
     <div class="eyebrow fade d1">Анализ команды · срез готовности к&nbsp;ИИ</div>
-    <h1 class="fade d2">Где команда KAMNI<br>сейчас и&nbsp;<span class="acc">куда мы&nbsp;её&nbsp;ведём</span></h1>
-    <p class="hero-sub fade d3">Разложили команду по&nbsp;авторской шкале зрелости <b>0–8</b> на&nbsp;основе анкет и&nbsp;установочной сессии. Это&nbsp;<b>стартовый срез, а&nbsp;не&nbsp;полный аудит</b>: полную карту по&nbsp;всем 12–15&nbsp;людям соберём на&nbsp;первом шаге проекта. Ниже&nbsp;honest-картина по&nbsp;отделам и&nbsp;понятный маршрут роста.</p>
+    <h1 class="fade d2">Команда KAMNI:<br>где сейчас<br><span class="acc">и&nbsp;куда растёт</span></h1>
+    <p class="hero-sub fade d3">Провели анализ команды KAMNI по&nbsp;авторской шкале зрелости <b>0–8</b> на&nbsp;основе анкет и&nbsp;установочной сессии. Это&nbsp;<b>стартовый срез, а&nbsp;не&nbsp;полный аудит</b>: полную карту по&nbsp;всем 12–15&nbsp;сотрудникам соберём на&nbsp;первом шаге проекта. Ниже честная картина по&nbsp;отделам и&nbsp;понятный маршрут роста.</p>
     <div class="metrics fade d4">
-      <div class="metric"><div class="num">12-15</div><div class="lbl">Человек в&nbsp;контуре</div></div>
-      <div class="metric"><div class="num">0-8</div><div class="lbl">Шкала зрелости</div></div>
-      <div class="metric"><div class="num">1-2</div><div class="lbl">Уровень компании сейчас</div></div>
-      <div class="metric"><div class="num">4-5</div><div class="lbl">Цель программы</div></div>
+      <div class="metric"><div class="num">12–15</div><div class="lbl">Человек в&nbsp;контуре</div></div>
+      <div class="metric"><div class="num">0–8</div><div class="lbl">Шкала зрелости</div></div>
+      <div class="metric"><div class="num">1–2</div><div class="lbl">Уровень компании сейчас</div></div>
+      <div class="metric"><div class="num">4–5</div><div class="lbl">Цель программы</div></div>
       <div class="metric"><div class="num">2</div><div class="lbl">Внутренних чемпиона</div></div>
     </div>
   </div>
@@ -135,9 +126,9 @@ footer .logo{font-family:var(--display);color:var(--accent);letter-spacing:.1em;
 
 <section class="alt">
   <div class="container">
-    <div class="sec-num">01 · КАК&nbsp;МЫ&nbsp;МЕРИЛИ</div>
+    <div class="sec-num">01 · КАК&nbsp;ОЦЕНИВАЕМ</div>
     <h2>Шкала зрелости 0–8</h2>
-    <p class="sec-sub">Авторская методология ИИ-ВИЗАЦИЯ. Оцениваем не&nbsp;«знает или&nbsp;нет», а&nbsp;насколько ИИ&nbsp;встроен в&nbsp;работу: от&nbsp;разовых запросов до&nbsp;системы, которая работает сама.</p>
+    <p class="sec-sub">Авторская методология ИИ-ВИЗАЦИЯ. Оцениваем, насколько ИИ&nbsp;встроен в&nbsp;работу компании KAMNI: от&nbsp;разовых запросов до&nbsp;системы, которая работает и&nbsp;улучшается сама.</p>
     <div class="core">
       <div class="core-h">От&nbsp;инструмента к&nbsp;ИИ-офису</div>
       <div class="core-sub">чем выше уровень, тем меньше ручной работы</div>
@@ -155,7 +146,7 @@ footer .logo{font-family:var(--display);color:var(--accent);letter-spacing:.1em;
         <div class="core-card">
           <div class="ttl"><span class="dot"></span>Уровни 5–8: автономия</div>
           <ul>
-            <li data-n="5"><b>сам разворачивает агентов,</b> долгая память</li>
+            <li data-n="5"><b>агенты разворачиваются самими сотрудниками,</b> долгая память</li>
             <li data-n="6">мультиагентная система в&nbsp;едином контексте</li>
             <li data-n="7">предиктивная аналитика, «второе видение»</li>
             <li data-n="8">ИИ&nbsp;вшит в&nbsp;ДНК&nbsp;компании</li>
@@ -170,37 +161,37 @@ footer .logo{font-family:var(--display);color:var(--accent);letter-spacing:.1em;
   <div class="container">
     <div class="sec-num">02 · КАРТА&nbsp;ЗРЕЛОСТИ</div>
     <h2>Команда по&nbsp;отделам</h2>
-    <p class="sec-sub">Картина по&nbsp;направлениям, без&nbsp;привязки к&nbsp;конкретным людям. Главный вывод: команда <b>сильно разноскоростная</b>. Внутри уже есть два&nbsp;продвинутых центра, на&nbsp;которые обопрёмся, и&nbsp;есть кого&nbsp;подтягивать с&nbsp;базы.</p>
+    <p class="sec-sub">Картина по&nbsp;направлениям, без&nbsp;привязки к&nbsp;конкретным людям. Главный вывод: команда KAMNI сильно разноскоростная. Внутри уже есть два&nbsp;продвинутых центра как&nbsp;опора, и&nbsp;есть кого&nbsp;подтягивать с&nbsp;базы.</p>
     <div class="grid grid-3">
       <div class="card">
         <span class="lvl">Уровень 5 <span class="arw">→</span> <span class="tgt">6</span></span>
         <h3>Креатив и&nbsp;бренд</h3>
-        <p><b>Сильная точка.</b> Уже разворачивают агентов сами, настроена долгосрочная память, автономные дайджесты и&nbsp;ресёрч. Растим до&nbsp;оркестрации и&nbsp;работы на&nbsp;общей памяти компании.</p>
+        <p><b>Сильная точка.</b> Агенты уже разворачиваются самостоятельно, настроена долгосрочная память, автономные дайджесты и&nbsp;ресёрч. Следующий шаг: оркестрация и&nbsp;работа на&nbsp;общей памяти компании.</p>
       </div>
       <div class="card">
         <span class="lvl">Уровень 5 <span class="arw">→</span> <span class="tgt">6</span></span>
         <h3>Growth-маркетинг</h3>
-        <p><b>Сильная точка.</b> API-интеграции, автономная отчётность, до&nbsp;70% личных процессов уже на&nbsp;ИИ. Растим до&nbsp;мультиагентной связки и&nbsp;прозрачности процессов на&nbsp;всю&nbsp;компанию.</p>
+        <p><b>Сильная точка.</b> API-интеграции, автономная отчётность, до&nbsp;70% личных процессов уже на&nbsp;ИИ. Следующий шаг: мультиагентная связка и&nbsp;прозрачность процессов на&nbsp;всю&nbsp;компанию.</p>
       </div>
       <div class="card">
-        <span class="lvl">Уровень 3 <span class="arw">→</span> <span class="tgt">4-5</span></span>
+        <span class="lvl">Уровень 3 <span class="arw">→</span> <span class="tgt">4–5</span></span>
         <h3>Операции</h3>
-        <p>Много инструментов, но&nbsp;пока вручную. Есть запрос учиться агентам. Растим до&nbsp;автоматизации документооборота и&nbsp;онбординг-агента.</p>
+        <p>Много инструментов, но&nbsp;пока вручную, есть запрос учиться агентам. Следующий шаг: автоматизация документооборота и&nbsp;онбординг-агент.</p>
       </div>
       <div class="card">
-        <span class="lvl">Уровень 3 <span class="arw">→</span> <span class="tgt">4-5</span></span>
+        <span class="lvl">Уровень 3 <span class="arw">→</span> <span class="tgt">4–5</span></span>
         <h3>Производство</h3>
-        <p>Своими руками собрана локальная мини-база на&nbsp;ИИ по&nbsp;рендерам и&nbsp;заказам. Растим до&nbsp;связки с&nbsp;Valigara и&nbsp;единой базой по&nbsp;камням.</p>
+        <p>Своими руками собрана локальная мини-база на&nbsp;ИИ по&nbsp;рендерам и&nbsp;заказам. Следующий шаг: связка с&nbsp;Valigara и&nbsp;единая база по&nbsp;камням.</p>
       </div>
       <div class="card">
         <span class="lvl">Уровень 2 <span class="arw">→</span> <span class="tgt">4</span></span>
         <h3>Лидерство и&nbsp;бренд-видение</h3>
-        <p><b>Сильное видение и&nbsp;эстетика.</b> ИИ&nbsp;уже в&nbsp;переписке, рендерах и&nbsp;идеях. Растим до&nbsp;единой базы знаний компании и&nbsp;делегирования рутины агентам.</p>
+        <p><b>Сильное видение и&nbsp;эстетика.</b> ИИ&nbsp;уже в&nbsp;переписке, рендерах и&nbsp;идеях. Следующий шаг: единая база знаний компании и&nbsp;делегирование рутины агентам.</p>
       </div>
       <div class="card">
         <span class="lvl">Уровень 1 <span class="arw">→</span> <span class="tgt">3</span></span>
         <h3>Продажи</h3>
-        <p>ИИ&nbsp;пока как&nbsp;разовый инструмент. Растим до&nbsp;уверенной работы с&nbsp;клиентом и&nbsp;онбординг-агента с&nbsp;базой по&nbsp;камням под&nbsp;рукой.</p>
+        <p>ИИ&nbsp;пока как&nbsp;разовый инструмент. Следующий шаг: уверенная работа с&nbsp;клиентом и&nbsp;онбординг-агент с&nbsp;базой по&nbsp;камням под&nbsp;рукой.</p>
       </div>
     </div>
   </div>
@@ -209,13 +200,13 @@ footer .logo{font-family:var(--display);color:var(--accent);letter-spacing:.1em;
 <section class="alt">
   <div class="container">
     <div class="sec-num">03 · СИЛЬНЫЕ&nbsp;СТОРОНЫ</div>
-    <h2>На&nbsp;что опираемся</h2>
-    <p class="sec-sub">Хорошая новость: старт не&nbsp;с&nbsp;нуля. У&nbsp;команды уже есть база, на&nbsp;которой быстро вырастет остальное.</p>
+    <h2>На&nbsp;что опирается программа</h2>
+    <p class="sec-sub">Старт не&nbsp;с&nbsp;нуля. У&nbsp;KAMNI уже есть база, на&nbsp;которой быстро вырастет остальное.</p>
     <div class="grid grid-3">
       <div class="card"><div class="emoji">🚀</div><h3>Два внутренних чемпиона</h3><p>Маркетинг и&nbsp;креатив уже уровня&nbsp;5. Это&nbsp;готовые со-тренеры и&nbsp;кандидаты в&nbsp;оркестраторы системы.</p></div>
-      <div class="card"><div class="emoji">🧩</div><h3>Один основной инструмент</h3><p>Claude&nbsp;уже основной у&nbsp;большинства. Не&nbsp;нужно ломать привычки, строим вокруг него.</p></div>
+      <div class="card"><div class="emoji">🧩</div><h3>Один основной инструмент</h3><p>Claude&nbsp;уже основной у&nbsp;большинства. Привычки ломать не&nbsp;нужно, программа строится вокруг него.</p></div>
       <div class="card"><div class="emoji">🔌</div><h3>Боевой стек с&nbsp;API</h3><p>Shopify, Valigara, Notion, Google&nbsp;Workspace. Есть к&nbsp;чему подключать агентов.</p></div>
-      <div class="card"><div class="emoji">🛠</div><h3>Опыт «руками»</h3><p>На&nbsp;производстве уже собрали свою&nbsp;мини-базу на&nbsp;ИИ. Команда не&nbsp;боится пробовать.</p></div>
+      <div class="card"><div class="emoji">🛠</div><h3>Опыт «руками»</h3><p>На&nbsp;производстве уже собрана своя&nbsp;мини-база на&nbsp;ИИ. Команда KAMNI не&nbsp;боится пробовать.</p></div>
       <div class="card"><div class="emoji">🎯</div><h3>Высокая мотивация</h3><p>Готовность вкладывать время и&nbsp;бюджет, запрос идёт от&nbsp;фаундера. Это&nbsp;половина успеха.</p></div>
       <div class="card"><div class="emoji">💎</div><h3>Понятный продукт</h3><p>Небольшая сильная команда с&nbsp;чётким видением. Такие внедряют быстро.</p></div>
     </div>
@@ -224,23 +215,23 @@ footer .logo{font-family:var(--display);color:var(--accent);letter-spacing:.1em;
 
 <section>
   <div class="container">
-    <div class="sec-num">04 · ЗОНЫ&nbsp;РОСТА</div>
-    <h2>Что&nbsp;закрываем программой</h2>
-    <p class="sec-sub">Это&nbsp;не&nbsp;претензии, а&nbsp;точки роста, которые команда назвала сама. Ровно их&nbsp;и&nbsp;закрывает проект.</p>
+    <div class="sec-num">04 · ТОЧКИ&nbsp;РОСТА</div>
+    <h2>Что&nbsp;закрываем внедрением</h2>
+    <p class="sec-sub">Точки роста команда KAMNI назвала сама. Закрываем&nbsp;их в&nbsp;процессе внедрения. Зелёным&nbsp;— куда приходим по&nbsp;каждой.</p>
     <div class="grid grid-2">
-      <div class="card"><h3>Нет единой памяти</h3><p>Агенты у&nbsp;каждого свои, знания уходят с&nbsp;человеком. <b>Закрываем единым контуром и&nbsp;общей базой знаний.</b></p></div>
-      <div class="card"><h3>Данные разрознены</h3><p>Часть в&nbsp;печати, часть в&nbsp;Excel, часть «в&nbsp;голове». <b>Собираем в&nbsp;структурированную базу на&nbsp;сервере.</b></p></div>
-      <div class="card"><h3>Нет корп-подписок и&nbsp;архитектуры</h3><p>Всё на&nbsp;личных аккаунтах. <b>Ставим корпоративный стек и&nbsp;единый сервер в&nbsp;Дубае.</b></p></div>
-      <div class="card"><h3>Конфиденциальность</h3><p>Камни, клиенты, дизайны требуют закрытого контура. <b>Разграничение прав доступа с&nbsp;первого дня.</b></p></div>
+      <div class="card"><h3>Нет единой памяти</h3><p>Агенты у&nbsp;каждого свои, знания уходят вместе с&nbsp;человеком.<span class="go">Закрываем единым контуром и&nbsp;общей базой знаний</span></p></div>
+      <div class="card"><h3>Данные разрознены</h3><p>Часть в&nbsp;печати, часть в&nbsp;Excel, часть «в&nbsp;голове».<span class="go">Собираем в&nbsp;структурированную базу на&nbsp;сервере</span></p></div>
+      <div class="card"><h3>Нет корп-подписок и&nbsp;архитектуры</h3><p>Всё на&nbsp;личных аккаунтах.<span class="go">Ставим корпоративный стек и&nbsp;единый сервер в&nbsp;Дубае</span></p></div>
+      <div class="card"><h3>Конфиденциальность</h3><p>Камни, клиенты, дизайны требуют закрытого контура.<span class="go">Разграничение прав доступа с&nbsp;первого дня</span></p></div>
     </div>
   </div>
 </section>
 
 <section class="alt">
   <div class="container">
-    <div class="sec-num">05 · ЗАПРОС&nbsp;КОМАНДЫ</div>
-    <h2>Что&nbsp;хотят внедрить</h2>
-    <p class="sec-sub">Эти пункты повторялись у&nbsp;большинства в&nbsp;анкетах и&nbsp;на&nbsp;созвоне. С&nbsp;них и&nbsp;начинаем в&nbsp;программе.</p>
+    <div class="sec-num">05 · ЧТО&nbsp;ВНЕДРЯЕМ</div>
+    <h2>Что&nbsp;внедряем в&nbsp;первую очередь</h2>
+    <p class="sec-sub">Эти пункты повторялись у&nbsp;большинства в&nbsp;анкетах и&nbsp;на&nbsp;созвоне. С&nbsp;них начинается программа.</p>
     <div class="grid grid-3">
       <div class="card"><div class="emoji">📚</div><h3>Википедия по&nbsp;камням</h3><p>Каталог, сертификаты, наличие, дизайны. Быстрый ответ клиенту и&nbsp;команде.</p></div>
       <div class="card"><div class="emoji">🎓</div><h3>Онбординг-агент</h3><p>Обучает и&nbsp;тестирует новичков вместо PDF&nbsp;на&nbsp;70&nbsp;страниц.</p></div>
@@ -254,9 +245,9 @@ footer .logo{font-family:var(--display);color:var(--accent);letter-spacing:.1em;
 
 <section>
   <div class="container">
-    <div class="sec-num">06 · КУДА&nbsp;ВЕДЁМ</div>
-    <h2>Маршрут роста</h2>
-    <p class="sec-sub">Цель программы: поднять компанию к&nbsp;устойчивому уровню 4–5 и&nbsp;заложить архитектуру под&nbsp;6. Разноскоростная модель: чемпионов углубляем, остальных выводим на&nbsp;уверенную работу.</p>
+    <div class="sec-num">06 · МАРШРУТ&nbsp;РОСТА</div>
+    <h2>Куда ведёт программа</h2>
+    <p class="sec-sub">Цель: поднять KAMNI к&nbsp;устойчивому уровню 4–5 и&nbsp;заложить архитектуру под&nbsp;6. Двухскоростная модель: чемпионов углубляем, остальных выводим на&nbsp;уверенную работу.</p>
     <div class="stagebox stage1">
       <div class="lbl">Два трека, одна канва</div>
       <h3>Чемпионы и&nbsp;менеджмент</h3>
@@ -273,11 +264,8 @@ footer .logo{font-family:var(--display);color:var(--accent);letter-spacing:.1em;
     <div class="stagebox stage2">
       <div class="lbl">Результат</div>
       <h3>У&nbsp;каждого свой рабочий агент</h3>
-      <p>К&nbsp;финалу у&nbsp;каждого участника рабочий агент или&nbsp;автоматизация под&nbsp;свои задачи, и&nbsp;общее понимание архитектуры. Дальше дорожная карта 30&nbsp;/&nbsp;60&nbsp;/&nbsp;90 и&nbsp;трек к&nbsp;«второму видению».</p>
-      <div class="note"><b>Дальше.</b> Методология обучения и&nbsp;черновик программы по&nbsp;дням идут отдельными документами. Финальную программу фиксируем совместно после аудита.</div>
-    </div>
-    <div class="cta-row">
-      <a class="cta" href="https://t.me/ii_vizaciya">Обсудить программу →</a>
+      <p>К&nbsp;финалу у&nbsp;каждого участника рабочий агент или&nbsp;автоматизация под&nbsp;свои задачи, плюс общее понимание архитектуры. Дальше дорожная карта 30&nbsp;/&nbsp;60&nbsp;/&nbsp;90 и&nbsp;трек к&nbsp;«второму видению».</p>
+      <div class="note"><b>Дальше.</b> Методология обучения и&nbsp;черновик программы по&nbsp;дням идут отдельными документами. Финальную программу фиксируем совместно с&nbsp;KAMNI после аудита.</div>
     </div>
   </div>
 </section>
