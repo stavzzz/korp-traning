@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KAMNI · методология обучения ИИ · ИИ-ВИЗАЦИЯ</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2321AA4D'/%3E%3Cpath d='M32 12l4.6 11.9L48 28l-11.4 4.1L32 44l-4.6-11.9L16 28l11.4-4.1z' fill='white'/%3E%3Ccircle cx='48' cy='16' r='4' fill='white'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#21AA4D;
+  --accent-dark:#188A3D;
+  --bg:#FFFFFF;
+  --bg2:#F2F2F2;
+  --ink:#303030;
+  --gray:#6F6F6F;
+  --line:#E3E3E3;
+  --display:'DrukCyr','Oswald',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;font-weight:400;line-height:1.6;overflow-x:hidden}
+::selection{background:rgba(33,170,77,.25)}
+.container{max-width:1080px;margin:0 auto;padding:0 24px}
+section{padding:90px 0;position:relative}
+section.alt{background:var(--bg2)}
+
+@keyframes fadeInUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.fade{animation:fadeInUp .8s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.08s}.d2{animation-delay:.16s}.d3{animation-delay:.24s}.d4{animation-delay:.32s}
+
+.hero{min-height:82vh;display:flex;align-items:center;padding:110px 0 80px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;right:-220px;top:-220px;width:640px;height:640px;border-radius:50%;background:radial-gradient(circle,rgba(33,170,77,.12) 0%,transparent 65%);pointer-events:none}
+.badges{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:30px}
+.badge{font-size:12.5px;font-weight:600;letter-spacing:.04em;padding:8px 16px;border-radius:100px;border:1px solid var(--line);background:var(--bg);color:var(--gray)}
+.badge.green{border-color:var(--accent);color:var(--accent);background:rgba(33,170,77,.06)}
+.badge a{color:inherit;text-decoration:none}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:18px}
+h1{font-family:var(--display);font-size:clamp(40px,6.4vw,78px);font-weight:700;line-height:1.28;letter-spacing:.01em;text-transform:uppercase;margin-bottom:26px}
+h1 .acc{color:var(--accent)}
+.hero-sub{font-size:18px;color:var(--gray);max-width:760px;margin-bottom:48px}
+.hero-sub b{color:var(--ink);font-weight:600}
+.metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.metric{background:var(--bg);padding:26px 14px;text-align:center}
+.metric .num{font-family:var(--display);font-size:clamp(22px,2.8vw,34px);font-weight:700;color:var(--accent);text-transform:uppercase;line-height:1.14}
+.metric .lbl{font-size:12px;color:var(--gray);margin-top:8px}
+
+.sec-num{font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.18em;margin-bottom:14px}
+h2{font-family:var(--display);font-size:clamp(30px,4.4vw,52px);font-weight:700;text-transform:uppercase;letter-spacing:.01em;line-height:1.16;margin-bottom:18px}
+.sec-sub{color:var(--gray);font-size:16.5px;max-width:760px;margin-bottom:52px}
+.sec-sub b{color:var(--ink);font-weight:600}
+
+.grid{display:grid;gap:18px}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.card{background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:30px;transition:transform .3s,border-color .3s,box-shadow .3s}
+section.alt .card{background:var(--bg)}
+.card:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 12px 32px rgba(48,48,48,.08)}
+.card .emoji{font-size:26px;margin-bottom:14px}
+.card .kicker{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.card h3{font-size:18px;font-weight:700;margin-bottom:10px}
+.card p{color:var(--gray);font-size:14.5px}
+.card p b{color:var(--ink);font-weight:600}
+.card ul{list-style:none;margin-top:6px}
+.card li{color:var(--gray);font-size:14.5px;padding:5px 0 5px 20px;position:relative}
+.card li::before{content:'';position:absolute;left:2px;top:12px;width:7px;height:7px;border-radius:50%;background:var(--accent)}
+.card li b{color:var(--ink);font-weight:600}
+.go{display:block;margin-top:12px;color:var(--accent);font-weight:600}
+
+.lvl{display:inline-flex;align-items:center;gap:8px;font-family:var(--display);font-size:14px;font-weight:700;color:var(--accent-dark);background:rgba(33,170,77,.14);border-radius:100px;padding:6px 15px;letter-spacing:.03em;text-transform:uppercase;margin-bottom:16px}
+.lvl .arw{color:var(--gray)}
+.lvl .tgt{color:var(--accent)}
+
+.core{background:var(--ink);border-radius:24px;padding:48px 40px;color:#E9E9E9;position:relative;overflow:hidden}
+.core::before{content:'';position:absolute;right:-160px;top:-160px;width:460px;height:460px;border-radius:50%;background:radial-gradient(circle,rgba(33,170,77,.22) 0%,transparent 65%);pointer-events:none}
+.core-h{font-family:var(--display);font-size:clamp(22px,3vw,32px);text-transform:uppercase;text-align:center;margin-bottom:8px;position:relative}
+.core-sub{text-align:center;color:#9c9c9c;font-size:14px;margin-bottom:32px;position:relative}
+.core-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;position:relative}
+.core-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:28px}
+.core-card .ttl{font-weight:700;color:#fff;font-size:17px;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.core-card .ttl .dot{width:9px;height:9px;border-radius:50%;background:var(--accent)}
+.core-card ul{list-style:none}
+.core-card li{font-size:14px;color:#c4c4c4;padding:5px 0 5px 26px;position:relative}
+.core-card li::before{content:attr(data-n);position:absolute;left:0;color:var(--accent);font-weight:800;font-family:var(--display)}
+.core-card li b{color:#fff;font-weight:600}
+.core-note{margin-top:22px;padding:18px 22px;border-radius:14px;background:rgba(33,170,77,.12);border:1px solid rgba(33,170,77,.35);color:#eaf6ee;font-size:14.5px;position:relative}
+.core-note b{color:#fff;font-weight:700}
+
+.flow{display:flex;align-items:stretch;gap:0;flex-wrap:wrap;margin-top:8px}
+.flow-step{flex:1;min-width:150px;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:20px 18px;position:relative}
+.flow-step .n{font-family:var(--display);font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
+.flow-step h4{font-size:15.5px;font-weight:700;margin-bottom:6px}
+.flow-step p{color:var(--gray);font-size:13.5px}
+.flow-arw{display:flex;align-items:center;justify-content:center;color:var(--accent);font-weight:800;font-size:20px;padding:0 6px}
+@media(max-width:720px){.flow-arw{transform:rotate(90deg);padding:4px 0;width:100%}}
+
+.stagebox{border-radius:20px;padding:34px;margin-bottom:20px}
+.stage1{background:rgba(33,170,77,.07);border:1px solid rgba(33,170,77,.3)}
+.stage2{background:var(--bg);border:2px dashed var(--accent)}
+section.alt .stage2{background:var(--bg2)}
+.stagebox .lbl{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.stagebox h3{font-family:var(--display);font-size:22px;text-transform:uppercase;margin-bottom:12px;letter-spacing:.01em}
+.stagebox p{color:var(--gray);font-size:15px;margin-bottom:14px}
+.stagebox p b{color:var(--ink);font-weight:600}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chip{font-size:13px;font-weight:500;background:var(--bg);border:1px solid var(--line);border-radius:100px;padding:8px 16px;color:var(--ink)}
+.note{margin-top:16px;padding:14px 18px;border-radius:12px;background:var(--ink);color:#E9E9E9;font-size:14px}
+.note b{color:#fff;font-weight:700}
+
+.road{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.road .card{padding:28px}
+.road .tag{display:inline-block;font-family:var(--display);font-size:15px;font-weight:700;color:var(--accent);letter-spacing:.04em;text-transform:uppercase;background:rgba(33,170,77,.12);border-radius:100px;padding:6px 16px;margin-bottom:14px}
+
+footer{border-top:1px solid var(--line);padding:44px 0;text-align:center;color:var(--gray);font-size:14px}
+footer .logo{font-family:var(--display);color:var(--accent);letter-spacing:.1em;text-transform:uppercase;font-size:18px;margin-bottom:8px}
+footer a{color:var(--accent);font-weight:600;text-decoration:none}
+
+@media(max-width:860px){
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .metric:last-child{grid-column:span 2}
+  .grid-2,.grid-3,.core-grid,.road{grid-template-columns:1fr}
+  section{padding:64px 0}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="container">
+    <div class="badges fade">
+      <span class="badge green">💎 KAMNI · персонализированная ювелирка</span>
+      <span class="badge"><a href="../kamni-analiz/">← Анализ команды</a></span>
+    </div>
+    <div class="eyebrow fade d1">Методология обучения · внедрение ИИ</div>
+    <h1 class="fade d2">Как учим<br>команду KAMNI<br><span class="acc">работать с&nbsp;ИИ</span></h1>
+    <p class="hero-sub fade d3">Методология ИИ-ВИЗАЦИЯ: за&nbsp;<b>8 учебных дней</b> поднимаем владение ИИ и&nbsp;собираем единый контур компании&nbsp;— сеть агентов и&nbsp;общую память. В&nbsp;основе три опоры: <b>практика-first, один инструмент, быстрый заход в&nbsp;агентов</b>.</p>
+    <div class="metrics fade d4">
+      <div class="metric"><div class="num">8</div><div class="lbl">Учебных дней</div></div>
+      <div class="metric"><div class="num">≥90%</div><div class="lbl">Времени&nbsp;— практика</div></div>
+      <div class="metric"><div class="num">2</div><div class="lbl">Семинара в&nbsp;день</div></div>
+      <div class="metric"><div class="num">5</div><div class="lbl">День первого агента</div></div>
+      <div class="metric"><div class="num">1</div><div class="lbl">Основной инструмент</div></div>
+    </div>
+  </div>
+</header>
+
+<section class="alt">
+  <div class="container">
+    <div class="sec-num">01 · ЦЕЛЬ</div>
+    <h2>Куда ведёт программа</h2>
+    <p class="sec-sub">Не&nbsp;набор разрозненных навыков, а&nbsp;единая корпоративная архитектура. Каждое действие остаётся в&nbsp;контексте KAMNI и&nbsp;работает вдолгую, с&nbsp;накопительным эффектом.</p>
+    <div class="grid grid-3">
+      <div class="card">
+        <div class="emoji">📈</div>
+        <div class="kicker">Владение</div>
+        <h3>Владение ИИ в&nbsp;2–3 раза выше</h3>
+        <p>Поднимаем уровень команды и&nbsp;делаем ИИ нормой ежедневной работы, а&nbsp;не&nbsp;разовым инструментом.</p>
+      </div>
+      <div class="card">
+        <div class="emoji">🕸</div>
+        <div class="kicker">Архитектура</div>
+        <h3>Единый контур вместо зоопарка</h3>
+        <p>Уходим от&nbsp;разрозненных сервисов к&nbsp;сети агентов и&nbsp;общей памяти на&nbsp;корпоративном сервере компании.</p>
+      </div>
+      <div class="card">
+        <div class="emoji">🧠</div>
+        <div class="kicker">Контекст</div>
+        <h3>Знания остаются в&nbsp;компании</h3>
+        <p>Наработки не&nbsp;уходят вместе с&nbsp;человеком: всё копится в&nbsp;единой памяти и&nbsp;продолжает работать.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="sec-num">02 · ПОДХОД</div>
+    <h2>Три опоры методологии</h2>
+    <p class="sec-sub">На&nbsp;чём держится вся программа. Эти принципы задают, как построен каждый семинар и&nbsp;весь маршрут из&nbsp;8&nbsp;дней.</p>
+    <div class="grid grid-3">
+      <div class="card">
+        <div class="emoji">🧩</div>
+        <div class="kicker">Один инструмент</div>
+        <h3>Экосистема Claude</h3>
+        <p>Строим программу вокруг одного основного ИИ&nbsp;— Claude. Он&nbsp;уже основной у&nbsp;большинства команды, и&nbsp;мы&nbsp;осваиваем одну связку глубоко вместо десятка сервисов поверхностно.</p>
+      </div>
+      <div class="card">
+        <div class="emoji">🛠</div>
+        <div class="kicker">Практика-first</div>
+        <h3>Воркшоп, а&nbsp;не&nbsp;лекция</h3>
+        <p>Теории не&nbsp;больше 10%. Каждый семинар&nbsp;— воркшоп: человек выходит с&nbsp;готовым результатом под&nbsp;свою задачу&nbsp;— промпт, дашборд, документ, бот или&nbsp;агент.</p>
+      </div>
+      <div class="card">
+        <div class="emoji">🚀</div>
+        <div class="kicker">Быстрый заход</div>
+        <h3>Агенты с&nbsp;5-го дня</h3>
+        <p>Базу сжали до&nbsp;двух дней, с&nbsp;третьего&nbsp;— Claude&nbsp;Code, с&nbsp;пятого&nbsp;— первый живой агент. Половина программы про&nbsp;агентов и&nbsp;автоматизацию, финал&nbsp;— демо-день.</p>
+      </div>
+    </div>
+    <div style="margin-top:26px">
+      <div class="flow">
+        <div class="flow-step"><div class="n">Основа</div><h4>Claude.ai</h4><p>Чат, Projects, артефакты</p></div>
+        <div class="flow-arw">→</div>
+        <div class="flow-step"><div class="n">Автономно</div><h4>Claude Cowork</h4><p>Задачи без&nbsp;кода</p></div>
+        <div class="flow-arw">→</div>
+        <div class="flow-step"><div class="n">Код и&nbsp;боты</div><h4>Claude Code</h4><p>Вайб-кодинг, боты</p></div>
+        <div class="flow-arw">→</div>
+        <div class="flow-step"><div class="n">Автономные агенты</div><h4>OpenClaw</h4><p>На&nbsp;сервере компании</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="container">
+    <div class="sec-num">03 · ШКАЛА&nbsp;ЗРЕЛОСТИ</div>
+    <h2>Как оцениваем прогресс</h2>
+    <p class="sec-sub">Авторская шкала 0–8: насколько ИИ встроен в&nbsp;работу компании&nbsp;— от&nbsp;разовых запросов до&nbsp;системы, которая работает и&nbsp;улучшается сама. По&nbsp;ней меряем старт и&nbsp;цель.</p>
+    <div class="core">
+      <div class="core-h">От&nbsp;инструмента к&nbsp;ИИ-офису</div>
+      <div class="core-sub">чем выше уровень, тем меньше ручной работы</div>
+      <div class="core-grid">
+        <div class="core-card">
+          <div class="ttl"><span class="dot"></span>Уровни 0–4: освоение</div>
+          <ul>
+            <li data-n="0">ИИ&nbsp;не&nbsp;используется</li>
+            <li data-n="1">разовые запросы в&nbsp;чат</li>
+            <li data-n="2">регулярно под&nbsp;конкретные задачи</li>
+            <li data-n="3"><b>системно:</b> проекты, метапромпт, шаблоны</li>
+            <li data-n="4"><b>корп-подписки</b> и&nbsp;общая память</li>
+          </ul>
+        </div>
+        <div class="core-card">
+          <div class="ttl"><span class="dot"></span>Уровни 5–8: автономия</div>
+          <ul>
+            <li data-n="5"><b>агенты разворачиваются самими сотрудниками,</b> долгая память</li>
+            <li data-n="6">мультиагентная система в&nbsp;едином контексте</li>
+            <li data-n="7">предиктивная аналитика, «второе видение»</li>
+            <li data-n="8">ИИ&nbsp;вшит в&nbsp;ДНК&nbsp;компании</li>
+          </ul>
+        </div>
+      </div>
+      <div class="core-note"><b>Где сейчас KAMNI.</b> Компания в&nbsp;начале пути к&nbsp;централизации, при&nbsp;этом внутри уже есть продвинутые центры уровня&nbsp;5 как&nbsp;опора. <b>Цель программы: устойчивый уровень&nbsp;5 и&nbsp;задел под&nbsp;6.</b></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="sec-num">04 · ДВА&nbsp;ТРЕКА</div>
+    <h2>Одна канва, две&nbsp;скорости</h2>
+    <p class="sec-sub">Команда идёт по&nbsp;одной программе, но&nbsp;разными темпами. Так&nbsp;продвинутые направления не&nbsp;скучают, а&nbsp;остальные выходят на&nbsp;уверенную работу без&nbsp;перегруза.</p>
+    <div class="grid grid-2">
+      <div class="stagebox stage1">
+        <div class="lbl">Трек ускоренный</div>
+        <h3>Чемпионы</h3>
+        <p>Креатив, маркетинг, производство: упор на&nbsp;Claude&nbsp;Code, собственных агентов и&nbsp;оркестрацию. Это&nbsp;кандидаты в&nbsp;оркестраторы всей системы компании.</p>
+        <div class="chips">
+          <span class="chip">✓ Claude&nbsp;Code</span>
+          <span class="chip">✓ Свои агенты</span>
+          <span class="chip">✓ Оркестрация</span>
+        </div>
+      </div>
+      <div class="stagebox stage2">
+        <div class="lbl">Трек базовый</div>
+        <h3>Менеджмент и&nbsp;старт</h3>
+        <p>Лидерство, операции, продажи: уверенная база Claude, безопасность и&nbsp;готовые агенты под&nbsp;свои задачи. Общие семинары плюс поддержка на&nbsp;технических днях.</p>
+        <div class="chips">
+          <span class="chip">✓ База Claude</span>
+          <span class="chip">✓ Безопасность</span>
+          <span class="chip">✓ Готовые агенты</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="container">
+    <div class="sec-num">05 · СТЕК&nbsp;И&nbsp;ПОДПИСКИ</div>
+    <h2>На&nbsp;чём работаем</h2>
+    <p class="sec-sub">Одна экосистема Claude&nbsp;Team на&nbsp;корпоративной подписке, с&nbsp;дешёвой моделью на&nbsp;подхвате. Модели меняются без&nbsp;переделки архитектуры.</p>
+    <div class="grid grid-3">
+      <div class="card">
+        <span class="lvl">Premium · $100/мес</span>
+        <h3>Чемпионам и&nbsp;вайб-кодерам</h3>
+        <p>Claude и&nbsp;Claude&nbsp;Code с&nbsp;повышенными лимитами, 6.25× от&nbsp;Pro. Для&nbsp;тех, кто строит агентов.</p>
+      </div>
+      <div class="card">
+        <span class="lvl">Standard · $20/мес</span>
+        <h3>Менеджменту</h3>
+        <p>Claude для&nbsp;повседневной работы и&nbsp;лёгких пользователей. Минимум на&nbsp;команду&nbsp;— 5&nbsp;мест.</p>
+      </div>
+      <div class="card">
+        <span class="lvl">Движок · от&nbsp;$10/мес</span>
+        <h3>Модель на&nbsp;подхвате</h3>
+        <p>GLM&nbsp;Coding&nbsp;Plan (GLM-5.2) Lite от&nbsp;$12.60 или&nbsp;MiniMax $10–50 в&nbsp;Claude&nbsp;Code и&nbsp;OpenClaw. OpenRouter&nbsp;— под&nbsp;экзотику.</p>
+      </div>
+    </div>
+    <div class="note" style="margin-top:22px;background:var(--ink)"><b>По&nbsp;бюджету.</b> Чемпион&nbsp;— около $118 в&nbsp;месяц, менеджер&nbsp;— около $20. На&nbsp;команду в&nbsp;12&nbsp;человек порядка $700–800, около $60 на&nbsp;человека: ориентир $200–250 закрывается с&nbsp;большим запасом.</div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="sec-num">06 · АРХИТЕКТУРА</div>
+    <h2>Память и&nbsp;сеть агентов</h2>
+    <p class="sec-sub">Как устроен единый контур: где живут знания, как связаны агенты и&nbsp;куда подключаются рабочие системы компании.</p>
+    <div class="grid grid-3">
+      <div class="card">
+        <div class="emoji">🧠</div>
+        <h3>Память слоями</h3>
+        <ul>
+          <li>файлы сессий&nbsp;— оперативный слой</li>
+          <li>база знаний в&nbsp;Obsidian</li>
+          <li>RAG-память с&nbsp;LLM-«библиотекарем» под&nbsp;большие объёмы</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="emoji">🕸</div>
+        <h3>Сеть агентов</h3>
+        <ul>
+          <li>у&nbsp;каждого свой рабочий агент</li>
+          <li>общий агент в&nbsp;точках взаимодействия</li>
+          <li>управление через единый сервер компании</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="emoji">🔌</div>
+        <h3>Подключения</h3>
+        <ul>
+          <li>база знаний в&nbsp;репозитории через MCP</li>
+          <li>Google&nbsp;Workspace, Shopify, Valigara, CRM</li>
+          <li>права доступа&nbsp;— по&nbsp;направлениям и&nbsp;проектам</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="container">
+    <div class="sec-num">07 · БЕЗОПАСНОСТЬ</div>
+    <h2>Закрытый контур с&nbsp;первого дня</h2>
+    <p class="sec-sub">Камни, клиенты и&nbsp;эксклюзивные дизайны требуют закрытого контура. Безопасность&nbsp;— сквозной принцип, а&nbsp;не&nbsp;отдельный семинар.</p>
+    <div class="grid grid-2">
+      <div class="card"><h3>Регламент и&nbsp;whitelist</h3><p>Что можно и&nbsp;чего нельзя грузить в&nbsp;публичные сервисы, анонимизация документов при&nbsp;необходимости, внутренний регламент и&nbsp;список разрешённых сервисов.</p></div>
+      <div class="card"><h3>Данные в&nbsp;ОАЭ</h3><p>2FA и&nbsp;резидентность данных в&nbsp;ОАЭ, закрытый контур для&nbsp;эксклюзивных дизайнов и&nbsp;клиентской базы.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="sec-num">08 · ФОРМАТ</div>
+    <h2>Как проходит обучение</h2>
+    <p class="sec-sub">Компактный ритм без&nbsp;перегруза: короткие насыщенные сессии, растянутые на&nbsp;удобные четыре недели.</p>
+    <div class="grid grid-3">
+      <div class="card"><div class="emoji">🗓</div><h3>8 дней · ~4 недели</h3><p>По&nbsp;2 семинара 60&nbsp;минут плюс перерыв, около 2&nbsp;часов в&nbsp;день. Ритм&nbsp;— 2&nbsp;дня в&nbsp;неделю.</p></div>
+      <div class="card"><div class="emoji">📍</div><h3>Дубай и&nbsp;онлайн</h3><p>Офлайн-установка и&nbsp;настройка инфраструктуры на&nbsp;месте плюс онлайн-семинары для&nbsp;всей команды.</p></div>
+      <div class="card"><div class="emoji">🔬</div><h3>Discovery отдельно</h3><p>Википедию по&nbsp;камням и&nbsp;распознавание камней выносим в&nbsp;отдельный discovery на&nbsp;3&nbsp;недели под&nbsp;NDA.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="container">
+    <div class="sec-num">09 · РЕЗУЛЬТАТ</div>
+    <h2>Что&nbsp;в&nbsp;итоге и&nbsp;что&nbsp;дальше</h2>
+    <p class="sec-sub">К&nbsp;финалу у&nbsp;каждого участника рабочий агент или&nbsp;автоматизация под&nbsp;свои задачи. Дальше&nbsp;— дорожная карта на&nbsp;три горизонта.</p>
+    <div class="road">
+      <div class="card">
+        <span class="tag">30 дней</span>
+        <h3>Первый прод</h3>
+        <p>Онбординг-агент в&nbsp;проде и&nbsp;база знаний по&nbsp;регламентам компании.</p>
+      </div>
+      <div class="card">
+        <span class="tag">60 дней</span>
+        <h3>Агенты по&nbsp;отделам</h3>
+        <p>Рабочие агенты в&nbsp;направлениях, подключение Shopify и&nbsp;Valigara.</p>
+      </div>
+      <div class="card">
+        <span class="tag">90 дней</span>
+        <h3>Единый контур</h3>
+        <p>Общая память, мультиагентная связка и&nbsp;разграничение доступа.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="sec-num">10 · ОТ&nbsp;КОМАНДЫ</div>
+    <h2>Что&nbsp;нужно для&nbsp;старта</h2>
+    <p class="sec-sub">Небольшой встречный шаг, который делает программу результативной. Всё остальное берём на&nbsp;себя.</p>
+    <div class="grid grid-3">
+      <div class="card"><h3>Время</h3><p>Около 4&nbsp;часов в&nbsp;неделю на&nbsp;обучение и&nbsp;4–6&nbsp;часов на&nbsp;домашние задания и&nbsp;практику.</p></div>
+      <div class="card"><h3>Стек</h3><p>Оформить Claude&nbsp;Team: Premium&nbsp;— чемпионам, Standard&nbsp;— остальным, GLM или&nbsp;MiniMax на&nbsp;подхвате.</p></div>
+      <div class="card"><h3>ИИ-чемпион</h3><p>Назначить внутреннего ИИ-чемпиона, он&nbsp;же&nbsp;будущий оркестратор системы компании.</p></div>
+      <div class="card"><h3>Готовность делегировать</h3><p>Готовность передавать экспертизу агентам&nbsp;— именно так знания начинают работать вдолгую.</p></div>
+      <div class="card"><h3>Доступ под&nbsp;NDA</h3><p>Для&nbsp;discovery&nbsp;— доступ к&nbsp;образцам данных под&nbsp;NDA.</p></div>
+      <div class="card"><h3>Данные для&nbsp;памяти</h3><p>Регламенты и&nbsp;материалы, которые собираем в&nbsp;единую базу знаний компании.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="logo">ИИ-ВИЗАЦИЯ</div>
+  <div>Методология обучения · подготовлено индивидуально для&nbsp;KAMNI</div>
+  <div style="margin-top:10px"><a href="../kamni-analiz/">Смотреть анализ команды&nbsp;→</a></div>
+</footer>
+
+</body>
+</html>
