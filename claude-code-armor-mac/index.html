@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Броня Claude Code — macOS</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-deep:#0a0a0f; --bg-card:#12121a; --bg-card-hover:#181825;
+    --border:#1e1e2e; --border-accent:#2a2a3e;
+    --text-primary:#e8e6f0; --text-secondary:#8b879e; --text-muted:#5a5670;
+    --accent:#7c5bf5; --accent-glow:#9d7cff; --accent-soft:rgba(124,91,245,0.12);
+    --green:#34d399; --green-glow:#6ee7b7; --green-soft:rgba(52,211,153,0.1);
+    --amber:#fbbf24; --amber-soft:rgba(251,191,36,0.1);
+    --red-soft:rgba(248,113,113,0.1); --red:#f87171;
+    --radius:14px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Onest',sans-serif;background:var(--bg-deep);color:var(--text-primary);line-height:1.65;min-height:100vh;-webkit-font-smoothing:antialiased;}
+  body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(circle at 20% 20%,rgba(124,91,245,0.04) 0%,transparent 50%),radial-gradient(circle at 80% 80%,rgba(52,211,153,0.03) 0%,transparent 50%);pointer-events:none;z-index:0;}
+  .wrapper{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:40px 20px 80px;}
+  .header{text-align:center;margin-bottom:44px;}
+  .header__badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--accent-glow);background:var(--accent-soft);border:1px solid rgba(124,91,245,0.2);padding:6px 16px;border-radius:100px;margin-bottom:24px;animation:fadeDown .6s ease both;}
+  .header__title{font-size:clamp(24px,5vw,36px);font-weight:800;line-height:1.15;letter-spacing:-0.5px;margin-bottom:20px;animation:fadeDown .6s ease .1s both;}
+  .header__title span{background:linear-gradient(135deg,var(--accent-glow),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .header__topics{list-style:none;display:flex;flex-direction:column;gap:7px;max-width:480px;margin:0 auto;animation:fadeDown .6s ease .2s both;}
+  .header__topics li{font-size:13.5px;color:var(--text-secondary);display:flex;align-items:flex-start;gap:8px;text-align:left;}
+  .header__topics li::before{content:'→';color:var(--accent);flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:11px;margin-top:3px;}
+  .progress-wrap{background:rgba(18,18,26,0.92);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;margin-bottom:36px;position:sticky;top:12px;z-index:10;backdrop-filter:blur(16px);animation:fadeDown .6s ease .3s both;}
+  .progress-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+  .progress-label{font-size:13px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1px;font-family:'JetBrains Mono',monospace;}
+  .progress-count{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;color:var(--accent-glow);}
+  .progress-bar{width:100%;height:8px;background:var(--border);border-radius:100px;overflow:hidden;}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--green));border-radius:100px;transition:width .5s cubic-bezier(.34,1.56,.64,1);width:0%;}
+  .section{margin-bottom:28px;}
+  .section__header{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-left:2px;}
+  .section__num{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--accent);background:var(--accent-soft);width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;flex-shrink:0;}
+  .section__title{font-size:16px;font-weight:700;letter-spacing:-0.2px;line-height:1.35;}
+  .section__card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:border-color .3s;}
+  .section__card:hover{border-color:var(--border-accent);}
+  .item{display:flex;align-items:flex-start;gap:14px;padding:16px 20px;border-bottom:1px solid var(--border);transition:background .2s;cursor:pointer;}
+  .item:last-child{border-bottom:none;}
+  .item:hover{background:var(--bg-card-hover);}
+  .item.checked .item__text{color:var(--text-muted);text-decoration:line-through;}
+  .item__check{position:relative;width:22px;height:22px;flex-shrink:0;margin-top:1px;pointer-events:auto;cursor:pointer;}
+  .item__check input{position:absolute;opacity:0;width:100%;height:100%;cursor:pointer;z-index:2;}
+  .item__check .cm{width:22px;height:22px;border:2px solid var(--border-accent);border-radius:6px;display:flex;align-items:center;justify-content:center;transition:all .25s cubic-bezier(.34,1.56,.64,1);}
+  .item__check .cm svg{width:12px;height:12px;opacity:0;transform:scale(0);transition:all .25s cubic-bezier(.34,1.56,.64,1);}
+  .item__check input:checked + .cm{background:var(--green);border-color:var(--green);}
+  .item__check input:checked + .cm svg{opacity:1;transform:scale(1);}
+  .item__body{flex:1;min-width:0;pointer-events:none;user-select:text;}
+  .item__body a,.item__body .lnk,.item__body .btn-copy,.item__body .cmd-copy{pointer-events:auto;}
+  .item__text{font-size:14.5px;font-weight:500;color:var(--text-primary);transition:all .3s;}
+  .item__hint{font-size:13px;color:var(--text-secondary);margin-top:5px;line-height:1.65;}
+  .item__hint strong{color:var(--text-primary);}
+  .lnk{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-family:'JetBrains Mono',monospace;color:var(--accent-glow);text-decoration:none;transition:color .2s;word-break:break-all;}
+  .lnk:hover{color:#bba4ff;text-decoration:underline;}
+  .note{display:flex;align-items:flex-start;gap:10px;padding:14px 20px;font-size:13px;color:var(--text-secondary);line-height:1.65;border-bottom:1px solid var(--border);}
+  .note:last-child{border-bottom:none;}
+  .note--warn{background:var(--amber-soft);color:var(--amber);}
+  .note--info{background:var(--accent-soft);}
+  .note--alert{background:var(--red-soft);color:var(--red);}
+  .note--green{background:var(--green-soft);color:var(--green-glow);}
+  .note__icon{flex-shrink:0;font-size:15px;}
+  .note strong{color:inherit;}
+  .info-block{padding:14px 20px;border-bottom:1px solid var(--border);font-size:13.5px;color:var(--text-secondary);line-height:1.7;}
+  .info-block:last-child{border-bottom:none;}
+  .info-block strong{color:var(--text-primary);font-weight:600;}
+  .mono{font-family:'JetBrains Mono',monospace;color:var(--accent-glow);font-size:12px;}
+  .cmd-copy{background:rgba(0,0,0,0.35);border:1px solid var(--border-accent);border-radius:8px;padding:10px 14px;margin:10px 20px;display:flex;flex-direction:column;align-items:flex-start;gap:10px;}
+  .cmd-copy__text{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--green-glow);line-height:1.6;word-break:break-all;flex:1;white-space:pre-wrap;}
+  .code-block{background:rgba(0,0,0,0.4);border:1px solid var(--border-accent);border-radius:10px;padding:16px 20px;margin:12px 20px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--green-glow);line-height:1.8;white-space:pre-wrap;word-break:break-word;overflow-x:auto;}
+  .code-block__label{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;display:block;}
+  .code-block .btn-copy{margin-top:12px;}
+  .prompt-block{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:12px 20px;}
+  .prompt-block__title{font-size:14px;font-weight:700;color:var(--accent-glow);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+  .prompt-block__text{font-size:12.5px;color:var(--text-secondary);line-height:1.7;white-space:pre-wrap;margin-bottom:16px;font-family:'JetBrains Mono',monospace;}
+  .prompt-block__text.scroll{max-height:300px;overflow:auto;padding:12px;background:rgba(0,0,0,0.28);border:1px solid var(--border);border-radius:8px;}
+  .prompt-block__text.scroll::-webkit-scrollbar{width:9px;}
+  .prompt-block__text.scroll::-webkit-scrollbar-thumb{background:var(--border-accent);border-radius:9px;}
+  .btn-copy{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:var(--accent-glow);background:var(--accent-soft);border:1px solid rgba(124,91,245,0.3);padding:8px 16px;border-radius:8px;cursor:pointer;transition:all .2s;text-transform:uppercase;letter-spacing:1px;}
+  .btn-copy:hover{background:rgba(124,91,245,0.2);border-color:var(--accent);}
+  .btn-copy.copied{color:var(--green);background:var(--green-soft);border-color:rgba(52,211,153,0.3);}
+  .cmd-copy .btn-copy{padding:5px 12px;font-size:10px;}
+  .section-divider{text-align:center;margin:48px 0 32px;padding:0 20px;}
+  .section-divider__line{height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);margin-bottom:20px;}
+  .section-divider__title{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--accent-glow);text-transform:uppercase;letter-spacing:3px;}
+  .footer{text-align:center;margin-top:48px;}
+  .footer__done{display:none;background:var(--green-soft);border:1px solid rgba(52,211,153,0.25);border-radius:var(--radius);padding:32px 24px;margin-bottom:24px;}
+  .footer__done.visible{display:block;animation:popIn .5s cubic-bezier(.34,1.56,.64,1) both;}
+  .footer__done-emoji{font-size:48px;margin-bottom:10px;}
+  .footer__done-text{font-size:22px;font-weight:800;color:var(--green);margin-bottom:6px;}
+  .footer__done-sub{font-size:15px;color:var(--text-secondary);}
+  .footer__final{background:linear-gradient(135deg,rgba(124,91,245,0.08),rgba(52,211,153,0.08));border:1px solid rgba(124,91,245,0.25);border-radius:var(--radius);padding:34px 24px;margin-bottom:24px;position:relative;overflow:hidden;}
+  .footer__final::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 0%,rgba(124,91,245,0.12),transparent 50%),radial-gradient(circle at 80% 100%,rgba(52,211,153,0.12),transparent 50%);pointer-events:none;}
+  .footer__final-emoji{font-size:54px;margin-bottom:12px;line-height:1;position:relative;}
+  .footer__final-text{font-size:24px;font-weight:800;background:linear-gradient(90deg,var(--accent-glow),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:10px;letter-spacing:-0.4px;position:relative;}
+  .footer__final-sub{font-size:15px;color:var(--text-secondary);line-height:1.6;max-width:560px;margin:0 auto;position:relative;}
+  .btn-reset{background:none;border:1px solid var(--border);color:var(--text-muted);font-family:'JetBrains Mono',monospace;font-size:12px;padding:8px 20px;border-radius:100px;cursor:pointer;transition:all .2s;margin-top:8px;}
+  .btn-reset:hover{border-color:var(--red);color:var(--red);}
+  #confetti-canvas{position:fixed;inset:0;z-index:9999;pointer-events:none;}
+  @keyframes fadeDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes popIn{from{opacity:0;transform:scale(0.8)}to{opacity:1;transform:scale(1)}}
+  @media (max-width:480px){
+    .wrapper{padding:28px 14px 60px;}
+    .item,.note,.info-block{padding:12px 16px;}
+    .cmd-copy,.code-block,.prompt-block{margin-left:14px;margin-right:14px;}
+    .progress-wrap{padding:16px 18px;top:8px;}
+    .header__title{font-size:24px;}
+  }
+</style>
+</head>
+<body>
+<canvas id="confetti-canvas"></canvas>
+<div class="wrapper">
+<header class="header">
+<div class="header__badge">БЕЗОПАСНОСТЬ CLAUDE CODE · macOS</div>
+<h1 class="header__title">Броня Claude Code<br><span>защита от разрушительных команд</span></h1>
+<ul class="header__topics"><li>Почему обычные фильтры не спасли — и что защищает по-настоящему</li><li>Три независимых слоя: песочница ядра ОС + инспектор команд + чёрный список</li><li>Установка одним промптом — Claude настроит всё сам</li><li>Как за 2 минуты убедиться, что защита работает</li><li>Бэкапы: последняя страховка, если что-то всё же случилось</li></ul>
+</header>
+<div class="progress-wrap"><div class="progress-top"><span class="progress-label">Прогресс</span><span class="progress-count" id="progressCount">0 / 0</span></div><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div></div>
+<div id="sections"><div class="section"><div class="section__header"><div class="section__num">00</div><div class="section__title">Зачем эта защита</div></div><div class="section__card"><div class="note note--alert"><span class="note__icon">⚠️</span><div><strong>Повод.</strong> Был случай: Claude Code выполнил команду <span class="mono">D=$(pwd); cd /; rm -rf "$(dirname "$D")"</span> и удалил домашнюю папку. Строковые фильтры не сработали — цель вычислялась «на лету». Значит, защищаться нужно не от конкретных строк, а от <strong>класса операций</strong>.</div></div><div class="note note--info"><span class="note__icon">🛡️</span><div><strong>Три слоя.</strong> 1) Песочница ядра ОС — не даёт трогать файлы вне папки проекта. 2) Инспектор команд — блокирует опасные команды до запуска. 3) Чёрный список — грубая, но независимая подстраховка. Плюс бэкапы.</div></div><div class="note note--green"><span class="note__icon">⚡</span><div><strong>Скорость не страдает.</strong> Внутри песочницы обычные команды выполняются без лишних подтверждений — границу держит ядро, а не вопросы.</div></div></div></div><div class="section"><div class="section__header"><div class="section__num">01</div><div class="section__title">Подготовка</div></div><div class="section__card"><div class="info-block">Claude Code нужно запускать из <strong>вложенной папки проекта</strong>, не из домашней. Создайте рабочую папку и откройте её в VS Code:</div><div class="cmd-copy"><span class="cmd-copy__text" id="cmdFolder">mkdir -p ~/dev/projects/my-app &amp;&amp; cd ~/dev/projects/my-app</span><button class="btn-copy" onclick="copyBlock('cmdFolder',this)">📋 Скопировать</button></div><div class="item" data-key="mac-folder"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Рабочая папка создана, проект открыт из неё</div></div></div><div class="item" data-key="mac-vscode"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">VS Code и расширение Claude Code установлены и залогинены</div></div></div><div class="info-block">Инспектору нужен <span class="mono">jq</span> (парсер JSON). Установите Homebrew (<a class="lnk" href="https://brew.sh" target="_blank">brew.sh</a>), затем поставьте jq:</div><div class="cmd-copy"><span class="cmd-copy__text" id="cmdJq">brew install jq</span><button class="btn-copy" onclick="copyBlock('cmdJq',this)">📋 Скопировать</button></div><div class="item" data-key="mac-jq"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">jq установлен</div><div class="item__hint">Проверка: команда <span class="mono">jq --version</span> печатает версию.</div></div></div></div></div><div class="section"><div class="section__header"><div class="section__num">02</div><div class="section__title">Установка защиты</div></div><div class="section__card"><div class="info-block">Откройте Claude Code в VS Code и отправьте <strong>один промпт</strong>. Claude сам сделает резервную копию настроек, создаст все файлы защиты и проверит их — ничего разрушительного не выполняя.</div><div class="prompt-block"><div class="prompt-block__title">📋 Промпт: установить защиту (в Claude Code)</div><div class="prompt-block__text scroll" id="promptInstall">Ты — инженер по безопасности. Настрой на этой машине многоуровневую защиту Claude Code от разрушительных команд. Правила: каждое изменение обратимо, сначала делай резервную копию, и НЕ выполняй в процессе ни одной разрушительной команды.
+
+Шаг 1. Если существует ~/.claude/settings.json — скопируй его в ~/.claude/settings.json.bak с текущей датой в имени.
+
+Шаг 2. Создай файл ~/.claude/hooks/bash-guard.sh РОВНО с этим содержимым и сделай его исполняемым (chmod +x):
+
+```bash
+#!/bin/bash
+# bash-guard.sh — PreToolUse-хук Claude Code для инструмента Bash.
+# Блокирует КЛАССЫ разрушительных команд.
+# Контракт: stdin = JSON {"tool_input":{"command":"..."},"cwd":"..."}
+#   exit 2 = ЗАБЛОКИРОВАТЬ вызов (stderr показывается Claude как причина)
+#   exit 0 = пропустить в обычный permission-flow
+# Принцип: fail-closed — при ошибке разбора блокируем, а не пропускаем.
+
+set -u
+INPUT=$(cat 2&gt;/dev/null || true)
+
+if ! command -v jq &gt;/dev/null 2&gt;&amp;1; then
+  echo "bash-guard: jq не найден — блокирую (fail-closed). Установите jq." &gt;&amp;2
+  exit 2
+fi
+
+CMD=$(printf '%s' "$INPUT" | jq -r '.tool_input.command // empty' 2&gt;/dev/null || true)
+CWD=$(printf '%s' "$INPUT" | jq -r '.cwd // empty' 2&gt;/dev/null || true)
+[ -z "$CMD" ] &amp;&amp; exit 0
+[ -z "$CWD" ] &amp;&amp; CWD="/__bash_guard_no_cwd__"
+
+LOG="$HOME/.claude/bash-guard.log"
+
+block() {
+  printf 'ЗАБЛОКИРОВАНО bash-guard: %s\n' "$1" &gt;&amp;2
+  printf 'Правило: разрушительные операции запрещены. Используй литеральные относительные пути внутри проекта; без sudo, без rm/chmod по переменным и подстановкам, без записи в /dev/disk*, без curl|sh.\n' &gt;&amp;2
+  printf '%s\tBLOCK\t%s\t%s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$1" "$CMD" &gt;&gt; "$LOG" 2&gt;/dev/null || true
+  exit 2
+}
+
+NORM=$(printf '%s' "$CMD" | tr '\n\t' '  ' | tr -s ' ')
+
+# --- удаление/смена прав с переменной или подстановкой в аргументах
+if printf '%s' "$NORM" | grep -Eq '(^|[[:space:];&amp;|({])(rm|rmdir|truncate|shred|chmod|chown|chgrp|chflags)[[:space:]][^;&amp;|]*[$`]'; then
+  block "команда удаления/смены прав с переменной или подстановкой в аргументах — цель должна быть литеральным путём"
+fi
+
+# --- запись в диск / форматирование
+printf '%s' "$NORM" | grep -Eq '(^|[[:space:];&amp;|(])dd[[:space:]][^;&amp;|]*of=/dev/(r?disk|sd|nvme)' &amp;&amp; block "dd в дисковое устройство"
+printf '%s' "$NORM" | grep -Eq '&gt;[[:space:]]*/dev/(r?disk|sd|nvme)' &amp;&amp; block "редирект вывода в дисковое устройство"
+printf '%s' "$NORM" | grep -Eiq '(^|[[:space:];&amp;|(])diskutil[[:space:]]+([^;&amp;|]*[[:space:]])?(erase|partitionDisk|reformat|zero|secureErase)' &amp;&amp; block "diskutil erase/format"
+printf '%s' "$NORM" | grep -Eiq '(^|[[:space:];&amp;|(])diskutil[[:space:]]+apfs[[:space:]]+(delete|erase)' &amp;&amp; block "diskutil apfs delete/erase"
+printf '%s' "$NORM" | grep -Eq '(^|[[:space:];&amp;|(])(newfs_[a-z]+|mkfs(\.[a-z0-9]+)?)([[:space:]]|$)' &amp;&amp; block "форматирование ФС (newfs/mkfs)"
+printf '%s' "$NORM" | grep -Eq '(^|[[:space:];&amp;|(])asr[[:space:]]+restore' &amp;&amp; block "asr restore"
+
+# --- загрузка удалённого кода в интерпретатор
+printf '%s' "$NORM" | grep -Eq '(curl|wget)[^;&amp;|]*\|[[:space:]]*(sudo[[:space:]]+)?(ba|z|da|k|fi)?sh([[:space:]]|$)' &amp;&amp; block "пайп curl/wget в shell"
+printf '%s' "$NORM" | grep -Eq '(curl|wget)[^;&amp;|]*\|[[:space:]]*(sudo[[:space:]]+)?(python3?|perl|ruby|node|osascript)([[:space:]]|$)' &amp;&amp; block "пайп curl/wget в интерпретатор"
+printf '%s' "$NORM" | grep -Eq '(^|[[:space:];&amp;|(])(ba|z|da|k|fi)?sh[[:space:]]+(-[A-Za-z]+[[:space:]]+)*&lt;\(' &amp;&amp; block "выполнение shell из процесс-подстановки &lt;(...)"
+
+# --- тихая порча данных
+printf '%s' "$NORM" | grep -Eq '(^|[[:space:];&amp;|(])shred([[:space:]]|$)' &amp;&amp; block "shred (невосстановимая перезапись)"
+printf '%s' "$NORM" | grep -Eq '(^|[[:space:];&amp;|(])mv[[:space:]][^;&amp;|]*[[:space:]]/dev/null' &amp;&amp; block "mv в /dev/null"
+printf '%s' "$NORM" | grep -Eq '(^|[[:space:];&amp;|(])defaults[[:space:]]+delete' &amp;&amp; block "defaults delete"
+
+# --- разрушительный git
+printf '%s' "$NORM" | grep -Eq '(^|[[:space:];&amp;|(])git([[:space:]]+-[^[:space:]]+)*[[:space:]]+clean[[:space:]][^;&amp;|]*-[A-Za-z]*[xX]' &amp;&amp; block "git clean -x (сносит неотслеживаемые файлы, включая .env)"
+if printf '%s' "$NORM" | grep -Eq 'reset[[:space:]]+--hard' &amp;&amp; printf '%s' "$NORM" | grep -Eq 'push[^;&amp;|]*([[:space:]]--force([[:space:]]|$)|[[:space:]]-f([[:space:]]|$))'; then
+  block "git reset --hard в связке с git push --force"
+fi
+
+# --- fork bomb / cron / launchd
+printf '%s' "$NORM" | grep -Eq '\(\)[[:space:]]*\{[^}]*\|[^}]*&amp;[^}]*\}[[:space:]]*;' &amp;&amp; block "fork bomb"
+printf '%s' "$NORM" | grep -Eq '(^|[[:space:];&amp;|(])crontab[[:space:]]+-[A-Za-z]*r' &amp;&amp; block "crontab -r"
+printf '%s' "$NORM" | grep -Eq '(^|[[:space:];&amp;|(])launchctl[[:space:]]+(bootout|unload|remove|disable)[[:space:]]+[^;&amp;|]*(system/|/System|/Library)' &amp;&amp; block "launchctl порча системных сервисов"
+
+# ---- разбор на подкоманды: проверка целей rm/rmdir/chmod/chown/find/truncate ----
+targets_safe_or_block() {
+  local sub="$1" label="$2" toks t first=1
+  if ! toks=$(printf '%s\n' "$sub" | xargs printf '%s\n' 2&gt;/dev/null); then
+    block "$label: не удалось безопасно разобрать аргументы (кавычки?)"
+  fi
+  while IFS= read -r t; do
+    if [ "$first" = 1 ]; then first=0; continue; fi
+    case "$t" in -*) continue ;; esac
+    case "$t" in
+      "$CWD")            block "$label: цель — корень текущего проекта ($t)" ;;
+      /)                 block "$label: цель — корень файловой системы" ;;
+      /*)  case "$t" in "$CWD"/*) : ;; *) block "$label: абсолютный путь вне проекта: $t" ;; esac ;;
+      '~'*)              block "$label: цель в домашней директории: $t" ;;
+      .|..|'./'|'../')   block "$label: цель '.', '..'" ;;
+      '*'|'*/'|'.*'|'./*'|'../*') block "$label: массовая цель '$t' — назови каталоги явно" ;;
+      *'../'*|*'/..'*)   block "$label: '..' в пути: $t" ;;
+    esac
+  done &lt;&lt;EOF
+$toks
+EOF
+  return 0
+}
+
+S=$CMD
+for sep in '&amp;&amp;' '||' ';' '|' '&amp;' '$(' '`' '('; do S=${S//"$sep"/$'\n'}; done
+
+while IFS= read -r sub; do
+  sub="${sub#"${sub%%[![:space:]]*}"}"
+  [ -z "$sub" ] &amp;&amp; continue
+  changed=1
+  while [ "$changed" = 1 ]; do
+    changed=0
+    case "$sub" in
+      sudo|sudo\ *|doas|doas\ *) block "sudo/doas запрещён в любой форме" ;;
+      env\ *) new=$(printf '%s' "$sub" | sed -E 's/^env +(-[^ ]+ +)*([A-Za-z_][A-Za-z0-9_]*=[^ ]* +)*//'); [ "$new" != "$sub" ] &amp;&amp; { sub=$new; changed=1; } ;;
+      nohup\ *|nice\ *|time\ *|command\ *|builtin\ *|exec\ *|caffeinate\ *|setsid\ *) sub="${sub#* }"; changed=1 ;;
+      timeout\ *) new=$(printf '%s' "$sub" | sed -E 's/^timeout +(-[^ ]+ +)*[0-9.]+[smhd]? +//'); [ "$new" != "$sub" ] &amp;&amp; { sub=$new; changed=1; } ;;
+      stdbuf\ *|ionice\ *) new=$(printf '%s' "$sub" | sed -E 's/^[a-z]+ +(-[^ ]+ +)*//'); [ "$new" != "$sub" ] &amp;&amp; { sub=$new; changed=1; } ;;
+      xargs\ *) new=$(printf '%s' "$sub" | sed -E 's/^xargs +(-[^ ]+ +)*//'); [ "$new" != "$sub" ] &amp;&amp; { sub=$new; changed=1; } ;;
+    esac
+  done
+  first_tok=${sub%%[[:space:]]*}
+  case "$first_tok" in
+    rm)    printf '%s' "$sub" | grep -Eq '(^|[[:space:]])--?[A-Za-z-]*[rR]' &amp;&amp; targets_safe_or_block "$sub" "рекурсивный rm" ;;
+    rmdir) targets_safe_or_block "$sub" "rmdir" ;;
+    chmod|chown|chgrp|chflags) printf '%s' "$sub" | grep -Eq '(^|[[:space:]])-[A-Za-z]*[Rr]' &amp;&amp; targets_safe_or_block "$sub" "рекурсивный $first_tok" ;;
+    find)  printf '%s' "$sub" | grep -Eq '[[:space:]]-delete([[:space:]]|$)|[[:space:]]-(exec|execdir)[[:space:]]+(sudo[[:space:]]+)?rm([[:space:]]|$)' &amp;&amp; block "find -delete / find -exec rm" ;;
+    truncate) targets_safe_or_block "$sub" "truncate" ;;
+  esac
+done &lt;&lt;EOF
+$S
+EOF
+
+exit 0
+
+```
+
+Шаг 3. Влей в ~/.claude/settings.json эти блоки, НЕ затирая существующие ключи (сохрани model, plugins и прочее; аккуратно добавь/дополни sandbox, hooks, permissions):
+
+```json
+{
+  "sandbox": {
+    "enabled": true,
+    "autoAllowBashIfSandboxed": true,
+    "network": {
+      "allowedDomains": [
+        "github.com", "*.github.com", "*.githubusercontent.com",
+        "registry.npmjs.org", "*.npmjs.org",
+        "pypi.org", "files.pythonhosted.org"
+      ]
+    },
+    "filesystem": {
+      "denyRead": ["~/.ssh", "~/.aws", "~/.gnupg", "~/.config", "~/.kube", "~/.docker"]
+    }
+  },
+  "hooks": {
+    "PreToolUse": [
+      { "matcher": "Bash",
+        "hooks": [
+          { "type": "command",
+            "command": "$HOME/.claude/hooks/bash-guard.sh",
+            "timeout": 10,
+            "statusMessage": "bash-guard: проверка команды" }
+        ] }
+    ]
+  },
+  "permissions": {
+    "deny": [
+      "Bash(sudo *)", "Bash(doas *)",
+      "Bash(rm -rf /*)", "Bash(rm -fr /*)", "Bash(rm -r /*)",
+      "Bash(rm -rf ~*)", "Bash(rm -fr ~*)", "Bash(rm -r ~*)",
+      "Bash(rm -rf $HOME*)", "Bash(rm -fr $HOME*)", "Bash(rm --recursive *)",
+      "Bash(dd *)",
+      "Bash(diskutil erase*)", "Bash(diskutil apfs delete*)", "Bash(diskutil apfs erase*)",
+      "Bash(diskutil partitionDisk *)", "Bash(diskutil reformat *)",
+      "Bash(diskutil zeroDisk *)", "Bash(diskutil secureErase *)",
+      "Bash(newfs_*)", "Bash(mkfs*)", "Bash(asr restore *)",
+      "Bash(shred *)", "Bash(defaults delete *)", "Bash(git clean *)",
+      "Bash(crontab -r*)",
+      "Bash(find * -delete)", "Bash(find * -delete *)", "Bash(find * -exec rm *)",
+      "Read(~/.ssh/**)", "Read(~/.aws/**)", "Read(~/.gnupg/**)"
+    ],
+    "ask": [
+      "Bash(git push --force *)", "Bash(git push -f *)",
+      "Bash(git push * --force)", "Bash(git push * -f)"
+    ]
+  }
+}
+```
+
+Шаг 4. Создай ~/.claude/CLAUDE.md с этим содержимым:
+
+```markdown
+# Глобальные правила безопасности Claude Code
+
+## Откуда запускать
+- НИКОГДА не запускать `claude` из домашней папки ($HOME) или из каталога первого уровня под ней.
+- Только из вложенной проектной директории: `~/dev/projects/&lt;проект&gt;`.
+- Правильный запуск: `cd ~/dev/projects/my-app &amp;&amp; claude`
+- Нужен соседний каталог — `--add-dir &lt;путь&gt;`, а не запуск уровнем выше.
+
+## Разрушительные операции
+- `rm -r`/`rm -rf` — только по литеральным относительным путям внутри проекта. Никогда по переменным ("$DIR"), подстановкам ($(...)), ~, ., .. , * или абсолютным путям вне проекта.
+- Никакого sudo. Требуется sudo — остановись и попроси человека.
+- Никаких `curl ... | sh`, `git clean -x*`, `find ... -delete`, записи в /dev/disk*.
+- Перед массовой операцией — перечисли, что будет затронуто, и жди подтверждения.
+
+## Защитные слои (не отключать)
+1. Песочница ядра ОС: sandbox.enabled в ~/.claude/settings.json.
+2. PreToolUse-хук: ~/.claude/hooks/bash-guard.sh (лог: ~/.claude/bash-guard.log).
+3. permissions.deny в ~/.claude/settings.json.
+4. Бэкапы: Time Machine / снапшоты / git.
+```
+
+Шаг 5. Проверь, НИЧЕГО не удаляя: (а) прогони через хук тестовый JSON с командой инцидента D=$(pwd); cd /; rm -rf "$(dirname "$D")" и убедись, что код возврата = 2; (б) внутри песочницы попробуй командой touch создать файл ВНЕ проекта и убедись, что ядро отвечает отказом «Operation not permitted». Покажи результаты обоих тестов таблицей и краткий итог.</div><button class="btn-copy" onclick="copyBlock('promptInstall',this)">📋 Скопировать промпт</button></div><div class="item" data-key="mac-install"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Отправить промпт в Claude Code → защита установлена</div><div class="item__hint">Claude покажет отчёт и таблицу тестов. Создаются <span class="mono">~/.claude/hooks/bash-guard.sh</span>, обновляется <span class="mono">~/.claude/settings.json</span>, создаётся <span class="mono">~/.claude/CLAUDE.md</span>.</div></div></div><div class="note note--info"><span class="note__icon">🌍</span><div>Настройки глобальные (<span class="mono">~/.claude</span>) — защита сразу работает во <strong>всех проектах</strong> на этой машине.</div></div></div></div><div class="section"><div class="section__header"><div class="section__num">03</div><div class="section__title">Проверка, что защита включена</div></div><div class="section__card"><div class="info-block">Три панели в Claude Code и два безопасных теста. <strong>Ничего не удаляется.</strong></div><div class="item" data-key="mac-v-sandbox"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text"><span class="mono">/sandbox</span> → вкладка Config: <strong>enabled = true</strong></div></div></div><div class="item" data-key="mac-v-hooks"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text"><span class="mono">/hooks</span> → PreToolUse → Bash: виден <span class="mono">bash-guard.sh</span></div></div></div><div class="item" data-key="mac-v-perms"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text"><span class="mono">/permissions</span> → в списке deny есть sudo, rm -rf /, dd и другие</div></div></div><div class="info-block"><strong>Тест инспектора.</strong> Вставьте в обычный терминал (не в Claude). Ожидание — сообщение «ЗАБЛОКИРОВАНО» и <span class="mono">exit=2</span>:</div><div class="cmd-copy"><span class="cmd-copy__text" id="cmdTest">echo '{"tool_input":{"command":"D=$(pwd); cd /; rm -rf \"$(dirname \"$D\")\""},"cwd":"'"$PWD"'"}' | ~/.claude/hooks/bash-guard.sh; echo "exit=$?"</span><button class="btn-copy" onclick="copyBlock('cmdTest',this)">📋 Скопировать</button></div><div class="item" data-key="mac-v-hook"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Тест инспектора пройден (exit=2)</div></div></div><div class="info-block"><strong>Тест ядра.</strong> Попросите <strong>Claude Code</strong> выполнить команду ниже — ядро ОС должно ответить «Operation not permitted». В обычном терминале файл создастся: это нормально, терминал не в песочнице.</div><div class="cmd-copy"><span class="cmd-copy__text" id="cmdKernel">touch "$HOME/guard-probe.txt"</span><button class="btn-copy" onclick="copyBlock('cmdKernel',this)">📋 Скопировать</button></div><div class="item" data-key="mac-v-kernel"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Тест ядра пройден (Operation not permitted)</div></div></div><div class="info-block">Журнал блокировок (сюда пишется каждая остановленная команда):</div><div class="cmd-copy"><span class="cmd-copy__text" id="cmdLog">cat ~/.claude/bash-guard.log</span><button class="btn-copy" onclick="copyBlock('cmdLog',this)">📋 Скопировать</button></div></div></div><div class="section"><div class="section__header"><div class="section__num">04</div><div class="section__title">Бэкапы — последняя страховка</div></div><div class="section__card"><div class="item" data-key="mac-b-tm"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Time Machine настроен на внешний диск</div><div class="item__hint">System Settings → General → Time Machine → Add Backup Disk. Это главный бэкап.</div></div></div><div class="info-block">Локальный снимок диска — быстрая страховка на ближайшие сутки:</div><div class="cmd-copy"><span class="cmd-copy__text" id="cmdSnap">tmutil localsnapshot</span><button class="btn-copy" onclick="copyBlock('cmdSnap',this)">📋 Скопировать</button></div><div class="item" data-key="mac-b-snap"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">APFS-снимок создан</div></div></div><div class="note note--warn"><span class="note__icon">⏳</span><div>Локальные снимки живут около суток и могут удаляться системой — это <strong>страховка, а не замена</strong> Time Machine.</div></div><div class="item" data-key="mac-b-git"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Проекты под git / GitHub — код всегда можно восстановить</div></div></div></div></div><div class="section-divider"><div class="section-divider__line"></div><div class="section-divider__title">Справочник — содержимое файлов</div></div><div class="section"><div class="section__header"><div class="section__num">05</div><div class="section__title">Что именно устанавливается (для ручной сборки)</div></div><div class="section__card"><div class="info-block">Промпт выше делает всё это сам. Ниже — те же файлы для тех, кто хочет создать их вручную. Пути одинаковы на macOS и внутри WSL2.</div><div class="code-block"><span class="code-block__label">~/.claude/hooks/bash-guard.sh · chmod +x</span><span id="refGuard">#!/bin/bash
+# bash-guard.sh — PreToolUse-хук Claude Code для инструмента Bash.
+# Блокирует КЛАССЫ разрушительных команд.
+# Контракт: stdin = JSON {"tool_input":{"command":"..."},"cwd":"..."}
+#   exit 2 = ЗАБЛОКИРОВАТЬ вызов (stderr показывается Claude как причина)
+#   exit 0 = пропустить в обычный permission-flow
+# Принцип: fail-closed — при ошибке разбора блокируем, а не пропускаем.
+
+set -u
+INPUT=$(cat 2&gt;/dev/null || true)
+
+if ! command -v jq &gt;/dev/null 2&gt;&amp;1; then
+  echo "bash-guard: jq не найден — блокирую (fail-closed). Установите jq." &gt;&amp;2
+  exit 2
+fi
+
+CMD=$(printf '%s' "$INPUT" | jq -r '.tool_input.command // empty' 2&gt;/dev/null || true)
+CWD=$(printf '%s' "$INPUT" | jq -r '.cwd // empty' 2&gt;/dev/null || true)
+[ -z "$CMD" ] &amp;&amp; exit 0
+[ -z "$CWD" ] &amp;&amp; CWD="/__bash_guard_no_cwd__"
+
+LOG="$HOME/.claude/bash-guard.log"
+
+block() {
+  printf 'ЗАБЛОКИРОВАНО bash-guard: %s\n' "$1" &gt;&amp;2
+  printf 'Правило: разрушительные операции запрещены. Используй литеральные относительные пути внутри проекта; без sudo, без rm/chmod по переменным и подстановкам, без записи в /dev/disk*, без curl|sh.\n' &gt;&amp;2
+  printf '%s\tBLOCK\t%s\t%s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$1" "$CMD" &gt;&gt; "$LOG" 2&gt;/dev/null || true
+  exit 2
+}
+
+NORM=$(printf '%s' "$CMD" | tr '\n\t' '  ' | tr -s ' ')
+
+# --- удаление/смена прав с переменной или подстановкой в аргументах
+if printf '%s' "$NORM" | grep -Eq '(^|[[:space:];&amp;|({])(rm|rmdir|truncate|shred|chmod|chown|chgrp|chflags)[[:space:]][^;&amp;|]*[$`]'; then
+  block "команда удаления/смены прав с переменной или подстановкой в аргументах — цель должна быть литеральным путём"
+fi
+
+# --- запись в диск / форматирование
+printf '%s' "$NORM" | grep -Eq '(^|[[:space:];&amp;|(])dd[[:space:]][^;&amp;|]*of=/dev/(r?disk|sd|nvme)' &amp;&amp; block "dd в дисковое устройство"
+printf '%s' "$NORM" | grep -Eq '&gt;[[:space:]]*/dev/(r?disk|sd|nvme)' &amp;&amp; block "редирект вывода в дисковое устройство"
+printf '%s' "$NORM" | grep -Eiq '(^|[[:space:];&amp;|(])diskutil[[:space:]]+([^;&amp;|]*[[:space:]])?(erase|partitionDisk|reformat|zero|secureErase)' &amp;&amp; block "diskutil erase/format"
+printf '%s' "$NORM" | grep -Eiq '(^|[[:space:];&amp;|(])diskutil[[:space:]]+apfs[[:space:]]+(delete|erase)' &amp;&amp; block "diskutil apfs delete/erase"
+printf '%s' "$NORM" | grep -Eq '(^|[[:space:];&amp;|(])(newfs_[a-z]+|mkfs(\.[a-z0-9]+)?)([[:space:]]|$)' &amp;&amp; block "форматирование ФС (newfs/mkfs)"
+printf '%s' "$NORM" | grep -Eq '(^|[[:space:];&amp;|(])asr[[:space:]]+restore' &amp;&amp; block "asr restore"
+
+# --- загрузка удалённого кода в интерпретатор
+printf '%s' "$NORM" | grep -Eq '(curl|wget)[^;&amp;|]*\|[[:space:]]*(sudo[[:space:]]+)?(ba|z|da|k|fi)?sh([[:space:]]|$)' &amp;&amp; block "пайп curl/wget в shell"
+printf '%s' "$NORM" | grep -Eq '(curl|wget)[^;&amp;|]*\|[[:space:]]*(sudo[[:space:]]+)?(python3?|perl|ruby|node|osascript)([[:space:]]|$)' &amp;&amp; block "пайп curl/wget в интерпретатор"
+printf '%s' "$NORM" | grep -Eq '(^|[[:space:];&amp;|(])(ba|z|da|k|fi)?sh[[:space:]]+(-[A-Za-z]+[[:space:]]+)*&lt;\(' &amp;&amp; block "выполнение shell из процесс-подстановки &lt;(...)"
+
+# --- тихая порча данных
+printf '%s' "$NORM" | grep -Eq '(^|[[:space:];&amp;|(])shred([[:space:]]|$)' &amp;&amp; block "shred (невосстановимая перезапись)"
+printf '%s' "$NORM" | grep -Eq '(^|[[:space:];&amp;|(])mv[[:space:]][^;&amp;|]*[[:space:]]/dev/null' &amp;&amp; block "mv в /dev/null"
+printf '%s' "$NORM" | grep -Eq '(^|[[:space:];&amp;|(])defaults[[:space:]]+delete' &amp;&amp; block "defaults delete"
+
+# --- разрушительный git
+printf '%s' "$NORM" | grep -Eq '(^|[[:space:];&amp;|(])git([[:space:]]+-[^[:space:]]+)*[[:space:]]+clean[[:space:]][^;&amp;|]*-[A-Za-z]*[xX]' &amp;&amp; block "git clean -x (сносит неотслеживаемые файлы, включая .env)"
+if printf '%s' "$NORM" | grep -Eq 'reset[[:space:]]+--hard' &amp;&amp; printf '%s' "$NORM" | grep -Eq 'push[^;&amp;|]*([[:space:]]--force([[:space:]]|$)|[[:space:]]-f([[:space:]]|$))'; then
+  block "git reset --hard в связке с git push --force"
+fi
+
+# --- fork bomb / cron / launchd
+printf '%s' "$NORM" | grep -Eq '\(\)[[:space:]]*\{[^}]*\|[^}]*&amp;[^}]*\}[[:space:]]*;' &amp;&amp; block "fork bomb"
+printf '%s' "$NORM" | grep -Eq '(^|[[:space:];&amp;|(])crontab[[:space:]]+-[A-Za-z]*r' &amp;&amp; block "crontab -r"
+printf '%s' "$NORM" | grep -Eq '(^|[[:space:];&amp;|(])launchctl[[:space:]]+(bootout|unload|remove|disable)[[:space:]]+[^;&amp;|]*(system/|/System|/Library)' &amp;&amp; block "launchctl порча системных сервисов"
+
+# ---- разбор на подкоманды: проверка целей rm/rmdir/chmod/chown/find/truncate ----
+targets_safe_or_block() {
+  local sub="$1" label="$2" toks t first=1
+  if ! toks=$(printf '%s\n' "$sub" | xargs printf '%s\n' 2&gt;/dev/null); then
+    block "$label: не удалось безопасно разобрать аргументы (кавычки?)"
+  fi
+  while IFS= read -r t; do
+    if [ "$first" = 1 ]; then first=0; continue; fi
+    case "$t" in -*) continue ;; esac
+    case "$t" in
+      "$CWD")            block "$label: цель — корень текущего проекта ($t)" ;;
+      /)                 block "$label: цель — корень файловой системы" ;;
+      /*)  case "$t" in "$CWD"/*) : ;; *) block "$label: абсолютный путь вне проекта: $t" ;; esac ;;
+      '~'*)              block "$label: цель в домашней директории: $t" ;;
+      .|..|'./'|'../')   block "$label: цель '.', '..'" ;;
+      '*'|'*/'|'.*'|'./*'|'../*') block "$label: массовая цель '$t' — назови каталоги явно" ;;
+      *'../'*|*'/..'*)   block "$label: '..' в пути: $t" ;;
+    esac
+  done &lt;&lt;EOF
+$toks
+EOF
+  return 0
+}
+
+S=$CMD
+for sep in '&amp;&amp;' '||' ';' '|' '&amp;' '$(' '`' '('; do S=${S//"$sep"/$'\n'}; done
+
+while IFS= read -r sub; do
+  sub="${sub#"${sub%%[![:space:]]*}"}"
+  [ -z "$sub" ] &amp;&amp; continue
+  changed=1
+  while [ "$changed" = 1 ]; do
+    changed=0
+    case "$sub" in
+      sudo|sudo\ *|doas|doas\ *) block "sudo/doas запрещён в любой форме" ;;
+      env\ *) new=$(printf '%s' "$sub" | sed -E 's/^env +(-[^ ]+ +)*([A-Za-z_][A-Za-z0-9_]*=[^ ]* +)*//'); [ "$new" != "$sub" ] &amp;&amp; { sub=$new; changed=1; } ;;
+      nohup\ *|nice\ *|time\ *|command\ *|builtin\ *|exec\ *|caffeinate\ *|setsid\ *) sub="${sub#* }"; changed=1 ;;
+      timeout\ *) new=$(printf '%s' "$sub" | sed -E 's/^timeout +(-[^ ]+ +)*[0-9.]+[smhd]? +//'); [ "$new" != "$sub" ] &amp;&amp; { sub=$new; changed=1; } ;;
+      stdbuf\ *|ionice\ *) new=$(printf '%s' "$sub" | sed -E 's/^[a-z]+ +(-[^ ]+ +)*//'); [ "$new" != "$sub" ] &amp;&amp; { sub=$new; changed=1; } ;;
+      xargs\ *) new=$(printf '%s' "$sub" | sed -E 's/^xargs +(-[^ ]+ +)*//'); [ "$new" != "$sub" ] &amp;&amp; { sub=$new; changed=1; } ;;
+    esac
+  done
+  first_tok=${sub%%[[:space:]]*}
+  case "$first_tok" in
+    rm)    printf '%s' "$sub" | grep -Eq '(^|[[:space:]])--?[A-Za-z-]*[rR]' &amp;&amp; targets_safe_or_block "$sub" "рекурсивный rm" ;;
+    rmdir) targets_safe_or_block "$sub" "rmdir" ;;
+    chmod|chown|chgrp|chflags) printf '%s' "$sub" | grep -Eq '(^|[[:space:]])-[A-Za-z]*[Rr]' &amp;&amp; targets_safe_or_block "$sub" "рекурсивный $first_tok" ;;
+    find)  printf '%s' "$sub" | grep -Eq '[[:space:]]-delete([[:space:]]|$)|[[:space:]]-(exec|execdir)[[:space:]]+(sudo[[:space:]]+)?rm([[:space:]]|$)' &amp;&amp; block "find -delete / find -exec rm" ;;
+    truncate) targets_safe_or_block "$sub" "truncate" ;;
+  esac
+done &lt;&lt;EOF
+$S
+EOF
+
+exit 0
+</span><button class="btn-copy" onclick="copyBlock('refGuard',this)">📋 Скопировать</button></div><div class="code-block"><span class="code-block__label">блоки для ~/.claude/settings.json (влить, не затирая существующее)</span><span id="refSettings">{
+  "sandbox": {
+    "enabled": true,
+    "autoAllowBashIfSandboxed": true,
+    "network": {
+      "allowedDomains": [
+        "github.com", "*.github.com", "*.githubusercontent.com",
+        "registry.npmjs.org", "*.npmjs.org",
+        "pypi.org", "files.pythonhosted.org"
+      ]
+    },
+    "filesystem": {
+      "denyRead": ["~/.ssh", "~/.aws", "~/.gnupg", "~/.config", "~/.kube", "~/.docker"]
+    }
+  },
+  "hooks": {
+    "PreToolUse": [
+      { "matcher": "Bash",
+        "hooks": [
+          { "type": "command",
+            "command": "$HOME/.claude/hooks/bash-guard.sh",
+            "timeout": 10,
+            "statusMessage": "bash-guard: проверка команды" }
+        ] }
+    ]
+  },
+  "permissions": {
+    "deny": [
+      "Bash(sudo *)", "Bash(doas *)",
+      "Bash(rm -rf /*)", "Bash(rm -fr /*)", "Bash(rm -r /*)",
+      "Bash(rm -rf ~*)", "Bash(rm -fr ~*)", "Bash(rm -r ~*)",
+      "Bash(rm -rf $HOME*)", "Bash(rm -fr $HOME*)", "Bash(rm --recursive *)",
+      "Bash(dd *)",
+      "Bash(diskutil erase*)", "Bash(diskutil apfs delete*)", "Bash(diskutil apfs erase*)",
+      "Bash(diskutil partitionDisk *)", "Bash(diskutil reformat *)",
+      "Bash(diskutil zeroDisk *)", "Bash(diskutil secureErase *)",
+      "Bash(newfs_*)", "Bash(mkfs*)", "Bash(asr restore *)",
+      "Bash(shred *)", "Bash(defaults delete *)", "Bash(git clean *)",
+      "Bash(crontab -r*)",
+      "Bash(find * -delete)", "Bash(find * -delete *)", "Bash(find * -exec rm *)",
+      "Read(~/.ssh/**)", "Read(~/.aws/**)", "Read(~/.gnupg/**)"
+    ],
+    "ask": [
+      "Bash(git push --force *)", "Bash(git push -f *)",
+      "Bash(git push * --force)", "Bash(git push * -f)"
+    ]
+  }
+}</span><button class="btn-copy" onclick="copyBlock('refSettings',this)">📋 Скопировать</button></div><div class="code-block"><span class="code-block__label">~/.claude/CLAUDE.md</span><span id="refClaude"># Глобальные правила безопасности Claude Code
+
+## Откуда запускать
+- НИКОГДА не запускать `claude` из домашней папки ($HOME) или из каталога первого уровня под ней.
+- Только из вложенной проектной директории: `~/dev/projects/&lt;проект&gt;`.
+- Правильный запуск: `cd ~/dev/projects/my-app &amp;&amp; claude`
+- Нужен соседний каталог — `--add-dir &lt;путь&gt;`, а не запуск уровнем выше.
+
+## Разрушительные операции
+- `rm -r`/`rm -rf` — только по литеральным относительным путям внутри проекта. Никогда по переменным ("$DIR"), подстановкам ($(...)), ~, ., .. , * или абсолютным путям вне проекта.
+- Никакого sudo. Требуется sudo — остановись и попроси человека.
+- Никаких `curl ... | sh`, `git clean -x*`, `find ... -delete`, записи в /dev/disk*.
+- Перед массовой операцией — перечисли, что будет затронуто, и жди подтверждения.
+
+## Защитные слои (не отключать)
+1. Песочница ядра ОС: sandbox.enabled в ~/.claude/settings.json.
+2. PreToolUse-хук: ~/.claude/hooks/bash-guard.sh (лог: ~/.claude/bash-guard.log).
+3. permissions.deny в ~/.claude/settings.json.
+4. Бэкапы: Time Machine / снапшоты / git.</span><button class="btn-copy" onclick="copyBlock('refClaude',this)">📋 Скопировать</button></div></div></div></div>
+<div class="footer">
+<div class="footer__done" id="doneBlock"><div class="footer__done-emoji">🚀</div><div class="footer__done-text">Защита активна!</div><div class="footer__done-sub">Три слоя защиты активны, тесты пройдены. Повтор инцидента невозможен на уровне ядра.</div></div>
+<div class="footer__final"><div class="footer__final-emoji">🛡️</div><div class="footer__final-text">Броня установлена</div><div class="footer__final-sub">Разрушительная команда физически не выйдет за пределы папки проекта. Если что-то не работает — отправьте ошибку в Claude Code, он поможет починить.</div></div>
+<button class="btn-reset" onclick="resetProgress()">↺ Сбросить прогресс</button>
+</div>
+</div>
+<script>
+const C=document.getElementById('confetti-canvas'),ctx=C.getContext('2d');
+let particles=[],confettiActive=false;
+function resizeCanvas(){C.width=window.innerWidth;C.height=window.innerHeight;}
+window.addEventListener('resize',resizeCanvas);resizeCanvas();
+const COLORS=['#7c5bf5','#9d7cff','#34d399','#6ee7b7','#fbbf24','#f87171','#fb7185','#38bdf8','#a78bfa','#4ade80'];
+function rand(a,b){return Math.random()*(b-a)+a;}
+function createBurst(x,y,count){for(let i=0;i<count;i++){const angle=rand(0,Math.PI*2),speed=rand(4,14),size=rand(4,10);particles.push({x,y,vx:Math.cos(angle)*speed+rand(-2,2),vy:Math.sin(angle)*speed*-0.8-rand(2,6),size,color:COLORS[Math.floor(Math.random()*COLORS.length)],rotation:rand(0,Math.PI*2),rotSpeed:rand(-0.2,0.2),gravity:rand(0.12,0.25),friction:rand(0.97,0.995),opacity:1,fadeSpeed:rand(0.005,0.015),shape:Math.random()>0.4?'rect':'circle'});}}
+function launchConfetti(){if(confettiActive)return;confettiActive=true;particles=[];const W=C.width,H=C.height;[[W*.5,H*.3,120],[W*.15,H*.2,80],[W*.85,H*.2,80],[W*.5,H*.1,100],[W*.3,H*.5,60],[W*.7,H*.5,60]].forEach(([x,y,c],i)=>{setTimeout(()=>createBurst(x,y,c),i*150)});animate();setTimeout(()=>{confettiActive=false},6000);}
+function animate(){ctx.clearRect(0,0,C.width,C.height);for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.vx*=p.friction;p.vy*=p.friction;p.vy+=p.gravity;p.x+=p.vx;p.y+=p.vy;p.rotation+=p.rotSpeed;p.opacity-=p.fadeSpeed;if(p.opacity<=0){particles.splice(i,1);continue}ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rotation);ctx.globalAlpha=p.opacity;ctx.fillStyle=p.color;if(p.shape==='rect'){ctx.fillRect(-p.size/2,-p.size/4,p.size,p.size/2)}else{ctx.beginPath();ctx.arc(0,0,p.size/2,0,Math.PI*2);ctx.fill()}ctx.restore();}if(particles.length>0||confettiActive){requestAnimationFrame(animate)}else{ctx.clearRect(0,0,C.width,C.height);}}
+function copyBlock(id,btn){const text=document.getElementById(id).textContent;navigator.clipboard.writeText(text).then(()=>{const orig=btn.innerHTML;btn.classList.add('copied');btn.innerHTML='✅ Скопировано!';setTimeout(()=>{btn.classList.remove('copied');btn.innerHTML=orig;},2000);});}
+const STORAGE_KEY='guard_mac_v1';
+const items=document.querySelectorAll('.item[data-key]');
+const totalCount=items.length;let wasComplete=false;
+function loadState(){try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');let c=0;items.forEach(it=>{const cb=it.querySelector('input');if(s[it.dataset.key]){cb.checked=true;it.classList.add('checked');c++}});wasComplete=c===totalCount}catch(e){}updateProgress(false);}
+function saveState(){const s={};items.forEach(it=>{s[it.dataset.key]=it.querySelector('input').checked});try{localStorage.setItem(STORAGE_KEY,JSON.stringify(s))}catch(e){}}
+function updateProgress(cc=true){let c=0;items.forEach(it=>{if(it.querySelector('input').checked)c++});document.getElementById('progressCount').textContent=c+' / '+totalCount;document.getElementById('progressFill').style.width=(totalCount>0?(c/totalCount)*100:0)+'%';const d=document.getElementById('doneBlock');if(c===totalCount&&totalCount>0){d.classList.add('visible');if(cc&&!wasComplete)launchConfetti();wasComplete=true}else{d.classList.remove('visible');wasComplete=false;}}
+items.forEach(it=>{const cb=it.querySelector('input');it.addEventListener('click',function(e){if(e.target.closest('a')||e.target.closest('.btn-copy'))return;if(e.target!==cb){cb.checked=!cb.checked;cb.dispatchEvent(new Event('change'));}});cb.addEventListener('change',function(){it.classList.toggle('checked',this.checked);saveState();updateProgress(true);});});
+function resetProgress(){if(!confirm('Сбросить весь прогресс?'))return;items.forEach(it=>{it.querySelector('input').checked=false;it.classList.remove('checked')});wasComplete=false;saveState();updateProgress(false);}
+loadState();
+</script>
+</body>
+</html>
