@@ -100,6 +100,9 @@
   .footer__final-emoji{font-size:54px;margin-bottom:12px;line-height:1;position:relative;}
   .footer__final-text{font-size:24px;font-weight:800;background:linear-gradient(90deg,var(--accent-glow),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:10px;letter-spacing:-0.4px;position:relative;}
   .footer__final-sub{font-size:15px;color:var(--text-secondary);line-height:1.6;max-width:560px;margin:0 auto;position:relative;}
+  .footer__contact{font-size:14px;color:var(--text-secondary);margin-bottom:20px;}
+  .tg{color:var(--accent-glow);font-weight:700;text-decoration:underline;text-decoration-color:rgba(157,124,255,0.4);text-underline-offset:2px;transition:color .2s;}
+  .tg:hover{color:#bba4ff;}
   .btn-reset{background:none;border:1px solid var(--border);color:var(--text-muted);font-family:'JetBrains Mono',monospace;font-size:12px;padding:8px 20px;border-radius:100px;cursor:pointer;transition:all .2s;margin-top:8px;}
   .btn-reset:hover{border-color:var(--red);color:var(--red);}
   #confetti-canvas{position:fixed;inset:0;z-index:9999;pointer-events:none;}
@@ -452,7 +455,8 @@ $S
 EOF
 
 exit 0
-</span><button class="btn-copy" onclick="copyBlock('refGuard',this)">📋 Скопировать</button></div><div class="code-block"><span class="code-block__label">блоки для ~/.claude/settings.json (влить, не затирая существующее)</span><span id="refSettings">{
+</span>
+<button class="btn-copy" onclick="copyBlock('refGuard',this)">📋 Скопировать</button></div><div class="code-block"><span class="code-block__label">блоки для ~/.claude/settings.json (влить, не затирая существующее)</span><span id="refSettings">{
   "sandbox": {
     "enabled": true,
     "autoAllowBashIfSandboxed": true,
@@ -499,7 +503,8 @@ exit 0
       "Bash(git push * --force)", "Bash(git push * -f)"
     ]
   }
-}</span><button class="btn-copy" onclick="copyBlock('refSettings',this)">📋 Скопировать</button></div><div class="code-block"><span class="code-block__label">~/.claude/CLAUDE.md</span><span id="refClaude"># Глобальные правила безопасности Claude Code
+}</span>
+<button class="btn-copy" onclick="copyBlock('refSettings',this)">📋 Скопировать</button></div><div class="code-block"><span class="code-block__label">~/.claude/CLAUDE.md</span><span id="refClaude"># Глобальные правила безопасности Claude Code
 
 ## Откуда запускать
 - НИКОГДА не запускать `claude` из домашней папки ($HOME) или из каталога первого уровня под ней.
@@ -517,10 +522,12 @@ exit 0
 1. Песочница ядра ОС: sandbox.enabled в ~/.claude/settings.json.
 2. PreToolUse-хук: ~/.claude/hooks/bash-guard.sh (лог: ~/.claude/bash-guard.log).
 3. permissions.deny в ~/.claude/settings.json.
-4. Бэкапы: Time Machine / снапшоты / git.</span><button class="btn-copy" onclick="copyBlock('refClaude',this)">📋 Скопировать</button></div></div></div></div>
+4. Бэкапы: Time Machine / снапшоты / git.</span>
+<button class="btn-copy" onclick="copyBlock('refClaude',this)">📋 Скопировать</button></div></div></div></div>
 <div class="footer">
 <div class="footer__done" id="doneBlock"><div class="footer__done-emoji">🚀</div><div class="footer__done-text">Защита активна!</div><div class="footer__done-sub">Три слоя защиты активны, тесты пройдены. Повтор инцидента невозможен на уровне ядра.</div></div>
 <div class="footer__final"><div class="footer__final-emoji">🛡️</div><div class="footer__final-text">Броня установлена</div><div class="footer__final-sub">Разрушительная команда физически не выйдет за пределы папки проекта. Если что-то не работает — отправьте ошибку в Claude Code, он поможет починить.</div></div>
+<div class="footer__contact">Возникли проблемы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
 <button class="btn-reset" onclick="resetProgress()">↺ Сбросить прогресс</button>
 </div>
 </div>
