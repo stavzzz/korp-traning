@@ -335,6 +335,8 @@
   .prompt-block__text { font-size:13px; color:var(--text-secondary); line-height:1.7; white-space:pre-wrap; margin-bottom:14px; word-break:break-word; }
   .btn-copy { display:inline-flex; align-items:center; gap:6px; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600; color:var(--accent-glow); background:var(--accent-soft); border:1px solid rgba(124,91,245,0.3); padding:8px 16px; border-radius:8px; cursor:pointer; transition:all .2s; text-transform:uppercase; letter-spacing:1px; }
   .btn-copy:hover { background:rgba(124,91,245,0.2); border-color:var(--accent); }
+  .btn-dl { display:inline-flex; align-items:center; gap:7px; font-family:'Onest',sans-serif; font-size:13px; font-weight:600; color:var(--accent-glow); background:var(--accent-soft); border:1px solid rgba(124,91,245,0.35); padding:9px 18px; border-radius:10px; text-decoration:none; transition:all .2s; cursor:pointer; }
+  .btn-dl:hover { background:rgba(124,91,245,0.2); border-color:var(--accent); }
   .btn-copy.copied { color:var(--green); background:var(--green-soft); border-color:rgba(52,211,153,0.3); }
 
   /* ─── CMD COPY ─── */
@@ -495,7 +497,7 @@
 <div class="section">
   <div class="section__header">
     <div class="section__num">01</div>
-    <div class="section__title">Зачем учиться читать документацию OpenClaw</div>
+    <div class="section__title">Зачем отдавать документацию OpenClaw своему Claude Code</div>
   </div>
   <div class="section__card">
     <div class="note note--info">
@@ -504,11 +506,15 @@
     </div>
     <div class="info-block">
       <p><strong>Проблема:</strong> документация OpenClaw — это 200+ страниц, и она обновляется каждый месяц. Читать её глазами — медленно и неэффективно.</p>
-      <p><strong>Решение:</strong> отдать всю документацию Claude — и в claude.ai, и в Claude Code. Один раз настроил — и ваши AI-ассистенты знают OpenClaw целиком, без галлюцинаций и устаревших ответов.</p>
+      <p><strong>Решение:</strong> отдать всю документацию прямо внутрь Claude Code. Один раз настроил — и агент знает OpenClaw целиком, без галлюцинаций и устаревших ответов.</p>
+    </div>
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span><strong>Хорошая новость: эту главу вы уже почти сделали в Уроке 3.</strong> Там мы поставили в Claude Code готовый скилл <span class="mono">openclaw-docs</span> — это вся документация OpenClaw прямо внутри агента. Ничего скачивать и нарезать вручную больше не нужно. В этой главе мы просто убедимся, что скилл на месте (и поставим, если вдруг нет), и разберём, где искать первоисточник.</span>
     </div>
     <div class="note note--warn">
       <span class="note__icon">⚡</span>
-      <span><strong>Два слоя знаний для Claude Code</strong> — важно различать:<br><strong>1. Документация (эта глава)</strong> — Claude понимает, <strong>как устроен</strong> OpenClaw. Учебник.<br><strong>2. MCP OpenClaw (следующая глава)</strong> — Claude получает <strong>руки</strong> для работы с вашим инстансом.<br>Вместе — режим БОГА.</span>
+      <span><strong>Два слоя знаний для Claude Code</strong> — важно различать:<br><strong>1. Документация (скилл <span class="mono">openclaw-docs</span>, эта глава)</strong> — Claude понимает, <strong>как устроен</strong> OpenClaw. Учебник.<br><strong>2. MCP OpenClaw (следующая глава)</strong> — Claude получает <strong>руки и глаза</strong> для работы с вашим живым инстансом.<br>Вместе — режим БОГА.</span>
     </div>
   </div>
 </div>
@@ -517,9 +523,73 @@
 <div class="section">
   <div class="section__header">
     <div class="section__num">02</div>
+    <div class="section__title">Скилл openclaw-docs — вся документация внутри Claude Code</div>
+  </div>
+  <div class="section__card">
+    <div class="term">
+      <div class="term__name">СКИЛЛ OPENCLAW-DOCS</div>
+      <div class="term__def">Готовый скилл для Claude Code с полной документацией OpenClaw, уже разбитой по темам на 21 раздел. Claude Code подхватывает его <strong>сам</strong>, как только речь заходит про OpenClaw — и отвечает строго по официальной доке, а не по памяти.</div>
+      <div class="term__example">📌 Вы поставили этот скилл в <strong>Уроке 3</strong> перед установкой OpenClaw. Вызывать вручную ничего не нужно: просто спрашивайте по-человечески — «как настроить Telegram в OpenClaw?», «какие параметры у heartbeat?» — и агент отвечает по документации, без выдумок.</div>
+    </div>
+
+    <div class="note note--info">
+      <span class="note__icon">🔁</span>
+      <span><strong>Почему скилл, а не «скачать один файл и нарезать руками».</strong> Скилл — это та же документация, уже нарезанная на разделы и с картой-индексом внутри. Claude Code сам выбирает нужный раздел под вопрос и читает 5–15К токенов вместо миллиона. Быстрее, точнее, дешевле — и работает в каждой сессии автоматически, без напоминаний.</span>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch01-verify-skill">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить, что скилл openclaw-docs стоит в Claude Code</div>
+        <div class="item__hint">Откройте Claude Code и отправьте промпт ниже. Если агент подтверждает, что скилл <span class="mono">openclaw-docs</span> установлен и активен — всё готово, переходите к следующему разделу. Если скилла нет — поставьте его по инструкции ниже (это тот же самый пункт из Урока 3).</div>
+      </div>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: проверить скилл openclaw-docs (в Claude Code)</div>
+      <div class="prompt-block__text" id="promptVerifySkill">Покажи список установленных у тебя скиллов и проверь, есть ли среди них openclaw-docs. Если он есть — коротко скажи, что он активен и когда ты его подхватываешь. Если его нет — так и напиши.</div>
+      <button class="btn-copy" onclick="copyBlock('promptVerifySkill', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="note note--warn">
+      <span class="note__icon">🧩</span>
+      <span><strong>Если скилла нет</strong> (пропустили Урок 3 или переустанавливали Claude Code) — поставьте его сейчас. Три шага ниже.</span>
+    </div>
+
+    <div class="info-block">
+      <p><strong>1.</strong> Скачайте архив скилла и распакуйте его двойным кликом — получится папка <span class="mono">openclaw-docs</span>. Затем перетащите эту папку в проект, открытый в Claude Code (видно в левой панели VS Code).</p>
+      <p><a href="https://drive.google.com/uc?export=download&amp;id=1zShFMW8g3nqhJvuDaKnFzzkj1azpQ9sq" target="_blank" class="btn-dl" onclick="event.stopPropagation()">⬇️ Скачать openclaw-docs.zip</a></p>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: установить скилл openclaw-docs (в Claude Code)</div>
+      <div class="prompt-block__text" id="promptInstallSkill">В папке моего проекта появилась папка openclaw-docs — это скилл с документацией OpenClaw. Установи его как скилл для Claude Code, чтобы он работал у меня всегда. Потом проверь, что всё на месте, и напомни мне перезапустить Claude Code.</div>
+      <button class="btn-copy" onclick="copyBlock('promptInstallSkill', this)">📋 Скопировать промпт</button>
+    </div>
+
+    <div class="info-block">
+      <p><strong>2.</strong> Отправьте промпт в Claude Code — он установит скилл и напомнит перезапустить программу.</p>
+      <p><strong>3.</strong> Перезапустите Claude Code. После перезапуска скилл активен — вернитесь к пункту проверки выше.</p>
+    </div>
+
+    <div class="note note--green">
+      <span class="note__icon">💡</span>
+      <span>На сервере (Глава 03) наш Telegram-бот — это тоже Claude Code. Ему мы поставим ровно этот же скилл <span class="mono">openclaw-docs</span>, чтобы серверный агент тоже знал OpenClaw. Сделаем это там же, при настройке бота.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 03 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">03</div>
     <div class="section__title">Ключевые ресурсы документации OpenClaw</div>
   </div>
   <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">📚</span>
+      <span>Скилл закрывает 95% вопросов прямо в Claude Code. Но полезно знать, где живёт первоисточник — на случай свежих фич, которых ещё нет в скилле.</span>
+    </div>
     <div class="res-block">
       <div class="res-block__title">📖 Главная страница документации</div>
       <div class="res-block__sub">Официальный сайт с поиском, разделами, примерами. Здесь начинается любой ресёрч.<br>
@@ -528,7 +598,7 @@
     </div>
     <div class="res-block">
       <div class="res-block__title">🤖 llms-full.txt — вся дока одним файлом для AI</div>
-      <div class="res-block__sub">Стандарт llmstxt.org — авторы проекта собрали ВСЮ документацию в один markdown-файл, заточенный под загрузку в AI. Именно этот файл мы скачаем в практике ниже.<br>
+      <div class="res-block__sub">Стандарт llmstxt.org — авторы проекта собрали ВСЮ документацию в один markdown-файл (~4 МБ), заточенный под загрузку в AI. Это тот самый исходник, из которого собран скилл <span class="mono">openclaw-docs</span>.<br>
         <a href="https://docs.openclaw.ai/llms-full.txt" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> docs.openclaw.ai/llms-full.txt</a>
       </div>
     </div>
@@ -548,381 +618,10 @@
   </div>
 </div>
 
-<!-- ═══ 03 ═══ -->
-<div class="section">
-  <div class="section__header">
-    <div class="section__num">03</div>
-    <div class="section__title">Что такое llms-full.txt и почему это именно то, что нам нужно</div>
-  </div>
-  <div class="section__card">
-    <div class="term">
-      <div class="term__name">LLMS-FULL.TXT</div>
-      <div class="term__def">Стандарт <strong>llmstxt.org</strong> — авторы проекта публикуют всю свою документацию в одном <span class="mono">.md</span>-файле, заточенном под загрузку в AI-инструменты (Claude, ChatGPT и т.п.).</div>
-      <div class="term__example">📌 Пример: команда OpenClaw собрала все 200+ страниц документации в один текстовый файл ~4 МБ. Скачал → отдал Claude → Claude знает OpenClaw целиком. Никаких галлюцинаций, никаких устаревших ответов.</div>
-    </div>
-    <div class="info-block">
-      <p>Размер файла — <strong>~4 МБ</strong> (примерно 1 миллион токенов). Это огромный файл. Читать его целиком каждый раз Claude Code не будет (да и не сможет — даже Claude Opus 4.7 с контекстом в 1 млн токенов упрётся в потолок).</p>
-      <p>Поэтому в практике ниже мы попросим Claude Code разбить этот файл на тематические разделы. Так Claude будет подтягивать только нужные 5–15К токенов на каждый вопрос вместо 1 млн.</p>
-    </div>
-    <div class="note note--green">
-      <span class="note__icon">💎</span>
-      <span><strong>«У меня же Claude Opus 4.7 с контекстом 1М токенов — зачем разбивать?»</strong><br>— <strong>Скорость:</strong> 5–15К токенов раздела → ответ за секунды. 1 млн токенов целиком → минута ожидания каждый раз.<br>— <strong>Точность:</strong> Claude фокусируется на релевантном разделе — меньше шума, меньше ошибок.<br>— <strong>Стоимость:</strong> если работаете через API — разбивка экономит десятки долларов в месяц.<br>— <strong>Переносимость:</strong> в Главе 03 подключим Claude Code в Telegram-бота на сервере, там может быть другая модель и лимиты. Разбитая дока работает везде.</span>
-    </div>
-  </div>
-</div>
-
 <!-- ═══ 04 ═══ -->
 <div class="section">
   <div class="section__header">
     <div class="section__num">04</div>
-    <div class="section__title">Шаг 1. Скачиваем документацию локально на компьютер</div>
-  </div>
-  <div class="section__card">
-    <div class="info-block">
-      <p>Начинаем с локальной машины. Откройте терминал:</p>
-      <p>— <strong>Mac:</strong> Terminal.app или iTerm<br>— <strong>Windows:</strong> PowerShell (встроенный, ищи через «Пуск» → PowerShell)</p>
-      <p>Важно: НЕ используйте терминал VS Code, подключённый к серверу по SSH — нам нужен именно локальный терминал компьютера.</p>
-    </div>
-
-    <div class="item" data-key="urok6-part1-ch01-download-local">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Скачать llms-full.txt в папку openclaw-docs/ в домашней директории</div>
-        <div class="item__hint">Команда ниже создаст папку <span class="mono">openclaw-docs/</span> в вашей домашней директории и скачает туда всю документацию одним файлом (~4 МБ). Выберите команду для своей ОС.</div>
-      </div>
-    </div>
-
-    <div class="cmd-block-os">
-      <div class="cmd-os-label">🍎 Mac (Terminal / iTerm)</div>
-      <div class="cmd-copy"><span class="cmd-copy__text" id="cmdDownloadMac">mkdir -p ~/openclaw-docs && curl -o ~/openclaw-docs/openclaw.md https://docs.openclaw.ai/llms-full.txt</span><button class="btn-copy" onclick="copyBlock('cmdDownloadMac',this)">📋 Скопировать</button></div>
-      <div class="cmd-os-label cmd-os-label--win">🪟 Windows (PowerShell)</div>
-      <div class="cmd-copy"><span class="cmd-copy__text" id="cmdDownloadWin">New-Item -ItemType Directory -Force -Path "$HOME\openclaw-docs" | Out-Null; Invoke-WebRequest -Uri "https://docs.openclaw.ai/llms-full.txt" -OutFile "$HOME\openclaw-docs\openclaw.md"</span><button class="btn-copy" onclick="copyBlock('cmdDownloadWin',this)">📋 Скопировать</button></div>
-    </div>
-
-    <div class="item" data-key="urok6-part1-ch01-check-size">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Проверить, что файл скачался</div>
-        <div class="item__hint">Выберите команду для своей ОС и проверьте размер файла — должно быть ~4 МБ.</div>
-      </div>
-    </div>
-
-    <div class="cmd-block-os">
-      <div class="cmd-os-label">🍎 Mac (Terminal / iTerm)</div>
-      <div class="cmd-copy"><span class="cmd-copy__text" id="cmdCheckSizeMac">ls -lh ~/openclaw-docs/openclaw.md</span><button class="btn-copy" onclick="copyBlock('cmdCheckSizeMac',this)">📋 Скопировать</button></div>
-      <div class="cmd-os-label cmd-os-label--win">🪟 Windows (PowerShell)</div>
-      <div class="cmd-copy"><span class="cmd-copy__text" id="cmdCheckSizeWin">Get-Item "$HOME\openclaw-docs\openclaw.md" | Select-Object Name, @{Name="Size(MB)";Expression={[math]::Round($_.Length/1MB,2)}}</span><button class="btn-copy" onclick="copyBlock('cmdCheckSizeWin',this)">📋 Скопировать</button></div>
-    </div>
-
-    <div class="note note--green">
-      <span class="note__icon">✅</span>
-      <span>Если видите файл размером примерно <strong>4 МБ</strong> — всё ок. Файл лежит в папке <span class="mono">openclaw-docs/</span> в вашей домашней директории.</span>
-    </div>
-  </div>
-</div>
-
-<!-- ═══ 05 ═══ -->
-<div class="section">
-  <div class="section__header">
-    <div class="section__num">05</div>
-    <div class="section__title">Шаг 2. Создаём рабочую папку OpenClaw и нарезаем документацию</div>
-  </div>
-  <div class="section__card">
-    <div class="note note--info">
-      <span class="note__icon">🪚</span>
-      <span>Сейчас создадим отдельную рабочую папку <span class="mono">OpenClaw</span>, откроем её в VS Code с Claude Code, положим туда скачанный файл и попросим Claude Code разрезать его на тематические куски. Это будет наша основная рабочая папка до конца урока.</span>
-    </div>
-
-    <div class="item" data-key="urok6-part1-ch01-create-folder">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Создать рабочую папку OpenClaw на компьютере</div>
-        <div class="item__hint">Создайте папку <span class="mono">OpenClaw</span> где удобно — на рабочем столе, в Documents или в любой своей рабочей директории. Эта папка будет вашим основным проектом OpenClaw до конца урока — в ней мы будем держать документацию, AGENTS.md и все связанные файлы.</div>
-      </div>
-    </div>
-
-    <div class="item" data-key="urok6-part1-ch01-move-file">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Переместить скачанный openclaw.md в папку OpenClaw</div>
-        <div class="item__hint">Просто перетащи файл <span class="mono">openclaw.md</span> из <span class="mono">openclaw-docs/</span> (куда мы его скачали в Шаге 1) в только что созданную папку <span class="mono">OpenClaw</span>. Через Finder (Mac) или Проводник (Windows) — мышкой.</div>
-      </div>
-    </div>
-
-    <div class="item" data-key="urok6-part1-ch01-open-vscode">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Открыть папку OpenClaw в VS Code и запустить Claude Code</div>
-        <div class="item__hint">В VS Code: <strong>File → Open Folder…</strong> → выберите созданную папку <span class="mono">OpenClaw</span>. Запустите Claude Code (иконка в боковой панели или команда <span class="mono">⌘+Shift+P</span> / <span class="mono">Ctrl+Shift+P</span> → «Claude Code»). Начните новую сессию (New Chat). В этой сессии работаем <strong>локально, БЕЗ Remote-SSH</strong>.</div>
-      </div>
-    </div>
-
-    <div class="item" data-key="urok6-part1-ch01-cut-by-topics">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Отправить в Claude Code промпт для нарезки</div>
-        <div class="item__hint">Claude Code прочитает файл <span class="mono">openclaw.md</span> из открытой папки, разобьёт его на 21 тематический раздел и создаст подпапку <span class="mono">openclaw/</span> с этими файлами + индексом. На это уйдёт несколько минут.</div>
-      </div>
-    </div>
-
-    <div class="prompt-block">
-      <div class="prompt-block__title">📋 Промпт: нарезка документации OpenClaw по темам</div>
-      <div class="prompt-block__text" id="promptCutDocs">Прочитай файл openclaw.md в корне текущей рабочей папки — это вся
-документация OpenClaw в одном .md файле (~4 МБ, ~1М токенов,
-стандарт llmstxt.org).
-
-ЗАДАЧА: разбей этот файл на отдельные тематические markdown-файлы.
-
-Создай в текущей рабочей папке подпапку `openclaw/` и положи туда
-файлы по такой схеме:
-
-01-overview.md               — введение, showcase, features, концепция
-02-getting-started.md        — onboarding, setup, install, первый запуск
-03-channels.md               — все каналы (Telegram, WhatsApp, Signal, Discord и т.д.)
-04-concepts-agents.md        — агенты, Agent Loop, Agent Workspace, Delegate
-05-concepts-memory.md        — Memory Engine, MEMORY.md, memory search, built-in/Honcho/QMD
-06-concepts-soul.md          — SOUL.md, Personality Guide, характер агента
-07-concepts-system.md        — System Prompt, Context, Sessions, Compaction
-08-automation.md             — Cron Jobs, Hooks, Webhooks, Standing Orders, TaskFlow
-09-heartbeat.md              — Heartbeat, проактивность агента
-10-tools-skills.md           — Skills, ClawHub, Creating Skills, Slash Commands
-11-tools-mcp.md              — MCP CLI и настройка интеграций
-12-tools-other.md            — Browser, Exec, Search (все движки), LLM Task, Sub-Agents
-13-providers.md              — все провайдеры моделей (OpenAI, Anthropic, OpenRouter, Google и пр.)
-14-gateway-config.md         — Gateway Configuration, examples, reference
-15-gateway-security.md       — Security, Sandboxing, Secrets, Authentication, Trusted Proxy
-16-gateway-ops.md             — Remote Access, Logging, Health, Doctor, Troubleshooting
-17-cli-reference.md          — вся CLI-справка (все команды openclaw *)
-18-templates.md              — все шаблоны (SOUL, AGENTS, HEARTBEAT, IDENTITY, USER, BOOT, TOOLS)
-19-platforms.md              — macOS, Linux, Windows, iOS, Android
-20-plugins.md                — Plugin SDK, Building Plugins, Community Plugins
-21-help.md                   — FAQ, Debugging, Environment Variables, Scripts
-
-ТРЕБОВАНИЯ К КАЖДОМУ ФАЙЛУ:
-1. В начале файла — заголовок с названием раздела и краткое описание что внутри.
-2. Полный перенос содержимого соответствующих разделов из исходного файла.
-3. Ничего НЕ сокращай, НЕ перефразируй, НЕ опускай примеры кода и таблицы.
-4. Все ссылки, code-блоки, таблицы переноси 1:1.
-
-ДОПОЛНИТЕЛЬНО: создай в этой же папке `openclaw/` файл index.md
-со структурой:
-
-# OpenClaw Documentation — Index
-
-## Карта разделов
-(таблица: имя файла | о чём файл | примеры вопросов, на которые он отвечает)
-
-После окончания работы:
-— покажи размер каждого созданного файла
-— подтверди, что суммарный объём близок к исходному
-— ничего не удаляй из оригинального openclaw.md</div>
-      <button class="btn-copy" onclick="copyBlock('promptCutDocs', this)">📋 Скопировать промпт</button>
-    </div>
-
-    <div class="item" data-key="urok6-part1-ch01-verify-cut">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Проверить результат нарезки глазами в Finder / Проводнике</div>
-        <div class="item__hint">Откройте папку <span class="mono">OpenClaw</span> в Finder (Mac) или Проводнике (Windows) и зайдите в подпапку <span class="mono">openclaw/</span>. Вы должен увидеть примерно <strong>22 файла</strong>: <span class="mono">index.md</span> + 21 тематический файл от <span class="mono">01-overview.md</span> до <span class="mono">21-help.md</span>.</div>
-      </div>
-    </div>
-
-    <div class="info-block">
-      <p><strong>Что должно быть в папке <span class="mono">OpenClaw/openclaw/</span>:</strong></p>
-      <p>📄 index.md<br>📄 01-overview.md<br>📄 02-getting-started.md<br>📄 03-channels.md<br>📄 04-concepts-agents.md<br>📄 05-concepts-memory.md<br>📄 06-concepts-soul.md<br>📄 07-concepts-system.md<br>📄 08-automation.md<br>📄 09-heartbeat.md<br>📄 10-tools-skills.md<br>📄 11-tools-mcp.md<br>📄 12-tools-other.md<br>📄 13-providers.md<br>📄 14-gateway-config.md<br>📄 15-gateway-security.md<br>📄 16-gateway-ops.md<br>📄 17-cli-reference.md<br>📄 18-templates.md<br>📄 19-platforms.md<br>📄 20-plugins.md<br>📄 21-help.md</p>
-      <p>Суммарный вес всех файлов — примерно равен исходному <span class="mono">openclaw.md</span> (~4 МБ).</p>
-    </div>
-
-    <div class="note note--green">
-      <span class="note__icon">✅</span>
-      <span>Если в папке <span class="mono">openclaw/</span> 22 файла — всё собралось правильно. Идём дальше: учим Claude Code сверяться с этой документацией автоматически.</span>
-    </div>
-  </div>
-</div>
-
-<!-- ═══ 06 ═══ -->
-<div class="section">
-  <div class="section__header">
-    <div class="section__num">06</div>
-    <div class="section__title">Шаг 3. Создаём AGENTS.md — чтобы Claude Code сам сверялся с документацией</div>
-  </div>
-  <div class="section__card">
-    <div class="term">
-      <div class="term__name">AGENTS.MD</div>
-      <div class="term__def">Специальный файл с постоянными инструкциями для Claude Code. Claude Code автоматически читает этот файл в начале каждой сессии в той папке, где он лежит. В результате правила применяются <strong>сами</strong> — вам не нужно каждый раз их напоминать промптом.</div>
-      <div class="term__example">📌 Стандарт <span class="mono">agents.md</span> — это соглашение для AI coding-агентов. Его поддерживают Claude Code от Anthropic и большинство других агентов. Один файл → работают во всех сессиях.</div>
-    </div>
-
-    <div class="info-block">
-      <p><strong>Что мы сейчас сделаем:</strong> попросим сам Claude Code создать файл <span class="mono">AGENTS.md</span> в нашей рабочей папке <span class="mono">OpenClaw</span> и прописать туда правило: «при любом вопросе по OpenClaw — сначала сверяйся с документацией в подпапке <span class="mono">openclaw/</span>, ничего не выдумывай из головы».</p>
-      <p>После этого Claude Code будет автоматически знать эту документацию в каждой новой сессии, пока работает в этой папке.</p>
-    </div>
-
-    <div class="item" data-key="urok6-part1-ch01-create-agents">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Попросить Claude Code создать AGENTS.md</div>
-        <div class="item__hint">В <strong>той же сессии</strong> Claude Code (которая уже открыта в папке <span class="mono">OpenClaw</span>) отправьте промпт ниже. Claude Code сам создаст файл <span class="mono">AGENTS.md</span> в корне папки и пропишет туда нужные правила.</div>
-      </div>
-    </div>
-
-    <div class="prompt-block">
-      <div class="prompt-block__title">📋 Промпт: Claude Code создаёт AGENTS.md</div>
-      <div class="prompt-block__text" id="promptCreateAgents">Создай в корне текущей рабочей папки файл AGENTS.md со следующим
-содержимым. Если AGENTS.md уже есть — добавь этот блок в конец файла,
-ничего из существующего не удаляя.
-
----
-
-## Документация OpenClaw
-
-Полная документация OpenClaw разбита по темам в подпапке `./openclaw/`
-этого проекта.
-
-При ЛЮБОМ вопросе по OpenClaw (настройка, конфигурация, CLI-команды,
-скиллы, провайдеры, концепции, шаблоны) работай по такому алгоритму:
-
-1. СНАЧАЛА прочитай `./openclaw/index.md` — там карта всех разделов
-   с описаниями «какой файл отвечает на какие вопросы».
-2. Выбери нужный тематический файл по описанию в карте.
-3. Прочитай этот файл ЦЕЛИКОМ через Read.
-4. Если тема сквозная (затрагивает несколько файлов) — используй
-   Grep по всей папке `./openclaw/`.
-5. НИКОГДА не придумывай CLI-команды, ключи конфигурации и имена
-   инструментов из памяти — только из документации.
-6. Если нужного не нашёл — используй команду
-   `openclaw docs &lt;ключевые_слова&gt;` для живого поиска по актуальной
-   документации на docs.openclaw.ai.
-
----
-
-После создания файла покажи мне его содержимое и подтверди,
-что файл лежит в корне текущей папки.</div>
-      <button class="btn-copy" onclick="copyBlock('promptCreateAgents', this)">📋 Скопировать промпт</button>
-    </div>
-
-    <div class="item" data-key="urok6-part1-ch01-restart-claude">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Перезапустить сессию Claude Code</div>
-        <div class="item__hint">Закройте текущую сессию Claude Code и откройте новую в той же папке <span class="mono">OpenClaw</span>. Это нужно, чтобы Claude Code подхватил только что созданный <span class="mono">AGENTS.md</span> при старте сессии.</div>
-      </div>
-    </div>
-
-    <div class="item" data-key="urok6-part1-ch01-test-claude">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Протестировать — задать Claude Code реальный вопрос по OpenClaw</div>
-        <div class="item__hint">В новой сессии отправьте промпт ниже. Если Claude в ответе ссылается на конкретный файл из <span class="mono">./openclaw/</span> и корректно объясняет тему — всё настроено правильно ✅</div>
-      </div>
-    </div>
-
-    <div class="prompt-block">
-      <div class="prompt-block__title">📋 Тестовый запрос для проверки</div>
-      <div class="prompt-block__text" id="promptTestDocs">Как в OpenClaw устроены Heartbeats? Дай мне:
-1. Коротко что это и зачем.
-2. Конкретный пример конфига с синтаксисом.
-3. Все актуальные параметры и поля.
-
-Важно: отвечай строго по моей документации OpenClaw из ./openclaw/
-— начни с чтения ./openclaw/index.md.</div>
-      <button class="btn-copy" onclick="copyBlock('promptTestDocs', this)">📋 Скопировать промпт</button>
-    </div>
-  </div>
-</div>
-
-<!-- ═══ 07 ═══ -->
-<div class="section">
-  <div class="section__header">
-    <div class="section__num">07</div>
-    <div class="section__title">Шаг 4. Переносим документацию на сервер (задел под Главу 03)</div>
-  </div>
-  <div class="section__card">
-    <div class="info-block">
-      <p><strong>Зачем сервер?</strong> Мы локально уже всё настроили. Но в <strong>Главе 03</strong> этой Части мы подключим Claude Code в отдельного Telegram-бота, и этот бот будет запускать Claude Code <strong>на сервере</strong>. Чтобы серверный Claude Code тоже знал документацию — копируем папку <span class="mono">openclaw/</span> туда заранее.</p>
-      <p>В Главе 03 мы там же создадим серверный <span class="mono">AGENTS.md</span> с таким же правилом.</p>
-    </div>
-
-    <div class="item" data-key="urok6-part1-ch01-scp-server">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Скопировать папку openclaw/ на сервер по SCP</div>
-        <div class="item__hint">Команда выполняется в <strong>локальном</strong> терминале компьютера (НЕ в терминале VS Code с Remote-SSH). Замените <span class="mono">&lt;IP&gt;</span> на IP-адрес вашего VPS. Замените путь в начале команды на полный путь к вашей папке <span class="mono">OpenClaw</span>. Выберите команду для своей ОС.<br><br><strong>Для Windows:</strong> команда <span class="mono">scp</span> встроена в OpenSSH Client по умолчанию на Windows 10/11. Если её нет — включите «OpenSSH Client» в «Параметры → Приложения → Дополнительные компоненты».</div>
-      </div>
-    </div>
-
-    <div class="cmd-block-os">
-      <div class="cmd-os-label">🍎 Mac (Terminal / iTerm)</div>
-      <div class="cmd-copy"><span class="cmd-copy__text" id="cmdScpMac">scp -r ~/путь/до/OpenClaw/openclaw root@&lt;IP&gt;:~/openclaw-docs/</span><button class="btn-copy" onclick="copyBlock('cmdScpMac',this)">📋 Скопировать</button></div>
-      <div class="cmd-os-label cmd-os-label--win">🪟 Windows (PowerShell)</div>
-      <div class="cmd-copy"><span class="cmd-copy__text" id="cmdScpWin">scp -r "$HOME\путь\до\OpenClaw\openclaw" root@&lt;IP&gt;:~/openclaw-docs/</span><button class="btn-copy" onclick="copyBlock('cmdScpWin',this)">📋 Скопировать</button></div>
-    </div>
-
-    <div class="item" data-key="urok6-part1-ch01-verify-server">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Проверить, что папка появилась на сервере</div>
-        <div class="item__hint">Подключитесь к серверу одной командой — она работает одинаково на Mac и Windows.</div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdCheckServer">ssh root@&lt;IP&gt; "ls -lh ~/openclaw-docs/openclaw/ | head -25"</span><button class="btn-copy" onclick="copyBlock('cmdCheckServer',this)">📋 Скопировать</button></div>
-      </div>
-    </div>
-
-    <div class="note note--green">
-      <span class="note__icon">✅</span>
-      <span>Если видите список из 22 файлов (index.md + 21 тематический файл) — перенос прошёл успешно. Теперь документация лежит в двух местах: локально на компьютере и на сервере.</span>
-    </div>
-  </div>
-</div>
-
-<!-- ═══ 08 ═══ -->
-<div class="section">
-  <div class="section__header">
-    <div class="section__num">08</div>
-    <div class="section__title">Шаг 5. Загружаем документацию в свой Claude Project</div>
-  </div>
-  <div class="section__card">
-    <div class="note note--info">
-      <span class="note__icon">🗂️</span>
-      <span>Помните проект в claude.ai из <strong>Урока 2</strong>, куда мы загружали базу знаний о вашем бизнесе? Сейчас в этот же проект добавим документацию OpenClaw. Тогда Claude в claude.ai будет знать ОДНОВРЕМЕННО и ваш бизнес, и OpenClaw — это мощная связка для обсуждения стратегии и архитектуры агентов.</span>
-    </div>
-
-    <div class="info-block">
-      <p>В Claude Project загружаем <strong>цельный</strong> файл <span class="mono">openclaw.md</span> (~4 МБ) из вашей рабочей папки <span class="mono">OpenClaw</span>. Проект это спокойно переваривает — тут нет той проблемы с контекстом, что в Claude Code. Claude сам строит по проектным файлам быстрый индекс и подтягивает нужное при каждом запросе.</p>
-    </div>
-
-    <div class="item" data-key="urok6-part1-ch01-upload-claude-project">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Загрузить openclaw.md в свой Claude Project</div>
-        <div class="item__hint">1. Откройте свой проект на <a href="https://claude.ai" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> claude.ai</a>.<br>2. Раздел <strong>«Project Knowledge»</strong> → кнопка <strong>«Add Content»</strong>.<br>3. Перетащи в окно файл <span class="mono">openclaw.md</span> из папки <span class="mono">OpenClaw</span> на вашем компьютере (либо вставьте ссылку <span class="mono">https://docs.openclaw.ai/llms-full.txt</span>).<br>4. Дождитесь окончания индексации.</div>
-      </div>
-    </div>
-
-    <div class="item" data-key="urok6-part1-ch01-test-claude-project">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Протестировать Claude Project тестовым запросом</div>
-        <div class="item__hint">Откройте новый чат <strong>ВНУТРИ</strong> проекта (не обычный чат claude.ai!) и задайте вопрос ниже. Если Claude отвечает по делу, ссылается на source-файлы и учитывает контекст вашего бизнеса — всё готово.</div>
-      </div>
-    </div>
-
-    <div class="prompt-block">
-      <div class="prompt-block__title">📋 Тестовый запрос для Claude Project</div>
-      <div class="prompt-block__text" id="promptTestProject">Спроектируй для моего бизнеса AI-агента на OpenClaw. Учти:
-1. Контекст моего бизнеса из проекта.
-2. Архитектуру OpenClaw из загруженной документации.
-3. Какие скиллы, heartbeats и каналы нам понадобятся.
-
-Отвечай опираясь на источники в проекте.</div>
-      <button class="btn-copy" onclick="copyBlock('promptTestProject', this)">📋 Скопировать промпт</button>
-    </div>
-  </div>
-</div>
-
-<!-- ═══ 09 ═══ -->
-<div class="section">
-  <div class="section__header">
-    <div class="section__num">09</div>
     <div class="section__title">Бонус 1. Команда openclaw docs — живой поиск из терминала</div>
   </div>
   <div class="section__card">
@@ -945,10 +644,10 @@
   </div>
 </div>
 
-<!-- ═══ 10 ═══ -->
+<!-- ═══ 05 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">10</div>
+    <div class="section__num">05</div>
     <div class="section__title">Бонус 2. Быстрый поиск по сайту через ⌘K / Ctrl+K</div>
   </div>
   <div class="section__card">
@@ -960,30 +659,28 @@
   </div>
 </div>
 
-<!-- ═══ 11 ═══ -->
+<!-- ═══ 06 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">11</div>
-    <div class="section__title">Обновляем документацию раз в месяц</div>
+    <div class="section__num">06</div>
+    <div class="section__title">Документация всегда свежая — сама</div>
   </div>
   <div class="section__card">
-    <div class="note note--warn">
+    <div class="note note--green">
       <span class="note__icon">🔄</span>
-      <span>OpenClaw развивается быстро — каждый месяц появляются новые каналы, провайдеры, изменения в API. Раз в месяц повторяй <strong>весь Шаг 1</strong> этой главы (скачивание <span class="mono">llms-full.txt</span>), положи свежий файл в папку <span class="mono">OpenClaw</span>, попросите Claude Code пересобрать папку <span class="mono">openclaw/</span>, перенеси на сервер через <span class="mono">scp</span> и подгрузи в Claude Project. Иначе ваши AI-ассистенты будут опираться на устаревшую версию.</span>
+      <span><strong>Ручное обновление раз в месяц больше не нужно.</strong> Скилл <span class="mono">openclaw-docs</span> поддерживается в актуальном состоянии — а Claude Code при каждом обращении берёт установленную версию скилла и сверяется именно с ней. Никакой нарезки файлов руками, никаких напоминаний. Просто спрашивайте про OpenClaw — агент отвечает по свежей доке.</span>
     </div>
-
     <div class="info-block">
-      <p><strong>Простой способ автоматизировать:</strong> в Главе 03 (когда подключим Claude Code в Telegram-бота) попросим этого бота выполнять обновление документации по расписанию через cron. Но до этого — делаем руками.</p>
+      <p>Если захотите гарантированно самую последнюю версию (например, вышел крупный релиз OpenClaw) — просто перекачайте архив скилла по ссылке из Раздела 02 и переустановите тем же промптом. Но в обычной работе этого не требуется.</p>
     </div>
   </div>
 </div>
-
     <!-- ═══ FOOTER ═══ -->
     <div class="footer">
       <div class="footer__done" id="doneBlock">
         <div class="footer__done-emoji">🧠</div>
         <div class="footer__done-text">Claude Code знает OpenClaw</div>
-        <div class="footer__done-sub">Документация OpenClaw разбита по темам и подключена к Claude Code через AGENTS.md в вашей рабочей папке OpenClaw. Копия лежит на сервере. Claude Project тоже знает OpenClaw — в связке с вашим бизнесом.</div>
+        <div class="footer__done-sub">Скилл openclaw-docs даёт Claude Code всю документацию OpenClaw прямо внутри агента — он сверяется с ней в каждой сессии и не выдумывает команды.</div>
       </div>
       <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
       <button class="btn-reset" onclick="resetProgressCh01()">Сбросить прогресс главы 01, части 01</button>
@@ -1013,13 +710,13 @@
 <!-- ═══ 12 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">12</div>
+    <div class="section__num">07</div>
     <div class="section__title">Что такое «режим БОГА» и три слоя силы Claude Code</div>
   </div>
   <div class="section__card">
     <div class="note note--info">
       <span class="note__icon">🚀</span>
-      <span>В Главе 01 мы научили Claude Code <strong>знать</strong> OpenClaw — подключили документацию через AGENTS.md. Сейчас идём дальше: даём Claude Code <strong>глаза, уши и доступ к актуальным докам сторонних библиотек</strong>. После этой главы у вас будет полноценный «режим БОГА» — Claude Code превращается в мощного разработчика по OpenClaw.</span>
+      <span>В Главе 01 мы научили Claude Code <strong>знать</strong> OpenClaw — поставили скилл <span class="mono">openclaw-docs</span> с полной документацией. Сейчас идём дальше: даём Claude Code <strong>глаза, уши и доступ к актуальным докам сторонних библиотек</strong>. После этой главы у вас будет полноценный «режим БОГА» — Claude Code превращается в мощного разработчика по OpenClaw.</span>
     </div>
 
     <div class="term">
@@ -1030,7 +727,7 @@
 
     <div class="info-block">
       <p><strong>Три слоя силы Claude Code</strong></p>
-      <p>🧠 <strong>Слой 1. ЗНАНИЕ</strong> <em>(сделано в Главе 01)</em><br>Claude Code понимает, как устроен OpenClaw — вся документация подключена через AGENTS.md.</p>
+      <p>🧠 <strong>Слой 1. ЗНАНИЕ</strong> <em>(сделано в Главе 01)</em><br>Claude Code понимает, как устроен OpenClaw — документацию даёт скилл openclaw-docs (Урок 3, Глава 01).</p>
       <p>🛠️ <strong>Слой 2. РУКИ</strong> <em>(уже есть из коробки)</em><br>Claude Code умеет редактировать любые файлы — SOUL.md, MEMORY.md, HEARTBEAT.md, скиллы, конфиги. Через стандартные тулзы Read/Write/Edit. Никакого специального MCP не нужно.</p>
       <p>👁️ <strong>Слой 3. ГЛАЗА И УШИ</strong> <em>(делаем в этой главе)</em><br>— Claude Code <strong>видит реальные каналы</strong> вашего агента (через <span class="mono">openclaw mcp serve</span>) — может читать историю диалогов, аудитировать, тестировать.<br>— Claude Code <strong>знает актуальные доки</strong> сторонних либ (через Context7) — пишет рабочий код с первого раза.</p>
     </div>
@@ -1045,7 +742,7 @@
 <!-- ═══ 13 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">13</div>
+    <div class="section__num">08</div>
     <div class="section__title">Что такое openclaw mcp serve — на пальцах</div>
   </div>
   <div class="section__card">
@@ -1070,7 +767,7 @@
 <!-- ═══ 14 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">14</div>
+    <div class="section__num">09</div>
     <div class="section__title">Шаг 1. Достаём Gateway-токен с сервера</div>
   </div>
   <div class="section__card">
@@ -1133,7 +830,7 @@
 <!-- ═══ 15 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">15</div>
+    <div class="section__num">10</div>
     <div class="section__title">Шаг 2. Узнаём WebSocket-адрес вашего Gateway</div>
   </div>
   <div class="section__card">
@@ -1162,14 +859,14 @@
 <!-- ═══ 16 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">16</div>
+    <div class="section__num">11</div>
     <div class="section__title">Шаг 3. Создаём .mcp.json в папке OpenClaw</div>
   </div>
   <div class="section__card">
     <div class="term">
       <div class="term__name">.MCP.JSON</div>
       <div class="term__def">Конфигурационный файл, в котором Claude Code хранит описание подключённых MCP-серверов. Когда файл лежит в корне проекта — серверы доступны только для этого проекта (наш случай). Если положить в глобальный конфиг — серверы будут доступны во всех проектах.</div>
-      <div class="term__example">📌 Мы кладём <span class="mono">.mcp.json</span> в нашу рабочую папку <span class="mono">OpenClaw</span> — рядом с AGENTS.md. Это значит, что наши MCP-серверы (openclaw + Context7) активны только когда Claude Code работает в этой папке. Чисто, безопасно, без побочных эффектов на другие проекты.</div>
+      <div class="term__example">📌 Мы кладём <span class="mono">.mcp.json</span> в корень нашей рабочей папки <span class="mono">OpenClaw</span>. Это значит, что наши MCP-серверы (openclaw + Context7) активны только когда Claude Code работает в этой папке. Чисто, безопасно, без побочных эффектов на другие проекты.</div>
     </div>
 
     <div class="note note--info">
@@ -1231,7 +928,7 @@
 <!-- ═══ 17 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">17</div>
+    <div class="section__num">12</div>
     <div class="section__title">Шаг 4. Отключаем messages_send — Claude Code не пишет в каналы от лица бота</div>
   </div>
   <div class="section__card">
@@ -1289,7 +986,7 @@
 <!-- ═══ 18 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">18</div>
+    <div class="section__num">13</div>
     <div class="section__title">Шаг 5. Что такое Context7 и зачем он нужен</div>
   </div>
   <div class="section__card">
@@ -1315,7 +1012,7 @@
 <!-- ═══ 19 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">19</div>
+    <div class="section__num">14</div>
     <div class="section__title">Шаг 6. Подключаем Context7 — добавляем в .mcp.json</div>
   </div>
   <div class="section__card">
@@ -1388,7 +1085,7 @@
 <!-- ═══ 20 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">20</div>
+    <div class="section__num">15</div>
     <div class="section__title">Шаг 7. Перезапускаем сессию Claude Code и проверяем</div>
   </div>
   <div class="section__card">
@@ -1434,7 +1131,7 @@
 <!-- ═══ 21 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">21</div>
+    <div class="section__num">16</div>
     <div class="section__title">Тестируем «режим БОГА» на трёх реальных кейсах</div>
   </div>
   <div class="section__card">
@@ -1519,7 +1216,7 @@ OpenClaw (./openclaw/10-tools-skills.md и 18-templates.md). Покажи
 <!-- ═══ 22 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">22</div>
+    <div class="section__num">17</div>
     <div class="section__title">Что дальше и что мы НАМЕРЕННО не сделали</div>
   </div>
   <div class="section__card">
@@ -1574,7 +1271,7 @@ OpenClaw (./openclaw/10-tools-skills.md и 18-templates.md). Покажи
 <!-- ═══ 23 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">23</div>
+    <div class="section__num">18</div>
     <div class="section__title">Что такое мобильный инженер в кармане</div>
   </div>
   <div class="section__card">
@@ -1584,7 +1281,7 @@ OpenClaw (./openclaw/10-tools-skills.md и 18-templates.md). Покажи
     </div>
     <div class="info-block">
       <p><strong>Это НЕ копия вашего OpenClaw-агента.</strong> Это <strong>отдельный</strong> Telegram-бот, у которого «мозг» — Claude Code на вашем сервере. Этот Claude Code:</p>
-      <p>✅ Знает документацию OpenClaw (наработки Главы 01)<br>✅ Подключён к вашему OpenClaw Gateway через MCP (Главы 02)<br>✅ Знает актуальные доки сторонних либ через Context7 (Главы 02)<br>✅ Имеет полный доступ к файлам OpenClaw-агента — SOUL.md, MEMORY.md, скиллы, конфиг<br>✅ Может перезапускать Gateway и другие сервисы<br>✅ Реагирует на ваши сообщения в Telegram моментально</p>
+      <p>✅ Знает документацию OpenClaw (скилл openclaw-docs)<br>✅ Подключён к вашему OpenClaw Gateway через MCP (Главы 02)<br>✅ Знает актуальные доки сторонних либ через Context7 (Главы 02)<br>✅ Имеет полный доступ к файлам OpenClaw-агента — SOUL.md, MEMORY.md, скиллы, конфиг<br>✅ Может перезапускать Gateway и другие сервисы<br>✅ Реагирует на ваши сообщения в Telegram моментально</p>
       <p>То есть это <strong>все три слоя силы</strong> из предыдущих глав, переехавшие на сервер и доступные с телефона.</p>
     </div>
     <div class="note note--warn">
@@ -1597,7 +1294,7 @@ OpenClaw (./openclaw/10-tools-skills.md и 18-templates.md). Покажи
 <!-- ═══ 24 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">24</div>
+    <div class="section__num">19</div>
     <div class="section__title">Архитектура: tmux + non-root юзер + полный доступ к OpenClaw</div>
   </div>
   <div class="section__card">
@@ -1622,9 +1319,10 @@ OpenClaw (./openclaw/10-tools-skills.md и 18-templates.md). Покажи
 │                                                              │
 │   TMUX-СЕССИЯ (под юзером claude-bot):                       │
 │    /home/claude-bot/claude-code-bot/OpenClaw/  ← рабочая     │
-│       ├─ AGENTS.md         (из Главы 01)                     │
-│       ├─ .mcp.json         (из Главы 02)                     │
-│       └─ openclaw/         ← разбитая дока (из Главы 01)     │
+│       └─ .mcp.json         (из Главы 02)                     │
+│                                                              │
+│    /home/claude-bot/.claude/skills/openclaw-docs/            │
+│       └─ дока OpenClaw как скилл Claude Code                 │
 │                                                              │
 │    /home/claude-bot/.openclaw/                               │
 │       └─ gateway.token     ← токен для MCP openclaw          │
@@ -1652,13 +1350,13 @@ OpenClaw (./openclaw/10-tools-skills.md и 18-templates.md). Покажи
 <!-- ═══ 25 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">25</div>
+    <div class="section__num">20</div>
     <div class="section__title">Источник истины — официальная документация Anthropic</div>
   </div>
   <div class="section__card">
     <div class="note note--info">
       <span class="note__icon">📖</span>
-      <span>Channels — официальный механизм Claude Code (доступен с версии 2.1.80+). Anthropic поддерживает его как research preview, обновляет каждые 1-2 недели. Вся правда — на одной странице:</span>
+      <span>Channels — официальный механизм Claude Code (доступен с версии 2.1.80+). Anthropic поддерживает его как research preview, обновляет каждые 1-2 недели. Значит, связка может <strong>ломаться при обновлениях Claude Code</strong> — если бот вдруг замолчал, это чаще всего не «сломался урок», а изменение в preview: диагностика — в конце главы (Шаг «бот молчит»). Вся правда — на одной странице:</span>
     </div>
     <div class="res-block">
       <div class="res-block__title">📚 Официальная документация Channels (Anthropic)</div>
@@ -1680,7 +1378,7 @@ OpenClaw (./openclaw/10-tools-skills.md и 18-templates.md). Покажи
 <!-- ═══ 26 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">26</div>
+    <div class="section__num">21</div>
     <div class="section__title">Шаг 1. Создаём отдельного Telegram-бота через BotFather</div>
   </div>
   <div class="section__card">
@@ -1712,7 +1410,7 @@ OpenClaw (./openclaw/10-tools-skills.md и 18-templates.md). Покажи
 <!-- ═══ 27 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">27</div>
+    <div class="section__num">22</div>
     <div class="section__title">Шаг 2. Настраиваем SSH-конфиг на компьютере</div>
   </div>
   <div class="section__card">
@@ -1752,7 +1450,7 @@ Host openclaw-bot
 <!-- ═══ 28 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">28</div>
+    <div class="section__num">23</div>
     <div class="section__title">Шаг 3. Создаём юзера claude-bot на сервере</div>
   </div>
   <div class="section__card">
@@ -1797,7 +1495,7 @@ Host openclaw-bot
 <!-- ═══ 29 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">29</div>
+    <div class="section__num">24</div>
     <div class="section__title">Шаг 4. Даём юзеру claude-bot доступ к файлам OpenClaw-агента</div>
   </div>
   <div class="section__card">
@@ -1831,7 +1529,7 @@ Host openclaw-bot
 <!-- ═══ 30 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">30</div>
+    <div class="section__num">25</div>
     <div class="section__title">Шаг 5. Подключаемся под claude-bot для основной работы</div>
   </div>
   <div class="section__card">
@@ -1852,7 +1550,7 @@ Host openclaw-bot
 <!-- ═══ 31 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">31</div>
+    <div class="section__num">26</div>
     <div class="section__title">Шаг 6. Устанавливаем Node.js (если нет) и Bun</div>
   </div>
   <div class="section__card">
@@ -1898,7 +1596,7 @@ Host openclaw-bot
 <!-- ═══ 32 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">32</div>
+    <div class="section__num">27</div>
     <div class="section__title">Шаг 7. Устанавливаем Claude Code прямо на сервере</div>
   </div>
   <div class="section__card">
@@ -1936,7 +1634,7 @@ Host openclaw-bot
 <!-- ═══ 33 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">33</div>
+    <div class="section__num">28</div>
     <div class="section__title">Шаг 8. Авторизуем Claude Code прямо на сервере (OAuth device flow)</div>
   </div>
   <div class="section__card">
@@ -1969,13 +1667,13 @@ Host openclaw-bot
 <!-- ═══ 34 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">34</div>
-    <div class="section__title">Шаг 9. Переносим рабочую папку OpenClaw из Глав 01-02 на сервер</div>
+    <div class="section__num">29</div>
+    <div class="section__title">Шаг 9. Переносим .mcp.json на сервер и ставим боту скилл openclaw-docs</div>
   </div>
   <div class="section__card">
     <div class="note note--info">
       <span class="note__icon">📦</span>
-      <span>В Главах 01 и 02 мы локально на компьютере собрали папку <span class="mono">OpenClaw/</span> — там лежат <span class="mono">AGENTS.md</span>, <span class="mono">.mcp.json</span> и подпапка <span class="mono">openclaw/</span> с разбитой документацией. Сейчас переносим эту папку на сервер.</span>
+      <span>В Главе 02 мы локально на компьютере собрали <span class="mono">.mcp.json</span> в рабочей папке <span class="mono">OpenClaw/</span>. Сейчас переносим папку на сервер, а затем ставим серверному боту скилл <span class="mono">openclaw-docs</span> — чтобы Claude Code на сервере тоже знал документацию OpenClaw.</span>
     </div>
     <div class="item" data-key="urok6-part1-ch03-create-bot-folder">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
@@ -1989,7 +1687,7 @@ Host openclaw-bot
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Скопировать локальную папку OpenClaw на сервер по SCP</div>
-        <div class="item__hint">Команда выполняется в <strong>локальном</strong> терминале на компьютере. Замените путь в начале команды на полный путь к вашей локальной папке <span class="mono">OpenClaw</span> (где AGENTS.md, .mcp.json, openclaw/). Выберите команду для своей ОС.</div>
+        <div class="item__hint">Команда выполняется в <strong>локальном</strong> терминале на компьютере. Замените путь в начале команды на полный путь к вашей локальной папке <span class="mono">OpenClaw</span> (где лежит <span class="mono">.mcp.json</span> из Главы 02). Выберите команду для своей ОС.</div>
       </div>
     </div>
     <div class="cmd-block-os">
@@ -2002,8 +1700,35 @@ Host openclaw-bot
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Проверить, что папка появилась на сервере</div>
-        <div class="item__hint">В терминале сервера — должен увидеть <span class="mono">AGENTS.md</span>, <span class="mono">.mcp.json</span> и подпапку <span class="mono">openclaw/</span>.</div>
+        <div class="item__hint">В терминале сервера — должен увидеть <span class="mono">.mcp.json</span>.</div>
         <div class="cmd-copy"><span class="cmd-copy__text" id="cmdVerifyOpenClawServer">ls -la ~/claude-code-bot/OpenClaw/</span><button class="btn-copy" onclick="copyBlock('cmdVerifyOpenClawServer',this)">📋 Скопировать</button></div>
+      </div>
+    </div>
+
+    <div class="note note--info">
+      <span class="note__icon">🧠</span>
+      <span><strong>Теперь ставим боту скилл <span class="mono">openclaw-docs</span>.</strong> Серверный Claude Code — это тоже агент, и ему нужна та же документация OpenClaw, что и локальному. Скиллы Claude Code живут в папке <span class="mono">~/.claude/skills/</span>. Копируем скилл с компьютера прямо в неё.</span>
+    </div>
+
+    <div class="item" data-key="urok6-part1-ch03-scp-skill-docs">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Скопировать скилл openclaw-docs на серверного бота по SCP</div>
+        <div class="item__hint">Команда выполняется в <strong>локальном</strong> терминале на компьютере. Она создаёт на сервере папку скиллов и копирует туда скилл <span class="mono">openclaw-docs</span> (тот, что вы поставили себе в Уроке 3 — он лежит в <span class="mono">~/.claude/skills/openclaw-docs</span>). Выберите команду для своей ОС.</div>
+      </div>
+    </div>
+    <div class="cmd-block-os">
+      <div class="cmd-os-label">🍎 Mac (Terminal / iTerm)</div>
+      <div class="cmd-copy"><span class="cmd-copy__text" id="cmdScpSkillMac">ssh openclaw-bot "mkdir -p ~/.claude/skills" &amp;&amp; scp -r ~/.claude/skills/openclaw-docs openclaw-bot:~/.claude/skills/</span><button class="btn-copy" onclick="copyBlock('cmdScpSkillMac',this)">📋 Скопировать</button></div>
+      <div class="cmd-os-label cmd-os-label--win">🪟 Windows (PowerShell)</div>
+      <div class="cmd-copy"><span class="cmd-copy__text" id="cmdScpSkillWin">ssh openclaw-bot "mkdir -p ~/.claude/skills"; scp -r "$HOME\.claude\skills\openclaw-docs" openclaw-bot:~/.claude/skills/</span><button class="btn-copy" onclick="copyBlock('cmdScpSkillWin',this)">📋 Скопировать</button></div>
+    </div>
+    <div class="item" data-key="urok6-part1-ch03-verify-skill-server">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить, что скилл появился на сервере</div>
+        <div class="item__hint">В терминале сервера — должен увидеть папку <span class="mono">openclaw-docs</span> с файлом <span class="mono">SKILL.md</span> и подпапкой <span class="mono">reference/</span>.</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdVerifySkillServer">ls -la ~/.claude/skills/openclaw-docs/</span><button class="btn-copy" onclick="copyBlock('cmdVerifySkillServer',this)">📋 Скопировать</button></div>
       </div>
     </div>
   </div>
@@ -2012,7 +1737,7 @@ Host openclaw-bot
 <!-- ═══ 35 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">35</div>
+    <div class="section__num">30</div>
     <div class="section__title">Шаг 10. Настраиваем gateway-токен для MCP openclaw</div>
   </div>
   <div class="section__card">
@@ -2050,7 +1775,7 @@ Host openclaw-bot
 <!-- ═══ 36 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">36</div>
+    <div class="section__num">31</div>
     <div class="section__title">Шаг 11. Проверяем подключение MCP openclaw + context7</div>
   </div>
   <div class="section__card">
@@ -2058,7 +1783,7 @@ Host openclaw-bot
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Зайти в рабочую папку и запустить Claude Code</div>
-        <div class="item__hint">Claude Code должен запускаться <strong>из папки</strong>, где лежат <span class="mono">.mcp.json</span> и <span class="mono">AGENTS.md</span> — иначе MCP не подхватятся.</div>
+        <div class="item__hint">Claude Code должен запускаться <strong>из папки</strong>, где лежит <span class="mono">.mcp.json</span> — иначе MCP не подхватятся.</div>
         <div class="cmd-copy"><span class="cmd-copy__text" id="cmdCdAndStart">cd ~/claude-code-bot/OpenClaw && claude</span><button class="btn-copy" onclick="copyBlock('cmdCdAndStart',this)">📋 Скопировать</button></div>
       </div>
     </div>
@@ -2084,7 +1809,7 @@ Host openclaw-bot
 <!-- ═══ 37 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">37</div>
+    <div class="section__num">32</div>
     <div class="section__title">Шаг 12. Устанавливаем Telegram-плагин и конфигурируем токен</div>
   </div>
   <div class="section__card">
@@ -2130,7 +1855,7 @@ Host openclaw-bot
 <!-- ═══ 38 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">38</div>
+    <div class="section__num">33</div>
     <div class="section__title">Шаг 13. Закрываем доступ через allowlist по Telegram User ID</div>
   </div>
   <div class="section__card">
@@ -2164,7 +1889,7 @@ Host openclaw-bot
 <!-- ═══ 39 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">39</div>
+    <div class="section__num">34</div>
     <div class="section__title">Шаг 14. Запускаем Claude Code в tmux в режиме channels</div>
   </div>
   <div class="section__card">
@@ -2221,7 +1946,7 @@ Host openclaw-bot
 <!-- ═══ 40 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">40</div>
+    <div class="section__num">35</div>
     <div class="section__title">Тест №1. С телефона: найдите и проанализируй SOUL.md главного агента</div>
   </div>
   <div class="section__card">
@@ -2261,7 +1986,7 @@ Host openclaw-bot
 <!-- ═══ 41 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">41</div>
+    <div class="section__num">36</div>
     <div class="section__title">Тест №2. С телефона: перезапустите Gateway и проверьте health</div>
   </div>
   <div class="section__card">
@@ -2297,7 +2022,7 @@ Host openclaw-bot
 <!-- ═══ 42 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">42</div>
+    <div class="section__num">37</div>
     <div class="section__title">Тест №3. С телефона: напишите скилл с актуальной либой через Context7</div>
   </div>
   <div class="section__card">
@@ -2335,7 +2060,7 @@ Host openclaw-bot
 <!-- ═══ 43 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">43</div>
+    <div class="section__num">38</div>
     <div class="section__title">Шаг 15. Настраиваем автозапуск tmux-сессии при reboot сервера</div>
   </div>
   <div class="section__card">
@@ -2385,7 +2110,7 @@ EOF</span><button class="btn-copy" onclick="copyBlock('cmdCreateSystemd',this)">
 <!-- ═══ 44 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">44</div>
+    <div class="section__num">39</div>
     <div class="section__title">Шпаргалка команд для эксплуатации</div>
   </div>
   <div class="section__card">
@@ -2412,13 +2137,13 @@ EOF</span><button class="btn-copy" onclick="copyBlock('cmdCreateSystemd',this)">
 <!-- ═══ 45 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">45</div>
+    <div class="section__num">40</div>
     <div class="section__title">Диагностика «бот молчит» + безопасность</div>
   </div>
   <div class="section__card">
     <div class="note note--warn">
       <span class="note__icon">🔍</span>
-      <span><strong>Если бот не отвечает в Telegram, проверьте по списку:</strong><br>1. <strong>tmux-сессия живёт?</strong> → <span class="mono">tmux ls</span> или <span class="mono">sudo systemctl status claude-bot</span><br>2. <strong>Bun в PATH юзера?</strong> → <span class="mono">su - claude-bot -c "which bun"</span><br>3. <strong>Telegram-токен валиден?</strong> → <span class="mono">curl https://api.telegram.org/bot&lt;TOKEN&gt;/getMe</span> (должен вернуть <span class="mono">"ok":true</span>)<br>4. <strong>Бот видит сообщения?</strong> → <span class="mono">curl https://api.telegram.org/bot&lt;TOKEN&gt;/getUpdates</span> (должен вернуть массив с входящими)<br>5. <strong>Конфликт с другим инстансом?</strong> Telegram отдаёт 409 Conflict если тот же токен используется ещё где-то — проверьте, что не запустил бот ещё и локально на компьютере</span>
+      <span><strong>Если бот не отвечает в Telegram, проверьте по списку:</strong><br>1. <strong>tmux-сессия живёт?</strong> → <span class="mono">tmux ls</span> или <span class="mono">sudo systemctl status claude-bot</span><br>2. <strong>Bun в PATH юзера?</strong> → <span class="mono">su - claude-bot -c "which bun"</span><br>3. <strong>Telegram-токен валиден?</strong> → <span class="mono">curl https://api.telegram.org/bot&lt;TOKEN&gt;/getMe</span> (должен вернуть <span class="mono">"ok":true</span>)<br>4. <strong>Бот видит сообщения?</strong> → <span class="mono">curl https://api.telegram.org/bot&lt;TOKEN&gt;/getUpdates</span> (должен вернуть массив с входящими)<br>5. <strong>Конфликт с другим инстансом?</strong> Telegram отдаёт 409 Conflict если тот же токен используется ещё где-то — проверьте, что не запустил бот ещё и локально на компьютере<br>6. <strong>Плагин Telegram установлен глобально?</strong> Если плагин лежит в <span class="mono">~/.claude/plugins</span>, он поднимается в <strong>каждой</strong> сессии Claude Code — несколько bun-процессов дерутся за один bot-токен, и сообщения теряются. Держите плагин только для сессии бота (через флаг <span class="mono">--channels</span>), а лишние процессы уберите: <span class="mono">pkill -f server.ts</span> и запустите бота заново.<br>7. <strong>Слетела авторизация Anthropic?</strong> Channels требуют логина через claude.ai или Console API-ключ. Проверьте: <span class="mono">claude</span> → внутри сессии команда <span class="mono">/status</span>. Если разлогинило — <span class="mono">claude logout</span> и заново.</span>
     </div>
     <div class="note note--alert">
       <span class="note__icon">🛡️</span>
@@ -2472,7 +2197,7 @@ EOF</span><button class="btn-copy" onclick="copyBlock('cmdCreateSystemd',this)">
 <!-- ═══ 46 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">46</div>
+    <div class="section__num">41</div>
     <div class="section__title">Зачем вашим AI-агентам «второй мозг»</div>
   </div>
   <div class="section__card">
@@ -2496,7 +2221,7 @@ EOF</span><button class="btn-copy" onclick="copyBlock('cmdCreateSystemd',this)">
 <!-- ═══ 47 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">47</div>
+    <div class="section__num">42</div>
     <div class="section__title">Архитектура: компьютер ↔ GitHub ↔ Сервер</div>
   </div>
   <div class="section__card">
@@ -2541,7 +2266,7 @@ EOF</span><button class="btn-copy" onclick="copyBlock('cmdCreateSystemd',this)">
 <!-- ═══ 48 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">48</div>
+    <div class="section__num">43</div>
     <div class="section__title">Промпт Карпати — ядро системы знаний</div>
   </div>
   <div class="section__card">
@@ -2564,7 +2289,7 @@ EOF</span><button class="btn-copy" onclick="copyBlock('cmdCreateSystemd',this)">
 <!-- ═══ 49 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">49</div>
+    <div class="section__num">44</div>
     <div class="section__title">Шаг 1. Скачиваем Obsidian на компьютер</div>
   </div>
   <div class="section__card">
@@ -2581,7 +2306,7 @@ EOF</span><button class="btn-copy" onclick="copyBlock('cmdCreateSystemd',this)">
 <!-- ═══ 50 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">50</div>
+    <div class="section__num">45</div>
     <div class="section__title">Шаг 2. Создаём vault со структурой папок</div>
   </div>
   <div class="section__card">
@@ -2625,7 +2350,7 @@ EOF</span><button class="btn-copy" onclick="copyBlock('cmdCreateSystemd',this)">
 <!-- ═══ 51 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">51</div>
+    <div class="section__num">46</div>
     <div class="section__title">Шаг 3. Создаём CLAUDE.md с правилами для агентов</div>
   </div>
   <div class="section__card">
@@ -2697,7 +2422,7 @@ EOF</span><button class="btn-copy" onclick="copyBlock('cmdCreateSystemd',this)">
 <!-- ═══ 52 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">52</div>
+    <div class="section__num">47</div>
     <div class="section__title">Шаг 4. Устанавливаем плагин Obsidian Git</div>
   </div>
   <div class="section__card">
@@ -2729,7 +2454,7 @@ EOF</span><button class="btn-copy" onclick="copyBlock('cmdCreateSystemd',this)">
 <!-- ═══ 53 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">53</div>
+    <div class="section__num">48</div>
     <div class="section__title">Шаг 5. Создаём приватный GitHub-репо для vault</div>
   </div>
   <div class="section__card">
@@ -2757,7 +2482,7 @@ EOF</span><button class="btn-copy" onclick="copyBlock('cmdCreateSystemd',this)">
 <!-- ═══ 54 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">54</div>
+    <div class="section__num">49</div>
     <div class="section__title">Шаг 6. Привязываем локальный vault к GitHub-репо</div>
   </div>
   <div class="section__card">
@@ -2795,7 +2520,7 @@ EOF</span><button class="btn-copy" onclick="copyBlock('cmdCreateSystemd',this)">
 <!-- ═══ 55 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">55</div>
+    <div class="section__num">50</div>
     <div class="section__title">Шаг 7. Настраиваем автоматическую синхронизацию в плагине Git</div>
   </div>
   <div class="section__card">
@@ -2838,7 +2563,7 @@ EOF</span><button class="btn-copy" onclick="copyBlock('cmdCreateSystemd',this)">
 <!-- ═══ 56 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">56</div>
+    <div class="section__num">51</div>
     <div class="section__title">Шаг 8. На сервере — клонируем vault через Claude Code-бот в Telegram</div>
   </div>
   <div class="section__card">
@@ -2991,9 +2716,9 @@ ssh-keygen -t ed25519 -C "&lt;твой_юзер&gt;@server" -f ~/.ssh/github_dep
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Страховка: проверить и при необходимости создать недостающие папки на сервере</div>
-        <div class="item__hint">⚠️ Если вы проходили Шаг 50 в <strong>старой версии гайда</strong> (без <span class="mono">.gitkeep</span>) — на сервер приехал vault без папок <span class="mono">wiki/</span>, <span class="mono">daily/</span>, <span class="mono">outputs/</span>. Сейчас это починим.<br><br>Отправьте Claude Code-боту команду ниже (или выполни сам через SSH под <span class="mono">claude-bot</span>):</div>
+        <div class="item__hint">⚠️ Если вы проходили Шаг 45 в <strong>старой версии гайда</strong> (без <span class="mono">.gitkeep</span>) — на сервер приехал vault без папок <span class="mono">wiki/</span>, <span class="mono">daily/</span>, <span class="mono">outputs/</span>. Сейчас это починим.<br><br>Отправьте Claude Code-боту команду ниже (или выполни сам через SSH под <span class="mono">claude-bot</span>):</div>
         <div class="cmd-copy"><span class="cmd-copy__text" id="cmdVerifyFolderStructure">cd ~/obsidian-vault && mkdir -p raw wiki daily outputs && touch raw/.gitkeep wiki/.gitkeep daily/.gitkeep outputs/.gitkeep && git pull --rebase && git add . && git commit -m "add missing folder structure (.gitkeep)" && git push</span><button class="btn-copy" onclick="copyBlock('cmdVerifyFolderStructure',this)">📋 Скопировать</button></div>
-        <div class="item__hint">✅ После этого структура vault на сервере и на GitHub синхронизирована. На компьютере в Obsidian папки тоже появятся через 5 минут (auto-pull) или сразу через <span class="mono">Cmd+P → Git: Pull</span>.<br><br>💡 Если у вас <span class="mono">.gitkeep</span> уже создавались в Шаге 50 — <span class="mono">mkdir -p</span> и <span class="mono">touch</span> ничего не сломают, они идемпотентны (создаются только если файлов нет). А <span class="mono">git commit</span> в этом случае просто скажет «nothing to commit».</div>
+        <div class="item__hint">✅ После этого структура vault на сервере и на GitHub синхронизирована. На компьютере в Obsidian папки тоже появятся через 5 минут (auto-pull) или сразу через <span class="mono">Cmd+P → Git: Pull</span>.<br><br>💡 Если у вас <span class="mono">.gitkeep</span> уже создавались в Шаге 45 — <span class="mono">mkdir -p</span> и <span class="mono">touch</span> ничего не сломают, они идемпотентны (создаются только если файлов нет). А <span class="mono">git commit</span> в этом случае просто скажет «nothing to commit».</div>
       </div>
     </div>
 
@@ -3137,7 +2862,7 @@ ssh-keygen -t ed25519 -C "&lt;твой_юзер&gt;@server" -f ~/.ssh/github_dep
 <!-- ═══ 57 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">57</div>
+    <div class="section__num">52</div>
     <div class="section__title">Что строим в этой главе</div>
   </div>
   <div class="section__card">
@@ -3165,7 +2890,7 @@ ssh-keygen -t ed25519 -C "&lt;твой_юзер&gt;@server" -f ~/.ssh/github_dep
 <!-- ═══ 58 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">58</div>
+    <div class="section__num">53</div>
     <div class="section__title">Шаг 1. Подключаем Claude Code-бот к vault'у</div>
   </div>
   <div class="section__card">
@@ -3292,7 +3017,7 @@ ssh-keygen -t ed25519 -C "&lt;твой_юзер&gt;@server" -f ~/.ssh/github_dep
 <!-- ═══ 59 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">59</div>
+    <div class="section__num">54</div>
     <div class="section__title">Шаг 2. Готовим vault для OpenClaw-агента</div>
   </div>
   <div class="section__card">
@@ -3310,7 +3035,7 @@ ssh-keygen -t ed25519 -C "&lt;твой_юзер&gt;@server" -f ~/.ssh/github_dep
     </div>
     <div class="note note--info">
       <span class="note__icon">🔄</span>
-      <span><strong>ВАЖНОЕ ПРЕДУПРЕЖДЕНИЕ ПРО ДВА КЛОНА.</strong> Когда два процесса (Claude Code-бот + OpenClaw-агент) пишут в один GitHub-репо — есть риск конфликтов push'ей. Решаем тремя способами:<br><br><strong>1.</strong> Перед каждым push — <span class="mono">git pull --rebase</span> (уже добавлено в AGENTS.md в Шаге 58 + добавим в скиллы OpenClaw в Шаге 60)<br><strong>2.</strong> <strong>Разделение зон ответственности:</strong> бот пишет в <span class="mono">raw/</span> и <span class="mono">outputs/</span>, OpenClaw — только в <span class="mono">raw/</span><br><strong>3.</strong> Имена файлов в <span class="mono">raw/</span> от OpenClaw содержат timestamp — нет коллизий по именам</span>
+      <span><strong>ВАЖНОЕ ПРЕДУПРЕЖДЕНИЕ ПРО ДВА КЛОНА.</strong> Когда два процесса (Claude Code-бот + OpenClaw-агент) пишут в один GitHub-репо — есть риск конфликтов push'ей. Решаем тремя способами:<br><br><strong>1.</strong> Перед каждым push — <span class="mono">git pull --rebase</span> (уже добавлено в AGENTS.md в Шаге 53 + добавим в скиллы OpenClaw в Шаге 55)<br><strong>2.</strong> <strong>Разделение зон ответственности:</strong> бот пишет в <span class="mono">raw/</span> и <span class="mono">outputs/</span>, OpenClaw — только в <span class="mono">raw/</span><br><strong>3.</strong> Имена файлов в <span class="mono">raw/</span> от OpenClaw содержат timestamp — нет коллизий по именам</span>
     </div>
 
     <div class="info-block">
@@ -3348,7 +3073,7 @@ ssh-keygen -t ed25519 -C "&lt;твой_юзер&gt;@server" -f ~/.ssh/github_dep
 
 5. sudo -n true 2&gt;&amp;1 | head -1
    (есть ли у тебя passwordless sudo — это влияет на
-   выбор пути в Шаге 59)
+   выбор пути в Шаге 54)
 
 После вывода кратко опиши:
 - Кому принадлежит /root/.openclaw/ (если уже не root — sudo не нужен)
@@ -3490,7 +3215,7 @@ ssh-keygen -t ed25519 -C "&lt;твой_юзер&gt;@server" -f ~/.ssh/github_dep
 
     <div class="note note--warn">
       <span class="note__icon">🆘</span>
-      <span><strong>Подшаг 4-FALLBACK (если у вас нет passwordless sudo)</strong><br><br>Если бот в Шаге 5 написал «sudo требует пароль» и вы <strong>не можете</strong> или не хотите делать ручной chown через VS Code — есть путь через 3 костыля. Менее чисто, но работает.<br><br><strong>━━━ ВАРИАНТ 1 — sudo-команды вручную через VS Code Remote-SSH ━━━</strong><br><br>Откройте VS Code Remote-SSH под root (профиль <span class="mono">openclaw-root</span> из Шага 27 главы 03 части 01) и выполни:<br><br><span class="mono">chown -R root:root /root/.openclaw/obsidian-vault</span><br><span class="mono">setfacl -m u:root:r /home/&lt;user&gt;/.ssh/github_deploy_openclaw_main</span><br><span class="mono">setfacl -m u:root:rx /home/&lt;user&gt;/.ssh</span><br><span class="mono">ssh-keyscan -t ed25519 github.com &gt;&gt; /root/.ssh/known_hosts</span><br><br>Вернитесь в Telegram и попросите бота повторить тестовый push.<br><br><strong>━━━ ВАРИАНТ 2 — 3 костыля без sudo (если совсем нет sudo) ━━━</strong><br><br><strong>1. <span class="mono">safe.directory</span></strong> — обходим dubious ownership:<br>— ИЛИ через <span class="mono">git config --system safe.directory &lt;vault&gt;</span> (требует sudo)<br>— ИЛИ через <span class="mono">git -c safe.directory=$VAULT</span> в каждой git-команде самого скилла (без sudo, требует правки SKILL.md — это уже включено в требования к скиллу в Шаге 60)<br><br><strong>2. <span class="mono">UserKnownHostsFile=</span></strong> — обходим Host key verification:<br><span class="mono">ssh-keyscan -t ed25519 github.com &gt;&gt; ~/.ssh/known_hosts_for_openclaw</span><br><span class="mono">cd /root/.openclaw/obsidian-vault &amp;&amp; \</span><br><span class="mono">git config core.sshCommand "ssh -i ~/.ssh/github_deploy_openclaw_main -o IdentitiesOnly=yes -o UserKnownHostsFile=~/.ssh/known_hosts_for_openclaw -o StrictHostKeyChecking=accept-new"</span><br><br><strong>3. Permissions issue в <span class="mono">outputs/errors/</span></strong> — этот не обходится без sudo, но не блокирует основную работу скилла (скилл бежит под root и сам перезапишет файлы).<br><br>⚠️ <strong>Рекомендация:</strong> если есть малейшая возможность получить sudo — делайте через <span class="mono">chown</span>. Это <strong>в разы чище</strong> и <strong>навсегда</strong> убирает класс ошибок. 3 костыля — это «последний рубеж».</span>
+      <span><strong>Подшаг 4-FALLBACK (если у вас нет passwordless sudo)</strong><br><br>Если бот в Шаге 5 написал «sudo требует пароль» и вы <strong>не можете</strong> или не хотите делать ручной chown через VS Code — есть путь через 3 костыля. Менее чисто, но работает.<br><br><strong>━━━ ВАРИАНТ 1 — sudo-команды вручную через VS Code Remote-SSH ━━━</strong><br><br>Откройте VS Code Remote-SSH под root (профиль <span class="mono">openclaw-root</span> из Шага 22 главы 03 части 01) и выполни:<br><br><span class="mono">chown -R root:root /root/.openclaw/obsidian-vault</span><br><span class="mono">setfacl -m u:root:r /home/&lt;user&gt;/.ssh/github_deploy_openclaw_main</span><br><span class="mono">setfacl -m u:root:rx /home/&lt;user&gt;/.ssh</span><br><span class="mono">ssh-keyscan -t ed25519 github.com &gt;&gt; /root/.ssh/known_hosts</span><br><br>Вернитесь в Telegram и попросите бота повторить тестовый push.<br><br><strong>━━━ ВАРИАНТ 2 — 3 костыля без sudo (если совсем нет sudo) ━━━</strong><br><br><strong>1. <span class="mono">safe.directory</span></strong> — обходим dubious ownership:<br>— ИЛИ через <span class="mono">git config --system safe.directory &lt;vault&gt;</span> (требует sudo)<br>— ИЛИ через <span class="mono">git -c safe.directory=$VAULT</span> в каждой git-команде самого скилла (без sudo, требует правки SKILL.md — это уже включено в требования к скиллу в Шаге 55)<br><br><strong>2. <span class="mono">UserKnownHostsFile=</span></strong> — обходим Host key verification:<br><span class="mono">ssh-keyscan -t ed25519 github.com &gt;&gt; ~/.ssh/known_hosts_for_openclaw</span><br><span class="mono">cd /root/.openclaw/obsidian-vault &amp;&amp; \</span><br><span class="mono">git config core.sshCommand "ssh -i ~/.ssh/github_deploy_openclaw_main -o IdentitiesOnly=yes -o UserKnownHostsFile=~/.ssh/known_hosts_for_openclaw -o StrictHostKeyChecking=accept-new"</span><br><br><strong>3. Permissions issue в <span class="mono">outputs/errors/</span></strong> — этот не обходится без sudo, но не блокирует основную работу скилла (скилл бежит под root и сам перезапишет файлы).<br><br>⚠️ <strong>Рекомендация:</strong> если есть малейшая возможность получить sudo — делайте через <span class="mono">chown</span>. Это <strong>в разы чище</strong> и <strong>навсегда</strong> убирает класс ошибок. 3 костыля — это «последний рубеж».</span>
     </div>
   </div>
 </div>
@@ -3498,7 +3223,7 @@ ssh-keygen -t ed25519 -C "&lt;твой_юзер&gt;@server" -f ~/.ssh/github_dep
 <!-- ═══ 60 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">60</div>
+    <div class="section__num">55</div>
     <div class="section__title">Шаг 3. Бот пишет два скилла для OpenClaw</div>
   </div>
   <div class="section__card">
@@ -3509,7 +3234,7 @@ ssh-keygen -t ed25519 -C "&lt;твой_юзер&gt;@server" -f ~/.ssh/github_dep
 
     <div class="note note--warn">
       <span class="note__icon">💡</span>
-      <span><strong>Что НЕ нужно делать в этом шаге:</strong><br><br>❌ <strong>Менять <span class="mono">SOUL.md</span> main-агента OpenClaw.</strong> SOUL — это про характер агента, не про технику.<br><br>❌ <strong>Менять <span class="mono">AGENTS.md</span> workspace OpenClaw.</strong> OpenClaw регистрирует скиллы автоматически через <span class="mono">nativeSkills: "auto"</span> (мы это уже видели в диагностике Шага 59 Подшага 1). НЕ нужно прописывать скиллы вручную.<br><br>❌ <strong>Менять <span class="mono">openclaw.json</span>.</strong> Конфиг агентов остаётся прежним. Скиллы из <span class="mono">workspace/skills/</span> подхватываются сами.<br><br>❌ <strong>Перезапускать OpenClaw Gateway после написания SKILL.md.</strong> НЕ нужно — OpenClaw перечитывает скиллы при каждой новой сессии.<br><br>⚠️ <strong>В Claude Code (предыдущая глава) AGENTS.md был обязательным.</strong> В OpenClaw — другая архитектура: скиллы регистрируются автоматически. <strong>Не путай!</strong></span>
+      <span><strong>Что НЕ нужно делать в этом шаге:</strong><br><br>❌ <strong>Менять <span class="mono">SOUL.md</span> main-агента OpenClaw.</strong> SOUL — это про характер агента, не про технику.<br><br>❌ <strong>Менять <span class="mono">AGENTS.md</span> workspace OpenClaw.</strong> OpenClaw регистрирует скиллы автоматически через <span class="mono">nativeSkills: "auto"</span> (мы это уже видели в диагностике Шага 54 Подшага 1). НЕ нужно прописывать скиллы вручную.<br><br>❌ <strong>Менять <span class="mono">openclaw.json</span>.</strong> Конфиг агентов остаётся прежним. Скиллы из <span class="mono">workspace/skills/</span> подхватываются сами.<br><br>❌ <strong>Перезапускать OpenClaw Gateway после написания SKILL.md.</strong> НЕ нужно — OpenClaw перечитывает скиллы при каждой новой сессии.<br><br>⚠️ <strong>В Claude Code (предыдущая глава) AGENTS.md был обязательным.</strong> В OpenClaw — другая архитектура: скиллы регистрируются автоматически. <strong>Не путай!</strong></span>
     </div>
 
     <div class="info-block">
@@ -3532,7 +3257,7 @@ ssh-keygen -t ed25519 -C "&lt;твой_юзер&gt;@server" -f ~/.ssh/github_dep
 ВАЖНО — НЕ ПИШИ КОД СРАЗУ. Сначала покажи мне ПЛАН:
 
 1. Где будут лежать скиллы (точный путь — ты определил его в
-   диагностике Шага 59 Подшага 1, типа
+   диагностике Шага 54 Подшага 1, типа
    /root/.openclaw/workspace/skills/&lt;имя-скилла&gt;/SKILL.md
    для main-агента; точное имя workspace зависит от твоей
    установки — НЕ угадывай, используй то, что нашёл в
@@ -3553,7 +3278,7 @@ ssh-keygen -t ed25519 -C "&lt;твой_юзер&gt;@server" -f ~/.ssh/github_dep
 
 Скилл "obsidian-search":
 - Vault: /root/.openclaw/obsidian-vault/
-  (тот, что мы склонировали в Шаге 59 Подшаге 4 — уже
+  (тот, что мы склонировали в Шаге 54 Подшаге 4 — уже
   настроен core.sshCommand, так что любой git pull
   сработает автоматически с правильным ключом)
 - Ищет через grep по wiki/ + читает INDEX.md
@@ -3594,7 +3319,7 @@ ssh-keygen -t ed25519 -C "&lt;твой_юзер&gt;@server" -f ~/.ssh/github_dep
   source=openclaw-main, date=YYYY-MM-DD, topic=&lt;тема&gt;
 
 - После записи (используй ВСЕ git-команды через -c safe.directory=$VAULT
-  для совместимости с Fallback-путём из Шага 59 — это безвредно если
+  для совместимости с Fallback-путём из Шага 54 — это безвредно если
   ownership уже правильный, но критично если нет):
 
     VAULT=/root/.openclaw/obsidian-vault
@@ -3614,7 +3339,7 @@ ssh-keygen -t ed25519 -C "&lt;твой_юзер&gt;@server" -f ~/.ssh/github_dep
 
 - Подпись коммита: "openclaw-main: &lt;тема&gt;" (с префиксом openclaw-main:
   чтобы в логе git было видно, кто писал — это работает в связке
-  с git identity, которую мы поставили в Шаге 59 Подшаге 4)
+  с git identity, которую мы поставили в Шаге 54 Подшаге 4)
 
 - Если git pull --rebase падает (конфликт или host-key) — ретрай 1 раз
   через 2 секунды, потом писать ошибку в /outputs/errors/&lt;DATE&gt;.log
@@ -3651,7 +3376,7 @@ ssh-keygen -t ed25519 -C "&lt;твой_юзер&gt;@server" -f ~/.ssh/github_dep
 <!-- ═══ 61 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">61</div>
+    <div class="section__num">56</div>
     <div class="section__title">Шаг 4. Тестируем работу OpenClaw-агента с vault'ом</div>
   </div>
   <div class="section__card">
@@ -3783,7 +3508,7 @@ sudo openclaw status --deep
 <!-- ═══ 62 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">62</div>
+    <div class="section__num">57</div>
     <div class="section__title">Workflow: как работать со «вторым мозгом» каждый день</div>
   </div>
   <div class="section__card">
@@ -3859,7 +3584,7 @@ sudo openclaw status --deep
 <!-- ═══ 63 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">63</div>
+    <div class="section__num">58</div>
     <div class="section__title">Концепция: что такое AI-директор</div>
   </div>
   <div class="section__card">
@@ -3895,7 +3620,7 @@ sudo openclaw status --deep
 <!-- ═══ 64 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">64</div>
+    <div class="section__num">59</div>
     <div class="section__title">Карта ролей AI-офиса</div>
   </div>
   <div class="section__card">
@@ -3941,7 +3666,7 @@ sudo openclaw status --deep
 <!-- ═══ 65 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">65</div>
+    <div class="section__num">60</div>
     <div class="section__title">Глоссарий ключевых терминов</div>
   </div>
   <div class="section__card">
@@ -3990,7 +3715,7 @@ sudo openclaw status --deep
 <!-- ═══ 66 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">66</div>
+    <div class="section__num">61</div>
     <div class="section__title">Что директор делает в день — 4 цикла работы</div>
   </div>
   <div class="section__card">
@@ -4040,7 +3765,7 @@ sudo openclaw status --deep
 <!-- ═══ 67 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">67</div>
+    <div class="section__num">62</div>
     <div class="section__title">Что директор НЕ делает — хард-запреты</div>
   </div>
   <div class="section__card">
@@ -4068,7 +3793,7 @@ sudo openclaw status --deep
 <!-- ═══ 68 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">68</div>
+    <div class="section__num">63</div>
     <div class="section__title">Что директор замеряет — 5 базовых KPI</div>
   </div>
   <div class="section__card">
@@ -4109,7 +3834,7 @@ sudo openclaw status --deep
 <!-- ═══ 69 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">69</div>
+    <div class="section__num">64</div>
     <div class="section__title">Передача брифа: как директор и Claude Code общаются</div>
   </div>
   <div class="section__card">
@@ -4177,7 +3902,7 @@ Sub-агент support дал ложный ответ студенту: «есл
 <!-- ═══ 70 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">70</div>
+    <div class="section__num">65</div>
     <div class="section__title">ПРАКТИКА: Передаём концепцию Claude Code</div>
   </div>
   <div class="section__card">
@@ -4292,7 +4017,7 @@ write, edit, apply_patch, browser, canvas, cron, gateway-restart,
 <!-- ═══ 71 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">71</div>
+    <div class="section__num">66</div>
     <div class="section__title">Домашнее задание</div>
   </div>
   <div class="section__card">
@@ -4329,7 +4054,7 @@ write, edit, apply_patch, browser, canvas, cron, gateway-restart,
 <!-- ═══ 72 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">72</div>
+    <div class="section__num">67</div>
     <div class="section__title">Что дальше в Части 3</div>
   </div>
   <div class="section__card">
@@ -4403,7 +4128,7 @@ write, edit, apply_patch, browser, canvas, cron, gateway-restart,
 <!-- ═══ 73 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">73</div>
+    <div class="section__num">68</div>
     <div class="section__title">Что мы делаем в этой главе</div>
   </div>
   <div class="section__card">
@@ -4425,7 +4150,7 @@ write, edit, apply_patch, browser, canvas, cron, gateway-restart,
 <!-- ═══ 74 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">74</div>
+    <div class="section__num">69</div>
     <div class="section__title">OpenClaw-агент изнутри — что лежит в его «рабочем столе»</div>
   </div>
   <div class="section__card">
@@ -4477,7 +4202,7 @@ write, edit, apply_patch, browser, canvas, cron, gateway-restart,
 <!-- ═══ 75 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">75</div>
+    <div class="section__num">70</div>
     <div class="section__title">Один Gateway — много агентов</div>
   </div>
   <div class="section__card">
@@ -4526,7 +4251,7 @@ write, edit, apply_patch, browser, canvas, cron, gateway-restart,
 <!-- ═══ 76 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">76</div>
+    <div class="section__num">71</div>
     <div class="section__title">Sub-Agents vs наш подход — короткая ясность</div>
   </div>
   <div class="section__card">
@@ -4576,7 +4301,7 @@ write, edit, apply_patch, browser, canvas, cron, gateway-restart,
 <!-- ═══ 77 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">77</div>
+    <div class="section__num">72</div>
     <div class="section__title">Как директор будет видеть sub-агентов</div>
   </div>
   <div class="section__card">
@@ -4612,7 +4337,7 @@ write, edit, apply_patch, browser, canvas, cron, gateway-restart,
 <!-- ═══ 78 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">78</div>
+    <div class="section__num">73</div>
     <div class="section__title">Границы директора — самое важное</div>
   </div>
   <div class="section__card">
@@ -4673,7 +4398,7 @@ write, edit, apply_patch, browser, canvas, cron, gateway-restart,
 <!-- ═══ 79 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">79</div>
+    <div class="section__num">74</div>
     <div class="section__title">Карта нашего AI-офиса</div>
   </div>
   <div class="section__card">
@@ -4720,7 +4445,7 @@ write, edit, apply_patch, browser, canvas, cron, gateway-restart,
 <!-- ═══ 80 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">80</div>
+    <div class="section__num">75</div>
     <div class="section__title">ПРАКТИКА: настраиваем границы директора (3 шага)</div>
   </div>
   <div class="section__card">
@@ -4831,7 +4556,7 @@ write, edit, apply_patch, browser, canvas, cron, gateway-restart,
 <!-- ═══ 81 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">81</div>
+    <div class="section__num">76</div>
     <div class="section__title">Что вы сейчас умеете и чего пока нет</div>
   </div>
   <div class="section__card">
@@ -4888,7 +4613,7 @@ write, edit, apply_patch, browser, canvas, cron, gateway-restart,
 <!-- ═══ 82 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">82</div>
+    <div class="section__num">77</div>
     <div class="section__title">Что мы делаем в этой главе</div>
   </div>
   <div class="section__card">
@@ -4925,7 +4650,7 @@ write, edit, apply_patch, browser, canvas, cron, gateway-restart,
 <!-- ═══ 83 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">83</div>
+    <div class="section__num">78</div>
     <div class="section__title">Системные файлы workspace — что куда писать</div>
   </div>
   <div class="section__card">
@@ -5007,12 +4732,45 @@ write, edit, apply_patch, browser, canvas, cron, gateway-restart,
 <!-- ═══ 84 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">84</div>
+    <div class="section__num">79</div>
     <div class="section__title">Структура SOUL.md — каноническая четвёрка + расширения</div>
   </div>
   <div class="section__card">
     <div class="info-block">
       <p>В документации OpenClaw есть <strong>официальный шаблон SOUL.md</strong> из 4 разделов. Это база. Без неё — никак. С неё начинается любой SOUL.</p>
+    </div>
+
+    <figure style="margin:10px 0 16px">
+      <img src="soul-anatomy.jpg" alt="Анатомия файла SOUL.md — 8 разделов" style="display:block;width:100%;border-radius:12px;border:1px solid var(--border)">
+      <figcaption style="margin-top:8px;font-size:13px;color:var(--text-muted);text-align:center">Общая карта разделов SOUL.md (из Урока 3). Ниже — как она ложится на OpenClaw: каноническая четвёрка + расширения для роли с ответственностью.</figcaption>
+    </figure>
+
+    <div class="note note--info">
+      <span class="note__icon">📐</span>
+      <span><strong>Рекомендации по SOUL.md (из Урока 3).</strong> Это общий разбор анатомии души — 8 разделов, которые реально влияют на поведение агента. Отправьте этот блок боту вместе с картинкой выше, когда будете собирать душу. А ниже в этой главе — как эта анатомия ложится на роль директора в OpenClaw.</span>
+    </div>
+
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Рекомендации по SOUL.md — скопировать и отправить в Claude Code</div>
+      <div class="prompt-block__text" id="promptSoulGuide">Анатомия идеального файла SOUL.md для AI-агентов.
+
+SOUL.md — это единственный файл, который вы пишете для AI-агента самостоятельно. Он находится в самом начале системного промпта: до памяти, до скиллов и до инструментов. Именно он определяет, кем является агент, когда начинает работу. Час, потраченный на этот файл, влияет на каждое последующее взаимодействие.
+
+Вот 8 разделов, которые имеют значение:
+
+→ identity — одно предложение о том, кто агент, а не что он делает
+→ core truths — базовые принципы в повелительной форме, каждый с кратким пояснением в одну строку
+→ worldview — выраженные взгляды по разным областям, достаточно конкретные, чтобы по ним можно было предсказать поведение агента
+→ voice — конкретные правила общения агента, а не набор прилагательных
+→ expertise — основная область компетенции, инструменты, которыми агент владеет свободно, и ситуации, где он передаёт задачу другому специалисту
+→ boundaries — явные ограничения и вещи, которые агент делать не будет, без расплывчатых формулировок
+→ memory policy — правила того, что сохраняется в памяти, а что остаётся приватным
+→ pet peeves — фразы, речевые обороты и тон общения, которые агент никогда не использует
+
+Большинство пишут что-то вроде «будь полезным и профессиональным» — и на этом заканчивают. Это ничего не меняет: любая модель и так старается быть полезной. Агенты, которые реально становятся лучше со временем, имеют SOUL.md с настоящими взглядами, ограничениями и стилем общения — который можно предсказать ещё до прочтения ответа.
+
+Хороший SOUL.md обычно занимает от 30 до 80 строк. Конкретика важнее полноты охвата.</div>
+      <button class="btn-copy" onclick="copyBlock('promptSoulGuide', this)">📋 Скопировать рекомендации</button>
     </div>
 
     <div class="term term--p3-ch03">
@@ -5071,7 +4829,7 @@ write, edit, apply_patch, browser, canvas, cron, gateway-restart,
 <!-- ═══ 85 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">85</div>
+    <div class="section__num">80</div>
     <div class="section__title">Антипаттерны — как НЕ надо писать SOUL</div>
   </div>
   <div class="section__card">
@@ -5115,7 +4873,7 @@ write, edit, apply_patch, browser, canvas, cron, gateway-restart,
 <!-- ═══ 86 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">86</div>
+    <div class="section__num">81</div>
     <div class="section__title">Контраст-материал: репо agency-agents</div>
   </div>
   <div class="section__card">
@@ -5152,7 +4910,7 @@ write, edit, apply_patch, browser, canvas, cron, gateway-restart,
 <!-- ═══ 87 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">87</div>
+    <div class="section__num">82</div>
     <div class="section__title">Меню архетипов sub-агента — выбираем под свой бизнес</div>
   </div>
   <div class="section__card">
@@ -5198,7 +4956,7 @@ write, edit, apply_patch, browser, canvas, cron, gateway-restart,
 <!-- ═══ 88 ═══ -->
 <div class="section section--director">
   <div class="section__header">
-    <div class="section__num">88</div>
+    <div class="section__num">83</div>
     <div class="section__title">ПРАКТИКА: настраиваем душу директора (4 шага)</div>
     <span class="section__chip section__chip--director">🎩 Директор</span>
   </div>
@@ -5392,7 +5150,7 @@ All reports in markdown. Format defined in SOUL.md → Report Format.
 <!-- ═══ 89 ═══ -->
 <div class="section section--subagent">
   <div class="section__header">
-    <div class="section__num">89</div>
+    <div class="section__num">84</div>
     <div class="section__title">ПРАКТИКА: создаём первого sub-агента (6 шагов)</div>
     <span class="section__chip section__chip--subagent">🔍 Sub-агент</span>
   </div>
@@ -5628,7 +5386,7 @@ All reports in markdown. Format defined in SOUL.md → Report Format.
 <!-- ═══ 90 ═══ -->
 <div class="section section--testing">
   <div class="section__header">
-    <div class="section__num">90</div>
+    <div class="section__num">85</div>
     <div class="section__title">ПРАКТИКА: тест-прогон директора (3 сценария)</div>
     <span class="section__chip section__chip--testing">🧪 Тесты</span>
   </div>
@@ -5711,7 +5469,7 @@ All reports in markdown. Format defined in SOUL.md → Report Format.
 <!-- ═══ 91 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">91</div>
+    <div class="section__num">86</div>
     <div class="section__title">Что вы сейчас умеете и что дальше</div>
   </div>
   <div class="section__card">
@@ -5785,7 +5543,7 @@ All reports in markdown. Format defined in SOUL.md → Report Format.
 <!-- ═══ 92 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">92</div>
+    <div class="section__num">87</div>
     <div class="section__title">Зачем нам это нужно</div>
   </div>
   <div class="section__card">
@@ -5807,7 +5565,7 @@ All reports in markdown. Format defined in SOUL.md → Report Format.
 <!-- ═══ 93 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">93</div>
+    <div class="section__num">88</div>
     <div class="section__title">Что мы НЕ пушим — безопасность токенов</div>
   </div>
   <div class="section__card">
@@ -5865,7 +5623,7 @@ All reports in markdown. Format defined in SOUL.md → Report Format.
 <!-- ═══ 94 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">94</div>
+    <div class="section__num">89</div>
     <div class="section__title">ПРАКТИКА: подключаем GitHub (6 шагов)</div>
   </div>
   <div class="section__card">
@@ -6094,7 +5852,7 @@ git push
 <!-- ═══ 95 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">95</div>
+    <div class="section__num">90</div>
     <div class="section__title">Что вы сейчас умеете</div>
   </div>
   <div class="section__card">
@@ -6114,7 +5872,7 @@ git push
 <!-- ═══ 96 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">96</div>
+    <div class="section__num">91</div>
     <div class="section__title">Что дальше</div>
   </div>
   <div class="section__card">
@@ -6180,7 +5938,7 @@ git push
 <!-- ═══ 97 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">97</div>
+    <div class="section__num">92</div>
     <div class="section__title">Что мы делаем в этой главе</div>
   </div>
   <div class="section__card">
@@ -6219,7 +5977,7 @@ git push
 <!-- ═══ 98 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">98</div>
+    <div class="section__num">93</div>
     <div class="section__title">Что такое Skill — простыми словами</div>
   </div>
   <div class="section__card">
@@ -6260,7 +6018,7 @@ git push
 <!-- ═══ 99 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">99</div>
+    <div class="section__num">94</div>
     <div class="section__title">Где живут скиллы — кто что видит</div>
   </div>
   <div class="section__card">
@@ -6293,7 +6051,7 @@ git push
 <!-- ═══ 100 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">100</div>
+    <div class="section__num">95</div>
     <div class="section__title">Сколько скиллов можно ставить — про токены</div>
   </div>
   <div class="section__card">
@@ -6348,7 +6106,7 @@ git push
 <!-- ═══ 101 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">101</div>
+    <div class="section__num">96</div>
     <div class="section__title">ClawHub — маркетплейс готовых скиллов</div>
   </div>
   <div class="section__card">
@@ -6373,7 +6131,7 @@ git push
 <!-- ═══ 102 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">102</div>
+    <div class="section__num">97</div>
     <div class="section__title">MLflow — глаза в работу агентов</div>
   </div>
   <div class="section__card">
@@ -6414,7 +6172,7 @@ git push
 <!-- ═══ 103 ═══ -->
 <div class="section section--mlflow">
   <div class="section__header">
-    <div class="section__num">103</div>
+    <div class="section__num">98</div>
     <div class="section__title">ПРАКТИКА · Часть A — устанавливаем MLflow (5 шагов)</div>
     <span class="section__chip section__chip--mlflow">🔭 MLflow</span>
   </div>
@@ -6593,7 +6351,7 @@ git push
 <!-- ═══ 104 ═══ -->
 <div class="section section--skill">
   <div class="section__header">
-    <div class="section__num">104</div>
+    <div class="section__num">99</div>
     <div class="section__title">ПРАКТИКА · Часть B — пишем первый skill руками (4 шага)</div>
     <span class="section__chip section__chip--skill">🛠️ Свой skill</span>
   </div>
@@ -6776,7 +6534,7 @@ openclaw skills list
 <!-- ═══ 105 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">105</div>
+    <div class="section__num">100</div>
     <div class="section__title">Проверка — заходим в MLflow и смотрим работу skill</div>
   </div>
   <div class="section__card">
@@ -6810,7 +6568,7 @@ openclaw skills list
 <!-- ═══ 106 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">106</div>
+    <div class="section__num">101</div>
     <div class="section__title">Что вы сейчас умеете и что дальше</div>
   </div>
   <div class="section__card">
@@ -6887,7 +6645,7 @@ openclaw skills list
 <!-- ═══ 107 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">107</div>
+    <div class="section__num">102</div>
     <div class="section__title">Что мы делаем в этой главе</div>
   </div>
   <div class="section__card">
@@ -6936,7 +6694,7 @@ openclaw skills list
 <!-- ═══ 108 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">108</div>
+    <div class="section__num">103</div>
     <div class="section__title">Память OpenClaw простыми словами</div>
   </div>
   <div class="section__card">
@@ -6977,7 +6735,7 @@ openclaw skills list
 <!-- ═══ 109 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">109</div>
+    <div class="section__num">104</div>
     <div class="section__title">MEMORY.md vs daily notes — чёткое разделение</div>
   </div>
   <div class="section__card">
@@ -7032,7 +6790,7 @@ openclaw skills list
 <!-- ═══ 110 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">110</div>
+    <div class="section__num">105</div>
     <div class="section__title">Структура MEMORY.md директора</div>
   </div>
   <div class="section__card">
@@ -7079,7 +6837,7 @@ openclaw skills list
 <!-- ═══ 111 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">111</div>
+    <div class="section__num">106</div>
     <div class="section__title">Двухуровневая память: где что писать</div>
   </div>
   <div class="section__card">
@@ -7200,7 +6958,7 @@ openclaw skills list
 <!-- ═══ 112 ═══ -->
 <div class="section section--memory-director">
   <div class="section__header">
-    <div class="section__num">112</div>
+    <div class="section__num">107</div>
     <div class="section__title">ПРАКТИКА · Часть A · Наполняем MEMORY директора</div>
     <span class="section__chip section__chip--memory-director">📚 MEMORY директора</span>
   </div>
@@ -7360,7 +7118,7 @@ None today.
 <!-- ═══ 113 ═══ -->
 <div class="section section--vault-subagent">
   <div class="section__header">
-    <div class="section__num">113</div>
+    <div class="section__num">108</div>
     <div class="section__title">ПРАКТИКА · Часть B · Sub-агент пишет в Obsidian</div>
     <span class="section__chip section__chip--vault-subagent">🔍 Sub-агент в vault</span>
   </div>
@@ -7623,7 +7381,7 @@ operations myself.
 <!-- ═══ 114 ═══ -->
 <div class="section section--memory-shared">
   <div class="section__header">
-    <div class="section__num">114</div>
+    <div class="section__num">109</div>
     <div class="section__title">ПРАКТИКА · Часть C · Директор видит общую картину</div>
     <span class="section__chip section__chip--memory-shared">🔭 Общая картина</span>
   </div>
@@ -7713,7 +7471,7 @@ operations myself.
 <!-- ═══ 115 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">115</div>
+    <div class="section__num">110</div>
     <div class="section__title">Проверка — memory_search через CLI</div>
   </div>
   <div class="section__card">
@@ -7747,7 +7505,7 @@ operations myself.
 <!-- ═══ 116 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">116</div>
+    <div class="section__num">111</div>
     <div class="section__title">Что вы сейчас умеете и что дальше</div>
   </div>
   <div class="section__card">
@@ -7820,7 +7578,7 @@ operations myself.
 <!-- ═══ 117 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">117</div>
+    <div class="section__num">112</div>
     <div class="section__title">Что мы делаем в этой главе</div>
   </div>
   <div class="section__card">
@@ -7864,7 +7622,7 @@ operations myself.
 <!-- ═══ 118 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">118</div>
+    <div class="section__num">113</div>
     <div class="section__title">Матрица механизмов — когда что выбирать</div>
   </div>
   <div class="section__card">
@@ -7935,7 +7693,7 @@ operations myself.
 <!-- ═══ 119 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">119</div>
+    <div class="section__num">114</div>
     <div class="section__title">Cron vs Heartbeat — детальное сравнение</div>
   </div>
   <div class="section__card">
@@ -7995,7 +7753,7 @@ operations myself.
 <!-- ═══ 120 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">120</div>
+    <div class="section__num">115</div>
     <div class="section__title">Что у директора в файле HEARTBEAT.md</div>
   </div>
   <div class="section__card">
@@ -8064,7 +7822,7 @@ operations myself.
 <!-- ═══ 121 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">121</div>
+    <div class="section__num">116</div>
     <div class="section__title">Что НЕЛЬЗЯ автоматизировать — критичный блок безопасности</div>
   </div>
   <div class="section__card">
@@ -8131,7 +7889,7 @@ operations myself.
 <!-- ═══ 122 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">122</div>
+    <div class="section__num">117</div>
     <div class="section__title">Cost-оптимизация — как не разориться</div>
   </div>
   <div class="section__card">
@@ -8197,7 +7955,7 @@ operations myself.
 <!-- ═══ 123 ═══ -->
 <div class="section section--cron">
   <div class="section__header">
-    <div class="section__num">123</div>
+    <div class="section__num">118</div>
     <div class="section__title">ПРАКТИКА · Часть A · Cron — утренний брифинг и еженедельное ретро (3 шага)</div>
     <span class="section__chip section__chip--cron">⏰ Cron</span>
   </div>
@@ -8345,7 +8103,7 @@ openclaw cron run morning-digest
 <!-- ═══ 124 ═══ -->
 <div class="section section--heartbeat">
   <div class="section__header">
-    <div class="section__num">124</div>
+    <div class="section__num">119</div>
     <div class="section__title">ПРАКТИКА · Часть B · Heartbeat — обходы директора (4 шага)</div>
     <span class="section__chip section__chip--heartbeat">💓 Heartbeat</span>
   </div>
@@ -8547,7 +8305,7 @@ cat ~/.openclaw/workspace-director/memory/$(date +%Y-%m-%d).md
 <!-- ═══ 125 ═══ -->
 <div class="section section--hook">
   <div class="section__header">
-    <div class="section__num">125</div>
+    <div class="section__num">120</div>
     <div class="section__title">ПРАКТИКА · Часть C · Hooks (концептуально)</div>
     <span class="section__chip section__chip--hook">🪝 Hook</span>
   </div>
@@ -8603,7 +8361,7 @@ export const after_tool_call = async (ctx) =&gt; {
 <!-- ═══ 126 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">126</div>
+    <div class="section__num">121</div>
     <div class="section__title">Финал Части 3 — что вы умеете и что дальше</div>
   </div>
   <div class="section__card">
@@ -8701,7 +8459,7 @@ export const after_tool_call = async (ctx) =&gt; {
 <!-- ═══ 127 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">127</div>
+    <div class="section__num">122</div>
     <div class="section__title">Зачем аудит — и почему ваш агент уже в зоне риска</div>
   </div>
   <div class="section__card">
@@ -8723,7 +8481,7 @@ export const after_tool_call = async (ctx) =&gt; {
 <!-- ═══ 128 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">128</div>
+    <div class="section__num">123</div>
     <div class="section__title">Смертельная троица — оптика, через которую смотрит весь аудит</div>
   </div>
   <div class="section__card">
@@ -8768,7 +8526,7 @@ export const after_tool_call = async (ctx) =&gt; {
 <!-- ═══ 129 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">129</div>
+    <div class="section__num">124</div>
     <div class="section__title">Термины аудита — словарь главы</div>
   </div>
   <div class="section__card">
@@ -8824,7 +8582,7 @@ export const after_tool_call = async (ctx) =&gt; {
 <!-- ═══ 130 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">130</div>
+    <div class="section__num">125</div>
     <div class="section__title">Карта контура — что именно мы аудируем</div>
   </div>
   <div class="section__card">
@@ -8865,7 +8623,7 @@ export const after_tool_call = async (ctx) =&gt; {
 <!-- ═══ 131 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">131</div>
+    <div class="section__num">126</div>
     <div class="section__title">Модель угроз на пальцах — кто и через что бьёт</div>
   </div>
   <div class="section__card">
@@ -8895,7 +8653,7 @@ export const after_tool_call = async (ctx) =&gt; {
 <!-- ═══ 132 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">132</div>
+    <div class="section__num">127</div>
     <div class="section__title">Восемь слоёв аудита — методология главы</div>
   </div>
   <div class="section__card">
@@ -8926,7 +8684,7 @@ export const after_tool_call = async (ctx) =&gt; {
 <!-- ═══ 133 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">133</div>
+    <div class="section__num">128</div>
     <div class="section__title">Claude Code как аудитор — подготовка</div>
   </div>
   <div class="section__card">
@@ -8969,7 +8727,7 @@ export const after_tool_call = async (ctx) =&gt; {
 <!-- ═══ 134 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">134</div>
+    <div class="section__num">129</div>
     <div class="section__title">Три проверки руками — то, что нельзя доверить агенту</div>
   </div>
   <div class="section__card">
@@ -9042,7 +8800,7 @@ export const after_tool_call = async (ctx) =&gt; {
 <!-- ═══ 135 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">135</div>
+    <div class="section__num">130</div>
     <div class="section__title">Встроенный аудит OpenClaw</div>
   </div>
   <div class="section__card">
@@ -9070,7 +8828,7 @@ export const after_tool_call = async (ctx) =&gt; {
 <!-- ═══ 136 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">136</div>
+    <div class="section__num">131</div>
     <div class="section__title">Аудит сервера через Lynis</div>
   </div>
   <div class="section__card">
@@ -9098,7 +8856,7 @@ export const after_tool_call = async (ctx) =&gt; {
 <!-- ═══ 137 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">137</div>
+    <div class="section__num">132</div>
     <div class="section__title">Аудит агентского слоя — троица, права, инструменты</div>
   </div>
   <div class="section__card">
@@ -9147,7 +8905,7 @@ export const after_tool_call = async (ctx) =&gt; {
 <!-- ═══ 138 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">138</div>
+    <div class="section__num">133</div>
     <div class="section__title">Аудит цепочки поставок — skills и MCP</div>
   </div>
   <div class="section__card">
@@ -9182,7 +8940,7 @@ export const after_tool_call = async (ctx) =&gt; {
 <!-- ═══ 139 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">139</div>
+    <div class="section__num">134</div>
     <div class="section__title">Аудит памяти агента</div>
   </div>
   <div class="section__card">
@@ -9222,7 +8980,7 @@ export const after_tool_call = async (ctx) =&gt; {
 <!-- ═══ 140 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">140</div>
+    <div class="section__num">135</div>
     <div class="section__title">Главный промпт — собираем AUDIT.md</div>
   </div>
   <div class="section__card">
@@ -9297,7 +9055,7 @@ ID | Слой | Severity | Находка | Доказательство | Ре�
 <!-- ═══ 141 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">141</div>
+    <div class="section__num">136</div>
     <div class="section__title">Реестр находок против геймификации — и каденс ре-аудита</div>
   </div>
   <div class="section__card">
@@ -9348,7 +9106,7 @@ ID | Слой | Severity | Находка | Доказательство | Ре�
 <!-- ═══ 142 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">142</div>
+    <div class="section__num">137</div>
     <div class="section__title">Бонус — база источников, чтобы аудит не устаревал</div>
   </div>
   <div class="section__card">
@@ -9516,7 +9274,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 143 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">143</div>
+    <div class="section__num">138</div>
     <div class="section__title">От находок к фиксам — как работаем в этой главе</div>
   </div>
   <div class="section__card">
@@ -9555,7 +9313,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 144 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">144</div>
+    <div class="section__num">139</div>
     <div class="section__title">Термины — словарь инженера по защите сервера</div>
   </div>
   <div class="section__card">
@@ -9599,7 +9357,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 145 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">145</div>
+    <div class="section__num">140</div>
     <div class="section__title">Правила безопасных правок — как не сломать прод</div>
   </div>
   <div class="section__card">
@@ -9640,7 +9398,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 146 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">146</div>
+    <div class="section__num">141</div>
     <div class="section__title">Стартовый бэкап сервера — точка отката</div>
   </div>
   <div class="section__card">
@@ -9674,7 +9432,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 147 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">147</div>
+    <div class="section__num">142</div>
     <div class="section__title">Слой 4а — патч OpenClaw до свежей версии</div>
   </div>
   <div class="section__card">
@@ -9710,7 +9468,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 148 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">148</div>
+    <div class="section__num">143</div>
     <div class="section__title">Слой 4б — закрываем Gateway</div>
   </div>
   <div class="section__card">
@@ -9745,7 +9503,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 149 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">149</div>
+    <div class="section__num">144</div>
     <div class="section__title">Слой 1а — firewall (UFW)</div>
   </div>
   <div class="section__card">
@@ -9786,7 +9544,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 150 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">150</div>
+    <div class="section__num">145</div>
     <div class="section__title">Слой 1б — kernel hardening</div>
   </div>
   <div class="section__card">
@@ -9820,7 +9578,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 151 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">151</div>
+    <div class="section__num">146</div>
     <div class="section__title">Слой 1в — сокращаем поверхность атаки</div>
   </div>
   <div class="section__card">
@@ -9855,7 +9613,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 152 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">152</div>
+    <div class="section__num">147</div>
     <div class="section__title">Слой 2а — SSH-ключи</div>
   </div>
   <div class="section__card">
@@ -9918,7 +9676,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 153 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">153</div>
+    <div class="section__num">148</div>
     <div class="section__title">Слой 2б — закалка sshd</div>
   </div>
   <div class="section__card">
@@ -9972,7 +9730,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 154 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">154</div>
+    <div class="section__num">149</div>
     <div class="section__title">Слой 2в — fail2ban</div>
   </div>
   <div class="section__card">
@@ -10007,7 +9765,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 155 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">155</div>
+    <div class="section__num">150</div>
     <div class="section__title">Слой 2г — CrowdSec</div>
   </div>
   <div class="section__card">
@@ -10043,7 +9801,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 156 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">156</div>
+    <div class="section__num">151</div>
     <div class="section__title">Не-root для OpenClaw</div>
   </div>
   <div class="section__card">
@@ -10088,7 +9846,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 157 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">157</div>
+    <div class="section__num">152</div>
     <div class="section__title">Слой 3 — секреты</div>
   </div>
   <div class="section__card">
@@ -10124,7 +9882,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 158 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">158</div>
+    <div class="section__num">153</div>
     <div class="section__title">Слой 8 — мониторинг и алерты</div>
   </div>
   <div class="section__card">
@@ -10158,7 +9916,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 159 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">159</div>
+    <div class="section__num">154</div>
     <div class="section__title">Обновляем AUDIT.md и сверяемся</div>
   </div>
   <div class="section__card">
@@ -10236,7 +9994,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 160 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">160</div>
+    <div class="section__num">155</div>
     <div class="section__title">Сервер закрыт — теперь защищаем агента</div>
   </div>
   <div class="section__card">
@@ -10262,7 +10020,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 161 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">161</div>
+    <div class="section__num">156</div>
     <div class="section__title">Модель угроз OpenClaw — таксономия MITRE ATLAS</div>
   </div>
   <div class="section__card">
@@ -10296,7 +10054,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 162 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">162</div>
+    <div class="section__num">157</div>
     <div class="section__title">Главный принцип — access control before intelligence</div>
   </div>
   <div class="section__card">
@@ -10328,7 +10086,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 163 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">163</div>
+    <div class="section__num">158</div>
     <div class="section__title">Термины — четыре рычага защиты агента</div>
   </div>
   <div class="section__card">
@@ -10361,7 +10119,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 164 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">164</div>
+    <div class="section__num">159</div>
     <div class="section__title">Identity — кто может писать агенту</div>
   </div>
   <div class="section__card">
@@ -10411,7 +10169,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 165 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">165</div>
+    <div class="section__num">160</div>
     <div class="section__title">contextVisibility — фильтр недоверенного контента</div>
   </div>
   <div class="section__card">
@@ -10457,7 +10215,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 166 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">166</div>
+    <div class="section__num">161</div>
     <div class="section__title">Три контроля OpenClaw — sandbox, tool policy, elevated</div>
   </div>
   <div class="section__card">
@@ -10496,7 +10254,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 167 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">167</div>
+    <div class="section__num">162</div>
     <div class="section__title">Tool policy — deny by default</div>
   </div>
   <div class="section__card">
@@ -10542,7 +10300,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 168 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">168</div>
+    <div class="section__num">163</div>
     <div class="section__title">Sandbox — инструменты в контейнере, не на хосте</div>
   </div>
   <div class="section__card">
@@ -10591,7 +10349,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 169 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">169</div>
+    <div class="section__num">164</div>
     <div class="section__title">Exec и elevated — самый опасный инструмент</div>
   </div>
   <div class="section__card">
@@ -10641,7 +10399,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 170 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">170</div>
+    <div class="section__num">165</div>
     <div class="section__title">Хардированный baseline — эталонный конфиг</div>
   </div>
   <div class="section__card">
@@ -10703,7 +10461,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 171 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">171</div>
+    <div class="section__num">166</div>
     <div class="section__title">SOUL.md против инъекций</div>
   </div>
   <div class="section__card">
@@ -10756,7 +10514,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 172 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">172</div>
+    <div class="section__num">167</div>
     <div class="section__title">Skills и MCP — lockdown цепочки поставок</div>
   </div>
   <div class="section__card">
@@ -10823,7 +10581,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 173 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">173</div>
+    <div class="section__num">168</div>
     <div class="section__title">Защита памяти от отравления</div>
   </div>
   <div class="section__card">
@@ -10867,7 +10625,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 174 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">174</div>
+    <div class="section__num">169</div>
     <div class="section__title">Защита от эксфильтрации</div>
   </div>
   <div class="section__card">
@@ -10910,7 +10668,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 175 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">175</div>
+    <div class="section__num">170</div>
     <div class="section__title">Sub-агенты AI-офиса — least privilege для каждого</div>
   </div>
   <div class="section__card">
@@ -10962,7 +10720,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 176 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">176</div>
+    <div class="section__num">171</div>
     <div class="section__title">Red-team самого себя — проверяем защиту атакой</div>
   </div>
   <div class="section__card">
@@ -11027,7 +10785,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 177 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">177</div>
+    <div class="section__num">172</div>
     <div class="section__title">Rate limiting и защита от DoS</div>
   </div>
   <div class="section__card">
@@ -11071,7 +10829,7 @@ https://cyberpress.org/hijack-ai-agents-via-malicious-web-content/
 <!-- ═══ 178 ═══ -->
 <div class="section">
   <div class="section__header">
-    <div class="section__num">178</div>
+    <div class="section__num">173</div>
     <div class="section__title">Финал — обновляем AUDIT.md и сводим весь контур</div>
   </div>
   <div class="section__card">
