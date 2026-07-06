@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Прожарка и план · Стас · H2 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Onest:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap&subset=cyrillic" rel="stylesheet">
+<style>
+:root{
+  --char:#161210;
+  --ember:#FF5A26;
+  --gold:#F7931A;
+  --bone:#F2EAE2;
+  --bone-dim:rgba(242,234,226,.66);
+  --bone-faint:rgba(242,234,226,.38);
+  --aqua:#3AC2B2;
+  --ocean:#0A2530;
+  --card:rgba(242,234,226,.045);
+  --line:rgba(242,234,226,.14);
+  --radius:14px;
+  --display:'Unbounded',sans-serif;
+  --body:'Onest',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+body{
+  font-family:var(--body);
+  color:var(--bone);
+  background:linear-gradient(180deg,#161210 0%,#1B130C 22%,#191410 45%,#12161A 72%,#0A2530 92%,#06202C 100%);
+  line-height:1.65;
+  font-size:17px;
+}
+.wrap{max-width:820px;margin:0 auto;padding:0 24px}
+a{color:var(--aqua)}
+::selection{background:var(--ember);color:var(--char)}
+
+/* ---------- nav rail ---------- */
+.rail{
+  position:fixed;right:28px;top:50%;transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:10px;z-index:50;
+}
+.rail a{
+  font-family:var(--mono);font-size:11px;text-decoration:none;
+  color:var(--bone-faint);letter-spacing:.08em;
+  padding:2px 6px;border-radius:6px;
+}
+.rail a:hover,.rail a:focus-visible{color:var(--bone)}
+.rail a.active{color:var(--ember)}
+@media(max-width:1180px){.rail{display:none}}
+
+/* ---------- hero ---------- */
+.hero{min-height:92vh;display:flex;flex-direction:column;justify-content:center;padding:80px 0 60px;position:relative}
+.hero .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;color:var(--ember);text-transform:uppercase;margin-bottom:26px}
+.hero h1{
+  font-family:var(--display);font-weight:900;
+  font-size:clamp(42px,9vw,104px);line-height:.98;letter-spacing:-.01em;
+  text-transform:uppercase;
+}
+.hero h1 .fire{color:var(--ember);text-shadow:0 0 60px rgba(255,90,38,.35)}
+.hero h1 .sea{color:var(--aqua)}
+.hero .thesis{
+  margin-top:34px;max-width:560px;font-size:clamp(18px,2.4vw,23px);
+  font-weight:500;color:var(--bone);line-height:1.5;
+}
+.hero .thesis b{color:var(--gold);font-weight:700}
+.hero .meta{margin-top:40px;font-family:var(--mono);font-size:12px;color:var(--bone-faint);line-height:2}
+.hero .scroll-hint{position:absolute;bottom:26px;left:24px;font-family:var(--mono);font-size:12px;color:var(--bone-faint)}
+
+/* ---------- generic section ---------- */
+section{padding:90px 0}
+.sec-label{
+  font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--ember);margin-bottom:14px;
+}
+.sec-label.gold{color:var(--gold)}
+.sec-label.sea{color:var(--aqua)}
+h2{font-family:var(--display);font-weight:700;font-size:clamp(26px,4.4vw,40px);line-height:1.12;margin-bottom:28px;text-transform:uppercase;letter-spacing:.01em}
+p+p{margin-top:16px}
+.lead{font-size:19px;color:var(--bone)}
+.dim{color:var(--bone-dim)}
+.note-src{font-family:var(--mono);font-size:12.5px;color:var(--bone-faint)}
+
+/* ---------- who ---------- */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:34px}
+@media(max-width:680px){.split{grid-template-columns:1fr}}
+.formula{border:1px solid var(--line);border-radius:var(--radius);padding:24px;background:var(--card)}
+.formula h3{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:12px}
+.formula.joy h3{color:var(--aqua)}
+.formula.pain h3{color:var(--ember)}
+.formula p{font-size:15.5px;color:var(--bone-dim)}
+
+/* ---------- blows ---------- */
+.blow{display:grid;grid-template-columns:96px 1fr;gap:22px;padding:34px 0;border-top:1px solid var(--line)}
+.blow:last-of-type{border-bottom:1px solid var(--line)}
+@media(max-width:680px){.blow{grid-template-columns:1fr;gap:8px}}
+.blow .num{
+  font-family:var(--display);font-weight:900;font-size:44px;line-height:1;
+  color:transparent;-webkit-text-stroke:1.5px var(--ember);
+}
+.blow h3{font-size:19px;font-weight:700;margin-bottom:10px;line-height:1.35}
+.blow p{font-size:15.5px;color:var(--bone-dim)}
+.blow .proof{
+  display:inline-block;margin-top:12px;font-family:var(--mono);font-size:12px;
+  color:var(--bone-faint);border-left:2px solid var(--ember);padding-left:10px;
+}
+
+/* ---------- trumps ---------- */
+.trumps{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:680px){.trumps{grid-template-columns:1fr}}
+.trump{border:1px solid rgba(247,147,26,.3);border-radius:var(--radius);padding:20px 22px;background:rgba(247,147,26,.05)}
+.trump h3{color:var(--gold);font-size:15.5px;font-weight:700;margin-bottom:6px}
+.trump p{font-size:14.5px;color:var(--bone-dim)}
+
+/* ---------- bets ---------- */
+.northstar{
+  border:1px solid var(--line);border-radius:var(--radius);padding:26px;
+  font-size:17px;background:var(--card);margin-bottom:34px;
+}
+.northstar b{color:var(--gold)}
+.northstar .ns-label{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--bone-faint);display:block;margin-bottom:10px}
+.bet{display:grid;grid-template-columns:56px 1fr;gap:18px;margin-top:22px}
+.bet .b-num{font-family:var(--display);font-weight:900;font-size:30px;color:var(--gold)}
+.bet h3{font-size:17px;font-weight:700;margin-bottom:6px}
+.bet p{font-size:15px;color:var(--bone-dim)}
+
+/* ---------- months ---------- */
+.month{border:1px solid var(--line);border-radius:var(--radius);background:var(--card);padding:30px;margin-top:30px;scroll-margin-top:30px}
+.m-head{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:6px}
+.m-head .m-num{font-family:var(--display);font-weight:900;font-size:34px;color:var(--m-accent,var(--ember))}
+.m-head h3{font-family:var(--display);font-weight:700;font-size:20px;text-transform:uppercase}
+.m-focus{color:var(--bone-dim);font-size:15px;margin-bottom:20px}
+.m-progress{height:5px;border-radius:3px;background:rgba(242,234,226,.1);overflow:hidden;margin-bottom:22px}
+.m-progress i{display:block;height:100%;width:0;background:var(--m-accent,var(--ember));transition:width .3s ease}
+.goal{display:grid;grid-template-columns:26px 1fr;gap:14px;padding:13px 0;border-top:1px solid rgba(242,234,226,.08);cursor:pointer}
+.goal input{width:18px;height:18px;margin-top:4px;accent-color:var(--m-accent,var(--ember));cursor:pointer}
+.goal .g-text{font-size:15.5px}
+.goal .g-meta{display:block;font-family:var(--mono);font-size:12px;color:var(--bone-faint);margin-top:4px}
+.goal.done .g-text{color:var(--bone-faint);text-decoration:line-through;text-decoration-color:var(--m-accent,var(--ember))}
+.goal.anti .g-text{color:var(--ember)}
+.m-jul{--m-accent:#FF5A26}.m-aug{--m-accent:#F7931A}.m-sep{--m-accent:#D9A441}
+.m-oct{--m-accent:#8FB069}.m-nov{--m-accent:#4FB39A}.m-dec{--m-accent:#3AC2B2}
+
+/* ---------- dashboard ---------- */
+.dash{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:10px}
+@media(max-width:900px){.dash{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.dash{grid-template-columns:1fr}}
+.metric{border:1px solid var(--line);border-radius:var(--radius);padding:18px;background:var(--card)}
+.metric .m-val{font-family:var(--mono);font-weight:700;font-size:22px;color:var(--aqua);white-space:nowrap}
+.metric .m-name{font-size:13px;color:var(--bone-dim);margin-top:8px;line-height:1.45}
+.dash-note{margin-top:18px;font-size:14.5px;color:var(--bone-faint)}
+
+/* ---------- stoplist ---------- */
+.stop{list-style:none;margin-top:8px}
+.stop li{
+  padding:14px 0 14px 34px;border-top:1px solid var(--line);
+  font-size:15.5px;color:var(--bone-dim);position:relative;
+}
+.stop li::before{content:'✕';position:absolute;left:2px;font-family:var(--mono);color:var(--ember);font-weight:700}
+.stop li:last-child{border-bottom:1px solid var(--line)}
+
+/* ---------- ocean ---------- */
+.ocean{padding:110px 0 90px}
+.ocean h2{color:var(--aqua)}
+.ocean .lead{font-size:18px}
+.ocean .final{
+  margin-top:44px;font-family:var(--display);font-weight:700;
+  font-size:clamp(20px,3.4vw,30px);line-height:1.4;color:var(--bone);
+  border-left:3px solid var(--aqua);padding-left:22px;
+}
+.ocean .final b{color:var(--aqua);font-weight:900}
+footer{padding:0 0 70px;font-family:var(--mono);font-size:12px;color:var(--bone-faint);line-height:2}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:4px}
+</style>
+</head>
+<body>
+
+<nav class="rail" aria-label="Навигация по разделам">
+  <a href="#kto">КТО</a>
+  <a href="#udary">УДАРЫ</a>
+  <a href="#kozyri">КОЗЫРИ</a>
+  <a href="#stavki">СТАВКИ</a>
+  <a href="#m07">07</a><a href="#m08">08</a><a href="#m09">09</a>
+  <a href="#m10">10</a><a href="#m11">11</a><a href="#m12">12</a>
+  <a href="#dash">ДАШБОРД</a>
+  <a href="#stop">СТОП</a>
+  <a href="#okean">ОКЕАН</a>
+</nav>
+
+<div class="wrap">
+
+<header class="hero">
+  <div class="eyebrow">Стас · июль — декабрь 2026 · собрано Claude из твоих же данных</div>
+  <h1><span class="fire">Прожарка</span><br>и план<br><span class="sea">до океана</span></h1>
+  <p class="thesis">Ты обучил <b>10 000+ человек</b>. В этом полугодии возьми последним учеником себя.</p>
+  <p class="meta">источники: 11 проектных папок · obsidian vault · транскрипты созвонов ·<br>календарь апрель–июль · gmail · годовая история чатов</p>
+  <div class="scroll-hint">↓ листай · всё ниже — не мнение, а факты с пруфами</div>
+</header>
+
+<!-- ======================= КТО ТЫ ======================= -->
+<section id="kto" class="rv">
+  <div class="sec-label">Часть 1 · Диагноз</div>
+  <h2>Ты — учитель, который притворяется исполнителем</h2>
+  <p class="lead">Дипломированный педагог. Эксперт по крипте с 2016-го. 10 000+ выпускников, 15+ образовательных продуктов. Автор методологии «8 уровней эволюции ИИ», которую покупают за $10 000. Курс собирает третий поток за четыре месяца по 100–250 тысяч рублей за место.</p>
+  <p class="dim">И этот же человек 2 июля сидит 2,5 часа на созвоне с клиентом, который говорит ему «Мозг не бей», восстанавливает чужой Google-аккаунт через вьетнамскую симку и оценивает свою работу «800–1000 USDT, потому что я новичок». Ты не новичок. Ты новичок только в роли, которая тебе не нужна.</p>
+  <div class="split">
+    <div class="formula joy">
+      <h3>Формула счастья</h3>
+      <p>Тело в движении + интеллектуальная глубина + передача знания. Восемь часов Толкина на Военно-Грузинской дороге. Азарт при проектировании Jarvis. «Банк — это ячейка с ключом». Йога, баня, волейбол. Трёхметровые волны в 70.</p>
+    </div>
+    <div class="formula pain">
+      <h3>Формула несчастья</h3>
+      <p>Один, ночью, за чужую мелкую задачу, с горящим сервером и портянкой текста от ИИ. Все твои «АААААА!» в истории чатов — ровно из этой позиции.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 10 УДАРОВ ======================= -->
+<section id="udary">
+  <div class="sec-label">Часть 2 · Прожарка</div>
+  <h2>Десять ударов — все по фактам</h2>
+
+  <div class="blow rv"><div class="num">01</div><div>
+    <h3>Ты биткоинер, который трейдит альткоины своего времени</h3>
+    <p>Твоя философия: DCA в один сильный актив, HODL, не суетись. Твоя практика: 11 живых проектов, 12 директорий сессий за одну неделю. Ни один не заброшен — и это не комплимент, это диагноз. Ты сам назвал этот риск в майском 10-летнем анализе. Прошло два месяца — добавились Jarvis, DeFi-пара и KAMNI.</p>
+    <span class="proof">пруф: 12 директорий сессий за неделю · майский 10-летний анализ</span>
+  </div></div>
+
+  <div class="blow rv"><div class="num">02</div><div>
+    <h3>Митя заплатил $250–300. Место на твоём курсе стоит 100 000 ₽</h3>
+    <p>Ты продал недели своей жизни по цене одной шестой места на собственном курсе. Человек, обучивший 10 тысяч людей, конкурирует по цене с фрилансером с Kwork. Это не скромность, это саботаж.</p>
+    <span class="proof">пруф: PROJECT.md Mitya Run Bot — «$250–300, согласовано»</span>
+  </div></div>
+
+  <div class="blow rv"><div class="num">03</div><div>
+    <h3>Ты построил второй мозг — и не кладёшь в него мысли</h3>
+    <p>Все 7 daily notes пустые. Скрайб молчал 33 дня — ноль наблюдений. Твой собственный AI-директор письменно жалуется, что не знает твой часовой пояс. Ты строишь инфраструктуру рефлексии вместо рефлексии. Мета-работа — твоя самая красивая форма прокрастинации.</p>
+    <span class="proof">пруф: weekly retro — «все 7 daily notes пустые» · «за 33 дня ноль драфтов»</span>
+  </div></div>
+
+  <div class="blow rv"><div class="num">04</div><div>
+    <h3>11 цифровых сотрудников и ноль человеческих</h3>
+    <p>«Бразис», Ревизор, скрайб, инвест-комитет из 8 ролей на топ-моделях. Ты собрал целый офис из агентов, потому что тянешь всё один — при том что твой же курс каждый поток производит обученных OpenClaw-специалистов. Ты сидишь на кадровом руднике и жалуешься, что некому делегировать.</p>
+    <span class="proof">пруф: AI-офис — 11 агентов · выпускники потоков 1–3 — 0 нанятых</span>
+  </div></div>
+
+  <div class="blow rv"><div class="num">05</div><div>
+    <h3>«Я не упакую» — сказал человек, продающий упаковку</h3>
+    <p>Твой продукт для KAMNI — буквально упаковка методологии. А собственную платформу ты честно не можешь упаковать («по чекам у меня не очень бьётся»). Потому что SaaS — не твоя игра. Твоя игра — методология и люди. Перестань хотеть чужую компанию.</p>
+    <span class="proof">пруф: транскрипт созвона по платформе — «я не упакую»</span>
+  </div></div>
+
+  <div class="blow rv"><div class="num">06</div><div>
+    <h3>Твои вечера принадлежат не тебе</h3>
+    <p>4–5 вечеров в неделю по 2,5 часа — разборы STANDART и VIP. Плюс Владимир, плюс Игорь, плюс Паша, плюс Раф. Пиковые творческие часы уходят на доставку, а не на создание активов. Тест: сколько денег придёт в месяц, где ты не провёл ни одного live? Сейчас — около нуля.</p>
+    <span class="proof">пруф: календарь июня–июля — 18+ вечерних эфиров в месяц</span>
+  </div></div>
+
+  <div class="blow rv"><div class="num">07</div><div>
+    <h3>Красные флаги безопасности висят месяцами — после того как ты уже один раз всё потерял</h3>
+    <p>29 июня Claude снёс тебе данные — ты построил пятислойную броню и сделал из этого материал (красавец). Но при этом: god-mode GitHub-токен не перевыпущен, ключи OpenAI/Groq светились в чатах и живы, автобэкапа n8n нет, root-пароль «считать скомпрометированным». Ты учишь клиентов безопасности с непристёгнутым ремнём.</p>
+    <span class="proof">пруф: 🔴-пометки в PROJECT.md четырёх проектов</span>
+  </div></div>
+
+  <div class="blow rv"><div class="num">08</div><div>
+    <h3>Проекты смысла проигрывают проектам суеты</h3>
+    <p>BITCOINER — твоя миссия, твоя «церковь» — стоит без тарифов с 2 июля. L70 — твоя личная мечта — ТЗ готово, код не начат. А вьетнамская симка для Игоря — сделана в тот же день. Ты финансируешь чужие дедлайны из бюджета собственной жизни.</p>
+    <span class="proof">пруф: mtime папок BITCOINER и L70 против сессий по Игорю</span>
+  </div></div>
+
+  <div class="blow rv"><div class="num">09</div><div>
+    <h3>Marathonbet, 1 июля, «добавлен способ оплаты»</h3>
+    <p>Человек с риск-агентом в инвест-комитете и мантрой «не спекулируй» добавляет карту в букмекерку. Если это пара лари ради интереса — окей. Если это клапан для перегруза — перечитай удары 01 и 06: пар надо выпускать из котла, а не сверлить в нём дырку.</p>
+    <span class="proof">пруф: gmail, 01.07.2026</span>
+  </div></div>
+
+  <div class="blow rv"><div class="num">10</div><div>
+    <h3>Майнинг: −22% в рублях</h3>
+    <p>Закрыл честно — уважение. Но урок не в деньгах, а во внимании: каждый фоновый процесс (health factor, ликвидации, позиции) жрёт RAM, которого не хватает флагману. Твоя альфа — в образовании. Точка.</p>
+    <span class="proof">пруф: твоё же закрытие позиции, история чатов</span>
+  </div></div>
+</section>
+
+<!-- ======================= КОЗЫРИ ======================= -->
+<section id="kozyri" class="rv">
+  <div class="sec-label gold">Часть 3 · Чем играешь</div>
+  <h2>Твои козыри</h2>
+  <div class="trumps">
+    <div class="trump"><h3>Флайвил «прожил → систематизировал → научил»</h3><p>Работает безотказно: катастрофа с rm -rf → броня + материал; траблшутинг OpenClaw → три гайда; лонжевити-квест → спека Jarvis.</p></div>
+    <div class="trump"><h3>Подтверждённый спрос на фронтире</h3><p>Рынок сам приходит: Игорь, Владимир, корпораты, KAMNI, инвест-клуб. Ты учишь тому, что появилось три месяца назад.</p></div>
+    <div class="trump"><h3>Готовые деньги</h3><p>Курс 100–250 тыс ₽/место × 3 потока за 4 месяца. KAMNI $10k, предоплата $4 000 получена. Методология тиражируется.</p></div>
+    <div class="trump"><h3>Системы в проде</h3><p>АТОН, WB-бот (612 ответов), Митя (13 атлетов, 0 ошибок), n8n (14 воркфлоу), Transcribator. Ты реально доводишь до продакшена — редкость.</p></div>
+    <div class="trump"><h3>Тело уже в игре</h3><p>Йога 2–3×/нед, сон 22:30, врачи, трезвость. Единственная сфера, где майский план исполняется.</p></div>
+    <div class="trump"><h3>Команда и сеть</h3><p>Роман, Ефим, Рафаэль, Игорь М. — партнёрский вес в ИИ-ВИЗАЦИИ, выход на Дубай и инвесторов.</p></div>
+  </div>
+</section>
+
+<!-- ======================= СТАВКИ ======================= -->
+<section id="stavki" class="rv">
+  <div class="sec-label gold">Часть 4 · Стратегия полугодия</div>
+  <h2>Три ставки</h2>
+  <div class="northstar">
+    <span class="ns-label">Северная звезда</span>
+    К 31 декабря 2026 — бизнес, который приносит деньги <b>без твоих вечеров</b>, один флагманский продукт вместо веера, и <b>квартал у океана</b> в календаре 2027.
+  </div>
+  <div class="bet"><div class="b-num">1</div><div>
+    <h3>Образование = актив</h3>
+    <p>Курс из расписания превращается в машину: evergreen-версия, кураторы из выпускников, live остаётся только в VIP по двойному чеку.</p>
+  </div></div>
+  <div class="bet"><div class="b-num">2</div><div>
+    <h3>Один флагман-паттерн</h3>
+    <p>Клиентские внедрения — только упакованный премиум от $10k по модели KAMNI (методология + обучение + руки выпускников). Всё мельче — отказ или передача.</p>
+  </div></div>
+  <div class="bet"><div class="b-num">3</div><div>
+    <h3>Тело и смысл — в бюджете, а не по остатку</h3>
+    <p>BITCOINER и L70 получают защищённые слоты после разгрузки вечеров. Океан — не мечта, а строка в плане.</p>
+  </div></div>
+</section>
+
+<!-- ======================= ПЛАН ======================= -->
+<section id="plan">
+  <div class="sec-label">Часть 5 · План по месяцам · SMART</div>
+  <h2>Маршрут 07 → 12</h2>
+  <p class="dim">Каждая цель — конкретная, измеримая, с дедлайном. Чекбоксы сохраняются в этом браузере. Цифры, где размер потока неизвестен, откалибруй по факту потока 3 — но не вниз, а по формуле.</p>
+
+  <div class="month m-jul rv" id="m07">
+    <div class="m-head"><span class="m-num">07</span><h3>Стоп-кран и передача</h3></div>
+    <p class="m-focus">Ничего нового. Достойно закрыть текущее, отдать мелочь, заткнуть дыры.</p>
+    <div class="m-progress"><i></i></div>
+    <label class="goal"><input type="checkbox" data-key="jul-1"><span class="g-text">Довести поток 3 до финала без провалов<span class="g-meta">мера: уроки 6–7 и разборы проведены, ≥80% VIP дошли · до 27.07</span></span></label>
+    <label class="goal"><input type="checkbox" data-key="jul-2"><span class="g-text">KAMNI: этап 1 сдан<span class="g-meta">мера: обучение запущено, второй транш $3 000 выставлен · до 31.07</span></span></label>
+    <label class="goal"><input type="checkbox" data-key="jul-3"><span class="g-text">День брони: закрыть ВСЕ красные флаги безопасности<span class="g-meta">мера: перевыпущены god-mode токен, ключи OpenAI/Groq, токены ботов; автобэкап n8n; root-пароль. Открытых 🔴 = 0 · до 12.07</span></span></label>
+    <label class="goal"><input type="checkbox" data-key="jul-4"><span class="g-text">Передать Митю и WB-бот на сопровождение<span class="g-meta">мера: 2 регламента, 2 подтверждённые передачи, ты вне контура · до 20.07</span></span></label>
+    <label class="goal"><input type="checkbox" data-key="jul-5"><span class="g-text">Запустить «час CEO» вместо мёртвых daily<span class="g-meta">мера: 4 голосовых ретро (деньги / радость / что прекращаю) через Transcribator · каждое вс</span></span></label>
+    <label class="goal"><input type="checkbox" data-key="jul-6"><span class="g-text">Оффер «Куратор потока» для выпускников<span class="g-meta">мера: 1 страница (роль, доля, критерии), отправлен топ-5 выпускникам · до 25.07</span></span></label>
+    <label class="goal anti"><input type="checkbox" data-key="jul-7"><span class="g-text">Антицель: ноль новых клиентских проектов и новых инициатив<span class="g-meta">мера: счётчик = 0 · весь месяц</span></span></label>
+  </div>
+
+  <div class="month m-aug rv" id="m08">
+    <div class="m-head"><span class="m-num">08</span><h3>Расписание → актив</h3></div>
+    <p class="m-focus">Курс перестаёт требовать твоих вечеров.</p>
+    <div class="m-progress"><i></i></div>
+    <label class="goal"><input type="checkbox" data-key="aug-1"><span class="g-text">Evergreen-версия курса собрана<span class="g-meta">мера: 7 уроков потока 3 нарезаны и загружены, воронка оплаты работает · до 31.08</span></span></label>
+    <label class="goal"><input type="checkbox" data-key="aug-2"><span class="g-text">Наняты 1–2 куратора из выпускников<span class="g-meta">мера: договорённости подписаны, тестовый разбор ≥8/10 · до 20.08</span></span></label>
+    <label class="goal"><input type="checkbox" data-key="aug-3"><span class="g-text">Поток 4 спроектирован по новой модели<span class="g-meta">мера: STANDART ведут кураторы, ты — 4 VIP-события/мес, цена VIP ×1.5 (375 000 ₽) · до 25.08</span></span></label>
+    <label class="goal"><input type="checkbox" data-key="aug-4"><span class="g-text">KAMNI: этап 2<span class="g-meta">мера: discovery стартовал, транш 2 получен · до 31.08</span></span></label>
+    <label class="goal"><input type="checkbox" data-key="aug-5"><span class="g-text">Премиум-оффер внедрений упакован<span class="g-meta">мера: страница «AI-трансформация от $10 000»; Игорю — КП в этой рамке или отказ · до 15.08</span></span></label>
+    <label class="goal"><input type="checkbox" data-key="aug-6"><span class="g-text">BITCOINER: защищённый слот открыт<span class="g-meta">мера: 4 блока по 3 часа в календаре; матрица продукта и тарифы зафиксированы · каждый чт</span></span></label>
+  </div>
+
+  <div class="month m-sep rv" id="m09">
+    <div class="m-head"><span class="m-num">09</span><h3>Поток 4: проверка машины</h3></div>
+    <p class="m-focus">Первый запуск, где ты работаешь ≤2 вечеров в неделю.</p>
+    <div class="m-progress"><i></i></div>
+    <label class="goal"><input type="checkbox" data-key="sep-1"><span class="g-text">Поток 4 запущен по новой модели<span class="g-meta">мера: выручка ≥ потока 3 при вдвое меньших твоих live-часах (посчитай часы!) · до 15.09</span></span></label>
+    <label class="goal"><input type="checkbox" data-key="sep-2"><span class="g-text">Live-нагрузка снижена<span class="g-meta">мера: ≤2 вечерних эфира в неделю, по календарю · весь месяц</span></span></label>
+    <label class="goal"><input type="checkbox" data-key="sep-3"><span class="g-text">Evergreen продаёт<span class="g-meta">мера: первые 5 продаж без единого твоего эфира · до 30.09</span></span></label>
+    <label class="goal"><input type="checkbox" data-key="sep-4"><span class="g-text">BITCOINER: предзапуск<span class="g-meta">мера: лендинг + канал разогрет, ≥30 заявок в листе ожидания · до 30.09</span></span></label>
+    <label class="goal"><input type="checkbox" data-key="sep-5"><span class="g-text">Здоровье: хвост закрыт<span class="g-meta">мера: аудиометрия в Ваке пройдена — слух = актив спикера · до 15.09</span></span></label>
+    <label class="goal"><input type="checkbox" data-key="sep-6"><span class="g-text">Час CEO держится<span class="g-meta">мера: 4/4 ретро, по каждому — одно решение «что прекращаю» · каждое вс</span></span></label>
+  </div>
+
+  <div class="month m-oct rv" id="m10">
+    <div class="m-head"><span class="m-num">10</span><h3>BITCOINER: запуск миссии</h3></div>
+    <p class="m-focus">Проект смысла становится продуктом.</p>
+    <div class="m-progress"><i></i></div>
+    <label class="goal"><input type="checkbox" data-key="oct-1"><span class="g-text">Первый поток BITCOINER запущен<span class="g-meta">мера: ≥15 оплат по зафиксированным тарифам, NPS первой недели ≥8 · до 20.10</span></span></label>
+    <label class="goal"><input type="checkbox" data-key="oct-2"><span class="g-text">Поток 4 доставлен машиной<span class="g-meta">мера: кураторы закрыли 100% разборов STANDART, твоих часов ≤ плана · до 31.10</span></span></label>
+    <label class="goal"><input type="checkbox" data-key="oct-3"><span class="g-text">Один премиум-клиент в работе<span class="g-meta">мера: контракт от $10 000 (40/30/30), руки — выпускники, ты — архитектор ≤5 ч/нед · до 31.10</span></span></label>
+    <label class="goal"><input type="checkbox" data-key="oct-4"><span class="g-text">L70 стартует как контент<span class="g-meta">мера: MVP Jarvis у тебя в проде + 1 модуль курса из него (двойное назначение) · до 31.10</span></span></label>
+    <label class="goal"><input type="checkbox" data-key="oct-5"><span class="g-text">Финансовая гигиена<span class="g-meta">мера: DeFi-позиции с ручным health factor закрыты или автоматизированы; фоновых следилок = 0 · до 15.10</span></span></label>
+  </div>
+
+  <div class="month m-nov rv" id="m11">
+    <div class="m-head"><span class="m-num">11</span><h3>Масштаб и кейсы</h3></div>
+    <p class="m-focus">Повторяемость. Всё, что сработало, — задокументировать и повторить.</p>
+    <div class="m-progress"><i></i></div>
+    <label class="goal"><input type="checkbox" data-key="nov-1"><span class="g-text">Три публичных кейса упакованы<span class="g-meta">мера: АТОН, KAMNI, Игорь — «задача → система → цифры», опубликованы · до 20.11</span></span></label>
+    <label class="goal"><input type="checkbox" data-key="nov-2"><span class="g-text">Evergreen — стабильный ручей<span class="g-meta">мера: ≥15 продаж за месяц, воронка описана цифрами · до 30.11</span></span></label>
+    <label class="goal"><input type="checkbox" data-key="nov-3"><span class="g-text">Набор потока 5 и BITCOINER-2 без тебя<span class="g-meta">мера: продажи ведут кураторы/партнёры по скриптам, твоё участие — только контент · до 30.11</span></span></label>
+    <label class="goal"><input type="checkbox" data-key="nov-4"><span class="g-text">Океан забронирован<span class="g-meta">мера: билеты + жильё на Q1-2027 (Шри-Ланка/Бали), 2+ серф-сессии в неделю в плане · до 15.11</span></span></label>
+    <label class="goal"><input type="checkbox" data-key="nov-5"><span class="g-text">Команда людей ≥ команды агентов<span class="g-meta">мера: минимум 3 живых человека на регулярных ролях (2 куратора + 1 исполнитель) · до 30.11</span></span></label>
+  </div>
+
+  <div class="month m-dec rv" id="m12">
+    <div class="m-head"><span class="m-num">12</span><h3>Ретро и передислокация</h3></div>
+    <p class="m-focus">Зафиксировать систему, спланировать год, уехать.</p>
+    <div class="m-progress"><i></i></div>
+    <label class="goal"><input type="checkbox" data-key="dec-1"><span class="g-text">Годовое ретро по методу «10 лет»<span class="g-meta">мера: анализ 2026 + план 2027 в vault — в этот раз по данным из 24 часов CEO · до 20.12</span></span></label>
+    <label class="goal"><input type="checkbox" data-key="dec-2"><span class="g-text">Тест северной звезды пройден<span class="g-meta">мера: ≥40% выручки декабря — без единого твоего live-эфира · до 31.12</span></span></label>
+    <label class="goal"><input type="checkbox" data-key="dec-3"><span class="g-text">Портфель сжат<span class="g-meta">мера: ≤4 направления (Образование, BITCOINER, Премиум-внедрения, L70); список похорон написан · до 31.12</span></span></label>
+    <label class="goal"><input type="checkbox" data-key="dec-4"><span class="g-text">Полугодие доходов посчитано<span class="g-meta">мера: H2 ≥ ×1.5 от H1 при меньших твоих часах (часы тоже посчитаны) · до 31.12</span></span></label>
+    <label class="goal"><input type="checkbox" data-key="dec-5"><span class="g-text">Ты у океана<span class="g-meta">мера: работаешь из Q1-локации, первая серф-сессия проведена · до 31.12</span></span></label>
+  </div>
+</section>
+
+<!-- ======================= ДАШБОРД ======================= -->
+<section id="dash" class="rv">
+  <div class="sec-label sea">Часть 6 · Каждое воскресенье</div>
+  <h2>Дашборд: пять цифр</h2>
+  <div class="dash">
+    <div class="metric"><div class="m-val">0 → 40%</div><div class="m-name">₽ без live — деньги месяца, пришедшие без твоего эфира</div></div>
+    <div class="metric"><div class="m-val">2 → 5</div><div class="m-name">Вечера себе — вечеров в неделю без рабочих созвонов</div></div>
+    <div class="metric"><div class="m-val">11 → 4</div><div class="m-name">Активные проекты — по-честному, где были твои часы</div></div>
+    <div class="metric"><div class="m-val">0 → 3</div><div class="m-name">Живые люди в команде — на регулярных ролях</div></div>
+    <div class="metric"><div class="m-val">≥4/нед</div><div class="m-name">Часы на тело — йога + кардио + вода (у океана ≥6)</div></div>
+  </div>
+  <p class="dash-note">Смотришь на часе CEO, раз в неделю. Пять цифр — и никакой другой отчётности перед собой.</p>
+</section>
+
+<!-- ======================= СТОП-ЛИСТ ======================= -->
+<section id="stop" class="rv">
+  <div class="sec-label">Часть 7 · Повесь перед глазами</div>
+  <h2>Стоп-лист</h2>
+  <ul class="stop">
+    <li>Новые клиентские проекты дешевле $10 000 — в любом виде, даже «по-братски».</li>
+    <li>Новые инициативы и продукты до закрытия целей текущего месяца.</li>
+    <li>Ручная эксплуатация чужих систем (сервера, аккаунты, симки) — это работа исполнителей.</li>
+    <li>Активные спекулятивные позиции, требующие слежения. И букмекерка — ты сам знаешь.</li>
+    <li>Строить нового агента там, где нужен один живой человек.</li>
+    <li>Пустые системы рефлексии: если инструмент не наполняется 3 недели — убей инструмент, а не совесть.</li>
+  </ul>
+</section>
+
+<!-- ======================= ОКЕАН ======================= -->
+<section id="okean" class="ocean rv">
+  <div class="sec-label sea">Часть 8 · 31 декабря 2026</div>
+  <h2>Как выглядит победа</h2>
+  <p class="lead">Ты сидишь у океана. Утром — вода, днём — два часа глубокой работы над BITCOINER-2 и L70. Поток 5 идёт без тебя: кураторы ведут разборы, evergreen капает, премиум-клиента ведёт твой выпускник, а ты появляешься раз в неделю как архитектор.</p>
+  <p class="dim">Дашборд показывает: 40% денег пришло, пока ты спал или грёб. В vault — 24 заполненных CEO-ретро, и годовой анализ ты пишешь не по памяти, а по данным. Второй мозг наконец-то думает, потому что первый — свободен.</p>
+  <p class="final">Ты обучил 10 000 человек.<br>В этом полугодии ты взял <b>последним учеником себя</b>.</p>
+</section>
+
+<footer>
+  собрано 06.07.2026 · claude × стас · пересмотр плана — первое воскресенье месяца, на часе CEO<br>
+  прогресс чекбоксов хранится локально в этом браузере
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var LS='prozharka2026h2';
+  var state={};
+  try{state=JSON.parse(localStorage.getItem(LS)||'{}')}catch(e){}
+  var boxes=document.querySelectorAll('.goal input[data-key]');
+  function updateMonth(m){
+    var all=m.querySelectorAll('.goal input'),done=m.querySelectorAll('.goal input:checked');
+    var bar=m.querySelector('.m-progress i');
+    if(bar)bar.style.width=(all.length?Math.round(done.length/all.length*100):0)+'%';
+  }
+  boxes.forEach(function(b){
+    var k=b.getAttribute('data-key');
+    if(state[k]){b.checked=true;b.closest('.goal').classList.add('done')}
+    b.addEventListener('change',function(){
+      state[k]=b.checked;
+      b.closest('.goal').classList.toggle('done',b.checked);
+      localStorage.setItem(LS,JSON.stringify(state));
+      updateMonth(b.closest('.month'));
+    });
+  });
+  document.querySelectorAll('.month').forEach(updateMonth);
+
+  // scroll reveal
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}});
+    },{threshold:.08});
+    document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
+  }else{
+    document.querySelectorAll('.rv').forEach(function(el){el.classList.add('in')});
+  }
+
+  // rail active state
+  var ids=['kto','udary','kozyri','stavki','m07','m08','m09','m10','m11','m12','dash','stop','okean'];
+  var links={};
+  document.querySelectorAll('.rail a').forEach(function(a){links[a.getAttribute('href').slice(1)]=a});
+  if('IntersectionObserver' in window){
+    var io2=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){
+          Object.keys(links).forEach(function(k){links[k].classList.remove('active')});
+          if(links[e.target.id])links[e.target.id].classList.add('active');
+        }
+      });
+    },{rootMargin:'-30% 0px -60% 0px'});
+    ids.forEach(function(id){var el=document.getElementById(id);if(el)io2.observe(el)});
+  }
+})();
+</script>
+</body>
+</html>
