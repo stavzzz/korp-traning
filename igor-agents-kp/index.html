@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI-агенты для ТСК ГРУПП и наставничества · КП</title>
+  <meta name="description" content="4 AI-агента в Telegram для двух бизнесов Игоря: наставничество и стройка. Менеджер канала + лид-бот на каждый. Коммерческое предложение.">
+  <meta property="og:title" content="AI-агенты для двух бизнесов · КП">
+  <meta property="og:description" content="4 AI-агента в Telegram: наставничество + стройка. Контент-менеджер канала и обработчик заявок на каждый бизнес.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .agent-list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 9px; }
+    .agent-list li { position: relative; padding-left: 22px; color: var(--text-2); font-size: 14px; line-height: 1.45; }
+    .agent-list li::before { content: '✓'; position: absolute; left: 0; top: 0; color: var(--accent-3); font-weight: 700; }
+    .agents-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+    .agent-card__biz { display: inline-block; padding: 4px 10px; font-size: 12px; font-weight: 600; border-radius: 999px; margin-bottom: 14px; }
+    .biz--mentor { background: rgba(6,182,212,0.12); border: 1px solid rgba(6,182,212,0.3); color: var(--accent-3); }
+    .biz--build { background: rgba(236,72,153,0.12); border: 1px solid rgba(236,72,153,0.3); color: var(--accent-2); }
+    .stage { padding: 28px 32px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); position: relative; }
+    .stage::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 3px; background: var(--grad-1); border-radius: 3px 0 0 3px; }
+    .stages { display: flex; flex-direction: column; gap: 18px; }
+    .stage h3 { margin: 0 0 6px; font-size: 20px; }
+    .stage h3 span { color: var(--accent); font-weight: 700; }
+    .stage p { margin: 0; color: var(--text-2); }
+    .sroki { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 20px; }
+    .srok { padding: 24px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius); }
+    .section--muted .srok { background: var(--bg); }
+    .srok__days { font-size: 30px; font-weight: 800; letter-spacing: -0.02em; background: var(--grad-1); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .srok__unit { color: var(--text-2); font-size: 14px; }
+    .srok h4 { margin: 10px 0 4px; font-size: 16px; }
+    .srok p { margin: 0; color: var(--text-3); font-size: 13px; }
+    .total-note { margin-top: 28px; padding: 18px 24px; background: rgba(124,58,237,0.1); border: 1px solid rgba(124,58,237,0.3); border-radius: var(--radius); color: var(--text); font-size: 15px; }
+    .payline { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 8px; }
+    .payline .extra b { color: var(--text); }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container header__inner">
+      <a href="#" class="logo">🤖 AI-агенты · Игорь</a>
+      <nav class="nav">
+        <a href="#agents">4 агента</a>
+        <a href="#stages">Этапы</a>
+        <a href="#sroki">Сроки</a>
+        <a href="#result">Результат</a>
+        <a href="#contact" class="nav__cta">Связаться</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero__bg"></div>
+    <div class="container hero__inner">
+      <div class="hero__badge">КП · черновик для обсуждения · июль 2026</div>
+      <h1 class="hero__title">
+        4 AI-агента для двух бизнесов.<br>
+        <span class="gradient-text">Контент и заявки — на автопилоте.</span>
+      </h1>
+      <p class="hero__sub">
+        На каждый бизнес — <b>менеджер канала</b> (ведёт Telegram-канал и пишет посты)
+        и <b>лид-бот</b> (общается с клиентами и приводит тебе тёплые заявки).
+        Два бизнеса: <b>финансовое наставничество</b> и <b>стройка (ТСК ГРУПП)</b>.
+      </p>
+      <div class="hero__cta">
+        <a href="#contact" class="btn btn--primary">Обсудить и стартовать →</a>
+        <a href="#agents" class="btn btn--ghost">Что делают агенты</a>
+      </div>
+      <div class="hero__chips">
+        <span class="chip">💰 Наставничество</span>
+        <span class="chip">🏗️ Стройка</span>
+        <span class="chip">⚡ Telegram 24/7</span>
+        <span class="chip">🧠 На своём сервере</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Идея -->
+  <section class="section section--muted">
+    <div class="container">
+      <h2 class="section__title">Как это работает</h2>
+      <p class="section__lead">Одна механика, два бизнеса. Канал приводит людей в бота, бот приводит заявки тебе.</p>
+      <div class="stack">
+        <div class="stack__card">
+          <div class="stack__icon">📣</div>
+          <h3>Менеджер канала</h3>
+          <p>Ведёт Telegram-канал: контент-план, посты, картинки, публикация. Каждый пост зовёт читателя в лид-бота. Ты только одобряешь.</p>
+          <span class="stack__tag">контент без СММщика</span>
+        </div>
+        <div class="stack__card">
+          <div class="stack__icon">🤝</div>
+          <h3>Лид-бот</h3>
+          <p>Принимает обращения из канала, общается с клиентом, квалифицирует, собирает нужные данные и отдаёт тебе тёплый контакт.</p>
+          <span class="stack__tag">заявки 24/7</span>
+        </div>
+        <div class="stack__card">
+          <div class="stack__icon">🎯</div>
+          <h3>Порядок запуска</h3>
+          <p>Сначала <b>наставничество</b> (канал с нуля + бот), затем <b>стройка</b> (канал уже есть) по той же схеме.</p>
+          <span class="stack__tag">от простого к сложному</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 агента -->
+  <section id="agents" class="section">
+    <div class="container">
+      <h2 class="section__title">4 агента и что они умеют</h2>
+      <p class="section__lead">Функционал каждого агента. Пишем на GLM, всё крутится на твоём сервере.</p>
+      <div class="agents-2">
+
+        <div class="stack__card agent-card">
+          <span class="agent-card__biz biz--mentor">💰 Наставничество</span>
+          <h3>Агент 1 · Лид-бот наставничества</h3>
+          <ul class="agent-list">
+            <li>Встречает клиента, дружеский тон, рассказывает о форматах: стратсессия 20 000 ₽ → 3 месяца / год</li>
+            <li>Снимает голосовой «портрет» клиента <b>до встречи</b> (доход, капитал, цели, страхи, опыт)</li>
+            <li>Отрабатывает возражения в философии продукта</li>
+            <li>Записывает на стратегическую сессию, берёт контакт</li>
+            <li>Отдаёт тебе контакт + портрет (Telegram + таблица)</li>
+            <li>Напоминает тем, кто написал и пропал · работает 24/7</li>
+          </ul>
+        </div>
+
+        <div class="stack__card agent-card">
+          <span class="agent-card__biz biz--mentor">💰 Наставничество</span>
+          <h3>Агент 2 · Менеджер канала наставничества</h3>
+          <ul class="agent-list">
+            <li>Создаёт и оформляет Telegram-канал (с нуля), бот — администратор</li>
+            <li>Готовит контент-план на 2 недели, ты утверждаешь</li>
+            <li>Пишет посты (финансовое мышление, работа с блоками, цели) — <b>публикация только после твоего «Одобрить»</b></li>
+            <li>Подбирает / генерирует картинки, в каждом посте — ссылка на лид-бота</li>
+            <li>Фильтр запретных тем: без прямых фин. советов, спекуляций, пирамид, дискредитации</li>
+            <li>Опросы и голосования · статистика: подписчики, охваты, заявки</li>
+          </ul>
+        </div>
+
+        <div class="stack__card agent-card">
+          <span class="agent-card__biz biz--build">🏗️ Стройка</span>
+          <h3>Агент 3 · Лид-бот стройки</h3>
+          <ul class="agent-list">
+            <li>Экспертный тон, представляет ТСК ГРУПП, каталог услуг (ремонт под ключ — первой)</li>
+            <li>Даёт ориентировочные цены «вилкой»</li>
+            <li>Собирает заявку: адрес, площадь, услуга, бюджет, сроки, дизайн-проект, фото объекта</li>
+            <li>Квалифицирует лида (живой объект, площадь от 80 м²)</li>
+            <li>Присылает примеры работ (портфолио) по запросу</li>
+            <li>Отрабатывает возражения, передаёт заявку + запись на созвон (реакция в течение часа) · 24/7</li>
+          </ul>
+        </div>
+
+        <div class="stack__card agent-card">
+          <span class="agent-card__biz biz--build">🏗️ Стройка</span>
+          <h3>Агент 4 · Менеджер канала стройки</h3>
+          <ul class="agent-list">
+            <li>Стартует в «тихом режиме»: мониторит и советует, пока работают СММщики</li>
+            <li>Делает аналитику текущего канала (лучшие / худшие посты)</li>
+            <li>Контент-план и посты (ликбез, обеление рынка, подводные камни) — ты одобряешь</li>
+            <li>Картинки и мемы, в каждом посте — ссылка на лид-бота</li>
+            <li>Фильтр: без хейта, не дискредитировать конкурентов</li>
+            <li>Продающие посты, подбор релевантного контента в диалоге, опросы, голосования, статистика</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Этапы -->
+  <section id="stages" class="section section--muted">
+    <div class="container">
+      <h2 class="section__title">Этапы работы</h2>
+      <p class="section__lead">Идём последовательно — каждый этап заканчивается рабочим результатом, который можно проверить.</p>
+      <div class="stages">
+        <div class="stage">
+          <h3><span>Этап 1.</span> Наставничество</h3>
+          <p>Агенты 1 и 2: канал наставничества с нуля + лид-бот с голосовым портретом. Итог — рабочая воронка: пост в канале → бот → тёплый контакт с портретом у тебя.</p>
+        </div>
+        <div class="stage">
+          <h3><span>Этап 2.</span> Стройка</h3>
+          <p>Агенты 3 и 4: лид-бот приёма заявок для ТСК ГРУПП + менеджер существующего канала (тихий режим → активное ведение). Та же механика, адаптированная под стройку.</p>
+        </div>
+        <div class="stage">
+          <h3><span>Этап 3.</span> Общее и полировка</h3>
+          <p>Единая таблица лидов и портретов (Google Sheets), напоминания «пропавшим», статистика, приёмочное тестирование на реальных диалогах и постах.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Сроки -->
+  <section id="sroki" class="section">
+    <div class="container">
+      <h2 class="section__title">Примерные сроки по агентам</h2>
+      <p class="section__lead">Оценка в рабочих днях. Точные сроки зафиксируем на этапе архитектуры и после старта.</p>
+      <div class="sroki">
+        <div class="srok">
+          <span class="agent-card__biz biz--mentor">💰 Наставничество</span>
+          <div><span class="srok__days">4–6</span> <span class="srok__unit">раб. дней</span></div>
+          <h4>Лид-бот наставничества</h4>
+          <p>диалог, голосовой портрет, квалификация, передача контакта</p>
+        </div>
+        <div class="srok">
+          <span class="agent-card__biz biz--mentor">💰 Наставничество</span>
+          <div><span class="srok__days">3–5</span> <span class="srok__unit">раб. дней</span></div>
+          <h4>Менеджер канала наставничества</h4>
+          <p>канал с нуля, контент-план, генерация и публикация постов</p>
+        </div>
+        <div class="srok">
+          <span class="agent-card__biz biz--build">🏗️ Стройка</span>
+          <div><span class="srok__days">3–4</span> <span class="srok__unit">раб. дней</span></div>
+          <h4>Лид-бот стройки</h4>
+          <p>по готовой механике: каталог услуг, заявка, портфолио</p>
+        </div>
+        <div class="srok">
+          <span class="agent-card__biz biz--build">🏗️ Стройка</span>
+          <div><span class="srok__days">3–5</span> <span class="srok__unit">раб. дней</span></div>
+          <h4>Менеджер канала стройки</h4>
+          <p>аналитика канала, тихий режим, контент-план и посты</p>
+        </div>
+      </div>
+      <div class="total-note">
+        ⏱️ Итого поэтапно — ориентировочно <b>2–3 недели</b> (наставничество → стройка → полировка),
+        с учётом твоих одобрений контента и тестов на реальных диалогах.
+      </div>
+    </div>
+  </section>
+
+  <!-- Финальный результат -->
+  <section id="result" class="section section--muted">
+    <div class="container">
+      <h2 class="section__title">Финальный результат</h2>
+      <p class="section__lead">Что у тебя будет на руках после сдачи.</p>
+      <div class="deliverables">
+        <div class="deliverable">🤖 4 работающих AI-агента в Telegram: 2 канала + 2 лид-бота</div>
+        <div class="deliverable">💰 Канал наставничества создан и ведётся ботом</div>
+        <div class="deliverable">🏗️ Канал стройки на автопилоте (после «тихого» периода)</div>
+        <div class="deliverable">📇 Единая таблица лидов и портретов (Google Sheets)</div>
+        <div class="deliverable">✅ Публикации — только после твоего одобрения</div>
+        <div class="deliverable">🖥️ Всё на твоём сервере, доступы у тебя</div>
+        <div class="deliverable">📖 Инструкция + сопровождение на запуске</div>
+        <div class="deliverable">🔁 Реанимация «пропавших» клиентов и статистика каналов</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Как работаем и оплата -->
+  <section class="section section--accent">
+    <div class="container">
+      <div class="subagent">
+        <div class="subagent__emoji">🤝</div>
+        <h2 class="section__title">Как работаем и оплата</h2>
+        <p class="subagent__lead">Прозрачно и поэтапно. Начинаем с наставничества, получаем результат, идём дальше.</p>
+        <div class="payline">
+          <div class="extra">🚀 <b>Поэтапно</b><br><span>аванс перед этапом → приёмка → следующий этап</span></div>
+          <div class="extra">💵 <b>Оплата</b><br><span>USDT (как в прошлом ТЗ) или по договорённости</span></div>
+          <div class="extra">📊 <b>Сумма</b><br><span>по согласованию — финальная смета на этапе «Архитектура»</span></div>
+          <div class="extra">🔧 <b>Ежемесячно</b><br><span>модель GLM + распознавание голоса ≈ $10–30; сервер уже оплачен</span></div>
+        </div>
+        <div class="total-note" style="text-align:center;">
+          🧩 <b>Следующий шаг — архитектура:</b> финальный выбор модели (GLM), хранение лидов,
+          инстанс на сервере и точная смета. После согласования и аванса — старт разработки с наставничества.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Контакты -->
+  <section id="contact" class="section section--cta">
+    <div class="container cta">
+      <h2 class="section__title">Стартуем?</h2>
+      <p class="section__lead">Согласуем план, ТЗ и это КП — и запускаю первый агент. Начинаем с наставничества.</p>
+      <div class="cta__buttons">
+        <a href="https://t.me/stavzzz" class="btn btn--primary btn--lg" target="_blank" rel="noopener">💬 Telegram: @stavzzz</a>
+        <a href="mailto:staspankov@gmail.com" class="btn btn--ghost btn--lg">✉️ staspankov@gmail.com</a>
+      </div>
+      <p class="cta__signature">— Стас Панков<br><span>исполнитель · команда «ИИ-ВИЗАЦИЯ»</span></p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>🤖 AI-агенты для Игоря · 2026 · КП, черновик для обсуждения · связано с ТЗ v1.0</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
