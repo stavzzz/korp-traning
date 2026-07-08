@@ -31,9 +31,16 @@
     .srok__unit { color: var(--text-2); font-size: 14px; }
     .srok h4 { margin: 10px 0 4px; font-size: 16px; }
     .srok p { margin: 0; color: var(--text-3); font-size: 13px; }
-    .total-note { margin-top: 28px; padding: 18px 24px; background: rgba(124,58,237,0.1); border: 1px solid rgba(124,58,237,0.3); border-radius: var(--radius); color: var(--text); font-size: 15px; }
-    .payline { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 8px; }
-    .payline .extra b { color: var(--text); }
+    .total-note { margin-top: 28px; padding: 18px 24px; background: rgba(124,58,237,0.1); border: 1px solid rgba(124,58,237,0.3); border-radius: var(--radius); color: var(--text); font-size: 15px; line-height: 1.5; }
+    .pay-total { text-align: center; margin: 0 0 40px; }
+    .pay-total__num { font-size: clamp(44px, 8vw, 68px); font-weight: 800; letter-spacing: -0.03em; background: var(--grad-1); -webkit-background-clip: text; background-clip: text; color: transparent; line-height: 1; }
+    .pay-total__cap { display: block; margin-top: 8px; color: var(--text-2); font-size: 15px; }
+    .paygrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+    .paycard { padding: 24px; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius); text-align: center; }
+    .paycard__num { width: 40px; height: 40px; margin: 0 auto 12px; background: var(--grad-2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 800; }
+    .paycard h4 { margin: 0 0 8px; font-size: 15px; color: var(--text-2); font-weight: 500; }
+    .paycard__amount { font-size: 24px; font-weight: 800; color: var(--accent-3); }
+    .note-line { margin-top: 20px; color: var(--text-3); font-size: 14px; text-align: center; }
   </style>
 </head>
 <body>
@@ -47,7 +54,6 @@
         <a href="#stages">Этапы</a>
         <a href="#sroki">Сроки</a>
         <a href="#result">Результат</a>
-        <a href="#contact" class="nav__cta">Связаться</a>
       </nav>
     </div>
   </header>
@@ -66,15 +72,11 @@
         и <b>лид-бот</b> (общается с клиентами и приводит тебе тёплые заявки).
         Два бизнеса: <b>финансовое наставничество</b> и <b>стройка (ТСК ГРУПП)</b>.
       </p>
-      <div class="hero__cta">
-        <a href="#contact" class="btn btn--primary">Обсудить и стартовать →</a>
-        <a href="#agents" class="btn btn--ghost">Что делают агенты</a>
-      </div>
       <div class="hero__chips">
         <span class="chip">💰 Наставничество</span>
         <span class="chip">🏗️ Стройка</span>
         <span class="chip">⚡ Telegram 24/7</span>
-        <span class="chip">🧠 На своём сервере</span>
+        <span class="chip">🖥️ На своём сервере</span>
       </div>
     </div>
   </section>
@@ -88,19 +90,19 @@
         <div class="stack__card">
           <div class="stack__icon">📣</div>
           <h3>Менеджер канала</h3>
-          <p>Ведёт Telegram-канал: контент-план, посты, картинки, публикация. Каждый пост зовёт читателя в лид-бота. Ты только одобряешь.</p>
+          <p>Ведёт Telegram-канал: контент-план, посты, картинки, публикация. Каждый пост зовёт читателя в лид-бота. Ты только одобряешь или вносишь правки.</p>
           <span class="stack__tag">контент без СММщика</span>
         </div>
         <div class="stack__card">
           <div class="stack__icon">🤝</div>
           <h3>Лид-бот</h3>
-          <p>Принимает обращения из канала, общается с клиентом, квалифицирует, собирает нужные данные и отдаёт тебе тёплый контакт.</p>
+          <p>Принимает обращения от лидов и потенциальных клиентов, общается с интересующимися, квалифицирует, собирает нужные данные, отдаёт тебе тёплый контакт и записывает в Google-таблицу.</p>
           <span class="stack__tag">заявки 24/7</span>
         </div>
         <div class="stack__card">
           <div class="stack__icon">🎯</div>
           <h3>Порядок запуска</h3>
-          <p>Сначала <b>наставничество</b> (канал с нуля + бот), затем <b>стройка</b> (канал уже есть) по той же схеме.</p>
+          <p>Сначала <b>наставничество</b> (канал с нуля + боты), затем <b>стройка</b> (канал уже есть) по той же схеме.</p>
           <span class="stack__tag">от простого к сложному</span>
         </div>
       </div>
@@ -111,29 +113,16 @@
   <section id="agents" class="section">
     <div class="container">
       <h2 class="section__title">4 агента и что они умеют</h2>
-      <p class="section__lead">Функционал каждого агента. Пишем на GLM, всё крутится на твоём сервере.</p>
+      <p class="section__lead">Функционал каждого агента. Всё крутится на твоём сервере.</p>
       <div class="agents-2">
 
         <div class="stack__card agent-card">
           <span class="agent-card__biz biz--mentor">💰 Наставничество</span>
-          <h3>Агент 1 · Лид-бот наставничества</h3>
-          <ul class="agent-list">
-            <li>Встречает клиента, дружеский тон, рассказывает о форматах: стратсессия 20 000 ₽ → 3 месяца / год</li>
-            <li>Снимает голосовой «портрет» клиента <b>до встречи</b> (доход, капитал, цели, страхи, опыт)</li>
-            <li>Отрабатывает возражения в философии продукта</li>
-            <li>Записывает на стратегическую сессию, берёт контакт</li>
-            <li>Отдаёт тебе контакт + портрет (Telegram + таблица)</li>
-            <li>Напоминает тем, кто написал и пропал · работает 24/7</li>
-          </ul>
-        </div>
-
-        <div class="stack__card agent-card">
-          <span class="agent-card__biz biz--mentor">💰 Наставничество</span>
-          <h3>Агент 2 · Менеджер канала наставничества</h3>
+          <h3>Агент 1 · Менеджер канала наставничества</h3>
           <ul class="agent-list">
             <li>Создаёт и оформляет Telegram-канал (с нуля), бот — администратор</li>
             <li>Готовит контент-план на 2 недели, ты утверждаешь</li>
-            <li>Пишет посты (финансовое мышление, работа с блоками, цели) — <b>публикация только после твоего «Одобрить»</b></li>
+            <li>Пишет посты (финансовое мышление, работа с блоками, цели) — <b>публикация только после твоего «Одобрить»</b> или с твоими правками</li>
             <li>Подбирает / генерирует картинки, в каждом посте — ссылка на лид-бота</li>
             <li>Фильтр запретных тем: без прямых фин. советов, спекуляций, пирамид, дискредитации</li>
             <li>Опросы и голосования · статистика: подписчики, охваты, заявки</li>
@@ -141,8 +130,34 @@
         </div>
 
         <div class="stack__card agent-card">
+          <span class="agent-card__biz biz--mentor">💰 Наставничество</span>
+          <h3>Агент 2 · Лид-бот наставничества</h3>
+          <ul class="agent-list">
+            <li>Встречает клиента, дружеский тон, рассказывает о форматах: стратсессия 20 000 ₽ → 3 месяца / год</li>
+            <li>Общается голосом или текстом: выясняет потребности и квалифицирует клиента до встречи (доход, капитал, цели, страхи, опыт)</li>
+            <li>Отрабатывает возражения в философии продукта</li>
+            <li>Записывает на стратегическую сессию, берёт контакт</li>
+            <li>Отдаёт тебе тёплый контакт и заносит в Google-таблицу</li>
+            <li>Напоминает тем, кто написал и пропал · работает 24/7</li>
+          </ul>
+        </div>
+
+        <div class="stack__card agent-card">
           <span class="agent-card__biz biz--build">🏗️ Стройка</span>
-          <h3>Агент 3 · Лид-бот стройки</h3>
+          <h3>Агент 3 · Менеджер канала стройки</h3>
+          <ul class="agent-list">
+            <li>Стартует в «тихом режиме»: мониторит и советует, пока работают СММщики</li>
+            <li>Делает аналитику текущего канала (лучшие / худшие посты)</li>
+            <li>Контент-план и посты (ликбез, обеление рынка, подводные камни) — ты одобряешь или правишь</li>
+            <li>Картинки и мемы, в каждом посте — ссылка на лид-бота</li>
+            <li>Фильтр: без хейта, не дискредитировать конкурентов</li>
+            <li>Продающие посты, подбор релевантного контента в диалоге, опросы, голосования, статистика</li>
+          </ul>
+        </div>
+
+        <div class="stack__card agent-card">
+          <span class="agent-card__biz biz--build">🏗️ Стройка</span>
+          <h3>Агент 4 · Лид-бот стройки</h3>
           <ul class="agent-list">
             <li>Экспертный тон, представляет ТСК ГРУПП, каталог услуг (ремонт под ключ — первой)</li>
             <li>Даёт ориентировочные цены «вилкой»</li>
@@ -150,19 +165,6 @@
             <li>Квалифицирует лида (живой объект, площадь от 80 м²)</li>
             <li>Присылает примеры работ (портфолио) по запросу</li>
             <li>Отрабатывает возражения, передаёт заявку + запись на созвон (реакция в течение часа) · 24/7</li>
-          </ul>
-        </div>
-
-        <div class="stack__card agent-card">
-          <span class="agent-card__biz biz--build">🏗️ Стройка</span>
-          <h3>Агент 4 · Менеджер канала стройки</h3>
-          <ul class="agent-list">
-            <li>Стартует в «тихом режиме»: мониторит и советует, пока работают СММщики</li>
-            <li>Делает аналитику текущего канала (лучшие / худшие посты)</li>
-            <li>Контент-план и посты (ликбез, обеление рынка, подводные камни) — ты одобряешь</li>
-            <li>Картинки и мемы, в каждом посте — ссылка на лид-бота</li>
-            <li>Фильтр: без хейта, не дискредитировать конкурентов</li>
-            <li>Продающие посты, подбор релевантного контента в диалоге, опросы, голосования, статистика</li>
           </ul>
         </div>
 
@@ -178,15 +180,15 @@
       <div class="stages">
         <div class="stage">
           <h3><span>Этап 1.</span> Наставничество</h3>
-          <p>Агенты 1 и 2: канал наставничества с нуля + лид-бот с голосовым портретом. Итог — рабочая воронка: пост в канале → бот → тёплый контакт с портретом у тебя.</p>
+          <p>Менеджер канала (канал с нуля) + лид-бот. Итог — рабочая воронка: пост в канале → бот → тёплый контакт в твоей таблице.</p>
         </div>
         <div class="stage">
           <h3><span>Этап 2.</span> Стройка</h3>
-          <p>Агенты 3 и 4: лид-бот приёма заявок для ТСК ГРУПП + менеджер существующего канала (тихий режим → активное ведение). Та же механика, адаптированная под стройку.</p>
+          <p>Менеджер существующего канала ТСК ГРУПП (тихий режим → активное ведение) + лид-бот приёма заявок. Та же механика, адаптированная под стройку.</p>
         </div>
         <div class="stage">
-          <h3><span>Этап 3.</span> Общее и полировка</h3>
-          <p>Единая таблица лидов и портретов (Google Sheets), напоминания «пропавшим», статистика, приёмочное тестирование на реальных диалогах и постах.</p>
+          <h3><span>Этап 3.</span> Тестирование и отладка</h3>
+          <p>Прогон на реальных диалогах и постах, донастройка тона и сценариев, единая таблица лидов, напоминания «пропавшим», статистика каналов, финальная приёмка.</p>
         </div>
       </div>
     </div>
@@ -196,37 +198,30 @@
   <section id="sroki" class="section">
     <div class="container">
       <h2 class="section__title">Примерные сроки по агентам</h2>
-      <p class="section__lead">Оценка в рабочих днях. Точные сроки зафиксируем на этапе архитектуры и после старта.</p>
+      <p class="section__lead">На каждого агента закладываем 5 рабочих дней. Порядок как в блоке «4 агента»: сначала оба агента наставничества, затем оба по стройке.</p>
       <div class="sroki">
         <div class="srok">
-          <span class="agent-card__biz biz--mentor">💰 Наставничество</span>
-          <div><span class="srok__days">4–6</span> <span class="srok__unit">раб. дней</span></div>
-          <h4>Лид-бот наставничества</h4>
-          <p>диалог, голосовой портрет, квалификация, передача контакта</p>
-        </div>
-        <div class="srok">
-          <span class="agent-card__biz biz--mentor">💰 Наставничество</span>
-          <div><span class="srok__days">3–5</span> <span class="srok__unit">раб. дней</span></div>
-          <h4>Менеджер канала наставничества</h4>
+          <div><span class="srok__days">5</span> <span class="srok__unit">раб. дней</span></div>
+          <h4>Менеджер канала</h4>
           <p>канал с нуля, контент-план, генерация и публикация постов</p>
         </div>
         <div class="srok">
-          <span class="agent-card__biz biz--build">🏗️ Стройка</span>
-          <div><span class="srok__days">3–4</span> <span class="srok__unit">раб. дней</span></div>
-          <h4>Лид-бот стройки</h4>
-          <p>по готовой механике: каталог услуг, заявка, портфолио</p>
+          <div><span class="srok__days">5</span> <span class="srok__unit">раб. дней</span></div>
+          <h4>Лид-бот</h4>
+          <p>диалог, потребности и квалификация клиента, передача контакта</p>
         </div>
         <div class="srok">
-          <span class="agent-card__biz biz--build">🏗️ Стройка</span>
-          <div><span class="srok__days">3–5</span> <span class="srok__unit">раб. дней</span></div>
-          <h4>Менеджер канала стройки</h4>
+          <div><span class="srok__days">5</span> <span class="srok__unit">раб. дней</span></div>
+          <h4>Менеджер канала</h4>
           <p>аналитика канала, тихий режим, контент-план и посты</p>
         </div>
+        <div class="srok">
+          <div><span class="srok__days">5</span> <span class="srok__unit">раб. дней</span></div>
+          <h4>Лид-бот</h4>
+          <p>каталог услуг, приём заявки, портфолио, запись на созвон</p>
+        </div>
       </div>
-      <div class="total-note">
-        ⏱️ Итого поэтапно — ориентировочно <b>2–3 недели</b> (наставничество → стройка → полировка),
-        с учётом твоих одобрений контента и тестов на реальных диалогах.
-      </div>
+      <div class="total-note">⏱️ Итого поэтапно — ориентировочно <b>3–4 недели</b> (наставничество → стройка → тестирование), с учётом твоих одобрений контента и отладки.</div>
     </div>
   </section>
 
@@ -239,7 +234,7 @@
         <div class="deliverable">🤖 4 работающих AI-агента в Telegram: 2 канала + 2 лид-бота</div>
         <div class="deliverable">💰 Канал наставничества создан и ведётся ботом</div>
         <div class="deliverable">🏗️ Канал стройки на автопилоте (после «тихого» периода)</div>
-        <div class="deliverable">📇 Единая таблица лидов и портретов (Google Sheets)</div>
+        <div class="deliverable">📇 Единая таблица лидов (Google Sheets)</div>
         <div class="deliverable">✅ Публикации — только после твоего одобрения</div>
         <div class="deliverable">🖥️ Всё на твоём сервере, доступы у тебя</div>
         <div class="deliverable">📖 Инструкция + сопровождение на запуске</div>
@@ -249,42 +244,44 @@
   </section>
 
   <!-- Как работаем и оплата -->
-  <section class="section section--accent">
+  <section class="section">
     <div class="container">
-      <div class="subagent">
-        <div class="subagent__emoji">🤝</div>
-        <h2 class="section__title">Как работаем и оплата</h2>
-        <p class="subagent__lead">Прозрачно и поэтапно. Начинаем с наставничества, получаем результат, идём дальше.</p>
-        <div class="payline">
-          <div class="extra">🚀 <b>Поэтапно</b><br><span>аванс перед этапом → приёмка → следующий этап</span></div>
-          <div class="extra">💵 <b>Оплата</b><br><span>USDT (как в прошлом ТЗ) или по договорённости</span></div>
-          <div class="extra">📊 <b>Сумма</b><br><span>по согласованию — финальная смета на этапе «Архитектура»</span></div>
-          <div class="extra">🔧 <b>Ежемесячно</b><br><span>модель GLM + распознавание голоса ≈ $10–30; сервер уже оплачен</span></div>
+      <h2 class="section__title">Как работаем и оплата</h2>
+      <p class="section__lead">Прозрачно и поэтапно. Оплата разбита на 4 этапа — после приёмки каждого.</p>
+      <div class="pay-total">
+        <span class="pay-total__num">1950 USDT</span>
+        <span class="pay-total__cap">итого за 4 агента · разбито на 4 этапа</span>
+      </div>
+      <div class="paygrid">
+        <div class="paycard">
+          <div class="paycard__num">1</div>
+          <h4>Менеджер канала наставничества</h4>
+          <div class="paycard__amount">500 USDT</div>
         </div>
-        <div class="total-note" style="text-align:center;">
-          🧩 <b>Следующий шаг — архитектура:</b> финальный выбор модели (GLM), хранение лидов,
-          инстанс на сервере и точная смета. После согласования и аванса — старт разработки с наставничества.
+        <div class="paycard">
+          <div class="paycard__num">2</div>
+          <h4>Лид-бот наставничества</h4>
+          <div class="paycard__amount">500 USDT</div>
+        </div>
+        <div class="paycard">
+          <div class="paycard__num">3</div>
+          <h4>Менеджер канала стройки</h4>
+          <div class="paycard__amount">500 USDT</div>
+        </div>
+        <div class="paycard">
+          <div class="paycard__num">4</div>
+          <h4>Лид-бот стройки</h4>
+          <div class="paycard__amount">450 USDT</div>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- Контакты -->
-  <section id="contact" class="section section--cta">
-    <div class="container cta">
-      <h2 class="section__title">Стартуем?</h2>
-      <p class="section__lead">Согласуем план, ТЗ и это КП — и запускаю первый агент. Начинаем с наставничества.</p>
-      <div class="cta__buttons">
-        <a href="https://t.me/stavzzz" class="btn btn--primary btn--lg" target="_blank" rel="noopener">💬 Telegram: @stavzzz</a>
-        <a href="mailto:staspankov@gmail.com" class="btn btn--ghost btn--lg">✉️ staspankov@gmail.com</a>
-      </div>
-      <p class="cta__signature">— Стас Панков<br><span>исполнитель · команда «ИИ-ВИЗАЦИЯ»</span></p>
+      <p class="note-line">Ежемесячно: работа моделей + распознавание голоса ≈ $10–30. Сервер уже оплачен.</p>
+      <div class="total-note" style="text-align:center;">🧩 <b>Следующий шаг — архитектура:</b> определяем, строим ли агентов на OpenClaw или делаем самописных ботов, тестируем и выбираем модели (общение, картинки, работа с таблицами), после чего фиксируем финальную конфигурацию. Затем — старт разработки с наставничества.</div>
     </div>
   </section>
 
   <footer class="footer">
     <div class="container">
-      <p>🤖 AI-агенты для Игоря · 2026 · КП, черновик для обсуждения · связано с ТЗ v1.0</p>
+      <p>🤖 AI-агенты для Игоря · 2026 · КП, черновик для обсуждения · связано с <a href="https://docs.google.com/document/d/1yFTbZ74Z3RW8NE_eidJZCmz-qhpq8PNgeTwQVNvVyk0/edit" target="_blank" rel="noopener" style="color:var(--accent);">ТЗ v1.0</a></p>
     </div>
   </footer>
 
