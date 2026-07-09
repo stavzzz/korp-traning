@@ -195,12 +195,12 @@
   <div class="header__badge">ИИ-ВИЗАЦИЯ: OPENCLAW · Урок 7</div>
   <h1 class="header__title">AI-офис и его <span>визуализация</span></h1>
   <ul class="header__topics">
-    <li>Смотрим готовый AI-офис через веб-панель OpenClaw</li>
-    <li>Управление агентами и суб-агентами из Control UI</li>
-    <li>Зачем офису визуализация и что такое Gather</li>
-    <li>Пишем мост OpenClaw ↔ Gather (вайб-кодинг)</li>
-    <li>Результат: даём агенту задачу — аватар оживает в пиксельном офисе</li>
-    <li>Безопасность: ключи, токен, доступ только на чтение</li>
+    <li>Смотрим готовый AI-офис через веб-панель OpenClaw (Control UI)</li>
+    <li>Две дороги визуализации: Gather для людей или свой офис для агентов</li>
+    <li>Собираем свой пиксельный офис на купленных ассетах</li>
+    <li>Пишем мост: статусы агентов из gateway летят на сайт вживую</li>
+    <li>Выкладываем офис на свой домен с TLS и своей формой входа</li>
+    <li>Результат: даёте агенту задачу — его аватар оживает в вашем офисе</li>
   </ul>
 </header>
 
@@ -221,7 +221,7 @@
   <div class="section__card">
     <div class="note note--info">
       <span class="note__icon">📋</span>
-      <span>Урок финальный: офис заново <strong>не собираем</strong> — он у вас уже собран за уроки 1–6. В этом уроке мы его <strong>визуализируем</strong>. Проверьте, что всё ниже готово.</span>
+      <span>Урок финальный и интеграционный: офис вы уже собрали за уроки 1–6. Здесь мы не учим новому в OpenClaw, а <strong>связываем готовый офис с наглядной картой</strong>. Ничего пересобирать не нужно — проверьте, что всё ниже готово.</span>
     </div>
 
     <div class="info-block"><p><strong>Из предыдущих уроков:</strong></p></div>
@@ -250,30 +250,30 @@
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Claude Code в VS Code + Remote-SSH к серверу, «Режим бога» (урок 3)</div>
-        <div class="item__hint">Мост будем писать вайб-кодингом прямо на сервере.</div>
+        <div class="item__hint">Всю сборку офиса ведём вайб-кодингом прямо на сервере.</div>
       </div>
     </div>
     <div class="item" data-key="p7-node">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Node.js установлен на сервере</div>
-        <div class="item__hint">Ставили в уроке 5 под n8n. На нём запустим скрипт-мост. Если нет — попросите Claude Code «установи Node.js».</div>
+        <div class="item__hint">Ставили в уроке 5 под n8n. На нём запустим мост и сайт. Если нет — попросите Claude Code «установи Node.js».</div>
       </div>
     </div>
 
     <div class="info-block"><p><strong>Что понадобится нового в этом уроке:</strong></p></div>
-    <div class="item" data-key="p7-gather-acc">
+    <div class="item" data-key="p7-assets">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Бесплатный аккаунт Gather</div>
-        <div class="item__hint">Регистрация на <a href="https://www.gather.town" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> gather.town</a>.</div>
+        <div class="item__text">Купленные пиксельные ассеты LimeZu</div>
+        <div class="item__hint"><strong>Modern Interiors</strong> — обязательно (там персонажи), <strong>Modern Office</strong> — по желанию (мебель). Ссылки и нюансы — в секции 04.</div>
       </div>
     </div>
-    <div class="item" data-key="p7-gather-space">
+    <div class="item" data-key="p7-domain">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Пространство-офис в Gather</div>
-        <div class="item__hint">Можно создать из готового шаблона офиса — расставим столы под роли агентов.</div>
+        <div class="item__text">Свой домен или поддомен</div>
+        <div class="item__hint">Куда выложим сайт офиса. Подойдёт поддомен вида <span class="mono">ai-office.ваш-домен</span> (домен покупали в уроке 4).</div>
       </div>
     </div>
     <div class="item" data-key="p7-gw-token">
@@ -286,7 +286,7 @@
 
     <div class="note note--warn">
       <span class="note__icon">🎬</span>
-      <span>Идём по чек-листу по порядку: сначала смотрим на готовый AI-офис, затем пишем мост к Gather и запускаем.</span>
+      <span>Идём по чек-листу по порядку: смотрим готовый офис, выбираем путь визуализации, собираем свой пиксельный офис, подключаем мост и выкладываем на домен.</span>
     </div>
   </div>
 </div>
@@ -310,41 +310,42 @@
     </div>
 
     <div class="term">
-      <div class="term__name">Gather</div>
-      <div class="term__def">Сервис 2D-пиксельного виртуального офиса с аватарами (как в игре). Мы используем его, чтобы наглядно «поселить» туда своих агентов.</div>
-      <div class="term__example">📌 <span class="mono">gather.town</span>. Каждый агент станет персонажем за столом.</div>
-    </div>
-
-    <div class="term">
-      <div class="term__name">Мост (bridge)</div>
-      <div class="term__def">Небольшой Node-скрипт, который связывает два мира: читает статусы агентов у OpenClaw и отражает их на аватарах в Gather. У OpenClaw нет аватаров, у Gather нет ИИ — мост соединяет их.</div>
-      <div class="term__example">📌 Именно его мы напишем вайб-кодингом в секции 04.</div>
-    </div>
-
-    <div class="term">
       <div class="term__name">Gateway</div>
       <div class="term__def">«Сервер» OpenClaw, к которому подключаются и веб-панель, и наш мост. Доступ — по токену с нужными правами.</div>
-      <div class="term__example">📌 Локально живёт на <span class="mono">ws://127.0.0.1:18789</span>. Наружу не выставляем.</div>
+      <div class="term__example">📌 Локально живёт на <span class="mono">ws://127.0.0.1:18789</span>. Наружу его не выставляем.</div>
     </div>
 
     <div class="term">
-      <div class="term__name">gather-game-client</div>
-      <div class="term__def">Официальный SDK Gather (WebSocket), которым программно «водят» аватаров: сажают за стол, показывают статус-пузыри, двигают.</div>
-      <div class="term__example">📌 npm-пакет <span class="mono">@gathertown/gather-game-client</span>. Его поставит и использует наш мост.</div>
+      <div class="term__name">Мост (сервис данных)</div>
+      <div class="term__def">Небольшой Node-скрипт: читает статусы агентов у gateway (только на чтение) и отдаёт их сайту. У OpenClaw нет наглядной карты, у сайта нет доступа к агентам — мост соединяет их.</div>
+      <div class="term__example">📌 Именно его мы напишем вайб-кодингом в секции 05.</div>
     </div>
+
     <div class="term">
-      <div class="term__name">Файл <span class="mono">.env</span> (Environment Variables / Переменные окружения)</div>
-      <div class="term__def">Скрытый системный файл (начинается с точки), который используется как «сейф» для хранения паролей, API-ключей и токенов. Скрипты читают этот файл при запуске, подставляя ключи в память (например, <span class="mono">process.env.GATHER_API_KEY</span>). Это нужно, чтобы безопасно отделить секреты от кода: если код попадёт на GitHub или на экран во время созвона, ключи не утекут, так как файл <span class="mono">.env</span> остаётся только на вашем сервере.</div>
-      <div class="term__example">📌 В нашем мосте в <span class="mono">.env</span> лежат <span class="mono">GATEWAY_TOKEN</span>, <span class="mono">GATHER_API_KEY</span>, <span class="mono">GATHER_SPACE_ID</span> и <span class="mono">GATHER_MAP_ID</span>.</div>
+      <div class="term__name">Тайлсет / спрайт</div>
+      <div class="term__def">Набор пиксельных «плиток» (мебель) и «персонажей» из купленных ассетов. Формат — PNG на сетке, обычно 32×32 пикселя.</div>
+      <div class="term__example">📌 Из тайлов собирается фон офиса, из спрайтов-персонажей — аватары агентов.</div>
+    </div>
+
+    <div class="term">
+      <div class="term__name">Tiled</div>
+      <div class="term__def">Бесплатный редактор карт: из тайлов мышкой собирают комнату и экспортируют в картинку. Можно собрать карту и программно — Tiled не обязателен, но удобен для ручной доводки.</div>
+      <div class="term__example">📌 <span class="mono">mapeditor.org</span>. «Симс для взрослых»: расставляете мебель по вкусу.</div>
+    </div>
+
+    <div class="term">
+      <div class="term__name">Caddy</div>
+      <div class="term__def">Веб-сервер, который сам выпускает и продлевает бесплатный TLS-сертификат (Let's Encrypt). Через него сайт открывается по <span class="mono">https</span> на вашем домене.</div>
+      <div class="term__example">📌 Наружу смотрит только Caddy. Сам gateway остаётся на loopback.</div>
     </div>
   </div>
 </div>
 
-<!-- ═══ 02 — МОЙ AI-ОФИС ═══ -->
+<!-- ═══ 02 — СМОТРИМ ОФИС ЧЕРЕЗ CONTROL UI ═══ -->
 <div class="section">
   <div class="section__header">
     <div class="section__num">02</div>
-    <div class="section__title">AI-офис через веб-панель OpenClaw</div>
+    <div class="section__title">Смотрим готовый офис через Control UI</div>
   </div>
   <div class="section__card">
     <div class="note note--info">
@@ -355,7 +356,7 @@
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Открыть свою веб-панель OpenClaw</div>
-        <div class="item__hint"><span class="mono">openclaw dashboard</span> → откроется Control UI в браузере (по умолчанию <span class="mono">http://127.0.0.1:18789</span>).</div>
+        <div class="item__hint"><span class="mono">openclaw dashboard</span> → откроется Control UI в браузере.</div>
       </div>
     </div>
     <div class="item" data-key="o-review">
@@ -368,185 +369,254 @@
 
     <div class="note note--green">
       <span class="note__icon">💡</span>
-      <span>Control UI — это уже полноценный «пульт» управления офисом. Дальше делаем то, чего в нём нет: <strong>наглядную визуальную карту</strong> офиса.</span>
+      <span>Control UI — это уже полноценный «пульт» управления офисом. В нём есть чат и управление, но нет <strong>наглядной карты офиса</strong>. Её и строим дальше.</span>
     </div>
   </div>
 </div>
 
-<!-- ═══ 03 — ЗАЧЕМ ВИЗУАЛИЗАЦИЯ + GATHER ═══ -->
+<!-- ═══ 03 — АРХИТЕКТУРА ═══ -->
 <div class="section">
   <div class="section__header">
     <div class="section__num">03</div>
-    <div class="section__title">Зачем визуализация и как устроен мост</div>
+    <div class="section__title">Архитектура: как данные летят на сайт</div>
   </div>
   <div class="section__card">
     <div class="info-block">
       <p><strong>Проблема:</strong> когда агентов становится много, держать в голове «кто чем сейчас занят» невозможно.</p>
-      <p><strong>Решение:</strong> наглядная карта офиса, где каждый агент — персонаж, а его статус видно в реальном времени.</p>
+      <p><strong>Решение:</strong> наглядная карта офиса, где каждый агент — персонаж, а его статус виден в реальном времени.</p>
     </div>
 
-    <div class="arch-box">Вы ──▶ Telegram ──▶ OpenClaw (агенты, суб-агенты)
-                          │
-                          │  Gateway WebSocket
-                          │  события: кто сейчас работает
-                          ▼
-                   ┌──────────────┐
-                   │     МОСТ      │   Node-скрипт (office-bridge)
-                   └──────┬───────┘
-                          │  gather-game-client (WebSocket)
-                          ▼
-             Gather — пиксельный офис: аватары + статусы</div>
+    <div class="arch-box">Вы ──▶ Telegram / Control UI ──▶ OpenClaw (агенты, суб-агенты)
+                                    │
+                                    │  Gateway WebSocket (operator.read)
+                                    │  события: кто работает / зовёт инструмент / закончил
+                                    ▼
+                            ┌──────────────────┐
+                            │   СЕРВИС-МОСТ     │  Node: читает gateway,
+                            │  (на том же VPS)  │  держит статусы, раздаёт сайт + WS
+                            └────────┬─────────┘
+                                     │  WebSocket (в браузер)
+                                     ▼
+                        Сайт на домене (Caddy + TLS + вход)
+                        пиксельный офис: аватары + подписи-статусы</div>
 
     <div class="info-block">
       <p><strong>Что делает что:</strong></p>
-      <p>— <strong>OpenClaw</strong> — мозги и агенты (уже собраны).<br>— <strong>Мост</strong> — читает у gateway, кто из агентов сейчас работает / зовёт инструмент / закончил.<br>— <strong>Gather</strong> — рисует это на аватарах: статус-пузырь над «столом» агента.</p>
+      <p>— <strong>OpenClaw</strong> — мозги и агенты (уже собраны).<br>— <strong>Сервис-мост</strong> — читает у gateway, кто из агентов сейчас работает, держит статусы, раздаёт сайт и шлёт обновления в браузер по WebSocket.<br>— <strong>Сайт</strong> — рисует офис и агентов, над каждым имя и статус, обновляется вживую.</p>
     </div>
 
     <div class="note note--info">
       <span class="note__icon">🎯</span>
-      <span>Важно: нативной интеграции OpenClaw ↔ Gather нет — мост мы пишем сами. Это несложно и полностью в духе курса.</span>
+      <span>Важно: нативной интеграции OpenClaw ↔ «красивый сайт» нет — весь мост мы пишем сами. Это несложно и полностью в духе курса.</span>
     </div>
   </div>
 </div>
 
-<!-- ═══ 04 — ПОДГОТОВКА GATHER ═══ -->
+<!-- ═══ 04 — РАЗВИЛКА: GATHER ИЛИ СВОЙ ОФИС ═══ -->
 <div class="section">
   <div class="section__header">
     <div class="section__num">04</div>
-    <div class="section__title">Подготовка Gather</div>
+    <div class="section__title">Развилка: Gather или свой офис</div>
   </div>
   <div class="section__card">
-    <div class="note note--info">
-      <span class="note__icon">🏢</span>
-      <span>Готовим пространство-офис и достаём три вещи, которые понадобятся мосту: API-ключ, ID пространства и ID карты.</span>
-    </div>
-    <div class="item" data-key="g-create-space">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Создать пространство-офис в Gather</div>
-        <div class="item__hint">При создании выберите версию <strong>Gather 2.0 Office (Beta)</strong> — она оптимизирована под постоянные виртуальные офисы удалённых команд, в отличие от версии 1.0 Event для разовых лекций. Бесплатного тарифа (Free Tier) хватит с запасом. Возьмите готовый шаблон офиса и расставьте «столы» (объекты) под ваши роли агентов.</div>
-      </div>
-    </div>
-    <div class="item" data-key="g-apikey">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Получить API-ключ</div>
-        <div class="item__hint">На странице <a href="https://gather.town/apiKeys" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> gather.town/apiKeys</a>. Сохраните в менеджер паролей.</div>
-      </div>
-    </div>
-    <div class="item" data-key="g-spaceid">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Взять SPACE_ID из URL пространства</div>
-        <div class="item__hint">Формат вида <span class="mono">5jnhRfDYRIUyDmbF/my-space</span>. В коде слэш меняется на бэкслеш.</div>
-      </div>
-    </div>
-    <div class="item" data-key="g-mapid">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Взять MAP_ID</div>
-        <div class="item__hint">Из панели <strong>Rooms</strong> в редакторе карт (Mapmaker).</div>
-      </div>
-    </div>
-    <div class="item" data-key="g-desks">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Записать, за каким столом сидит какой агент</div>
-        <div class="item__hint">Понадобится для маппинга «агент → персонаж на карте» в мосте.</div>
-      </div>
+    <div class="info-block">
+      <p>Есть две дороги. <strong>Gather</strong> — готовый сервис 2D-офисов, отлично подходит для живых команд из людей. <strong>Свой офис</strong> — пиксельная карта на вашем домене, куда мы сажаем именно агентов. Ниже честно про обе, чтобы вы выбрали осознанно.</p>
     </div>
 
+    <div class="info-block"><p><strong>Вариант A — Gather (для команд из людей)</strong></p></div>
     <div class="note note--info">
-      <span class="note__icon">🔎</span>
-      <span>Официальные доки для справки: <a href="https://support.gather.town/hc/en-us/articles/15910440433684-Gather-API" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Gather API</a>.</span>
+      <span class="note__icon">🧑‍🤝‍🧑</span>
+      <span>Gather хорош, когда офис нужен <strong>людям</strong>: созвоны, присутствие, спонтанные разговоры у виртуального кулера. Люди заходят аватарами, созваниваются по близости, «гуляют» по офису. Для этого он и создан — держите его в уме как рекомендацию для человеческих команд.</span>
+    </div>
+    <details class="spoiler">
+      <summary>🛠️ Грабли Gather, если всё же пробуете его с API</summary>
+      <div class="spoiler__content">
+        <p><strong>1. Версии 2.0 и 1.0.</strong> API и SDK (<span class="mono">gather-game-client</span>) работают только с классическим Gather 1.0. Пространство создавать через <span class="mono">app.gather.town/create</span> (Start from blank или шаблон офиса). Офис, собранный в новом Gather 2.0, к API не подключить.</p>
+        <p><strong>2. API-ключ.</strong> Со страницы ключей копируйте короткий ключ, который показывают один раз (~16 символов), а не длинную «encoded»-строку. Иначе будет ошибка <span class="mono">Unauthorized: no uid found</span>.</p>
+        <p><strong>3. Идентификаторы.</strong> <span class="mono">SPACE_ID</span> из URL вида <span class="mono">XXXX/имя-офиса</span> (в коде слэш меняется на бэкслеш). <span class="mono">MAP_ID</span> — из вкладки Rooms в Mapmaker (Customize → Open Mapmaker).</p>
+        <p><strong>4. SDK-нюансы.</strong> Метод <span class="mono">mapSetObjects</span> устарел, нужен <span class="mono">mapSetObjectsV2</span>. Без вызова <span class="mono">game.enter({})</span> сервер молча игнорирует правки карты. <span class="mono">setObject</span> при промахе создаёт дубликат — менять объекты только через <span class="mono">updateObject</span> по ключу.</p>
+        <p><strong>5. Статусы не висят постоянно.</strong> Подпись у объекта показывается только когда игрок рядом. Для «всегда видно» пришлось бы городить объект-заметку, и всё равно это не полноценный ярлык над головой.</p>
+      </div>
+    </details>
+    <div class="note note--alert">
+      <span class="note__icon">🔴</span>
+      <span><strong>Если хотите посадить в Gather именно АГЕНТОВ отдельными аватарами — так не выйдет удобно.</strong> Один API-ключ пускает бота под аккаунтом-владельцем (переименует вас) и даёт ровно одного персонажа. Для 11 агентов нужно 11 отдельных аккаунтов Gather = 11 почт = 11 ключей. Плюс на бесплатном тарифе лимит 10 одновременных участников. Это муторно и не масштабируется — <strong>поэтому основной путь урока другой.</strong></span>
+    </div>
+
+    <div class="info-block"><p><strong>Вариант B — свой пиксельный офис (основной путь, для агентов)</strong></p></div>
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span>Собираем сами: покупаем пиксельные ассеты, собираем карту, пишем рендер-сайт, подключаем мост. Полный контроль, постоянные подписи над агентами, никаких «почта на каждого агента». Этим и займёмся в секциях 05–07.</span>
+    </div>
+    <div class="item" data-key="path-choose">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Выбрать путь: свой пиксельный офис для агентов</div>
+        <div class="item__hint">Gather оставляем как инструмент для живых команд. Дальше по уроку идём по своему офису.</div>
+      </div>
+    </div>
+    <div class="item" data-key="path-buy">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Купить ассеты LimeZu на itch.io</div>
+        <div class="item__hint"><strong>Modern Interiors</strong> (<a href="https://limezu.itch.io/moderninteriors" target="_blank" class="lnk" onclick="event.stopPropagation()">ссылка</a>) — обязательно, там персонажи и генератор. <strong>Modern Office</strong> (<a href="https://limezu.itch.io/modernoffice" target="_blank" class="lnk" onclick="event.stopPropagation()">ссылка</a>) — по желанию, красивая офисная мебель.</div>
+      </div>
+    </div>
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span>На itch.io эти паки идут по модели «плати сколько хочешь»: вы указываете любую цену от минимальной и получаете полный пак. Порог входа копеечный. Берите <strong>полную (платную) версию</strong> Modern Interiors, а не бесплатную демку — персонажи и генератор только в платной.</span>
+    </div>
+    <div class="note note--alert">
+      <span class="note__icon">🔴</span>
+      <span>Пак <strong>Modern Office</strong> содержит только мебель, без персонажей. Человечки — в <strong>Modern Interiors</strong> (на превью так и написано «Characters are from Modern Interiors»). В платной версии они лежат в папке <span class="mono">2_Characters/Character_Generator/0_Premade_Characters</span> — 20 готовых персонажей.</span>
+    </div>
+    <div class="note note--warn">
+      <span class="note__icon">⚠</span>
+      <span>Есть готовый чужой проект-заготовка (<span class="mono">openclaw-virtual-office</span>), он делает похожее, но ставить его «из коробки» опасно — подробности и аудит в секции 08. Мы собираем своё, безопасное.</span>
     </div>
   </div>
 </div>
 
-<!-- ═══ 05 — ПИШЕМ МОСТ ═══ -->
+<div class="section-divider">
+  <div class="section-divider__line"></div>
+  <div class="section-divider__title">Собираем свой офис</div>
+</div>
+
+<!-- ═══ 05 — СБОРКА СВОЕГО ОФИСА ═══ -->
 <div class="section">
   <div class="section__header">
     <div class="section__num">05</div>
-    <div class="section__title">Пишем мост OpenClaw ↔ Gather</div>
+    <div class="section__title">Сборка своего офиса</div>
   </div>
   <div class="section__card">
     <div class="note note--info">
       <span class="note__icon">🚀</span>
-      <span>Всю работу делает Claude Code. Открываем VS Code с подключением к серверу и собираем мост одним промптом, дальше правим по ходу.</span>
-    </div>
-    <div class="item" data-key="b-open-vscode">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Открыть VS Code с подключением к серверу (как в уроке 3)</div>
-        <div class="item__hint">Remote-SSH к VPS, «Режим бога» в Claude Code включён.</div>
-      </div>
-    </div>
-    <div class="item" data-key="b-init">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Инициализировать проект</div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdNpmInit">npm init -y</span><button class="btn-copy" onclick="copyBlock('cmdNpmInit',this)">📋 Скопировать</button></div>
-        <div class="item__hint">Создаст <span class="mono">package.json</span> в папке проекта — основу для установки зависимостей.</div>
-      </div>
-    </div>
-    <div class="item" data-key="b-prompt">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Отправить Claude Code промпт ниже</div>
-        <div class="item__hint">Замените плейсхолдеры в <span class="mono">.env</span> на свои значения перед запуском. Ключи и токен — только в <span class="mono">.env</span>, не в коде.</div>
-      </div>
+      <span>Всю работу делает Claude Code на сервере. Идём по шагам: персонажи → карта → рендер-сайт → мост данных → рассадка. В промптах подставляйте свои значения там, где стоит <span class="mono">&lt;…&gt;</span>. Промпты обращены к ассистенту — на «ты».</span>
     </div>
 
+    <!-- 5.1 персонажи -->
+    <div class="info-block"><p><strong>5.1 · Персонажи (аватары агентов)</strong></p></div>
+    <div class="item" data-key="b-chars">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Нарезать аватары агентов из купленных спрайтов</div>
+        <div class="item__hint">Claude Code распакует пак, вырежет по одному кадру на персонажа и разложит контактным листом, чтобы вы выбрали, кто есть кто.</div>
+      </div>
+    </div>
     <div class="prompt-block">
-      <div class="prompt-block__title">📋 Промпт: собрать мост office-bridge</div>
-      <div class="prompt-block__text" id="promptBridge">Собери Node-сервис office-bridge, который связывает мой OpenClaw с пиксельным офисом Gather:
+      <div class="prompt-block__title">📋 Промпт: нарезать персонажей</div>
+      <div class="prompt-block__text" id="promptChars">Распакуй купленный Modern Interiors. В 2_Characters/Character_Generator/0_Premade_Characters/32x32
+лежат готовые персонажи (спрайт-листы). Мне нужны статичные аватары для агентов.
+Вырежи из каждого спрайт-листа ОДИН кадр в нужном ракурсе и сохрани отдельными PNG.
+Разложи 20 персонажей контактным листом с номерами, чтобы я выбрал, кто есть кто.</div>
+      <button class="btn-copy" onclick="copyBlock('promptChars', this)">📋 Скопировать промпт</button>
+    </div>
+    <details class="spoiler">
+      <summary>🔴 Грабли с ракурсом персонажа (важно, чтобы не вышел «затылок»)</summary>
+      <div class="spoiler__content">
+        <p>В спрайт-листе первая полоса — «легенда» из 4 направлений. <strong>Столбец 0</strong> — профиль (влево), <strong>столбец 1</strong> — спина (лицом вверх, к монитору), <strong>столбец 3</strong> — анфас (лицом к зрителю). Плюс вертикальное смещение примерно +16px: если резать с <span class="mono">y=0</span>, обрежется голова.</p>
+        <p>Для офиса, где столы монитором вверх и агент сидит спиной к зрителю, нужен <strong>столбец 1 (спина)</strong> — голова красиво торчит над спинкой кресла. Если стол развёрнут к зрителю — берите <strong>столбец 3 (анфас)</strong>.</p>
+        <p>Кроп кадра, который сработал: <span class="mono">(столбец*32, 16, столбец*32+32, 64)</span>.</p>
+      </div>
+    </details>
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span>На маке системный Python для работы с картинками (Pillow) заблокирован. Claude Code должен ставить Pillow в <span class="mono">venv</span>, а не в систему — напомните ему об этом, если споткнётся.</span>
+    </div>
 
-1. Подключись к моему OpenClaw gateway по ws://127.0.0.1:18789 с операторским
-   токеном (scope operator.read). Токен возьми из .env (GATEWAY_TOKEN).
-   Вызови метод agents.list, затем подпишись через sessions.subscribe
-   и sessions.messages.subscribe.
-
-2. Подключись к Gather через пакет @gathertown/gather-game-client
-   (класс Game + connect). Не забудь global.WebSocket = require("isomorphic-ws").
-   GATHER_API_KEY, GATHER_SPACE_ID и GATHER_MAP_ID возьми из .env.
-
-3. Маппинг "agentId -> объект-персонаж на карте Gather" возьми из config.json.
-
-4. На события session.operation / session.tool / sessions.changed меняй
-   статус-пузырь над объектом соответствующего агента через
-   engine.sendAction({ $case: "mapSetObjects", ... }):
-   - идёт прогон -> "работает"
-   - вызов инструмента -> "ищет в вебе" / "пишет" / по имени инструмента
-   - закончил -> "готово"
-   - ждёт подтверждения -> "ждёт подтверждения"
-
-5. Все секреты только в .env, не хардкодь. Мосту нужен доступ только на чтение.
-
-В конце выведи: путь к созданным файлам и команду запуска.</div>
-      <button class="btn-copy" onclick="copyBlock('promptBridge', this)">📋 Скопировать промпт</button>
+    <!-- 5.2 карта -->
+    <div class="info-block"><p><strong>5.2 · Карта офиса (фон)</strong></p></div>
+    <div class="item" data-key="b-map">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Собрать фон офиса и координаты кресел</div>
+        <div class="item__hint">Два способа: программно (кодом из тайлов) или мышкой в Tiled. На выходе — PNG фона и <span class="mono">layout.json</span> с координатами каждого кресла.</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: собрать фон офиса</div>
+      <div class="prompt-block__text" id="promptMap">Собери фон офиса из ассетов Modern Office: пол, стены, N столов с мониторами по зонам
+(опенспейс + переговорки/кабинеты). Кресло у каждого стола. Выведи PNG фона и layout.json
+с координатами кресла для каждого места. Сделай на 15 мест с запасом.</div>
+      <button class="btn-copy" onclick="copyBlock('promptMap', this)">📋 Скопировать промпт</button>
     </div>
     <div class="note note--info">
       <span class="note__icon">💡</span>
-      <span>Метод <span class="mono">mapSetObjects</span> из промпта меняет состояния <strong>неживых объектов</strong> на карте — столов, компьютеров. Статус-пузыри («работает», «ищет в вебе») появляются именно над предметами мебели, привязанными к ID агента. Полноценные «ходячие» боты-аватары — это следующий уровень сложности, выходящий за рамки базового моста.</span>
+      <span>При автоматической раскладке легко словить кривой масштаб и разметку мебели. Если так вышло — возьмите расстановку в свои руки в <a href="https://www.mapeditor.org" target="_blank" class="lnk" onclick="event.stopPropagation()">Tiled</a>: загрузите купленные ассеты и расставьте мебель мышкой. Интуитивно, и результат под полным контролем.</span>
     </div>
-    <div class="item" data-key="b-config">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Заполнить config.json: агент → персонаж на карте</div>
-        <div class="item__hint">Сопоставьте id каждого агента с объектом-столом в Gather (из секции 04).</div>
-      </div>
-    </div>
-    <div class="item" data-key="b-env">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Заполнить .env: токен gateway + ключ и ID Gather</div>
-        <div class="item__hint">GATEWAY_TOKEN, GATHER_API_KEY, GATHER_SPACE_ID, GATHER_MAP_ID.</div>
-      </div>
+    <div class="note note--alert">
+      <span class="note__icon">🔴</span>
+      <span>Готовые «дизайны офиса» из пака (папка <span class="mono">6_Office_Designs</span>) красивые, но в них вшиты случайные человечки — как чистая основа под своих агентов они не годятся. Берите оттуда только отдельные «штампы» мебели, а людей не тащите.</span>
     </div>
 
-    <div class="note note--green">
-      <span class="note__icon">💡</span>
-      <span>Начинаем с простого варианта — <strong>статус-пузыри над столами</strong>. Живые «ходячие» аватары можно добавить позже — логика та же.</span>
+    <!-- 5.3 рендер-сайт -->
+    <div class="info-block"><p><strong>5.3 · Рендер-сайт (страница офиса)</strong></p></div>
+    <div class="item" data-key="b-site">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Сделать одностраничный сайт офиса</div>
+        <div class="item__hint">Обычная HTML-страница с <span class="mono">&lt;canvas&gt;</span> (движок вроде Phaser для статичной карты не нужен): грузит фон и аватары, сажает агентов по координатам, рисует над каждым имя и статус, слушает мост по WebSocket.</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: рендер-сайт офиса</div>
+      <div class="prompt-block__text" id="promptSite">Сделай одностраничный сайт: canvas грузит office_bg.png и аватары из layout.json, сажает
+каждого агента на его кресло так, чтобы голова торчала над спинкой (показывай верхние ~24px
+спрайта). Над агентом — две плашки: имя с эмодзи роли (тёмная) и статус (цветная, с эмодзи).
+Статусы читай по WebSocket с /ws. Лёгкая анимация покачивания, когда агент не отдыхает.</div>
+      <button class="btn-copy" onclick="copyBlock('promptSite', this)">📋 Скопировать промпт</button>
+    </div>
+    <div class="info-block"><p><strong>Читаемость статусов:</strong> каждому статусу — свой цвет плашки и контрастный текст. Рабочий набор:</p></div>
+    <table class="data-table">
+      <thead><tr><th>Статус</th><th>Цвет плашки</th></tr></thead>
+      <tbody>
+        <tr><td>отдыхает</td><td>серый</td></tr>
+        <tr><td>работает</td><td>зелёный</td></tr>
+        <tr><td>ищет в вебе</td><td>синий</td></tr>
+        <tr><td>пишет</td><td>жёлтый</td></tr>
+        <tr><td>читает</td><td>фиолетовый</td></tr>
+        <tr><td>выполняет</td><td>голубой</td></tr>
+        <tr><td>ждёт</td><td>оранжевый</td></tr>
+        <tr><td>готово</td><td>ярко-зелёный</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 5.4 мост -->
+    <div class="info-block"><p><strong>5.4 · Мост данных (сервис к gateway)</strong></p></div>
+    <div class="item" data-key="b-bridge">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Написать сервис-мост к gateway</div>
+        <div class="item__hint">Подключается к gateway по WebSocket, читает статусы (только чтение), держит их в памяти, раздаёт сайт и вещает обновления браузеру по <span class="mono">/ws</span>. Токен — только в <span class="mono">.env</span>.</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: сервис-мост</div>
+      <div class="prompt-block__text" id="promptBridge">Напиши Node-сервис: подключись к OpenClaw gateway ws://127.0.0.1:18789 с operator.read токеном
+из .env. Веди статус каждого агента. Раздавай статический сайт и WebSocket /ws с обновлениями
+статусов. Токен только в .env.</div>
+      <button class="btn-copy" onclick="copyBlock('promptBridge', this)">📋 Скопировать промпт</button>
+    </div>
+    <details class="spoiler">
+      <summary>🔴 Грабли подключения к gateway (иначе не пустит)</summary>
+      <div class="spoiler__content">
+        <p>В хендшейке <span class="mono">connect</span> поле <span class="mono">client.id</span> должно быть <span class="mono">gateway-client</span>, а <span class="mono">client.mode</span> — <span class="mono">backend</span>. Тогда на loopback gateway пускает без device-пейринга. Протокол <span class="mono">4</span>, роль <span class="mono">operator</span>, scopes <span class="mono">["operator.read"]</span>.</p>
+        <p>Реальные события статусов: <span class="mono">session.message</span> (поля <span class="mono">agentId</span>, <span class="mono">status: running|done</span>), поток <span class="mono">agent</span> (<span class="mono">stream: lifecycle|tool</span>). <span class="mono">agentId</span> можно достать из <span class="mono">sessionKey</span> вида <span class="mono">agent:&lt;id&gt;:&lt;канал&gt;</span> (берётся второй сегмент).</p>
+      </div>
+    </details>
+    <div class="note note--warn">
+      <span class="note__icon">🛠️</span>
+      <span>Gateway помечает <span class="mono">running → done</span> за доли секунды, и «работает» мелькает так, что не прочитать. Решение: держать статус «работает» минимум ~4 секунды, «готово» показывать короткой вспышкой ~3.5с, потом «отдыхает».</span>
+    </div>
+
+    <!-- 5.5 рассадка -->
+    <div class="info-block"><p><strong>5.5 · Рассадка: агент → аватар → место</strong></p></div>
+    <div class="item" data-key="b-layout">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Заполнить layout.json: кто где сидит</div>
+        <div class="item__hint"><span class="mono">layout.json</span> связывает <span class="mono">agentId</span> (точный id из <span class="mono">openclaw agents</span>, не русское имя) → спрайт → координаты кресла → эмодзи роли. Агентов различаем по цвету причёски и подписи: со спины лицо не видно, идентифицирует ярлык.</div>
+      </div>
     </div>
   </div>
 </div>
@@ -558,20 +628,13 @@
     <div class="section__title">Запуск и результат</div>
   </div>
   <div class="section__card">
-    <div class="item" data-key="r-start">
+    <div class="item" data-key="r-pm2">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Запустить мост на сервере</div>
-        <div class="item__hint">Командой, которую вывел Claude Code — например <span class="mono">node office-bridge.js</span>. Чтобы мост работал в фоне, сначала установите менеджер процессов <span class="mono">pm2</span> глобально:</div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdPm2Install">npm install -g pm2</span><button class="btn-copy" onclick="copyBlock('cmdPm2Install',this)">📋 Скопировать</button></div>
-        <div class="item__hint">Затем запускайте мост через <span class="mono">pm2</span>, чтобы он работал постоянно и не останавливался при закрытии терминала.</div>
-      </div>
-    </div>
-    <div class="item" data-key="r-open-gather">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Открыть своё пространство Gather в браузере</div>
-        <div class="item__hint">Увидите офис с персонажами-агентами.</div>
+        <div class="item__text">Запустить сервис под менеджером процессов</div>
+        <div class="item__hint">Чтобы офис работал постоянно и не падал при закрытии терминала, запускаем через <span class="mono">pm2</span>:</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdPm2">npm install -g pm2
+pm2 start server.js --name ai-office</span><button class="btn-copy" onclick="copyBlock('cmdPm2',this)">📋 Скопировать</button></div>
       </div>
     </div>
     <div class="item" data-key="r-task">
@@ -584,92 +647,166 @@
     <div class="item" data-key="r-see">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Проверить: аватар агента меняет статус в реальном времени</div>
-        <div class="item__hint">Над его «столом» появляется пузырь «работает» / «ищет в вебе» / «готово».</div>
+        <div class="item__text">Проверить: статус агента меняется в реальном времени</div>
+        <div class="item__hint">Над его столом плашка переключается: «работает» → «ищет в вебе» → «готово».</div>
       </div>
     </div>
 
     <div class="note note--green">
       <span class="note__icon">🎉</span>
-      <span>Если статус агента отражается в пиксельном офисе — <strong>мост работает</strong>. У вас теперь живая визуальная карта AI-офиса.</span>
+      <span>Вы открываете офис и видите: агенты сидят за столами (голова над креслом), над каждым имя и живой статус. Даёте задачу — статус на карте меняется вживую. <strong>Мост работает.</strong> Осталось выложить офис на домен.</span>
     </div>
   </div>
 </div>
 
-<!-- ═══ 07 — БЕЗОПАСНОСТЬ ═══ -->
+<!-- ═══ 07 — ДЕПЛОЙ НА СВОЙ ДОМЕН ═══ -->
 <div class="section">
   <div class="section__header">
     <div class="section__num">07</div>
-    <div class="section__title">Безопасность</div>
+    <div class="section__title">Деплой на свой домен</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">🌐</span>
+      <span>Выкладываем офис так, чтобы он открывался по <span class="mono">https</span> на вашем домене и был закрыт входом. Наружу смотрит только Caddy — сам gateway остаётся на loopback.</span>
+    </div>
+
+    <div class="info-block"><p><strong>7.1 · Домен и DNS</strong></p></div>
+    <div class="item" data-key="d-dns">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Направить домен на IP сервера (A-запись)</div>
+        <div class="item__hint">Купите домен или поддомен у любого регистратора. Добавьте <strong>A-запись</strong>: имя поддомена → IP вашего VPS. Проверьте, что резолвится: <span class="mono">dig +short &lt;домен&gt;</span> должен вернуть IP сервера.</div>
+      </div>
+    </div>
+
+    <div class="info-block"><p><strong>7.2 · Веб-сервер и TLS (Caddy)</strong></p></div>
+    <div class="item" data-key="d-caddy">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Поставить Caddy и настроить reverse-proxy на сервис</div>
+        <div class="item__hint">Caddy сам выпустит и продлит бесплатный сертификат Let's Encrypt.</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: Caddy + TLS</div>
+      <div class="prompt-block__text" id="promptCaddy">Открой в ufw порты 80 и 443. Поставь Caddy (статичный бинарник). Настрой Caddyfile: домен
+&lt;домен&gt; -&gt; reverse_proxy на 127.0.0.1:&lt;порт сервиса&gt;. Подними Caddy как systemd-сервис.</div>
+      <button class="btn-copy" onclick="copyBlock('promptCaddy', this)">📋 Скопировать промпт</button>
+    </div>
+    <div class="note note--info">
+      <span class="note__icon">🎯</span>
+      <span>Gateway наружу не выставляем. Наружу смотрит только Caddy (порты 80/443), он проксирует на локальный сервис-мост. Сам gateway остаётся на loopback.</span>
+    </div>
+
+    <div class="info-block"><p><strong>7.3 · Вход (авторизация)</strong></p></div>
+    <div class="item" data-key="d-login">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Сделать свою страницу входа в офис</div>
+        <div class="item__hint">Дефолтный <span class="mono">basic_auth</span> Caddy показывает уродливый браузерный попап — для демонстрации плохо. Делаем свою форму входа на уровне сайта: логин, пароль, кнопки «Войти» и «Выйти».</div>
+      </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">📋 Промпт: своя форма входа</div>
+      <div class="prompt-block__text" id="promptLogin">Сделай на сайте свою страницу входа в пиксельном стиле (логин = моя почта, сложный пароль).
+Пароль сгенерируй на сервере и положи в файл с правами 600 — в чат/лог не выводи. Сессия —
+подписанная httpOnly cookie. Защити офис и WebSocket: без входа — редирект на форму. Добавь
+кнопку «Выйти» и пиксельный favicon.</div>
+      <button class="btn-copy" onclick="copyBlock('promptLogin', this)">📋 Скопировать промпт</button>
+    </div>
+    <div class="note note--alert">
+      <span class="note__icon">🔴</span>
+      <span>Пароль генерируйте <strong>на сервере</strong>, кладите в файл с правами <span class="mono">chmod 600</span> и никогда не печатайте в чат, лог или на экран. Забираете его сами с сервера. Секреты — только в <span class="mono">.env</span> и защищённых файлах, не в коде и не в git.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 08 — БЕЗОПАСНОСТЬ И ТРАБЛШУТИНГ ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">08</div>
+    <div class="section__title">Безопасность и траблшутинг</div>
   </div>
   <div class="section__card">
     <div class="note note--alert">
       <span class="note__icon">🚨</span>
-      <span>API-ключ Gather и токен gateway = доступ к вашей системе. Обращайтесь с ними как с паролями.</span>
-    </div>
-    <div class="item" data-key="s-secrets">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Ключи и токен — только в .env, никогда не в коде и не на экране</div>
-        <div class="item__hint">Не коммитьте <span class="mono">.env</span> в git и не показывайте на записи/стриме.</div>
-      </div>
+      <span>API-ключи, токен gateway и пароль входа = доступ к вашей системе. Обращайтесь с ними как с паролями.</span>
     </div>
     <div class="item" data-key="s-readonly">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Мосту дать доступ только на чтение</div>
-        <div class="item__hint">Для статус-пузырей достаточно <span class="mono">operator.read</span> — прав записи не давайте.</div>
+        <div class="item__text">Мосту — доступ только на чтение</div>
+        <div class="item__hint">Для статусов достаточно <span class="mono">operator.read</span>. Прав записи не давайте.</div>
       </div>
     </div>
     <div class="item" data-key="s-gateway">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Gateway не выставлять в интернет</div>
-        <div class="item__hint">Мост держите на том же сервере; наружу смотрит только сам Gather.</div>
+        <div class="item__hint">Только loopback. Наружу смотрит Caddy, он проксирует на локальный сервис.</div>
+      </div>
+    </div>
+    <div class="item" data-key="s-secrets">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Секреты — только в .env и защищённых файлах</div>
+        <div class="item__hint">Не в коде, не в git, не в чат, не на записи и стриме.</div>
+      </div>
+    </div>
+    <div class="item" data-key="s-sitepass">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Сайт держать под паролем</div>
+        <div class="item__hint">Даже если «там только имена и статусы» — своя форма входа обязательна.</div>
       </div>
     </div>
 
-  </div>
-</div>
+    <div class="note note--alert">
+      <span class="note__icon">🔴</span>
+      <span><strong>Готовый чужой проект <span class="mono">openclaw-virtual-office</span> — не ставить «из коробки».</strong> Аудит выявил критичное: (1) <span class="mono">docker compose up</span> по умолчанию поднимает Cloudflare-туннель и публикует всё в интернет без пароля; (2) в контейнер монтируется весь <span class="mono">~/.openclaw</span> с токенами и ключами; (3) часть API публична, через неё можно запускать ваших агентов снаружи; (4) тянутся чужие образы <span class="mono">:latest</span>. Вредоноса в коде нет, но конфигурация опасна. Вывод: собирать своё (путь урока) или серьёзно допиливать чужое — это отдельная работа.</span>
+    </div>
 
-<!-- ═══ 08 — ТРАБЛШУТИНГ ═══ -->
-<div class="section">
-  <div class="section__header">
-    <div class="section__num">08</div>
-    <div class="section__title">Траблшутинг: если пузырь не появился</div>
-  </div>
-  <div class="section__card">
     <div class="note note--warn">
       <span class="note__icon">🛠️</span>
-      <span><strong>Что делать, если статус в Gather не меняется:</strong></span>
+      <span><strong>Траблшутинг: что проверять, если не работает</strong></span>
     </div>
     <div class="info-block">
-      <p><strong>1. Проверьте логи моста.</strong> Если запускали через <span class="mono">node</span> — смотрите прямо в терминал. Если через pm2 — введите <span class="mono">pm2 logs office-bridge</span>: там будут написаны ошибки, например неверный токен или сбой подключения к Gather.</p>
-      <p><strong>2. Проверьте <span class="mono">.env</span>.</strong> Убедитесь, что нет лишних пробелов, нет кавычек вокруг значений (если они не требуются) и что <span class="mono">SPACE_ID</span> написан через бэкслеш <span class="mono">\</span>, а не через обычный слэш <span class="mono">/</span>.</p>
-      <p><strong>3. Проверьте маппинг.</strong> ID агента из OpenClaw должен точно совпадать с ID в <span class="mono">config.json</span>, а сам объект должен реально существовать на карте Gather.</p>
+      <p><strong>1. Мост не подключается к gateway.</strong> Проверьте <span class="mono">client.id=gateway-client</span>, <span class="mono">mode=backend</span>, scope <span class="mono">operator.read</span> и токен в <span class="mono">.env</span>.</p>
+      <p><strong>2. Статусы не приходят на сайт.</strong> Открыт ли WebSocket <span class="mono">/ws</span>, проксирует ли его Caddy, авторизован ли браузер (cookie).</p>
+      <p><strong>3. Персонаж «затылком» или «в профиль».</strong> Неверный столбец кадра (для спины нужен столбец 1) или забыт вертикальный сдвиг +16px.</p>
+      <p><strong>4. TLS не выпускается.</strong> Открыты ли порты 80 и 443 в ufw, резолвится ли домен на IP сервера.</p>
+      <p><strong>5. Статус мелькает и не читается.</strong> Добавьте минимальное время показа «работает» (~4 секунды).</p>
     </div>
   </div>
 </div>
 
-<!-- ═══ 09 — БОНУС: КАСТОМНЫЙ ДИЗАЙН ═══ -->
+<!-- ═══ 09 — ЧТО ДАЛЬШЕ ═══ -->
 <div class="section">
   <div class="section__header">
     <div class="section__num">09</div>
-    <div class="section__title">Бонус: кастомный дизайн пиксельного офиса</div>
+    <div class="section__title">Что дальше: развитие офиса</div>
   </div>
   <div class="section__card">
     <div class="note note--info">
       <span class="note__icon">🎨</span>
-      <span><strong>Хотите офис как из классических RPG?</strong> Базовые карты Gather отлично подходят для старта, но уникальный дизайн можно собрать самому.</span>
+      <span>Базовый офис работает как <strong>витрина только на чтение</strong>. Дальше его можно наращивать — по одной фиче, от простого к сложному.</span>
     </div>
     <div class="info-block">
-      <p><strong>1. Купите ассеты.</strong> На itch.io есть отличные наборы пиксельной графики от LimeZu. Обратите внимание на паки <a href="https://limezu.itch.io/moderninteriors" target="_blank" class="lnk" onclick="event.stopPropagation()">Modern Interiors</a> и <a href="https://limezu.itch.io/modernoffice" target="_blank" class="lnk" onclick="event.stopPropagation()">Modern Office</a>. На летней распродаже 2026 года они стоят всего $1.50 и $2.50.</p>
-      <p><strong>2. Соберите карту.</strong> Скачайте бесплатную программу <a href="https://www.mapeditor.org/" target="_blank" class="lnk" onclick="event.stopPropagation()">Tiled</a>, загрузите туда купленные ассеты и расставьте мебель по своему вкусу.</p>
-      <p><strong>3. Интеграция с Gather.</strong> Экспортируйте готовую карту из Tiled как единое изображение в формате PNG. В Mapmaker в Gather загрузите ваш PNG как Background (фон) и расставьте поверх невидимые «блоки препятствий», чтобы аватары не ходили сквозь столы. Ваш мост продолжит работать поверх нового красивого фона!</p>
+      <p><strong>Панель агента (дашборд).</strong> Клик по агенту → сбоку панель: его файлы, подключённые MCP, разрешённые инструменты, модель, расход токенов. Данные из gateway на чтение (<span class="mono">agents.list</span>, <span class="mono">agents.workspace.list</span>, <span class="mono">sessions.usage</span>).</p>
+      <p><strong>Чат с каждым агентом.</strong> Окно диалога с конкретным агентом прямо на сайте. Это уже запись в gateway → отдельный scope и отдельный аудит: писать в агентов может только авторизованный владелец.</p>
+      <p><strong>Кроны и автоматизации.</strong> Показывать расписание задач агента, ближайшие запуски, кнопку «запустить сейчас».</p>
+      <p><strong>Живые «ходячие» аватары.</strong> Персонажи не сидят, а ходят по офису и собираются в переговорке на «совещание». Следующий уровень анимации.</p>
+      <p><strong>Кастомная карта в Tiled и мультиофисы.</strong> Уникальный офис под свою команду, зоны под роли, несколько этажей и проектов с переключением.</p>
     </div>
+    <div class="note note--alert">
+      <span class="note__icon">🔴</span>
+      <span>Как только на сайте появляется <strong>запись</strong> (чат с агентом, запуск задач, правка конфигов) — это уже не «витрина», а пульт управления. Каждую такую фичу закрывайте авторизацией и проходите аудит: кто и что может делать. Витрину и пульт держите раздельно.</span>
+    </div>
+
     <div class="note note--green">
       <span class="note__icon">💡</span>
-      <span><strong>Куда двигаться дальше:</strong><br>• Добавляйте новых сотрудников в офис по одному, под конкретную задачу, которая реально болит.<br>• Раз в месяц пересматривайте, что из автоматизаций приносит пользу, а что можно выключить.<br>• Делитесь находками в чате потока, чужие связки часто подсказывают идеи для своих.</span>
+      <span><strong>Куда двигаться дальше:</strong><br>• Добавляйте новых сотрудников в офис по одному, под конкретную задачу, которая реально болит.<br>• Раз в месяц пересматривайте, что из автоматизаций приносит пользу, а что можно выключить.<br>• Делитесь находками в чате потока — чужие связки часто подсказывают идеи для своих.</span>
     </div>
   </div>
 </div>
@@ -679,12 +816,12 @@
   <div class="footer__done" id="doneBlock">
     <div class="footer__done-emoji">🏢</div>
     <div class="footer__done-text">AI-офис ожил!</div>
-    <div class="footer__done-sub">OpenClaw + Gather в связке. Поздравляем с финалом интенсива!</div>
+    <div class="footer__done-sub">Свой пиксельный офис на своём домене. Поздравляем с финалом интенсива!</div>
   </div>
   <div class="footer__final-part3">
     <div class="footer__final-emoji">🏢</div>
     <div class="footer__final-text">Урок 7 пройден · Интенсив завершён!</div>
-    <div class="footer__final-sub">Живая визуальная карта вашего AI-офиса: агенты работают как персонажи в пиксельном офисе Gather, статусы видно в реальном времени. Мост между OpenClaw и Gather собран своими руками. Поздравляем с успешным окончанием интенсива! Дальше всё в ваших руках, ваша фантазия и навыки. Удачи!</div>
+    <div class="footer__final-sub">Живая визуальная карта вашего AI-офиса: агенты сидят за столами в пиксельном офисе на вашем домене, статусы видно в реальном времени. Мост между OpenClaw и сайтом собран своими руками. Поздравляем с успешным окончанием интенсива! Дальше всё в ваших руках, ваша фантазия и навыки. Удачи!</div>
   </div>
   <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
   <button class="btn-reset" onclick="resetProgress()">Сбросить прогресс</button>
@@ -702,7 +839,7 @@ function rand(a,b){return Math.random()*(b-a)+a;}
 function createBurst(x,y,count){for(let i=0;i<count;i++){const angle=rand(0,Math.PI*2),speed=rand(4,14),size=rand(4,10);particles.push({x,y,vx:Math.cos(angle)*speed+rand(-2,2),vy:Math.sin(angle)*speed*-0.8-rand(2,6),size,color:COLORS[Math.floor(Math.random()*COLORS.length)],rotation:rand(0,Math.PI*2),rotSpeed:rand(-0.2,0.2),gravity:rand(0.12,0.25),friction:rand(0.97,0.995),opacity:1,fadeSpeed:rand(0.005,0.015),shape:Math.random()>0.4?'rect':'circle'});}}
 function launchConfetti(){if(confettiActive)return;confettiActive=true;particles=[];const W=C.width,H=C.height;[[W*.5,H*.3,120],[W*.15,H*.2,80],[W*.85,H*.2,80],[W*.5,H*.1,100],[W*.3,H*.5,60],[W*.7,H*.5,60],[0,H*.6,50],[W,H*.6,50],[W*.5,H*.6,80]].forEach(([x,y,c],i)=>{setTimeout(()=>createBurst(x,y,c),i*150)});setTimeout(()=>{createBurst(W*.2,H*.15,90);createBurst(W*.8,H*.15,90);createBurst(W*.5,H*.05,100)},1500);setTimeout(()=>{createBurst(W*.5,H*.25,120);createBurst(W*.1,H*.4,60);createBurst(W*.9,H*.4,60)},2500);animate();setTimeout(()=>{confettiActive=false},8000);}
 function animate(){ctx.clearRect(0,0,C.width,C.height);for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.vx*=p.friction;p.vy*=p.friction;p.vy+=p.gravity;p.x+=p.vx;p.y+=p.vy;p.rotation+=p.rotSpeed;p.opacity-=p.fadeSpeed;if(p.opacity<=0){particles.splice(i,1);continue}ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rotation);ctx.globalAlpha=p.opacity;ctx.fillStyle=p.color;if(p.shape==='rect'){ctx.fillRect(-p.size/2,-p.size/4,p.size,p.size/2)}else{ctx.beginPath();ctx.arc(0,0,p.size/2,0,Math.PI*2);ctx.fill()}ctx.restore();}if(particles.length>0||confettiActive){requestAnimationFrame(animate)}else{ctx.clearRect(0,0,C.width,C.height);}}
-const STORAGE_KEY='iivizaciya_checklist_urok7_v1';
+const STORAGE_KEY='iivizaciya_checklist_urok7_v2';
 const items=document.querySelectorAll('.item[data-key]');
 const totalCount=items.length;
 let wasComplete=false;
