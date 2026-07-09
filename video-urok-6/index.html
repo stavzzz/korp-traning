@@ -3689,7 +3689,7 @@ sudo openclaw status --deep
     <div class="term term--p3">
       <div class="term__name">MEMORY.md</div>
       <div class="term__def">Долговременная память агента. То, что он помнит между сессиями: факты о бизнесе, профили клиентов, история правок.</div>
-      <div class="term__example">У директора в MEMORY будет «история наблюдений» о каждом sub-агенте. Подробно — в Главе 05.</div>
+      <div class="term__example">Директор читает MEMORY и сессии самих sub-агентов (<span class="mono">memory_search</span>/<span class="mono">memory_get</span>), свою запись он не ведёт. Подробно — в Главе 05.</div>
     </div>
 
     <div class="term term--p3">
@@ -3700,14 +3700,14 @@ sudo openclaw status --deep
 
     <div class="term term--p3">
       <div class="term__name">Бриф</div>
-      <div class="term__def">Markdown-файл, который директор пишет, когда видит проблему у sub-агента. Лежит в общем Obsidian-vault, в папке <span class="mono">tasks-for-claude-code/</span>.</div>
-      <div class="term__example">Директор → бриф в файле → пинг владельцу → владелец «погнали» → Claude Code применяет.</div>
+      <div class="term__def">Разбор проблемы sub-агента, который директор отправляет владельцу сообщением. Файл-задачу в <span class="mono">tasks-for-claude-code/</span> создаёт уже Claude Code, у директора прав на запись нет.</div>
+      <div class="term__example">Директор → бриф сообщением владельцу → владелец «погнали» → Claude Code пишет файл-задачу и применяет.</div>
     </div>
 
     <div class="term term--p3">
       <div class="term__name">Vault</div>
       <div class="term__def">Общий «второй мозг» в Obsidian (из Части 2 этого урока), синхронизированный с GitHub. Доступен и Claude Code, и директору.</div>
-      <div class="term__example">Через vault директор и Claude Code обмениваются брифами и видят историю всех правок.</div>
+      <div class="term__example">В vault пишет Claude Code, директор его только читает (видит историю правок). Бриф директор передаёт сообщением.</div>
     </div>
   </div>
 </div>
@@ -4437,7 +4437,7 @@ write, edit, apply_patch, browser, canvas, cron, gateway-restart,
                                         N ботов sub-агентов потом)</div>
 
     <div class="info-block">
-      <p>🎯 <strong>Главное правило архитектуры:</strong> директор сам никуда наружу не ходит. Он не зовёт Google API, не лезет в Sheets, не пишет в платёжки. Эти задачи — для sub-агентов из Части 4. Директор только наблюдает, читает их работу и формирует брифы. Это его роль — и его безопасность.</p>
+      <p>🎯 <strong>Главное правило архитектуры:</strong> директор сам никуда наружу не ходит. Он не зовёт Google API, не лезет в Sheets, не пишет в платёжки. Эти задачи — для sub-агентов из Части 4. Директор только наблюдает и читает их работу, а бриф отдаёт сообщением владельцу, файлы и правки пишет Claude Code. Это его роль — и его безопасность.</p>
     </div>
   </div>
 </div>
