@@ -275,14 +275,30 @@
       </ul>
     </div>
 
-    <div class="info-block"><strong>🍎 macOS</strong> — сначала Homebrew (менеджер программ), затем Node. В Терминале выполните по очереди:</div>
+    <div class="info-block"><strong>🍎 macOS</strong> — сначала Homebrew (менеджер программ), затем Node.</div>
+    <div class="note note--alert">
+      <span class="note__icon">🛑</span>
+      <span><strong>Команды выполняем строго по очереди, по одной.</strong> Не вставляйте все три разом. Каждая следующая работает только тогда, когда предыдущая <strong>полностью закончила</strong>. Самая частая ошибка новичков именно тут.</span>
+    </div>
     <div class="info-block">
-      <p><strong>1. Установить Homebrew:</strong></p>
+      <p><strong>Шаг 1. Установить Homebrew:</strong></p>
       <div class="cmd-copy"><span class="cmd-copy__text" id="cmdBrew">/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</span><button class="btn-copy" onclick="copyBlock('cmdBrew',this)">📋 Копировать</button></div>
-      <p><strong>2. Добавить Homebrew в пути:</strong></p>
+      <p>Установка идёт <strong>несколько минут</strong>. По дороге терминал <strong>попросит пароль от компьютера</strong>: вводите его вслепую (символы не отображаются, это нормально) и жмите Enter. Ждите, пока снова появится строка ввода.</p>
+    </div>
+    <div class="info-block">
+      <p><strong>Шаг 2. Проверить, что Homebrew встал:</strong></p>
+      <div class="cmd-copy"><span class="cmd-copy__text" id="cmdBrewCheck">brew --version</span><button class="btn-copy" onclick="copyBlock('cmdBrewCheck',this)">📋 Копировать</button></div>
+      <p>Должна появиться версия (например <span class="mono">Homebrew 5.x.x</span>). <strong>Только после этого идите дальше.</strong></p>
+      <p>Если пишет <span class="mono">command not found</span> — выполните команду из шага 3, она и добавит Homebrew в пути, а потом снова проверьте.</p>
+    </div>
+    <div class="info-block">
+      <p><strong>Шаг 3. Добавить Homebrew в пути:</strong></p>
       <div class="cmd-copy"><span class="cmd-copy__text" id="cmdBrewPath">echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
 eval "$(/opt/homebrew/bin/brew shellenv)"</span><button class="btn-copy" onclick="copyBlock('cmdBrewPath',this)">📋 Копировать</button></div>
-      <p><strong>3. Установить Node.js:</strong></p>
+      <p>Эта команда говорит компьютеру, где искать Homebrew.</p>
+    </div>
+    <div class="info-block">
+      <p><strong>Шаг 4. Установить Node.js:</strong></p>
       <div class="cmd-copy"><span class="cmd-copy__text" id="cmdNodeMac">brew install node</span><button class="btn-copy" onclick="copyBlock('cmdNodeMac',this)">📋 Копировать</button></div>
     </div>
     <div class="item" data-key="node-mac">
@@ -307,7 +323,19 @@ eval "$(/opt/homebrew/bin/brew shellenv)"</span><button class="btn-copy" onclick
 
     <div class="note note--green">
       <span class="note__icon">✅</span>
-      <span>Проверка (в терминале): <span class="mono">node -v</span> покажет версию. Если Node только что поставили — <strong>перезапустите VS Code</strong>, чтобы терминал подхватил новые пути.</span>
+      <span><strong>Проверка:</strong> в терминале наберите <span class="mono">node -v</span> — покажет версию. Значит всё встало.</span>
+    </div>
+    <div class="note note--warn">
+      <span class="note__icon">🔁</span>
+      <span><strong>Обязательно перезапустите VS Code.</strong> Полностью закройте и откройте заново. Его встроенный терминал подхватывает новые программы только при запуске: без перезапуска <span class="mono">node</span> может «не находиться», хотя он уже установлен.</span>
+    </div>
+    <div class="info-block">
+      <p><strong>Если что-то пошло не так:</strong></p>
+      <ul class="blist">
+        <li><span class="mono">no such file or directory: /opt/homebrew/bin/brew</span> — Homebrew ещё не доустановился, а команда из шага 3 уже выполнилась. Дождитесь окончания шага 1, проверьте <span class="mono">brew --version</span> и повторите шаг 3</li>
+        <li><span class="mono">command not found: brew</span> — выполните шаг 3 (добавление в пути), затем проверьте снова</li>
+        <li><span class="mono">command not found: node</span> в терминале VS Code — перезапустите VS Code целиком</li>
+      </ul>
     </div>
   </div>
 </div>
