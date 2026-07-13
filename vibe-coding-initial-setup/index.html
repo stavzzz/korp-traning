@@ -88,6 +88,11 @@
   .term__def { font-size:14px; color:var(--text-primary); font-weight:500; margin-bottom:8px; line-height:1.55; }
   .mono { font-family:'JetBrains Mono',monospace; color:var(--accent-glow); font-size:12px; }
 
+  .blist { list-style:none; margin:8px 0 2px; padding:0; display:flex; flex-direction:column; gap:6px; }
+  .blist li { position:relative; padding-left:18px; line-height:1.6; }
+  .blist li::before { content:'▸'; position:absolute; left:0; top:1px; color:var(--accent-glow); font-family:'JetBrains Mono',monospace; font-size:11px; }
+  .blist strong { color:var(--text-primary); font-weight:600; }
+
   .data-table { width:100%; font-size:13px; border-collapse:collapse; }
   .data-table th { text-align:left; font-weight:600; color:var(--text-muted); font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:1.2px; padding:10px 20px; border-bottom:1px solid var(--border); background:rgba(0,0,0,0.2); }
   .data-table td { padding:11px 20px; border-bottom:1px solid var(--border); color:var(--text-secondary); vertical-align:top; line-height:1.5; }
@@ -237,7 +242,12 @@
     </div>
     <div class="note note--info">
       <span class="note__icon">🧩</span>
-      <span>Полезные расширения (Extensions → поиск → Install): <strong>Markdown Preview</strong> для просмотра <span class="mono">.md</span>, <strong>Office Viewer</strong> для Excel и PDF прямо в редакторе.</span>
+      <span>Полезные расширения (Extensions → поиск → Install):
+        <ul class="blist">
+          <li><strong>Markdown Preview</strong> — просмотр <span class="mono">.md</span>-файлов</li>
+          <li><strong>Office Viewer</strong> — Excel и PDF прямо в редакторе</li>
+        </ul>
+      </span>
     </div>
   </div>
 </div>
@@ -258,8 +268,11 @@
       <div class="term__def">Программа, где команды набираются текстом, а не мышкой. Через неё ставится окружение и работает Claude Code. Команды ниже вставляются именно в терминал.</div>
     </div>
     <div class="info-block">
-      <p><strong>🍎 Где найти на macOS:</strong> Finder → Программы → Утилиты → <strong>Терминал</strong>. Или <span class="mono">Cmd + Пробел</span> (Spotlight) → напечатать «Терминал» → Enter.</p>
-      <p><strong>🪟 Где найти на Windows:</strong> <span class="mono">Win + X</span> → выбрать <strong>«Терминал»</strong> или <strong>«PowerShell»</strong>. Или нажать <span class="mono">Win</span>, напечатать «PowerShell» → Enter.</p>
+      <p><strong>Где найти терминал:</strong></p>
+      <ul class="blist">
+        <li><strong>🍎 macOS:</strong> Finder → Программы → Утилиты → <strong>Терминал</strong>. Или <span class="mono">Cmd + Пробел</span> (Spotlight) → напечатать «Терминал» → Enter</li>
+        <li><strong>🪟 Windows:</strong> <span class="mono">Win + X</span> → выбрать <strong>«Терминал»</strong> или <strong>«PowerShell»</strong>. Или нажать <span class="mono">Win</span>, напечатать «PowerShell» → Enter</li>
+      </ul>
     </div>
 
     <div class="info-block"><strong>🍎 macOS</strong> — сначала Homebrew (менеджер программ), затем Node. В Терминале выполните по очереди:</div>
@@ -422,7 +435,13 @@ claude doctor</span><button class="btn-copy" onclick="copyBlock('cmdCcCheck',thi
     </div>
     <div class="note note--info">
       <span class="note__icon">🆕</span>
-      <span><strong>Обновлённый синтаксис.</strong> Локальные серверы — <span class="mono">claude mcp add … -- npx …</span>, удалённые — <span class="mono">claude mcp add --transport http … &lt;url&gt;</span>. Флаг <span class="mono">--scope user</span> = доступно во всех проектах.</span>
+      <span><strong>Обновлённый синтаксис.</strong>
+        <ul class="blist">
+          <li>Локальные серверы: <span class="mono">claude mcp add … -- npx …</span></li>
+          <li>Удалённые: <span class="mono">claude mcp add --transport http … &lt;url&gt;</span></li>
+          <li>Флаг <span class="mono">--scope user</span> — доступно во всех проектах</li>
+        </ul>
+      </span>
     </div>
     <div class="item" data-key="mcp-agentmemory">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
@@ -522,9 +541,19 @@ claude doctor</span><button class="btn-copy" onclick="copyBlock('cmdCcCheck',thi
     <details class="spoiler">
       <summary>Что DCG умеет и чего НЕ умеет</summary>
       <div class="spoiler__content">
-        <p><strong>Ловит:</strong> <span class="mono">rm -rf</span> вне временных папок, <span class="mono">git reset --hard</span>, <span class="mono">git clean -f</span>, force-push, опасные команды баз данных, Docker, Terraform. Учитывает порядок флагов и пути.</p>
-        <p><strong>НЕ ловит:</strong> злонамеренные действия (хук можно обойти), правку файлов инструментами Write/Edit, команды внутри скриптов. Модель угроз автора честная: «ловит ошибки, а не атаки».</p>
-        <p><strong>Вывод:</strong> хорошая добавка, но <strong>не замена</strong> слоя 1. Ставьте как дополнение, а не вместо встроенной защиты.</p>
+        <p><strong>Ловит:</strong></p>
+        <ul class="blist">
+          <li><span class="mono">rm -rf</span> вне временных папок</li>
+          <li><span class="mono">git reset --hard</span>, <span class="mono">git clean -f</span>, force-push</li>
+          <li>опасные команды баз данных, Docker, Terraform</li>
+        </ul>
+        <p style="margin-top:10px"><strong>НЕ ловит:</strong></p>
+        <ul class="blist">
+          <li>злонамеренные действия — хук можно обойти</li>
+          <li>правку файлов инструментами Write/Edit</li>
+          <li>команды внутри скриптов</li>
+        </ul>
+        <p style="margin-top:10px"><strong>Вывод:</strong> хорошая добавка, но <strong>не замена</strong> слоя 1. Ставьте как дополнение, а не вместо встроенной защиты.</p>
       </div>
     </details>
   </div>
