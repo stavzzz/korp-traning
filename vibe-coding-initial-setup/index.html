@@ -194,14 +194,14 @@
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Подписка Claude активна</div>
-        <div class="item__hint">Claude Code работает на планах <strong>Pro / Max / Team</strong>. У нас — корпоративный <strong>Team</strong>. На бесплатном плане не работает.</div>
+        <div class="item__hint">Подойдёт любой платный план — <strong>Pro</strong>, <strong>Max</strong> или <strong>Team</strong>. Разница в лимитах: на дешёвом плане (около $20) их меньше и они быстрее кончаются, на <strong>Max</strong> — заметно больше. <strong>На бесплатном плане Claude Code не работает.</strong></div>
       </div>
     </div>
     <div class="item" data-key="prereq-rights">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Проверены права на установку ПО</div>
-        <div class="item__hint">Если ноутбук корпоративный и установка программ заблокирована — узнайте это <strong>сегодня</strong>, а не на уроке. Нужны права ставить VS Code, Node.js и Claude Code.</div>
+        <div class="item__hint">Если ноутбук рабочий и установка программ на нём ограничена — проверьте это <strong>заранее</strong>. Нужны права поставить VS Code, Node.js и Claude Code.</div>
       </div>
     </div>
   </div>
@@ -216,7 +216,7 @@
   <div class="section__card">
     <div class="term">
       <div class="term__name">Что это</div>
-      <div class="term__def">Редактор кода. Для нас — окно, в котором мы открываем <strong>папку проекта</strong>, видим файлы и держим встроенный терминал. В нём же будет жить Claude Code.</div>
+      <div class="term__def">VS Code — это <strong>IDE</strong>, «интегрированная среда разработки». Звучит сложно, а по сути — одна программа, где собрано всё для работы над проектом: файлы, редактор, дополнения. Аналогия: как <strong>Word</strong> для документов, только для проектов. Здесь и будет жить Claude Code.</div>
     </div>
     <div class="item" data-key="vscode-download">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
@@ -261,7 +261,7 @@
   <div class="section__card">
     <div class="note note--info">
       <span class="note__icon">💡</span>
-      <span>Для <strong>самого Claude Code</strong> Node не нужен. Но <strong>MCP-серверы</strong> (раздел 06) запускаются через <span class="mono">npx</span> — а это Node. Поэтому окружение ставим сразу.</span>
+      <span><strong>Node.js</strong> — небольшая бесплатная программа. На ней работают некоторые инструменты из раздела 06. Ставим её один раз сейчас, чтобы потом всё подключалось без сюрпризов.</span>
     </div>
     <div class="term">
       <div class="term__name">Что такое терминал</div>
@@ -331,7 +331,7 @@ eval "$(/opt/homebrew/bin/brew shellenv)"</span><button class="btn-copy" onclick
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Войти по подписке</div>
-        <div class="item__hint">Откройте панель Claude Code → нажмите <strong>Sign in</strong> → войдите корпоративным <strong>Team</strong>-аккаунтом через браузер.</div>
+        <div class="item__hint">Откройте панель Claude Code → нажмите <strong>Sign in</strong> → войдите под своим аккаунтом Claude через браузер.</div>
       </div>
     </div>
   </div>
@@ -344,22 +344,18 @@ eval "$(/opt/homebrew/bin/brew shellenv)"</span><button class="btn-copy" onclick
     <div class="section__title">Базовое управление</div>
   </div>
   <div class="section__card">
-    <div class="info-block">Всё это разберём на уроке руками — здесь просто карта команд, чтобы было понятно, что мы делаем.</div>
+    <div class="info-block"><strong>Команды</strong> — это короткие указания для Claude Code. Пишутся в чате и начинаются со слэша <span class="mono">/</span>. Наберёте слэш — Claude сам покажет меню со списком. Вот основные и зачем они нужны:</div>
     <table class="data-table">
-      <thead><tr><th>Команда</th><th>Что делает</th></tr></thead>
+      <thead><tr><th>Команда</th><th>Зачем нужна</th></tr></thead>
       <tbody>
-        <tr><td>Open Folder</td><td>Открыть папку — Claude работает внутри неё</td></tr>
-        <tr><td>/context</td><td>Показать контекст и токены. Правило: одна задача — один диалог</td></tr>
-        <tr><td>/model</td><td>Выбрать модель: Opus (сложное) / Sonnet / Haiku (быстрое)</td></tr>
-        <tr><td>/effort</td><td>Уровень «размышления» — глубже думает, но дольше и дороже</td></tr>
-        <tr><td>/clear</td><td>Очистить контекст, начать с чистого листа</td></tr>
-        <tr><td>/rewind</td><td>Откатиться к предыдущему состоянию (чекпоинт)</td></tr>
+        <tr><td>Open Folder</td><td>Открыть папку проекта — Claude работает внутри неё</td></tr>
+        <tr><td>/context</td><td>Показать, насколько заполнена «память» текущего диалога. Совет: одна задача — один новый диалог</td></tr>
+        <tr><td>/model</td><td>Выбрать модель: <strong>Opus</strong> — для сложного, <strong>Haiku</strong> — для простого и быстрого</td></tr>
+        <tr><td>/effort</td><td>Насколько глубоко Claude думает: глубже — точнее, но дольше и дороже</td></tr>
+        <tr><td>/clear</td><td>Очистить диалог и начать с чистого листа</td></tr>
+        <tr><td>/rewind</td><td>Откатиться на шаг назад, если что-то пошло не так (как Ctrl+Z)</td></tr>
       </tbody>
     </table>
-    <div class="note note--info">
-      <span class="note__icon">⌨️</span>
-      <span>Все команды начинаются со слэша <span class="mono">/</span> — наберите его, и появится меню со списком.</span>
-    </div>
   </div>
 </div>
 
@@ -478,24 +474,45 @@ claude mcp add --scope user taskmaster-ai -e DEFAULT_PROVIDER=claude-code -- npx
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Создать аккаунт на GitHub</div>
-        <div class="item__hint"><a href="https://github.com/" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> github.com</a> — там же хранятся проекты и база знаний.</div>
+        <div class="item__hint">GitHub — это облако для проектов и кода. Регистрация: <a href="https://github.com/" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> github.com</a></div>
+      </div>
+    </div>
+    <div class="item" data-key="gh-2fa">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Включить двухфакторную защиту (2FA)</div>
+        <div class="item__hint">Это вход по второму коду с телефона — защищает аккаунт, и без неё часть установок не проходит. Как включить:
+          <ul class="blist">
+            <li>Откройте <a href="https://github.com/settings/security" target="_blank" class="lnk" onclick="event.stopPropagation()">Settings → Password and authentication</a></li>
+            <li>Раздел <strong>Two-factor authentication</strong> → <strong>Enable</strong></li>
+            <li>Выберите приложение-аутентификатор (например <strong>Google Authenticator</strong> на телефоне) → отсканируйте QR-код → введите 6-значный код</li>
+            <li>Сохраните резервные коды в надёжном месте</li>
+          </ul>
+          Пошагово покажу на скринкасте.</div>
       </div>
     </div>
     <div class="item" data-key="gh-pat">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Выпустить токен PAT</div>
-        <div class="item__hint">Personal Access Token — ключ, которым Claude ходит в ваш GitHub. Настройки → <a href="https://github.com/settings/personal-access-tokens" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> fine-grained token</a> с доступом к нужным репозиториям.</div>
+        <div class="item__text">Выпустить токен доступа (PAT)</div>
+        <div class="item__hint">Токен — это ключ-пароль, которым Claude заходит в ваш GitHub. Создать: <a href="https://github.com/settings/personal-access-tokens" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> fine-grained token</a> с доступом к нужным репозиториям. Пошагово — на скринкасте.</div>
       </div>
     </div>
     <div class="item" data-key="gh-mcp">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Подключить официальный GitHub MCP</div>
-        <div class="item__hint">Вставьте свой токен вместо <span class="mono">YOUR_GITHUB_PAT</span>:</div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdGh">claude mcp add --transport http github https://api.githubcopilot.com/mcp/ \
-  --header "Authorization: Bearer YOUR_GITHUB_PAT"</span><button class="btn-copy" onclick="copyBlock('cmdGh',this)">📋 Копировать</button></div>
+        <div class="item__text">Подключить GitHub к Claude Code</div>
+        <div class="item__hint">Вставьте промпт в чат Claude Code — он подключит GitHub и сам спросит ваш токен:</div>
       </div>
+    </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">💬 промпт: подключить GitHub</div>
+      <div class="prompt-block__text" id="promptGh">Подключи мне официальный GitHub к Claude Code. Спроси у меня токен доступа (PAT), затем выполни команду, подставив мой токен вместо МОЙ_ТОКЕН:
+
+claude mcp add --transport http github https://api.githubcopilot.com/mcp/ --header "Authorization: Bearer МОЙ_ТОКЕН"
+
+Затем проверь список серверов: claude mcp list. Если github в статусе Connected — скажи мне. Если ошибка — покажи её и помоги починить.</div>
+      <button class="btn-copy" onclick="copyBlock('promptGh',this)">📋 Копировать промпт</button>
     </div>
     <div class="note note--alert">
       <span class="note__icon">🔒</span>
@@ -511,40 +528,41 @@ claude mcp add --scope user taskmaster-ai -e DEFAULT_PROVIDER=claude-code -- npx
     <div class="section__title">Защита от разрушительных команд</div>
   </div>
   <div class="section__card">
-    <div class="info-block">Claude запускает команды в терминале. Ошибка агента (<span class="mono">rm -rf</span>, <span class="mono">git reset --hard</span>) может стереть работу. Два слоя защиты:</div>
+    <div class="info-block">Claude умеет выполнять команды на компьютере — это удобно, но по ошибке он может, например, удалить нужные файлы. Поэтому ставим защиту в два уровня:</div>
     <div class="item" data-key="guard-builtin">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Слой 1 — встроенный (обязательно)</div>
-        <div class="item__hint">Режим разрешений <strong>Ask</strong> (Claude спрашивает перед действием) + правила <strong>deny</strong> в <span class="mono">settings.json</span> на <span class="mono">.env</span>, <span class="mono">rm -rf</span>, <span class="mono">sudo</span>. Настроим на уроке.</div>
+        <div class="item__text">Уровень 1 — встроенная защита (обязательно)</div>
+        <div class="item__hint">Claude по умолчанию <strong>спрашивает разрешение</strong> перед каждым действием. А самые опасные операции — например удаление файлов — можно запретить ему совсем. Настроим вместе на уроке.</div>
       </div>
     </div>
     <div class="item" data-key="guard-dcg">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Слой 2 — плагин DCG (по желанию)</div>
-        <div class="item__hint">Хук-перехватчик на Rust: блокирует опасные команды до запуска. macOS / Linux:</div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdDcg">curl -fsSL https://raw.githubusercontent.com/Dicklesworthstone/destructive_command_guard/main/install.sh | bash</span><button class="btn-copy" onclick="copyBlock('cmdDcg',this)">📋 Копировать</button></div>
+        <div class="item__text">Уровень 2 — программа-сторож DCG (по желанию)</div>
+        <div class="item__hint">Отдельная бесплатная защита: блокирует опасные команды ещё до запуска. Проще всего поставить промптом:</div>
       </div>
     </div>
-    <details class="spoiler">
-      <summary>Что DCG умеет и чего НЕ умеет</summary>
-      <div class="spoiler__content">
-        <p><strong>Ловит:</strong></p>
-        <ul class="blist">
-          <li><span class="mono">rm -rf</span> вне временных папок</li>
-          <li><span class="mono">git reset --hard</span>, <span class="mono">git clean -f</span>, force-push</li>
-          <li>опасные команды баз данных, Docker, Terraform</li>
-        </ul>
-        <p style="margin-top:10px"><strong>НЕ ловит:</strong></p>
-        <ul class="blist">
-          <li>злонамеренные действия — хук можно обойти</li>
-          <li>правку файлов инструментами Write/Edit</li>
-          <li>команды внутри скриптов</li>
-        </ul>
-        <p style="margin-top:10px"><strong>Вывод:</strong> хорошая добавка, но <strong>не замена</strong> слоя 1. Ставьте как дополнение, а не вместо встроенной защиты.</p>
-      </div>
-    </details>
+    <div class="prompt-block">
+      <div class="prompt-block__title">💬 промпт: поставить защиту DCG</div>
+      <div class="prompt-block__text" id="promptDcg">Установи и настрой мне DCG — защиту от опасных команд для Claude Code, из репозитория https://github.com/Dicklesworthstone/destructive_command_guard. Я новичок — веди по шагам простыми словами, подключи защиту как положено и в конце проверь, что она работает.</div>
+      <button class="btn-copy" onclick="copyBlock('promptDcg',this)">📋 Копировать промпт</button>
+    </div>
+    <div class="info-block">
+      <p><strong>Что DCG ловит:</strong></p>
+      <ul class="blist">
+        <li>удаление файлов и папок целиком</li>
+        <li>опасные действия с историей проекта (откат, затирание)</li>
+        <li>опасные команды с базами данных и серверами</li>
+      </ul>
+      <p style="margin-top:12px"><strong>Чего НЕ ловит:</strong></p>
+      <ul class="blist">
+        <li>действия злоумышленника — защиту можно обойти</li>
+        <li>когда Claude правит файлы напрямую</li>
+        <li>команды, спрятанные внутри скриптов</li>
+      </ul>
+      <p style="margin-top:12px"><strong>Вывод:</strong> хорошая добавка, но <strong>не замена</strong> уровня 1. Ставьте как дополнение.</p>
+    </div>
   </div>
 </div>
 
