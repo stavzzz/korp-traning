@@ -253,35 +253,48 @@
       <span class="note__icon">💡</span>
       <span>Для <strong>самого Claude Code</strong> Node не нужен. Но <strong>MCP-серверы</strong> (раздел 06) запускаются через <span class="mono">npx</span> — а это Node. Поэтому окружение ставим сразу.</span>
     </div>
-    <div class="info-block"><strong>macOS.</strong> Сначала Homebrew (менеджер программ), затем Node.</div>
-    <div class="item" data-key="brew-mac">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">macOS — установить Homebrew</div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdBrew">/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</span><button class="btn-copy" onclick="copyBlock('cmdBrew',this)">📋 Копировать</button></div>
-        <div class="item__hint">После установки добавить Homebrew в пути:</div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdBrewPath">echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+    <div class="term">
+      <div class="term__name">Что такое терминал</div>
+      <div class="term__def">Программа, где команды набираются текстом, а не мышкой. Через неё ставится окружение и работает Claude Code. Команды ниже вставляются именно в терминал.</div>
+    </div>
+    <div class="info-block">
+      <p><strong>🍎 Где найти на macOS:</strong> Finder → Программы → Утилиты → <strong>Терминал</strong>. Или <span class="mono">Cmd + Пробел</span> (Spotlight) → напечатать «Терминал» → Enter.</p>
+      <p><strong>🪟 Где найти на Windows:</strong> <span class="mono">Win + X</span> → выбрать <strong>«Терминал»</strong> или <strong>«PowerShell»</strong>. Или нажать <span class="mono">Win</span>, напечатать «PowerShell» → Enter.</p>
+    </div>
+
+    <div class="info-block"><strong>🍎 macOS</strong> — сначала Homebrew (менеджер программ), затем Node. В Терминале выполните по очереди:</div>
+    <div class="info-block">
+      <p><strong>1. Установить Homebrew:</strong></p>
+      <div class="cmd-copy"><span class="cmd-copy__text" id="cmdBrew">/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</span><button class="btn-copy" onclick="copyBlock('cmdBrew',this)">📋 Копировать</button></div>
+      <p><strong>2. Добавить Homebrew в пути:</strong></p>
+      <div class="cmd-copy"><span class="cmd-copy__text" id="cmdBrewPath">echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
 eval "$(/opt/homebrew/bin/brew shellenv)"</span><button class="btn-copy" onclick="copyBlock('cmdBrewPath',this)">📋 Копировать</button></div>
-      </div>
+      <p><strong>3. Установить Node.js:</strong></p>
+      <div class="cmd-copy"><span class="cmd-copy__text" id="cmdNodeMac">brew install node</span><button class="btn-copy" onclick="copyBlock('cmdNodeMac',this)">📋 Копировать</button></div>
     </div>
     <div class="item" data-key="node-mac">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">macOS — установить Node.js</div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdNodeMac">brew install node</span><button class="btn-copy" onclick="copyBlock('cmdNodeMac',this)">📋 Копировать</button></div>
+        <div class="item__text">macOS — Node.js установлен</div>
       </div>
+    </div>
+
+    <div class="info-block"><strong>🪟 Windows</strong> — откройте PowerShell (как выше) и поставьте Node одним из способов:</div>
+    <div class="info-block">
+      <p><strong>Способ 1 — одной командой:</strong></p>
+      <div class="cmd-copy"><span class="cmd-copy__text" id="cmdNodeWin">winget install OpenJS.NodeJS.LTS</span><button class="btn-copy" onclick="copyBlock('cmdNodeWin',this)">📋 Копировать</button></div>
+      <p><strong>Способ 2 — вручную:</strong> зайдите на <a href="https://nodejs.org" target="_blank" class="lnk">nodejs.org</a>, скачайте <strong>.msi (LTS-версия)</strong>, при установке включите галочку <strong>«Add to PATH»</strong>.</p>
     </div>
     <div class="item" data-key="node-win">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Windows — установить Node.js</div>
-        <div class="item__hint">В PowerShell:</div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdNodeWin">winget install OpenJS.NodeJS.LTS</span><button class="btn-copy" onclick="copyBlock('cmdNodeWin',this)">📋 Копировать</button></div>
+        <div class="item__text">Windows — Node.js установлен</div>
       </div>
     </div>
+
     <div class="note note--green">
       <span class="note__icon">✅</span>
-      <span>Проверка, что Node встал: <span class="mono">node -v</span> — покажет версию.</span>
+      <span>Проверка (в терминале): <span class="mono">node -v</span> покажет версию. Если Node только что поставили — <strong>перезапустите VS Code</strong>, чтобы терминал подхватил новые пути.</span>
     </div>
   </div>
 </div>
