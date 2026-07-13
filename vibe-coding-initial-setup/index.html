@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KAMNI × ИИ-ВИЗАЦИЯ — Настройка среды для вайб-кодинга</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💎</text></svg>">
+<title>Настройка среды для вайб-кодинга</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -151,7 +151,7 @@
 
 <!-- ═══ HEADER ═══ -->
 <header class="header">
-  <div class="header__badge">KAMNI · День 3</div>
+  <div class="header__badge">ИИ-ВИЗАЦИЯ · Скринкаст</div>
   <h1 class="header__title">Настройка среды <span>для вайб-кодинга</span></h1>
   <ul class="header__topics">
     <li>Visual Studio Code: установка, интерфейс, папка = проект</li>
@@ -376,17 +376,29 @@ claude doctor</span><button class="btn-copy" onclick="copyBlock('cmdCcCheck',thi
       <div class="term__name">Что это</div>
       <div class="term__def">Скилл — готовая инструкция-навык, которую Claude подхватывает сам под задачу. Экономит контекст: не нужно каждый раз объяснять, как делать рутину.</div>
     </div>
-    <div class="item" data-key="skill-superpowers">
+    <div class="note note--warn">
+      <span class="note__icon">🔑</span>
+      <span>Плагины тянутся с <strong>GitHub</strong>. На аккаунте GitHub должна быть включена <strong>двухфакторная аутентификация (2FA)</strong> — без неё установка не пройдёт. Как включить, покажу на уроке.</span>
+    </div>
+    <div class="item" data-key="skill-sp-market">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Установить набор Superpowers</div>
-        <div class="item__hint">Плагин из официального маркетплейса. В Claude Code набрать:</div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdSp">/plugin install superpowers@claude-plugins-official</span><button class="btn-copy" onclick="copyBlock('cmdSp',this)">📋 Копировать</button></div>
+        <div class="item__text">Шаг 1 — добавить маркетплейс Superpowers</div>
+        <div class="item__hint">Официальный набор скиллов Jesse Vincent (<a href="https://github.com/obra/superpowers" target="_blank" class="lnk" onclick="event.stopPropagation()">obra/superpowers</a>). Сначала подключаем его маркетплейс:</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdSpMkt">/plugin marketplace add obra/superpowers-marketplace</span><button class="btn-copy" onclick="copyBlock('cmdSpMkt',this)">📋 Копировать</button></div>
+      </div>
+    </div>
+    <div class="item" data-key="skill-sp-install">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Шаг 2 — установить плагин</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdSp">/plugin install superpowers@superpowers-marketplace</span><button class="btn-copy" onclick="copyBlock('cmdSp',this)">📋 Копировать</button></div>
+        <div class="item__hint">Даёт 20+ проверенных скиллов и команды <span class="mono">/brainstorm</span>, <span class="mono">/write-plan</span>, <span class="mono">/execute-plan</span>.</div>
       </div>
     </div>
     <div class="note note--green">
       <span class="note__icon">💎</span>
-      <span>Свой скилл ставится так же — файлом. Например наш <strong>session-handoff</strong> (грамотное завершение сессии без потери контекста) лежит в учебной папке отдельным <span class="mono">.zip</span>.</span>
+      <span>Свой скилл ставится проще — файлом. Например наш <strong>session-handoff</strong> (грамотное завершение сессии без потери контекста) лежит в учебной папке отдельным <span class="mono">.zip</span>.</span>
     </div>
   </div>
 </div>
@@ -522,7 +534,7 @@ claude doctor</span><button class="btn-copy" onclick="copyBlock('cmdCcCheck',thi
     <div class="footer__done-sub">VS Code, Claude Code, скиллы и MCP на месте. На уроке — сразу к делу.</div>
   </div>
   <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
-  <div class="footer__sign">KAMNI × ИИ-ВИЗАЦИЯ</div>
+  <div class="footer__sign">ИИ-ВИЗАЦИЯ</div>
   <button class="btn-reset" onclick="resetProgress()">Сбросить прогресс</button>
 </div>
 
@@ -538,7 +550,7 @@ function rand(a,b){return Math.random()*(b-a)+a;}
 function createBurst(x,y,count){for(let i=0;i<count;i++){const angle=rand(0,Math.PI*2),speed=rand(4,14),size=rand(4,10);particles.push({x,y,vx:Math.cos(angle)*speed+rand(-2,2),vy:Math.sin(angle)*speed*-0.8-rand(2,6),size,color:COLORS[Math.floor(Math.random()*COLORS.length)],rotation:rand(0,Math.PI*2),rotSpeed:rand(-0.2,0.2),gravity:rand(0.12,0.25),friction:rand(0.97,0.995),opacity:1,fadeSpeed:rand(0.005,0.015),shape:Math.random()>0.4?'rect':'circle'});}}
 function launchConfetti(){if(confettiActive)return;confettiActive=true;particles=[];const W=C.width,H=C.height;[[W*.5,H*.3,120],[W*.15,H*.2,80],[W*.85,H*.2,80],[W*.5,H*.1,100],[W*.3,H*.5,60],[W*.7,H*.5,60],[0,H*.6,50],[W,H*.6,50],[W*.5,H*.6,80]].forEach(([x,y,c],i)=>{setTimeout(()=>createBurst(x,y,c),i*150)});setTimeout(()=>{createBurst(W*.2,H*.15,90);createBurst(W*.8,H*.15,90);createBurst(W*.5,H*.05,100)},1500);setTimeout(()=>{createBurst(W*.5,H*.25,120);createBurst(W*.1,H*.4,60);createBurst(W*.9,H*.4,60)},2500);animate();setTimeout(()=>{confettiActive=false},8000);}
 function animate(){ctx.clearRect(0,0,C.width,C.height);for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.vx*=p.friction;p.vy*=p.friction;p.vy+=p.gravity;p.x+=p.vx;p.y+=p.vy;p.rotation+=p.rotSpeed;p.opacity-=p.fadeSpeed;if(p.opacity<=0){particles.splice(i,1);continue}ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rotation);ctx.globalAlpha=p.opacity;ctx.fillStyle=p.color;if(p.shape==='rect'){ctx.fillRect(-p.size/2,-p.size/4,p.size,p.size/2)}else{ctx.beginPath();ctx.arc(0,0,p.size/2,0,Math.PI*2);ctx.fill()}ctx.restore();}if(particles.length>0||confettiActive){requestAnimationFrame(animate)}else{ctx.clearRect(0,0,C.width,C.height);}}
-const STORAGE_KEY='kamni_checklist_setup_v1';
+const STORAGE_KEY='vibecoding_setup_checklist_v1';
 const items=document.querySelectorAll('.item[data-key]');
 const totalCount=items.length;
 let wasComplete=false;
