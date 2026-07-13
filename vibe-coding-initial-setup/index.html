@@ -389,25 +389,18 @@ claude doctor</span><button class="btn-copy" onclick="copyBlock('cmdCcCheck',thi
       <div class="term__name">Что это</div>
       <div class="term__def">Скилл — готовая инструкция-навык, которую Claude подхватывает сам под задачу. Экономит контекст: не нужно каждый раз объяснять, как делать рутину.</div>
     </div>
-    <div class="note note--warn">
-      <span class="note__icon">🔑</span>
-      <span>Плагины тянутся с <strong>GitHub</strong>. На аккаунте GitHub должна быть включена <strong>двухфакторная аутентификация (2FA)</strong> — без неё установка не пройдёт. Как включить, покажу на уроке.</span>
-    </div>
-    <div class="item" data-key="skill-sp-market">
+    <div class="item" data-key="skill-superpowers">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Шаг 1 — добавить маркетплейс Superpowers</div>
-        <div class="item__hint">Официальный набор скиллов Jesse Vincent (<a href="https://github.com/obra/superpowers" target="_blank" class="lnk" onclick="event.stopPropagation()">obra/superpowers</a>). Сначала подключаем его маркетплейс:</div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdSpMkt">/plugin marketplace add obra/superpowers-marketplace</span><button class="btn-copy" onclick="copyBlock('cmdSpMkt',this)">📋 Копировать</button></div>
-      </div>
-    </div>
-    <div class="item" data-key="skill-sp-install">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Шаг 2 — установить плагин</div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdSp">/plugin install superpowers@superpowers-marketplace</span><button class="btn-copy" onclick="copyBlock('cmdSp',this)">📋 Копировать</button></div>
+        <div class="item__text">Установить Superpowers — одной командой</div>
+        <div class="item__hint">Набор скиллов Jesse Vincent (<a href="https://github.com/obra/superpowers" target="_blank" class="lnk" onclick="event.stopPropagation()">obra/superpowers</a>). Ставится из <strong>официального маркетплейса Anthropic</strong> — он уже подключён в Claude Code, отдельных шагов не нужно:</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdSp">/plugin install superpowers@claude-plugins-official</span><button class="btn-copy" onclick="copyBlock('cmdSp',this)">📋 Копировать</button></div>
         <div class="item__hint">Даёт 20+ проверенных скиллов и команды <span class="mono">/brainstorm</span>, <span class="mono">/write-plan</span>, <span class="mono">/execute-plan</span>.</div>
       </div>
+    </div>
+    <div class="note note--info">
+      <span class="note__icon">🔑</span>
+      <span>Плагины тянутся с <strong>GitHub</strong>. Если установка спотыкается — залогиньтесь в GitHub и включите <strong>2FA</strong> (двухфакторную аутентификацию). Как — покажу на уроке.</span>
     </div>
     <div class="note note--green">
       <span class="note__icon">💎</span>
