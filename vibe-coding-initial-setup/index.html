@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KAMNI × ИИ-ВИЗАЦИЯ — Настройка среды для вайб-кодинга</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💎</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #0a0a0f; --bg-card: #12121a; --bg-card-hover: #181825;
+    --border: #1e1e2e; --border-accent: #2a2a3e;
+    --text-primary: #e8e6f0; --text-secondary: #8b879e; --text-muted: #5a5670;
+    --accent: #7c5bf5; --accent-glow: #9d7cff; --accent-soft: rgba(124,91,245,0.12);
+    --green: #34d399; --green-glow: #6ee7b7; --green-soft: rgba(52,211,153,0.1);
+    --amber: #fbbf24; --amber-soft: rgba(251,191,36,0.1);
+    --red-soft: rgba(248,113,113,0.1); --red: #f87171;
+    --radius: 14px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Onest',sans-serif; background:var(--bg-deep); color:var(--text-primary); line-height:1.65; min-height:100vh; -webkit-font-smoothing:antialiased; }
+  body::before { content:''; position:fixed; inset:0; background-image:radial-gradient(circle at 20% 20%,rgba(124,91,245,0.04) 0%,transparent 50%),radial-gradient(circle at 80% 80%,rgba(52,211,153,0.03) 0%,transparent 50%); pointer-events:none; z-index:0; }
+  .wrapper { position:relative; z-index:1; max-width:680px; margin:0 auto; padding:40px 20px 80px; }
+
+  .header { text-align:center; margin-bottom:48px; }
+  .header__badge { display:inline-block; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:var(--accent-glow); background:var(--accent-soft); border:1px solid rgba(124,91,245,0.2); padding:6px 16px; border-radius:100px; margin-bottom:24px; animation:fadeDown .6s ease both; }
+  .header__title { font-size:clamp(22px,5vw,34px); font-weight:800; line-height:1.2; letter-spacing:-0.5px; margin-bottom:20px; animation:fadeDown .6s ease .1s both; }
+  .header__title span { background:linear-gradient(135deg,var(--accent-glow),var(--green)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .header__topics { list-style:none; display:flex; flex-direction:column; gap:7px; max-width:460px; margin:0 auto; animation:fadeDown .6s ease .2s both; }
+  .header__topics li { font-size:13.5px; color:var(--text-secondary); display:flex; align-items:flex-start; gap:8px; text-align:left; }
+  .header__topics li::before { content:'→'; color:var(--accent); flex-shrink:0; font-family:'JetBrains Mono',monospace; font-size:11px; margin-top:3px; }
+
+  .progress-wrap { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:20px 24px; margin-bottom:36px; position:sticky; top:12px; z-index:10; backdrop-filter:blur(16px); background:rgba(18,18,26,0.92); animation:fadeDown .6s ease .3s both; }
+  .progress-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+  .progress-label { font-size:13px; font-weight:600; color:var(--text-secondary); text-transform:uppercase; letter-spacing:1px; font-family:'JetBrains Mono',monospace; }
+  .progress-count { font-family:'JetBrains Mono',monospace; font-size:14px; font-weight:700; color:var(--accent-glow); }
+  .progress-bar { width:100%; height:8px; background:var(--border); border-radius:100px; overflow:hidden; }
+  .progress-fill { height:100%; background:linear-gradient(90deg,var(--accent),var(--green)); border-radius:100px; transition:width .5s cubic-bezier(.34,1.56,.64,1); width:0%; }
+
+  .section { margin-bottom:28px; }
+  .section__header { display:flex; align-items:center; gap:12px; margin-bottom:14px; padding-left:2px; }
+  .section__num { font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; color:var(--accent); background:var(--accent-soft); width:32px; height:32px; display:flex; align-items:center; justify-content:center; border-radius:8px; flex-shrink:0; }
+  .section__title { font-size:16px; font-weight:700; letter-spacing:-0.2px; line-height:1.35; }
+  .section__card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; transition:border-color .3s; }
+  .section__card:hover { border-color:var(--border-accent); }
+
+  .item { display:flex; align-items:flex-start; gap:14px; padding:16px 20px; border-bottom:1px solid var(--border); transition:background .2s;  }
+  .item:last-child { border-bottom:none; }
+  .item:hover { background:var(--bg-card-hover); }
+  .item.checked .item__text { color:var(--text-muted); text-decoration:line-through; }
+  .item__check { position:relative; width:22px; height:22px; flex-shrink:0; margin-top:1px; pointer-events:auto; cursor:pointer; }
+  .item__check input { position:absolute; opacity:0; width:100%; height:100%; cursor:pointer; z-index:2; }
+  .item__check .cm { width:22px; height:22px; border:2px solid var(--border-accent); border-radius:6px; display:flex; align-items:center; justify-content:center; transition:all .25s cubic-bezier(.34,1.56,.64,1); cursor:pointer; }
+  .item__check .cm svg { width:12px; height:12px; opacity:0; transform:scale(0); transition:all .25s cubic-bezier(.34,1.56,.64,1); }
+  .item__check input:checked + .cm { background:var(--green); border-color:var(--green); }
+  .item__check input:checked + .cm svg { opacity:1; transform:scale(1); }
+  .item__body { flex:1; min-width:0; pointer-events:none; user-select:text; }
+  .item__body a, .item__body .lnk, .item__body .cmd-copy, .item__body .btn-copy { pointer-events:auto !important; cursor:pointer !important; }
+  .item__text { font-size:14.5px; font-weight:500; color:var(--text-primary); transition:all .3s; }
+  .item__hint { font-size:13px; color:var(--text-secondary); margin-top:5px; line-height:1.65; }
+  .item__hint strong { color:var(--text-primary); }
+
+  .lnk { display:inline-flex; align-items:center; gap:5px; font-size:13px; font-family:'JetBrains Mono',monospace; color:var(--accent-glow); text-decoration:none; transition:color .2s; word-break:break-all; }
+  .lnk:hover { color:#bba4ff; text-decoration:underline; }
+  .lnk svg { width:13px; height:13px; flex-shrink:0; }
+
+  .note { display:flex; align-items:flex-start; gap:10px; padding:14px 20px; font-size:13px; color:var(--text-secondary); line-height:1.65; border-bottom:1px solid var(--border); }
+  .note:last-child { border-bottom:none; }
+  .note--warn { background:var(--amber-soft); color:var(--amber); }
+  .note--info { background:var(--accent-soft); }
+  .note--alert { background:var(--red-soft); color:var(--red); }
+  .note--green { background:var(--green-soft); color:var(--green-glow); }
+  .note__icon { flex-shrink:0; font-size:15px; }
+  .note strong { color:inherit; }
+  .note .lnk { color:var(--accent-glow); }
+
+  .info-block { padding:14px 20px; border-bottom:1px solid var(--border); font-size:13.5px; color:var(--text-secondary); line-height:1.7; }
+  .info-block:last-child { border-bottom:none; }
+  .info-block strong { color:var(--text-primary); font-weight:600; }
+  .info-block p { margin-bottom:8px; }
+  .info-block p:last-child { margin-bottom:0; }
+
+  .term { padding:16px 20px; border-bottom:1px solid var(--border); }
+  .term:last-child { border-bottom:none; }
+  .term__name { font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; color:var(--accent-glow); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:7px; }
+  .term__def { font-size:14px; color:var(--text-primary); font-weight:500; margin-bottom:8px; line-height:1.55; }
+  .mono { font-family:'JetBrains Mono',monospace; color:var(--accent-glow); font-size:12px; }
+
+  .data-table { width:100%; font-size:13px; border-collapse:collapse; }
+  .data-table th { text-align:left; font-weight:600; color:var(--text-muted); font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:1.2px; padding:10px 20px; border-bottom:1px solid var(--border); background:rgba(0,0,0,0.2); }
+  .data-table td { padding:11px 20px; border-bottom:1px solid var(--border); color:var(--text-secondary); vertical-align:top; line-height:1.5; }
+  .data-table tr:last-child td { border-bottom:none; }
+  .data-table td:first-child { color:var(--text-primary); font-weight:600; }
+
+  .prompt-block { background:rgba(0,0,0,0.25); border:1px solid var(--border-accent); border-radius:10px; padding:18px 20px; margin:12px 16px; }
+  .prompt-block__title { font-size:13px; font-weight:700; color:var(--accent-glow); margin-bottom:10px; display:flex; align-items:center; gap:8px; font-family:'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:1px; }
+  .prompt-block__text { font-size:13px; color:var(--text-secondary); line-height:1.7; white-space:pre-wrap; margin-bottom:14px; word-break:break-word; }
+  .btn-copy { display:inline-flex; align-items:center; gap:6px; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600; color:var(--accent-glow); background:var(--accent-soft); border:1px solid rgba(124,91,245,0.3); padding:8px 16px; border-radius:8px; cursor:pointer; transition:all .2s; text-transform:uppercase; letter-spacing:1px; }
+  .btn-copy:hover { background:rgba(124,91,245,0.2); border-color:var(--accent); }
+  .btn-copy.copied { color:var(--green); background:var(--green-soft); border-color:rgba(52,211,153,0.3); }
+
+  .cmd-copy { background:rgba(0,0,0,0.35); border:1px solid var(--border-accent); border-radius:8px; padding:10px 14px; margin:8px 0; display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  .cmd-copy__text { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--green-glow); line-height:1.6; word-break:break-all; flex:1; white-space:pre-wrap; }
+  .cmd-copy .btn-copy { flex-shrink:0; padding:5px 12px; font-size:10px; }
+
+  .spoiler { border-bottom:1px solid var(--border); }
+  .spoiler:last-child { border-bottom:none; }
+  .spoiler summary { padding:14px 20px; font-size:13.5px; font-weight:600; color:var(--text-secondary); cursor:pointer; list-style:none; display:flex; align-items:center; gap:8px; transition:color .2s; }
+  .spoiler summary:hover { color:var(--text-primary); }
+  .spoiler summary::before { content:'▸'; font-size:12px; transition:transform .2s; }
+  .spoiler[open] summary::before { transform:rotate(90deg); }
+  .spoiler__content { padding:0 20px 16px 34px; font-size:13px; color:var(--text-secondary); line-height:1.7; }
+  .spoiler__content p { margin-bottom:8px; }
+  .spoiler__content strong { color:var(--text-primary); font-weight:600; }
+
+  .section-divider { text-align:center; margin:48px 0 32px; padding:0 20px; }
+  .section-divider__line { height:1px; background:linear-gradient(90deg,transparent,var(--accent),transparent); margin-bottom:20px; }
+  .section-divider__title { font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; color:var(--accent-glow); text-transform:uppercase; letter-spacing:3px; }
+
+  .footer { text-align:center; margin-top:48px; }
+  .footer__done { display:none; background:var(--green-soft); border:1px solid rgba(52,211,153,0.25); border-radius:var(--radius); padding:32px 24px; margin-bottom:24px; }
+  .footer__done.visible { display:block; animation:popIn .5s cubic-bezier(.34,1.56,.64,1) both; }
+  .footer__done-emoji { font-size:48px; margin-bottom:10px; }
+  .footer__done-text { font-size:22px; font-weight:800; color:var(--green); margin-bottom:6px; }
+  .footer__done-sub { font-size:15px; color:var(--text-secondary); }
+  .footer__contact { font-size:14px; color:var(--text-secondary); margin-bottom:20px; }
+  .footer__sign { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:2px; margin-bottom:22px; }
+  .btn-reset { background:none; border:1px solid var(--border); color:var(--text-muted); font-family:'JetBrains Mono',monospace; font-size:12px; padding:8px 20px; border-radius:100px; cursor:pointer; transition:all .2s; }
+  .btn-reset:hover { border-color:var(--red); color:var(--red); }
+  .tg { color:#2dd4bf !important; font-weight:700; text-decoration:underline; text-decoration-color:rgba(45,212,191,0.4); }
+  #confetti-canvas { position:fixed; inset:0; z-index:9999; pointer-events:none; }
+  @keyframes fadeDown { from{opacity:0;transform:translateY(-12px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes popIn { from{opacity:0;transform:scale(0.8)} to{opacity:1;transform:scale(1)} }
+
+  @media (max-width:480px) {
+    .wrapper { padding:28px 14px 60px; }
+    .item,.note,.term,.info-block { padding:12px 16px; }
+    .cmd-copy { padding:8px 12px; flex-direction:column; align-items:flex-start; }
+    .progress-wrap { padding:16px 18px; top:8px; }
+    .data-table th,.data-table td { padding:8px 14px; }
+    .prompt-block { margin:10px 12px; }
+    .header__title { font-size:22px; }
+  }
+</style>
+</head>
+<body>
+<canvas id="confetti-canvas"></canvas>
+<div class="wrapper">
+
+<!-- ═══ HEADER ═══ -->
+<header class="header">
+  <div class="header__badge">KAMNI · День 3</div>
+  <h1 class="header__title">Настройка среды <span>для вайб-кодинга</span></h1>
+  <ul class="header__topics">
+    <li>Visual Studio Code: установка, интерфейс, папка = проект</li>
+    <li>Homebrew и Node.js — окружение для MCP-серверов</li>
+    <li>Claude Code: расширение в VS Code + терминал, вход по подписке</li>
+    <li>Управление: контекст, модели, эффорт, скиллы</li>
+    <li>MCP: подключение внешних сервисов (обновлённые команды)</li>
+    <li>GitHub: аккаунт, репозиторий, токен PAT, GitHub MCP</li>
+    <li>Защита от разрушительных команд</li>
+  </ul>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-top">
+    <span class="progress-label">Прогресс</span>
+    <span class="progress-count" id="progressCount">0 / 0</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div id="sections">
+
+<!-- ═══ 00 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">00</div>
+    <div class="section__title">Перед стартом</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--warn">
+      <span class="note__icon">⏱️</span>
+      <span><strong>15–30 минут на установку.</strong> Сделайте это <strong>до урока</strong> — иначе на семинаре мы потеряем час на установку вместо работы.</span>
+    </div>
+    <div class="item" data-key="prereq-sub">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Подписка Claude активна</div>
+        <div class="item__hint">Claude Code работает на планах <strong>Pro / Max / Team</strong>. У нас — корпоративный <strong>Team</strong>. На бесплатном плане не работает.</div>
+      </div>
+    </div>
+    <div class="item" data-key="prereq-rights">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверены права на установку ПО</div>
+        <div class="item__hint">Если ноутбук корпоративный и установка программ заблокирована — узнайте это <strong>сегодня</strong>, а не на уроке. Нужны права ставить VS Code, Node.js и Claude Code.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 01 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">01</div>
+    <div class="section__title">Visual Studio Code</div>
+  </div>
+  <div class="section__card">
+    <div class="term">
+      <div class="term__name">Что это</div>
+      <div class="term__def">Редактор кода. Для нас — окно, в котором мы открываем <strong>папку проекта</strong>, видим файлы и держим встроенный терминал. В нём же будет жить Claude Code.</div>
+    </div>
+    <div class="item" data-key="vscode-download">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Скачать и установить VS Code</div>
+        <div class="item__hint">Официальный сайт, выбрать свою ОС (Mac / Windows):<br>
+        <a href="https://code.visualstudio.com/" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> code.visualstudio.com</a></div>
+      </div>
+    </div>
+    <div class="item" data-key="vscode-ui">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Разобраться в интерфейсе</div>
+        <div class="item__hint">Слева вкладки: <strong>Explorer</strong> (файлы), <strong>Extensions</strong> (расширения). Снизу — <strong>терминал</strong> (Terminal → New Terminal). Всё это покажем на уроке.</div>
+      </div>
+    </div>
+    <div class="item" data-key="vscode-folder">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Открыть папку как проект</div>
+        <div class="item__hint">File → Open Folder → создать пустую папку в «Документах». <strong>Папка = проект.</strong> Claude будет работать внутри неё.</div>
+      </div>
+    </div>
+    <div class="note note--info">
+      <span class="note__icon">🧩</span>
+      <span>Полезные расширения (Extensions → поиск → Install): <strong>Markdown Preview</strong> для просмотра <span class="mono">.md</span>, <strong>Office Viewer</strong> для Excel и PDF прямо в редакторе.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 02 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">02</div>
+    <div class="section__title">Homebrew и Node.js — окружение</div>
+  </div>
+  <div class="section__card">
+    <div class="note note--info">
+      <span class="note__icon">💡</span>
+      <span>Для <strong>самого Claude Code</strong> Node не нужен. Но <strong>MCP-серверы</strong> (раздел 06) запускаются через <span class="mono">npx</span> — а это Node. Поэтому окружение ставим сразу.</span>
+    </div>
+    <div class="info-block"><strong>macOS.</strong> Сначала Homebrew (менеджер программ), затем Node.</div>
+    <div class="item" data-key="brew-mac">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">macOS — установить Homebrew</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdBrew">/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</span><button class="btn-copy" onclick="copyBlock('cmdBrew',this)">📋 Копировать</button></div>
+        <div class="item__hint">После установки добавить Homebrew в пути:</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdBrewPath">echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"</span><button class="btn-copy" onclick="copyBlock('cmdBrewPath',this)">📋 Копировать</button></div>
+      </div>
+    </div>
+    <div class="item" data-key="node-mac">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">macOS — установить Node.js</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdNodeMac">brew install node</span><button class="btn-copy" onclick="copyBlock('cmdNodeMac',this)">📋 Копировать</button></div>
+      </div>
+    </div>
+    <div class="item" data-key="node-win">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Windows — установить Node.js</div>
+        <div class="item__hint">В PowerShell:</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdNodeWin">winget install OpenJS.NodeJS.LTS</span><button class="btn-copy" onclick="copyBlock('cmdNodeWin',this)">📋 Копировать</button></div>
+      </div>
+    </div>
+    <div class="note note--green">
+      <span class="note__icon">✅</span>
+      <span>Проверка, что Node встал: <span class="mono">node -v</span> — покажет версию.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 03 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">03</div>
+    <div class="section__title">Claude Code — установка и вход</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">Два способа работы, они дополняют друг друга: <strong>расширение в VS Code</strong> (визуально, кнопкой) и <strong>терминал</strong> (полный набор команд). Ставим оба.</div>
+    <div class="item" data-key="cc-ext">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Расширение Claude Code в VS Code</div>
+        <div class="item__hint">Слева <strong>Extensions</strong> → в поиске <strong>«Claude Code»</strong> → <strong>Install</strong>. Появится панель Claude прямо в редакторе.</div>
+      </div>
+    </div>
+    <div class="item" data-key="cc-mac">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">macOS — терминальный Claude Code</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdCcMac">curl -fsSL https://claude.ai/install.sh | bash</span><button class="btn-copy" onclick="copyBlock('cmdCcMac',this)">📋 Копировать</button></div>
+      </div>
+    </div>
+    <div class="item" data-key="cc-win">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Windows — терминальный Claude Code</div>
+        <div class="item__hint">В PowerShell:</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdCcWin">irm https://claude.ai/install.ps1 | iex</span><button class="btn-copy" onclick="copyBlock('cmdCcWin',this)">📋 Копировать</button></div>
+      </div>
+    </div>
+    <div class="note note--warn">
+      <span class="note__icon">🪟</span>
+      <span><strong>Windows:</strong> доставьте <a href="https://git-scm.com/downloads/win" target="_blank" class="lnk" onclick="event.stopPropagation()">Git for Windows</a> — без него Claude Code работает через PowerShell вместо Bash.</span>
+    </div>
+    <div class="item" data-key="cc-check">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить установку</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdCcCheck">claude --version
+claude doctor</span><button class="btn-copy" onclick="copyBlock('cmdCcCheck',this)">📋 Копировать</button></div>
+        <div class="item__hint"><span class="mono">claude doctor</span> проверит окружение и подскажет, если что-то не так.</div>
+      </div>
+    </div>
+    <div class="item" data-key="cc-login">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Войти по подписке</div>
+        <div class="item__hint">Запустить <span class="mono">claude</span> в папке проекта → команда <span class="mono">/login</span> → войти корпоративным <strong>Team</strong>-аккаунтом через браузер.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 04 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">04</div>
+    <div class="section__title">Базовое управление</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">Всё это разберём на уроке руками — здесь просто карта команд, чтобы было понятно, что мы делаем.</div>
+    <table class="data-table">
+      <thead><tr><th>Команда</th><th>Что делает</th></tr></thead>
+      <tbody>
+        <tr><td>Open Folder</td><td>Открыть папку — Claude работает внутри неё</td></tr>
+        <tr><td>/context</td><td>Показать контекст и токены. Правило: одна задача — один диалог</td></tr>
+        <tr><td>/model</td><td>Выбрать модель: Opus (сложное) / Sonnet / Haiku (быстрое)</td></tr>
+        <tr><td>/effort</td><td>Уровень «размышления» — глубже думает, но дольше и дороже</td></tr>
+        <tr><td>/clear</td><td>Очистить контекст, начать с чистого листа</td></tr>
+        <tr><td>/rewind</td><td>Откатиться к предыдущему состоянию (чекпоинт)</td></tr>
+      </tbody>
+    </table>
+    <div class="note note--info">
+      <span class="note__icon">⌨️</span>
+      <span>Все команды начинаются со слэша <span class="mono">/</span> — наберите его, и появится меню со списком.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 05 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">05</div>
+    <div class="section__title">Скиллы</div>
+  </div>
+  <div class="section__card">
+    <div class="term">
+      <div class="term__name">Что это</div>
+      <div class="term__def">Скилл — готовая инструкция-навык, которую Claude подхватывает сам под задачу. Экономит контекст: не нужно каждый раз объяснять, как делать рутину.</div>
+    </div>
+    <div class="item" data-key="skill-superpowers">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Установить набор Superpowers</div>
+        <div class="item__hint">Плагин из официального маркетплейса. В Claude Code набрать:</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdSp">/plugin install superpowers@claude-plugins-official</span><button class="btn-copy" onclick="copyBlock('cmdSp',this)">📋 Копировать</button></div>
+      </div>
+    </div>
+    <div class="note note--green">
+      <span class="note__icon">💎</span>
+      <span>Свой скилл ставится так же — файлом. Например наш <strong>session-handoff</strong> (грамотное завершение сессии без потери контекста) лежит в учебной папке отдельным <span class="mono">.zip</span>.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 06 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">06</div>
+    <div class="section__title">MCP — внешние сервисы</div>
+  </div>
+  <div class="section__card">
+    <div class="term">
+      <div class="term__name">Что это</div>
+      <div class="term__def">MCP — способ подключить к Claude внешние сервисы: GitHub, Google-таблицы, браузер и другое. «USB-хаб» для инструментов: подключил — и Claude умеет с ними работать.</div>
+    </div>
+    <div class="note note--info">
+      <span class="note__icon">🆕</span>
+      <span><strong>Обновлённый синтаксис.</strong> Локальные серверы — <span class="mono">claude mcp add … -- npx …</span>, удалённые — <span class="mono">claude mcp add --transport http … &lt;url&gt;</span>. Флаг <span class="mono">--scope user</span> = доступно во всех проектах.</span>
+    </div>
+    <div class="item" data-key="mcp-agentmemory">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">AgentMemory — долгая память агента</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdAm">claude mcp add --scope user agentmemory -- npx -y @agentmemory/mcp</span><button class="btn-copy" onclick="copyBlock('cmdAm',this)">📋 Копировать</button></div>
+      </div>
+    </div>
+    <div class="item" data-key="mcp-playwright">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Playwright — управление браузером</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdPw">claude mcp add --scope user playwright -- npx -y @playwright/mcp@latest</span><button class="btn-copy" onclick="copyBlock('cmdPw',this)">📋 Копировать</button></div>
+      </div>
+    </div>
+    <div class="item" data-key="mcp-taskmaster">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Task Master — разбивка задач</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdTm">claude mcp add --scope user taskmaster-ai -e DEFAULT_PROVIDER=claude-code -- npx -y task-master-ai</span><button class="btn-copy" onclick="copyBlock('cmdTm',this)">📋 Копировать</button></div>
+      </div>
+    </div>
+    <div class="item" data-key="mcp-check">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить подключённые MCP</div>
+        <div class="item__hint">Команда <span class="mono">/mcp</span> — покажет список серверов и их статус.</div>
+      </div>
+    </div>
+    <div class="note note--warn">
+      <span class="note__icon">⚠️</span>
+      <span>MCP едят контекст. Держите включённым только то, чем реально пользуетесь — лишнее отключайте.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 07 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">07</div>
+    <div class="section__title">GitHub</div>
+  </div>
+  <div class="section__card">
+    <div class="item" data-key="gh-account">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Создать аккаунт на GitHub</div>
+        <div class="item__hint"><a href="https://github.com/" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> github.com</a> — там же хранятся проекты и база знаний.</div>
+      </div>
+    </div>
+    <div class="item" data-key="gh-pat">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Выпустить токен PAT</div>
+        <div class="item__hint">Personal Access Token — ключ, которым Claude ходит в ваш GitHub. Настройки → <a href="https://github.com/settings/personal-access-tokens" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> fine-grained token</a> с доступом к нужным репозиториям.</div>
+      </div>
+    </div>
+    <div class="item" data-key="gh-mcp">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Подключить официальный GitHub MCP</div>
+        <div class="item__hint">Вставьте свой токен вместо <span class="mono">YOUR_GITHUB_PAT</span>:</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdGh">claude mcp add --transport http github https://api.githubcopilot.com/mcp/ \
+  --header "Authorization: Bearer YOUR_GITHUB_PAT"</span><button class="btn-copy" onclick="copyBlock('cmdGh',this)">📋 Копировать</button></div>
+      </div>
+    </div>
+    <div class="note note--alert">
+      <span class="note__icon">🔒</span>
+      <span><strong>Токен — это ключ.</strong> Не выкладывайте его в чат, скриншот или git. Утёк — сразу отзовите и выпустите новый.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 08 ═══ -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">08</div>
+    <div class="section__title">Защита от разрушительных команд</div>
+  </div>
+  <div class="section__card">
+    <div class="info-block">Claude запускает команды в терминале. Ошибка агента (<span class="mono">rm -rf</span>, <span class="mono">git reset --hard</span>) может стереть работу. Два слоя защиты:</div>
+    <div class="item" data-key="guard-builtin">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Слой 1 — встроенный (обязательно)</div>
+        <div class="item__hint">Режим разрешений <strong>Ask</strong> (Claude спрашивает перед действием) + правила <strong>deny</strong> в <span class="mono">settings.json</span> на <span class="mono">.env</span>, <span class="mono">rm -rf</span>, <span class="mono">sudo</span>. Настроим на уроке.</div>
+      </div>
+    </div>
+    <div class="item" data-key="guard-dcg">
+      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Слой 2 — плагин DCG (по желанию)</div>
+        <div class="item__hint">Хук-перехватчик на Rust: блокирует опасные команды до запуска. macOS / Linux:</div>
+        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdDcg">curl -fsSL https://raw.githubusercontent.com/Dicklesworthstone/destructive_command_guard/main/install.sh | bash</span><button class="btn-copy" onclick="copyBlock('cmdDcg',this)">📋 Копировать</button></div>
+      </div>
+    </div>
+    <details class="spoiler">
+      <summary>Что DCG умеет и чего НЕ умеет</summary>
+      <div class="spoiler__content">
+        <p><strong>Ловит:</strong> <span class="mono">rm -rf</span> вне временных папок, <span class="mono">git reset --hard</span>, <span class="mono">git clean -f</span>, force-push, опасные команды баз данных, Docker, Terraform. Учитывает порядок флагов и пути.</p>
+        <p><strong>НЕ ловит:</strong> злонамеренные действия (хук можно обойти), правку файлов инструментами Write/Edit, команды внутри скриптов. Модель угроз автора честная: «ловит ошибки, а не атаки».</p>
+        <p><strong>Вывод:</strong> хорошая добавка, но <strong>не замена</strong> слоя 1. Ставьте как дополнение, а не вместо встроенной защиты.</p>
+      </div>
+    </details>
+  </div>
+</div>
+
+</div><!-- /sections -->
+
+<!-- ═══ FOOTER ═══ -->
+<div class="footer">
+  <div class="footer__done" id="doneBlock">
+    <div class="footer__done-emoji">💎</div>
+    <div class="footer__done-text">Среда готова!</div>
+    <div class="footer__done-sub">VS Code, Claude Code, скиллы и MCP на месте. На уроке — сразу к делу.</div>
+  </div>
+  <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
+  <div class="footer__sign">KAMNI × ИИ-ВИЗАЦИЯ</div>
+  <button class="btn-reset" onclick="resetProgress()">Сбросить прогресс</button>
+</div>
+
+</div><!-- /wrapper -->
+
+<script>
+const C=document.getElementById('confetti-canvas'),ctx=C.getContext('2d');
+let particles=[],confettiActive=false;
+function resizeCanvas(){C.width=window.innerWidth;C.height=window.innerHeight;}
+window.addEventListener('resize',resizeCanvas);resizeCanvas();
+const COLORS=['#7c5bf5','#9d7cff','#34d399','#6ee7b7','#fbbf24','#f87171','#fb7185','#38bdf8','#facc15','#a78bfa','#f472b6','#4ade80'];
+function rand(a,b){return Math.random()*(b-a)+a;}
+function createBurst(x,y,count){for(let i=0;i<count;i++){const angle=rand(0,Math.PI*2),speed=rand(4,14),size=rand(4,10);particles.push({x,y,vx:Math.cos(angle)*speed+rand(-2,2),vy:Math.sin(angle)*speed*-0.8-rand(2,6),size,color:COLORS[Math.floor(Math.random()*COLORS.length)],rotation:rand(0,Math.PI*2),rotSpeed:rand(-0.2,0.2),gravity:rand(0.12,0.25),friction:rand(0.97,0.995),opacity:1,fadeSpeed:rand(0.005,0.015),shape:Math.random()>0.4?'rect':'circle'});}}
+function launchConfetti(){if(confettiActive)return;confettiActive=true;particles=[];const W=C.width,H=C.height;[[W*.5,H*.3,120],[W*.15,H*.2,80],[W*.85,H*.2,80],[W*.5,H*.1,100],[W*.3,H*.5,60],[W*.7,H*.5,60],[0,H*.6,50],[W,H*.6,50],[W*.5,H*.6,80]].forEach(([x,y,c],i)=>{setTimeout(()=>createBurst(x,y,c),i*150)});setTimeout(()=>{createBurst(W*.2,H*.15,90);createBurst(W*.8,H*.15,90);createBurst(W*.5,H*.05,100)},1500);setTimeout(()=>{createBurst(W*.5,H*.25,120);createBurst(W*.1,H*.4,60);createBurst(W*.9,H*.4,60)},2500);animate();setTimeout(()=>{confettiActive=false},8000);}
+function animate(){ctx.clearRect(0,0,C.width,C.height);for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.vx*=p.friction;p.vy*=p.friction;p.vy+=p.gravity;p.x+=p.vx;p.y+=p.vy;p.rotation+=p.rotSpeed;p.opacity-=p.fadeSpeed;if(p.opacity<=0){particles.splice(i,1);continue}ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rotation);ctx.globalAlpha=p.opacity;ctx.fillStyle=p.color;if(p.shape==='rect'){ctx.fillRect(-p.size/2,-p.size/4,p.size,p.size/2)}else{ctx.beginPath();ctx.arc(0,0,p.size/2,0,Math.PI*2);ctx.fill()}ctx.restore();}if(particles.length>0||confettiActive){requestAnimationFrame(animate)}else{ctx.clearRect(0,0,C.width,C.height);}}
+const STORAGE_KEY='kamni_checklist_setup_v1';
+const items=document.querySelectorAll('.item[data-key]');
+const totalCount=items.length;
+let wasComplete=false;
+function loadState(){try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');let c=0;items.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');if(s[item.dataset.key]){cb.checked=true;item.classList.add('checked');c++}});wasComplete=c===totalCount}catch(e){}updateProgress(false);}
+function saveState(){const s={};items.forEach(item=>{s[item.dataset.key]=item.querySelector('input[type="checkbox"]').checked});try{localStorage.setItem(STORAGE_KEY,JSON.stringify(s))}catch(e){}}
+function updateProgress(canCelebrate=true){let c=0;items.forEach(item=>{if(item.querySelector('input[type="checkbox"]').checked)c++});document.getElementById('progressCount').textContent=`${c} / ${totalCount}`;document.getElementById('progressFill').style.width=(totalCount>0?(c/totalCount)*100:0)+'%';const done=document.getElementById('doneBlock');if(c===totalCount){done.classList.add('visible');if(canCelebrate&&!wasComplete){launchConfetti()}wasComplete=true}else{done.classList.remove('visible');wasComplete=false;}}
+items.forEach(item=>{
+  const cb=item.querySelector('input[type="checkbox"]');
+  cb.addEventListener('change',function(){item.classList.toggle('checked',this.checked);saveState();updateProgress(true);});
+});
+function resetProgress(){if(!confirm('Сбросить весь прогресс?'))return;items.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasComplete=false;saveState();updateProgress(false);}
+loadState();
+function copyBlock(id, btn){
+  const text=document.getElementById(id).textContent;
+  navigator.clipboard.writeText(text).then(()=>{
+    const orig=btn.innerHTML;
+    btn.classList.add('copied');
+    btn.innerHTML='✅ Скопировано!';
+    setTimeout(()=>{btn.classList.remove('copied');btn.innerHTML=orig;},2000);
+  });
+}
+</script>
+</body>
+</html>
