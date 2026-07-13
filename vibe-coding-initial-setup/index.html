@@ -408,43 +408,57 @@ eval "$(/opt/homebrew/bin/brew shellenv)"</span><button class="btn-copy" onclick
       <div class="term__name">Что это</div>
       <div class="term__def">MCP — способ подключить к Claude внешние сервисы: GitHub, Google-таблицы, браузер и другое. «USB-хаб» для инструментов: подключил — и Claude умеет с ними работать.</div>
     </div>
-    <div class="note note--info">
-      <span class="note__icon">🆕</span>
-      <span><strong>Обновлённый синтаксис.</strong>
-        <ul class="blist">
-          <li>Локальные серверы: <span class="mono">claude mcp add … -- npx …</span></li>
-          <li>Удалённые: <span class="mono">claude mcp add --transport http … &lt;url&gt;</span></li>
-          <li>Флаг <span class="mono">--scope user</span> — доступно во всех проектах</li>
-        </ul>
-      </span>
-    </div>
+    <div class="info-block">Ставим <strong>промптом</strong> — команды руками не набираете. Копируете готовый текст, вставляете в чат Claude Code, он всё делает и проверяет сам.</div>
+
     <div class="item" data-key="mcp-agentmemory">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">AgentMemory — долгая память агента</div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdAm">claude mcp add --scope user agentmemory -- npx -y @agentmemory/mcp</span><button class="btn-copy" onclick="copyBlock('cmdAm',this)">📋 Копировать</button></div>
+        <div class="item__text">🧬 AgentMemory — память агента</div>
+        <div class="item__hint">Агент запоминает важное между сессиями. Вставьте промпт в чат Claude Code:</div>
       </div>
     </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">💬 промпт: установить AgentMemory</div>
+      <div class="prompt-block__text" id="promptAm">Установи мне MCP-сервер AgentMemory для Claude Code. Выполни команду:
+
+claude mcp add --scope user agentmemory -- npx -y @agentmemory/mcp
+
+Затем проверь список серверов: claude mcp list. Если agentmemory в статусе Connected — скажи мне. Если ошибка — покажи её и помоги починить.</div>
+      <button class="btn-copy" onclick="copyBlock('promptAm',this)">📋 Копировать промпт</button>
+    </div>
+
     <div class="item" data-key="mcp-playwright">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Playwright — управление браузером</div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdPw">claude mcp add --scope user playwright -- npx -y @playwright/mcp@latest</span><button class="btn-copy" onclick="copyBlock('cmdPw',this)">📋 Копировать</button></div>
+        <div class="item__text">🎭 Playwright — браузер для агента</div>
+        <div class="item__hint">Открывает сайты, делает скриншоты, кликает, заполняет формы. Вставьте промпт:</div>
       </div>
     </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">💬 промпт: установить Playwright</div>
+      <div class="prompt-block__text" id="promptPw">Установи мне MCP-сервер Playwright для Claude Code. Выполни команду:
+
+claude mcp add --scope user playwright -- npx -y @playwright/mcp@latest
+
+Затем проверь список серверов: claude mcp list. Если playwright в статусе Connected — скажи мне. Если ошибка — покажи её и помоги починить.</div>
+      <button class="btn-copy" onclick="copyBlock('promptPw',this)">📋 Копировать промпт</button>
+    </div>
+
     <div class="item" data-key="mcp-taskmaster">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Task Master — разбивка задач</div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdTm">claude mcp add --scope user taskmaster-ai -e DEFAULT_PROVIDER=claude-code -- npx -y task-master-ai</span><button class="btn-copy" onclick="copyBlock('cmdTm',this)">📋 Копировать</button></div>
+        <div class="item__text">📋 Task Master — разбивка задач</div>
+        <div class="item__hint">Делит большую задачу на подзадачи, ведёт план и прогресс. Вставьте промпт:</div>
       </div>
     </div>
-    <div class="item" data-key="mcp-check">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Проверить подключённые MCP</div>
-        <div class="item__hint">Команда <span class="mono">/mcp</span> — покажет список серверов и их статус.</div>
-      </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">💬 промпт: установить Task Master</div>
+      <div class="prompt-block__text" id="promptTm">Установи мне MCP-сервер Task Master для Claude Code. Выполни команду:
+
+claude mcp add --scope user taskmaster-ai -e DEFAULT_PROVIDER=claude-code -- npx -y task-master-ai
+
+Затем проверь список серверов: claude mcp list. Если taskmaster-ai в статусе Connected — скажи мне. Если ошибка — покажи её и помоги починить.</div>
+      <button class="btn-copy" onclick="copyBlock('promptTm',this)">📋 Копировать промпт</button>
     </div>
     <div class="note note--warn">
       <span class="note__icon">⚠️</span>
