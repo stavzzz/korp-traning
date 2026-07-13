@@ -161,7 +161,7 @@
   <ul class="header__topics">
     <li>Visual Studio Code: установка, интерфейс, папка = проект</li>
     <li>Homebrew и Node.js — окружение для MCP-серверов</li>
-    <li>Claude Code: расширение в VS Code + терминал, вход по подписке</li>
+    <li>Claude Code: расширение в VS Code, вход по подписке</li>
     <li>Управление: контекст, модели, эффорт, скиллы</li>
     <li>MCP: подключение внешних сервисов (обновлённые команды)</li>
     <li>GitHub: аккаунт, репозиторий, токен PAT, GitHub MCP</li>
@@ -319,47 +319,19 @@ eval "$(/opt/homebrew/bin/brew shellenv)"</span><button class="btn-copy" onclick
     <div class="section__title">Claude Code — установка и вход</div>
   </div>
   <div class="section__card">
-    <div class="info-block">Два способа работы, они дополняют друг друга: <strong>расширение в VS Code</strong> (визуально, кнопкой) и <strong>терминал</strong> (полный набор команд). Ставим оба.</div>
+    <div class="info-block">Работаем через <strong>расширение Claude Code прямо в VS Code</strong> — без терминала, всё кнопкой.</div>
     <div class="item" data-key="cc-ext">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Расширение Claude Code в VS Code</div>
-        <div class="item__hint">Слева <strong>Extensions</strong> → в поиске <strong>«Claude Code»</strong> → <strong>Install</strong>. Появится панель Claude прямо в редакторе.</div>
-      </div>
-    </div>
-    <div class="item" data-key="cc-mac">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">macOS — терминальный Claude Code</div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdCcMac">curl -fsSL https://claude.ai/install.sh | bash</span><button class="btn-copy" onclick="copyBlock('cmdCcMac',this)">📋 Копировать</button></div>
-      </div>
-    </div>
-    <div class="item" data-key="cc-win">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Windows — терминальный Claude Code</div>
-        <div class="item__hint">В PowerShell:</div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdCcWin">irm https://claude.ai/install.ps1 | iex</span><button class="btn-copy" onclick="copyBlock('cmdCcWin',this)">📋 Копировать</button></div>
-      </div>
-    </div>
-    <div class="note note--warn">
-      <span class="note__icon">🪟</span>
-      <span><strong>Windows:</strong> доставьте <a href="https://git-scm.com/downloads/win" target="_blank" class="lnk" onclick="event.stopPropagation()">Git for Windows</a> — без него Claude Code работает через PowerShell вместо Bash.</span>
-    </div>
-    <div class="item" data-key="cc-check">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Проверить установку</div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdCcCheck">claude --version
-claude doctor</span><button class="btn-copy" onclick="copyBlock('cmdCcCheck',this)">📋 Копировать</button></div>
-        <div class="item__hint"><span class="mono">claude doctor</span> проверит окружение и подскажет, если что-то не так.</div>
+        <div class="item__text">Установить расширение Claude Code</div>
+        <div class="item__hint">Слева <strong>Extensions</strong> (значок кубиков) → в поиске <strong>«Claude Code»</strong> → <strong>Install</strong>. Появится панель Claude прямо в редакторе.</div>
       </div>
     </div>
     <div class="item" data-key="cc-login">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Войти по подписке</div>
-        <div class="item__hint">Запустить <span class="mono">claude</span> в папке проекта → команда <span class="mono">/login</span> → войти корпоративным <strong>Team</strong>-аккаунтом через браузер.</div>
+        <div class="item__hint">Откройте панель Claude Code → нажмите <strong>Sign in</strong> → войдите корпоративным <strong>Team</strong>-аккаунтом через браузер.</div>
       </div>
     </div>
   </div>
@@ -405,15 +377,18 @@ claude doctor</span><button class="btn-copy" onclick="copyBlock('cmdCcCheck',thi
     <div class="item" data-key="skill-superpowers">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Установить Superpowers — одной командой</div>
-        <div class="item__hint">Набор скиллов Jesse Vincent (<a href="https://github.com/obra/superpowers" target="_blank" class="lnk" onclick="event.stopPropagation()">obra/superpowers</a>). Ставится из <strong>официального маркетплейса Anthropic</strong> — он уже подключён в Claude Code, отдельных шагов не нужно:</div>
-        <div class="cmd-copy"><span class="cmd-copy__text" id="cmdSp">/plugin install superpowers@claude-plugins-official</span><button class="btn-copy" onclick="copyBlock('cmdSp',this)">📋 Копировать</button></div>
-        <div class="item__hint">Даёт 20+ проверенных скиллов и команды <span class="mono">/brainstorm</span>, <span class="mono">/write-plan</span>, <span class="mono">/execute-plan</span>.</div>
+        <div class="item__text">Установить Superpowers — ссылкой и промптом</div>
+        <div class="item__hint">Набор скиллов Jesse Vincent. Ставим <strong>не командой</strong>, а просто: даём Claude Code ссылку на репозиторий <a href="https://github.com/obra/superpowers" target="_blank" class="lnk" onclick="event.stopPropagation()">obra/superpowers</a> и промпт — он поставит сам. Вставьте этот промпт в чат Claude Code:</div>
       </div>
     </div>
+    <div class="prompt-block">
+      <div class="prompt-block__title">💬 промпт для Claude Code</div>
+      <div class="prompt-block__text" id="cmdSp">Установи набор скиллов Superpowers из репозитория https://github.com/obra/superpowers — зайди по ссылке, найди инструкцию установки для Claude Code и выполни её. После установки перезапусти сессию.</div>
+      <button class="btn-copy" onclick="copyBlock('cmdSp',this)">📋 Копировать</button>
+    </div>
     <div class="note note--info">
-      <span class="note__icon">🔑</span>
-      <span>Плагины тянутся с <strong>GitHub</strong>. Если установка спотыкается — залогиньтесь в GitHub и включите <strong>2FA</strong> (двухфакторную аутентификацию). Как — покажу на уроке.</span>
+      <span class="note__icon">💡</span>
+      <span>Даёт 20+ проверенных скиллов и команды <span class="mono">/brainstorm</span>, <span class="mono">/write-plan</span>, <span class="mono">/execute-plan</span>.</span>
     </div>
     <div class="note note--green">
       <span class="note__icon">💎</span>
