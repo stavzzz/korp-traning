@@ -88,6 +88,7 @@
   .term__def { font-size:14px; color:var(--text-primary); font-weight:500; margin-bottom:8px; line-height:1.55; }
   .mono { font-family:'JetBrains Mono',monospace; color:var(--accent-glow); font-size:12px; }
 
+  code { font-family:'JetBrains Mono',monospace; font-size:.92em; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); border-radius:4px; padding:1px 5px; white-space:nowrap; }
   .blist { list-style:none; margin:8px 0 2px; padding:0; display:flex; flex-direction:column; gap:6px; }
   .blist li { position:relative; padding-left:18px; line-height:1.6; }
   .blist li::before { content:'▸'; position:absolute; left:0; top:1px; color:var(--accent-glow); font-family:'JetBrains Mono',monospace; font-size:11px; }
@@ -164,7 +165,7 @@
     <li>Claude Code: расширение в VS Code, вход по подписке</li>
     <li>Управление: контекст, модели, эффорт, скиллы</li>
     <li>MCP: подключение внешних сервисов (обновлённые команды)</li>
-    <li>GitHub: аккаунт, репозиторий, токен PAT, GitHub MCP</li>
+    <li>GitHub: аккаунт, 2FA, токен с полным доступом, GitHub MCP</li>
     <li>Защита от разрушительных команд</li>
   </ul>
 </header>
@@ -531,9 +532,22 @@ claude mcp add --scope user taskmaster-ai -e DEFAULT_PROVIDER=claude-code -- npx
     <div class="item" data-key="gh-pat">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Выпустить токен доступа (PAT)</div>
-        <div class="item__hint">Токен — это ключ-пароль, которым Claude заходит в ваш GitHub. Создать: <a href="https://github.com/settings/personal-access-tokens" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> fine-grained token</a> с доступом к нужным репозиториям. Пошагово — на скринкасте.</div>
+        <div class="item__text">Выпустить токен доступа (Classic PAT) с полными правами</div>
+        <div class="item__hint">Токен — это ключ-пароль, которым Claude заходит в ваш GitHub: создаёт репозитории, заливает файлы, включает публикацию сайтов. Нам нужен <strong>Classic-токен</strong>: он даёт полный доступ ко всему аккаунту сразу. Второй тип (fine-grained) выдаёт права по одному репозиторию и на учёбе только мешает.
+          <ul class="blist">
+            <li>Откройте <a href="https://github.com/settings/tokens/new" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> страницу выпуска Classic-токена</a>. Если попали на экран с выбором — жмите <strong>Tokens (classic)</strong> → <strong>Generate new token (classic)</strong></li>
+            <li><strong>Note</strong> (название): напишите <code>Claude Code</code>, чтобы потом понимать, чей это ключ</li>
+            <li><strong>Expiration</strong> (срок): поставьте <strong>90 дней</strong>. Токен без срока — плохая привычка</li>
+            <li><strong>Scopes</strong> (права): отметьте <strong>все галочки верхнего уровня</strong> — они автоматически включают вложенные</li>
+            <li><strong>Кроме одной:</strong> галочку <code>delete_repo</code> <strong>не ставьте</strong>. Это единственное право, которое мы Claude не даём: чтобы он физически не мог удалить ваш репозиторий</li>
+            <li>Внизу — <strong>Generate token</strong>. Скопируйте его сразу: второй раз GitHub его не покажет</li>
+          </ul>
+          Пошагово — на скринкасте.</div>
       </div>
+    </div>
+    <div class="note note--info">
+      <span class="note__icon">🗝️</span>
+      <span><strong>Почему полный доступ, а не «по минимуму».</strong> На учёбе вы будете создавать репозитории, включать публикацию сайтов, ставить действия и хуки. С урезанным токеном половина шагов упрётся в отказ доступа, и вы будете чинить права вместо того, чтобы учиться. Полный токен без <code>delete_repo</code> — рабочий компромисс: Claude может всё, кроме необратимого. Токен живёт 90 дней, отозвать можно в один клик.</span>
     </div>
     <div class="item" data-key="gh-mcp">
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
