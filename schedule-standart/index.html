@@ -193,6 +193,8 @@
   .btn-primary--video { background: #7c5bf5; color: #fff; }
   .btn-primary--meet { background: #34d399; color: #0a0a0f; }
   .btn-primary--workshop { background: #fbbf24; color: #0a0a0f; }
+  .btn-materials { background: rgba(124,91,245,0.14); color: #9d7cff; border-color: rgba(124,91,245,0.32); }
+  .btn-materials:hover { filter: none; background: rgba(124,91,245,0.22); border-color: rgba(124,91,245,0.55); color: #b9a3ff; }
   .btn-secondary {
     display: inline-flex; align-items: center; gap: 5px;
     font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
@@ -267,7 +269,7 @@
           <div class="event__time">12:00 МСК</div>
           <div class="event__name">Видеоурок 1</div>
           <div class="event__topic">Подготовка рабочей среды: чеклист сервисов, регистрации, оплата подписок из России и других стран</div>
-          <div class="event__actions"><a href="https://mainroom.pro/pl/teach/control/lesson/view?id=347442260&editMode=0" target="_blank" class="btn-primary btn-primary--video" onclick="event.stopPropagation()">▶ Видеоурок 1</a><a href="https://stavzzz.github.io/open-sites/video-urok-1/" target="_blank" class="btn-secondary" onclick="event.stopPropagation()">Материалы урока 1</a></div>
+          <div class="event__actions"><a href="https://mainroom.pro/pl/teach/control/lesson/view?id=347442260&editMode=0" target="_blank" class="btn-primary btn-primary--video" onclick="event.stopPropagation()">▶ Видеоурок 1</a><a href="https://stavzzz.github.io/open-sites/video-urok-1/" target="_blank" class="btn-primary btn-materials" onclick="event.stopPropagation()">📄 Материалы урока 1</a></div>
         </div>
         <div class="event__tag event__tag--video">Урок</div>
       </div>
@@ -277,9 +279,7 @@
         <div class="event__body">
           <div class="event__time">17:00 МСК</div>
           <div class="event__name">Онлайн-встреча 1</div>
-          <div class="event__topic">Знакомство, проверка готовности, ответы на вопросы по установке и регистрации</div>
-          <div class="event__duration">⏱ 2 часа: 1 ч / 5 мин перерыв / 1 ч</div>
-          <div class="event__actions"><a href="https://mainroom.pro/pl/teach/control/lesson/view?id=347442262&editMode=0" target="_blank" class="btn-primary btn-primary--meet" onclick="event.stopPropagation()">▶ Запись встречи 1</a></div>
+          <div class="event__topic">Знакомство, проверка готовности, ответы на вопросы по установке и регистрации</div>          <div class="event__actions"><a href="https://mainroom.pro/pl/teach/control/lesson/view?id=347442262&editMode=0" target="_blank" class="btn-primary btn-primary--meet" onclick="event.stopPropagation()">▶ Запись встречи 1</a></div>
         </div>
         <div class="event__tag event__tag--meet">Встреча</div>
       </div>
@@ -303,7 +303,7 @@
           <div class="event__time">12:00 МСК</div>
           <div class="event__name">Видеоурок 2</div>
           <div class="event__topic">Обзор AI-мира и архитектура командного пункта: Claude, ChatGPT, Gemini, OpenRouter, бесплатные модели</div>
-          <div class="event__actions"><a href="https://mainroom.pro/pl/teach/control/lesson/view?id=347469110&editMode=0" target="_blank" class="btn-primary btn-primary--video" onclick="event.stopPropagation()">▶ Видеоурок 2</a><a href="https://stavzzz.github.io/open-sites/video-urok-2/" target="_blank" class="btn-secondary" onclick="event.stopPropagation()">Материалы урока 2</a></div>
+          <div class="event__actions"><a href="https://mainroom.pro/pl/teach/control/lesson/view?id=347469110&editMode=0" target="_blank" class="btn-primary btn-primary--video" onclick="event.stopPropagation()">▶ Видеоурок 2</a><a href="https://stavzzz.github.io/open-sites/video-urok-2/" target="_blank" class="btn-primary btn-materials" onclick="event.stopPropagation()">📄 Материалы урока 2</a></div>
         </div>
         <div class="event__tag event__tag--video">Урок</div>
       </div>
@@ -313,9 +313,7 @@
         <div class="event__body">
           <div class="event__time">17:00 МСК</div>
           <div class="event__name">Онлайн-встреча 2</div>
-          <div class="event__topic">Консультация по изученному материалу, ответы на вопросы</div>
-          <div class="event__duration">⏱ 2 часа: 1 ч / 5 мин перерыв / 1 ч</div>
-          <div class="event__actions"><a href="https://mainroom.pro/pl/teach/control/lesson/view?id=347469113&editMode=0" target="_blank" class="btn-primary btn-primary--meet" onclick="event.stopPropagation()">▶ Запись встречи 2</a></div>
+          <div class="event__topic">Консультация по изученному материалу, ответы на вопросы</div>          <div class="event__actions"><a href="https://mainroom.pro/pl/teach/control/lesson/view?id=347469113&editMode=0" target="_blank" class="btn-primary btn-primary--meet" onclick="event.stopPropagation()">▶ Запись встречи 2</a></div>
         </div>
         <div class="event__tag event__tag--meet">Встреча</div>
       </div>
@@ -326,7 +324,7 @@
           <div class="event__time">12:00 МСК</div>
           <div class="event__name">Видеоурок 3</div>
           <div class="event__topic">Инфраструктура OpenClaw: сервер, установка, подключение LLM и Telegram-бота, голосовой ввод</div>
-          <div class="event__actions"><a href="https://mainroom.pro/pl/teach/control/lesson/view?id=347469116&editMode=0" target="_blank" class="btn-primary btn-primary--video" onclick="event.stopPropagation()">▶ Видеоурок 3</a><a href="https://stavzzz.github.io/open-sites/video-urok-3/" target="_blank" class="btn-secondary" onclick="event.stopPropagation()">Материалы урока 3</a></div>
+          <div class="event__actions"><a href="https://mainroom.pro/pl/teach/control/lesson/view?id=347469116&editMode=0" target="_blank" class="btn-primary btn-primary--video" onclick="event.stopPropagation()">▶ Видеоурок 3</a><a href="https://stavzzz.github.io/open-sites/video-urok-3/" target="_blank" class="btn-primary btn-materials" onclick="event.stopPropagation()">📄 Материалы урока 3</a></div>
         </div>
         <div class="event__tag event__tag--video">Урок</div>
       </div>
@@ -336,9 +334,7 @@
         <div class="event__body">
           <div class="event__time">17:00 МСК</div>
           <div class="event__name">Онлайн-встреча 3</div>
-          <div class="event__topic">Консультация по изученному материалу, помощь с заданиями</div>
-          <div class="event__duration">⏱ 2 часа: 1 ч / 5 мин перерыв / 1 ч</div>
-          <div class="event__actions"><a href="https://mainroom.pro/pl/teach/control/lesson/view?id=347469119&editMode=0" target="_blank" class="btn-primary btn-primary--meet" onclick="event.stopPropagation()">▶ Запись встречи 3</a></div>
+          <div class="event__topic">Консультация по изученному материалу, помощь с заданиями</div>          <div class="event__actions"><a href="https://mainroom.pro/pl/teach/control/lesson/view?id=347469119&editMode=0" target="_blank" class="btn-primary btn-primary--meet" onclick="event.stopPropagation()">▶ Запись встречи 3</a></div>
         </div>
         <div class="event__tag event__tag--meet">Встреча</div>
       </div>
@@ -362,7 +358,7 @@
           <div class="event__time">12:00 МСК</div>
           <div class="event__name">Видеоурок 4</div>
           <div class="event__topic">GitHub, домен и вайб-кодинг: репозиторий, GitHub Pages, первый лендинг через Claude</div>
-          <div class="event__actions"><a href="https://mainroom.pro/pl/teach/control/lesson/view?id=347469125&editMode=0" target="_blank" class="btn-primary btn-primary--video" onclick="event.stopPropagation()">▶ Видеоурок 4</a><a href="https://stavzzz.github.io/open-sites/video-urok-4/" target="_blank" class="btn-secondary" onclick="event.stopPropagation()">Материалы урока 4</a></div>
+          <div class="event__actions"><a href="https://mainroom.pro/pl/teach/control/lesson/view?id=347469125&editMode=0" target="_blank" class="btn-primary btn-primary--video" onclick="event.stopPropagation()">▶ Видеоурок 4</a><a href="https://stavzzz.github.io/open-sites/video-urok-4/" target="_blank" class="btn-primary btn-materials" onclick="event.stopPropagation()">📄 Материалы урока 4</a></div>
         </div>
         <div class="event__tag event__tag--video">Урок</div>
       </div>
@@ -372,9 +368,7 @@
         <div class="event__body">
           <div class="event__time">17:00 МСК</div>
           <div class="event__name">Онлайн-встреча 4</div>
-          <div class="event__topic">Консультация по изученному материалу, помощь с заданиями</div>
-          <div class="event__duration">⏱ 2 часа: 1 ч / 5 мин перерыв / 1 ч</div>
-          <div class="event__actions"><a href="https://mainroom.pro/pl/teach/control/lesson/view?id=347469135&editMode=0" target="_blank" class="btn-primary btn-primary--meet" onclick="event.stopPropagation()">▶ Запись встречи 4</a></div>
+          <div class="event__topic">Консультация по изученному материалу, помощь с заданиями</div>          <div class="event__actions"><a href="https://mainroom.pro/pl/teach/control/lesson/view?id=347469135&editMode=0" target="_blank" class="btn-primary btn-primary--meet" onclick="event.stopPropagation()">▶ Запись встречи 4</a></div>
         </div>
         <div class="event__tag event__tag--meet">Встреча</div>
       </div>
@@ -385,7 +379,7 @@
           <div class="event__time">12:00 МСК</div>
           <div class="event__name">Видеоурок 5</div>
           <div class="event__topic">n8n, автоматизации и Cron Jobs: свой сервер n8n, Google Calendar, Google Drive, задачи по таймеру</div>
-          <div class="event__actions"><a href="https://mainroom.pro/pl/teach/control/lesson/view?id=347469137&editMode=0" target="_blank" class="btn-primary btn-primary--video" onclick="event.stopPropagation()">▶ Видеоурок 5</a><a href="https://stavzzz.github.io/open-sites/video-urok-5/" target="_blank" class="btn-secondary" onclick="event.stopPropagation()">Материалы урока 5</a></div>
+          <div class="event__actions"><a href="https://mainroom.pro/pl/teach/control/lesson/view?id=347469137&editMode=0" target="_blank" class="btn-primary btn-primary--video" onclick="event.stopPropagation()">▶ Видеоурок 5</a><a href="https://stavzzz.github.io/open-sites/video-urok-5/" target="_blank" class="btn-primary btn-materials" onclick="event.stopPropagation()">📄 Материалы урока 5</a></div>
         </div>
         <div class="event__tag event__tag--video">Урок</div>
       </div>
@@ -395,9 +389,7 @@
         <div class="event__body">
           <div class="event__time">17:00 МСК</div>
           <div class="event__name">Онлайн-встреча 5</div>
-          <div class="event__topic">Консультация по изученному материалу, помощь с заданиями</div>
-          <div class="event__duration">⏱ 2 часа: 1 ч / 5 мин перерыв / 1 ч</div>
-          <div class="event__actions"><a href="https://mainroom.pro/pl/teach/control/lesson/view?id=347469149&editMode=0" target="_blank" class="btn-primary btn-primary--meet" onclick="event.stopPropagation()">▶ Запись встречи 5</a></div>
+          <div class="event__topic">Консультация по изученному материалу, помощь с заданиями</div>          <div class="event__actions"><a href="https://mainroom.pro/pl/teach/control/lesson/view?id=347469149&editMode=0" target="_blank" class="btn-primary btn-primary--meet" onclick="event.stopPropagation()">▶ Запись встречи 5</a></div>
         </div>
         <div class="event__tag event__tag--meet">Встреча</div>
       </div>
@@ -421,7 +413,7 @@
           <div class="event__time">12:00 МСК</div>
           <div class="event__name">Видеоурок 6</div>
           <div class="event__topic">Создание своего AI-агента: SOUL.md, Memory, Heartbeats, Skills, безопасность, разбор кейсов</div>
-          <div class="event__actions"><a href="https://mainroom.pro/pl/teach/control/lesson/view?id=347469156&editMode=0" target="_blank" class="btn-primary btn-primary--video" onclick="event.stopPropagation()">▶ Видеоурок 6</a><a href="https://stavzzz.github.io/open-sites/video-urok-6/" target="_blank" class="btn-secondary" onclick="event.stopPropagation()">Материалы урока 6</a></div>
+          <div class="event__actions"><a href="https://mainroom.pro/pl/teach/control/lesson/view?id=347469156&editMode=0" target="_blank" class="btn-primary btn-primary--video" onclick="event.stopPropagation()">▶ Видеоурок 6</a><a href="https://stavzzz.github.io/open-sites/video-urok-6/" target="_blank" class="btn-primary btn-materials" onclick="event.stopPropagation()">📄 Материалы урока 6</a></div>
         </div>
         <div class="event__tag event__tag--video">Урок</div>
       </div>
@@ -432,6 +424,7 @@
           <div class="event__time">12:00 МСК</div>
           <div class="event__name">Видеоурок 7</div>
           <div class="event__topic">AI-офис и итоговая дорожная карта: несколько агентов под разные роли, план внедрения</div>
+          <div class="event__actions"><a href="https://mainroom.pro/pl/teach/control/lesson/view?id=347469160&editMode=0" target="_blank" class="btn-primary btn-primary--video" onclick="event.stopPropagation()">▶ Видеоурок 7</a><a href="https://stavzzz.github.io/open-sites/video-urok-7/" target="_blank" class="btn-primary btn-materials" onclick="event.stopPropagation()">📄 Материалы урока 7</a></div>
         </div>
         <div class="event__tag event__tag--video">Урок</div>
       </div>
@@ -441,9 +434,7 @@
         <div class="event__body">
           <div class="event__time">14:00 МСК</div>
           <div class="event__name">Онлайн-встреча 6</div>
-          <div class="event__topic">Консультация по изученному материалу, помощь с заданиями</div>
-          <div class="event__duration">⏱ 2 часа: 1 ч / 5 мин перерыв / 1 ч</div>
-          <div class="event__actions"><a href="https://mainroom.pro/pl/teach/control/lesson/view?id=347469157&editMode=0" target="_blank" class="btn-primary btn-primary--meet" onclick="event.stopPropagation()">▶ Запись встречи 6</a></div>
+          <div class="event__topic">Консультация по изученному материалу, помощь с заданиями</div>          <div class="event__actions"><a href="https://mainroom.pro/pl/teach/control/lesson/view?id=347469157&editMode=0" target="_blank" class="btn-primary btn-primary--meet" onclick="event.stopPropagation()">▶ Запись встречи 6</a></div>
 
         </div>
         <div class="event__tag event__tag--meet">Встреча</div>
@@ -454,9 +445,7 @@
         <div class="event__body">
           <div class="event__time">17:30 МСК</div>
           <div class="event__name">Онлайн-встреча 7 — финальная</div>
-          <div class="event__topic">Демо участников (5–10 мин каждый) + дорожная карта на 3 месяца</div>
-          <div class="event__duration">⏱ 2 часа: 1 ч / 5 мин перерыв / 1 ч</div>
-          <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=OpenClaw+Стандарт:+Встреча+7+—+финальная&dates=20260519T173000/20260519T193000&ctz=Europe/Moscow" target="_blank" class="link-util" onclick="event.stopPropagation()">📅 Добавить встречу в Google Календарь</a>
+          <div class="event__topic">Демо участников (5–10 мин каждый) + дорожная карта на 3 месяца</div>          <div class="event__actions"><a href="https://mainroom.pro/pl/teach/control/lesson/view?id=347469165&editMode=0" target="_blank" class="btn-primary btn-primary--meet" onclick="event.stopPropagation()">▶ Запись встречи 7</a></div>
 
         </div>
         <div class="event__tag event__tag--meet">Встреча</div>
