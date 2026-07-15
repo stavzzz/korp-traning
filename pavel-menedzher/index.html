@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Бот-менеджер задач для команды · КП · ИИ-ВИЗАЦИЯ</title>
+<meta name="description" content="Отдельный бот, который ставит задачи вашим сотрудникам голосом: описание, дедлайн, чек-лист. Сотрудники отчитываются боту, вам приходит сводка по всем. 500 USD под ключ.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2321AA4D'/%3E%3Cpath d='M32 12l4.6 11.9L48 28l-11.4 4.1L32 44l-4.6-11.9L16 28l11.4-4.1z' fill='white'/%3E%3Ccircle cx='48' cy='16' r='4' fill='white'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#21AA4D;
+  --accent-dark:#188A3D;
+  --bg:#FFFFFF;
+  --bg2:#F2F2F2;
+  --ink:#303030;
+  --gray:#6F6F6F;
+  --line:#E3E3E3;
+  --display:'DrukCyr','Oswald',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;font-weight:400;line-height:1.6;overflow-x:hidden}
+::selection{background:rgba(33,170,77,.25)}
+.container{max-width:1080px;margin:0 auto;padding:0 24px}
+section{padding:90px 0;position:relative}
+section.alt{background:var(--bg2)}
+
+@keyframes fadeInUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.fade{animation:fadeInUp .8s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.08s}.d2{animation-delay:.16s}.d3{animation-delay:.24s}.d4{animation-delay:.32s}
+
+/* hero */
+.hero{min-height:88vh;display:flex;align-items:center;padding:110px 0 80px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;right:-220px;top:-220px;width:640px;height:640px;border-radius:50%;background:radial-gradient(circle,rgba(33,170,77,.12) 0%,transparent 65%);pointer-events:none}
+.badges{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:30px}
+.badge{font-size:12.5px;font-weight:600;letter-spacing:.04em;padding:8px 16px;border-radius:100px;border:1px solid var(--line);background:var(--bg);color:var(--gray)}
+.badge.green{border-color:var(--accent);color:var(--accent);background:rgba(33,170,77,.06)}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:18px}
+h1{font-family:var(--display);font-size:clamp(40px,6.4vw,78px);font-weight:700;line-height:1.04;letter-spacing:.01em;text-transform:uppercase;margin-bottom:26px}
+h1 .acc{color:var(--accent)}
+.hero-sub{font-size:18px;color:var(--gray);max-width:730px;margin-bottom:48px}
+.hero-sub b{color:var(--ink);font-weight:600}
+.metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.metric{background:var(--bg);padding:26px 14px;text-align:center}
+.metric .num{font-family:var(--display);font-size:clamp(22px,2.8vw,34px);font-weight:700;color:var(--accent);text-transform:uppercase;line-height:1}
+.metric .lbl{font-size:12px;color:var(--gray);margin-top:8px}
+
+/* section headers */
+.sec-num{font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.18em;margin-bottom:14px}
+h2{font-family:var(--display);font-size:clamp(30px,4.4vw,52px);font-weight:700;text-transform:uppercase;letter-spacing:.01em;line-height:1.06;margin-bottom:18px}
+.sec-sub{color:var(--gray);font-size:16.5px;max-width:720px;margin-bottom:52px}
+.sec-sub b{color:var(--ink);font-weight:600}
+
+/* cards */
+.grid{display:grid;gap:18px}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.card{background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:30px;transition:transform .3s,border-color .3s,box-shadow .3s}
+.card:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 12px 32px rgba(48,48,48,.08)}
+.card .emoji{font-size:26px;margin-bottom:14px}
+.card h3{font-size:18px;font-weight:700;margin-bottom:10px}
+.card p{color:var(--gray);font-size:14.5px}
+.card p b{color:var(--ink);font-weight:600}
+section.alt .card{border-color:transparent}
+.card-status{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.03em;padding:5px 12px;border-radius:100px;margin-bottom:14px}
+.card-status.ok{background:rgba(33,170,77,.14);color:var(--accent-dark)}
+.card-status.wip{background:#FBF0D7;color:#9A7220}
+
+/* process flow columns */
+.flow{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.flow-col{background:var(--bg);border:1px solid var(--line);border-radius:18px;padding:28px 26px;border-top:5px solid var(--accent)}
+section.alt .flow-col{border-color:transparent;border-top:5px solid var(--accent)}
+.flow-col h3{font-family:var(--display);font-size:19px;text-transform:uppercase;letter-spacing:.02em;margin-bottom:4px}
+.flow-col .zone{font-size:12px;font-weight:600;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:20px}
+.step{display:flex;gap:14px;padding:13px 0;border-top:1px solid var(--line)}
+.step:first-of-type{border-top:none;padding-top:4px}
+.step .n{flex:0 0 26px;height:26px;border-radius:8px;background:rgba(33,170,77,.12);color:var(--accent-dark);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.step .tx{font-size:14px;color:var(--ink);font-weight:600;line-height:1.4}
+.step .tx small{display:block;color:var(--gray);font-weight:400;font-size:12.5px;margin-top:2px}
+.step.ok .n{background:var(--accent);color:#fff}
+
+/* core (dark block) */
+.core{background:var(--ink);border-radius:24px;padding:48px 40px;color:#E9E9E9;position:relative;overflow:hidden}
+.core::before{content:'';position:absolute;right:-160px;top:-160px;width:460px;height:460px;border-radius:50%;background:radial-gradient(circle,rgba(33,170,77,.22) 0%,transparent 65%);pointer-events:none}
+.core-h{font-family:var(--display);font-size:clamp(22px,3vw,32px);text-transform:uppercase;text-align:center;margin-bottom:8px;position:relative}
+.core-sub{text-align:center;color:#9c9c9c;font-size:14px;margin-bottom:32px;position:relative}
+.core-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;position:relative}
+.core-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:28px}
+.core-card .ttl{font-weight:700;color:#fff;font-size:17px;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.core-card .ttl .dot{width:9px;height:9px;border-radius:50%;background:var(--accent)}
+.core-card ul{list-style:none}
+.core-card li{font-size:14px;color:#c4c4c4;padding:5px 0 5px 20px;position:relative}
+.core-card li::before{content:'·';position:absolute;left:6px;color:var(--accent);font-weight:800}
+.core-card li b{color:#fff;font-weight:600}
+
+/* stages */
+.stagebox{border-radius:20px;padding:34px;margin-bottom:20px}
+.stage1{background:rgba(33,170,77,.07);border:1px solid rgba(33,170,77,.3)}
+.stage2{background:var(--bg);border:2px dashed var(--accent)}
+section.alt .stage2{background:var(--bg2)}
+.stagebox .lbl{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.stagebox h3{font-family:var(--display);font-size:22px;text-transform:uppercase;margin-bottom:12px;letter-spacing:.01em}
+.stagebox p{color:var(--gray);font-size:15px;margin-bottom:14px}
+.stagebox p b{color:var(--ink);font-weight:600}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chip{font-size:13px;font-weight:500;background:var(--bg);border:1px solid var(--line);border-radius:100px;padding:8px 16px;color:var(--ink)}
+.note{margin-top:16px;padding:14px 18px;border-radius:12px;background:var(--ink);color:#E9E9E9;font-size:14px}
+.note b{color:#fff;font-weight:700}
+
+/* roadmap */
+.stage{background:var(--bg);border:1px solid var(--line);border-radius:18px;padding:30px 34px;margin-bottom:16px}
+section.alt .stage{border-color:transparent}
+.stage-top{display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+.stage-top h3{font-size:18px;font-weight:700}
+.stage-top h3 .n{font-family:var(--display);color:var(--accent);margin-right:12px;text-transform:uppercase;font-size:20px}
+.stage-meta{font-size:12.5px;font-weight:600;color:var(--gray)}
+.stage p{color:var(--gray);font-size:14.5px}
+.stage p b{color:var(--ink);font-weight:600}
+
+/* price */
+.price-box{background:var(--ink);border-radius:24px;padding:64px 40px;text-align:center;position:relative;overflow:hidden;color:#E9E9E9}
+.price-box::before{content:'';position:absolute;left:-180px;bottom:-180px;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(33,170,77,.3) 0%,transparent 65%);pointer-events:none}
+.price-label{font-size:13px;font-weight:700;letter-spacing:.18em;color:#9c9c9c;text-transform:uppercase;margin-bottom:18px}
+.price-num{font-family:var(--display);font-weight:700;font-size:clamp(52px,9vw,108px);line-height:1;color:var(--accent);text-transform:uppercase}
+.price-sub{color:#b8b8b8;font-size:16px;margin-top:16px}
+.price-sub s{color:#8a8a8a}
+.price-rows{max-width:680px;margin:38px auto 0;text-align:left;position:relative}
+.price-row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.1);font-size:15px}
+.price-row .nm{color:#fff;font-weight:500}
+.price-row .nm small{display:block;color:#9c9c9c;font-weight:400;font-size:12.5px}
+.price-row .pr{white-space:nowrap;font-weight:700;color:var(--accent);font-size:16px}
+.old{color:#8a8a8a;text-decoration:line-through;font-weight:400;font-size:13.5px;margin-right:10px}
+.price-total{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:16px 0 0;font-size:15px;color:#fff;font-weight:700;border-top:2px solid rgba(33,170,77,.5)}
+.price-total .old{font-size:14px}
+.price-total > span:last-child{color:var(--accent);font-size:18px;white-space:nowrap}
+.price-extra{max-width:680px;margin:14px auto 0;text-align:left;font-size:13px;color:#9c9c9c}
+.price-extra b{color:#c9c9c9}
+.pay-stages{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:36px;position:relative}
+.pay{font-size:13px;font-weight:500;color:#c9c9c9;border:1px solid rgba(255,255,255,.2);border-radius:100px;padding:10px 20px}
+.pay b{color:var(--accent);font-weight:800}
+.cta{display:inline-block;margin-top:40px;padding:20px 54px;border-radius:100px;background:var(--accent);color:#fff;font-weight:700;font-size:17px;text-decoration:none;box-shadow:0 10px 34px rgba(33,170,77,.4);transition:transform .25s,box-shadow .25s,background .25s;position:relative}
+.cta:hover{transform:translateY(-3px);background:var(--accent-dark);box-shadow:0 16px 44px rgba(33,170,77,.5)}
+
+footer{border-top:1px solid var(--line);padding:44px 0;text-align:center;color:var(--gray);font-size:14px}
+footer .logo{font-family:var(--display);color:var(--accent);letter-spacing:.1em;text-transform:uppercase;font-size:18px;margin-bottom:8px}
+footer a{color:var(--accent);text-decoration:none}
+
+@media(max-width:860px){
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .metric:last-child{grid-column:span 2}
+  .grid-2,.grid-3,.flow,.core-grid{grid-template-columns:1fr}
+  section{padding:64px 0}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container">
+    <div class="badges fade">
+      <span class="badge green">🤖 ИИ-ВИЗАЦИЯ</span>
+      <span class="badge">🏗 АТОН · управление командой</span>
+      <span class="badge">Отдельный бот, рядом с вашим Бро</span>
+    </div>
+    <div class="eyebrow fade d1">Коммерческое предложение · разработка бота</div>
+    <h1 class="fade d2">Бот-менеджер задач.<br><span class="acc">Одно голосовое, и&nbsp;задача уже&nbsp;у&nbsp;сотрудника</span></h1>
+    <p class="hero-sub fade d3">Вы наговариваете задачу голосом, как привыкли. Бот сам приводит её&nbsp;в&nbsp;порядок: описание, дедлайн, чек-лист, и&nbsp;отправляет нужному сотруднику. Тот отчитывается прямо боту: «сделал» или «не&nbsp;получается, потому&nbsp;что…». Вам приходит <b>сводка по&nbsp;всем в&nbsp;одной ленте</b> и&nbsp;напоминания о&nbsp;просрочках. Работает на&nbsp;том&nbsp;же OpenClaw, что и&nbsp;ваш Бро.</p>
+    <div class="metrics fade d4">
+      <div class="metric"><div class="num">20–30</div><div class="lbl">Задач в день, через одного бота</div></div>
+      <div class="metric"><div class="num">Голосом</div><div class="lbl">Ставите как обычное голосовое</div></div>
+      <div class="metric"><div class="num">1 лента</div><div class="lbl">Вся команда видна только вам</div></div>
+      <div class="metric"><div class="num">1–2 нед.</div><div class="lbl">Запуск под ключ</div></div>
+      <div class="metric"><div class="num">500 USD</div><div class="lbl">Разработка пакетом</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- КАК ЭТО РАБОТАЕТ -->
+<section class="alt">
+  <div class="container">
+    <div class="sec-num">01 · КАК ЭТО РАБОТАЕТ</div>
+    <h2>Вы, бот, сотрудник</h2>
+    <p class="sec-sub">Три участника, один поток. Вы ставите задачу как хотите: голосом или текстом. Бот приводит её&nbsp;в&nbsp;порядок и&nbsp;доносит до&nbsp;исполнителя. Сотрудник отвечает боту, а&nbsp;вы&nbsp;видите всех сразу.</p>
+    <div class="flow">
+      <div class="flow-col">
+        <div class="zone">🎙 Вы ставите</div>
+        <h3>Как вам удобно</h3>
+        <div class="step"><div class="n">1</div><div class="tx">Голосовое или текст боту<small>«Ване нужен мангал и шашлык на офис к&nbsp;пяти вечера»</small></div></div>
+        <div class="step"><div class="n">2</div><div class="tx">Бот уточняет, если чего-то не хватает<small>кому именно и&nbsp;к&nbsp;какому сроку</small></div></div>
+        <div class="step"><div class="n">3</div><div class="tx">Вы подтверждаете, задача ушла<small>дальше всё делает бот</small></div></div>
+      </div>
+      <div class="flow-col">
+        <div class="zone">🤖 Бот оформляет</div>
+        <h3>Приводит в порядок</h3>
+        <div class="step"><div class="n">4</div><div class="tx">Собирает чёткую задачу<small>описание, дедлайн, чек-лист, статус</small></div></div>
+        <div class="step"><div class="n">5</div><div class="tx">Кладёт на доску задач<small>Trello или Google Календарь, на&nbsp;ваш выбор</small></div></div>
+        <div class="step"><div class="n">6</div><div class="tx">Отправляет её нужному сотруднику<small>в&nbsp;его личку, красиво оформленную</small></div></div>
+      </div>
+      <div class="flow-col">
+        <div class="zone">👷 Сотрудник и вы</div>
+        <h3>Отчёт и сводка</h3>
+        <div class="step"><div class="n">7</div><div class="tx">Сотрудник видит только свои задачи<small>отвечает боту: «сделал» или «не&nbsp;получается»</small></div></div>
+        <div class="step"><div class="n">8</div><div class="tx">Вам приходит сводка по всем<small>одна лента, картину видите только вы</small></div></div>
+        <div class="step ok"><div class="n">9</div><div class="tx">Просрочка: бот сам напоминает ✓<small>«задача висит третий день»</small></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ЯДРО -->
+<section>
+  <div class="container">
+    <div class="sec-num">02 · ИЗ ЧЕГО СОСТОИТ</div>
+    <h2>Один бот и доска задач</h2>
+    <p class="sec-sub">Ничего лишнего. Бот-менеджер живёт на&nbsp;том&nbsp;же сервере, что уже держит вашего Бро и&nbsp;Ревизора. Задачи складываются на&nbsp;доску, где у&nbsp;каждой свой статус и&nbsp;дедлайн.</p>
+    <div class="core">
+      <div class="core-h">Бот-менеджер команды</div>
+      <div class="core-sub">Отдельный от Бро · только про задачи и&nbsp;людей</div>
+      <div class="core-grid">
+        <div class="core-card">
+          <div class="ttl"><span class="dot"></span>Бот принимает и раздаёт</div>
+          <ul>
+            <li>слушает ваши голосовые и&nbsp;текст</li>
+            <li><b>оформляет задачу</b>: описание, срок, чек-лист</li>
+            <li>отправляет исполнителю, собирает ответ</li>
+            <li>шлёт вам сводку и&nbsp;напоминания о&nbsp;просрочках</li>
+          </ul>
+        </div>
+        <div class="core-card">
+          <div class="ttl"><span class="dot"></span>Доска задач хранит всё</div>
+          <ul>
+            <li>каждая задача со&nbsp;статусом и&nbsp;дедлайном</li>
+            <li><b>вся история</b>: кто, что, когда, сделано или&nbsp;нет</li>
+            <li>Trello или&nbsp;Google Календарь на&nbsp;ваш выбор</li>
+            <li>доступно и&nbsp;с&nbsp;телефона, и&nbsp;с&nbsp;компьютера</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="stagebox stage1" style="margin-top:20px">
+      <div class="lbl">Важный плюс</div>
+      <h3>Это не новая система, а третий бот рядом с рабочими</h3>
+      <p>У&nbsp;вас уже работают <b>Бро и&nbsp;Ревизор</b> на&nbsp;OpenClaw. Бот-менеджер встаёт рядом на&nbsp;тот&nbsp;же сервер. Отдельно платить за&nbsp;сервер и&nbsp;голосовой разбор не&nbsp;нужно: всё это уже настроено и&nbsp;оплачено.</p>
+    </div>
+  </div>
+</section>
+
+<!-- КТО ЧТО ВИДИТ -->
+<section class="alt">
+  <div class="container">
+    <div class="sec-num">03 · КТО ЧТО ВИДИТ</div>
+    <h2>Вся картина только у вас</h2>
+    <p class="sec-sub">Каждый видит ровно своё. Сотрудник не&nbsp;знает, кому ещё вы&nbsp;поставили задачи, и&nbsp;не&nbsp;лезет в&nbsp;чужое. К&nbsp;боту допущены только те, кого вы&nbsp;сами разрешили.</p>
+    <div class="grid grid-3">
+      <div class="card">
+        <span class="card-status ok">Вы, руководитель</span>
+        <h3>Видите всех разом</h3>
+        <p>Одна лента со&nbsp;статусами по&nbsp;всей команде, ежедневная сводка, напоминания о&nbsp;том, что зависло. <b>Полная картина только у&nbsp;вас.</b></p>
+      </div>
+      <div class="card">
+        <span class="card-status ok">Сотрудник</span>
+        <h3>Только свои задачи</h3>
+        <p>Свои задачи, свой дедлайн, свой чек-лист. Отвечает боту «сделал» или пишет, что мешает. Чужого не&nbsp;видит.</p>
+      </div>
+      <div class="card">
+        <span class="card-status wip">Доступ по разрешению</span>
+        <h3>Чужой не напишет</h3>
+        <p>Сотрудник работает с&nbsp;ботом, только когда вы&nbsp;его авторизовали. Никто со&nbsp;стороны в&nbsp;систему не&nbsp;попадёт.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRELLO ИЛИ КАЛЕНДАРЬ -->
+<section>
+  <div class="container">
+    <div class="sec-num">04 · ГДЕ ЖИВУТ ЗАДАЧИ</div>
+    <h2>Trello или Google Календарь</h2>
+    <p class="sec-sub">Бот один и&nbsp;тот&nbsp;же, а&nbsp;место для задач выбираете вы. Оба варианта бесплатны и&nbsp;открываются с&nbsp;телефона. Ниже: чем они отличаются, чтобы вы&nbsp;решили, где вам удобнее.</p>
+
+    <div class="stagebox stage1">
+      <div class="lbl">Вариант 1 · рекомендуем</div>
+      <h3>Trello: доска с&nbsp;карточками</h3>
+      <p>Задачи лежат как карточки на&nbsp;доске: <b>Надо сделать → В&nbsp;работе → Готово</b>. В&nbsp;каждой карточке описание, чек-лист, срок и&nbsp;фото. Вы&nbsp;открываете доску и&nbsp;одним взглядом видите, что у&nbsp;кого в&nbsp;работе. Ближе всего к&nbsp;тому, как вы&nbsp;это описали.</p>
+      <div class="chips">
+        <span class="chip">✓ Доска: Надо · В работе · Готово</span>
+        <span class="chip">✓ Чек-лист внутри задачи</span>
+        <span class="chip">✓ Видно всех разом</span>
+        <span class="chip">✓ Фото и файлы в карточке</span>
+        <span class="chip">✓ Бесплатно</span>
+      </div>
+    </div>
+
+    <div class="stagebox stage2">
+      <div class="lbl">Вариант 2 · если удобнее по датам</div>
+      <h3>Google Календарь: задачи на&nbsp;сроках</h3>
+      <p>Задачи ложатся на&nbsp;календарь по&nbsp;дедлайнам, с&nbsp;привычными напоминаниями. Всё внутри вашего Google-аккаунта, отдельное приложение ставить не&nbsp;нужно. Хорошо, если вам важнее <b>«когда что»</b>, а&nbsp;не&nbsp;доска со&nbsp;статусами.</p>
+      <div class="note"><b>Как выбрать.</b> Если хотите видеть команду как доску со&nbsp;статусами и&nbsp;чек-листами, берём Trello. Если привыкли жить в&nbsp;Google и&nbsp;мыслите сроками, берём Календарь. Определимся на&nbsp;старте, переключиться можно и&nbsp;позже.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ПЛАН РАБОТ -->
+<section class="alt">
+  <div class="container">
+    <div class="sec-num">05 · ПЛАН РАБОТ</div>
+    <h2>Запуск за 1–2 недели</h2>
+    <p class="sec-sub">Система лёгкая, потому что база уже есть. Ставим бота рядом с&nbsp;работающими, подключаем доску, заводим людей и&nbsp;обкатываем на&nbsp;реальных задачах.</p>
+
+    <div class="stage">
+      <div class="stage-top"><h3><span class="n">Дни 1–3</span>Бот и постановка задач голосом</h3><span class="stage-meta">старт</span></div>
+      <p>Поднимаем отдельного бота-менеджера на&nbsp;вашем сервере. Учим его принимать голос и&nbsp;текст и&nbsp;собирать из&nbsp;этого чёткую задачу: описание, дедлайн, чек-лист.</p>
+    </div>
+    <div class="stage">
+      <div class="stage-top"><h3><span class="n">Дни 3–6</span>Доска задач и раздача исполнителям</h3><span class="stage-meta">Trello или Календарь</span></div>
+      <p>Подключаем выбранную доску. Заводим сотрудников и&nbsp;авторизуем их, чтобы бот отправлял каждому его задачи в&nbsp;личку, а&nbsp;чужой в&nbsp;систему не&nbsp;попал.</p>
+    </div>
+    <div class="stage">
+      <div class="stage-top"><h3><span class="n">Дни 6–9</span>Отчёты, сводка и напоминания</h3><span class="stage-meta">контроль</span></div>
+      <p>Сотрудник отвечает боту по&nbsp;задаче, вы&nbsp;получаете сводку по&nbsp;всем в&nbsp;одной ленте. Настраиваем ежедневный статус и&nbsp;напоминания о&nbsp;том, что зависло.</p>
+    </div>
+    <div class="stage">
+      <div class="stage-top"><h3><span class="n">Дни 9–14</span>Обкатка на реальных задачах и сдача</h3><span class="stage-meta">запуск</span></div>
+      <p>Прогоняем настоящие задачи через всю цепочку, подстраиваем формулировки и&nbsp;напоминания под&nbsp;вас. Записываю короткое видео, как пользоваться, и&nbsp;сдаю в&nbsp;работу.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ЧТО МЕНЯЕТСЯ -->
+<section>
+  <div class="container">
+    <div class="sec-num">06 · ЧТО МЕНЯЕТСЯ</div>
+    <h2>Меньше звонков, больше порядка</h2>
+    <p class="sec-sub">Всё, что сейчас держится на&nbsp;звонках и&nbsp;переписке, переезжает в&nbsp;одного бота. Задачи не&nbsp;теряются, статус видно сразу, а&nbsp;вы&nbsp;перестаёте держать всё в&nbsp;голове.</p>
+    <div class="grid grid-3">
+      <div class="card"><div class="emoji">🎙</div><h3>Ставите голосом</h3><p>Наговорили как обычное голосовое, бот сам превратил в&nbsp;чёткую задачу. Не&nbsp;нужно печатать и&nbsp;формулировать.</p></div>
+      <div class="card"><div class="emoji">📋</div><h3>Задача оформлена за вас</h3><p>Описание, дедлайн, чек-лист и&nbsp;статус бот собирает сам. Сотрудник получает не&nbsp;обрывок, а&nbsp;понятное задание.</p></div>
+      <div class="card"><div class="emoji">🔔</div><h3>Просрочки не теряются</h3><p>Если задача висит, бот напомнит и&nbsp;вам, и&nbsp;исполнителю. Не&nbsp;нужно обзванивать и&nbsp;проверять вручную.</p></div>
+      <div class="card"><div class="emoji">📊</div><h3>Сводка по всем в одной ленте</h3><p>Кто что сделал и&nbsp;что зависло, видно в&nbsp;одном месте. Каждый день короткий статус.</p></div>
+      <div class="card"><div class="emoji">🙈</div><h3>Каждый видит только своё</h3><p>Сотрудник не&nbsp;лезет в&nbsp;чужие задачи. Полную картину видите только вы.</p></div>
+      <div class="card"><div class="emoji">🧩</div><h3>Рядом с тем, что уже работает</h3><p>Тот&nbsp;же сервер, что держит Бро и&nbsp;Ревизора. Не&nbsp;новый зоопарк сервисов, а&nbsp;третий бот в&nbsp;одной системе.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- КТО ДЕЛАЕТ -->
+<section class="alt">
+  <div class="container">
+    <div class="sec-num">07 · КТО ДЕЛАЕТ</div>
+    <h2>Кто это соберёт</h2>
+    <p class="sec-sub">Делает тот&nbsp;же человек и&nbsp;та&nbsp;же система, что уже собрали для&nbsp;вас Бро и&nbsp;Ревизора. Ничего с&nbsp;нуля и&nbsp;наугад.</p>
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>Станислав Панков</h3>
+        <p><b>Ведёт проект лично.</b> Разбор ваших задач по&nbsp;шагам, настройка бота, доска задач, авторизация сотрудников, сводки и&nbsp;напоминания. Ваш прямой контакт, отвечаю сам.</p>
+      </div>
+      <div class="card">
+        <h3>Та же система, что у вас работает</h3>
+        <p><b>OpenClaw на&nbsp;вашем сервере.</b> Бро и&nbsp;Ревизор уже на&nbsp;нём живут. Бот-менеджер встаёт рядом, на&nbsp;проверенную и&nbsp;знакомую вам основу.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- СТОИМОСТЬ -->
+<section>
+  <div class="container">
+    <div class="sec-num">08 · СКОЛЬКО СТОИТ</div>
+    <div class="price-box">
+      <div class="price-label">Разработка под ключ · пакетом дешевле</div>
+      <div class="price-num">500 USD</div>
+      <div class="price-sub">за бота-менеджера целиком, вместо <s>700 USD</s> по&nbsp;отдельным блокам. Плюс <b>первый месяц поддержки бесплатно</b>.</div>
+      <div class="price-rows">
+        <div class="price-row"><span class="nm">Бот-менеджер на OpenClaw<small>приём голоса и&nbsp;текста, оформление задачи: описание, срок, чек-лист</small></span><span class="pr"><span class="old">260 USD</span>200 USD</span></div>
+        <div class="price-row"><span class="nm">Сотрудники и раздача задач<small>авторизация людей, отправка каждому его задач в&nbsp;личку</small></span><span class="pr"><span class="old">160 USD</span>120 USD</span></div>
+        <div class="price-row"><span class="nm">Доска задач: Trello или Google Календарь<small>подключение выбранной доски, статусы и&nbsp;дедлайны</small></span><span class="pr"><span class="old">140 USD</span>100 USD</span></div>
+        <div class="price-row"><span class="nm">Сводка руководителю и напоминания<small>лента по&nbsp;всем, ежедневный статус, сигнал о&nbsp;просрочках</small></span><span class="pr"><span class="old">140 USD</span>80 USD</span></div>
+        <div class="price-total"><span>Итого под ключ</span><span><span class="old">700 USD</span>500 USD</span></div>
+      </div>
+      <div class="price-extra">
+        <p>＋ <b>Первый месяц поддержки бесплатно:</b> правлю сбои и&nbsp;отвечаю на&nbsp;вопросы по&nbsp;работе, входит в&nbsp;цену.</p>
+        <p style="margin-top:6px">＋ <b>Содержание почти ничего:</b> тот&nbsp;же сервер, что уже оплачен под&nbsp;Бро и&nbsp;Ревизора. Доплата только за&nbsp;обращения бота к&nbsp;модели, это копейки при&nbsp;вашем потоке задач.</p>
+        <p style="margin-top:6px">＋ <b>Доска Trello или Google Календарь</b>: бесплатны, отдельно платить не&nbsp;нужно.</p>
+      </div>
+      <div class="pay-stages">
+        <span class="pay"><b>50%</b> · на старте</span>
+        <span class="pay"><b>50%</b> · после запуска на потоке</span>
+      </div>
+      <a class="cta" href="https://t.me/stavzzz">Согласовать и стартовать →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="logo">ИИ-ВИЗАЦИЯ</div>
+  <div>Коммерческое предложение · подготовлено лично для&nbsp;АТОН · Станислав Панков · <a href="https://t.me/stavzzz">@stavzzz</a></div>
+</footer>
+
+</body>
+</html>
