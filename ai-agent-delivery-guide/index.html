@@ -97,16 +97,16 @@ footer .logo{font-family:var(--display);color:var(--accent);letter-spacing:.1em;
 <header class="hero"><div class="container">
   <div class="badges fade">
     <span class="badge green">🤖 ИИ-ВИЗАЦИЯ</span>
-    <span class="badge">Практический гайд</span>
+    <span class="badge">Обучающий гайд</span>
     <span class="badge">Проверено на&nbsp;живых проектах</span>
   </div>
   <div class="eyebrow fade d1">Рабочий процесс</div>
   <h1 class="fade d2">ИИ-агент под&nbsp;ключ:<br><span class="acc">от&nbsp;заявки до&nbsp;передачи</span></h1>
-  <p class="hero-sub fade d3">Пошаговый путь клиентского проекта: как&nbsp;договориться, спроектировать, сделать и&nbsp;передать ИИ-агента так, чтобы&nbsp;клиент остался доволен, а&nbsp;вы не&nbsp;застряли в&nbsp;бесконечных правках. <b>Без&nbsp;теории, только рабочие шаги.</b></p>
+  <p class="hero-sub fade d3">Полный путь клиентского проекта: как&nbsp;договориться, подготовить сервер, собрать агента и&nbsp;передать его так, чтобы&nbsp;клиент остался доволен, а&nbsp;вы не&nbsp;застряли в&nbsp;бесконечных правках. <b>Гайд рассчитан и&nbsp;на&nbsp;новичка:</b> каждый технический шаг объяснён простыми словами, в&nbsp;конце есть словарик терминов.</p>
   <div class="metrics fade d4">
     <div class="metric"><div class="num">4</div><div class="lbl">фазы проекта</div></div>
-    <div class="metric"><div class="num">14</div><div class="lbl">шагов пути</div></div>
-    <div class="metric"><div class="num">1&nbsp;мес</div><div class="lbl">поддержка после сдачи</div></div>
+    <div class="metric"><div class="num">23</div><div class="lbl">шага пути</div></div>
+    <div class="metric"><div class="num">9</div><div class="lbl">терминов в&nbsp;словарике</div></div>
     <div class="metric"><div class="num">6</div><div class="lbl">граблей, которые обходим</div></div>
   </div>
 </div></header>
@@ -118,7 +118,7 @@ footer .logo{font-family:var(--display);color:var(--accent);letter-spacing:.1em;
   <div class="grid grid-2">
     <div class="card"><div class="emoji">🤝</div><h3><span class="ln">Фаза 1</span>Договориться</h3><p>Понять задачу, зафиксировать её на&nbsp;бумаге, согласовать цену и&nbsp;получить предоплату. Здесь решается, будет&nbsp;ли проект спокойным.</p></div>
     <div class="card"><div class="emoji">📋</div><h3><span class="ln">Фаза 2</span>Закрепить условия</h3><p>Доступы, расходы, права на&nbsp;результат. Скучная часть, которая спасает от&nbsp;самых болезненных споров.</p></div>
-    <div class="card"><div class="emoji">🛠</div><h3><span class="ln">Фаза 3</span>Сделать</h3><p>Архитектура, интеграции, разработка, тесты. Плюс то, о&nbsp;чём часто забывают: бэкапы, мониторинг и&nbsp;документация.</p></div>
+    <div class="card"><div class="emoji">🛠</div><h3><span class="ln">Фаза 3</span>Сделать</h3><p>Архитектура и&nbsp;площадка (сервер, SSH, GitHub), сборка агента (MCP, скиллы, душа, бот, интеграции) и&nbsp;доводка до&nbsp;надёжности.</p></div>
     <div class="card"><div class="emoji">🎁</div><h3><span class="ln">Фаза 4</span>Передать</h3><p>Обучить людей, отдать регламенты и&nbsp;паспорт проекта, месяц поддержать и&nbsp;перевести на&nbsp;подписку.</p></div>
   </div>
 </div></section>
@@ -176,38 +176,77 @@ footer .logo{font-family:var(--display);color:var(--accent);letter-spacing:.1em;
 </div></section>
 
 <section><div class="container">
-  <div class="sec-num">04 · ФАЗА 3</div>
-  <h2>Сделать</h2>
-  <p class="sec-sub">Разработка занимает меньше времени, чем кажется. Больше всего времени съедают интеграции и&nbsp;доводка до&nbsp;«работает стабильно».</p>
+  <div class="sec-num">04 · ФАЗА 3, ЧАСТЬ ПЕРВАЯ</div>
+  <h2>Архитектура и&nbsp;площадка</h2>
+  <p class="sec-sub">Деньги получены, начинаем строить. Сначала проект на&nbsp;бумаге, потом дом, в&nbsp;котором агент будет жить: сервер, доступы, память проекта. Незнакомые слова смотрите в&nbsp;словарике в&nbsp;конце гайда.</p>
 
-  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 7</span>Детальная архитектура</h3><span class="stage-meta">после предоплаты</span></div>
-  <p>Теперь проектируем по-настоящему: платформа, модели, схема данных, сценарии. Выбор модели под&nbsp;задачу и&nbsp;бюджет клиента: дорогая модель не&nbsp;всегда нужна, дешёвая не&nbsp;всегда справится.</p></div>
+  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 7</span>Детальная архитектура</h3><span class="stage-meta">проект на&nbsp;бумаге</span></div>
+  <p>Теперь проектируем по-настоящему: какие блоки нужны, где живут данные, какая модель ИИ будет мозгом агента. Рисуем схему «кто кому что&nbsp;передаёт»: клиент пишет боту, бот зовёт агента, агент читает таблицу. <b>Модель выбираем под&nbsp;задачу и&nbsp;бюджет:</b> дорогая не&nbsp;всегда нужна, дешёвая не&nbsp;всегда справится.</p></div>
 
-  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 8</span>Интеграции и&nbsp;подключение ИИ</h3><span class="stage-meta">API, внешние системы</span></div>
-  <p>Подключаем внешние системы: мессенджеры, таблицы, CRM, календари, платёжки. Каждую интеграцию проверяем отдельно, до&nbsp;сборки в&nbsp;общую цепочку.</p></div>
+  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 8</span>Покупка сервера</h3><span class="stage-meta">дом для&nbsp;агента</span></div>
+  <p>Агент должен работать круглосуточно, ваш ноутбук для&nbsp;этого не&nbsp;годится. Арендуем VPS: виртуальный сервер у&nbsp;хостинг-провайдера. Для&nbsp;одного агента хватает тарифа на&nbsp;2&#8211;4&nbsp;ядра и&nbsp;4&#8211;8&nbsp;ГБ памяти. Оформляем по&nbsp;договорённости из&nbsp;фазы 2: на&nbsp;аккаунт клиента или&nbsp;на&nbsp;свой.</p></div>
 
-  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 9</span>Разработка и&nbsp;тесты</h3><span class="stage-meta">по&nbsp;чек-листу из&nbsp;ТЗ</span></div>
-  <p>Собираем агента и&nbsp;гоняем его по&nbsp;чек-листу приёмки из&nbsp;шага 2, на&nbsp;реальных данных клиента. Отдельно проверяем «мусорные» сценарии: что&nbsp;будет, если пользователь пришлёт не&nbsp;то, что&nbsp;ждём.</p></div>
+  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 9</span>Первый вход по&nbsp;SSH</h3><span class="stage-meta">пульт от&nbsp;сервера</span></div>
+  <p>SSH: способ управлять сервером со&nbsp;своего компьютера через&nbsp;терминал, как&nbsp;будто сидишь прямо за&nbsp;ним. Первый вход: команда <b>ssh root@адрес-сервера</b> и&nbsp;пароль из&nbsp;письма провайдера. Дальше всё делаем внутри: ставим платформу агента, настраиваем окружение.</p></div>
 
-  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 10</span>Бэкапы и&nbsp;мониторинг</h3><span class="stage-meta">часть продукта, не&nbsp;опция</span></div>
+  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 10</span>SSH-ключ вместо пароля</h3><span class="stage-meta">вход без&nbsp;пароля</span></div>
+  <p>Пароль можно подобрать перебором, ключ практически нельзя. Создаём пару файлов: приватный остаётся у&nbsp;вас, публичный кладём на&nbsp;сервер. Проверяем, что&nbsp;вход по&nbsp;ключу работает, и <b>отключаем парольный вход совсем.</b> Для&nbsp;удобства прописываем короткое имя в&nbsp;настройках SSH, чтобы&nbsp;заходить командой вида <b>ssh myserver</b>.</p></div>
+
+  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 11</span>Подключение GitHub</h3><span class="stage-meta">бэкап и&nbsp;история</span></div>
+  <p>GitHub хранит код и&nbsp;настройки проекта со&nbsp;всей историей изменений: это&nbsp;и&nbsp;бэкап, и&nbsp;машина времени, по&nbsp;которой можно откатиться. Заводим приватный репозиторий, сохраняем туда работу после каждого законченного блока. <b>Секреты (пароли, токены, ключи) в&nbsp;репозиторий не&nbsp;попадают никогда:</b> они живут в&nbsp;отдельных файлах, закрытых от&nbsp;git.</p></div>
+
+  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 12</span>CLAUDE.md и&nbsp;PROJECT.md</h3><span class="stage-meta">память проекта</span></div>
+  <p>Два текстовых файла в&nbsp;папке проекта. <b>CLAUDE.md: правила и&nbsp;роль ассистента.</b> Кто он в&nbsp;этом проекте, как&nbsp;отвечать, что&nbsp;запрещено. <b>PROJECT.md: состояние дел.</b> Как&nbsp;всё устроено, что&nbsp;уже сделано, какой следующий шаг. Каждая новая рабочая сессия начинается с&nbsp;чтения этих файлов, поэтому контекст не&nbsp;теряется. В&nbsp;конце сессии обновляем PROJECT.md: пять минут, которые экономят часы.</p></div>
+</div></section>
+
+<section class="alt"><div class="container">
+  <div class="sec-num">05 · ФАЗА 3, ЧАСТЬ ВТОРАЯ</div>
+  <h2>Собрать агента</h2>
+  <p class="sec-sub">Площадка готова, теперь оживляем агента: даём ему руки (MCP), навыки (скиллы), характер (душу), голос (бота) и&nbsp;связи с&nbsp;миром (интеграции).</p>
+
+  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 13</span>Подключение MCP</h3><span class="stage-meta">руки агента</span></div>
+  <p>MCP: готовые мосты между ИИ и&nbsp;внешними сервисами. Подключил мост, и&nbsp;агент сам читает Google Таблицы, правит документы, публикует файлы на&nbsp;GitHub. <b>Для&nbsp;клиентского проекта заводим отдельные подключения с&nbsp;отдельными токенами:</b> доступы клиента не&nbsp;смешиваются с&nbsp;вашими и&nbsp;с&nbsp;другими проектами.</p></div>
+
+  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 14</span>Настройка скиллов</h3><span class="stage-meta">навыки агента</span></div>
+  <p>Скилл: инструкция-плейбук, которую ассистент подхватывает под&nbsp;конкретный тип задач: как&nbsp;оформлять документы, как&nbsp;работать с&nbsp;платформой, что&nbsp;проверять перед&nbsp;сдачей. Рабочий приём: <b>скилл с&nbsp;официальной документацией платформы</b>, тогда агент сверяется с&nbsp;ней, а&nbsp;не&nbsp;выдумывает команды по&nbsp;памяти. Свои повторяющиеся процессы тоже упаковываем в&nbsp;скиллы и&nbsp;переносим из&nbsp;проекта в&nbsp;проект.</p></div>
+
+  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 15</span>Душа агента</h3><span class="stage-meta">характер и&nbsp;границы</span></div>
+  <p>Файлы личности агента: как&nbsp;его зовут, каким тоном говорит, что&nbsp;ему можно, что&nbsp;запрещено. Без&nbsp;души агент отвечает как&nbsp;безликий робот. <b>Пишем душу под&nbsp;клиента:</b> язык компании, темы, о&nbsp;которых агент молчит, правила эскалации: когда перестать отвечать самому и&nbsp;позвать живого человека. Душа дорабатывается итерациями: смотрим на&nbsp;реальные диалоги и&nbsp;правим.</p></div>
+
+  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 16</span>Подключение бота</h3><span class="stage-meta">голос агента</span></div>
+  <p>Telegram-бот: дверь, через&nbsp;которую клиент разговаривает с&nbsp;агентом. Создаётся за&nbsp;минуту у&nbsp;официального бота <b>@BotFather</b>: он выдаёт токен, токен прописываем в&nbsp;настройках агента. Токен: тот&nbsp;же ключ от&nbsp;двери. <b>Храним в&nbsp;секретах, в&nbsp;переписку и&nbsp;в&nbsp;репозиторий не&nbsp;выкладываем.</b> Засветился: сразу перевыпускаем.</p></div>
+
+  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 17</span>Внешние сервисы</h3><span class="stage-meta">связи с&nbsp;миром</span></div>
+  <p>Подключаем то, чем клиент уже пользуется: Google Таблицы (учёт, финансы, заявки), CRM и&nbsp;доски задач вроде Trello, календарь, почту, профильные API его ниши. <b>Каждое подключение проверяем отдельно, до&nbsp;сборки в&nbsp;общую цепочку:</b> тогда сразу видно, где именно сломалось, если сломалось.</p></div>
+</div></section>
+
+<section><div class="container">
+  <div class="sec-num">06 · ФАЗА 3, ЧАСТЬ ТРЕТЬЯ</div>
+  <h2>Проверить и&nbsp;укрепить</h2>
+  <p class="sec-sub">Агент работает, но&nbsp;«работает у&nbsp;меня» и&nbsp;«надёжно работает у&nbsp;клиента» разделяют три шага. Их чаще всего пропускают, и&nbsp;зря.</p>
+
+  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 18</span>Тесты по&nbsp;чек-листу</h3><span class="stage-meta">приёмка из&nbsp;ТЗ</span></div>
+  <p>Гоняем агента по&nbsp;чек-листу приёмки из&nbsp;шага 2, на&nbsp;реальных данных клиента. Отдельно проверяем «мусорные» сценарии: что&nbsp;будет, если пользователь пришлёт не&nbsp;то, что&nbsp;ждём: голосовое вместо текста, фото, ерунду. Агент должен вежливо выкручиваться, а&nbsp;не&nbsp;падать.</p></div>
+
+  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 19</span>Бэкапы и&nbsp;мониторинг</h3><span class="stage-meta">часть продукта, не&nbsp;опция</span></div>
   <p>Настраиваем автоматический бэкап данных и&nbsp;сторожа, который заметит, что&nbsp;агент упал, раньше клиента. Плюс короткая инструкция «что&nbsp;делать, если сломалось». Клиент получает не&nbsp;только агента, но&nbsp;и&nbsp;уверенность.</p></div>
 
-  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 11</span>Паспорт проекта</h3><span class="stage-meta">документация</span></div>
+  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 20</span>Паспорт проекта</h3><span class="stage-meta">документация</span></div>
   <p>Один документ: как&nbsp;устроена система, где что&nbsp;лежит, как&nbsp;перезапустить, кого звать. Это&nbsp;продаваемая ценность и&nbsp;ваша защита: без&nbsp;паспорта каждый вопрос клиента превращается в&nbsp;звонок вам.</p></div>
 </div></section>
 
 <section class="alt"><div class="container">
-  <div class="sec-num">05 · ФАЗА 4</div>
+  <div class="sec-num">07 · ФАЗА 4</div>
   <h2>Передать</h2>
   <p class="sec-sub">Проект считается сданным не&nbsp;когда код работает, а&nbsp;когда люди клиента умеют с&nbsp;ним жить.</p>
 
-  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 12</span>Презентация и&nbsp;обучение</h3><span class="stage-meta">живой показ</span></div>
+  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 21</span>Презентация и&nbsp;обучение</h3><span class="stage-meta">живой показ</span></div>
   <p>Показываем систему в&nbsp;работе, обучаем команду на&nbsp;реальных сценариях. Записываем короткий скринкаст: люди забудут половину, запись останется.</p></div>
 
-  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 13</span>Регламенты и&nbsp;передача доступов</h3><span class="stage-meta">финальная точка</span></div>
+  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 22</span>Регламенты и&nbsp;передача доступов</h3><span class="stage-meta">финальная точка</span></div>
   <p>Отдаём регламенты работы, паспорт проекта и&nbsp;доступы по&nbsp;списку из&nbsp;фазы 2. Клиент расписывается, что&nbsp;всё получил. С&nbsp;этого момента идёт отсчёт поддержки.</p></div>
 
-  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 14</span>Месяц поддержки → подписка</h3><span class="stage-meta">границы см. ниже</span></div>
+  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 23</span>Месяц поддержки → подписка</h3><span class="stage-meta">границы см. ниже</span></div>
   <p>Месяц бесплатно чиним то, что&nbsp;было в&nbsp;ТЗ. Дальше клиент переходит на&nbsp;подписку или&nbsp;почасовую оплату. Момент перехода проговариваем ещё на&nbsp;этапе КП, чтобы&nbsp;он не&nbsp;стал сюрпризом.</p></div>
 
   <div class="stagebox stage1"><div class="lbl">Входит в&nbsp;бесплатный месяц</div><h3>Поддержка</h3>
@@ -221,7 +260,24 @@ footer .logo{font-family:var(--display);color:var(--accent);letter-spacing:.1em;
 </div></section>
 
 <section><div class="container">
-  <div class="sec-num">06 · ГРАБЛИ</div>
+  <div class="sec-num">08 · СЛОВАРИК</div>
+  <h2>Девять слов, без&nbsp;которых никуда</h2>
+  <p class="sec-sub">Если вы только начинаете, прочитайте этот блок первым. Все объяснения бытовые, без&nbsp;строгих определений: их задача, чтобы&nbsp;вы понимали, о&nbsp;чём речь в&nbsp;шагах выше.</p>
+  <div class="grid grid-3">
+    <div class="card"><div class="emoji">🖥</div><h3>Сервер (VPS)</h3><p>Арендованный компьютер в&nbsp;интернете, который работает круглосуточно. На&nbsp;нём живёт агент, пока ваш ноутбук выключен.</p></div>
+    <div class="card"><div class="emoji">🔌</div><h3>SSH</h3><p>Способ управлять сервером со&nbsp;своего компьютера через&nbsp;терминал: печатаешь команды у&nbsp;себя, выполняются они там.</p></div>
+    <div class="card"><div class="emoji">🗝</div><h3>SSH-ключ</h3><p>Пара файлов вместо пароля: один хранится у&nbsp;вас, второй на&nbsp;сервере. Совпали: вход открыт. Надёжнее любого пароля.</p></div>
+    <div class="card"><div class="emoji">📚</div><h3>GitHub</h3><p>Сайт-хранилище кода с&nbsp;историей всех изменений. Наш бэкап и&nbsp;машина времени: можно посмотреть и&nbsp;вернуть любую версию.</p></div>
+    <div class="card"><div class="emoji">🎫</div><h3>Токен</h3><p>Длинная строка-ключ, которая даёт программе доступ к&nbsp;сервису. Показал чужому: считай, отдал ключи от&nbsp;квартиры.</p></div>
+    <div class="card"><div class="emoji">🌉</div><h3>MCP</h3><p>Мост между ИИ и&nbsp;внешним сервисом: таблицами, документами, GitHub. Через&nbsp;мост агент действует в&nbsp;сервисе сам, без&nbsp;вас.</p></div>
+    <div class="card"><div class="emoji">🎯</div><h3>Скилл</h3><p>Инструкция-плейбук для&nbsp;ассистента: как&nbsp;делать конкретный тип задач. Написали один раз, пользуетесь во&nbsp;всех проектах.</p></div>
+    <div class="card"><div class="emoji">💫</div><h3>Душа агента</h3><p>Файлы личности: имя, тон, правила и&nbsp;запреты. Именно душа отличает вашего агента от&nbsp;безликого чат-бота.</p></div>
+    <div class="card"><div class="emoji">🔗</div><h3>API</h3><p>Способ программ говорить друг с&nbsp;другом напрямую, без&nbsp;кнопок и&nbsp;экранов. Через&nbsp;API агент отправляет и&nbsp;забирает данные.</p></div>
+  </div>
+</div></section>
+
+<section class="alt"><div class="container">
+  <div class="sec-num">09 · ГРАБЛИ</div>
   <h2>Шесть ошибок, которые дорого стоят</h2>
   <p class="sec-sub">Каждая из&nbsp;них проверена на&nbsp;практике. Гайд построен так, чтобы&nbsp;вы на&nbsp;них не&nbsp;наступали.</p>
   <div class="grid grid-3">
@@ -236,7 +292,7 @@ footer .logo{font-family:var(--display);color:var(--accent);letter-spacing:.1em;
 
 <footer>
   <div class="logo">ИИ-ВИЗАЦИЯ</div>
-  <div>Рабочий гайд · ИИ-агенты под&nbsp;ключ · Вопросы: @stavzzz в&nbsp;Telegram</div>
+  <div>Обучающий гайд · ИИ-агенты под&nbsp;ключ · Вопросы: @stavzzz в&nbsp;Telegram</div>
 </footer>
 </body>
 </html>
