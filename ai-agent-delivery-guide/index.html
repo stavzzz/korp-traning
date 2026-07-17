@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ИИ-агент под&nbsp;ключ: гайд от&nbsp;заявки до&nbsp;передачи · ИИ-ВИЗАЦИЯ</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2321AA4D'/%3E%3Cpath d='M32 12l4.6 11.9L48 28l-11.4 4.1L32 44l-4.6-11.9L16 28l11.4-4.1z' fill='white'/%3E%3Ccircle cx='48' cy='16' r='4' fill='white'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#21AA4D; --accent-dark:#188A3D;
+  --bg:#FFFFFF; --bg2:#F2F2F2; --ink:#303030; --gray:#6F6F6F; --line:#E3E3E3;
+  --display:'DrukCyr','Oswald',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;font-weight:400;line-height:1.6;overflow-x:hidden}
+::selection{background:rgba(33,170,77,.25)}
+.container{max-width:1080px;margin:0 auto;padding:0 24px}
+section{padding:90px 0;position:relative}
+section.alt{background:var(--bg2)}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.fade{animation:fadeInUp .8s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.08s}.d2{animation-delay:.16s}.d3{animation-delay:.24s}.d4{animation-delay:.32s}
+.hero{min-height:88vh;display:flex;align-items:center;padding:110px 0 80px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;right:-220px;top:-220px;width:640px;height:640px;border-radius:50%;background:radial-gradient(circle,rgba(33,170,77,.12) 0%,transparent 65%);pointer-events:none}
+.badges{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:30px}
+.badge{font-size:12.5px;font-weight:600;letter-spacing:.04em;padding:8px 16px;border-radius:100px;border:1px solid var(--line);background:var(--bg);color:var(--gray)}
+.badge.green{border-color:var(--accent);color:var(--accent);background:rgba(33,170,77,.06)}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:18px}
+h1{font-family:var(--display);font-size:clamp(40px,6.4vw,78px);font-weight:700;line-height:1.06;letter-spacing:.01em;text-transform:uppercase;margin-bottom:26px}
+h1 .acc{color:var(--accent)}
+.hero-sub{font-size:18px;color:var(--gray);max-width:720px;margin-bottom:48px}
+.hero-sub b{color:var(--ink);font-weight:600}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.metric{background:var(--bg);padding:26px 14px;text-align:center}
+.metric .num{font-family:var(--display);font-size:clamp(22px,2.8vw,34px);font-weight:700;color:var(--accent);text-transform:uppercase;line-height:1}
+.metric .lbl{font-size:12px;color:var(--gray);margin-top:8px}
+.sec-num{font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.18em;margin-bottom:14px}
+h2{font-family:var(--display);font-size:clamp(30px,4.4vw,52px);font-weight:700;text-transform:uppercase;letter-spacing:.01em;line-height:1.06;margin-bottom:18px}
+.sec-sub{color:var(--gray);font-size:16.5px;max-width:700px;margin-bottom:52px}
+.sec-sub b{color:var(--ink);font-weight:600}
+.grid{display:grid;gap:18px}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.card{background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:30px;transition:transform .3s,border-color .3s,box-shadow .3s}
+.card:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 12px 32px rgba(48,48,48,.08)}
+.card .emoji{font-size:26px;margin-bottom:14px}
+.card h3{font-size:18px;font-weight:700;margin-bottom:10px}
+.card h3 .ln{font-family:var(--display);color:var(--accent);text-transform:uppercase;letter-spacing:.02em;margin-right:8px}
+.card p{color:var(--gray);font-size:14.5px}
+.card p b{color:var(--ink);font-weight:600}
+section.alt .card{border-color:transparent}
+.core{background:var(--ink);border-radius:24px;padding:48px 40px;color:#E9E9E9;position:relative;overflow:hidden}
+.core::before{content:'';position:absolute;right:-160px;top:-160px;width:460px;height:460px;border-radius:50%;background:radial-gradient(circle,rgba(33,170,77,.22) 0%,transparent 65%);pointer-events:none}
+.core-h{font-family:var(--display);font-size:clamp(22px,3vw,32px);text-transform:uppercase;text-align:center;margin-bottom:8px;position:relative}
+.core-sub{text-align:center;color:#9c9c9c;font-size:14px;margin-bottom:32px;position:relative}
+.core-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;position:relative}
+.core-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:28px}
+.core-card .ttl{font-weight:700;color:#fff;font-size:17px;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.core-card .ttl .dot{width:9px;height:9px;border-radius:50%;background:var(--accent)}
+.core-card ul{list-style:none}
+.core-card li{font-size:14px;color:#c4c4c4;padding:5px 0 5px 20px;position:relative}
+.core-card li::before{content:'·';position:absolute;left:6px;color:var(--accent);font-weight:800}
+.core-card li b{color:#fff;font-weight:600}
+.stagebox{border-radius:20px;padding:34px;margin-bottom:20px}
+.stage1{background:rgba(33,170,77,.07);border:1px solid rgba(33,170,77,.3)}
+.stage2{background:var(--bg);border:2px dashed var(--accent)}
+.stagebox .lbl{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.stagebox h3{font-family:var(--display);font-size:22px;text-transform:uppercase;margin-bottom:12px;letter-spacing:.01em}
+.stagebox p{color:var(--gray);font-size:15px;margin-bottom:14px}
+.stagebox p b{color:var(--ink);font-weight:600}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chip{font-size:13px;font-weight:500;background:var(--bg);border:1px solid var(--line);border-radius:100px;padding:8px 16px;color:var(--ink)}
+.note{margin-top:16px;padding:14px 18px;border-radius:12px;background:var(--ink);color:#E9E9E9;font-size:14px}
+.note b{color:#fff;font-weight:700}
+.stage{background:var(--bg);border:1px solid var(--line);border-radius:18px;padding:30px 34px;margin-bottom:16px}
+.stage-top{display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+.stage-top h3{font-size:18px;font-weight:700}
+.stage-top h3 .n{font-family:var(--display);color:var(--accent);margin-right:12px;text-transform:uppercase;font-size:20px}
+.stage-meta{font-size:12.5px;font-weight:600;color:var(--gray)}
+.stage p{color:var(--gray);font-size:14.5px}
+.stage p b{color:var(--ink);font-weight:600}
+footer{border-top:1px solid var(--line);padding:44px 0;text-align:center;color:var(--gray);font-size:14px}
+footer .logo{font-family:var(--display);color:var(--accent);letter-spacing:.1em;text-transform:uppercase;font-size:18px;margin-bottom:8px}
+@media(max-width:860px){
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .grid-2,.grid-3,.core-grid{grid-template-columns:1fr}
+  section{padding:64px 0}
+}
+</style>
+</head>
+<body>
+
+<header class="hero"><div class="container">
+  <div class="badges fade">
+    <span class="badge green">🤖 ИИ-ВИЗАЦИЯ</span>
+    <span class="badge">Практический гайд</span>
+    <span class="badge">Проверено на&nbsp;живых проектах</span>
+  </div>
+  <div class="eyebrow fade d1">Рабочий процесс</div>
+  <h1 class="fade d2">ИИ-агент под&nbsp;ключ:<br><span class="acc">от&nbsp;заявки до&nbsp;передачи</span></h1>
+  <p class="hero-sub fade d3">Пошаговый путь клиентского проекта: как&nbsp;договориться, спроектировать, сделать и&nbsp;передать ИИ-агента так, чтобы&nbsp;клиент остался доволен, а&nbsp;вы не&nbsp;застряли в&nbsp;бесконечных правках. <b>Без&nbsp;теории, только рабочие шаги.</b></p>
+  <div class="metrics fade d4">
+    <div class="metric"><div class="num">4</div><div class="lbl">фазы проекта</div></div>
+    <div class="metric"><div class="num">14</div><div class="lbl">шагов пути</div></div>
+    <div class="metric"><div class="num">1&nbsp;мес</div><div class="lbl">поддержка после сдачи</div></div>
+    <div class="metric"><div class="num">6</div><div class="lbl">граблей, которые обходим</div></div>
+  </div>
+</div></header>
+
+<section class="alt"><div class="container">
+  <div class="sec-num">01 · КАРТА ПУТИ</div>
+  <h2>Четыре фазы проекта</h2>
+  <p class="sec-sub">Каждый проект проходит один и&nbsp;тот&nbsp;же путь. Порядок важен: пока не&nbsp;закрыта фаза, на&nbsp;следующую не&nbsp;переходим.</p>
+  <div class="grid grid-2">
+    <div class="card"><div class="emoji">🤝</div><h3><span class="ln">Фаза 1</span>Договориться</h3><p>Понять задачу, зафиксировать её на&nbsp;бумаге, согласовать цену и&nbsp;получить предоплату. Здесь решается, будет&nbsp;ли проект спокойным.</p></div>
+    <div class="card"><div class="emoji">📋</div><h3><span class="ln">Фаза 2</span>Закрепить условия</h3><p>Доступы, расходы, права на&nbsp;результат. Скучная часть, которая спасает от&nbsp;самых болезненных споров.</p></div>
+    <div class="card"><div class="emoji">🛠</div><h3><span class="ln">Фаза 3</span>Сделать</h3><p>Архитектура, интеграции, разработка, тесты. Плюс то, о&nbsp;чём часто забывают: бэкапы, мониторинг и&nbsp;документация.</p></div>
+    <div class="card"><div class="emoji">🎁</div><h3><span class="ln">Фаза 4</span>Передать</h3><p>Обучить людей, отдать регламенты и&nbsp;паспорт проекта, месяц поддержать и&nbsp;перевести на&nbsp;подписку.</p></div>
+  </div>
+</div></section>
+
+<section><div class="container">
+  <div class="sec-num">02 · ФАЗА 1</div>
+  <h2>Договориться</h2>
+  <p class="sec-sub">Цель фазы: обе стороны одинаково понимают, что&nbsp;будет сделано, сколько это&nbsp;стоит и&nbsp;как&nbsp;проверить, что&nbsp;готово.</p>
+
+  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 1</span>Первый разговор</h3><span class="stage-meta">хотелки и&nbsp;боли</span></div>
+  <p>Слушаем клиента и&nbsp;записываем всё: чего хочет, что&nbsp;болит, что&nbsp;делает руками каждый день. На&nbsp;этом этапе не&nbsp;обещаем ничего конкретного, только собираем материал.</p></div>
+
+  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 2</span>ТЗ с&nbsp;критериями приёмки</h3><span class="stage-meta">хотелки → результат</span></div>
+  <p>Переводим хотелки на&nbsp;язык результата: что&nbsp;агент делает, что&nbsp;не&nbsp;делает, с&nbsp;чем интегрируется. <b>Главное: сразу вписываем чек-лист тестов.</b> «Готово» значит «прошёл согласованный список проверок», а&nbsp;не&nbsp;«клиенту вроде нравится». Этот&nbsp;же список закроет споры на&nbsp;этапе правок.</p></div>
+
+  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 3</span>Эскиз архитектуры</h3><span class="stage-meta">крупными мазками</span></div>
+  <p>Для&nbsp;оценки сроков и&nbsp;цены достаточно эскиза: какие блоки, какие интеграции, какая модель. <b>Детальное проектирование делаем после предоплаты</b>, иначе даришь самую дорогую часть работы бесплатно.</p></div>
+
+  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 4</span>Коммерческое предложение</h3><span class="stage-meta">цена и&nbsp;состав</span></div>
+  <p>Состав работ, сроки, цена. Отдельной строкой: <b>расходы на&nbsp;инфраструктуру</b> (сервер, домен, подписки на&nbsp;модели). Это&nbsp;деньги клиента, и&nbsp;он должен увидеть их до&nbsp;старта, а&nbsp;не&nbsp;через&nbsp;полгода в&nbsp;споре «почему я плачу за&nbsp;сервер».</p></div>
+
+  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 5</span>Презентация и&nbsp;согласование</h3><span class="stage-meta">живой разговор</span></div>
+  <p>Показываем КП голосом, а&nbsp;не&nbsp;ссылкой в&nbsp;мессенджере. Отвечаем на&nbsp;вопросы, фиксируем правки, обновляем ТЗ. Всё, о&nbsp;чём договорились словами, возвращаем клиенту текстом.</p></div>
+
+  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 6</span>Договор и&nbsp;предоплата</h3><span class="stage-meta">50% или&nbsp;транши</span></div>
+  <p>Подписываем договор (с&nbsp;NDA, если у&nbsp;клиента чувствительные данные) и&nbsp;получаем предоплату. На&nbsp;длинных проектах лучше разбить оплату на&nbsp;транши по&nbsp;вехам: так&nbsp;спокойнее обеим сторонам. <b>До&nbsp;денег ничего не&nbsp;разрабатываем.</b></p></div>
+</div></section>
+
+<section class="alt"><div class="container">
+  <div class="sec-num">03 · ФАЗА 2</div>
+  <h2>Закрепить условия</h2>
+  <p class="sec-sub">Полчаса разговора до&nbsp;старта разработки экономят недели споров после сдачи. Всё из&nbsp;этого блока фиксируем письменно.</p>
+  <div class="core">
+    <div class="core-h">Что&nbsp;закрепляем на&nbsp;бумаге</div>
+    <div class="core-sub">до&nbsp;первой строчки кода</div>
+    <div class="core-grid">
+      <div class="core-card"><div class="ttl"><span class="dot"></span>Деньги и&nbsp;права</div>
+        <ul>
+          <li><b>График оплат:</b> какие транши, к&nbsp;каким вехам привязаны</li>
+          <li><b>Кому принадлежит результат:</b> код, репозитории, аккаунты ботов</li>
+          <li><b>Что&nbsp;происходит при&nbsp;расставании:</b> клиент уходит с&nbsp;подписки, и&nbsp;что&nbsp;дальше</li>
+          <li><b>Границы правок:</b> что&nbsp;входит в&nbsp;цену, а&nbsp;что&nbsp;оформляется новым счётом</li>
+        </ul>
+      </div>
+      <div class="core-card"><div class="ttl"><span class="dot"></span>Доступы и&nbsp;расходы</div>
+        <ul>
+          <li><b>Кто покупает</b> сервер, домен, API-ключи, и&nbsp;на&nbsp;чьи аккаунты всё оформлено</li>
+          <li><b>Кто платит подписки:</b> модели, сервисы, хостинг. Это&nbsp;расход клиента</li>
+          <li><b>Где живут секреты:</b> пароли и&nbsp;токены в&nbsp;менеджере паролей, не&nbsp;в&nbsp;переписке</li>
+          <li><b>Персональные данные:</b> что&nbsp;агенту можно хранить, что&nbsp;нельзя</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="container">
+  <div class="sec-num">04 · ФАЗА 3</div>
+  <h2>Сделать</h2>
+  <p class="sec-sub">Разработка занимает меньше времени, чем кажется. Больше всего времени съедают интеграции и&nbsp;доводка до&nbsp;«работает стабильно».</p>
+
+  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 7</span>Детальная архитектура</h3><span class="stage-meta">после предоплаты</span></div>
+  <p>Теперь проектируем по-настоящему: платформа, модели, схема данных, сценарии. Выбор модели под&nbsp;задачу и&nbsp;бюджет клиента: дорогая модель не&nbsp;всегда нужна, дешёвая не&nbsp;всегда справится.</p></div>
+
+  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 8</span>Интеграции и&nbsp;подключение ИИ</h3><span class="stage-meta">API, внешние системы</span></div>
+  <p>Подключаем внешние системы: мессенджеры, таблицы, CRM, календари, платёжки. Каждую интеграцию проверяем отдельно, до&nbsp;сборки в&nbsp;общую цепочку.</p></div>
+
+  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 9</span>Разработка и&nbsp;тесты</h3><span class="stage-meta">по&nbsp;чек-листу из&nbsp;ТЗ</span></div>
+  <p>Собираем агента и&nbsp;гоняем его по&nbsp;чек-листу приёмки из&nbsp;шага 2, на&nbsp;реальных данных клиента. Отдельно проверяем «мусорные» сценарии: что&nbsp;будет, если пользователь пришлёт не&nbsp;то, что&nbsp;ждём.</p></div>
+
+  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 10</span>Бэкапы и&nbsp;мониторинг</h3><span class="stage-meta">часть продукта, не&nbsp;опция</span></div>
+  <p>Настраиваем автоматический бэкап данных и&nbsp;сторожа, который заметит, что&nbsp;агент упал, раньше клиента. Плюс короткая инструкция «что&nbsp;делать, если сломалось». Клиент получает не&nbsp;только агента, но&nbsp;и&nbsp;уверенность.</p></div>
+
+  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 11</span>Паспорт проекта</h3><span class="stage-meta">документация</span></div>
+  <p>Один документ: как&nbsp;устроена система, где что&nbsp;лежит, как&nbsp;перезапустить, кого звать. Это&nbsp;продаваемая ценность и&nbsp;ваша защита: без&nbsp;паспорта каждый вопрос клиента превращается в&nbsp;звонок вам.</p></div>
+</div></section>
+
+<section class="alt"><div class="container">
+  <div class="sec-num">05 · ФАЗА 4</div>
+  <h2>Передать</h2>
+  <p class="sec-sub">Проект считается сданным не&nbsp;когда код работает, а&nbsp;когда люди клиента умеют с&nbsp;ним жить.</p>
+
+  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 12</span>Презентация и&nbsp;обучение</h3><span class="stage-meta">живой показ</span></div>
+  <p>Показываем систему в&nbsp;работе, обучаем команду на&nbsp;реальных сценариях. Записываем короткий скринкаст: люди забудут половину, запись останется.</p></div>
+
+  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 13</span>Регламенты и&nbsp;передача доступов</h3><span class="stage-meta">финальная точка</span></div>
+  <p>Отдаём регламенты работы, паспорт проекта и&nbsp;доступы по&nbsp;списку из&nbsp;фазы 2. Клиент расписывается, что&nbsp;всё получил. С&nbsp;этого момента идёт отсчёт поддержки.</p></div>
+
+  <div class="stage"><div class="stage-top"><h3><span class="n">Шаг 14</span>Месяц поддержки → подписка</h3><span class="stage-meta">границы см. ниже</span></div>
+  <p>Месяц бесплатно чиним то, что&nbsp;было в&nbsp;ТЗ. Дальше клиент переходит на&nbsp;подписку или&nbsp;почасовую оплату. Момент перехода проговариваем ещё на&nbsp;этапе КП, чтобы&nbsp;он не&nbsp;стал сюрпризом.</p></div>
+
+  <div class="stagebox stage1"><div class="lbl">Входит в&nbsp;бесплатный месяц</div><h3>Поддержка</h3>
+  <p>Всё, что&nbsp;обещано в&nbsp;ТЗ, но&nbsp;работает не&nbsp;так: ошибки, сбои, недоделки. Ответы на&nbsp;вопросы по&nbsp;регламентам.</p>
+  <div class="chips"><span class="chip">✓ починка ошибок</span><span class="chip">✓ сбои и&nbsp;падения</span><span class="chip">✓ вопросы по&nbsp;работе системы</span></div>
+  </div>
+  <div class="stagebox stage2"><div class="lbl">Не&nbsp;входит</div><h3>Новые хотелки</h3>
+  <p>Всё, чего не&nbsp;было в&nbsp;ТЗ: новые функции, новые интеграции, «а&nbsp;давайте ещё». Это&nbsp;новая задача: оцениваем и&nbsp;выставляем счёт или&nbsp;включаем в&nbsp;подписку.</p>
+  <div class="note"><b>Важный нюанс:</b> поддержка без&nbsp;границ превращается в&nbsp;бесплатную разработку. Границу задаёт ТЗ, поэтому шаг 2&nbsp;самый важный в&nbsp;проекте.</div>
+  </div>
+</div></section>
+
+<section><div class="container">
+  <div class="sec-num">06 · ГРАБЛИ</div>
+  <h2>Шесть ошибок, которые дорого стоят</h2>
+  <p class="sec-sub">Каждая из&nbsp;них проверена на&nbsp;практике. Гайд построен так, чтобы&nbsp;вы на&nbsp;них не&nbsp;наступали.</p>
+  <div class="grid grid-3">
+    <div class="card"><div class="emoji">📐</div><h3>Проектировать до&nbsp;денег</h3><p>Детальная архитектура до&nbsp;предоплаты: клиент уходит «подумать» вместе с&nbsp;вашей самой дорогой работой. До&nbsp;денег только эскиз.</p></div>
+    <div class="card"><div class="emoji">🌊</div><h3>«Готово» без&nbsp;чек-листа</h3><p>Если критерий готовности «клиенту нравится», правки не&nbsp;закончатся никогда. Критерии приёмки вписываем в&nbsp;ТЗ на&nbsp;старте.</p></div>
+    <div class="card"><div class="emoji">🔑</div><h3>Секреты в&nbsp;переписке</h3><p>Токен, засветившийся в&nbsp;чате, придётся перевыпускать. Пароли и&nbsp;ключи живут в&nbsp;менеджере паролей и&nbsp;передаются защищённо.</p></div>
+    <div class="card"><div class="emoji">💸</div><h3>Скрытые расходы</h3><p>Сервер и&nbsp;подписки, не&nbsp;названные в&nbsp;КП, всплывут через&nbsp;полгода конфликтом. Инфраструктура: отдельная строка с&nbsp;первого разговора.</p></div>
+    <div class="card"><div class="emoji">📄</div><h3>Сдать без&nbsp;документации</h3><p>Без&nbsp;паспорта проекта каждый чих клиента: звонок вам. С&nbsp;паспортом половина вопросов закрывается без&nbsp;вас.</p></div>
+    <div class="card"><div class="emoji">⚖️</div><h3>Ничьи аккаунты</h3><p>Кому принадлежат код, боты и&nbsp;репозитории, выясняется в&nbsp;момент расставания. Самый болезненный спор, и&nbsp;он решается одной строчкой в&nbsp;договоре.</p></div>
+  </div>
+</div></section>
+
+<footer>
+  <div class="logo">ИИ-ВИЗАЦИЯ</div>
+  <div>Рабочий гайд · ИИ-агенты под&nbsp;ключ · Вопросы: @stavzzz в&nbsp;Telegram</div>
+</footer>
+</body>
+</html>
