@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Система управления АТОН · КП · ИИ-ВИЗАЦИЯ</title>
+<meta name="description" content="Единая система вместо семи таблиц: деньги, объекты, люди и три ИИ-агента в одном месте. На вашем сервере, с разделением ролей. 3 000 USD пакетом, месяц работы.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2321AA4D'/%3E%3Cpath d='M32 12l4.6 11.9L48 28l-11.4 4.1L32 44l-4.6-11.9L16 28l11.4-4.1z' fill='white'/%3E%3Ccircle cx='48' cy='16' r='4' fill='white'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#21AA4D;
+  --accent-dark:#188A3D;
+  --bg:#FFFFFF;
+  --bg2:#F2F2F2;
+  --ink:#303030;
+  --gray:#6F6F6F;
+  --line:#E3E3E3;
+  --display:'DrukCyr','Oswald',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;font-weight:400;line-height:1.6;overflow-x:hidden}
+::selection{background:rgba(33,170,77,.25)}
+.container{max-width:1080px;margin:0 auto;padding:0 24px}
+section{padding:90px 0;position:relative}
+section.alt{background:var(--bg2)}
+
+@keyframes fadeInUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.fade{animation:fadeInUp .8s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.08s}.d2{animation-delay:.16s}.d3{animation-delay:.24s}.d4{animation-delay:.32s}
+
+.hero{min-height:88vh;display:flex;align-items:center;padding:110px 0 80px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;right:-220px;top:-220px;width:640px;height:640px;border-radius:50%;background:radial-gradient(circle,rgba(33,170,77,.12) 0%,transparent 65%);pointer-events:none}
+.badges{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:30px}
+.badge{font-size:12.5px;font-weight:600;letter-spacing:.04em;padding:8px 16px;border-radius:100px;border:1px solid var(--line);background:var(--bg);color:var(--gray)}
+.badge.green{border-color:var(--accent);color:var(--accent);background:rgba(33,170,77,.06)}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:18px}
+h1{font-family:var(--display);font-size:clamp(40px,6.4vw,78px);font-weight:700;line-height:1.04;letter-spacing:.01em;text-transform:uppercase;margin-bottom:26px}
+h1 .acc{color:var(--accent)}
+.hero-sub{font-size:18px;color:var(--gray);max-width:730px;margin-bottom:48px}
+.hero-sub b{color:var(--ink);font-weight:600}
+.metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.metric{background:var(--bg);padding:26px 14px;text-align:center}
+.metric .num{font-family:var(--display);font-size:clamp(22px,2.8vw,34px);font-weight:700;color:var(--accent);text-transform:uppercase;line-height:1}
+.metric .lbl{font-size:12px;color:var(--gray);margin-top:8px}
+
+.sec-num{font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.18em;margin-bottom:14px}
+h2{font-family:var(--display);font-size:clamp(30px,4.4vw,52px);font-weight:700;text-transform:uppercase;letter-spacing:.01em;line-height:1.06;margin-bottom:18px}
+.sec-sub{color:var(--gray);font-size:16.5px;max-width:720px;margin-bottom:52px}
+.sec-sub b{color:var(--ink);font-weight:600}
+
+.grid{display:grid;gap:18px}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.card{background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:30px;transition:transform .3s,border-color .3s,box-shadow .3s}
+.card:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 12px 32px rgba(48,48,48,.08)}
+.card .emoji{font-size:26px;margin-bottom:14px}
+.card h3{font-size:18px;font-weight:700;margin-bottom:10px}
+.card p{color:var(--gray);font-size:14.5px}
+.card p b{color:var(--ink);font-weight:600}
+section.alt .card{border-color:transparent}
+.card-status{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.03em;padding:5px 12px;border-radius:100px;margin-bottom:14px}
+.card-status.ok{background:rgba(33,170,77,.14);color:var(--accent-dark)}
+.card-status.wip{background:#FBF0D7;color:#9A7220}
+
+.flow{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.flow-col{background:var(--bg);border:1px solid var(--line);border-radius:18px;padding:28px 26px;border-top:5px solid var(--accent)}
+section.alt .flow-col{border-color:transparent;border-top:5px solid var(--accent)}
+.flow-col h3{font-family:var(--display);font-size:19px;text-transform:uppercase;letter-spacing:.02em;margin-bottom:4px}
+.flow-col .zone{font-size:12px;font-weight:600;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:20px}
+.step{display:flex;gap:14px;padding:13px 0;border-top:1px solid var(--line)}
+.step:first-of-type{border-top:none;padding-top:4px}
+.step .n{flex:0 0 26px;height:26px;border-radius:8px;background:rgba(33,170,77,.12);color:var(--accent-dark);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.step .tx{font-size:14px;color:var(--ink);font-weight:600;line-height:1.4}
+.step .tx small{display:block;color:var(--gray);font-weight:400;font-size:12.5px;margin-top:2px}
+.step.ok .n{background:var(--accent);color:#fff}
+
+.core{background:var(--ink);border-radius:24px;padding:48px 40px;color:#E9E9E9;position:relative;overflow:hidden}
+.core::before{content:'';position:absolute;right:-160px;top:-160px;width:460px;height:460px;border-radius:50%;background:radial-gradient(circle,rgba(33,170,77,.22) 0%,transparent 65%);pointer-events:none}
+.core-h{font-family:var(--display);font-size:clamp(22px,3vw,32px);text-transform:uppercase;text-align:center;margin-bottom:8px;position:relative}
+.core-sub{text-align:center;color:#9c9c9c;font-size:14px;margin-bottom:32px;position:relative}
+.core-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;position:relative}
+.core-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:28px}
+.core-card .ttl{font-weight:700;color:#fff;font-size:17px;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.core-card .ttl .dot{width:9px;height:9px;border-radius:50%;background:var(--accent)}
+.core-card ul{list-style:none}
+.core-card li{font-size:14px;color:#c4c4c4;padding:5px 0 5px 20px;position:relative}
+.core-card li::before{content:'·';position:absolute;left:6px;color:var(--accent);font-weight:800}
+.core-card li b{color:#fff;font-weight:600}
+
+.stagebox{border-radius:20px;padding:34px;margin-bottom:20px}
+.stage1{background:rgba(33,170,77,.07);border:1px solid rgba(33,170,77,.3)}
+.stage2{background:var(--bg);border:2px dashed var(--accent)}
+section.alt .stage2{background:var(--bg2)}
+.stagebox .lbl{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.stagebox h3{font-family:var(--display);font-size:22px;text-transform:uppercase;margin-bottom:12px;letter-spacing:.01em}
+.stagebox p{color:var(--gray);font-size:15px;margin-bottom:14px}
+.stagebox p b{color:var(--ink);font-weight:600}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chip{font-size:13px;font-weight:500;background:var(--bg);border:1px solid var(--line);border-radius:100px;padding:8px 16px;color:var(--ink)}
+.note{margin-top:16px;padding:14px 18px;border-radius:12px;background:var(--ink);color:#E9E9E9;font-size:14px}
+.note b{color:#fff;font-weight:700}
+
+.stage{background:var(--bg);border:1px solid var(--line);border-radius:18px;padding:30px 34px;margin-bottom:16px}
+section.alt .stage{border-color:transparent}
+.stage-top{display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+.stage-top h3{font-size:18px;font-weight:700}
+.stage-top h3 .n{font-family:var(--display);color:var(--accent);margin-right:12px;text-transform:uppercase;font-size:20px}
+.stage-meta{font-size:12.5px;font-weight:600;color:var(--gray)}
+.stage p{color:var(--gray);font-size:14.5px}
+.stage p b{color:var(--ink);font-weight:600}
+
+.roles{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.role{background:var(--bg);border:1px solid var(--line);border-radius:18px;padding:30px 28px}
+section.alt .role{border-color:transparent}
+.role .who{font-family:var(--display);font-size:20px;text-transform:uppercase;letter-spacing:.02em;margin-bottom:4px}
+.role .pos{font-size:12.5px;font-weight:600;color:var(--accent);letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px}
+.role ul{list-style:none}
+.role li{font-size:14px;padding:7px 0 7px 24px;position:relative;color:var(--ink);border-top:1px solid var(--line)}
+.role li:first-child{border-top:none}
+.role li::before{content:'✓';position:absolute;left:2px;color:var(--accent);font-weight:800}
+.role li.no{color:var(--gray)}
+.role li.no::before{content:'✕';color:#C0554F}
+
+.price-box{background:var(--ink);border-radius:24px;padding:64px 40px;text-align:center;position:relative;overflow:hidden;color:#E9E9E9}
+.price-box::before{content:'';position:absolute;left:-180px;bottom:-180px;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(33,170,77,.3) 0%,transparent 65%);pointer-events:none}
+.price-label{font-size:13px;font-weight:700;letter-spacing:.18em;color:#9c9c9c;text-transform:uppercase;margin-bottom:18px}
+.price-num{font-family:var(--display);font-weight:700;font-size:clamp(52px,9vw,108px);line-height:1;color:var(--accent);text-transform:uppercase}
+.price-sub{color:#b8b8b8;font-size:16px;margin-top:16px}
+.price-sub s{color:#8a8a8a}
+.price-rows{max-width:680px;margin:38px auto 0;text-align:left;position:relative}
+.price-row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.1);font-size:15px}
+.price-row .nm{color:#fff;font-weight:500}
+.price-row .nm small{display:block;color:#9c9c9c;font-weight:400;font-size:12.5px}
+.price-row .pr{white-space:nowrap;font-weight:700;color:var(--accent);font-size:16px}
+.old{color:#8a8a8a;text-decoration:line-through;font-weight:400;font-size:13.5px;margin-right:10px}
+.price-total{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:16px 0 0;font-size:15px;color:#fff;font-weight:700;border-top:2px solid rgba(33,170,77,.5)}
+.price-total .old{font-size:14px}
+.price-total > span:last-child{color:var(--accent);font-size:18px;white-space:nowrap}
+.price-extra{max-width:680px;margin:14px auto 0;text-align:left;font-size:13px;color:#9c9c9c}
+.price-extra b{color:#c9c9c9}
+.pay-stages{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:36px;position:relative}
+.pay{font-size:13px;font-weight:500;color:#c9c9c9;border:1px solid rgba(255,255,255,.2);border-radius:100px;padding:10px 20px}
+.pay b{color:var(--accent);font-weight:800}
+.cta{display:inline-block;margin-top:40px;padding:20px 54px;border-radius:100px;background:var(--accent);color:#fff;font-weight:700;font-size:17px;text-decoration:none;box-shadow:0 10px 34px rgba(33,170,77,.4);transition:transform .25s,box-shadow .25s,background .25s;position:relative}
+.cta:hover{transform:translateY(-3px);background:var(--accent-dark);box-shadow:0 16px 44px rgba(33,170,77,.5)}
+
+footer{border-top:1px solid var(--line);padding:44px 0;text-align:center;color:var(--gray);font-size:14px}
+footer .logo{font-family:var(--display);color:var(--accent);letter-spacing:.1em;text-transform:uppercase;font-size:18px;margin-bottom:8px}
+footer a{color:var(--accent);text-decoration:none}
+
+@media(max-width:860px){
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .metric:last-child{grid-column:span 2}
+  .grid-2,.grid-3,.flow,.core-grid,.roles{grid-template-columns:1fr}
+  section{padding:64px 0}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container">
+    <div class="badges fade">
+      <span class="badge green">🤖 ИИ-ВИЗАЦИЯ</span>
+      <span class="badge">🏗 АТОН · система управления</span>
+      <span class="badge">Продолжение проекта 2.0</span>
+    </div>
+    <div class="eyebrow fade d1">Коммерческое предложение · CRM и&nbsp;переезд агентов</div>
+    <h1 class="fade d2">Одно окно<br>вместо таблиц.<br><span class="acc">Вся компания перед глазами</span></h1>
+    <p class="hero-sub fade d3">Сейчас деньги, стройка, задачи и&nbsp;доступы живут в&nbsp;разных таблицах, и&nbsp;свести их&nbsp;вместе можете только&nbsp;вы. Делаем одну систему на&nbsp;вашем сервере, где у&nbsp;каждого свой вход: <b>Светлана Юрьевна спокойно ведёт платежи, а&nbsp;прибыль видите только&nbsp;вы</b>. Заодно переводим трёх ваших ботов на&nbsp;модели ChatGPT: понимают лучше, отвечают быстрее.</p>
+    <div class="metrics fade d4">
+      <div class="metric"><div class="num">1 окно</div><div class="lbl">Вместо таблиц и вкладок</div></div>
+      <div class="metric"><div class="num">3 роли</div><div class="lbl">Каждый видит только своё</div></div>
+      <div class="metric"><div class="num">Прибыль</div><div class="lbl">Видите только вы</div></div>
+      <div class="metric"><div class="num">1 месяц</div><div class="lbl">От старта до сдачи</div></div>
+      <div class="metric"><div class="num">3 000 USD</div><div class="lbl">Пакетом, вместо 3 500</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- 01 -->
+<section class="alt">
+  <div class="container">
+    <div class="sec-num">01 · ПОЧЕМУ СЕЙЧАС НЕУДОБНО</div>
+    <h2>Сейчас всё<br>идёт через вас</h2>
+    <p class="sec-sub">Компания работает, объекты сдаются, порядок в&nbsp;бумагах есть. Неудобно другое: чтобы что-то понять или решить, всё равно нужны&nbsp;вы. Система задумана так, чтобы это изменить.</p>
+    <div class="grid grid-3">
+      <div class="card">
+        <div class="emoji">🗂</div>
+        <h3>Данные по разным углам</h3>
+        <p>Деньги в&nbsp;одной таблице, график стройки в&nbsp;другой, задачи на&nbsp;доске, ключи и&nbsp;доступы в&nbsp;третьей. Чтобы понять, как идёт объект, нужно открыть три файла и&nbsp;сложить в&nbsp;голове.</p>
+      </div>
+      <div class="card">
+        <div class="emoji">🧠</div>
+        <h3>Общую картину видите только вы</h3>
+        <p>У&nbsp;остальных её&nbsp;просто нет, поэтому любой вопрос идёт к&nbsp;вам. Уехали на&nbsp;объект, и&nbsp;решения ждут до&nbsp;вечера.</p>
+      </div>
+      <div class="card">
+        <div class="emoji">🔓</div>
+        <h3>Доступ открывается целиком</h3>
+        <p>Таблицу нельзя открыть наполовину. Хотите, чтобы бухгалтер вёл платежи, значит показываете и&nbsp;прибыль, и&nbsp;себестоимость. Поэтому часть работы вы&nbsp;делаете сами.</p>
+      </div>
+      <div class="card">
+        <div class="emoji">👷</div>
+        <h3>Каждый работает вслепую</h3>
+        <p>Прораб не&nbsp;видит свой объект целиком, снабженец не&nbsp;видит, что уже куплено. Каждый спрашивает&nbsp;вас вместо того, чтобы просто открыть и&nbsp;посмотреть.</p>
+      </div>
+      <div class="card">
+        <div class="emoji">🆕</div>
+        <h3>Нового человека вводите вручную</h3>
+        <p>Каждому надо показать, где что лежит и&nbsp;что можно открывать. Когда человек уходит, доступы приходится закрывать по&nbsp;одному.</p>
+      </div>
+      <div class="card">
+        <div class="emoji">⏰</div>
+        <h3>Расхождения находятся поздно</h3>
+        <p>Несостыковку в&nbsp;деньгах или уехавший срок обычно видно уже задним числом. Сводить цифры каждый день руками просто некому.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section>
+  <div class="container">
+    <div class="sec-num">02 · КАК УСТРОЕНО</div>
+    <h2>Одна база<br>на вашем сервере</h2>
+    <p class="sec-sub">Сердце системы, база данных, встаёт на&nbsp;тот&nbsp;же сервер, где уже живут ваши агенты. Он&nbsp;оплачен на&nbsp;год вперёд и&nbsp;загружен меньше чем&nbsp;наполовину. <b>Новых счетов не&nbsp;появляется</b>, данные компании никуда не&nbsp;уезжают.</p>
+    <div class="core">
+      <div class="core-h">Что складывается в одну базу</div>
+      <div class="core-sub">Слева ваши данные, справа те, кто с&nbsp;ними работает</div>
+      <div class="core-grid">
+        <div class="core-card">
+          <div class="ttl"><span class="dot"></span>Данные</div>
+          <ul>
+            <li><b>Люди:</b> сотрудники и&nbsp;рабочие из&nbsp;ваших справочников</li>
+            <li><b>Контрагенты:</b> поставщики и&nbsp;подрядчики с&nbsp;историей платежей</li>
+            <li><b>Объекты:</b> стройки, этапы, сроки, готовность</li>
+            <li><b>Деньги:</b> приходы, расходы, зарплаты, авансы</li>
+            <li><b>Задачи:</b> то, что уже ведёт бот-менеджер</li>
+          </ul>
+        </div>
+        <div class="core-card">
+          <div class="ttl"><span class="dot"></span>Кто работает с базой</div>
+          <ul>
+            <li><b>Вы:</b> панель на&nbsp;телефоне и&nbsp;компьютере</li>
+            <li><b>Светлана Юрьевна:</b> свой раздел, без прибыли</li>
+            <li><b>Евгений:</b> объекты и&nbsp;график</li>
+            <li><b>Три агента:</b> читают и&nbsp;пишут напрямую, без таблиц</li>
+            <li><b>Бригады:</b> как и&nbsp;раньше, через бота в&nbsp;Telegram</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="note" style="max-width:none">🔒 <b>Данные остаются вашими.</b> Ни&nbsp;одна строка не&nbsp;уходит в&nbsp;чужое облако: база стоит на&nbsp;вашем сервере, доступ по&nbsp;ключу. Каждую ночь снимается резервная копия, восстановление занимает минуты.</div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="alt">
+  <div class="container">
+    <div class="sec-num">03 · КТО ЧТО ВИДИТ</div>
+    <h2>У каждого<br>свой вход</h2>
+    <p class="sec-sub">Права разделены не&nbsp;серыми кнопками, а&nbsp;составом меню. Светлана Юрьевна не&nbsp;видит закрытых разделов вовсе, поэтому вопросов «а&nbsp;почему мне&nbsp;нельзя» не&nbsp;возникает.</p>
+    <div class="roles">
+      <div class="role">
+        <div class="who">Павел</div>
+        <div class="pos">Владелец</div>
+        <ul>
+          <li>Прибыль и&nbsp;маржа по&nbsp;каждому объекту</li>
+          <li>Все деньги: приходы, расходы, зарплаты</li>
+          <li>Все объекты и&nbsp;графики</li>
+          <li>Задачи и&nbsp;доска Trello</li>
+          <li>Управление доступами</li>
+        </ul>
+      </div>
+      <div class="role">
+        <div class="who">Светлана&nbsp;Юрьевна</div>
+        <div class="pos">Бухгалтер</div>
+        <ul>
+          <li>Приходы и&nbsp;расходы, платёжки</li>
+          <li>Зарплаты и&nbsp;авансы рабочим</li>
+          <li>Контрагенты и&nbsp;акты</li>
+          <li class="no">Прибыль и&nbsp;маржа</li>
+          <li class="no">Задачи и&nbsp;переписка бригад</li>
+        </ul>
+      </div>
+      <div class="role">
+        <div class="who">Евгений</div>
+        <div class="pos">Главный прораб</div>
+        <ul>
+          <li>Свои объекты и&nbsp;этапы работ</li>
+          <li>График: план против факта</li>
+          <li>Люди и&nbsp;бригады на&nbsp;объектах</li>
+          <li class="no">Прибыль и&nbsp;выручка</li>
+          <li class="no">Зарплаты и&nbsp;платёжки</li>
+        </ul>
+      </div>
+    </div>
+    <div class="note">👷 <b>Бригады в&nbsp;панель не&nbsp;заходят.</b> Для&nbsp;них ничего не&nbsp;меняется: задачи приходят карточками в&nbsp;Telegram, отчёт двумя кнопками. Учить людей новой программе не&nbsp;нужно.</div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section>
+  <div class="container">
+    <div class="sec-num">04 · ЧТО ВНУТРИ</div>
+    <h2>Четыре экрана,<br>и всё видно</h2>
+    <p class="sec-sub">Панель открывается на&nbsp;телефоне так&nbsp;же, как на&nbsp;компьютере: половину дня вы&nbsp;на&nbsp;объектах. Вход по&nbsp;ссылке из&nbsp;Telegram, пароли запоминать не&nbsp;нужно.</p>
+    <div class="grid grid-2">
+      <div class="card">
+        <span class="card-status ok">ГЛАВНЫЙ ЭКРАН</span>
+        <h3>📊 Обзор</h3>
+        <p>Деньги за&nbsp;месяц, объекты по&nbsp;готовности, что горит и&nbsp;что просрочено. Помещается в&nbsp;один экран без прокрутки, читается за&nbsp;десять секунд утром за&nbsp;кофе.</p>
+      </div>
+      <div class="card">
+        <span class="card-status ok">СТРОЙКА</span>
+        <h3>🏗 Объект</h3>
+        <p>Карточка стройки целиком: 46&nbsp;этапов с&nbsp;полосой готовности, факт против плана, расходы, кто работает, фото с&nbsp;площадки. Больше не&nbsp;нужно сводить два файла.</p>
+      </div>
+      <div class="card">
+        <span class="card-status ok">ДЕНЬГИ</span>
+        <h3>💰 Финансы</h3>
+        <p>Приходы, расходы, зарплаты, долги контрагентам. Разрез по&nbsp;объекту и&nbsp;по&nbsp;месяцу. <b>Прибыль и&nbsp;маржа видны только&nbsp;вам</b>, у&nbsp;бухгалтера этих колонок нет.</p>
+      </div>
+      <div class="card">
+        <span class="card-status ok">КОМАНДА</span>
+        <h3>👥 Люди</h3>
+        <p>Сотрудники и&nbsp;рабочие, кто на&nbsp;каком объекте занят, кому выданы доступы к&nbsp;боту и&nbsp;ключи VPN. Всё из&nbsp;одного списка, а&nbsp;не&nbsp;из&nbsp;трёх таблиц.</p>
+      </div>
+    </div>
+    <div class="note">📱 <b>Вместо таблиц, карточки.</b> Крупные цифры, полоса готовности у&nbsp;каждого объекта, цвет вместо длинных чисел. Листается большим пальцем прямо на&nbsp;площадке.</div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="alt">
+  <div class="container">
+    <div class="sec-num">05 · АГЕНТЫ</div>
+    <h2>Ваши боты<br>станут умнее</h2>
+    <p class="sec-sub">Первый этап, и&nbsp;он&nbsp;короткий. Вся обвязка остаётся на&nbsp;месте: боты, кнопки, привратник, доска задач. Меняется мозг, которым они думают.</p>
+
+    <div class="stagebox stage1">
+      <div class="lbl">Этап 1 · два дня</div>
+      <h3>Смена модели</h3>
+      <p>Подключаем вашу подписку ChatGPT напрямую к&nbsp;системе агентов. <b>Отдельный счёт за&nbsp;токены не&nbsp;нужен</b>: подписки достаточно для&nbsp;работы всех троих. Переписываем инструкции агентов под новую модель, она понимает живую речь заметно лучше прежней.</p>
+      <div class="chips">
+        <span class="chip">🧠 Бро: личный ассистент</span>
+        <span class="chip">📋 Ревизор: контроль стройки</span>
+        <span class="chip">✅ Менеджер: задачи команде</span>
+        <span class="chip">🎙 Распознавание речи остаётся прежним</span>
+      </div>
+      <div class="note">⚡ <b>Что вы&nbsp;почувствуете сразу:</b> утренний брифинг перестанет опаздывать, Ревизор начнёт понимать фразы вроде «по&nbsp;Малиновке фундамент готов, а&nbsp;кровля нет», Менеджер перестанет переспрашивать по&nbsp;два раза.</div>
+    </div>
+
+    <div class="stagebox stage2">
+      <div class="lbl">Дальше · вместе с базой</div>
+      <h3>Агенты и база</h3>
+      <p>Когда база готова, агенты начинают ходить в&nbsp;неё вместо таблиц. Ревизор пишет статусы этапов, Менеджер ведёт задачи, Бро отвечает на&nbsp;вопросы по&nbsp;деньгам и&nbsp;срокам голосом. <b>Правда становится одна на&nbsp;всех</b>, расходиться нечему.</p>
+      <div class="chips">
+        <span class="chip">«Сколько потратили на Княжий»</span>
+        <span class="chip">«Что горит на этой неделе»</span>
+        <span class="chip">«Покажи долги по Саргазам»</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section>
+  <div class="container">
+    <div class="sec-num">06 · ПЛАН РАБОТ</div>
+    <h2>Месяц от старта<br>до сдачи</h2>
+    <p class="sec-sub">Порядок выбран так, чтобы польза приходила раньше денег. Первый результат вы&nbsp;увидите на&nbsp;третий день, а&nbsp;не&nbsp;в&nbsp;конце месяца.</p>
+
+    <div class="stage">
+      <div class="stage-top"><h3><span class="n">01</span>Агенты на ChatGPT</h3><div class="stage-meta">2 дня</div></div>
+      <p>Подписка, перенастройка троих агентов, новые инструкции под новую модель. Проверка на&nbsp;живых сценариях: постановка задачи голосом, отчёт бригады, утренний брифинг.</p>
+    </div>
+    <div class="stage">
+      <div class="stage-top"><h3><span class="n">02</span>База и перенос данных</h3><div class="stage-meta">неделя</div></div>
+      <p>База встаёт на&nbsp;сервер. Переносим справочники, объекты, всю историю платежей. Ваши таблицы сделаны аккуратно и&nbsp;однотипно, поэтому переносятся сразу все, а&nbsp;не&nbsp;руками по&nbsp;одной. Итоги сверяем до&nbsp;копейки со&nbsp;старыми файлами.</p>
+    </div>
+    <div class="stage">
+      <div class="stage-top"><h3><span class="n">03</span>Деньги и разделение прав</h3><div class="stage-meta">неделя</div></div>
+      <p>Раздел финансов: приходы, расходы, зарплаты, контрагенты. Заводим три роли, закрываем прибыль от&nbsp;всех кроме&nbsp;вас. Светлана Юрьевна начинает работать в&nbsp;системе, старую таблицу держим рядом ещё неделю для&nbsp;спокойствия.</p>
+    </div>
+    <div class="stage">
+      <div class="stage-top"><h3><span class="n">04</span>Объекты и график</h3><div class="stage-meta">5 дней</div></div>
+      <p>Карточка объекта: 46&nbsp;этапов, факт против плана, расходы по&nbsp;стройке. Ревизор переключается на&nbsp;базу и&nbsp;продолжает вести график, как вёл.</p>
+    </div>
+    <div class="stage">
+      <div class="stage-top"><h3><span class="n">05</span>Обзор, телефон, обучение</h3><div class="stage-meta">5 дней</div></div>
+      <p>Главный экран, мобильная версия, финальная отладка. Показываю систему вам, Светлане Юрьевне и&nbsp;Евгению, каждому по&nbsp;своему разделу. Записываю короткие видео, чтобы можно было пересмотреть.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 07 -->
+<section class="alt">
+  <div class="container">
+    <div class="sec-num">07 · ЧТО МЕНЯЕТСЯ</div>
+    <h2>Что изменится<br>в работе</h2>
+    <p class="sec-sub">Не&nbsp;новая программа ради программы, а&nbsp;конкретные вещи, которых сейчас нет.</p>
+    <div class="grid grid-3">
+      <div class="card">
+        <div class="emoji">👀</div>
+        <h3>Картина за десять секунд</h3>
+        <p>Утром открыли телефон и&nbsp;сразу видите: сколько объектов горит, сколько денег ушло, что просрочено. Без сведения таблиц.</p>
+      </div>
+      <div class="card">
+        <div class="emoji">🔐</div>
+        <h3>Бухгалтер не видит прибыль</h3>
+        <p>Светлана Юрьевна спокойно ведёт платежи и&nbsp;зарплаты, но&nbsp;маржи и&nbsp;выручки по&nbsp;объектам не&nbsp;видит. Ровно то, о&nbsp;чём вы&nbsp;просили.</p>
+      </div>
+      <div class="card">
+        <div class="emoji">🎯</div>
+        <h3>Один список на всех</h3>
+        <p>Готовность и&nbsp;деньги считаются один раз в&nbsp;одном месте. Два списка объектов и&nbsp;двойники в&nbsp;справочнике рабочих исчезают: запись одна, и&nbsp;она общая для&nbsp;всех.</p>
+      </div>
+      <div class="card">
+        <div class="emoji">🗣</div>
+        <h3>Вопрос голосом, ответ цифрой</h3>
+        <p>«Сколько мы&nbsp;потратили на&nbsp;Княжий», «кто сегодня на&nbsp;Саргазах». Бро отвечает из&nbsp;базы, а&nbsp;не&nbsp;из&nbsp;головы.</p>
+      </div>
+      <div class="card">
+        <div class="emoji">📈</div>
+        <h3>Легко растить дальше</h3>
+        <p>Новый объект заводится за&nbsp;минуту, новый человек за&nbsp;полминуты. Склад, техника, договоры подключаются отдельными модулями поверх той&nbsp;же базы.</p>
+      </div>
+      <div class="card">
+        <div class="emoji">🏠</div>
+        <h3>Система остаётся у вас</h3>
+        <p>Система стоит на&nbsp;вашем сервере, данные у&nbsp;вас, исходники передаются вам. Подписок на&nbsp;чужие сервисы нет.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 -->
+<section>
+  <div class="container">
+    <div class="sec-num">08 · СКОЛЬКО СТОИТ</div>
+    <h2>Цена и порядок оплаты</h2>
+    <p class="sec-sub">Работа разбита на&nbsp;этапы, каждый имеет цену отдельно. Можно взять первый и&nbsp;посмотреть, как пойдёт.</p>
+    <div class="price-box">
+      <div class="price-label">Система управления АТОН · под ключ</div>
+      <div class="price-num">3 000 USD</div>
+      <div class="price-sub"><s>3 500 USD</s> &nbsp;пакетом дешевле · месяц поддержки бесплатно</div>
+
+      <div class="price-rows">
+        <div class="price-row">
+          <span class="nm">Агенты на ChatGPT<small>подписка, перенастройка троих, новые инструкции</small></span>
+          <span class="pr"><span class="old">450</span>400 $</span>
+        </div>
+        <div class="price-row">
+          <span class="nm">База и перенос данных<small>36 листов, справочники, история платежей</small></span>
+          <span class="pr"><span class="old">900</span>800 $</span>
+        </div>
+        <div class="price-row">
+          <span class="nm">Деньги и разделение прав<small>финансы, три роли, закрытая прибыль</small></span>
+          <span class="pr"><span class="old">1 150</span>1 000 $</span>
+        </div>
+        <div class="price-row">
+          <span class="nm">Объекты и график<small>карточка стройки, 46 этапов, план против факта</small></span>
+          <span class="pr"><span class="old">1 000</span>800 $</span>
+        </div>
+        <div class="price-row">
+          <span class="nm">Обзор, телефон, обучение<small>главный экран, мобильная версия, видео</small></span>
+          <span class="pr">включено</span>
+        </div>
+        <div class="price-total">
+          <span>Итого под ключ</span>
+          <span><span class="old">3 500 $</span>3 000 $</span>
+        </div>
+      </div>
+
+      <div class="price-extra">
+        <b>Отдельно, это ваш расход, не&nbsp;наш:</b> подписка ChatGPT около 100&nbsp;$ в&nbsp;месяц. Сервер у&nbsp;вас уже оплачен на&nbsp;год вперёд, докупать ничего не&nbsp;нужно.<br>
+        <b>Что входит без доплат:</b> перенос всех данных, обучение троих людей, месяц поддержки после сдачи, исходники системы.
+      </div>
+
+      <div class="pay-stages">
+        <span class="pay"><b>40 %</b> на старте</span>
+        <span class="pay"><b>30 %</b> после переноса базы</span>
+        <span class="pay"><b>30 %</b> на сдаче</span>
+      </div>
+
+      <a class="cta" href="https://t.me/stavzzz">Согласовать и стартовать →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="logo">ИИ-ВИЗАЦИЯ</div>
+    <div>Система управления для&nbsp;АТОН · продолжение проекта&nbsp;2.0</div>
+    <div style="margin-top:10px">Вопросы: <a href="https://t.me/stavzzz">t.me/stavzzz</a></div>
+  </div>
+</footer>
+
+</body>
+</html>
