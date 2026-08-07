@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ИИ-ВИЗАЦИЯ: 8 УРОВНЕЙ ЭВОЛЮЦИИ ИИ В КОМПАНИИ</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪜</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #0a0a0f;
+    --bg-card: #12121a;
+    --bg-card-hover: #181825;
+    --border: #1e1e2e;
+    --border-accent: #2a2a3e;
+    --text-primary: #e8e6f0;
+    --text-secondary: #8b879e;
+    --text-muted: #5a5670;
+    --accent: #7c5bf5;
+    --accent-glow: #9d7cff;
+    --accent-soft: rgba(124, 91, 245, 0.12);
+    --green: #34d399;
+    --green-glow: #6ee7b7;
+    --green-soft: rgba(52, 211, 153, 0.1);
+    --amber: #fbbf24;
+    --amber-soft: rgba(251, 191, 36, 0.1);
+    --red-soft: rgba(248, 113, 113, 0.1);
+    --red: #f87171;
+    --radius: 14px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Onest', sans-serif; background: var(--bg-deep); color: var(--text-primary); line-height: 1.65; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+  body::before { content: ''; position: fixed; inset: 0; background-image: radial-gradient(circle at 20% 20%, rgba(124,91,245,0.04) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(52,211,153,0.03) 0%, transparent 50%); pointer-events: none; z-index: 0; }
+  .wrapper { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; padding: 40px 20px 80px; }
+
+  /* Шапка */
+  .header { text-align: center; margin-bottom: 48px; }
+  .header__badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-glow); background: var(--accent-soft); border: 1px solid rgba(124,91,245,0.2); padding: 6px 16px; border-radius: 100px; margin-bottom: 24px; animation: fadeDown .6s ease both; }
+  .header__title { font-size: clamp(28px,6vw,40px); font-weight: 800; line-height: 1.15; letter-spacing: -0.5px; margin-bottom: 12px; animation: fadeDown .6s ease .1s both; }
+  .header__title span { background: linear-gradient(135deg, var(--accent-glow), var(--green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .header__topics { list-style:none; display:flex; flex-direction:column; gap:7px; max-width:460px; margin:16px auto 0; animation:fadeDown .6s ease .3s both; }
+  .header__topics li { font-size:13.5px; color:var(--text-secondary); display:flex; align-items:flex-start; gap:8px; text-align:left; }
+  .header__topics li::before { content:'→'; color:var(--accent); flex-shrink:0; font-family:'JetBrains Mono',monospace; font-size:11px; margin-top:3px; }
+
+  /* Секции */
+  .section { margin-bottom: 28px; }
+  .section__header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; padding-left: 2px; }
+  .section__num { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: var(--accent); background: var(--accent-soft); width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 8px; flex-shrink: 0; }
+  .section__title { font-size: 17px; font-weight: 700; letter-spacing: -0.2px; }
+  .section__card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: border-color .3s; }
+  .section__card:hover { border-color: var(--border-accent); }
+  .section__card > p { padding: 14px 20px; font-size: 13.5px; color: var(--text-secondary); border-bottom: 1px solid var(--border); }
+  .section__card > p:last-child { border-bottom: none; }
+  .section__card p strong { color: var(--text-primary); }
+
+  /* Заметки */
+  .note { display: flex; align-items: flex-start; gap: 10px; padding: 14px 20px; font-size: 13px; color: var(--text-secondary); line-height: 1.6; border-bottom: 1px solid var(--border); }
+  .note:last-child { border-bottom: none; }
+  .note--warn { background: var(--amber-soft); color: var(--amber); }
+  .note--info { background: var(--accent-soft); }
+  .note--alert { background: var(--red-soft); color: var(--red); }
+  .note--green { background: var(--green-soft); color: var(--green-glow); }
+  .note__icon { flex-shrink: 0; font-size: 15px; }
+  .note a { color: var(--accent-glow); text-decoration: none; font-weight: 600; }
+  .note a:hover { text-decoration: underline; }
+  .note strong { color: inherit; }
+  .tg { color: #2dd4bf !important; font-weight: 700; text-decoration: underline; text-decoration-color: rgba(45,212,191,0.4); text-underline-offset: 2px; transition: all .2s; }
+  .tg:hover { color: #5eead4 !important; text-decoration-color: #5eead4; }
+
+  /* Таблицы */
+  .os-table { width: 100%; font-size: 13px; border-collapse: collapse; margin: 8px 0; }
+  .os-table th { text-align: left; font-weight: 600; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; padding: 6px 0; border-bottom: 1px solid var(--border); }
+  .os-table td { padding: 8px 0; border-bottom: 1px solid var(--border); color: var(--text-secondary); vertical-align: top; }
+  .os-table tr:last-child td { border-bottom: none; }
+  .os-table td:first-child { color: var(--text-primary); font-weight: 500; }
+  .data-table { width:100%; font-size:13px; border-collapse:collapse; }
+  .data-table th { text-align:left; font-weight:600; color:var(--text-muted); font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:1.2px; padding:10px 20px; border-bottom:1px solid var(--border); background:rgba(0,0,0,0.2); }
+  .data-table td { padding:11px 20px; border-bottom:1px solid var(--border); color:var(--text-secondary); vertical-align:top; line-height:1.5; }
+  .data-table tr:last-child td { border-bottom:none; }
+  .data-table td:first-child { color:var(--text-primary); font-weight:600; }
+
+  /* Спойлер */
+  .spoiler { border-bottom: 1px solid var(--border); }
+  .spoiler:last-child { border-bottom: none; }
+  .spoiler summary { padding: 14px 20px; font-size: 13.5px; font-weight: 600; color: var(--text-secondary); cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px; transition: color .2s; }
+  .spoiler summary:hover { color: var(--text-primary); }
+  .spoiler summary::before { content: '▸'; font-size: 12px; transition: transform .2s; }
+  .spoiler[open] summary::before { transform: rotate(90deg); }
+  .spoiler__content { padding: 0 20px 16px 34px; font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
+  .spoiler__content p { margin-bottom: 8px; }
+  .spoiler__content strong { color: var(--text-primary); font-weight: 600; }
+
+  /* ЛЕСТНИЦА УРОВНЕЙ (визуализация) */
+  .ladder { padding: 20px; display: flex; flex-direction: column; gap: 6px; }
+  .ladder__group { font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:2px; margin:10px 0 4px; display:flex; align-items:center; gap:8px; }
+  .ladder__group:first-child { margin-top:0; }
+  .ladder__group::after { content:''; flex:1; height:1px; background:var(--border); }
+  .ladder__group--chaos { color: var(--red); }
+  .ladder__group--system { color: var(--accent-glow); }
+  .ladder__group--auto { color: var(--green); }
+  .ladder__group--horizon { color: var(--amber); }
+  .ladder__row { display:flex; align-items:center; gap:12px; }
+  .ladder__num { font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; width:26px; height:26px; border-radius:7px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .ladder__bar { height:26px; border-radius:7px; display:flex; align-items:center; padding:0 12px; font-size:12.5px; font-weight:600; white-space:nowrap; min-width:0; }
+  .ladder__bar span { overflow:hidden; text-overflow:ellipsis; }
+  .ladder__row--chaos .ladder__num { color:var(--red); background:var(--red-soft); }
+  .ladder__row--chaos .ladder__bar { background:var(--red-soft); color:var(--red); border:1px solid rgba(248,113,113,0.2); }
+  .ladder__row--system .ladder__num { color:var(--accent-glow); background:var(--accent-soft); }
+  .ladder__row--system .ladder__bar { background:var(--accent-soft); color:var(--accent-glow); border:1px solid rgba(124,91,245,0.25); }
+  .ladder__row--auto .ladder__num { color:var(--green); background:var(--green-soft); }
+  .ladder__row--auto .ladder__bar { background:var(--green-soft); color:var(--green-glow); border:1px solid rgba(52,211,153,0.25); }
+  .ladder__row--horizon .ladder__num { color:var(--amber); background:var(--amber-soft); }
+  .ladder__row--horizon .ladder__bar { background:var(--amber-soft); color:var(--amber); border:1px solid rgba(251,191,36,0.25); }
+
+  /* ЯДРО + КОЛЬЦА (визуализация) */
+  .rings { padding: 24px 20px 8px; text-align: center; }
+  .rings svg { width: 100%; max-width: 360px; height: auto; }
+  .rings__legend { list-style:none; text-align:left; padding: 8px 20px 18px; display:flex; flex-direction:column; gap:8px; }
+  .rings__legend li { font-size:13px; color:var(--text-secondary); display:flex; align-items:flex-start; gap:10px; line-height:1.5; }
+  .rings__legend li strong { color: var(--text-primary); }
+  .rings__dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; margin-top:5px; }
+
+  /* КАРТОЧКА УРОВНЯ */
+  .level { padding: 18px 20px; border-bottom: 1px solid var(--border); }
+  .level:last-child { border-bottom: none; }
+  .level__head { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+  .level__num { font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:700; width:30px; height:30px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .level__name { font-size:15px; font-weight:700; color:var(--text-primary); }
+  .level--chaos .level__num { color:var(--red); background:var(--red-soft); }
+  .level--system .level__num { color:var(--accent-glow); background:var(--accent-soft); }
+  .level--auto .level__num { color:var(--green); background:var(--green-soft); }
+  .level--horizon .level__num { color:var(--amber); background:var(--amber-soft); }
+  .level__desc { font-size:13px; color:var(--text-secondary); line-height:1.65; margin-bottom:10px; }
+  .level__desc strong { color:var(--text-primary); }
+  .level__label { font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-muted); margin-bottom:5px; }
+  .level__examples { list-style:none; margin-bottom:10px; }
+  .level__examples li { font-size:13px; color:var(--text-secondary); line-height:1.6; padding-left:14px; position:relative; }
+  .level__examples li::before { content:'•'; position:absolute; left:0; color:var(--accent-glow); }
+  .level__effect { font-size:12.5px; font-weight:600; display:inline-flex; align-items:center; gap:6px; padding:5px 12px; border-radius:100px; }
+  .level__effect--plus { color:var(--green-glow); background:var(--green-soft); border:1px solid rgba(52,211,153,0.2); }
+  .level__effect--risk { color:var(--red); background:var(--red-soft); border:1px solid rgba(248,113,113,0.2); }
+
+  /* Футер */
+  .footer { text-align: center; margin-top: 48px; }
+  .footer__contact { font-size: 14px; color: var(--text-secondary); }
+  .footer__contact a { color: #2dd4bf; text-decoration: underline; text-decoration-color: rgba(45,212,191,0.4); font-weight: 700; }
+  .footer__final-part3 { background:linear-gradient(135deg,rgba(251,191,36,0.08),rgba(219,39,119,0.08)); border:1px solid rgba(251,191,36,0.25); border-radius:var(--radius); padding:34px 24px; margin-bottom:24px; text-align:center; position:relative; overflow:hidden; }
+  .footer__final-part3::before { content:''; position:absolute; inset:0; background:radial-gradient(circle at 20% 0%, rgba(251,191,36,0.12), transparent 50%), radial-gradient(circle at 80% 100%, rgba(219,39,119,0.12), transparent 50%); pointer-events:none; }
+  .footer__final-emoji { font-size:54px; margin-bottom:12px; line-height:1; position:relative; }
+  .footer__final-text { font-size:24px; font-weight:800; background:linear-gradient(90deg,#fbbf24,#db2777); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:10px; letter-spacing:-0.4px; position:relative; }
+  .footer__final-sub { font-size:15px; color:var(--text-secondary); line-height:1.6; max-width:560px; margin:0 auto; position:relative; }
+
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 480px) {
+    .wrapper { padding: 28px 14px 60px; }
+    .note { padding: 12px 16px; }
+    .spoiler summary { padding: 12px 16px; }
+    .spoiler__content { padding: 0 16px 14px 28px; }
+    .data-table th,.data-table td { padding:8px 14px; }
+    .ladder { padding: 16px 14px; }
+    .ladder__bar { font-size:11.5px; padding:0 9px; }
+    .level { padding: 16px 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <header class="header">
+    <div class="header__badge">ИИ-ВИЗАЦИЯ · АВТОРСКАЯ МЕТОДОЛОГИЯ</div>
+    <h1 class="header__title">8 уровней <span>эволюции ИИ</span> в компании</h1>
+    <ul class="header__topics">
+      <li>Шкала 0–8: от сопротивления до самообучающейся системы</li>
+      <li>Примеры применения ИИ на каждом уровне</li>
+      <li>Самодиагностика по 3 осям, типовые ошибки и сроки внедрения</li>
+    </ul>
+  </header>
+
+  <div id="sections">
+
+    <!-- 01 ГЛАВНЫЙ ТЕЗИС -->
+    <div class="section">
+      <div class="section__header"><div class="section__num">01</div><div class="section__title">Главный тезис: конкуренция не между моделями</div></div>
+      <div class="section__card">
+        <p>ChatGPT, Claude и Gemini «достаточно умны» для 95% задач бизнеса. Модель сегодня <strong>товар с полки</strong>, одинаковый у всех: купить её может каждый, преимущества она не даёт.</p>
+        <div class="note note--info"><span class="note__icon">💡</span><span>Реальное преимущество в <strong>архитектуре и культуре</strong>: как ИИ встроен в процессы компании и как люди им пользуются. Это зона менеджмента, а не айтишников.</span></div>
+        <p>Зрелость ИИ в компании измеряется по шкале от 0 до 8: от полного сопротивления до самообучающейся системы. Главное правило лестницы: <strong>перепрыгнуть ступень нельзя</strong>, можно только подняться на одну. Автор методологии: Роман Пищулов, со-фаундер ИИ-ВИЗАЦИИ.</p>
+      </div>
+    </div>
+
+    <!-- 02 ЯДРО + КОЛЬЦА -->
+    <div class="section">
+      <div class="section__header"><div class="section__num">02</div><div class="section__title">Метафора: ядро и 4 кольца</div></div>
+      <div class="section__card">
+        <div class="rings">
+          <svg viewBox="0 0 360 360" role="img" aria-label="Схема: ядро-модель и четыре кольца вокруг него">
+            <circle cx="180" cy="180" r="168" fill="none" stroke="#fbbf24" stroke-opacity="0.55" stroke-width="2"/>
+            <circle cx="180" cy="180" r="132" fill="none" stroke="#34d399" stroke-opacity="0.6" stroke-width="2"/>
+            <circle cx="180" cy="180" r="96"  fill="none" stroke="#9d7cff" stroke-opacity="0.65" stroke-width="2"/>
+            <circle cx="180" cy="180" r="60"  fill="none" stroke="#2dd4bf" stroke-opacity="0.6" stroke-width="2"/>
+            <circle cx="180" cy="180" r="30" fill="rgba(124,91,245,0.18)" stroke="#9d7cff" stroke-width="2"/>
+            <text x="180" y="176" text-anchor="middle" font-family="Onest, sans-serif" font-size="12" font-weight="700" fill="#e8e6f0">ядро</text>
+            <text x="180" y="191" text-anchor="middle" font-family="Onest, sans-serif" font-size="10" fill="#8b879e">модель</text>
+            <text x="180" y="128" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" font-weight="600" fill="#2dd4bf">1 · навыки</text>
+            <text x="180" y="92"  text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" font-weight="600" fill="#9d7cff">2 · память</text>
+            <text x="180" y="56"  text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" font-weight="600" fill="#34d399">3 · агенты</text>
+            <text x="180" y="21"  text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" font-weight="600" fill="#fbbf24">4 · связь с миром</text>
+          </svg>
+        </div>
+        <ul class="rings__legend">
+          <li><span class="rings__dot" style="background:#2dd4bf"></span><span><strong>Навыки и инструменты:</strong> что ИИ умеет руками. Писать в CRM, искать, отправлять.</span></li>
+          <li><span class="rings__dot" style="background:#9d7cff"></span><span><strong>Память:</strong> помнит клиентов, проекты, договорённости. Не начинает с нуля каждый раз.</span></li>
+          <li><span class="rings__dot" style="background:#34d399"></span><span><strong>Агенты и роли:</strong> цифровые сотрудники со специализацией.</span></li>
+          <li><span class="rings__dot" style="background:#fbbf24"></span><span><strong>Связь с миром:</strong> каналы, в которых ИИ живёт. Telegram, почта, звонки.</span></li>
+        </ul>
+        <div class="note note--green"><span class="note__icon">✅</span><span><strong>Ядро купит каждый. Кольца строит не каждый.</strong> Уровень зрелости компании показывает, насколько достроены кольца вокруг модели. В этом и преимущество.</span></div>
+      </div>
+    </div>
+
+    <!-- 03 КАРТА УРОВНЕЙ -->
+    <div class="section">
+      <div class="section__header"><div class="section__num">03</div><div class="section__title">Карта уровней: лестница 0–8</div></div>
+      <div class="section__card">
+        <div class="ladder">
+          <div class="ladder__group ladder__group--horizon">Горизонт · ИИ в ДНК компании</div>
+          <div class="ladder__row ladder__row--horizon"><div class="ladder__num">8</div><div class="ladder__bar" style="width:100%"><span>Самообучающаяся система</span></div></div>
+          <div class="ladder__row ladder__row--horizon"><div class="ladder__num">7</div><div class="ladder__bar" style="width:92%"><span>AI-First компания</span></div></div>
+          <div class="ladder__group ladder__group--auto">Автономия · цифровые сотрудники</div>
+          <div class="ladder__row ladder__row--auto"><div class="ladder__num">6</div><div class="ladder__bar" style="width:84%"><span>ИИ-офис</span></div></div>
+          <div class="ladder__row ladder__row--auto"><div class="ladder__num">5</div><div class="ladder__bar" style="width:74%"><span>ИИ-агенты</span></div></div>
+          <div class="ladder__group ladder__group--system">Система · появляется порядок</div>
+          <div class="ladder__row ladder__row--system"><div class="ladder__num">4</div><div class="ladder__bar" style="width:64%"><span>Процессные автоматизации</span></div></div>
+          <div class="ladder__row ladder__row--system"><div class="ladder__num">3</div><div class="ladder__bar" style="width:54%"><span>Обучение команды</span></div></div>
+          <div class="ladder__group ladder__group--chaos">Хаос · инструменты есть, системы нет</div>
+          <div class="ladder__row ladder__row--chaos"><div class="ladder__num">2</div><div class="ladder__bar" style="width:44%"><span>Точечные инструменты</span></div></div>
+          <div class="ladder__row ladder__row--chaos"><div class="ladder__num">1</div><div class="ladder__bar" style="width:34%"><span>Индивидуальный хаос</span></div></div>
+          <div class="ladder__row ladder__row--chaos"><div class="ladder__num">0</div><div class="ladder__bar" style="width:26%"><span>Сопротивление</span></div></div>
+        </div>
+        <div class="note note--warn"><span class="note__icon">⚠</span><span><strong>Перепрыгнуть ступень нельзя.</strong> Армия агентов на хаосе данных заканчивается выводом «ИИ не работает». Подъём всегда идёт на одну ступень за раз.</span></div>
+      </div>
+    </div>
+
+    <!-- 04 ХАОС 0-2 -->
+    <div class="section">
+      <div class="section__header"><div class="section__num">04</div><div class="section__title">Хаос: уровни 0–2</div></div>
+      <div class="section__card">
+        <div class="level level--chaos">
+          <div class="level__head"><div class="level__num">0</div><div class="level__name">Сопротивление</div></div>
+          <div class="level__desc">«ИИ это хайп, нам не нужно». В компании запреты и страх утечек, темой никто не занимается. Пока вы ждёте, конкуренты и таланты уходят к тем, кто ИИ уже использует.</div>
+          <div class="level__label">С чего обычно начинается движение</div>
+          <ul class="level__examples">
+            <li>Руководитель лично пробует ИИ на своих задачах: черновик письма, разбор длинного документа.</li>
+            <li>Саммари встречи из диктофонной записи вместо ручного протокола.</li>
+            <li>Вопрос к ИИ на обычном языке вместо получаса поиска в интернете.</li>
+          </ul>
+          <span class="level__effect level__effect--risk">Риск: отставание от рынка и потеря людей</span>
+        </div>
+        <div class="level level--chaos">
+          <div class="level__head"><div class="level__num">1</div><div class="level__name">Индивидуальный хаос</div></div>
+          <div class="level__desc">Кто хочет, тот пользуется. Каждый сам по себе, опыт не передаётся, единых правил нет. Классика уровня: «купили корпоративный Claude, а команда даже кнопку активации не нажала».</div>
+          <div class="level__label">Как выглядит использование ИИ</div>
+          <ul class="level__examples">
+            <li>Маркетолог сам генерирует тексты объявлений, никому об этом не рассказывая.</li>
+            <li>Менеджер переводит переписку с клиентом через публичный чат-бот.</li>
+            <li>Каждый хранит свои удачные промпты у себя: уйдёт человек, уйдёт и опыт.</li>
+          </ul>
+          <span class="level__effect level__effect--risk">Риск: данные утекают в публичные сервисы</span>
+        </div>
+        <div class="level level--chaos">
+          <div class="level__head"><div class="level__num">2</div><div class="level__name">Точечные инструменты</div></div>
+          <div class="level__desc">Компания накупила ИИ-сервисов, но они не связаны между собой. Каждый инструмент решает свой кусочек, эффекта масштаба нет, подписки дублируют друг друга.</div>
+          <div class="level__label">Как выглядит использование ИИ</div>
+          <ul class="level__examples">
+            <li>Отдельный сервис транскрибации звонков, который никто не открывает после встречи.</li>
+            <li>Генератор картинок для соцсетей у дизайнера, чат-виджет на сайте у продажников: между собой не связаны.</li>
+            <li>Три платные подписки с пересекающимися функциями в разных отделах.</li>
+          </ul>
+          <span class="level__effect level__effect--risk">Риск: дублирование и лишние траты</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 05 СИСТЕМА 3-4 -->
+    <div class="section">
+      <div class="section__header"><div class="section__num">05</div><div class="section__title">Система: уровни 3–4</div></div>
+      <div class="section__card">
+        <div class="level level--system">
+          <div class="level__head"><div class="level__num">3</div><div class="level__name">Обучение команды</div></div>
+          <div class="level__desc">Появляется порядок: команду обучили, собрали библиотеку готовых запросов, ввели единые правила работы и безопасности. Работа при этом всё ещё ручная: человек запускает каждую задачу сам.</div>
+          <div class="level__label">Примеры применения ИИ</div>
+          <ul class="level__examples">
+            <li>Библиотека промптов под отделы: продажи, маркетинг, поддержка.</li>
+            <li>Единые правила: что можно отправлять в ИИ, а что запрещено.</li>
+            <li>Сотрудники готовят с ИИ коммерческие предложения, отчёты и презентации по общим шаблонам.</li>
+          </ul>
+          <span class="level__effect level__effect--plus">Эффект: общий язык и передаваемый опыт</span>
+        </div>
+        <div class="level level--system">
+          <div class="level__head"><div class="level__num">4</div><div class="level__name">Процессные автоматизации</div></div>
+          <div class="level__desc">Сдвиг мышления: ИИ из помощника становится автоматизатором. Он встроен в процессы и работает без человека: задача запускается сама по событию или расписанию.</div>
+          <div class="level__label">Примеры применения ИИ</div>
+          <ul class="level__examples">
+            <li>Автоответы клиентам на типовые вопросы в мессенджерах и почте.</li>
+            <li>Квалификация входящих заявок: горячие сразу к менеджеру, остальные в прогрев.</li>
+            <li>Саммари встреч и автоотчёты по расписанию без участия людей.</li>
+          </ul>
+          <span class="level__effect level__effect--plus">Эффект: плюс 20–30% к продуктивности</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 06 АВТОНОМИЯ 5-6 -->
+    <div class="section">
+      <div class="section__header"><div class="section__num">06</div><div class="section__title">Автономия: уровни 5–6</div></div>
+      <div class="section__card">
+        <div class="level level--auto">
+          <div class="level__head"><div class="level__num">5</div><div class="level__name">ИИ-агенты</div></div>
+          <div class="level__desc">ИИ больше не ждёт команды. Агент помнит контекст, работает 24/7 и проявляет инициативу: сам замечает, что пора действовать, и делает.</div>
+          <div class="level__label">Примеры применения ИИ</div>
+          <ul class="level__examples">
+            <li>Помощник по проектам: следит за задачами, напоминает о дедлайнах, готовит сводки.</li>
+            <li>Разведчик клиентов: сам собирает информацию о компании перед встречей.</li>
+            <li>Агент с памятью о клиентах и договорённостях, а не «с чистого листа» каждый диалог.</li>
+          </ul>
+          <span class="level__effect level__effect--plus">Эффект: 30–50% экономии времени без новых наймов</span>
+        </div>
+        <div class="level level--auto">
+          <div class="level__head"><div class="level__num">6</div><div class="level__name">ИИ-офис</div></div>
+          <div class="level__desc">Несколько агентов под разные роли работают вместе и передают задачи друг другу, как настоящие отделы. Вживую это выглядит так: система работает 24/7 и сама себя чинит, говорит в Telegram, помнит тысячи документов и сотни людей, обрабатывает голос и отчёты автоматически.</div>
+          <div class="level__label">Примеры применения ИИ</div>
+          <ul class="level__examples">
+            <li>Менеджер 24/7: принимает обращения клиентов в любое время суток.</li>
+            <li>Секретарь встреч: календарь, напоминания, протоколы, задачи по итогам.</li>
+            <li>Агенты-«отделы» под финансы, юристов, аналитику и коммуникации, связанные в один контур.</li>
+          </ul>
+          <span class="level__effect level__effect--plus">Эффект: до 60% экономии на операциях</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 07 ГОРИЗОНТ 7-8 -->
+    <div class="section">
+      <div class="section__header"><div class="section__num">07</div><div class="section__title">Горизонт: уровни 7–8</div></div>
+      <div class="section__card">
+        <div class="level level--horizon">
+          <div class="level__head"><div class="level__num">7</div><div class="level__name">AI-First компания</div></div>
+          <div class="level__desc">ИИ не «добавлен» к бизнесу, а встроен в его суть. Каждый новый процесс проектируется сразу вокруг ИИ. Формула уровня: люди занимаются стратегией, ИИ занимается операциями.</div>
+          <div class="level__label">Примеры применения ИИ</div>
+          <ul class="level__examples">
+            <li>Новый продукт или направление запускается сразу с ИИ-контуром: продажи, поддержка, отчётность.</li>
+            <li>Операционные решения по правилам принимает система, люди подключаются к исключениям.</li>
+            <li>Команда растёт по выручке, а не по штатному расписанию.</li>
+          </ul>
+          <span class="level__effect level__effect--plus">Эффект: люди на стратегии, ИИ на операциях</span>
+        </div>
+        <div class="level level--horizon">
+          <div class="level__head"><div class="level__num">8</div><div class="level__name">Самообучающаяся система</div></div>
+          <div class="level__desc">Вершина лестницы: ИИ сам анализирует эффективность компании, предсказывает проблемы и оптимизирует процессы без человека. Для большинства это пока не «завтра», но видеть вершину важно, чтобы строить систему с заделом.</div>
+          <div class="level__label">Примеры применения ИИ</div>
+          <ul class="level__examples">
+            <li>Система сама замечает, что конверсия падает, и предлагает гипотезы почему.</li>
+            <li>Предсказание кассовых разрывов и узких мест до того, как они случились.</li>
+            <li>Автоматическая оптимизация процессов по накопленным данным компании.</li>
+          </ul>
+          <span class="level__effect level__effect--plus">Эффект: автономная оптимизация бизнеса</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 08 САМОДИАГНОСТИКА -->
+    <div class="section">
+      <div class="section__header"><div class="section__num">08</div><div class="section__title">Самодиагностика: где вы сейчас</div></div>
+      <div class="section__card">
+        <p>Компания почти никогда не стоит на одном уровне целиком: она «размазана» по лестнице. Проверьте себя по трём осям.</p>
+        <table class="data-table">
+          <tr><th>Ось</th><th>От</th><th>До</th></tr>
+          <tr><td>Глубина</td><td>помогает человеку</td><td>делает рутину сам → принимает решения</td></tr>
+          <tr><td>Охват</td><td>1–2 человека</td><td>несколько отделов → вся компания</td></tr>
+          <tr><td>Тип задач</td><td>черновики и ускорение</td><td>автоматизация по правилам → анализ и стратегия</td></tr>
+        </table>
+        <div class="note note--warn"><span class="note__icon">⚠</span><span><strong>Система поднимается на высоту самого слабого звена.</strong> Задача аудита: найти самое слабое кольцо и укреплять именно его.</span></div>
+      </div>
+    </div>
+
+    <!-- 09 ПАМЯТЬ РАНЬШЕ АГЕНТОВ -->
+    <div class="section">
+      <div class="section__header"><div class="section__num">09</div><div class="section__title">Ключевой принцип: память раньше агентов</div></div>
+      <div class="section__card">
+        <p>Главная ошибка при внедрении: строить агентов на хаосе данных. Нельзя прыгнуть к ИИ-агентам, пока информация раскидана по почте, мессенджерам и головам сотрудников.</p>
+        <div class="note note--info"><span class="note__icon">💡</span><span><strong>Агент без памяти компании</strong> ведёт себя как новый сотрудник, которому ничего не рассказали. Сначала строится кольцо памяти: единое хранилище, которое «кормит» агентов. Отсюда тезис: архитектура важнее модели.</span></div>
+      </div>
+    </div>
+
+    <!-- 10 КЕЙС -->
+    <div class="section">
+      <div class="section__header"><div class="section__num">10</div><div class="section__title">Кейс: девелопер из Дубая, 3 месяца</div></div>
+      <div class="section__card">
+        <p>Старт с уровня 1–2: «всё спонтанно, системы нет; купили Claude, никто не пользуется; данные раскиданы». Подъём по шагам:</p>
+        <table class="data-table">
+          <tr><th>Шаг</th><th>Что сделали</th></tr>
+          <tr><td>1. Аудит</td><td>Зафиксировали, где компания находится на лестнице</td></tr>
+          <tr><td>2. Обучение руководства</td><td>Уровень 3: топы первыми, они локомотив изменений</td></tr>
+          <tr><td>3. Единая база знаний</td><td>Собрали все данные компании в одно место</td></tr>
+          <tr><td>4. ИИ-офис</td><td>Уровни 5–6: четыре агента, среди них помощник, разведчик, менеджер 24/7 и секретарь</td></tr>
+          <tr><td>5. Дорожная карта</td><td>План развития на 30 / 60 / 90 дней</td></tr>
+        </table>
+        <div class="note note--green"><span class="note__icon">✅</span><span><strong>Принцип внедрения:</strong> не «шашками», а хирургически, от руководства к команде.</span></div>
+      </div>
+    </div>
+
+    <!-- 11 ОШИБКИ -->
+    <div class="section">
+      <div class="section__header"><div class="section__num">11</div><div class="section__title">5 ошибок, на которых горят деньги</div></div>
+      <div class="section__card">
+        <table class="data-table">
+          <tr><th>Ошибка</th><th>Чем заканчивается и как правильно</th></tr>
+          <tr><td>Перепрыгивание ступеней</td><td>Армия агентов с первого уровня даёт вывод «ИИ не работает». Подъём только на одну ступень за раз</td></tr>
+          <tr><td>Технологии без стратегии</td><td>Инструменты куплены, зачем: непонятно. Сначала задача, потом инструмент</td></tr>
+          <tr><td>Обучение без внедрения</td><td>Тренинг прошёл, процессы не изменились. Нужны сопровождение и контроль</td></tr>
+          <tr><td>Автоматизация плохого процесса</td><td>Автоматизировали бардак, получили быстрый бардак. Сначала порядок</td></tr>
+          <tr><td>Игнор безопасности</td><td>Данные утекают в публичные сервисы. Нужны правила и приватные решения</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- 12 СРОКИ -->
+    <div class="section">
+      <div class="section__header"><div class="section__num">12</div><div class="section__title">Сроки внедрения</div></div>
+      <div class="section__card">
+        <table class="data-table">
+          <tr><th>Бизнес</th><th>Срок</th><th>Что успевает</th></tr>
+          <tr><td>Малый, до 20 чел.</td><td>3–6 мес</td><td>Обучение, первые автоматизации, первый агент</td></tr>
+          <tr><td>Средний, 20–200 чел.</td><td>6–12 мес</td><td>Обучение ключевых, автоматизация процессов, агенты, ИИ-офис</td></tr>
+          <tr><td>Крупный, 200+ чел.</td><td>12–24 мес</td><td>Пилот в одном отделе, масштабирование, полное внедрение</td></tr>
+        </table>
+        <div class="note note--green"><span class="note__icon">💡</span><span><strong>На будущее:</strong> это не годы и не миллионы, а месяцы и последовательность. Не нужно прыгать сразу на восьмой уровень: нужно подняться на одну ступень уже сегодня.</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer__final-part3">
+      <div class="footer__final-emoji">🪜</div>
+      <div class="footer__final-text">Карта у вас в руках!</div>
+      <div class="footer__final-sub">Определите свой уровень по трём осям, найдите самое слабое кольцо и поднимитесь на одну ступень. Лестница работает только так: шаг за шагом, от руководства к команде.</div>
+    </div>
+    <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
+  </div>
+
+</div>
+</body>
+</html>
