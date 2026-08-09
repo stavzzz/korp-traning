@@ -98,6 +98,7 @@
   .spoiler summary:hover { color: var(--text-primary); }
   .spoiler summary::before { content: '▸'; font-size: 12px; transition: transform .2s; }
   .spoiler[open] summary::before { transform: rotate(90deg); }
+  .spoiler__title { padding: 14px 20px 2px; font-size: 13.5px; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 8px; }
   .spoiler__content { padding: 0 20px 16px 34px; font-size: 13px; color: var(--text-secondary); line-height: 1.7; }
   .spoiler__content p { margin-bottom: 8px; }
   .spoiler__content strong { color: var(--text-primary); font-weight: 600; }
@@ -233,7 +234,7 @@
     <div class="item" data-key="card-wanttopay"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Основной вариант — оформить карту через <a href="https://t.me/WantToPayBot" target="_blank" class="tg" onclick="event.stopPropagation()">@WantToPayBot</a> (тариф Easy)</div>
-        <div class="item__hint">1. Откройте <a href="https://t.me/WantToPayBot" target="_blank" class="tg" onclick="event.stopPropagation()">@WantToPayBot</a> → «Запустить», зарегистрируйтесь<br>2. Пройдите проверку личности, здесь она обязательна, понадобится фото документа<br>3. В мини-приложении выберите тариф <strong>Easy</strong>: 990 ₽ на 12 месяцев, счёт в долларах<br>4. Пополните баланс, минимум 10 долларов<br>5. Выпустите карту, биллинг-адрес смотрите по иконке «Биллинг-адрес»<br><br><strong>Учтите:</strong> лимит трат 4 000 долларов в месяц, комиссия $0,25 списывается и за успешную операцию, и за отклонённую.<br><br><strong>Инструкции по оплате:</strong> <a href="https://wanttopay.net/blog/claude-pro-kak-kupit-neyroset-v-2026" target="_blank" onclick="event.stopPropagation()">Claude Pro</a> · <a href="https://wanttopay.net/instructions/kak-oplatit-chatgpt-v-2026" target="_blank" onclick="event.stopPropagation()">ChatGPT</a> · <a href="https://faq.wanttopay.net/wanttopay-app/tarif-easy" target="_blank" onclick="event.stopPropagation()">тариф Easy</a> · <a href="https://faq.wanttopay.net/wanttopay-app/oshibki-i-resheniya/oshibki-pri-oplate" target="_blank" onclick="event.stopPropagation()">если оплата не проходит</a><br><strong>Поддержка:</strong> <a href="https://t.me/WantToPaySupportBot" target="_blank" class="tg" onclick="event.stopPropagation()">@WantToPaySupportBot</a></div>
+        <div class="item__hint">1. Откройте <a href="https://t.me/WantToPayBot" target="_blank" class="tg" onclick="event.stopPropagation()">@WantToPayBot</a> → «Запустить», зарегистрируйтесь<br>2. Пройдите проверку личности, здесь она обязательна, понадобится фото документа<br>3. В мини-приложении выберите тариф <strong>Easy</strong>: 990 ₽ на 12 месяцев, счёт в долларах<br>4. Пополните баланс, минимум 10 долларов<br>5. Выпустите карту, биллинг-адрес смотрите по иконке «Биллинг-адрес»<br><br><strong>Учтите:</strong> лимит трат 4 000 долларов в месяц, комиссия $0,25 списывается и за успешную операцию, и за отклонённую.<br><br><strong>Инструкции по оплате:</strong> <a href="https://wanttopay.net/blog/claude-pro-kak-kupit-neyroset-v-2026" target="_blank" onclick="event.stopPropagation()">Claude Pro</a> · <a href="https://wanttopay.net/instructions/kak-oplatit-chatgpt-v-2026" target="_blank" onclick="event.stopPropagation()">ChatGPT</a> · <a href="https://faq.wanttopay.net/wanttopay-app/tarif-easy" target="_blank" onclick="event.stopPropagation()">тариф Easy</a> · <a href="https://faq.wanttopay.net/wanttopay-app/oshibki-i-resheniya/oshibki-pri-oplate" target="_blank" onclick="event.stopPropagation()">если оплата не проходит</a><br><strong>Официальный сайт:</strong> <a href="https://wanttopay.net/" target="_blank" onclick="event.stopPropagation()">wanttopay.net</a> — инструкции и справка сервиса.<br><strong>Поддержка:</strong> <a href="https://t.me/WantToPaySupportBot" target="_blank" class="tg" onclick="event.stopPropagation()">@WantToPaySupportBot</a></div>
         <a href="https://t.me/WantToPayBot" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> @WantToPayBot — выпуск карты США, тариф Easy (Telegram)</a>
       </div>
     </div>
@@ -241,7 +242,7 @@
     <div class="item" data-key="card-zarub"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Запасной вариант 1 — <a href="https://t.me/zarub_robot" target="_blank" class="tg" onclick="event.stopPropagation()">@zarub_robot</a></div>
-        <div class="item__hint">1. Откройте <a href="https://t.me/zarub_robot" target="_blank" class="tg" onclick="event.stopPropagation()">@zarub_robot</a> в Telegram → «Запустить»<br>2. Зарегистрируйтесь, документы не нужны<br>3. Пополните баланс рублями через СБП или криптовалютой<br>4. Выпустите виртуальную карту с биллинг-адресом США<br>5. Перепишите номер, срок действия, CVV и биллинг-адрес<br><br><strong>Инструкции у Заруба в видеоформате:</strong> <a href="https://www.youtube.com/watch?v=v-1nnkx9dBQ" target="_blank" onclick="event.stopPropagation()">выпуск карты и оплата ею</a> · <a href="https://www.youtube.com/watch?v=Wo31v1QaONs" target="_blank" onclick="event.stopPropagation()">оплата ChatGPT</a> · <a href="https://www.youtube.com/watch?v=WCR7D9Ve3l4" target="_blank" onclick="event.stopPropagation()">все способы оплаты</a>. Отдельного видео по Claude нет: оплата идёт так же, как в ролике про ChatGPT.<br><strong>Личный кабинет на сайте:</strong> всё то же самое, что в мини-приложении, можно делать на сайте <a href="https://zarub.io/" target="_blank" onclick="event.stopPropagation()">zarub.io</a> (вход: <a href="https://zarub.io/login" target="_blank" onclick="event.stopPropagation()">zarub.io/login</a>) через обычный браузер. Удобно, когда мини-приложение тормозит.<br><strong>Поддержка:</strong> <a href="https://t.me/zarub_help_bot" target="_blank" class="tg" onclick="event.stopPropagation()">@zarub_help_bot</a></div>
+        <div class="item__hint">1. Откройте <a href="https://t.me/zarub_robot" target="_blank" class="tg" onclick="event.stopPropagation()">@zarub_robot</a> в Telegram → «Запустить»<br>2. Зарегистрируйтесь, документы не нужны<br>3. Пополните баланс рублями через СБП или криптовалютой<br>4. Выпустите виртуальную карту с биллинг-адресом США<br>5. Перепишите номер, срок действия, CVV и биллинг-адрес<br><br><strong>Инструкции у Заруба в видеоформате:</strong> <a href="https://www.youtube.com/watch?v=v-1nnkx9dBQ" target="_blank" onclick="event.stopPropagation()">выпуск карты и оплата ею</a> · <a href="https://www.youtube.com/watch?v=Wo31v1QaONs" target="_blank" onclick="event.stopPropagation()">оплата ChatGPT</a> · <a href="https://www.youtube.com/watch?v=WCR7D9Ve3l4" target="_blank" onclick="event.stopPropagation()">все способы оплаты</a>. Отдельного видео по Claude нет: оплата идёт так же, как в ролике про ChatGPT.<br><strong>Официальный сайт:</strong> <a href="https://zarub.io/" target="_blank" onclick="event.stopPropagation()">zarub.io</a> (вход в личный кабинет: <a href="https://zarub.io/login" target="_blank" onclick="event.stopPropagation()">zarub.io/login</a>) — всё то же самое, что в мини-приложении, работает в обычном браузере. Удобно, когда мини-приложение тормозит.<br><strong>Поддержка:</strong> <a href="https://t.me/zarub_help_bot" target="_blank" class="tg" onclick="event.stopPropagation()">@zarub_help_bot</a></div>
         <a href="https://t.me/zarub_robot" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> @zarub_robot — выпуск виртуальной карты США (Telegram)</a>
       </div>
     </div>
@@ -249,7 +250,7 @@
     <div class="item" data-key="card-dex"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Запасной вариант 2 — <a href="https://t.me/DexPilotWalletBot" target="_blank" class="tg" onclick="event.stopPropagation()">@DexPilotWalletBot</a></div>
-        <div class="item__hint">1. Откройте <a href="https://t.me/DexPilotWalletBot" target="_blank" class="tg" onclick="event.stopPropagation()">@DexPilotWalletBot</a> в Telegram → «Запустить»<br>2. Зарегистрируйтесь<br>3. Пополните баланс<br>4. Выпустите виртуальную карту с биллинг-адресом США<br>5. Перепишите номер, срок действия, CVV и биллинг-адрес<br><br><strong>Учтите:</strong> у этого сервиса нет ни сайта, ни справки, ни инструкций, а поддержка только внутри самого бота. Берите его, только если первые три не подошли, и не держите на нём крупные суммы: пополняйте ровно под ближайшую оплату.</div>
+        <div class="item__hint">1. Откройте <a href="https://t.me/DexPilotWalletBot" target="_blank" class="tg" onclick="event.stopPropagation()">@DexPilotWalletBot</a> в Telegram → «Запустить»<br>2. Зарегистрируйтесь<br>3. Пополните баланс<br>4. Выпустите виртуальную карту с биллинг-адресом США<br>5. Перепишите номер, срок действия, CVV и биллинг-адрес<br><br><strong>Официальный сайт:</strong> отсутствует, сервис работает только внутри Telegram-бота.<br><strong>Учтите:</strong> у этого сервиса нет ни справки, ни инструкций, а поддержка только внутри самого бота. Берите его, только если первые три не подошли, и не держите на нём крупные суммы: пополняйте ровно под ближайшую оплату.</div>
         <a href="https://t.me/DexPilotWalletBot" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> @DexPilotWalletBot — альтернативный бот для выпуска карт</a>
       </div>
     </div>
@@ -279,8 +280,8 @@
         <div class="item__hint">Выберите компанию из таблицы ниже и купите сервер. Настройки при покупке для всех одинаковые:<br>• <strong>Страна сервера:</strong> США или Европа<br>• <strong>Размер:</strong> 2 ядра процессора, 4 ГБ оперативной памяти, 60 ГБ диска<br>• <strong>Система:</strong> Ubuntu 24.04<br>• <strong>Оплата:</strong> картой США из шага 02 или криптовалютой</div>
       </div>
     </div>
-    <details class="spoiler" open>
-      <summary>📊 Проверенные провайдеры — выберите свой</summary>
+    <div class="spoiler">
+      <div class="spoiler__title">📊 Проверенные провайдеры — выберите свой</div>
       <div class="spoiler__content">
         <table class="os-table">
           <tr><th>Провайдер</th><th>Цена / мес</th><th>Чем хорош</th></tr>
@@ -292,17 +293,17 @@
         </table>
         <p style="margin-top:10px">Все эти компании зарубежные и надёжные, серверы есть и в США, и в Европе. <strong>netcup</strong> — самый выгодный по цене. При покупке выбирайте страну <strong>США или Европу</strong> (США проще; у netcup США — это город Манассас). Новичку проще всего на <strong>netcup</strong> или <strong>Hetzner</strong>.</p>
       </div>
-    </details>
+    </div>
     <div class="note note--warn"><span class="note__icon">💳</span><span><strong>Чем платить за сервер.</strong> Тем же способом, что и подписки: виртуальной картой из шага 02. Отдельных пошаговых инструкций по оплате хостинга у сервисов карт нет, но процесс обычный: вводите данные карты и биллинг-адрес, который выдал бот вместе с картой.<br><br>Если оплата не проходит, не повторяйте её несколько раз подряд. Напишите в поддержку своего сервиса карты, там видят причину отказа по своим выпискам и подскажут, что поправить.</span></div>
-    <details class="spoiler">
-      <summary>🧭 По каким критериям выбирать VPS</summary>
+    <div class="spoiler">
+      <div class="spoiler__title">🧭 По каким критериям выбирать VPS</div>
       <div class="spoiler__content">
         <p><strong>1. Страна сервера — США или Европа.</strong> Выберите одну и держите её же для VPN и номера. США проще — всё совпадает (у netcup это Манассас). Главное — не Россия.</p>
         <p><strong>2. Только зарубежная компания.</strong> С российских серверов многие сайты не открываются. Берите из таблицы выше.</p>
         <p><strong>3. Чем платить.</strong> Картой США из шага 02 или криптовалютой. Карты РФ зарубежные компании обычно не принимают.</p>
         <p><strong>4. Размер.</strong> Минимум 2 ядра процессора и 4 ГБ оперативной памяти — этого хватит.</p>
       </div>
-    </details>
+    </div>
     <div class="note note--warn"><span class="note__icon">🆘</span><span><strong>Если зарубежный сервер купить никак не выходит</strong> — нет подходящей карты, не проходит оплата — на крайний случай и на свой риск можно взять <a href="https://aeza.net/" target="_blank" class="lnk">aeza.net</a>, локация США или Европа. Учтите: Aeza — российский провайдер, поэтому часть западных моделей и сервисов может работать нестабильно или со временем заблокироваться. Это временное решение для старта, а не замена зарубежному серверу из таблицы выше.</span></div>
     <div class="item" data-key="vps-creds"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
@@ -324,8 +325,8 @@
         <div class="item__text">Скачать Amnezia VPN на компьютер</div>
       </div>
     </div>
-    <details class="spoiler" open>
-      <summary>Файлы для скачивания — выберите свою ОС</summary>
+    <div class="spoiler">
+      <div class="spoiler__title">Файлы для скачивания — выберите свою ОС</div>
       <div class="spoiler__content">
         <table class="os-table">
           <tr><th>Ваша ОС</th><th>Скачать</th></tr>
@@ -335,7 +336,7 @@
         </table>
         <p style="margin-top:10px"><strong>Не знаете версию macOS?</strong> Нажмите  → «Об этом Mac».<br><strong>Не знаете версию Windows?</strong> Win + I → «Система» → «О системе».</p>
       </div>
-    </details>
+    </div>
     <div class="note note--alert"><span class="note__icon">⚠</span><span>macOS 12 и ниже или Windows 8 — <strong>обновите систему</strong>. Старые ОС = проблемы с безопасностью.</span></div>
     <div class="note note--info"><span class="note__icon">🐙</span><span><strong>Официальные свежие версии — только с GitHub.</strong> Все новые релизы программы на компьютер и приложений на телефон выкладывают здесь. Если ссылки выше устарели или нужна последняя версия — берите файл для своей системы отсюда:<br>
       <a href="https://github.com/amnezia-vpn/amnezia-client/releases" target="_blank" class="lnk" style="display:block;margin-top:6px">🐙 github.com/amnezia-vpn/amnezia-client/releases — официальные релизы Amnezia</a>
@@ -352,13 +353,13 @@
         <div class="item__hint">1. Откройте Amnezia → «Настроить свой сервер» (Self-hosted VPN)<br>2. Введите <strong>IP-адрес</strong> и <strong>root-пароль</strong> из шага 03<br>3. «Подключиться» → подождите 2–3 минуты<br>4. «Подключено» → VPN работает!</div>
       </div>
     </div>
-    <details class="spoiler">
-      <summary>🛠 Ошибка 103: «Background service is not running»</summary>
+    <div class="spoiler">
+      <div class="spoiler__title">🛠 Ошибка 103: «Background service is not running»</div>
       <div class="spoiler__content">
         <p><strong>macOS:</strong> Системные настройки → Основные → Объекты входа и расширения → найдите <strong>Privacy Technologies OU</strong> → разрешите работу в фоне. Перезапустите Amnezia.</p>
         <p><strong>Windows:</strong> Ctrl+Alt+Del → Диспетчер задач → вкладка «Службы» → найдите <strong>AmneziaVPN-service</strong> → правой кнопкой → «Запустить». Перезапустите Amnezia.</p>
       </div>
-    </details>
+    </div>
     <div class="note note--info"><span class="note__icon">🔗</span><span>Сайт Amnezia не открывается? Зеркала:<br>
       <a href="https://m-b75ce44e5ba5-3w5hsuiikq-ez.a.run.app/ru" target="_blank" class="lnk" style="display:block;margin-top:6px;margin-bottom:4px">🌐 Зеркало сайта Amnezia (на русском)</a>
       <a href="https://storage.googleapis.com/amnezia/amnezia.org" target="_blank" class="lnk" style="display:block">📚 Список актуальных зеркал Amnezia</a>
