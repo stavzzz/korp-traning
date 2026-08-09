@@ -204,7 +204,7 @@
     <li>Вайб-кодинг и терминал — зачем нейросетям CLI</li>
     <li>VS Code + Claude Code: установка и прокачка (скиллы, MCP, инструменты)</li>
     <li>Покупка VPS и установка OpenClaw на сервер, доступ по SSH-ключу</li>
-    <li>Подключение моделей: ChatGPT (Codex) или MiniMax M3 + OpenRouter</li>
+    <li>Подключение моделей: ChatGPT (Codex) + OpenRouter</li>
     <li>Telegram-бот, голосовые сообщения и веб-панель (Web UI)</li>
     <li>Личность агента: настройка SOUL.md и USER.md</li>
     <li>Диагностика, частые ошибки и авто-обновление OpenClaw</li>
@@ -257,12 +257,8 @@
       <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Подписка на основную модель — «мозг» вашего бота</div>
-        <div class="item__hint"><strong>Обязательно для этого урока.</strong> Берите тот ИИ, на который оформили подписку <strong>в уроке 1</strong>:<br>
-        • <strong>ChatGPT</strong> Plus ($20) / Pro ($100) → работает через OpenAI Codex<br>
-        • <strong>MiniMax</strong> Plus ($20) / Max ($50) → дешевле, модель MiniMax M3<br>
-        Подключаем на шаге 07.<br>
-        <a href="https://chatgpt.com" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> chatgpt.com — оформить подписку</a><br>
-        <a href="https://platform.minimax.io/subscribe/token-plan" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> platform.minimax.io — тарифы MiniMax</a></div>
+        <div class="item__hint"><strong>Обязательно для этого урока.</strong> Понадобится подписка <strong>ChatGPT</strong> из урока 1: Plus ($20) или Pro ($100), работает через OpenAI Codex. Подключаем на шаге 07.<br>
+        <a href="https://chatgpt.com" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> chatgpt.com — оформить подписку</a></div>
       </div>
     </div>
   </div>
@@ -328,8 +324,8 @@
 └───────────┘    └──────┬───┬──────┘    └────────────────┘
                         │   │
                         │   │            ┌────────────────────┐
-                        │   └───────────▶│  OpenAI Codex ИЛИ  │
-                        │   ◀────────────│     MiniMax M3     │
+                        │   └───────────▶│    OpenAI Codex    │
+                        │   ◀────────────│     (ChatGPT)      │
                         │                └────────────────────┘
                  ┌──────┴───────┐
                  │    Whisper   ▲
@@ -342,7 +338,7 @@
       <p>1. <strong>Claude Code</strong> (VS Code на вашем компьютере) подключается к VPS по SSH — устанавливает OpenClaw, настраивает конфиги, создаёт агентов.</p>
       <p>2. Вы отправляете сообщение (текст или голос) боту в <strong>Telegram</strong>.</p>
       <p>3. Если сообщение голосовое — <strong>Whisper</strong> (OpenAI или Groq) конвертирует речь в текст.</p>
-      <p>4. OpenClaw обрабатывает запрос и отправляет в основную модель — <strong>OpenAI Codex</strong> (ChatGPT) или <strong>MiniMax M3</strong> — либо в <strong>OpenRouter</strong> (резервные/бесплатные модели).</p>
+      <p>4. OpenClaw обрабатывает запрос и отправляет в основную модель — <strong>OpenAI Codex</strong> (ChatGPT) — либо в <strong>OpenRouter</strong> (резервные/бесплатные модели).</p>
       <p>5. Модель генерирует ответ → он возвращается вам в Telegram.</p>
     </div>
   </div>
@@ -369,7 +365,7 @@
 
     <div class="note note--alert">
       <span class="note__icon">🚫</span>
-      <span><strong>Сервер не должен принадлежать российской компании.</strong> Дело не в том, где физически стоит «железо» — IP у вас будет зарубежный. Дело в том, <strong>чьей компании принадлежат серверные стойки и этот IP</strong>. Российские хостеры (Aeza, Timeweb, Reg.ru и т.п.) сдают зарубежные локации, но владелец — российское юрлицо, и его диапазоны IP известны. OpenAI, Anthropic, MiniMax, Google такие диапазоны часто режут по гео или блокируют. Итог: модели то работают, то нет, бот «молчит», а причину не видно. Берите хостинг, который сам по себе — зарубежная компания.</span>
+      <span><strong>Сервер не должен принадлежать российской компании.</strong> Дело не в том, где физически стоит «железо» — IP у вас будет зарубежный. Дело в том, <strong>чьей компании принадлежат серверные стойки и этот IP</strong>. Российские хостеры (Aeza, Timeweb, Reg.ru и т.п.) сдают зарубежные локации, но владелец — российское юрлицо, и его диапазоны IP известны. OpenAI, Anthropic, Google такие диапазоны часто режут по гео или блокируют. Итог: модели то работают, то нет, бот «молчит», а причину не видно. Берите хостинг, который сам по себе — зарубежная компания.</span>
     </div>
 
     <div class="res-block">
@@ -892,15 +888,13 @@ claude mcp add --scope user agentmemory -- npx -y @agentmemory/mcp
 
     <div class="note note--warn">
       <span class="note__icon">👉</span>
-      <span><strong>Выберите ОДИН вариант — А или Б</strong>, смотря какая подписка у вас из урока 1:<br>
-      • взяли <strong>ChatGPT</strong> → Вариант А<br>
-      • взяли <strong>MiniMax</strong> → Вариант Б<br>
+      <span><strong>Основная модель — Вариант А (ChatGPT)</strong>, подписка из урока 1.<br>
       <strong>Вариант В (OpenRouter) ставят все</strong> — это бесплатный резерв поверх основной модели.</span>
     </div>
 
     <div class="info-block">
       <p><strong>Вариант А — ChatGPT (Codex)</strong></p>
-      <p>Берите, если ваша подписка из урока 1 — <strong>ChatGPT Pro ($100)</strong>. OpenAI официально разрешает использовать подписку в OpenClaw.</p>
+      <p>Ваша подписка из урока 1 — <strong>ChatGPT Plus ($20) или Pro ($100)</strong>. OpenAI официально разрешает использовать подписку в OpenClaw.</p>
     </div>
 
     <div class="item" data-key="llm-codex">
@@ -919,21 +913,7 @@ claude mcp add --scope user agentmemory -- npx -y @agentmemory/mcp
         <div class="cmd-copy"><span class="cmd-copy__text" id="cmdHigh">openclaw config set agents.defaults.models."openai/gpt-5.5".params.reasoning.effort "high"</span><button class="btn-copy" onclick="copyBlock('cmdHigh',this)">📋 Скопировать</button></div>
         <div class="item__hint"><strong>Для xHigh:</strong></div>
         <div class="cmd-copy"><span class="cmd-copy__text" id="cmdExHigh">openclaw config set agents.defaults.models."openai/gpt-5.5".params.reasoning.effort "xhigh"</span><button class="btn-copy" onclick="copyBlock('cmdExHigh',this)">📋 Скопировать</button></div>
-        <div class="item__hint"><strong>Лимиты:</strong> ChatGPT Pro ($100/мес) — практически без ограничений. Если квота всё же закончится, бот переключится на резервную модель (fallback).</div>
-      </div>
-    </div>
-
-    <div class="info-block">
-      <p><strong>Вариант Б — MiniMax M3</strong></p>
-      <p>Берите, если ваша подписка из урока 1 — <strong>MiniMax Plus ($20) / Max ($50)</strong>. Дешевле, чем ChatGPT Pro.</p>
-    </div>
-
-    <div class="item" data-key="llm-minimax">
-      <div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Подключить MiniMax M3</div>
-        <div class="item__hint">1. Возьмите API-ключ в личном кабинете MiniMax (раздел с ключами)<br>2. В мастере настройки выберите провайдера <strong>MiniMax</strong> → <strong>Global · API key</strong><br>3. Вставьте ключ <span class="mono">MINIMAX_API_KEY</span><br>4. Мастер сам пропишет модель <span class="mono">minimax/MiniMax-M3</span> — это и есть основной мозг бота<br>
-        <a href="https://platform.minimax.io/subscribe/token-plan" target="_blank" class="lnk" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> platform.minimax.io — тарифы и API-ключ</a></div>
+        <div class="item__hint"><strong>Лимиты:</strong> ChatGPT Plus ($20/мес) — около 5 часов активной работы бота в неделю. ChatGPT Pro ($100/мес) — практически без ограничений. Когда квота закончится, бот переключится на резервную модель (fallback).</div>
       </div>
     </div>
 
@@ -1264,7 +1244,7 @@ SOUL.md держи в пределах 20 000 символов.</div>
   <div class="section__card">
     <div class="note note--warn">
       <span class="note__icon">⚠️</span>
-      <span><strong>Этот шаг — только для тех, кто подключил OpenAI Codex (ChatGPT) в шаге 07</strong> и хочет видеть остаток лимитов прямо в боте. На MiniMax или если лимиты вам не нужны — смело пропускайте.</span>
+      <span><strong>Этот шаг — только для тех, кто подключил OpenAI Codex (ChatGPT) в шаге 07</strong> и хочет видеть остаток лимитов прямо в боте. Если лимиты вам не нужны — смело пропускайте.</span>
     </div>
 
     <div class="note note--info">
