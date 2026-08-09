@@ -549,6 +549,13 @@
         <div class="item__hint"><strong>Скорее всего, этого шага не будет:</strong> за последний месяц Claude ни разу не запрашивал SMS-верификацию. Если запрос всё-таки появится, введите <strong>номер из шага 07</strong>, код придёт в кабинет сервиса, где брали номер. Запроса не было — просто отметьте пункт.</div>
       </div>
     </div>
+    <div class="item" data-key="claude-kyc"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Пройти верификацию личности, если попросят</div>
+        <div class="item__hint">У части пользователей Claude запрашивает подтверждение личности через сервис Persona: фото документа и селфи в реальном времени. Это официальная проверка Anthropic, занимает около 5 минут.<br>1. Подойдёт <strong>физический документ с фото: загранпаспорт</strong> (лучший вариант, данные продублированы латиницей) <strong>или водительские права</strong>. Скан, копия или фото с экрана не подойдут, документ держите в руках перед камерой<br>2. Проходите <strong>на компьютере с веб-камерой</strong> при включённом VPN. В Claude с телефона не заходим<br>3. Снимайте при хорошем освещении, документ целиком в кадре, без бликов<br>4. Не прошло с первой попытки: попробуйте ещё раз или другой документ. Попытки закончились: <a href="https://claude.com/form/identity-verification-help" target="_blank" onclick="event.stopPropagation()">форма поддержки Anthropic</a><br><br><strong>Запроса не было: просто отметьте пункт.</strong> Верификация есть не у всех.</div>
+      </div>
+    </div>
+    <div class="note note--warn"><span class="note__icon">⚠</span><span><strong>Не путайте две разные проверки.</strong> Если документы просят <strong>при оплате</strong>, после ввода карты: это проверка платёжного сервиса или банка вашей карты, пишите в поддержку сервиса карты. Верификация Anthropic приходит <strong>внутри claude.ai</strong> отдельным экраном Persona и к оплате не привязана.</span></div>
     <div class="item" data-key="claude-test"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Отправить тестовое сообщение</div>
