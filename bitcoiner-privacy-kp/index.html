@@ -30,17 +30,17 @@ section.alt{background:var(--bg2)}
 .hero{min-height:82vh;display:flex;align-items:center;padding:110px 0 80px;position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;right:-220px;top:-220px;width:640px;height:640px;border-radius:50%;background:radial-gradient(circle,rgba(247,147,26,.16) 0%,transparent 65%);pointer-events:none}
 .badges{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:30px}
-.badge{font-size:14px;font-weight:600;letter-spacing:.04em;padding:8px 16px;border-radius:100px;border:1px solid var(--line);background:var(--surface);color:var(--gray)}
+.badge{font-size:15px;font-weight:600;letter-spacing:.04em;padding:8px 16px;border-radius:100px;border:1px solid var(--line);background:var(--surface);color:var(--gray)}
 .badge.acc{border-color:var(--accent);color:var(--accent);background:rgba(247,147,26,.08)}
 .eyebrow{font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:18px}
-h1{font-family:var(--display);font-size:clamp(38px,6vw,72px);font-weight:700;line-height:1.07;letter-spacing:.005em;text-transform:uppercase;margin-bottom:26px}
+h1{font-family:var(--display);font-size:clamp(28px,4.4vw,52px);font-weight:700;line-height:1.15;letter-spacing:.005em;text-transform:uppercase;margin-bottom:26px}
 h1 .acc{color:var(--accent)}
 .hero-sub{font-size:18px;color:var(--gray);max-width:680px;margin-bottom:48px}
 .hero-sub b{color:var(--ink);font-weight:600}
 .metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
 .metric{background:var(--surface);padding:26px 12px;text-align:center}
 .metric .num{font-family:var(--display);font-size:clamp(20px,2.6vw,30px);font-weight:700;color:var(--accent);text-transform:uppercase;line-height:1}
-.metric .lbl{font-size:13px;color:var(--gray);margin-top:8px}
+.metric .lbl{font-size:15px;color:var(--gray);margin-top:8px}
 .sec-num{font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.18em;margin-bottom:14px}
 h2{font-family:var(--display);font-size:clamp(28px,4vw,46px);font-weight:700;text-transform:uppercase;letter-spacing:.005em;line-height:1.08;margin-bottom:18px}
 .sec-sub{color:var(--gray);font-size:16.5px;max-width:700px;margin-bottom:52px}
@@ -53,7 +53,7 @@ h2{font-family:var(--display);font-size:clamp(28px,4vw,46px);font-weight:700;tex
 .card .emoji{font-size:26px;margin-bottom:14px}
 .card h3{font-size:18px;font-weight:700;margin-bottom:10px}
 .card h3 .ln{font-family:var(--display);color:var(--accent);text-transform:uppercase;letter-spacing:.02em;margin-right:8px}
-.card p{color:var(--gray);font-size:14.5px}
+.card p{color:var(--gray);font-size:16px}
 .card p b{color:var(--ink);font-weight:600}
 .card-status{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.03em;padding:5px 12px;border-radius:100px;margin-bottom:14px}
 .card-status.ok{background:rgba(247,147,26,.16);color:var(--accent)}
@@ -61,7 +61,7 @@ h2{font-family:var(--display);font-size:clamp(28px,4vw,46px);font-weight:700;tex
 .core{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:48px 40px;color:var(--ink);position:relative;overflow:hidden}
 .core::before{content:'';position:absolute;right:-160px;top:-160px;width:460px;height:460px;border-radius:50%;background:radial-gradient(circle,rgba(247,147,26,.22) 0%,transparent 65%);pointer-events:none}
 .core-h{font-family:var(--display);font-size:clamp(22px,3vw,30px);text-transform:uppercase;text-align:center;margin-bottom:8px;position:relative}
-.core-sub{text-align:center;color:var(--gray);font-size:14px;margin-bottom:32px;position:relative}
+.core-sub{text-align:center;color:var(--gray);font-size:15.5px;margin-bottom:32px;position:relative}
 .core-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;position:relative}
 .core-card{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:16px;padding:28px}
 .core-card .ttl{font-weight:700;color:#fff;font-size:17px;margin-bottom:14px;display:flex;align-items:center;gap:10px}
@@ -78,6 +78,12 @@ h2{font-family:var(--display);font-size:clamp(28px,4vw,46px);font-weight:700;tex
 .stage p b{color:var(--ink);font-weight:600}
 .note{margin-top:16px;padding:18px 22px;border-radius:12px;background:var(--surface);border:1px solid var(--line);color:var(--gray);font-size:16px}
 .note b{color:var(--ink);font-weight:700}
+.note-standalone{max-width:760px;margin:0 auto;padding:26px 32px;border-radius:16px;background:var(--surface);border:1px solid var(--accent);border-left:4px solid var(--accent);color:var(--gray);font-size:16.5px;line-height:1.6}
+.note-standalone b{color:var(--ink);font-weight:700}
+.bio-list{list-style:none;max-width:520px}
+.bio-list li{font-size:17px;color:var(--gray);padding:9px 0 9px 26px;position:relative}
+.bio-list li::before{content:'·';position:absolute;left:6px;color:var(--accent);font-weight:800;font-size:22px}
+.bio-list b{color:var(--ink);font-weight:600}
 .price-box{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:64px 40px;text-align:center;position:relative;overflow:hidden;color:var(--ink)}
 .price-box::before{content:'';position:absolute;left:-180px;bottom:-180px;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(247,147,26,.28) 0%,transparent 65%);pointer-events:none}
 .price-label{font-size:13px;font-weight:700;letter-spacing:.18em;color:var(--gray);text-transform:uppercase;margin-bottom:18px}
@@ -87,7 +93,7 @@ h2{font-family:var(--display);font-size:clamp(28px,4vw,46px);font-weight:700;tex
 .price-rows{max-width:680px;margin:38px auto 0;text-align:left;position:relative}
 .price-row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:13px 0;border-bottom:1px solid var(--line);font-size:15px}
 .price-row .nm{color:#fff;font-weight:500}
-.price-row .nm small{display:block;color:var(--gray);font-weight:400;font-size:12.5px}
+.price-row .nm small{display:block;color:var(--gray);font-weight:400;font-size:14.5px}
 .price-row .pr{white-space:nowrap;font-weight:700;color:var(--accent);font-size:16px}
 .price-total{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:16px 0 0;font-size:15px;color:#fff;font-weight:700;border-top:2px solid rgba(247,147,26,.5)}
 .price-total .old{color:#6b6b74;text-decoration:line-through;font-weight:400;font-size:13.5px;margin-right:10px}
@@ -96,7 +102,7 @@ h2{font-family:var(--display);font-size:clamp(28px,4vw,46px);font-weight:700;tex
 .price-extra b{color:var(--ink)}
 .cta{display:inline-block;margin-top:40px;padding:20px 54px;border-radius:100px;background:var(--accent);color:#0D0D0F;font-weight:700;font-size:17px;text-decoration:none;box-shadow:var(--glow);transition:transform .25s,box-shadow .25s,background .25s}
 .cta:hover{transform:translateY(-3px);background:var(--accent-hover);box-shadow:0 16px 44px rgba(247,147,26,.4)}
-footer{border-top:1px solid var(--line);padding:44px 0;text-align:center;color:var(--gray);font-size:14px}
+footer{border-top:1px solid var(--line);padding:44px 0;text-align:center;color:var(--gray);font-size:15px}
 footer .logo{font-family:var(--display);color:var(--accent);letter-spacing:.1em;text-transform:uppercase;font-size:18px;margin-bottom:8px}
 @media(max-width:860px){
   .metrics{grid-template-columns:repeat(2,1fr)}
@@ -118,10 +124,10 @@ footer .logo{font-family:var(--display);color:var(--accent);letter-spacing:.1em;
   <h1 class="fade d2">Свои ноды.<br>Полный контроль.<br><span class="acc">Максимальная приватность и&nbsp;анонимность.</span></h1>
   <p class="hero-sub fade d3">Продолжение практической программы: поднимаем ноду в&nbsp;Bitcoin и&nbsp;ноду в&nbsp;Monero, разбираемся с&nbsp;CoinJoin и&nbsp;анонимными обменами через&nbsp;BasicSwap. Собственная инфраструктура без&nbsp;чужих серверов и&nbsp;посредников.</p>
   <div class="metrics fade d4">
-    <div class="metric"><div class="num">10</div><div class="lbl">занятий по&nbsp;2&nbsp;часа</div></div>
-    <div class="metric"><div class="num">2</div><div class="lbl">свои ноды: Bitcoin и&nbsp;Monero</div></div>
-    <div class="metric"><div class="num">20+ч</div><div class="lbl">практики с&nbsp;экраном на&nbsp;двоих</div></div>
-    <div class="metric"><div class="num">2ТБ</div><div class="lbl">внешний диск, нужен заранее</div></div>
+    <div class="metric"><div class="num">10+</div><div class="lbl">занятий по&nbsp;2,5&nbsp;часа</div></div>
+    <div class="metric"><div class="num">2</div><div class="lbl">ноды: Bitcoin и&nbsp;Monero</div></div>
+    <div class="metric"><div class="num">25+</div><div class="lbl">часов практики с&nbsp;экраном на&nbsp;двоих</div></div>
+    <div class="metric"><div class="num">2ТБ</div><div class="lbl">внешний SSD, нужен заранее</div></div>
     <div class="metric"><div class="num">$2100</div><div class="lbl">весь модуль пакетом</div></div>
   </div>
 </div></header>
@@ -131,7 +137,7 @@ footer .logo{font-family:var(--display);color:var(--accent);letter-spacing:.1em;
   <h2>Четыре блока, один результат</h2>
   <p class="sec-sub">Каждый блок закрывает свою часть схемы. К&nbsp;концу модуля они соединяются в&nbsp;одну рабочую инфраструктуру у&nbsp;тебя на&nbsp;компьютере и&nbsp;на&nbsp;жёстком диске.</p>
   <div class="grid grid-2">
-    <div class="card"><div class="emoji">🔑</div><h3><span class="ln">Блок 1</span>Разделение секрета</h3><p>Алгоритм Шамира, мультисиг и&nbsp;грамотное хранение ключей. Сид-фраза защищена, даже если один из&nbsp;носителей потерян или&nbsp;украден.</p></div>
+    <div class="card"><div class="emoji">🔑</div><h3><span class="ln">Блок 1</span>Разделение секрета</h3><p>Алгоритм Шамира, мультисиг и&nbsp;грамотное хранение ключей.<br><br>Сид-фраза защищена, даже если один из&nbsp;носителей потерян или&nbsp;украден.</p></div>
     <div class="card"><div class="emoji">🖥</div><h3><span class="ln">Блок 2</span>Своя нода Bitcoin</h3><p>Полная копия сети на&nbsp;твоём диске вместо чужого сервера. Синхронизация и&nbsp;запуск через&nbsp;Tor.</p></div>
     <div class="card"><div class="emoji">🌒</div><h3><span class="ln">Блок 3</span>Своя нода Monero</h3><p>Вторая нода рядом с&nbsp;первой. Та&nbsp;же логика: синхронизация, запуск через&nbsp;Tor, проверка работы.</p></div>
     <div class="card"><div class="emoji">🔀</div><h3><span class="ln">Блок 4</span>BasicSwap и&nbsp;CoinJoin</h3><p>Прямой обмен Bitcoin на&nbsp;Monero и&nbsp;обратно без&nbsp;биржи и&nbsp;без&nbsp;моста, плюс приватный перевод внутри биткоина.</p></div>
@@ -180,7 +186,7 @@ footer .logo{font-family:var(--display);color:var(--accent);letter-spacing:.1em;
   <p class="sec-sub">Между занятиями ноды синхронизируются сами в&nbsp;фоне, это&nbsp;домашняя часть, а&nbsp;не&nbsp;время внутри урока. Живые часы уходят на&nbsp;настройку, разбор и&nbsp;практику.</p>
   <div class="stage"><div class="stage-top"><h3><span class="n">Урок 1</span>Алгоритм Шамира</h3></div><p>Как&nbsp;разделить секрет на&nbsp;части так, что&nbsp;ни&nbsp;один осколок в&nbsp;одиночку ничего не&nbsp;даёт. Основа для&nbsp;следующего урока.</p></div>
   <div class="stage"><div class="stage-top"><h3><span class="n">Урок 2</span>Мультисиг и&nbsp;хранение ключей</h3></div><p>Настройка мультиподписи, практика хранения и&nbsp;защиты сид-фраз.</p></div>
-  <div class="stage"><div class="stage-top"><h3><span class="n">Урок 3</span>Подготовка</h3></div><p>Виртуальная машина, Tor и&nbsp;подключение внешнего диска. Стартовая точка для&nbsp;инфраструктуры.</p></div>
+  <div class="stage"><div class="stage-top"><h3><span class="n">Урок 3</span>Подготовка</h3></div><p>Ставим Linux в&nbsp;виртуальной машине, настраиваем Tor и&nbsp;подключаем внешний диск. Стартовая точка для&nbsp;инфраструктуры.</p></div>
   <div class="stage"><div class="stage-top"><h3><span class="n">Урок 4</span>Bitcoin-нода</h3></div><p>Установка, запуск синхронизации, подключение через&nbsp;Tor.</p></div>
   <div class="stage"><div class="stage-top"><h3><span class="n">Урок 5</span>Monero-нода</h3></div><p>Установка второй ноды рядом с&nbsp;первой, синхронизация через&nbsp;Tor.</p></div>
   <div class="stage"><div class="stage-top"><h3><span class="n">Урок 6</span>Свои ноды в&nbsp;деле</h3></div><p>Кошельки подключаются к&nbsp;твоим нодам вместо чужих серверов. Проверяем, что&nbsp;всё работает.</p></div>
@@ -214,11 +220,16 @@ footer .logo{font-family:var(--display);color:var(--accent);letter-spacing:.1em;
 <section><div class="container">
   <div class="sec-num">06 · КТО ВЕДЁТ</div>
   <h2>Станислав Панков</h2>
-  <p class="sec-sub">Программу собирает и&nbsp;ведёт лично автор Bitcoiner.</p>
-  <div class="grid grid-3">
-    <div class="card"><h3>Станислав Панков</h3><p><b>Автор программы Bitcoiner.</b> Проводит исследования, собирает программу и&nbsp;материалы, лично ведёт обучение.</p></div>
-  </div>
-  <div class="note"><b>Важный нюанс:</b> модуль учит работать с&nbsp;собственной инфраструктурой и&nbsp;инструментами приватности. Соблюдение законодательства своей страны и&nbsp;налоговых обязательств остаётся на&nbsp;твоей стороне.</div>
+  <p class="sec-sub">Автор программы Bitcoiner ведёт обучение лично.</p>
+  <ul class="bio-list">
+    <li>Проводит исследования</li>
+    <li>Собирает программу и&nbsp;материалы</li>
+    <li>Лично ведёт обучение</li>
+  </ul>
+</div></section>
+
+<section class="alt"><div class="container">
+  <div class="note-standalone"><b>Важный нюанс:</b> модуль учит работать с&nbsp;собственной инфраструктурой и&nbsp;инструментами приватности. Соблюдение законодательства своей страны и&nbsp;налоговых обязательств остаётся на&nbsp;твоей стороне.</div>
 </div></section>
 
 <section class="alt"><div class="container">
@@ -228,7 +239,7 @@ footer .logo{font-family:var(--display);color:var(--accent);letter-spacing:.1em;
     <div class="price-num">$2100</div>
     <div class="price-sub">вместо <s>$2500</s> при&nbsp;отдельной оплате блоков</div>
     <div class="price-rows">
-      <div class="price-row"><span class="nm">Обучение, 10&nbsp;занятий по&nbsp;2&nbsp;часа<small>Удалённое управление экраном, разбор реальных случаев</small></span><span class="pr">$2000</span></div>
+      <div class="price-row"><span class="nm">Обучение, 10+&nbsp;занятий по&nbsp;2,5&nbsp;часа<small>Удалённое управление экраном, разбор реальных случаев</small></span><span class="pr">$2000</span></div>
       <div class="price-row"><span class="nm">Исследования, настройка инфраструктуры и&nbsp;подготовка материалов<small>Станислав разворачивает и&nbsp;тестирует схему заранее, готовит инструкции</small></span><span class="pr">$500</span></div>
       <div class="price-total"><span>Итого пакетом</span><span><span class="old">$2500</span>$2100</span></div>
     </div>
