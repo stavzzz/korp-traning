@@ -39,6 +39,7 @@ h1 .acc{color:var(--accent)}
 .hero-sub b{color:var(--ink);font-weight:600}
 .metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
 .metric{background:var(--surface);padding:24px 6px;text-align:center}
+.metric:last-child{background:linear-gradient(rgba(247,147,26,.07),rgba(247,147,26,.07)),var(--surface)}
 .metric .num{font-family:var(--display);font-size:clamp(20px,2.6vw,30px);font-weight:700;color:var(--accent);text-transform:uppercase;line-height:1}
 .metric .lbl{font-size:13px;color:var(--gray);margin-top:8px;white-space:nowrap}
 .sec-num{font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.18em;margin-bottom:14px}
@@ -51,7 +52,7 @@ h2{font-family:var(--display);font-size:clamp(28px,4vw,46px);font-weight:700;tex
 .grid-3{grid-template-columns:repeat(3,1fr)}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:30px;transition:transform .3s,border-color .3s,box-shadow .3s}
 .card:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 12px 32px rgba(0,0,0,.35)}
-.card .emoji{font-size:26px;margin-bottom:14px}
+.card .emoji{width:38px;height:38px;display:grid;place-items:center;border-radius:10px;background:rgba(247,147,26,.09);font-size:22px;line-height:1;margin-bottom:14px}
 .card h3{font-size:18px;font-weight:700;margin-bottom:10px}
 .card h3 .ln{font-family:var(--display);color:var(--accent);text-transform:uppercase;letter-spacing:.02em;margin-right:8px}
 .card p{color:var(--gray);font-size:16px}
@@ -88,10 +89,10 @@ h2{font-family:var(--display);font-size:clamp(28px,4vw,46px);font-weight:700;tex
 .price-sub{color:var(--gray);font-size:16px;margin-top:16px}
 .price-sub s{color:#6b6b74}
 .price-rows{max-width:680px;margin:38px auto 0;text-align:left;position:relative}
-.price-row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:13px 0;border-bottom:1px solid var(--line);font-size:15px}
-.price-row .nm{color:#fff;font-weight:500}
+.price-row{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:16px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--line);font-size:15px}
+.price-row .nm{min-width:0;color:#fff;font-weight:500}
 .price-row .nm small{display:block;color:var(--gray);font-weight:400;font-size:14.5px}
-.price-row .pr{white-space:nowrap;font-weight:700;color:var(--accent);font-size:16px}
+.price-row .pr{white-space:nowrap;font-weight:600;color:var(--ink);font-size:16px}
 .price-total{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:16px 0 0;font-size:15px;color:#fff;font-weight:700;border-top:2px solid rgba(247,147,26,.5)}
 .price-total .old{color:#6b6b74;text-decoration:line-through;font-weight:400;font-size:13.5px;margin-right:10px}
 .price-total > span:last-child{color:var(--accent);font-size:18px;white-space:nowrap}
@@ -101,14 +102,56 @@ h2{font-family:var(--display);font-size:clamp(28px,4vw,46px);font-weight:700;tex
 .cta:hover{transform:translateY(-3px);background:var(--accent-hover);box-shadow:0 16px 44px rgba(247,147,26,.4)}
 .legal-note{max-width:640px;margin:22px auto 0;font-size:13.5px;line-height:1.6;color:#8f8f99;position:relative}
 .legal-note b{color:#b8b8c2}
-footer{border-top:1px solid var(--line);padding:44px 0;text-align:center;color:var(--gray);font-size:15px}
+h1,h2,.core-h,.card h3,.stage-top h3{text-wrap:balance}
+.hero-sub,.sec-sub,.card p,.stage p,.legal-note{text-wrap:pretty}
+.stage-top h3 .n,
+.card h3 .ln{white-space:nowrap}
+footer{border-top:1px solid var(--line);padding:44px 24px;text-align:center;color:var(--gray);font-size:15px}
 footer .logo{font-family:var(--display);color:var(--accent);letter-spacing:.1em;text-transform:uppercase;font-size:18px;margin-bottom:8px}
-@media(max-width:860px){
-  .metrics{grid-template-columns:repeat(2,1fr)}
-  .metric:last-child{grid-column:span 2}
-  .metric .lbl{white-space:normal}
-  .grid-2,.grid-3,.core-grid{grid-template-columns:1fr}
+@media (min-width:861px){
+  .stage{display:grid;grid-template-columns:minmax(220px,280px) 1fr;gap:28px;align-items:start}
+  .stage-top{margin-bottom:0}
+  .presenter{padding:48px 0}
+  .presenter .bio-list{max-width:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+}
+@media (max-width:860px){
   section{padding:44px 0}
+  .metric .lbl{white-space:normal}
+}
+@media (min-width:701px) and (max-width:860px){
+  .metrics{grid-template-columns:repeat(5,minmax(0,1fr))}
+  .metric{padding:20px 5px}
+  .metric:last-child{grid-column:auto}
+  .metric .lbl{font-size:12px;line-height:1.3}
+  .grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .grid-3 .card{padding:24px}
+  .core-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .core-card:last-child{grid-column:1 / -1}
+}
+@media (max-width:700px){
+  .metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .metric:last-child{grid-column:span 2}
+  .grid-2,.grid-3,.core-grid{grid-template-columns:1fr}
+  .sec-sub{margin-bottom:32px}
+  .sec-sub.tight{margin-bottom:16px}
+}
+@media (max-width:560px){
+  .hero{min-height:auto;padding:48px 0 40px}
+  .hero-sub{margin-bottom:34px}
+  .core{padding:32px 24px;border-radius:18px}
+  .core-card{padding:22px}
+  .card{padding:22px}
+  .card .emoji{margin-bottom:10px}
+  .price-box{padding:44px 24px}
+  .price-row{column-gap:12px}
+  .cta{display:block;width:100%;padding:18px 14px;font-size:15px;line-height:1.25;white-space:nowrap}
+  footer{padding:36px 24px}
+}
+@media (max-width:480px){
+  .badges{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .badge{text-align:center;padding:7px 10px;font-size:13px}
+  .badge.acc{grid-column:1 / -1}
 }
 </style>
 </head>
@@ -216,7 +259,7 @@ footer .logo{font-family:var(--display);color:var(--accent);letter-spacing:.1em;
   </div>
 </div></section>
 
-<section><div class="container">
+<section class="presenter"><div class="container">
   <div class="sec-num">06 · КТО ВЕДЁТ</div>
   <h2>Станислав Панков</h2>
   <p class="sec-sub tight">Автор программы Bitcoiner ведёт обучение лично.</p>
