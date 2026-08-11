@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Суверенная приватность · КП · BITCOINER</title>
+<meta name="theme-color" content="#0D0D0F">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23F7931A'/%3E%3Ctext x='32' y='45' font-size='36' font-family='Arial,sans-serif' font-weight='700' fill='white' text-anchor='middle'%3E%E2%82%BF%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#F7931A; --accent-hover:#FFB14E; --accent-press:#C9750D;
+  --bg:#0D0D0F; --bg2:#16161A; --surface:#1A1A1E; --ink:#F5F5F7; --gray:#ABABB5; --line:#2A2A30;
+  --display:'Clash Display','Inter Tight',sans-serif;
+  --glow:0 0 40px rgba(247,147,26,.25);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter Tight',sans-serif;font-weight:400;line-height:1.6;overflow-x:hidden}
+::selection{background:rgba(247,147,26,.28)}
+.container{max-width:1080px;margin:0 auto;padding:0 24px}
+section{padding:90px 0;position:relative}
+section.alt{background:var(--bg2)}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.fade{animation:fadeInUp .8s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.08s}.d2{animation-delay:.16s}.d3{animation-delay:.24s}.d4{animation-delay:.32s}
+.hero{min-height:82vh;display:flex;align-items:center;padding:110px 0 80px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;right:-220px;top:-220px;width:640px;height:640px;border-radius:50%;background:radial-gradient(circle,rgba(247,147,26,.16) 0%,transparent 65%);pointer-events:none}
+.badges{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:30px}
+.badge{font-size:12.5px;font-weight:600;letter-spacing:.04em;padding:8px 16px;border-radius:100px;border:1px solid var(--line);background:var(--surface);color:var(--gray)}
+.badge.acc{border-color:var(--accent);color:var(--accent);background:rgba(247,147,26,.08)}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:18px}
+h1{font-family:var(--display);font-size:clamp(38px,6vw,72px);font-weight:700;line-height:1.07;letter-spacing:.005em;text-transform:uppercase;margin-bottom:26px}
+h1 .acc{color:var(--accent)}
+.hero-sub{font-size:18px;color:var(--gray);max-width:680px;margin-bottom:48px}
+.hero-sub b{color:var(--ink);font-weight:600}
+.metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.metric{background:var(--surface);padding:26px 12px;text-align:center}
+.metric .num{font-family:var(--display);font-size:clamp(20px,2.6vw,30px);font-weight:700;color:var(--accent);text-transform:uppercase;line-height:1}
+.metric .lbl{font-size:11.5px;color:var(--gray);margin-top:8px}
+.sec-num{font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.18em;margin-bottom:14px}
+h2{font-family:var(--display);font-size:clamp(28px,4vw,46px);font-weight:700;text-transform:uppercase;letter-spacing:.005em;line-height:1.08;margin-bottom:18px}
+.sec-sub{color:var(--gray);font-size:16.5px;max-width:700px;margin-bottom:52px}
+.sec-sub b{color:var(--ink);font-weight:600}
+.grid{display:grid;gap:18px}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:30px;transition:transform .3s,border-color .3s,box-shadow .3s}
+.card:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 12px 32px rgba(0,0,0,.35)}
+.card .emoji{font-size:26px;margin-bottom:14px}
+.card h3{font-size:18px;font-weight:700;margin-bottom:10px}
+.card h3 .ln{font-family:var(--display);color:var(--accent);text-transform:uppercase;letter-spacing:.02em;margin-right:8px}
+.card p{color:var(--gray);font-size:14.5px}
+.card p b{color:var(--ink);font-weight:600}
+.card-status{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.03em;padding:5px 12px;border-radius:100px;margin-bottom:14px}
+.card-status.ok{background:rgba(247,147,26,.16);color:var(--accent)}
+.card-status.wip{background:rgba(171,171,181,.14);color:var(--gray)}
+.core{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:48px 40px;color:var(--ink);position:relative;overflow:hidden}
+.core::before{content:'';position:absolute;right:-160px;top:-160px;width:460px;height:460px;border-radius:50%;background:radial-gradient(circle,rgba(247,147,26,.22) 0%,transparent 65%);pointer-events:none}
+.core-h{font-family:var(--display);font-size:clamp(22px,3vw,30px);text-transform:uppercase;text-align:center;margin-bottom:8px;position:relative}
+.core-sub{text-align:center;color:var(--gray);font-size:14px;margin-bottom:32px;position:relative}
+.core-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;position:relative}
+.core-card{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:16px;padding:28px}
+.core-card .ttl{font-weight:700;color:#fff;font-size:17px;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.core-card .ttl .dot{width:9px;height:9px;border-radius:50%;background:var(--accent)}
+.core-card ul{list-style:none}
+.core-card li{font-size:14px;color:var(--gray);padding:5px 0 5px 20px;position:relative}
+.core-card li::before{content:'·';position:absolute;left:6px;color:var(--accent);font-weight:800}
+.core-card li b{color:#fff;font-weight:600}
+.stage{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:26px 30px;margin-bottom:14px}
+.stage-top{display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+.stage-top h3{font-size:17px;font-weight:700}
+.stage-top h3 .n{font-family:var(--display);color:var(--accent);margin-right:12px;text-transform:uppercase;font-size:19px}
+.stage p{color:var(--gray);font-size:14.5px}
+.stage p b{color:var(--ink);font-weight:600}
+.note{margin-top:16px;padding:16px 20px;border-radius:12px;background:var(--surface);border:1px solid var(--line);color:var(--gray);font-size:14px}
+.note b{color:var(--ink);font-weight:700}
+.price-box{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:64px 40px;text-align:center;position:relative;overflow:hidden;color:var(--ink)}
+.price-box::before{content:'';position:absolute;left:-180px;bottom:-180px;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(247,147,26,.28) 0%,transparent 65%);pointer-events:none}
+.price-label{font-size:13px;font-weight:700;letter-spacing:.18em;color:var(--gray);text-transform:uppercase;margin-bottom:18px}
+.price-num{font-family:var(--display);font-weight:700;font-size:clamp(50px,8.5vw,96px);line-height:1;color:var(--accent);text-transform:uppercase}
+.price-sub{color:var(--gray);font-size:16px;margin-top:16px}
+.price-sub s{color:#6b6b74}
+.price-rows{max-width:680px;margin:38px auto 0;text-align:left;position:relative}
+.price-row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:13px 0;border-bottom:1px solid var(--line);font-size:15px}
+.price-row .nm{color:#fff;font-weight:500}
+.price-row .nm small{display:block;color:var(--gray);font-weight:400;font-size:12.5px}
+.price-row .pr{white-space:nowrap;font-weight:700;color:var(--accent);font-size:16px}
+.price-total{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:16px 0 0;font-size:15px;color:#fff;font-weight:700;border-top:2px solid rgba(247,147,26,.5)}
+.price-total .old{color:#6b6b74;text-decoration:line-through;font-weight:400;font-size:13.5px;margin-right:10px}
+.price-total > span:last-child{color:var(--accent);font-size:18px;white-space:nowrap}
+.price-extra{max-width:680px;margin:14px auto 0;text-align:left;font-size:13px;color:var(--gray)}
+.price-extra b{color:var(--ink)}
+.cta{display:inline-block;margin-top:40px;padding:20px 54px;border-radius:100px;background:var(--accent);color:#0D0D0F;font-weight:700;font-size:17px;text-decoration:none;box-shadow:var(--glow);transition:transform .25s,box-shadow .25s,background .25s}
+.cta:hover{transform:translateY(-3px);background:var(--accent-hover);box-shadow:0 16px 44px rgba(247,147,26,.4)}
+footer{border-top:1px solid var(--line);padding:44px 0;text-align:center;color:var(--gray);font-size:14px}
+footer .logo{font-family:var(--display);color:var(--accent);letter-spacing:.1em;text-transform:uppercase;font-size:18px;margin-bottom:8px}
+@media(max-width:860px){
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .metric:last-child{grid-column:span 2}
+  .grid-2,.grid-3,.core-grid{grid-template-columns:1fr}
+  section{padding:64px 0}
+}
+</style>
+</head>
+<body>
+
+<header class="hero"><div class="container">
+  <div class="badges fade">
+    <span class="badge acc">🔐 Индивидуально для&nbsp;Владимира</span>
+    <span class="badge">8&nbsp;занятий · 16&nbsp;часов</span>
+    <span class="badge">Удалённо, Zoom</span>
+  </div>
+  <div class="eyebrow fade d1">Коммерческое предложение · BITCOINER</div>
+  <h1 class="fade d2">Своя нода.<br><span class="acc">Свой контроль.</span></h1>
+  <p class="hero-sub fade d3">Продолжение твоей программы: поднимаем собственную ноду Bitcoin и&nbsp;ноду Monero, разбираемся с&nbsp;CoinJoin и&nbsp;обменами через&nbsp;BasicSwap. Ты сам держишь инфраструктуру, без&nbsp;чужих серверов и&nbsp;посредников.</p>
+  <div class="metrics fade d4">
+    <div class="metric"><div class="num">8</div><div class="lbl">занятий по&nbsp;2&nbsp;часа</div></div>
+    <div class="metric"><div class="num">2</div><div class="lbl">свои ноды: Bitcoin и&nbsp;Monero</div></div>
+    <div class="metric"><div class="num">16ч</div><div class="lbl">практики с&nbsp;экраном на&nbsp;двоих</div></div>
+    <div class="metric"><div class="num">2ТБ</div><div class="lbl">внешний диск, нужен заранее</div></div>
+    <div class="metric"><div class="num">$1990</div><div class="lbl">весь модуль пакетом</div></div>
+  </div>
+</div></header>
+
+<section class="alt"><div class="container">
+  <div class="sec-num">01 · ЧТО&nbsp;ВХОДИТ</div>
+  <h2>Три блока, один результат</h2>
+  <p class="sec-sub">Каждый блок закрывает свою часть схемы. К&nbsp;концу модуля они соединяются в&nbsp;одну рабочую инфраструктуру у&nbsp;тебя на&nbsp;диске.</p>
+  <div class="grid grid-3">
+    <div class="card"><div class="emoji">🖥</div><h3><span class="ln">Блок 1</span>Своя нода Bitcoin</h3><p>Полная копия сети на&nbsp;твоём диске вместо чужого сервера. Синхронизация и&nbsp;запуск через&nbsp;Tor.</p></div>
+    <div class="card"><div class="emoji">🌒</div><h3><span class="ln">Блок 2</span>Своя нода Monero</h3><p>Вторая нода рядом с&nbsp;первой. Та&nbsp;же логика: синхронизация, запуск через&nbsp;Tor, проверка работы.</p></div>
+    <div class="card"><div class="emoji">🔀</div><h3><span class="ln">Блок 3</span>CoinJoin и&nbsp;BasicSwap</h3><p>Приватный перевод внутри биткоина и&nbsp;прямой обмен Bitcoin на&nbsp;Monero и&nbsp;обратно, без&nbsp;биржи и&nbsp;без&nbsp;моста.</p></div>
+  </div>
+</div></section>
+
+<section><div class="container">
+  <div class="sec-num">02 · ЕДИНЫЙ КОНТУР</div>
+  <h2>Как&nbsp;всё это&nbsp;связано</h2>
+  <p class="sec-sub">Инфраструктура и&nbsp;навыки строятся параллельно: не&nbsp;просто «нажми сюда», а&nbsp;понимание, зачем каждый шаг нужен.</p>
+  <div class="core">
+    <div class="core-h">Единый контур приватности</div>
+    <div class="core-sub">Две опоры, на&nbsp;которых держится весь модуль</div>
+    <div class="core-grid">
+      <div class="core-card">
+        <div class="ttl"><span class="dot"></span>Инфраструктура</div>
+        <ul>
+          <li>Linux в&nbsp;виртуальной машине на&nbsp;твоём макбуке</li>
+          <li>Обе ноды работают <b>через&nbsp;Tor</b></li>
+          <li>Данные хранятся на&nbsp;отдельном внешнем диске</li>
+        </ul>
+      </div>
+      <div class="core-card">
+        <div class="ttl"><span class="dot"></span>Навыки</div>
+        <ul>
+          <li>Запускать и&nbsp;обслуживать свою ноду самостоятельно</li>
+          <li>Собирать приватный перевод через <b>CoinJoin</b></li>
+          <li>Менять Bitcoin на&nbsp;Monero и&nbsp;обратно напрямую</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section class="alt"><div class="container">
+  <div class="sec-num">03 · ПОШАГОВЫЙ ПЛАН</div>
+  <h2>8&nbsp;занятий по&nbsp;порядку</h2>
+  <p class="sec-sub">Между занятиями ноды синхронизируются сами в&nbsp;фоне, это&nbsp;домашняя часть, а&nbsp;не&nbsp;время внутри урока. Живые часы уходят на&nbsp;настройку, разбор и&nbsp;практику.</p>
+  <div class="stage"><div class="stage-top"><h3><span class="n">Урок 1</span>Подготовка</h3></div><p>Виртуальная машина, Tor и&nbsp;подключение внешнего диска. Стартовая точка для&nbsp;всего остального.</p></div>
+  <div class="stage"><div class="stage-top"><h3><span class="n">Урок 2</span>Bitcoin-нода</h3></div><p>Установка, запуск синхронизации, подключение через&nbsp;Tor.</p></div>
+  <div class="stage"><div class="stage-top"><h3><span class="n">Урок 3</span>Monero-нода</h3></div><p>Установка второй ноды рядом с&nbsp;первой, синхронизация через&nbsp;Tor.</p></div>
+  <div class="stage"><div class="stage-top"><h3><span class="n">Урок 4</span>Свои ноды в&nbsp;деле</h3></div><p>Кошельки подключаются к&nbsp;твоим нодам вместо чужих серверов. Проверяем, что&nbsp;всё работает.</p></div>
+  <div class="stage"><div class="stage-top"><h3><span class="n">Урок 5</span>CoinJoin</h3></div><p>Как&nbsp;устроен приватный перевод внутри биткоина, практика на&nbsp;своей ноде.</p></div>
+  <div class="stage"><div class="stage-top"><h3><span class="n">Урок 6</span>BasicSwap DEX, установка</h3></div><p>Обмен без&nbsp;биржи и&nbsp;без&nbsp;моста: настройка программы поверх твоих нод.</p></div>
+  <div class="stage"><div class="stage-top"><h3><span class="n">Урок 7</span>BasicSwap DEX, практика</h3></div><p>Реальный обмен Bitcoin на&nbsp;Monero и&nbsp;обратно, разбор каждого шага.</p></div>
+  <div class="stage"><div class="stage-top"><h3><span class="n">Урок 8</span>Сведение схемы</h3></div><p>Как&nbsp;всё связано между собой, разбор ошибок и&nbsp;рисков, ответы на&nbsp;вопросы.</p></div>
+</div></section>
+
+<section><div class="container">
+  <div class="sec-num">04 · ЧТО&nbsp;ДОКУПИТЬ ОТДЕЛЬНО</div>
+  <h2>Понадобится до&nbsp;старта</h2>
+  <p class="sec-sub">Это&nbsp;не&nbsp;входит в&nbsp;стоимость модуля, докупаешь сам заранее, иначе первое занятие будет не&nbsp;с&nbsp;чем начинать.</p>
+  <div class="grid grid-2">
+    <div class="card"><div class="emoji">💾</div><h3>Внешний SSD от&nbsp;2&nbsp;ТБ</h3><p>Под&nbsp;обе ноды сразу. Диск в&nbsp;стоимость не&nbsp;входит.</p></div>
+    <div class="card"><div class="emoji">📶</div><h3>Стабильный безлимитный интернет</h3><p>Синхронизация обеих сетей идёт несколько дней подряд, важно, чтобы&nbsp;соединение не&nbsp;обрывалось.</p></div>
+  </div>
+</div></section>
+
+<section class="alt"><div class="container">
+  <div class="sec-num">05 · ЧТО&nbsp;ОСТАЁТСЯ У&nbsp;ТЕБЯ</div>
+  <h2>После модуля</h2>
+  <p class="sec-sub">Результат не&nbsp;эфемерный совет, а&nbsp;рабочая инфраструктура и&nbsp;записи, к&nbsp;которым можно вернуться в&nbsp;любой момент.</p>
+  <div class="grid grid-3">
+    <div class="card"><div class="emoji">🔓</div><h3>Собственная инфраструктура</h3><p>Обе ноды и&nbsp;вся настройка остаются на&nbsp;твоём диске, без&nbsp;подписок и&nbsp;сторонних серверов.</p></div>
+    <div class="card"><div class="emoji">🎥</div><h3>Личные скринкасты</h3><p>Записи под&nbsp;твою конкретную настройку, чтобы&nbsp;повторить любой шаг самостоятельно.</p></div>
+    <div class="card"><div class="emoji">🧭</div><h3>Понимание, а&nbsp;не&nbsp;инструкция</h3><p>Ты видишь, как&nbsp;работает каждый инструмент, и&nbsp;можешь донастраивать систему сам.</p></div>
+  </div>
+</div></section>
+
+<section><div class="container">
+  <div class="sec-num">06 · КТО ВЕДЁТ</div>
+  <h2>Bitcoin Apostle</h2>
+  <p class="sec-sub">Программу собирает и&nbsp;ведёт лично автор Bitcoiner.</p>
+  <div class="grid grid-3">
+    <div class="card"><h3>Bitcoin Apostle</h3><p><b>Основатель Bitcoiner.</b> С&nbsp;криптовалютами с&nbsp;2016&nbsp;года. Перед&nbsp;тем как&nbsp;показать схему тебе, сначала разворачивает и&nbsp;тестирует её у&nbsp;себя.</p></div>
+  </div>
+  <div class="note"><b>Важный нюанс:</b> модуль учит работать с&nbsp;собственной инфраструктурой и&nbsp;инструментами приватности. Соблюдение законодательства своей страны и&nbsp;налоговых обязательств остаётся на&nbsp;твоей стороне.</div>
+</div></section>
+
+<section class="alt"><div class="container">
+  <div class="sec-num">07 · СКОЛЬКО СТОИТ</div>
+  <div class="price-box">
+    <div class="price-label">Пакетом дешевле, чем по&nbsp;частям</div>
+    <div class="price-num">$1990</div>
+    <div class="price-sub">вместо <s>$2100</s> при&nbsp;отдельной оплате блоков</div>
+    <div class="price-rows">
+      <div class="price-row"><span class="nm">Обучение, 8&nbsp;занятий по&nbsp;2&nbsp;часа<small>Zoom, удалённое управление экраном, разбор реальных случаев</small></span><span class="pr">$1600</span></div>
+      <div class="price-row"><span class="nm">Ресёрч и&nbsp;настройка перед&nbsp;стартом<small>Bitcoin Apostle разворачивает и&nbsp;тестирует схему заранее</small></span><span class="pr">$500</span></div>
+      <div class="price-total"><span>Итого пакетом</span><span><span class="old">$2100</span>$1990</span></div>
+    </div>
+    <div class="price-extra"><p>＋ <b>Внешний SSD от&nbsp;2&nbsp;ТБ</b>, по&nbsp;себестоимости, докупаешь сам</p></div>
+    <a class="cta" href="#">Написать и&nbsp;обсудить старт →</a>
+  </div>
+</div></section>
+
+<footer>
+  <div class="logo">BITCOINER</div>
+  <div>Коммерческое предложение · подготовлено индивидуально для&nbsp;Владимира · ведёт Bitcoin Apostle</div>
+</footer>
+</body>
+</html>
