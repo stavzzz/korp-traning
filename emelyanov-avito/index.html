@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Система поиска объектов и&nbsp;обработки лидов · КП · ИИ-ВИЗАЦИЯ</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2321AA4D'/%3E%3Cpath d='M32 12l4.6 11.9L48 28l-11.4 4.1L32 44l-4.6-11.9L16 28l11.4-4.1z' fill='white'/%3E%3Ccircle cx='48' cy='16' r='4' fill='white'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#21AA4D; --accent-dark:#188A3D;
+  --bg:#FFFFFF; --bg2:#F2F2F2; --ink:#303030; --gray:#6F6F6F; --line:#E3E3E3;
+  --display:'DrukCyr','Oswald',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;font-weight:400;line-height:1.6;overflow-x:hidden}
+::selection{background:rgba(33,170,77,.25)}
+.container{max-width:1080px;margin:0 auto;padding:0 24px}
+section{padding:90px 0;position:relative}
+section.alt{background:var(--bg2)}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.fade{animation:fadeInUp .8s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.08s}.d2{animation-delay:.16s}.d3{animation-delay:.24s}.d4{animation-delay:.32s}
+.hero{min-height:88vh;display:flex;align-items:center;padding:110px 0 80px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;right:-220px;top:-220px;width:640px;height:640px;border-radius:50%;background:radial-gradient(circle,rgba(33,170,77,.12) 0%,transparent 65%);pointer-events:none}
+.badges{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:30px}
+.badge{font-size:12.5px;font-weight:600;letter-spacing:.04em;padding:8px 16px;border-radius:100px;border:1px solid var(--line);background:var(--bg);color:var(--gray)}
+.badge.green{border-color:var(--accent);color:var(--accent);background:rgba(33,170,77,.06)}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:18px}
+h1{font-family:var(--display);font-size:clamp(40px,6.4vw,78px);font-weight:700;line-height:1.04;letter-spacing:.01em;text-transform:uppercase;margin-bottom:26px}
+h1 .acc{color:var(--accent)}
+.hero-sub{font-size:18px;color:var(--gray);max-width:760px;margin-bottom:48px}
+.hero-sub b{color:var(--ink);font-weight:600}
+.metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.metric{background:var(--bg);padding:26px 14px;text-align:center}
+.metric .num{font-family:var(--display);font-size:clamp(22px,2.8vw,34px);font-weight:700;color:var(--accent);text-transform:uppercase;line-height:1}
+.metric .lbl{font-size:12px;color:var(--gray);margin-top:8px}
+.sec-num{font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.18em;margin-bottom:14px}
+h2{font-family:var(--display);font-size:clamp(30px,4.4vw,52px);font-weight:700;text-transform:uppercase;letter-spacing:.01em;line-height:1.06;margin-bottom:18px}
+.sec-sub{color:var(--gray);font-size:16.5px;max-width:760px;margin-bottom:52px}
+.sec-sub b{color:var(--ink);font-weight:600}
+.grid{display:grid;gap:18px}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.card{background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:30px;transition:transform .3s,border-color .3s,box-shadow .3s}
+.card:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 12px 32px rgba(48,48,48,.08)}
+.card .emoji{font-size:26px;margin-bottom:14px}
+.card h3{font-size:18px;font-weight:700;margin-bottom:10px}
+.card h3 .ln{font-family:var(--display);color:var(--accent);text-transform:uppercase;letter-spacing:.02em;margin-right:8px}
+.card p{color:var(--gray);font-size:14.5px}
+.card p b{color:var(--ink);font-weight:600}
+.card .who{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;font-weight:600;color:var(--accent-dark)}
+section.alt .card{border-color:transparent}
+.card-status{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.03em;padding:5px 12px;border-radius:100px;margin-bottom:14px}
+.card-status.ok{background:rgba(33,170,77,.14);color:var(--accent-dark)}
+.card-status.wip{background:#FBF0D7;color:#9A7220}
+.card-status.no{background:#F7DEDE;color:#9A2020}
+.core{background:var(--ink);border-radius:24px;padding:48px 40px;color:#E9E9E9;position:relative;overflow:hidden}
+.core::before{content:'';position:absolute;right:-160px;top:-160px;width:460px;height:460px;border-radius:50%;background:radial-gradient(circle,rgba(33,170,77,.22) 0%,transparent 65%);pointer-events:none}
+.core-h{font-family:var(--display);font-size:clamp(22px,3vw,32px);text-transform:uppercase;text-align:center;margin-bottom:8px;position:relative}
+.core-sub{text-align:center;color:#9c9c9c;font-size:14px;margin-bottom:32px;position:relative}
+.core-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;position:relative}
+.core-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:28px}
+.core-card .ttl{font-weight:700;color:#fff;font-size:17px;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.core-card .ttl .dot{width:9px;height:9px;border-radius:50%;background:var(--accent)}
+.core-card ul{list-style:none}
+.core-card li{font-size:14px;color:#c4c4c4;padding:5px 0 5px 20px;position:relative}
+.core-card li::before{content:'·';position:absolute;left:6px;color:var(--accent);font-weight:800}
+.core-card li b{color:#fff;font-weight:600}
+.flow{position:relative;margin-top:28px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.flow-step{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:20px 18px}
+.flow-step .n{font-family:var(--display);font-size:15px;color:var(--accent);letter-spacing:.1em;margin-bottom:8px}
+.flow-step .t{color:#fff;font-weight:600;font-size:14.5px;margin-bottom:6px}
+.flow-step .d{color:#a9a9a9;font-size:13px}
+.stagebox{border-radius:20px;padding:34px;margin-bottom:20px}
+.stage1{background:rgba(33,170,77,.07);border:1px solid rgba(33,170,77,.3)}
+.stage2{background:var(--bg);border:2px dashed var(--accent)}
+.stagebox .lbl{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.stagebox h3{font-family:var(--display);font-size:22px;text-transform:uppercase;margin-bottom:12px;letter-spacing:.01em}
+.stagebox p{color:var(--gray);font-size:15px;margin-bottom:14px}
+.stagebox p b{color:var(--ink);font-weight:600}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chip{font-size:13px;font-weight:500;background:var(--bg);border:1px solid var(--line);border-radius:100px;padding:8px 16px;color:var(--ink)}
+.note{margin-top:16px;padding:14px 18px;border-radius:12px;background:var(--ink);color:#E9E9E9;font-size:14px}
+.note b{color:#fff;font-weight:700}
+.stage{background:var(--bg);border:1px solid var(--line);border-radius:18px;padding:30px 34px;margin-bottom:16px}
+.stage-top{display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+.stage-top h3{font-size:18px;font-weight:700}
+.stage-top h3 .n{font-family:var(--display);color:var(--accent);margin-right:12px;text-transform:uppercase;font-size:20px}
+.stage-meta{font-size:12.5px;font-weight:600;color:var(--gray)}
+.stage p{color:var(--gray);font-size:14.5px}
+.stage p b{color:var(--ink);font-weight:600}
+.price-box{background:var(--ink);border-radius:24px;padding:64px 40px;text-align:center;position:relative;overflow:hidden;color:#E9E9E9}
+.price-box::before{content:'';position:absolute;left:-180px;bottom:-180px;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(33,170,77,.3) 0%,transparent 65%);pointer-events:none}
+.price-label{font-size:13px;font-weight:700;letter-spacing:.18em;color:#9c9c9c;text-transform:uppercase;margin-bottom:18px}
+.price-num{font-family:var(--display);font-weight:700;font-size:clamp(46px,8vw,96px);line-height:1;color:var(--accent);text-transform:uppercase}
+.price-sub{color:#b8b8b8;font-size:16px;margin-top:16px}
+.price-sub s{color:#8a8a8a}
+.price-rows{max-width:680px;margin:38px auto 0;text-align:left;position:relative}
+.price-row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.1);font-size:15px}
+.price-row .nm{color:#fff;font-weight:500}
+.price-row .nm small{display:block;color:#9c9c9c;font-weight:400;font-size:12.5px}
+.price-row .pr{white-space:nowrap;font-weight:700;color:var(--accent);font-size:16px}
+.old{color:#8a8a8a;text-decoration:line-through;font-weight:400;font-size:13.5px;margin-right:10px}
+.price-total{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:16px 0 0;font-size:15px;color:#fff;font-weight:700;border-top:2px solid rgba(33,170,77,.5)}
+.price-total > span:last-child{color:var(--accent);font-size:18px;white-space:nowrap}
+.price-extra{max-width:680px;margin:18px auto 0;text-align:left;font-size:13px;color:#9c9c9c}
+.price-extra b{color:#c9c9c9}
+.price-extra p{margin-bottom:6px}
+.pay-stages{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:36px;position:relative}
+.pay{font-size:13px;font-weight:500;color:#c9c9c9;border:1px solid rgba(255,255,255,.2);border-radius:100px;padding:10px 20px}
+.pay b{color:var(--accent);font-weight:800}
+.cta{display:inline-block;margin-top:40px;padding:20px 54px;border-radius:100px;background:var(--accent);color:#fff;font-weight:700;font-size:17px;text-decoration:none;box-shadow:0 10px 34px rgba(33,170,77,.4);transition:transform .25s,box-shadow .25s,background .25s}
+.cta:hover{transform:translateY(-3px);background:var(--accent-dark);box-shadow:0 16px 44px rgba(33,170,77,.5)}
+footer{border-top:1px solid var(--line);padding:44px 0;text-align:center;color:var(--gray);font-size:14px}
+footer .logo{font-family:var(--display);color:var(--accent);letter-spacing:.1em;text-transform:uppercase;font-size:18px;margin-bottom:8px}
+@media(max-width:860px){
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .metric:last-child{grid-column:span 2}
+  .grid-2,.grid-3,.core-grid{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr 1fr}
+  section{padding:64px 0}
+}
+</style>
+</head>
+<body>
+
+<header class="hero"><div class="container">
+  <div class="badges fade">
+    <span class="badge green">🤖 ИИ-ВИЗАЦИЯ</span>
+    <span class="badge">Флиппинг домов</span>
+    <span class="badge">Авито · Битрикс24 · ЕГРН</span>
+  </div>
+  <div class="eyebrow fade d1">Коммерческое предложение</div>
+  <h1 class="fade d2">Находим дома<br>без&nbsp;регистрации<br><span class="acc">и&nbsp;не&nbsp;теряем покупателей</span></h1>
+  <p class="hero-sub fade d3">Система, которая каждый час просматривает четыре площадки объявлений, сама проверяет по&nbsp;ЕГРН, стоит&nbsp;ли дом на&nbsp;учёте, считает экономику достройки и&nbsp;приносит вам короткий список объектов. Параллельно отвечает покупателям в&nbsp;Авито и&nbsp;заводит их в&nbsp;Битрикс24. <b>Собственника спрашивать про&nbsp;кадастр больше не&nbsp;нужно.</b></p>
+  <div class="metrics fade d4">
+    <div class="metric"><div class="num">4</div><div class="lbl">площадки в&nbsp;одной ленте</div></div>
+    <div class="metric"><div class="num">0</div><div class="lbl">сообщений ради проверки</div></div>
+    <div class="metric"><div class="num">1&nbsp;час</div><div class="lbl">от&nbsp;публикации до&nbsp;вашей таблицы</div></div>
+    <div class="metric"><div class="num">24/7</div><div class="lbl">ответ покупателю</div></div>
+    <div class="metric"><div class="num">6&nbsp;недель</div><div class="lbl">до&nbsp;полного запуска</div></div>
+  </div>
+</div></header>
+
+<!-- 01 -->
+<section class="alt"><div class="container">
+  <div class="sec-num">01 · ГДЕ СЕЙЧАС ТЕРЯЮТСЯ ДЕНЬГИ</div>
+  <h2>Три ручных места</h2>
+  <p class="sec-sub">Всё это&nbsp;сегодня делают люди. Каждое место стоит либо зарплаты, либо упущенной сделки.</p>
+  <div class="grid grid-3">
+    <div class="card">
+      <div class="emoji">🔎</div>
+      <h3><span class="ln">01</span>Поиск объектов</h3>
+      <p>Человек листает Авито глазами, отбирает подходящее, пишет собственникам про&nbsp;кадастр, сводит ответы в&nbsp;таблицу. Тысячи объявлений вручную не&nbsp;перебрать, значит часть хороших объектов вы просто не&nbsp;видите. А&nbsp;хороший недострой по&nbsp;цене участка уходит за&nbsp;дни.</p>
+      <div class="who">Отдельный сотрудник, только Авито</div>
+    </div>
+    <div class="card">
+      <div class="emoji">💬</div>
+      <h3><span class="ln">02</span>Отклики покупателей</h3>
+      <p>Дом готов, объявление висит, люди пишут. Покупатель пишет сразу в&nbsp;пять объявлений и&nbsp;едет смотреть к&nbsp;тому, кто ответил первым. Под&nbsp;эту работу вы сейчас ищете человека за&nbsp;20&nbsp;000&nbsp;₽.</p>
+      <div class="who">Вакансия открыта, человека нет</div>
+    </div>
+    <div class="card">
+      <div class="emoji">📉</div>
+      <h3><span class="ln">03</span>База после показов</h3>
+      <p>Человек приехал, дом не&nbsp;подошёл, ушёл навсегда. Хотя следующий ваш объект мог подойти ему идеально. Трафик оплачен дважды: один раз за&nbsp;первый показ, второй раз за&nbsp;нового клиента.</p>
+      <div class="who">Клиенты уходят без&nbsp;следа</div>
+    </div>
+  </div>
+</div></section>
+
+<!-- 02 -->
+<section><div class="container">
+  <div class="sec-num">02 · ГЛАВНОЕ РЕШЕНИЕ</div>
+  <h2>Про&nbsp;кадастр<br>спрашивать некого</h2>
+  <p class="sec-sub">На&nbsp;созвоне задача звучала так: написать сотне собственников и&nbsp;спросить, зарегистрирован&nbsp;ли дом. Мы проверили и&nbsp;нашли путь короче. <b>Ответ уже лежит в&nbsp;открытых данных Росреестра.</b></p>
+  <div class="core">
+    <div class="core-h">Проверка регистрации без&nbsp;единого сообщения</div>
+    <div class="core-sub">Адрес из&nbsp;объявления идёт в&nbsp;ЕГРН, оттуда возвращается статус объекта</div>
+    <div class="flow">
+      <div class="flow-step"><div class="n">ШАГ 1</div><div class="t">Адрес объявления</div><div class="d">берём из&nbsp;карточки объекта, никого ни&nbsp;о&nbsp;чём не&nbsp;спрашиваем</div></div>
+      <div class="flow-step"><div class="n">ШАГ 2</div><div class="t">Поиск в&nbsp;ЕГРН</div><div class="d">находим кадастровый номер участка по&nbsp;адресу</div></div>
+      <div class="flow-step"><div class="n">ШАГ 3</div><div class="t">Объекты на&nbsp;участке</div><div class="d">смотрим, есть&nbsp;ли зарегистрированное строение и&nbsp;какой у&nbsp;него статус</div></div>
+      <div class="flow-step"><div class="n">ШАГ 4</div><div class="t">Вердикт</div><div class="d">объект попадает в&nbsp;вашу таблицу либо отсеивается</div></div>
+    </div>
+    <div class="core-grid" style="margin-top:16px">
+      <div class="core-card">
+        <div class="ttl"><span class="dot"></span>Ваш объект</div>
+        <ul>
+          <li>на&nbsp;участке <b>нет зарегистрированного строения</b></li>
+          <li>строение стоит в&nbsp;статусе <b>«незавершённое строительство»</b></li>
+          <li>такой объект продаётся как&nbsp;участок плюс договор подряда, а&nbsp;покупатель берёт льготную ипотеку</li>
+        </ul>
+      </div>
+      <div class="core-card">
+        <div class="ttl"><span class="dot"></span>Мимо</div>
+        <ul>
+          <li>жилой дом <b>уже зарегистрирован</b> как&nbsp;готовый</li>
+          <li>покупателю останется только рыночная ставка, объект встанет в&nbsp;экспозиции</li>
+          <li>система отсеивает такие объявления сама, вы их не&nbsp;видите</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="note" style="max-width:none">Важный нюанс: адрес в&nbsp;объявлении часто указан приблизительно, до&nbsp;улицы или&nbsp;до&nbsp;посёлка. Часть объектов система пометит как&nbsp;«требует ручной проверки», и&nbsp;это&nbsp;нормально. Реальную долю таких случаев по&nbsp;вашему региону меряем на&nbsp;пилотной неделе, вслепую мы её не&nbsp;обещаем.</div>
+</div></section>
+
+<!-- 03 -->
+<section class="alt"><div class="container">
+  <div class="sec-num">03 · ГРАНИЦЫ ВОЗМОЖНОГО</div>
+  <h2>Что&nbsp;можно, а&nbsp;что<br>мы не&nbsp;обещаем</h2>
+  <p class="sec-sub">Авито воюет с&nbsp;автоматизацией и&nbsp;это&nbsp;записано в&nbsp;их пользовательском соглашении. Мы разложили задачу на&nbsp;то, что&nbsp;безопасно, то, что&nbsp;требует оговорок, и&nbsp;то, за&nbsp;что&nbsp;не&nbsp;берёмся. <b>Красную зону называем сразу, а&nbsp;не&nbsp;после подписания.</b></p>
+  <div class="grid grid-2">
+    <div class="card">
+      <span class="card-status ok">✓ Делаем спокойно</span>
+      <h3>Ответы покупателям официальным путём</h3>
+      <p>Так&nbsp;Авито и&nbsp;задумал. Нужен платный тариф, где эта возможность открыта, и&nbsp;подтверждённый профиль компании. Аккаунту ничего не&nbsp;грозит.</p>
+    </div>
+    <div class="card">
+      <span class="card-status ok">✓ Делаем спокойно</span>
+      <h3>Объявления берём у&nbsp;поставщика данных</h3>
+      <p>Готовую ленту объявлений покупаем у&nbsp;сервиса, который уже собирает Авито, Циан, Домклик и&nbsp;Яндекс Недвижимость. <b>Ваш аккаунт в&nbsp;сборе не&nbsp;участвует вообще.</b> Заодно площадок становится четыре вместо одной.</p>
+    </div>
+    <div class="card">
+      <span class="card-status ok">✓ Делаем спокойно</span>
+      <h3>Проверка ЕГРН и&nbsp;расчёты</h3>
+      <p>Открытые данные Росреестра. Отбор объектов, экономика достройки, сводка и&nbsp;таблица считаются у&nbsp;вас на&nbsp;сервере.</p>
+    </div>
+    <div class="card">
+      <span class="card-status wip">⟳ Можно с&nbsp;оговорками</span>
+      <h3>Переписка в&nbsp;уже открытых чатах</h3>
+      <p>Авито разрешает отвечать там, где разговор уже начат. Темп и&nbsp;содержание держим человеческими, поток не&nbsp;разгоняем.</p>
+    </div>
+    <div class="card">
+      <span class="card-status no">✕ Не&nbsp;обещаем</span>
+      <h3>Массовая рассылка собственникам</h3>
+      <p>Авито <b>не&nbsp;даёт написать первым</b> незнакомому человеку. Обход, когда программа притворяется живым пользователем, вычисляется по&nbsp;поведению и&nbsp;заканчивается баном. Аккуратный путь есть, он разобран ниже в&nbsp;контуре 3.</p>
+    </div>
+    <div class="card">
+      <span class="card-status no">✕ Не&nbsp;обещаем</span>
+      <h3>Робота под&nbsp;вашим личным аккаунтом</h3>
+      <p>Потерять рабочий аккаунт значит потерять канал продаж. Всё, что&nbsp;связано с&nbsp;риском, выносится на&nbsp;отдельный профиль, и&nbsp;гарантий «Авито никогда не&nbsp;забанит» не&nbsp;даёт никто.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 04 -->
+<section><div class="container">
+  <div class="sec-num">04 · КОНТУР 1</div>
+  <h2>Радар объектов</h2>
+  <p class="sec-sub">Главная часть системы. Заменяет ручной поиск и&nbsp;снимает вопрос про&nbsp;кадастр целиком.</p>
+  <div class="stagebox stage1">
+    <div class="lbl">Как&nbsp;работает</div>
+    <h3>От&nbsp;тысячи объявлений до&nbsp;пяти объектов</h3>
+    <p>Раз в&nbsp;час система забирает свежие объявления по&nbsp;вашим фильтрам: регион и&nbsp;радиус, цена до&nbsp;заданной суммы, площадь от&nbsp;заданной, тип объекта. Дубли между площадками склеиваются в&nbsp;одну запись, уже виденное отсекается. Дальше нейросеть читает описание и&nbsp;фотографии и&nbsp;заполняет карточку: стадия готовности, коммуникации, признаки недостроя, адекватность цены площади. Затем адрес уходит в&nbsp;ЕГРН за&nbsp;статусом регистрации. По&nbsp;выжившим объектам считается экономика: цена входа, оценка достройки, ориентир рыночной цены в&nbsp;районе, прогноз маржи и&nbsp;срока оборота.</p>
+    <div class="chips">
+      <span class="chip">✓ Авито, Циан, Домклик, Яндекс Недвижимость</span>
+      <span class="chip">✓ фильтр по&nbsp;вашей формуле отбора</span>
+      <span class="chip">✓ склейка дублей между площадками</span>
+      <span class="chip">✓ чтение описания и&nbsp;фотографий</span>
+      <span class="chip">✓ статус регистрации из&nbsp;ЕГРН</span>
+      <span class="chip">✓ расчёт маржи и&nbsp;срока оборота</span>
+    </div>
+  </div>
+  <div class="stagebox stage1">
+    <div class="lbl">Что&nbsp;вы видите</div>
+    <h3>Таблица и&nbsp;утренняя сводка</h3>
+    <p>Google-таблица «Объекты в&nbsp;работе»: все поля, расчёты, ссылка на&nbsp;объявление, отметки технадзора. Утром в&nbsp;Telegram приходит короткая сводка: <b>«за&nbsp;сутки 34&nbsp;новых объекта, 5&nbsp;прошли фильтр, 2&nbsp;с&nbsp;маржой выше целевой»</b>. Технадзор и&nbsp;вы смотрите пять строк вместо тысячи объявлений.</p>
+    <div class="chips">
+      <span class="chip">📊 Google-таблица со&nbsp;всеми полями</span>
+      <span class="chip">📱 утренняя сводка в&nbsp;Telegram</span>
+      <span class="chip">🔔 отдельный сигнал по&nbsp;объекту выше целевой маржи</span>
+    </div>
+  </div>
+</div></section>
+
+<!-- 05 -->
+<section class="alt"><div class="container">
+  <div class="sec-num">05 · КОНТУРЫ 2&nbsp;И&nbsp;3</div>
+  <h2>Лид-менеджер<br>и&nbsp;работа с&nbsp;собственниками</h2>
+  <p class="sec-sub">Второй контур делаем первым: он проще, эффект виден сразу, и&nbsp;на&nbsp;нём команда привыкает работать с&nbsp;агентом. Третий берёте по&nbsp;желанию.</p>
+  <div class="stagebox stage1">
+    <div class="lbl">Контур 2 · входит в&nbsp;пакет</div>
+    <h3>Лид-менеджер на&nbsp;входящие отклики</h3>
+    <p>Покупатель пишет в&nbsp;Авито и&nbsp;продолжает переписываться в&nbsp;Авито, ничего не&nbsp;замечая. Сообщение попадает в&nbsp;Битрикс24 штатным способом, там&nbsp;же заводится карточка сделки. Агент отвечает в&nbsp;течение минуты и&nbsp;знает конкретный объект: площадь, планировку, участок, коммуникации, что&nbsp;входит в&nbsp;отделку, условия по&nbsp;ипотеке. По&nbsp;ходу разговора выясняет бюджет, наличные или&nbsp;ипотека, состав семьи, сроки переезда, и&nbsp;пишет всё это&nbsp;в&nbsp;карточку. Отправляет презентацию дома, предлагает время показа, ставит встречу и&nbsp;напоминает о&nbsp;ней накануне.</p>
+    <div class="chips">
+      <span class="chip">✓ ответ за&nbsp;минуту, круглосуточно</span>
+      <span class="chip">✓ карточка и&nbsp;воронка в&nbsp;Битрикс24</span>
+      <span class="chip">✓ квалификация разговором, не&nbsp;анкетой</span>
+      <span class="chip">✓ презентация объекта и&nbsp;запись на&nbsp;показ</span>
+      <span class="chip">✓ уведомления команде в&nbsp;Telegram</span>
+    </div>
+    <div class="note"><b>База клиентов, которая работает.</b> Каждый покупатель остаётся в&nbsp;Битриксе с&nbsp;профилем «что&nbsp;искал». Появился новый объект в&nbsp;портфеле, система сама подбирает, кому из&nbsp;прошлых показов он подходит. Тот, кому не&nbsp;подошёл первый дом, получает предложение по&nbsp;второму.</div>
+    <div class="note" style="margin-top:10px">Граница ответственности: агент ведёт переписку до&nbsp;назначенного показа. Показ, торг и&nbsp;сделку ведёт человек. Дом за&nbsp;десять миллионов ботом не&nbsp;продаётся.</div>
+  </div>
+  <div class="stagebox stage2">
+    <div class="lbl">Контур 3 · опция, берёте отдельно</div>
+    <h3>Диалог с&nbsp;собственниками</h3>
+    <p>Нужен, чтобы&nbsp;дособрать по&nbsp;интересному объекту то, чего нет ни&nbsp;в&nbsp;объявлении, ни&nbsp;в&nbsp;ЕГРН: реальную готовность, документы, готовность к&nbsp;торгу, срочность продажи. Работает так: <b>первое сообщение отправляет ваш оператор</b>, система готовит список объектов и&nbsp;текст под&nbsp;каждый. Десять-двадцать в&nbsp;день, обычным человеческим темпом. Дальше разговор ведёт агент, потому что&nbsp;переписка уже открыта и&nbsp;отвечать в&nbsp;ней разрешено. Ответы попадают в&nbsp;ту&nbsp;же таблицу объектов. Всё, что&nbsp;похоже на&nbsp;торг или&nbsp;договорённость о&nbsp;встрече, передаётся человеку.</p>
+    <div class="note"><b>Почему это&nbsp;опция, а&nbsp;не&nbsp;обязательная часть.</b> Раньше переписка была единственным способом узнать про&nbsp;регистрацию, и&nbsp;ради неё пришлось&nbsp;бы идти на&nbsp;риск массовой рассылки. Теперь регистрацию отдаёт ЕГРН, и&nbsp;этот контур нужен только для&nbsp;уточнения деталей по&nbsp;уже отобранным объектам. Его можно взять позже или&nbsp;не&nbsp;брать совсем.</div>
+  </div>
+</div></section>
+
+<!-- 06 -->
+<section><div class="container">
+  <div class="sec-num">06 · ПЛАН РАБОТ</div>
+  <h2>Шесть недель<br>до&nbsp;полного запуска</h2>
+  <p class="sec-sub">Контуры делаются последовательно, каждый приносит пользу сам по&nbsp;себе. Уже после второй недели отклики покупателей обрабатывает система, а&nbsp;не&nbsp;человек.</p>
+  <div class="stage"><div class="stage-top"><h3><span class="n">Нед. 1</span>Инфраструктура и&nbsp;доступы</h3><span class="stage-meta">сервер и&nbsp;подключение сервисов</span></div><p>Разворачиваем ядро на&nbsp;вашем сервере, подключаем Авито, Битрикс24, Google-таблицы и&nbsp;Telegram. Настраиваем резервные копии и&nbsp;хранение кода.</p></div>
+  <div class="stage"><div class="stage-top"><h3><span class="n">Нед. 2</span>Лид-менеджер в&nbsp;бою</h3><span class="stage-meta">контур 2&nbsp;сдан</span></div><p>Приём откликов, ответы покупателям, карточки и&nbsp;воронка в&nbsp;Битриксе, запись на&nbsp;показы, база клиентов, уведомления команде. С&nbsp;этого момента вакансия за&nbsp;20&nbsp;000&nbsp;₽ вам не&nbsp;нужна.</p></div>
+  <div class="stage"><div class="stage-top"><h3><span class="n">Нед. 3</span>Сбор и&nbsp;обогащение</h3><span class="stage-meta">контур 1, первая половина</span></div><p>Подключаем ленту объявлений и&nbsp;данные Росреестра. Настраиваем отбор по&nbsp;вашей формуле, склейку дублей между площадками, проверку статуса регистрации.</p></div>
+  <div class="stage"><div class="stage-top"><h3><span class="n">Нед. 4</span>Оценка и&nbsp;экономика</h3><span class="stage-meta">контур 1, вторая половина</span></div><p>Чтение описаний и&nbsp;фотографий, оценка стадии готовности, расчёт стоимости достройки и&nbsp;прогноза маржи. Собираем таблицу объектов и&nbsp;утреннюю сводку.</p></div>
+  <div class="stage"><div class="stage-top"><h3><span class="n">Нед. 5</span>Пилот на&nbsp;живых данных</h3><span class="stage-meta">замеры и&nbsp;донастройка</span></div><p>Гоняем систему на&nbsp;реальном потоке вашего региона. Меряем, насколько точно адреса сходятся с&nbsp;Росреестром и&nbsp;насколько полно поставщик закрывает ваш регион. По&nbsp;результатам докручиваем правила отбора.</p></div>
+  <div class="stage"><div class="stage-top"><h3><span class="n">Нед. 6</span>Приёмка и&nbsp;передача</h3><span class="stage-meta">обучение команды</span></div><p>Сдаём систему, обучаем команду работать с&nbsp;ней, передаём документацию и&nbsp;доступы. Дальше месяц поддержки бесплатно.</p></div>
+</div></section>
+
+<!-- 07 -->
+<section class="alt"><div class="container">
+  <div class="sec-num">07 · ЧТО&nbsp;ОСТАЁТСЯ У&nbsp;ВАС</div>
+  <h2>Своя система,<br>а&nbsp;не&nbsp;подписка</h2>
+  <p class="sec-sub">Всё разворачивается на&nbsp;вашем сервере и&nbsp;под&nbsp;вашими аккаунтами. Мы не&nbsp;держим вас на&nbsp;крючке.</p>
+  <div class="grid grid-3">
+    <div class="card"><div class="emoji">🔓</div><h3>Сервер и&nbsp;код ваши</h3><p>Система живёт на&nbsp;вашем сервере, исходный код и&nbsp;все доступы тоже ваши. Захотите поменять исполнителя, ничего не&nbsp;сломается.</p></div>
+    <div class="card"><div class="emoji">🔐</div><h3>Данные не&nbsp;уходят наружу</h3><p>Телефоны и&nbsp;переписка остаются на&nbsp;вашем сервере. Нейросеть понимает задачу и&nbsp;передаёт её программе, а&nbsp;с&nbsp;личными данными работает уже программа, наружу их&nbsp;не&nbsp;отправляя.</p></div>
+    <div class="card"><div class="emoji">🎛</div><h3>Формулу меняете сами</h3><p>Цена, площадь, радиус, целевая маржа, правила отбора вынесены в&nbsp;настройки. Поменять критерий поиска можно без&nbsp;разработчика.</p></div>
+    <div class="card"><div class="emoji">📚</div><h3>Документация и&nbsp;обучение</h3><p>Команда получает разбор системы и&nbsp;инструкции. Людмила как&nbsp;ИИ-директор компании сможет развивать её дальше в&nbsp;рамках курса.</p></div>
+    <div class="card"><div class="emoji">🧩</div><h3>Контуры независимы</h3><p>Каждый работает сам по&nbsp;себе. Можно взять один, добавить второй позже, третий не&nbsp;брать вовсе.</p></div>
+    <div class="card"><div class="emoji">🛟</div><h3>Месяц поддержки</h3><p>После сдачи месяц сопровождения бесплатно: правки, донастройка, разбор ситуаций, которые вылезут на&nbsp;боевом потоке.</p></div>
+  </div>
+</div></section>
+
+<!-- 08 -->
+<section><div class="container">
+  <div class="sec-num">08 · КТО ДЕЛАЕТ</div>
+  <h2>Команда проекта</h2>
+  <p class="sec-sub">Вы уже работаете со&nbsp;Стасом в&nbsp;рамках обучения. На&nbsp;этом проекте он ведёт внедрение и&nbsp;подключает команду там, где нужна разработка.</p>
+  <div class="grid grid-3">
+    <div class="card"><h3>Станислав Панков</h3><p><b>Ведёт проект.</b> Постановка задач, архитектура сценариев, обучение вашей команды. Тот&nbsp;же человек, что&nbsp;ведёт ваш курс.</p></div>
+    <div class="card"><h3>Игорь Масленников</h3><p><b>Разработка.</b> Радар объектов: подключение источников данных и&nbsp;Росреестра, правила отбора, расчёт экономики.</p></div>
+    <div class="card"><h3>Роман Пищулов</h3><p><b>Архитектура и&nbsp;внедрение.</b> Со-фаундер ИИ-ВИЗАЦИЯ. Инфраструктура, развёртывание, надёжность контура.</p></div>
+  </div>
+</div></section>
+
+<!-- 09 -->
+<section class="alt"><div class="container">
+  <div class="sec-num">09 · СКОЛЬКО СТОИТ</div>
+  <h2>Цена</h2>
+  <p class="sec-sub">Вы наш студент премиум-потока, поэтому пакетом дешевле. Всё, что&nbsp;вы можете собрать сами из&nbsp;готовых связок курса, в&nbsp;это&nbsp;КП не&nbsp;входит и&nbsp;остаётся в&nbsp;обучении.</p>
+  <div class="price-box">
+    <div class="price-label">Пакетом дешевле</div>
+    <div class="price-num">390&nbsp;000&nbsp;₽</div>
+    <div class="price-sub">вместо <s>450&nbsp;000&nbsp;₽</s> по&nbsp;отдельным блокам</div>
+    <div class="price-rows">
+      <div class="price-row"><span class="nm">Контур 2 · лид-менеджер<small>Авито, Битрикс24, квалификация, показы, база клиентов</small></span><span class="pr"><span class="old">150&nbsp;000&nbsp;₽</span>130&nbsp;000&nbsp;₽</span></div>
+      <div class="price-row"><span class="nm">Контур 1 · радар объектов<small>четыре площадки, проверка Росреестра, отбор, экономика, утренняя сводка, пилот на&nbsp;живых данных</small></span><span class="pr"><span class="old">250&nbsp;000&nbsp;₽</span>215&nbsp;000&nbsp;₽</span></div>
+      <div class="price-row"><span class="nm">Настройка и&nbsp;подключения<small>сервер, доступы, Авито, Битрикс24, Google-таблицы, Telegram, резервные копии</small></span><span class="pr"><span class="old">50&nbsp;000&nbsp;₽</span>45&nbsp;000&nbsp;₽</span></div>
+      <div class="price-total"><span>Итого пакетом</span><span><span class="old">450&nbsp;000&nbsp;₽</span>390&nbsp;000&nbsp;₽</span></div>
+    </div>
+    <div class="price-extra">
+      <p>＋ <b>Контур 3, диалог с&nbsp;собственниками: 90&nbsp;000&nbsp;₽.</b> Берётся отдельно и&nbsp;позже, по&nbsp;результатам первых двух.</p>
+      <p>＋ <b>Месяц поддержки после сдачи входит в&nbsp;стоимость.</b></p>
+      <p>＋ Подписки и&nbsp;внешние сервисы это&nbsp;ваш расход: сервер от&nbsp;700&nbsp;₽ в&nbsp;месяц, лента объявлений 2&nbsp;000–3&nbsp;000&nbsp;₽ в&nbsp;месяц, тариф Авито, где открыты ответы из&nbsp;внешней системы, запросы в&nbsp;Росреестр по&nbsp;объёму, подписка на&nbsp;нейросеть около 20&nbsp;$ в&nbsp;месяц. Битрикс24&nbsp;у&nbsp;вас уже оплачен.</p>
+    </div>
+    <div class="pay-stages">
+      <span class="pay"><b>40%</b> · на&nbsp;старте</span>
+      <span class="pay"><b>30%</b> · после сдачи лид-менеджера</span>
+      <span class="pay"><b>30%</b> · после сдачи радара</span>
+    </div>
+    <a class="cta" href="https://t.me/stavzzz">Согласовать и&nbsp;стартовать →</a>
+  </div>
+</div></section>
+
+<footer>
+  <div class="logo">ИИ-ВИЗАЦИЯ</div>
+  <div>Коммерческое предложение · подготовлено индивидуально для&nbsp;ИП Емельянов</div>
+</footer>
+</body>
+</html>
