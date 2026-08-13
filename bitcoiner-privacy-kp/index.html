@@ -73,10 +73,14 @@ h2{font-family:var(--display);font-size:clamp(28px,4vw,46px);font-weight:700;tex
 .core-card li::before{content:'·';position:absolute;left:6px;color:var(--accent);font-weight:800}
 .core-card li b{color:#fff;font-weight:600}
 .stage{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:26px 30px;margin-bottom:14px}
-.stage-top{display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:6px}
-.stage-top h3{font-size:19px;font-weight:700}
-.stage-top h3 .n{font-family:var(--display);color:var(--accent);margin-right:12px;text-transform:uppercase;font-size:21px}
+.stage-top{margin-bottom:14px}
+.stage-top h3{font-size:20px;font-weight:700;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.stage-top h3 .n{font-family:var(--display);color:var(--accent);text-transform:uppercase;font-size:21px;flex-shrink:0}
 .stage p{color:var(--gray);font-size:16px}
+.stage-list{list-style:none;display:flex;flex-direction:column;gap:9px}
+.stage-list li{color:var(--gray);font-size:16px;padding-left:24px;position:relative}
+.stage-list li::before{content:'';position:absolute;left:6px;top:11px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.stage-list li b{color:var(--ink);font-weight:600}
 .stage p b{color:var(--ink);font-weight:600}
 .bio-list{list-style:none;max-width:520px}
 .bio-list li{font-size:17px;color:var(--gray);padding:9px 0 9px 26px;position:relative}
@@ -109,8 +113,6 @@ h1,h2,.core-h,.card h3,.stage-top h3{text-wrap:balance}
 footer{border-top:1px solid var(--line);padding:44px 24px;text-align:center;color:var(--gray);font-size:15px}
 footer .logo{font-family:var(--display);color:var(--accent);letter-spacing:.1em;text-transform:uppercase;font-size:18px;margin-bottom:8px}
 @media (min-width:861px){
-  .stage{display:grid;grid-template-columns:minmax(220px,280px) 1fr;gap:28px;align-items:start}
-  .stage-top{margin-bottom:0}
   .presenter{padding:48px 0}
   .presenter .bio-list{max-width:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
 }
@@ -235,16 +237,16 @@ footer .logo{font-family:var(--display);color:var(--accent);letter-spacing:.1em;
   <div class="sec-num">03 · ПОШАГОВЫЙ ПЛАН</div>
   <h2>10&nbsp;занятий по&nbsp;порядку</h2>
   <p class="sec-sub">Между занятиями ноды синхронизируются сами в&nbsp;фоне, это&nbsp;домашняя часть, а&nbsp;не&nbsp;время внутри урока. Живые часы уходят на&nbsp;настройку, разбор и&nbsp;практику.</p>
-  <div class="stage"><div class="stage-top"><h3><span class="n">Урок 1</span>Старт загрузки блокчейнов и&nbsp;алгоритм Шамира</h3></div><p>Сразу запускаем скачивание блокчейнов Bitcoin и&nbsp;Monero, дальше оно идёт в&nbsp;фоне само. Разбираем, как&nbsp;разделить секрет на&nbsp;части так, что&nbsp;ни&nbsp;один осколок в&nbsp;одиночку ничего не&nbsp;даёт.</p></div>
-  <div class="stage"><div class="stage-top"><h3><span class="n">Урок 2</span>Установка кошельков, мультисиг и&nbsp;хранение ключей</h3></div><p>Ставим Sparrow Wallet и&nbsp;Monero GUI. Настраиваем мультиподпись. Практика хранения и&nbsp;защиты сид-фраз.</p></div>
-  <div class="stage"><div class="stage-top"><h3><span class="n">Урок 3</span>Нода Bitcoin изнутри</h3></div><p>Что&nbsp;происходит, пока качается цепочка. Чем&nbsp;нода отличается от&nbsp;кошелька и&nbsp;почему она никому не&nbsp;верит на&nbsp;слово.</p></div>
-  <div class="stage"><div class="stage-top"><h3><span class="n">Урок 4</span>Нода Monero изнутри</h3></div><p>Чем&nbsp;приватность Monero устроена иначе, чем&nbsp;у&nbsp;биткоина. Полная и&nbsp;облегчённая нода: что&nbsp;теряется при&nbsp;экономии места.</p></div>
-  <div class="stage"><div class="stage-top"><h3><span class="n">Урок 5</span>Tor и&nbsp;переход на&nbsp;свои ноды</h3></div><p>Обе ноды уходят в&nbsp;Tor. Кошельки из&nbsp;урока 2 переключаются на&nbsp;твои ноды вместо чужих серверов.</p></div>
-  <div class="stage"><div class="stage-top"><h3><span class="n">Урок 6</span>Linux в&nbsp;виртуальной машине</h3></div><p>Отдельная система на&nbsp;твоём макбуке под&nbsp;обмены. Ставим её&nbsp;тогда, когда она понадобилась, а&nbsp;не&nbsp;заранее.</p></div>
-  <div class="stage"><div class="stage-top"><h3><span class="n">Урок 7</span>BasicSwap DEX, установка</h3></div><p>Обмен без&nbsp;биржи и&nbsp;без&nbsp;моста: настройка программы поверх твоих нод.</p></div>
-  <div class="stage"><div class="stage-top"><h3><span class="n">Урок 8</span>Обмен BTC и&nbsp;XMR, практика</h3></div><p>Реальный обмен и&nbsp;разбор каждого шага. Два независимых инструмента, чтобы&nbsp;сделка состоялась в&nbsp;любом случае.</p></div>
-  <div class="stage"><div class="stage-top"><h3><span class="n">Урок 9</span>CoinJoin без&nbsp;посредника</h3></div><p>Как&nbsp;устроен приватный перевод внутри биткоина. Практика на&nbsp;своей ноде через&nbsp;открытый JoinMarket: координатора нет, ключи не&nbsp;покидают твой кошелёк.</p></div>
-  <div class="stage"><div class="stage-top"><h3><span class="n">Урок 10</span>Сведение схемы</h3></div><p>Как&nbsp;всё связано между собой, разбор ошибок и&nbsp;рисков, ответы на&nbsp;вопросы.</p></div>
+  <div class="stage"><div class="stage-top"><h3><span class="n">Урок 1</span>Старт загрузки блокчейнов и&nbsp;алгоритм Шамира</h3></div><ul class="stage-list"><li>Готовим внешний диск: форматирование под&nbsp;две ноды</li><li>Настраиваем macOS, чтобы&nbsp;компьютер не&nbsp;уснул за&nbsp;ночь</li><li>Ставим <b>Bitcoin Core</b> и&nbsp;запускаем загрузку блокчейна</li><li>Ставим <b>Monero GUI</b> и&nbsp;запускаем загрузку второго блокчейна</li><li>Разбираем алгоритм Шамира: как&nbsp;разделить секрет на&nbsp;части</li></ul></div>
+  <div class="stage"><div class="stage-top"><h3><span class="n">Урок 2</span>Кошелёк Sparrow и&nbsp;мультиподпись</h3></div><ul class="stage-list"><li>Ставим <b>Sparrow Wallet</b>, разбираем интерфейс</li><li>Настраиваем мультиподпись: две подписи из&nbsp;трёх</li><li>Практика хранения и&nbsp;защиты сид-фраз</li><li>Разносим части секрета по&nbsp;схеме из&nbsp;урока 1</li></ul></div>
+  <div class="stage"><div class="stage-top"><h3><span class="n">Урок 3</span>Нода Bitcoin изнутри</h3></div><ul class="stage-list"><li>Чем нода отличается от&nbsp;кошелька</li><li>Что&nbsp;происходит, пока идёт загрузка блокчейна</li><li>Зачем нужен полный индекс транзакций</li><li>Учимся сами читать состояние своей ноды</li></ul></div>
+  <div class="stage"><div class="stage-top"><h3><span class="n">Урок 4</span>Нода Monero изнутри</h3></div><ul class="stage-list"><li>Чем приватность Monero устроена иначе, чем&nbsp;у&nbsp;биткоина</li><li>Кольцевые подписи и&nbsp;скрытые адреса простым языком</li><li>Полная и&nbsp;облегчённая нода: что&nbsp;теряем при&nbsp;экономии места</li><li>Сравниваем обе ноды: что&nbsp;общего, что&nbsp;разного</li></ul></div>
+  <div class="stage"><div class="stage-top"><h3><span class="n">Урок 5</span>Tor и&nbsp;переход на&nbsp;свои ноды</h3></div><ul class="stage-list"><li>Переводим обе ноды в&nbsp;<b>Tor</b></li><li>Подключаем Sparrow к&nbsp;своей ноде вместо чужого сервера</li><li>Проверяем, что&nbsp;кошельки больше никуда не&nbsp;стучатся</li><li>Разбираем, почему первую загрузку делали без&nbsp;Tor</li></ul></div>
+  <div class="stage"><div class="stage-top"><h3><span class="n">Урок 6</span>Linux в&nbsp;виртуальной машине</h3></div><ul class="stage-list"><li>Зачем нужен Linux и&nbsp;почему он&nbsp;появляется только сейчас</li><li>Ставим виртуальную машину и&nbsp;систему внутри неё</li><li>Настраиваем связь между Linux и&nbsp;макбуком</li><li>Открываем свои ноды для&nbsp;будущих обменов</li></ul></div>
+  <div class="stage"><div class="stage-top"><h3><span class="n">Урок 7</span>BasicSwap: установка</h3></div><ul class="stage-list"><li>Что&nbsp;такое атомарный обмен и&nbsp;почему он&nbsp;не&nbsp;требует доверия</li><li>Ставим <b>BasicSwap</b> внутри Linux</li><li>Подключаем его к&nbsp;твоим нодам: блокчейн не&nbsp;качается второй раз</li><li>Разбираем внутренние кошельки программы и&nbsp;как&nbsp;в&nbsp;них заводить средства</li></ul></div>
+  <div class="stage"><div class="stage-top"><h3><span class="n">Урок 8</span>Обмен Bitcoin и&nbsp;Monero: практика</h3></div><ul class="stage-list"><li>Читаем стакан предложений и&nbsp;выбираем сделку</li><li>Делаем реальный обмен Bitcoin на&nbsp;Monero</li><li>Делаем обратный обмен Monero на&nbsp;Bitcoin</li><li>Разбираем запасной инструмент на&nbsp;случай пустого стакана</li><li>Считаем реальные издержки: комиссии сети и&nbsp;время</li></ul></div>
+  <div class="stage"><div class="stage-top"><h3><span class="n">Урок 9</span>CoinJoin без&nbsp;посредника</h3></div><ul class="stage-list"><li>Как&nbsp;устроено смешивание и&nbsp;почему оно не&nbsp;требует доверия</li><li>Почему не&nbsp;используем инструменты, которые закрыли в&nbsp;2024 году</li><li>Ставим <b>JoinMarket</b> поверх своей ноды: координатора нет, ключи не&nbsp;уходят</li><li>Проводим реальное смешивание и&nbsp;разбираем каждый шаг</li></ul></div>
+  <div class="stage"><div class="stage-top"><h3><span class="n">Урок 10</span>Сведение схемы</h3></div><ul class="stage-list"><li>Собираем всю картину: от&nbsp;сид-фразы до&nbsp;обмена и&nbsp;смешивания</li><li>Разбираем типовые ошибки и&nbsp;как&nbsp;их&nbsp;не&nbsp;допустить</li><li>Что&nbsp;делать при&nbsp;отказе: сломался диск, слетела нода</li><li>Как&nbsp;обслуживать схему дальше: обновления, место, бэкапы</li></ul></div>
 </div></section>
 
 <section><div class="container">
