@@ -13,7 +13,7 @@
   *{margin:0;padding:0;box-sizing:border-box}
   body{font-family:'Onest',sans-serif;background:var(--bg-deep);color:var(--text-primary);line-height:1.65;-webkit-font-smoothing:antialiased}
   body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(circle at 20% 20%,rgba(124,91,245,.04),transparent 50%),radial-gradient(circle at 80% 80%,rgba(52,211,153,.03),transparent 50%);pointer-events:none;z-index:0}
-  .wrapper{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:40px 20px 80px}
+  .wrapper{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:40px 20px 60px}
   .header{text-align:center;margin-bottom:36px}
   .header__badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--accent-glow);background:var(--accent-soft);border:1px solid rgba(124,91,245,.2);padding:6px 16px;border-radius:100px;margin-bottom:24px;animation:fadeDown .6s ease both}
   .header__title{font-size:clamp(30px,5vw,46px);font-weight:800;line-height:1.15;letter-spacing:-.5px;margin-bottom:12px;animation:fadeDown .6s ease .1s both}
@@ -76,6 +76,7 @@
   .data-table td{padding:11px 20px;border-bottom:1px solid var(--border);color:var(--text-secondary);vertical-align:top;line-height:1.5}
   .data-table tr:last-child td{border-bottom:none}
   .data-table td:first-child{color:var(--text-primary);font-weight:600;white-space:nowrap}
+  .data-table td:last-child{white-space:nowrap;color:var(--accent-glow)}
   /* pains/topics */
   .pains{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border)}
   .pain{padding:14px 20px;background:var(--bg-card)}
@@ -84,9 +85,14 @@
   .pain__note{font-size:13.5px;color:var(--text-secondary);margin-top:6px;line-height:1.55}
   .topic{display:grid;grid-template-columns:200px 1fr 40px;gap:10px;align-items:center;padding:8px 20px;border-bottom:1px solid var(--border);font-size:13px}
   .topic:last-child{border-bottom:none} .topic__n{font-family:'JetBrains Mono',monospace;color:var(--accent-glow);text-align:right;font-size:12px}
+  .solved-grid{display:grid;grid-template-columns:1fr;}
+  .solved{padding:14px 20px;border-bottom:1px solid var(--border)} .solved:last-child{border-bottom:none}
+  .solved__p{font-size:14.5px;font-weight:600;margin-bottom:6px}
+  .solved__r{font-size:13.5px;color:var(--text-secondary);line-height:1.55}
+  .solved__who{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--green);background:var(--green-soft);border:1px solid rgba(52,211,153,.25);padding:2px 8px;border-radius:100px;margin-right:6px;vertical-align:1px}
   .list{padding:6px 20px 14px 38px;font-size:14.5px;color:var(--text-secondary)} .list li{margin:8px 0;line-height:1.55}
   .emo{display:inline-flex;align-items:baseline;gap:4px;font-size:22px;margin:0 10px 6px 0} .emo small{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-muted)}
-  .footer{text-align:center;margin-top:48px}
+  .footer{text-align:center;margin-top:20px}
   .footer__final-part3{background:linear-gradient(135deg,rgba(251,191,36,.08),rgba(219,39,119,.08));border:1px solid rgba(251,191,36,.25);border-radius:var(--radius);padding:34px 24px;margin-bottom:24px;position:relative;overflow:hidden}
   .footer__final-part3::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 0%,rgba(251,191,36,.12),transparent 50%),radial-gradient(circle at 80% 100%,rgba(219,39,119,.12),transparent 50%);pointer-events:none}
   .footer__final-emoji{font-size:54px;margin-bottom:12px;line-height:1;position:relative}
@@ -213,7 +219,8 @@
       <div class="tile"><div class="tile__n tile__n--g">24 сек</div><div class="tile__l">медиана ответа ментор-бота</div></div>
       <div class="tile"><div class="tile__n tile__n--a">69</div><div class="tile__l">сообщений «получилось / заработало»</div></div>
     </div>
-    <table class="data-table"><tr><th>Проблема</th><th>Кто спас</th><th>Чем кончилось</th></tr><tr><td>Пришёл инвойс от netcup, а как оплатить, непонятно</td><td>студент Женя</td><td>Зашёл в кабинет, ввёл карту в разделе invoice. «Спасибо, Женя! 🤝»</td></tr><tr><td>Claude Code в VS Code «не видит» нужный регион и советует переключать VPN</td><td>Стас</td><td>Нужен VPN, который туннелирует весь трафик, а не только браузер. Аккаунт не спалили.</td></tr><tr><td>Не вставляется root-пароль в веб-терминале netcup, «глаз дёргается»</td><td>Стас</td><td>Кнопка clipboard внизу терминала. Через полтора часа: «Йуххуууу, бот заговорил».</td></tr><tr><td>Не получается выбрать биллинг США в сервисе карты</td><td>студент Игорь</td><td>Переключатель «основной / дополнительный адрес»: адрес США появляется после пополнения.</td></tr><tr><td>Новый Gmail требует QR и SMS, которые не уходят</td><td>Алмаз</td><td>Регистрировать с Android через настройки: «новый гугл-аккаунт за 1 минуту, спасибо 🙏».</td></tr></table>
+    <div class="note note--green"><span class="note__icon">🛟</span><span><strong>Пять спасений из чата, для истории:</strong></span></div>
+    <div class="solved-grid"><div class="solved"><div class="solved__p">🧩 Пришёл инвойс от netcup, а как оплатить, непонятно</div><div class="solved__r"><span class="solved__who">студент Женя</span> Зашёл в кабинет, ввёл карту в разделе invoice. «Спасибо, Женя! 🤝»</div></div><div class="solved"><div class="solved__p">🧩 Claude Code в VS Code «не видит» нужный регион и советует переключать VPN</div><div class="solved__r"><span class="solved__who">Стас</span> Нужен VPN, который туннелирует весь трафик, а не только браузер. Аккаунт не спалили.</div></div><div class="solved"><div class="solved__p">🧩 Не вставляется root-пароль в веб-терминале netcup, «глаз дёргается»</div><div class="solved__r"><span class="solved__who">Стас</span> Кнопка clipboard внизу терминала. Через полтора часа: «Йуххуууу, бот заговорил».</div></div><div class="solved"><div class="solved__p">🧩 Не получается выбрать биллинг США в сервисе карты</div><div class="solved__r"><span class="solved__who">студент Игорь</span> Переключатель «основной / дополнительный адрес»: адрес США появляется после пополнения.</div></div><div class="solved"><div class="solved__p">🧩 Новый Gmail требует QR и SMS, которые не уходят</div><div class="solved__r"><span class="solved__who">Алмаз</span> Регистрировать с Android через настройки: «новый гугл-аккаунт за 1 минуту, спасибо 🙏».</div></div></div>
   </div>
 </div>
 
@@ -239,15 +246,15 @@
   </div>
 </div>
 
-</div>
-
-<div class="footer" style="max-width:900px;margin-left:auto;margin-right:auto;padding:0 20px 60px">
+<div class="footer">
   <div class="footer__final-part3">
     <div class="footer__final-emoji">🏆</div>
     <div class="footer__final-text">Поток 3 пройден!</div>
     <div class="footer__final-sub">75 дней, 2214 сообщений, 218 скриншотов и десятки «получилось». Вы прошли самый сложный первый урок, а дальше, как и обещали, было намного проще. Спасибо, что были в чате: ночью, утром и из электрички с велосипедом.</div>
   </div>
   <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank">@stavzzz</a> в&nbsp;Telegram</div>
+</div>
+
 </div>
 <div id="tt"></div>
 <script>
