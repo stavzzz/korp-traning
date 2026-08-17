@@ -168,7 +168,11 @@
   .footer__final-emoji { font-size:67.5px; margin-bottom:12px; line-height:1; position:relative; }
   .footer__final-text { font-size:30px; font-weight:800; background:linear-gradient(90deg,#fbbf24,#db2777); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:10px; letter-spacing:-0.4px; position:relative; }
   .footer__final-sub { font-size:19px; color:var(--text-secondary); line-height:1.6; max-width:700px; margin:0 auto; position:relative; }
-  .header__time{display:inline-flex;align-items:center;justify-content:center;margin-top:48px;font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1;color:var(--text-muted);border:1px solid var(--border);padding:10px 18px;border-radius:100px;}
+  .header__time{display:inline-flex;align-items:center;justify-content:center;margin-top:48px;font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1;color:var(--text-muted);border:1px solid var(--border);padding:10px 18px;border-radius:100px;animation:fadeDown .6s ease .35s both;}
+  .reveal{opacity:0;transform:translateY(16px);}
+  .reveal.is-in{opacity:1;transform:none;transition:opacity .55s ease,transform .55s ease;}
+  @media (prefers-reduced-motion:reduce){.reveal,.reveal.is-in{opacity:1;transform:none;transition:none;}}
+  @media print{.reveal{opacity:1;transform:none;}}
 </style>
 </head>
 <body>
@@ -738,5 +742,34 @@ loadState();
 })();
 </script>
 
+<script>
+// Плавное появление блоков по мере скролла. Класс вешает сам скрипт:
+// если JS отключён, страница обычная — прятать контент стилями нельзя.
+// Проверяем положение блока, а не события пересечения: при прыжке в конец
+// страницы (Cmd+End, ссылка-якорь) наблюдатель пропускал бы блоки, и они
+// остались бы невидимыми.
+(function(){
+  var sel='.section,.module,.event,.stage,.card,.footer';
+  var els=Array.prototype.slice.call(document.querySelectorAll(sel)).filter(function(el){
+    if(el.parentElement && el.parentElement.closest('.reveal')) return false;  // вложенные не прячем дважды
+    if(getComputedStyle(el).position!=='static') return false;                 // липкий прогресс-бар не трогаем
+    el.classList.add('reveal'); return true;
+  });
+  if(!els.length) return;
+  var ticking=false;
+  function sweep(){
+    ticking=false;
+    var edge=window.innerHeight-60;
+    for(var i=els.length-1;i>=0;i--){
+      if(els[i].getBoundingClientRect().top<edge){ els[i].classList.add('is-in'); els.splice(i,1); }
+    }
+    if(!els.length){ window.removeEventListener('scroll',onMove); window.removeEventListener('resize',onMove); }
+  }
+  function onMove(){ if(!ticking){ ticking=true; requestAnimationFrame(sweep); } }
+  window.addEventListener('scroll',onMove,{passive:true});
+  window.addEventListener('resize',onMove);
+  requestAnimationFrame(sweep);   // первый экран проявляется тоже плавно
+})();
+</script>
 </body>
 </html>
