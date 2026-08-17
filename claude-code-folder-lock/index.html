@@ -84,6 +84,11 @@
   .btn-copy.copied{color:var(--green);background:var(--green-soft);border-color:rgba(52,211,153,0.3);}
   .cmd-copy .btn-copy{padding:5px 12px;font-size:10px;}
   .btn-dl{display:inline-flex;align-items:center;gap:7px;font-family:'Onest',sans-serif;font-size:13px;font-weight:600;color:var(--accent-glow);background:var(--accent-soft);border:1px solid rgba(124,91,245,0.35);padding:9px 18px;border-radius:10px;text-decoration:none;transition:all .2s;cursor:pointer;margin:0 20px 14px;}
+  .dl-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 20px;border-bottom:1px solid var(--border);}
+  .dl-row:last-of-type{border-bottom:1px solid var(--border);}
+  .dl-row__label{font-size:14.5px;display:flex;align-items:center;}
+  .dl-row .btn-dl{margin:0;flex-shrink:0;}
+  @media(max-width:480px){.dl-row{flex-direction:column;align-items:flex-start;gap:10px;}}
   .btn-dl:hover{background:rgba(124,91,245,0.2);border-color:var(--accent);}
   .os-tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;border-radius:100px;margin-left:8px;vertical-align:middle;}
   .os-tag--mac{color:var(--green-glow);background:var(--green-soft);border:1px solid rgba(52,211,153,0.25);}
@@ -136,7 +141,7 @@
   <h1 class="header__title">Замок на <span>одну папку</span></h1>
   <ul class="header__topics">
     <li>Claude Code перестаёт видеть всё, что лежит за пределами вашей рабочей папки</li>
-    <li>Работает и на macOS, и на Windows. Установка занимает около пяти минут</li>
+    <li>Инструкция для Claude Code внутри VS Code, на macOS и Windows. Установка около пяти минут</li>
     <li>Ничего программировать не нужно: скачать, положить два файла, поменять одну строку</li>
     <li>В конце есть проверка, которая покажет, что замок действительно закрылся</li>
   </ul>
@@ -181,15 +186,11 @@
 <div class="section">
   <div class="section__header"><div class="section__num">02</div><div class="section__title">Скачайте архив под свою систему</div></div>
   <div class="section__card">
-    <div class="info-block">
-      Внутри архива два рабочих файла и короткая памятка. Скачивайте только тот архив, который подходит вашему компьютеру.
-    </div>
-    <div class="info-block"><strong>Для Mac</strong><span class="os-tag os-tag--mac">macOS</span></div>
-    <a href="https://drive.google.com/uc?export=download&amp;id=1Q-dorHk9i5n_dm8wxQp6wa2wNul7P6Sl" target="_blank" class="btn-dl" onclick="event.stopPropagation()">⬇️ Скачать .zip</a>
-    <div class="info-block"><strong>Для Windows</strong><span class="os-tag os-tag--win">Windows</span></div>
-    <a href="https://drive.google.com/uc?export=download&amp;id=1mY8od5R6hVkGf8SAYw_5vNivx5xUDqet" target="_blank" class="btn-dl" onclick="event.stopPropagation()">⬇️ Скачать .zip</a>
+    <div class="info-block">Внутри архива два рабочих файла и короткая памятка. Скачивайте только тот архив, который подходит вашему компьютеру.</div>
+    <div class="dl-row"><div class="dl-row__label"><strong>Для Mac</strong><span class="os-tag os-tag--mac">macOS</span></div><a href="https://drive.google.com/uc?export=download&amp;id=1Q-dorHk9i5n_dm8wxQp6wa2wNul7P6Sl" target="_blank" class="btn-dl" onclick="event.stopPropagation()">⬇️ Скачать .zip</a></div>
+    <div class="dl-row"><div class="dl-row__label"><strong>Для Windows</strong><span class="os-tag os-tag--win">Windows</span></div><a href="https://drive.google.com/uc?export=download&amp;id=1mY8od5R6hVkGf8SAYw_5vNivx5xUDqet" target="_blank" class="btn-dl" onclick="event.stopPropagation()">⬇️ Скачать .zip</a></div>
     <div class="note note--info"><span class="note__icon">📦</span><div>Если браузер предупреждает, что не может проверить файл, это обычное поведение Google Drive для архивов. Файлы маленькие, около трёх килобайт: внутри только текст.</div></div>
-    <div class="item" data-key="download"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Архив скачан и распакован</div><div class="item__hint">Внутри должны оказаться <strong>два файла</strong> плюс <span class="mono">README.txt</span>. Если файл один, распаковка не завершилась.</div></div></div>
+    <div class="item" data-key="download"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Архив скачан и распакован</div><div class="item__hint">После распаковки появится папка, а в ней три файла: <span class="mono">settings.json</span>, файл-сторож и <span class="mono">README.txt</span>. Если файл один, распаковка не завершилась.</div></div></div>
   </div>
 </div>
 
@@ -202,38 +203,34 @@
 <div class="section">
   <div class="section__header"><div class="section__num">03</div><div class="section__title">Установка на Mac<span class="os-tag os-tag--mac">macOS</span></div></div>
   <div class="section__card">
-    <div class="info-block">
-      <strong>Шаг 1. Создайте служебные папки.</strong> Внутри своей рабочей папки нужно создать путь <span class="mono">.claude/hooks/</span>. Имя начинается с точки, поэтому в Finder такие папки спрятаны. Показать их можно сочетанием клавиш <span class="mono">Cmd + Shift + точка</span>.
-    </div>
-    <div class="info-block">
-      <strong>Шаг 2. Разложите файлы.</strong> Из архива:
-    </div>
-    <div class="code-block">
-      <span class="code-block__label">куда что положить</span>
-      <div class="code-block__scroll" id="mac-paths">settings.json    →   VIBE CODING/.claude/settings.json
-scope-guard.sh   →   VIBE CODING/.claude/hooks/scope-guard.sh</div>
-      <button class="btn-copy" onclick="copyBlock('mac-paths', this)">📋 Скопировать</button>
-    </div>
-    <div class="item" data-key="mac-copy"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Оба файла лежат на своих местах</div><div class="item__hint"><span class="mono">settings.json</span> внутри <span class="mono">.claude</span>, а <span class="mono">scope-guard.sh</span> внутри <span class="mono">.claude/hooks</span>. Это разные папки, не перепутайте.</div></div></div>
-    <div class="info-block">
-      <strong>Шаг 3. Впишите свою папку.</strong> Откройте <span class="mono">scope-guard.sh</span> в любом текстовом редакторе и найдите строку, которая начинается на <span class="mono">ROOT=</span>. Замените путь на свой.
-    </div>
-    <div class="code-block">
-      <span class="code-block__label">эта строка в scope-guard.sh</span>
-      <div class="code-block__scroll" id="mac-root">ROOT="$HOME/VIBE CODING"</div>
-      <button class="btn-copy" onclick="copyBlock('mac-root', this)">📋 Скопировать</button>
-    </div>
-    <div class="note note--warn"><span class="note__icon">⚠️</span><div><strong>Самая частая ошибка.</strong> Лишний слэш на конце или другой регистр букв. Путь должен совпадать с настоящим именем папки буква в букву, и без слэша в конце.</div></div>
-    <div class="item" data-key="mac-root"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Строка ROOT указывает на мою папку</div></div></div>
-    <div class="info-block">
-      <strong>Шаг 4. Разрешите запуск сторожа.</strong> Откройте Терминал и выполните команду. Она разрешает системе запускать наш файл-сторож. Путь в команде замените на свой.
-    </div>
-    <div class="cmd-copy">
-      <div class="cmd-copy__text" id="mac-chmod-cmd">chmod +x ~/"VIBE CODING/.claude/hooks/scope-guard.sh"</div>
-      <button class="btn-copy" onclick="copyBlock('mac-chmod-cmd', this)">📋 Скопировать</button>
-    </div>
-    <div class="note note--info"><span class="note__icon">💡</span><div>Команда ничего не выводит в ответ. Молчание здесь означает успех.</div></div>
-    <div class="item" data-key="mac-chmod"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Команда выполнена, ошибок не появилось</div><div class="item__hint">Если написано <span class="mono">No such file or directory</span>, значит путь указан неверно: проверьте название папки в команде.</div></div></div>
+    <div class="note note--info"><span class="note__icon">🎯</span><div><strong>Что получится в итоге.</strong> Внутри вашей рабочей папки появится скрытая папка <span class='mono'>.claude</span>, а в ней ещё одна папка <span class='mono'>hooks</span>. Всего две новые папки, одна внутри другой, и два файла из архива. Ниже пример для рабочей папки <span class='mono'>VIBE CODING</span>, у вас будет своё название.</div></div>
+    <div class="code-block"><span class="code-block__label">как должно выглядеть в итоге</span><div class="code-block__scroll" id="mac-tree">VIBE CODING/                        ← ваша рабочая папка, уже есть
+└── .claude/                        ← папка 1, создаёте вы
+    ├── settings.json               ← файл из архива
+    └── hooks/                      ← папка 2, создаёте вы, внутри .claude
+        └── scope-guard.sh          ← файл из архива</div></div>
+    <div class="info-block"><strong>Шаг 1. Создайте две папки.</strong> Откройте свою рабочую папку в VS Code: <strong>File → Open Folder</strong>. Слева в дереве файлов нажмите правой кнопкой на пустое место → <strong>New Folder</strong> → назовите <span class="mono">.claude</span> (с точкой в начале). Затем правой кнопкой на созданную <span class="mono">.claude</span> → <strong>New Folder</strong> → назовите <span class="mono">hooks</span>.</div>
+    <div class="note note--info"><span class="note__icon">💡</span><div>В VS Code папки с точкой видны сразу, ничего включать не нужно. В Finder они спрятаны: показать можно сочетанием <span class='mono'>Cmd + Shift + точка</span>.</div></div>
+    <div class="item" data-key="mac-folders"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Папки .claude и .claude/hooks созданы</div><div class="item__hint">Проверка в VS Code: в дереве слева видно <span class='mono'>.claude</span>, а внутри неё <span class='mono'>hooks</span>.</div></div></div>
+    <div class="info-block"><strong>Шаг 2. Перетащите два файла из архива.</strong> Откройте распакованную папку архива в Finder и перетащите файлы прямо в дерево VS Code:</div>
+    <div class="code-block"><span class="code-block__label">куда что положить</span><div class="code-block__scroll" id="mac-paths">settings.json    →  в папку .claude
+scope-guard.sh   →  в папку .claude/hooks</div></div>
+    <div class="item" data-key="mac-copy"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Оба файла лежат на своих местах</div><div class="item__hint">Проверка: <span class="mono">settings.json</span> лежит рядом с папкой <span class="mono">hooks</span>, а <span class="mono">scope-guard.sh</span> внутри <span class="mono">hooks</span>. Файл <span class="mono">README.txt</span> никуда класть не нужно.</div></div></div>
+    <div class="info-block"><strong>Шаг 3. Впишите свою папку в файл-сторож.</strong> В VS Code откройте <span class="mono">scope-guard.sh</span> (кликните по нему в дереве). В начале файла найдите строку, которая начинается на <span class="mono">ROOT=</span>. Замените текст между кавычками на путь к вашей рабочей папке.</div>
+    <div class="code-block"><span class="code-block__label">пример: было и стало</span><div class="code-block__scroll" id="mac-root-example">Было (так лежит в архиве):
+ROOT="$HOME/VIBE CODING"
+
+Стало, если ваша папка называется «Мои проекты» и лежит в домашней папке:
+ROOT="$HOME/Мои проекты"
+
+Если ваша папка называется VIBE CODING и лежит в домашней папке,
+менять ничего не нужно, строка уже верная.</div></div>
+    <div class="note note--warn"><span class="note__icon">⚠️</span><div><strong>Самая частая ошибка.</strong> Лишний слэш на конце или другой регистр букв. Путь должен совпадать с настоящим именем папки буква в букву. <span class='mono'>$HOME</span> оставьте как есть: это и значит «домашняя папка». Не забудьте сохранить файл: <span class='mono'>Cmd + S</span>.</div></div>
+    <div class="item" data-key="mac-root"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Строка ROOT указывает на мою папку, файл сохранён</div></div></div>
+    <div class="info-block"><strong>Шаг 4. Разрешите запуск сторожа.</strong> В VS Code откройте встроенный терминал: меню <strong>Terminal → New Terminal</strong>. Он откроется уже внутри вашей рабочей папки. Вставьте команду и нажмите Enter:</div>
+    <div class="cmd-copy"><div class="cmd-copy__text" id="mac-chmod-cmd">chmod +x .claude/hooks/scope-guard.sh</div><button class="btn-copy" onclick="copyBlock('mac-chmod-cmd', this)">📋 Скопировать</button></div>
+    <div class="note note--info"><span class="note__icon">💡</span><div>Команда ничего не выводит в ответ. Молчание здесь означает успех. Путь в команде подставлять не нужно: терминал VS Code уже стоит в вашей папке.</div></div>
+    <div class="item" data-key="mac-chmod"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Команда выполнена, ошибок не появилось</div><div class="item__hint">Если написано <span class="mono">No such file or directory</span>, значит файл лежит не в той папке: вернитесь к шагу 2.</div></div></div>
   </div>
 </div>
 
@@ -241,30 +238,33 @@ scope-guard.sh   →   VIBE CODING/.claude/hooks/scope-guard.sh</div>
 <div class="section">
   <div class="section__header"><div class="section__num">04</div><div class="section__title">Установка на Windows<span class="os-tag os-tag--win">Windows</span></div></div>
   <div class="section__card">
-    <div class="info-block">
-      <strong>Шаг 1. Создайте служебные папки.</strong> Внутри своей рабочей папки создайте путь <span class="mono">.claude\hooks\</span>. Такие папки скрыты, включить их видимость можно так: <strong>Вид → Показать → Скрытые элементы</strong>.
-    </div>
-    <div class="note note--info"><span class="note__icon">💡</span><div>Проводник иногда не даёт создать папку, имя которой начинается с точки. Хитрость: при создании напишите имя с точкой на конце — <span class="mono">.claude.</span> — и Windows сама уберёт лишнюю точку.</div></div>
-    <div class="info-block">
-      <strong>Шаг 2. Разложите файлы.</strong> Из архива:
-    </div>
-    <div class="code-block">
-      <span class="code-block__label">куда что положить</span>
-      <div class="code-block__scroll" id="win-paths">settings.json     →   VIBE CODING\.claude\settings.json
-scope-guard.ps1   →   VIBE CODING\.claude\hooks\scope-guard.ps1</div>
-      <button class="btn-copy" onclick="copyBlock('win-paths', this)">📋 Скопировать</button>
-    </div>
-    <div class="item" data-key="win-copy"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Оба файла лежат на своих местах</div><div class="item__hint">Проверьте, что Windows не дописала расширение <span class="mono">.txt</span> к именам файлов. Полное имя должно быть <span class="mono">settings.json</span>, а не <span class="mono">settings.json.txt</span>.</div></div></div>
-    <div class="info-block">
-      <strong>Шаг 3. Впишите свою папку.</strong> Откройте <span class="mono">scope-guard.ps1</span> в Блокноте и найдите строку, которая начинается на <span class="mono">$Root</span>. Замените название папки на своё.
-    </div>
-    <div class="code-block">
-      <span class="code-block__label">эта строка в scope-guard.ps1</span>
-      <div class="code-block__scroll" id="win-root">$Root = Join-Path $env:USERPROFILE 'VIBE CODING'</div>
-      <button class="btn-copy" onclick="copyBlock('win-root', this)">📋 Скопировать</button>
-    </div>
-    <div class="note note--warn"><span class="note__icon">⚠️</span><div>Название папки должно остаться <strong>в одинарных кавычках</strong>, и без обратного слэша в конце.</div></div>
-    <div class="item" data-key="win-root"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Строка $Root указывает на мою папку</div></div></div>
+    <div class="note note--info"><span class="note__icon">🎯</span><div><strong>Что получится в итоге.</strong> Внутри вашей рабочей папки появится папка <span class='mono'>.claude</span>, а в ней ещё одна папка <span class='mono'>hooks</span>. Всего две новые папки, одна внутри другой, и два файла из архива. Ниже пример для рабочей папки <span class='mono'>VIBE CODING</span>, у вас будет своё название.</div></div>
+    <div class="code-block"><span class="code-block__label">как должно выглядеть в итоге</span><div class="code-block__scroll" id="win-tree">VIBE CODING\                        ← ваша рабочая папка, уже есть
+└── .claude\                        ← папка 1, создаёте вы
+    ├── settings.json               ← файл из архива
+    └── hooks\                      ← папка 2, создаёте вы, внутри .claude
+        └── scope-guard.ps1         ← файл из архива</div></div>
+    <div class="info-block"><strong>Шаг 1. Создайте две папки.</strong> Откройте свою рабочую папку в VS Code: <strong>File → Open Folder</strong>. Слева в дереве файлов нажмите правой кнопкой на пустое место → <strong>New Folder</strong> → назовите <span class="mono">.claude</span> (с точкой в начале). Затем правой кнопкой на созданную <span class="mono">.claude</span> → <strong>New Folder</strong> → назовите <span class="mono">hooks</span>.</div>
+    <div class="note note--info"><span class="note__icon">💡</span><div>Через VS Code папка с точкой создаётся без проблем. Это удобнее Проводника, который иногда отказывается создавать такие имена.</div></div>
+    <div class="item" data-key="win-folders"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Папки .claude и .claude\hooks созданы</div><div class="item__hint">Проверка в VS Code: в дереве слева видно <span class='mono'>.claude</span>, а внутри неё <span class='mono'>hooks</span>.</div></div></div>
+    <div class="info-block"><strong>Шаг 2. Перетащите два файла из архива.</strong> Откройте распакованную папку архива в Проводнике и перетащите файлы прямо в дерево VS Code:</div>
+    <div class="code-block"><span class="code-block__label">куда что положить</span><div class="code-block__scroll" id="win-paths">settings.json     →  в папку .claude
+scope-guard.ps1   →  в папку .claude\hooks</div></div>
+    <div class="item" data-key="win-copy"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Оба файла лежат на своих местах</div><div class="item__hint">Проверка: <span class="mono">settings.json</span> лежит рядом с папкой <span class="mono">hooks</span>, а <span class="mono">scope-guard.ps1</span> внутри <span class="mono">hooks</span>. Файл <span class="mono">README.txt</span> никуда класть не нужно. Убедитесь, что имя файла именно <span class="mono">settings.json</span>, а не <span class="mono">settings.json.txt</span>.</div></div></div>
+    <div class="info-block"><strong>Шаг 3. Впишите свою папку в файл-сторож.</strong> В VS Code откройте <span class="mono">scope-guard.ps1</span> (кликните по нему в дереве). В начале файла найдите строку, которая начинается на <span class="mono">$Root</span>. Замените название папки в одинарных кавычках на своё.</div>
+    <div class="code-block"><span class="code-block__label">пример: было и стало</span><div class="code-block__scroll" id="win-root-example">Было (так лежит в архиве):
+$Root = Join-Path $env:USERPROFILE 'VIBE CODING'
+
+Стало, если ваша папка называется «Мои проекты» и лежит в профиле пользователя:
+$Root = Join-Path $env:USERPROFILE 'Мои проекты'
+
+Стало, если папка лежит на другом диске, например D:
+$Root = 'D:\Мои проекты'
+
+Если ваша папка называется VIBE CODING и лежит в профиле пользователя,
+менять ничего не нужно, строка уже верная.</div></div>
+    <div class="note note--warn"><span class="note__icon">⚠️</span><div>Название должно остаться <strong>в одинарных кавычках</strong>, без обратного слэша в конце. <span class='mono'>$env:USERPROFILE</span> оставьте как есть: это и значит «папка пользователя». Не забудьте сохранить файл: <span class='mono'>Ctrl + S</span>.</div></div>
+    <div class="item" data-key="win-root"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Строка $Root указывает на мою папку, файл сохранён</div></div></div>
   </div>
 </div>
 
@@ -276,14 +276,14 @@ scope-guard.ps1   →   VIBE CODING\.claude\hooks\scope-guard.ps1</div>
 <div class="section">
   <div class="section__header"><div class="section__num">04½</div><div class="section__title">Пусть Claude Code поставит замок сам</div></div>
   <div class="section__card">
-    <div class="note note--info"><span class="note__icon">🤖</span><div><strong>Если Claude Code у вас уже работает,</strong> разделы 03 и 04 можно поручить ему. Запустите Claude Code из своей рабочей папки, отправьте промпт ниже, а следом перетащите в чат скачанный архив или два файла из него. Claude сам разложит файлы, впишет путь к папке и всё проверит.</div></div>
+    <div class="note note--info"><span class="note__icon">🤖</span><div><strong>Если Claude Code у вас уже работает,</strong> разделы 03 и 04 можно поручить ему. Откройте рабочую папку в VS Code, запустите Claude Code, отправьте промпт ниже, а следом перетащите в чат скачанный архив или два файла из него. Claude сам разложит файлы, впишет путь к папке и всё проверит.</div></div>
     <div class="code-block"><span class="code-block__label">промпт для Claude Code</span><div id="promptAuto" style="white-space:pre-wrap;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-secondary);line-height:1.7">Ты настраиваешь защиту для Claude Code: замок, который ограничивает Claude одной папкой. Сделай строго по шагам, ничего не придумывай.
 
 1. Определи текущую рабочую папку проекта: это папка, из которой ты запущен. Назови её мне полным путём и дождись моего «да».
 2. Я пришлю тебе zip-архив или два файла: settings.json и файл-сторож (scope-guard.sh на Mac или scope-guard.ps1 на Windows). Положи settings.json в .claude/settings.json внутри рабочей папки, а сторожа в .claude/hooks/. Если settings.json уже существует, объедини: добавь блоки permissions.deny и hooks, ничего не удаляй.
 3. В файле-сторожа найди строку ROOT= (Mac) или $Root = (Windows) и подставь полный путь к рабочей папке из шага 1, без слэша на конце.
 4. На Mac сделай сторожа исполняемым: chmod +x .claude/hooks/scope-guard.sh
-5. Покажи мне итоговое содержимое обоих файлов и напомни: чтобы замок заработал, нужно перезапустить Claude Code из этой же папки.
+5. Покажи мне итоговое содержимое обоих файлов и напомни: чтобы замок заработал, нужно перезапустить Claude Code, не закрывая рабочую папку в VS Code.
 
 Не трогай глобальный ~/.claude/settings.json и никакие файлы за пределами рабочей папки.</div><button class="btn-copy" onclick="copyBlock('promptAuto',this)">📋 Скопировать промпт</button></div>
     <div class="note note--warn"><span class="note__icon">⚠️</span><div>После того как Claude отчитается, всё равно пройдите проверку из раздела 06. Доверяй, но проверяй: это правило работает и для помощника, который ставит себе замок.</div></div>
@@ -292,24 +292,14 @@ scope-guard.ps1   →   VIBE CODING\.claude\hooks\scope-guard.ps1</div>
 
 <!-- 05 -->
 <div class="section">
-  <div class="section__header"><div class="section__num">05</div><div class="section__title">Как теперь запускать Claude Code</div></div>
+  <div class="section__header"><div class="section__num">05</div><div class="section__title">Как теперь запускать Claude Code в VS Code</div></div>
   <div class="section__card">
-    <div class="note note--alert"><span class="note__icon">🔑</span><div><strong>Это главное правило, и без него замок не работает.</strong> Настройки лежат внутри папки, поэтому Claude Code подхватывает их только тогда, когда запущен из этой папки. Запустили из другого места — защиты нет.</div></div>
-    <div class="info-block"><strong>Через терминал на Mac</strong></div>
-    <div class="cmd-copy">
-      <div class="cmd-copy__text" id="mac-launch">cd ~/"VIBE CODING" &amp;&amp; claude</div>
-      <button class="btn-copy" onclick="copyBlock('mac-launch', this)">📋 Скопировать</button>
-    </div>
-    <div class="info-block"><strong>Через PowerShell на Windows</strong></div>
-    <div class="cmd-copy">
-      <div class="cmd-copy__text" id="win-launch">cd "$env:USERPROFILE\VIBE CODING"
-claude</div>
-      <button class="btn-copy" onclick="copyBlock('win-launch', this)">📋 Скопировать</button>
-    </div>
-    <div class="info-block">
-      <strong>Через VS Code.</strong> Откройте папку командой <strong>File → Open Folder</strong> и выберите именно свою рабочую папку. Какая папка открыта, та и становится границей. Откроете папку уровнем выше — граница уедет вверх, и замок перестанет действовать.
-    </div>
-    <div class="item" data-key="launch"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Claude Code запущен из моей рабочей папки</div></div></div>
+    <div class="note note--alert"><span class="note__icon">🔑</span><div><strong>Это главное правило, и без него замок не работает.</strong> Настройки лежат внутри вашей рабочей папки, поэтому Claude Code видит их только тогда, когда в VS Code открыта именно эта папка. Открыли другую папку или папку уровнем выше: граница уехала, замка нет.</div></div>
+    <div class="info-block"><strong>Каждый раз, когда садитесь работать:</strong></div>
+    <div class="info-block">1. Откройте VS Code.<br>2. <strong>File → Open Folder</strong> → выберите свою рабочую папку (в примере <span class="mono">VIBE CODING</span>) → <strong>Open</strong>.<br>3. Запустите Claude Code как обычно: кнопкой Claude на боковой панели или командой <span class="mono">claude</span> во встроенном терминале (<strong>Terminal → New Terminal</strong>).</div>
+    <div class="note note--info"><span class="note__icon">💡</span><div>Проверить, какая папка открыта, можно по заголовку окна VS Code: там написано её название. Если там не ваша рабочая папка, закройте окно и откройте правильную.</div></div>
+    <div class="note note--warn"><span class="note__icon">⚠️</span><div><strong>Если Claude Code уже был запущен, когда вы клали файлы,</strong> он их не увидит. Закройте окно с Claude Code и запустите заново. Настройки читаются один раз, при старте.</div></div>
+    <div class="item" data-key="launch"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Рабочая папка открыта в VS Code, Claude Code запущен заново</div></div></div>
   </div>
 </div>
 
@@ -345,7 +335,7 @@ claude</div>
     <table class="data-table">
       <thead><tr><th>Что видно</th><th>Что делать</th></tr></thead>
       <tbody>
-        <tr><td>Claude Code спокойно читает файлы за пределами папки</td><td>Скорее всего он запущен не из вашей папки. Закройте его и запустите заново командой из раздела 05.</td></tr>
+        <tr><td>Claude Code спокойно читает файлы за пределами папки</td><td>Скорее всего в VS Code открыта не ваша рабочая папка. Проверьте заголовок окна, откройте нужную папку через File → Open Folder и перезапустите Claude Code.</td></tr>
         <tr><td>Отказ приходит на любую команду, даже внутри папки</td><td>Путь в строке <span class="mono">ROOT</span> или <span class="mono">$Root</span> не совпадает с настоящим. Проверьте регистр букв, пробелы и лишний слэш на конце.</td></tr>
         <tr><td>На Mac: <span class="mono">permission denied</span></td><td>Не выполнен шаг 4 в разделе 03. Запустите команду <span class="mono">chmod +x</span> ещё раз.</td></tr>
         <tr><td>На Windows файл называется <span class="mono">settings.json.txt</span></td><td>Включите показ расширений файлов в Проводнике и переименуйте, убрав <span class="mono">.txt</span>.</td></tr>
