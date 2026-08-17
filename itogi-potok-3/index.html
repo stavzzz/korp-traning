@@ -108,7 +108,11 @@
   #tt.on{opacity:1}
   @keyframes fadeDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
   @media(max-width:700px){.wrapper{padding:28px 14px 60px}.tiles{grid-template-columns:repeat(2,1fr)}.quotes{grid-template-columns:1fr}.topic{grid-template-columns:120px 1fr 32px}.heroes,.lb,.pains{grid-template-columns:1fr}.hero{flex-direction:column;align-items:center;text-align:center}.data-table td:first-child{white-space:normal}}
-  .header__time{display:inline-block;margin-top:16px;font-family:'JetBrains Mono',monospace;font-size:13.5px;color:var(--text-muted);border:1px solid var(--border);padding:6px 15px;border-radius:100px;}
+  .header__time{display:inline-flex;align-items:center;justify-content:center;margin-top:36px;font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1;color:var(--text-muted);border:1px solid var(--border);padding:10px 18px;border-radius:100px;animation:fadeDown .6s ease .35s both;}
+  .reveal{opacity:0;transform:translateY(16px);}
+  .reveal.is-in{opacity:1;transform:none;transition:opacity .55s ease,transform .55s ease;}
+  @media (prefers-reduced-motion:reduce){.reveal,.reveal.is-in{opacity:1;transform:none;transition:none;}}
+  @media print{.reveal{opacity:1;transform:none;}}
 </style>
 </head>
 <body>
@@ -278,6 +282,35 @@
       var svg=el.ownerSVGElement; if(svg){ svg.querySelectorAll('.dot').forEach(function(c){c.setAttribute('opacity','0')}); var n=el.nextElementSibling; if(n&&n.classList.contains('dot')) n.setAttribute('opacity','1'); }
     } else { tt.classList.remove('on'); }
   });
+})();
+</script>
+<script>
+// Плавное появление блоков по мере скролла. Класс вешает сам скрипт:
+// если JS отключён, страница обычная — прятать контент стилями нельзя.
+// Проверяем положение блока, а не события пересечения: при прыжке в конец
+// страницы (Cmd+End, ссылка-якорь) наблюдатель пропускал бы блоки, и они
+// остались бы невидимыми.
+(function(){
+  var sel='.section,.module,.event,.stage,.card,.footer';
+  var els=Array.prototype.slice.call(document.querySelectorAll(sel)).filter(function(el){
+    if(el.parentElement && el.parentElement.closest('.reveal')) return false;  // вложенные не прячем дважды
+    if(getComputedStyle(el).position!=='static') return false;                 // липкий прогресс-бар не трогаем
+    el.classList.add('reveal'); return true;
+  });
+  if(!els.length) return;
+  var ticking=false;
+  function sweep(){
+    ticking=false;
+    var edge=window.innerHeight-60;
+    for(var i=els.length-1;i>=0;i--){
+      if(els[i].getBoundingClientRect().top<edge){ els[i].classList.add('is-in'); els.splice(i,1); }
+    }
+    if(!els.length){ window.removeEventListener('scroll',onMove); window.removeEventListener('resize',onMove); }
+  }
+  function onMove(){ if(!ticking){ ticking=true; requestAnimationFrame(sweep); } }
+  window.addEventListener('scroll',onMove,{passive:true});
+  window.addEventListener('resize',onMove);
+  requestAnimationFrame(sweep);   // первый экран проявляется тоже плавно
 })();
 </script>
 </body>
