@@ -465,6 +465,28 @@
         <div class="item__hint">Откройте Claude Code в боковой панели VS Code → <strong>Sign In</strong> → авторизуйтесь в браузере через ваш аккаунт claude.ai → дождитесь подтверждения в VS Code.</div>
       </div>
     </div>
+    <div class="note note--alert">
+      <span class="note__icon">🔒</span>
+      <span><strong>Прежде чем давать Claude Code волю: две защиты, 10 минут.</strong> Claude Code умеет сам создавать, менять и удалять файлы и запускать команды. Это его сила и его же опасность: у нас на курсе он однажды начал чистить файлы по всему компьютеру. Поставьте обе защиты сразу после установки, до первой серьёзной задачи:<br>
+      • <strong>Замок на одну папку.</strong> Claude видит только вашу рабочую папку и не выходит за её пределы. Два файла, ставится за 5 минут, работает на Mac и Windows.<br>
+      • <strong>Броня Claude Code.</strong> Запрещает разрушительные команды вроде rm -rf и sudo, добавляет песочницу и бэкапы. Отдельная инструкция под вашу систему.<br>
+      Замок и Броня дополняют друг друга: одна ограничивает территорию, другая запрещает опасные действия внутри неё.</span>
+    </div>
+    <div class="item" data-key="claude-lock"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Поставить Замок на одну папку</div>
+        <div class="item__hint">Откройте инструкцию, скачайте архив под свою систему и пройдите чек-лист. В конце два теста: Claude должен отказаться читать файл вне папки и спокойно работать внутри неё.</div>
+        <a href="https://stavzzz.github.io/open-sites/claude-code-folder-lock/" target="_blank" class="item__link" onclick="event.stopPropagation()">🔒 Замок на одну папку для Claude Code</a>
+      </div>
+    </div>
+    <div class="item" data-key="claude-armor"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Поставить Броню Claude Code</div>
+        <div class="item__hint">Выберите инструкцию под свою систему. Ставится одним промптом, который сам настраивает Claude Code.</div>
+        <a href="https://stavzzz.github.io/open-sites/claude-code-armor-mac/" target="_blank" class="item__link" onclick="event.stopPropagation()">🛡 Броня Claude Code для macOS</a><br>
+        <a href="https://stavzzz.github.io/open-sites/claude-code-armor-windows/" target="_blank" class="item__link" onclick="event.stopPropagation()">🛡 Броня Claude Code для Windows</a>
+      </div>
+    </div>
   </div>
 </div>
 
