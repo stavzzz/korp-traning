@@ -142,7 +142,7 @@
   <ul class="header__topics">
     <li>Claude Code перестаёт видеть всё, что лежит за пределами вашей рабочей папки</li>
     <li>Инструкция для Claude Code внутри VS Code, на macOS и Windows. Установка около пяти минут</li>
-    <li>Ничего программировать не нужно: скачать, положить два файла, поменять одну строку</li>
+    <li>Два пути на выбор: руками за пять минут или одним промптом через Claude Code</li>
     <li>В конце есть проверка, которая покажет, что замок действительно закрылся</li>
   </ul>
 </div>
@@ -155,18 +155,30 @@
   <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
 </div>
 
+
 <!-- 00 -->
 <div class="section">
-  <div class="section__header"><div class="section__num">00</div><div class="section__title">Зачем этот замок нужен</div></div>
+  <div class="section__header"><div class="section__num">00</div><div class="section__title">Что это за замок и зачем он нужен</div></div>
   <div class="section__card">
     <div class="info-block">
-      Claude Code — это помощник, который умеет сам создавать, менять и удалять файлы, а также запускать команды в терминале. Это его сила и его же опасность. По умолчанию он видит гораздо больше, чем один ваш проект: домашнюю папку, Рабочий стол, Документы, Загрузки.
+      Claude Code — это помощник, который умеет сам создавать, менять и удалять файлы, а также запускать команды в терминале. Это его сила и его же опасность. По умолчанию он видит гораздо больше, чем один ваш проект: домашнюю папку, Рабочий стол, Документы, Загрузки. У нас на курсе он однажды начал чистить файлы по всему компьютеру. Спасла резервная копия, а потом появился этот замок.
     </div>
     <div class="info-block">
-      <strong>Что делает замок.</strong> Вы выбираете одну папку и объявляете её единственной разрешённой территорией. Любая попытка прочитать, изменить или удалить что-то за её пределами отклоняется. Не «спрашивается разрешение», а именно отклоняется.
+      <strong>Что делает замок.</strong> Вы выбираете одну рабочую папку и объявляете её единственной разрешённой территорией. Любая попытка прочитать, изменить или удалить что-то за её пределами отклоняется. Не «спрашивается разрешение», а именно отклоняется.
     </div>
     <div class="note note--info"><span class="note__icon">💡</span><div>Аналогия: вы не запираете от помощника отдельные ящики. Вы выдаёте ему одну комнату и забираете ключи от остальной квартиры.</div></div>
-    <div class="note note--warn"><span class="note__icon">⚠️</span><div><strong>Это не отменяет резервные копии.</strong> Замок ограничивает территорию, но внутри разрешённой папки Claude Code по-прежнему может менять и удалять файлы. Важное держите в облаке или в git.</div></div>
+    <div class="info-block">
+      <strong>Из чего состоит замок: два маленьких файла.</strong><br>
+      • <span class="mono">settings.json</span> — список запретов. Прямо перечисляет места, куда ходить нельзя: ключи доступа, Рабочий стол, Документы, Загрузки. Плюс запрещает команды повышения прав.<br>
+      • <span class="mono">scope-guard</span> — сторож. Вызывается перед каждым действием Claude Code, смотрит, что тот собирается сделать, и ищет в этом путь за пределами разрешённой папки. Нашёл — отклоняет. Не нашёл — молча пропускает.<br>
+      Сторож не читает ваши файлы и никуда ничего не отправляет. Работает без интернета, занимается только одним: сравнивает пути. Внутри около тридцати строк текста, их можно прочитать глазами.
+    </div>
+    <div class="info-block">
+      <strong>Честно о границах.</strong> Это защита на уровне самого Claude Code, а не изоляция уровня операционной системы. Тот, у кого есть доступ к файлам настроек, может замок снять или изменить. Замок надёжно блокирует обращения к путям вне вашей папки: и в файловых операциях, и внутри команд терминала. Но внутри разрешённой папки Claude по-прежнему полноправен: может менять и удалять файлы.
+    </div>
+    <div class="note note--warn"><span class="note__icon">⚠️</span><div><strong>Замок не отменяет резервные копии.</strong> Важное держите в облаке или в git.</div></div>
+    <div class="note note--green"><span class="note__icon">🛤</span><div><strong>У вас два пути, выбирайте любой:</strong><br>• <strong>Путь 1, руками:</strong> скачать архив, положить два файла в две папки, поменять одну строку. Разделы 01–04. Занимает около пяти минут.<br>• <strong>Путь 2, через Claude Code:</strong> скачать архив и отдать его Claude Code с готовым промптом, он всё разложит сам. Разделы 01, 02 и 05.<br>В обоих случаях после установки обязательны разделы 06 и 07: перезапуск и проверка.</div></div>
+    <div class="note note--info"><span class="note__icon">📚</span><div>Официальная документация Anthropic по настройкам и правам доступа Claude Code: <a href="https://docs.claude.com/en/docs/claude-code/settings" target="_blank" class="lnk">docs.claude.com/claude-code/settings</a></div></div>
   </div>
 </div>
 
@@ -187,8 +199,8 @@
   <div class="section__header"><div class="section__num">02</div><div class="section__title">Скачайте архив под свою систему</div></div>
   <div class="section__card">
     <div class="info-block">Внутри архива два рабочих файла и короткая памятка. Скачивайте только тот архив, который подходит вашему компьютеру.</div>
-    <div class="dl-row"><div class="dl-row__label"><strong>Для Mac</strong><span class="os-tag os-tag--mac">macOS</span></div><a href="https://drive.google.com/uc?export=download&amp;id=1Q-dorHk9i5n_dm8wxQp6wa2wNul7P6Sl" target="_blank" class="btn-dl" onclick="event.stopPropagation()">⬇️ Скачать .zip</a></div>
-    <div class="dl-row"><div class="dl-row__label"><strong>Для Windows</strong><span class="os-tag os-tag--win">Windows</span></div><a href="https://drive.google.com/uc?export=download&amp;id=1mY8od5R6hVkGf8SAYw_5vNivx5xUDqet" target="_blank" class="btn-dl" onclick="event.stopPropagation()">⬇️ Скачать .zip</a></div>
+    <div class="dl-row"><div class="dl-row__label"><strong>Для Mac</strong><span class="os-tag os-tag--mac">macOS</span></div><a href="https://drive.google.com/uc?export=download&amp;id=1fvPnaLAbfjNt8CqCo91yWgD1vDOCYOQf" target="_blank" class="btn-dl" onclick="event.stopPropagation()">⬇️ Скачать .zip</a></div>
+    <div class="dl-row"><div class="dl-row__label"><strong>Для Windows</strong><span class="os-tag os-tag--win">Windows</span></div><a href="https://drive.google.com/uc?export=download&amp;id=1vZyKQ2IE5IoFBCcyU3ByMkq5ul-k8GE5" target="_blank" class="btn-dl" onclick="event.stopPropagation()">⬇️ Скачать .zip</a></div>
     <div class="note note--info"><span class="note__icon">📦</span><div>Если браузер предупреждает, что не может проверить файл, это обычное поведение Google Drive для архивов. Файлы маленькие, около трёх килобайт: внутри только текст.</div></div>
     <div class="item" data-key="download"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Архив скачан и распакован</div><div class="item__hint">После распаковки появится папка, а в ней три файла: <span class="mono">settings.json</span>, файл-сторож и <span class="mono">README.txt</span>. Если файл один, распаковка не завершилась.</div></div></div>
   </div>
@@ -196,7 +208,7 @@
 
 <div class="section-divider">
   <div class="section-divider__line"></div>
-  <div class="section-divider__title">Установка · выберите свою систему</div>
+  <div class="section-divider__title">Путь 1 · руками, выберите свою систему</div>
 </div>
 
 <!-- 03 -->
@@ -270,13 +282,13 @@ $Root = 'D:\Мои проекты'
 
 <div class="section-divider">
   <div class="section-divider__line"></div>
-  <div class="section-divider__title">Запасной путь · если руками неохота</div>
+  <div class="section-divider__title">Путь 2 · через Claude Code</div>
 </div>
 
 <div class="section">
-  <div class="section__header"><div class="section__num">04½</div><div class="section__title">Пусть Claude Code поставит замок сам</div></div>
+  <div class="section__header"><div class="section__num">05</div><div class="section__title">Путь 2: пусть Claude Code поставит замок сам</div></div>
   <div class="section__card">
-    <div class="note note--info"><span class="note__icon">🤖</span><div><strong>Если Claude Code у вас уже работает,</strong> разделы 03 и 04 можно поручить ему. Откройте рабочую папку в VS Code, запустите Claude Code, отправьте промпт ниже, а следом перетащите в чат скачанный архив или два файла из него. Claude сам разложит файлы, впишет путь к папке и всё проверит.</div></div>
+    <div class="note note--info"><span class="note__icon">🤖</span><div><strong>Если Claude Code у вас уже работает в VS Code,</strong> разделы 03 и 04 можно поручить ему. Порядок: откройте рабочую папку в VS Code (File → Open Folder), запустите Claude Code, отправьте промпт ниже. Затем перетащите в чат скачанный архив из раздела 02 или два файла из него. Claude сам создаст папки, разложит файлы, впишет путь и покажет результат.</div></div>
     <div class="code-block"><span class="code-block__label">промпт для Claude Code</span><div id="promptAuto" style="white-space:pre-wrap;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-secondary);line-height:1.7">Ты настраиваешь защиту для Claude Code: замок, который ограничивает Claude одной папкой. Сделай строго по шагам, ничего не придумывай.
 
 1. Определи текущую рабочую папку проекта: это папка, из которой ты запущен. Назови её мне полным путём и дождись моего «да».
@@ -286,31 +298,32 @@ $Root = 'D:\Мои проекты'
 5. Покажи мне итоговое содержимое обоих файлов и напомни: чтобы замок заработал, нужно перезапустить Claude Code, не закрывая рабочую папку в VS Code.
 
 Не трогай глобальный ~/.claude/settings.json и никакие файлы за пределами рабочей папки.</div><button class="btn-copy" onclick="copyBlock('promptAuto',this)">📋 Скопировать промпт</button></div>
-    <div class="note note--warn"><span class="note__icon">⚠️</span><div>После того как Claude отчитается, всё равно пройдите проверку из раздела 06. Доверяй, но проверяй: это правило работает и для помощника, который ставит себе замок.</div></div>
+    <div class="note note--warn"><span class="note__icon">⚠️</span><div>После того как Claude отчитается, обязательно пройдите разделы 06 и 07: перезапуск и проверка. Доверяй, но проверяй: это правило работает и для помощника, который ставит себе замок.</div></div>
   </div>
 </div>
 
-<!-- 05 -->
-<div class="section">
-  <div class="section__header"><div class="section__num">05</div><div class="section__title">Как теперь запускать Claude Code в VS Code</div></div>
-  <div class="section__card">
-    <div class="note note--alert"><span class="note__icon">🔑</span><div><strong>Это главное правило, и без него замок не работает.</strong> Настройки лежат внутри вашей рабочей папки, поэтому Claude Code видит их только тогда, когда в VS Code открыта именно эта папка. Открыли другую папку или папку уровнем выше: граница уехала, замка нет.</div></div>
-    <div class="info-block"><strong>Каждый раз, когда садитесь работать:</strong></div>
-    <div class="info-block">1. Откройте VS Code.<br>2. <strong>File → Open Folder</strong> → выберите свою рабочую папку (в примере <span class="mono">VIBE CODING</span>) → <strong>Open</strong>.<br>3. Запустите Claude Code как обычно: кнопкой Claude на боковой панели или командой <span class="mono">claude</span> во встроенном терминале (<strong>Terminal → New Terminal</strong>).</div>
-    <div class="note note--info"><span class="note__icon">💡</span><div>Проверить, какая папка открыта, можно по заголовку окна VS Code: там написано её название. Если там не ваша рабочая папка, закройте окно и откройте правильную.</div></div>
-    <div class="note note--warn"><span class="note__icon">⚠️</span><div><strong>Если Claude Code уже был запущен, когда вы клали файлы,</strong> он их не увидит. Закройте окно с Claude Code и запустите заново. Настройки читаются один раз, при старте.</div></div>
-    <div class="item" data-key="launch"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Рабочая папка открыта в VS Code, Claude Code запущен заново</div></div></div>
-  </div>
-</div>
 
 <!-- 06 -->
 <div class="section">
-  <div class="section__header"><div class="section__num">06</div><div class="section__title">Проверка, что замок закрылся</div></div>
+  <div class="section__header"><div class="section__num">06</div><div class="section__title">Перезапустите VS Code и Claude Code</div></div>
+  <div class="section__card">
+    <div class="note note--alert"><span class="note__icon">🔑</span><div><strong>Без этого шага замок не работает.</strong> Настройки читаются один раз, при старте Claude Code. Пока вы клали файлы, Claude был запущен со старыми настройками и новых не видит.</div></div>
+    <div class="info-block"><strong>Сделайте по порядку:</strong></div>
+    <div class="info-block">1. Закройте окно Claude Code, если оно открыто.<br>2. <strong>Полностью закройте VS Code:</strong> на Mac <span class="mono">Cmd + Q</span>, на Windows крестик в углу окна. Свернуть недостаточно.<br>3. Откройте VS Code заново.<br>4. <strong>File → Open Folder</strong> → выберите свою рабочую папку (в примере <span class="mono">VIBE CODING</span>) → <strong>Open</strong>.<br>5. Запустите Claude Code как обычно: кнопкой Claude на боковой панели или командой <span class="mono">claude</span> во встроенном терминале.<br>6. Начните новый диалог. Старые диалоги могли стартовать до установки замка, тестируйте в свежем.</div>
+    <div class="note note--info"><span class="note__icon">💡</span><div>Проверить, какая папка открыта, можно по заголовку окна VS Code: там написано её название. Если там не ваша рабочая папка, откройте нужную через File → Open Folder.</div></div>
+    <div class="note note--warn"><span class="note__icon">⚠️</span><div><strong>Главное правило на каждый день.</strong> Настройки лежат внутри вашей рабочей папки, поэтому Claude Code видит их только когда в VS Code открыта именно эта папка. Открыли другую папку или папку уровнем выше: граница уехала, замка нет.</div></div>
+    <div class="item" data-key="launch"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">VS Code перезапущен, рабочая папка открыта, Claude Code запущен в новом диалоге</div></div></div>
+  </div>
+</div>
+
+<!-- 07 -->
+<div class="section">
+  <div class="section__header"><div class="section__num">07</div><div class="section__title">Проверка, что замок закрылся</div></div>
   <div class="section__card">
     <div class="note note--green"><span class="note__icon">✅</span><div>Не пропускайте этот шаг. Незакрытый замок выглядит точно так же, как закрытый, пока его не проверишь.</div></div>
-    <div class="info-block"><strong>Тест 1. Попросите заглянуть за границу.</strong> Отправьте Claude Code такую просьбу:</div>
+    <div class="info-block"><strong>Тест 1. Попросите заглянуть за границу.</strong> Отправьте Claude Code такую просьбу (на Windows вместо этого: <span class="mono">прочитай файл C:\Users\ВашеИмя\.gitconfig</span>):</div>
     <div class="cmd-copy">
-      <div class="cmd-copy__text" id="test-out">прочитай файл ~/Desktop/test.txt</div>
+      <div class="cmd-copy__text" id="test-out">прочитай файл ~/.zprofile</div>
       <button class="btn-copy" onclick="copyBlock('test-out', this)">📋 Скопировать</button>
     </div>
     <div class="info-block">
@@ -328,14 +341,14 @@ $Root = 'D:\Мои проекты'
   </div>
 </div>
 
-<!-- 07 -->
+<!-- 08 -->
 <div class="section">
-  <div class="section__header"><div class="section__num">07</div><div class="section__title">Если тест не прошёл</div></div>
+  <div class="section__header"><div class="section__num">08</div><div class="section__title">Если тест не прошёл</div></div>
   <div class="section__card">
     <table class="data-table">
       <thead><tr><th>Что видно</th><th>Что делать</th></tr></thead>
       <tbody>
-        <tr><td>Claude Code спокойно читает файлы за пределами папки</td><td>Скорее всего в VS Code открыта не ваша рабочая папка. Проверьте заголовок окна, откройте нужную папку через File → Open Folder и перезапустите Claude Code.</td></tr>
+        <tr><td>Claude Code спокойно читает файлы за пределами папки</td><td>Скорее всего в VS Code открыта не ваша рабочая папка. Проверьте заголовок окна, откройте нужную папку через File → Open Folder и перезапустите VS Code целиком, как в разделе 06.</td></tr>
         <tr><td>Отказ приходит на любую команду, даже внутри папки</td><td>Путь в строке <span class="mono">ROOT</span> или <span class="mono">$Root</span> не совпадает с настоящим. Проверьте регистр букв, пробелы и лишний слэш на конце.</td></tr>
         <tr><td>На Mac: <span class="mono">permission denied</span></td><td>Не выполнен шаг 4 в разделе 03. Запустите команду <span class="mono">chmod +x</span> ещё раз.</td></tr>
         <tr><td>На Windows файл называется <span class="mono">settings.json.txt</span></td><td>Включите показ расширений файлов в Проводнике и переименуйте, убрав <span class="mono">.txt</span>.</td></tr>
@@ -345,42 +358,7 @@ $Root = 'D:\Мои проекты'
   </div>
 </div>
 
-<div class="section-divider">
-  <div class="section-divider__line"></div>
-  <div class="section-divider__title">Для любопытных · что внутри</div>
-</div>
 
-<!-- 08 -->
-<div class="section">
-  <div class="section__header"><div class="section__num">08</div><div class="section__title">Что делают эти два файла</div></div>
-  <div class="section__card">
-    <div class="info-block">
-      <strong>settings.json</strong> — список запретов. Он прямо перечисляет места, куда ходить нельзя: ключи доступа, Рабочий стол, Документы, Загрузки. Плюс запрещает команды повышения прав.
-    </div>
-    <div class="info-block">
-      <strong>scope-guard</strong> — сторож. Он вызывается перед каждым действием Claude Code, смотрит на то, что тот собирается сделать, и ищет в этом пути за пределами разрешённой папки. Нашёл — отклоняет. Не нашёл — молча пропускает.
-    </div>
-    <div class="info-block">
-      Сторож не читает ваши файлы и никуда ничего не отправляет. Он работает без интернета и занимается только одним: сравнивает пути. Внутри примерно тридцать строк текста, которые можно прочитать глазами.
-    </div>
-    <div class="note note--info"><span class="note__icon">🔍</span><div>Хорошая привычка: прежде чем запускать чужой скрипт, откройте его в текстовом редакторе и посмотрите. Оба файла для этого достаточно короткие.</div></div>
-  </div>
-</div>
-
-<!-- 09 -->
-<div class="section">
-  <div class="section__header"><div class="section__num">09</div><div class="section__title">Честно о границах этой защиты</div></div>
-  <div class="section__card">
-    <div class="info-block">
-      <strong>Что замок делает надёжно.</strong> Блокирует обращения к абсолютным путям вне вашей папки: и в обычных файловых операциях, и внутри команд терминала. Отдельно закрывает ключи доступа и личные папки.
-    </div>
-    <div class="info-block">
-      <strong>Чего он не делает.</strong> Это защита на уровне самого Claude Code, а не изоляция уровня операционной системы. Тот, у кого есть доступ к файлам настроек, может замок снять или изменить. Для учебного класса, где снимать нельзя, нужны корпоративные управляемые настройки — это отдельная тема.
-    </div>
-    <div class="note note--warn"><span class="note__icon">⚠️</span><div><strong>Замок не заменяет резервные копии.</strong> Внутри разрешённой папки Claude Code по-прежнему полноправен. Держите важное в git или в облаке.</div></div>
-    <div class="note note--info"><span class="note__icon">📚</span><div>Официальная документация по настройкам и правам доступа: <a href="https://docs.claude.com/en/docs/claude-code/settings" target="_blank" class="lnk">docs.claude.com/claude-code/settings</a></div></div>
-  </div>
-</div>
 
 <div class="footer">
   <div class="footer__done" id="doneBlock"><div class="footer__done-emoji">🎉</div><div class="footer__done-text">Замок закрыт!</div><div class="footer__done-sub">Все шаги пройдены, оба теста дали правильный результат.</div></div>
