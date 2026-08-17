@@ -185,9 +185,9 @@
       Внутри архива два рабочих файла и короткая памятка. Скачивайте только тот архив, который подходит вашему компьютеру.
     </div>
     <div class="info-block"><strong>Для Mac</strong><span class="os-tag os-tag--mac">macOS</span></div>
-    <a href="https://drive.google.com/uc?export=download&amp;id=1I3G_Er4TjZNRpsOFpfx09OOqc29LLkPt" target="_blank" class="btn-dl" onclick="event.stopPropagation()">⬇️ Скачать .zip</a>
+    <a href="https://drive.google.com/uc?export=download&amp;id=1Q-dorHk9i5n_dm8wxQp6wa2wNul7P6Sl" target="_blank" class="btn-dl" onclick="event.stopPropagation()">⬇️ Скачать .zip</a>
     <div class="info-block"><strong>Для Windows</strong><span class="os-tag os-tag--win">Windows</span></div>
-    <a href="https://drive.google.com/uc?export=download&amp;id=1WTkwi1J5Rjc9U-4-6vqDQqBXggk0t_bt" target="_blank" class="btn-dl" onclick="event.stopPropagation()">⬇️ Скачать .zip</a>
+    <a href="https://drive.google.com/uc?export=download&amp;id=1mY8od5R6hVkGf8SAYw_5vNivx5xUDqet" target="_blank" class="btn-dl" onclick="event.stopPropagation()">⬇️ Скачать .zip</a>
     <div class="note note--info"><span class="note__icon">📦</span><div>Если браузер предупреждает, что не может проверить файл, это обычное поведение Google Drive для архивов. Файлы маленькие, около трёх килобайт: внутри только текст.</div></div>
     <div class="item" data-key="download"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Архив скачан и распакован</div><div class="item__hint">Внутри должны оказаться <strong>два файла</strong> плюс <span class="mono">README.txt</span>. Если файл один, распаковка не завершилась.</div></div></div>
   </div>
@@ -265,6 +265,28 @@ scope-guard.ps1   →   VIBE CODING\.claude\hooks\scope-guard.ps1</div>
     </div>
     <div class="note note--warn"><span class="note__icon">⚠️</span><div>Название папки должно остаться <strong>в одинарных кавычках</strong>, и без обратного слэша в конце.</div></div>
     <div class="item" data-key="win-root"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Строка $Root указывает на мою папку</div></div></div>
+  </div>
+</div>
+
+<div class="section-divider">
+  <div class="section-divider__line"></div>
+  <div class="section-divider__title">Запасной путь · если руками неохота</div>
+</div>
+
+<div class="section">
+  <div class="section__header"><div class="section__num">04½</div><div class="section__title">Пусть Claude Code поставит замок сам</div></div>
+  <div class="section__card">
+    <div class="note note--info"><span class="note__icon">🤖</span><div><strong>Если Claude Code у вас уже работает,</strong> разделы 03 и 04 можно поручить ему. Запустите Claude Code из своей рабочей папки, отправьте промпт ниже, а следом перетащите в чат скачанный архив или два файла из него. Claude сам разложит файлы, впишет путь к папке и всё проверит.</div></div>
+    <div class="code-block"><span class="code-block__label">промпт для Claude Code</span><div id="promptAuto" style="white-space:pre-wrap;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-secondary);line-height:1.7">Ты настраиваешь защиту для Claude Code: замок, который ограничивает Claude одной папкой. Сделай строго по шагам, ничего не придумывай.
+
+1. Определи текущую рабочую папку проекта: это папка, из которой ты запущен. Назови её мне полным путём и дождись моего «да».
+2. Я пришлю тебе zip-архив или два файла: settings.json и файл-сторож (scope-guard.sh на Mac или scope-guard.ps1 на Windows). Положи settings.json в .claude/settings.json внутри рабочей папки, а сторожа в .claude/hooks/. Если settings.json уже существует, объедини: добавь блоки permissions.deny и hooks, ничего не удаляй.
+3. В файле-сторожа найди строку ROOT= (Mac) или $Root = (Windows) и подставь полный путь к рабочей папке из шага 1, без слэша на конце.
+4. На Mac сделай сторожа исполняемым: chmod +x .claude/hooks/scope-guard.sh
+5. Покажи мне итоговое содержимое обоих файлов и напомни: чтобы замок заработал, нужно перезапустить Claude Code из этой же папки.
+
+Не трогай глобальный ~/.claude/settings.json и никакие файлы за пределами рабочей папки.</div><button class="btn-copy" onclick="copyBlock('promptAuto',this)">📋 Скопировать промпт</button></div>
+    <div class="note note--warn"><span class="note__icon">⚠️</span><div>После того как Claude отчитается, всё равно пройдите проверку из раздела 06. Доверяй, но проверяй: это правило работает и для помощника, который ставит себе замок.</div></div>
   </div>
 </div>
 
