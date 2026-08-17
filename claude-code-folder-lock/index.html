@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Замок на одну папку — Claude Code</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔒</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-deep:#0a0a0f; --bg-card:#12121a; --bg-card-hover:#181825;
+    --border:#1e1e2e; --border-accent:#2a2a3e;
+    --text-primary:#e8e6f0; --text-secondary:#8b879e; --text-muted:#5a5670;
+    --accent:#7c5bf5; --accent-glow:#9d7cff; --accent-soft:rgba(124,91,245,0.12);
+    --green:#34d399; --green-glow:#6ee7b7; --green-soft:rgba(52,211,153,0.1);
+    --amber:#fbbf24; --amber-soft:rgba(251,191,36,0.1);
+    --red-soft:rgba(248,113,113,0.1); --red:#f87171;
+    --radius:14px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Onest',sans-serif;background:var(--bg-deep);color:var(--text-primary);line-height:1.65;min-height:100vh;-webkit-font-smoothing:antialiased;}
+  body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(circle at 20% 20%,rgba(124,91,245,0.04) 0%,transparent 50%),radial-gradient(circle at 80% 80%,rgba(52,211,153,0.03) 0%,transparent 50%);pointer-events:none;z-index:0;}
+  .wrapper{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:40px 20px 80px;}
+  .header{text-align:center;margin-bottom:44px;}
+  .header__badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--accent-glow);background:var(--accent-soft);border:1px solid rgba(124,91,245,0.2);padding:6px 16px;border-radius:100px;margin-bottom:24px;animation:fadeDown .6s ease both;}
+  .header__title{font-size:clamp(24px,5vw,36px);font-weight:800;line-height:1.15;letter-spacing:-0.5px;margin-bottom:20px;animation:fadeDown .6s ease .1s both;}
+  .header__title span{background:linear-gradient(135deg,var(--accent-glow),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .header__topics{list-style:none;display:flex;flex-direction:column;gap:7px;max-width:480px;margin:0 auto;animation:fadeDown .6s ease .2s both;}
+  .header__topics li{font-size:13.5px;color:var(--text-secondary);display:flex;align-items:flex-start;gap:8px;text-align:left;}
+  .header__topics li::before{content:'→';color:var(--accent);flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:11px;margin-top:3px;}
+  .progress-wrap{background:rgba(18,18,26,0.92);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;margin-bottom:36px;position:sticky;top:12px;z-index:10;backdrop-filter:blur(16px);animation:fadeDown .6s ease .3s both;}
+  .progress-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+  .progress-label{font-size:13px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1px;font-family:'JetBrains Mono',monospace;}
+  .progress-count{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;color:var(--accent-glow);}
+  .progress-bar{width:100%;height:8px;background:var(--border);border-radius:100px;overflow:hidden;}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--green));border-radius:100px;transition:width .5s cubic-bezier(.34,1.56,.64,1);width:0%;}
+  .section{margin-bottom:28px;}
+  .section__header{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-left:2px;}
+  .section__num{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--accent);background:var(--accent-soft);width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;flex-shrink:0;}
+  .section__title{font-size:16px;font-weight:700;letter-spacing:-0.2px;line-height:1.35;}
+  .section__card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:border-color .3s;}
+  .section__card:hover{border-color:var(--border-accent);}
+  .item{display:flex;align-items:flex-start;gap:14px;padding:16px 20px;border-bottom:1px solid var(--border);transition:background .2s;cursor:pointer;}
+  .item:last-child{border-bottom:none;}
+  .item:hover{background:var(--bg-card-hover);}
+  .item.checked .item__text{color:var(--text-muted);text-decoration:line-through;}
+  .item__check{position:relative;width:22px;height:22px;flex-shrink:0;margin-top:1px;pointer-events:auto;cursor:pointer;}
+  .item__check input{position:absolute;opacity:0;width:100%;height:100%;cursor:pointer;z-index:2;}
+  .item__check .cm{width:22px;height:22px;border:2px solid var(--border-accent);border-radius:6px;display:flex;align-items:center;justify-content:center;transition:all .25s cubic-bezier(.34,1.56,.64,1);}
+  .item__check .cm svg{width:12px;height:12px;opacity:0;transform:scale(0);transition:all .25s cubic-bezier(.34,1.56,.64,1);}
+  .item__check input:checked + .cm{background:var(--green);border-color:var(--green);}
+  .item__check input:checked + .cm svg{opacity:1;transform:scale(1);}
+  .item__body{flex:1;min-width:0;pointer-events:none;user-select:text;}
+  .item__body a,.item__body .lnk,.item__body .btn-copy,.item__body .cmd-copy,.item__body .btn-dl{pointer-events:auto;}
+  .item__text{font-size:14.5px;font-weight:500;color:var(--text-primary);transition:all .3s;}
+  .item__hint{font-size:13px;color:var(--text-secondary);margin-top:5px;line-height:1.65;}
+  .item__hint strong{color:var(--text-primary);}
+  .lnk{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-family:'JetBrains Mono',monospace;color:var(--accent-glow);text-decoration:none;transition:color .2s;word-break:break-all;}
+  .lnk:hover{color:#bba4ff;text-decoration:underline;}
+  .note{display:flex;align-items:flex-start;gap:10px;padding:14px 20px;font-size:13px;color:var(--text-secondary);line-height:1.65;border-bottom:1px solid var(--border);}
+  .note:last-child{border-bottom:none;}
+  .note--warn{background:var(--amber-soft);color:var(--amber);}
+  .note--info{background:var(--accent-soft);}
+  .note--alert{background:var(--red-soft);color:var(--red);}
+  .note--green{background:var(--green-soft);color:var(--green-glow);}
+  .note__icon{flex-shrink:0;font-size:15px;}
+  .note strong{color:inherit;}
+  .info-block{padding:14px 20px;border-bottom:1px solid var(--border);font-size:13.5px;color:var(--text-secondary);line-height:1.7;}
+  .info-block:last-child{border-bottom:none;}
+  .info-block strong{color:var(--text-primary);font-weight:600;}
+  .mono{font-family:'JetBrains Mono',monospace;color:var(--accent-glow);font-size:12px;}
+  .cmd-copy{background:rgba(0,0,0,0.35);border:1px solid var(--border-accent);border-radius:8px;padding:10px 14px;margin:10px 20px;display:flex;flex-direction:column;align-items:flex-start;gap:10px;}
+  .cmd-copy__text{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--green-glow);line-height:1.6;word-break:break-all;flex:1;white-space:pre-wrap;}
+  .code-block{background:rgba(0,0,0,0.4);border:1px solid var(--border-accent);border-radius:10px;padding:16px 20px;margin:12px 20px;}
+  .code-block__label{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;display:block;}
+  .code-block__scroll{max-height:320px;overflow-y:auto;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--green-glow);line-height:1.8;white-space:pre-wrap;word-break:break-word;}
+  .code-block__scroll::-webkit-scrollbar{width:9px;height:9px;}
+  .code-block__scroll::-webkit-scrollbar-thumb{background:var(--border-accent);border-radius:9px;}
+  .code-block .btn-copy{margin-top:12px;}
+  .btn-copy{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:var(--accent-glow);background:var(--accent-soft);border:1px solid rgba(124,91,245,0.3);padding:8px 16px;border-radius:8px;cursor:pointer;transition:all .2s;text-transform:uppercase;letter-spacing:1px;}
+  .btn-copy:hover{background:rgba(124,91,245,0.2);border-color:var(--accent);}
+  .btn-copy.copied{color:var(--green);background:var(--green-soft);border-color:rgba(52,211,153,0.3);}
+  .cmd-copy .btn-copy{padding:5px 12px;font-size:10px;}
+  .btn-dl{display:inline-flex;align-items:center;gap:7px;font-family:'Onest',sans-serif;font-size:13px;font-weight:600;color:var(--accent-glow);background:var(--accent-soft);border:1px solid rgba(124,91,245,0.35);padding:9px 18px;border-radius:10px;text-decoration:none;transition:all .2s;cursor:pointer;margin:0 20px 14px;}
+  .btn-dl:hover{background:rgba(124,91,245,0.2);border-color:var(--accent);}
+  .os-tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;border-radius:100px;margin-left:8px;vertical-align:middle;}
+  .os-tag--mac{color:var(--green-glow);background:var(--green-soft);border:1px solid rgba(52,211,153,0.25);}
+  .os-tag--win{color:#38bdf8;background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.25);}
+  .data-table{width:100%;border-collapse:collapse;font-size:13px;}
+  .data-table th{text-align:left;padding:11px 20px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);border-bottom:1px solid var(--border);}
+  .data-table td{padding:12px 20px;border-bottom:1px solid var(--border);color:var(--text-secondary);vertical-align:top;line-height:1.6;}
+  .data-table tr:last-child td{border-bottom:none;}
+  .data-table td:first-child{width:38%;}
+  .section-divider{text-align:center;margin:48px 0 32px;padding:0 20px;}
+  .section-divider__line{height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);margin-bottom:20px;}
+  .section-divider__title{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--accent-glow);text-transform:uppercase;letter-spacing:3px;}
+  .footer{text-align:center;margin-top:48px;}
+  .footer__done{display:none;background:var(--green-soft);border:1px solid rgba(52,211,153,0.25);border-radius:var(--radius);padding:32px 24px;margin-bottom:24px;}
+  .footer__done.visible{display:block;animation:popIn .5s cubic-bezier(.34,1.56,.64,1) both;}
+  .footer__done-emoji{font-size:48px;margin-bottom:10px;}
+  .footer__done-text{font-size:22px;font-weight:800;color:var(--green);margin-bottom:6px;}
+  .footer__done-sub{font-size:15px;color:var(--text-secondary);}
+  .footer__final{background:linear-gradient(135deg,rgba(124,91,245,0.08),rgba(52,211,153,0.08));border:1px solid rgba(124,91,245,0.25);border-radius:var(--radius);padding:34px 24px;margin-bottom:24px;position:relative;overflow:hidden;}
+  .footer__final::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 0%,rgba(124,91,245,0.12),transparent 50%),radial-gradient(circle at 80% 100%,rgba(52,211,153,0.12),transparent 50%);pointer-events:none;}
+  .footer__final-emoji{font-size:54px;margin-bottom:12px;line-height:1;position:relative;}
+  .footer__final-text{font-size:24px;font-weight:800;background:linear-gradient(90deg,var(--accent-glow),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:10px;letter-spacing:-0.4px;position:relative;}
+  .footer__final-sub{font-size:15px;color:var(--text-secondary);line-height:1.6;max-width:560px;margin:0 auto;position:relative;}
+  .footer__contact{font-size:14px;color:var(--text-secondary);margin-bottom:20px;}
+  .tg{color:#2dd4bf;font-weight:700;text-decoration:underline;text-decoration-color:rgba(45,212,191,0.4);text-underline-offset:2px;transition:color .2s;}
+  .tg:hover{color:#5eead4;}
+  .btn-reset{background:none;border:1px solid var(--border);color:var(--text-muted);font-family:'JetBrains Mono',monospace;font-size:12px;padding:8px 20px;border-radius:100px;cursor:pointer;transition:all .2s;margin-top:8px;}
+  .btn-reset:hover{border-color:var(--red);color:var(--red);}
+  #confetti-canvas{position:fixed;inset:0;z-index:9999;pointer-events:none;}
+  @keyframes fadeDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes popIn{from{opacity:0;transform:scale(0.8)}to{opacity:1;transform:scale(1)}}
+  @media (max-width:480px){
+    .wrapper{padding:28px 14px 60px;}
+    .item,.note,.info-block{padding:12px 16px;}
+    .cmd-copy,.code-block{margin-left:14px;margin-right:14px;}
+    .btn-dl{margin-left:14px;margin-right:14px;}
+    .data-table th,.data-table td{padding:10px 14px;}
+    .data-table td:first-child{width:auto;}
+    .progress-wrap{padding:16px 18px;top:8px;}
+    .header__title{font-size:24px;}
+  }
+</style>
+</head>
+<body>
+<canvas id="confetti-canvas"></canvas>
+<div class="wrapper">
+
+<div class="header">
+  <div class="header__badge">Безопасность · Claude Code</div>
+  <h1 class="header__title">Замок на <span>одну папку</span></h1>
+  <ul class="header__topics">
+    <li>Claude Code перестаёт видеть всё, что лежит за пределами вашей рабочей папки</li>
+    <li>Работает и на macOS, и на Windows. Установка занимает около пяти минут</li>
+    <li>Ничего программировать не нужно: скачать, положить два файла, поменять одну строку</li>
+    <li>В конце есть проверка, которая покажет, что замок действительно закрылся</li>
+  </ul>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-top">
+    <span class="progress-label">Прогресс</span>
+    <span class="progress-count" id="progressCount">0 / 0</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<!-- 00 -->
+<div class="section">
+  <div class="section__header"><div class="section__num">00</div><div class="section__title">Зачем этот замок нужен</div></div>
+  <div class="section__card">
+    <div class="info-block">
+      Claude Code — это помощник, который умеет сам создавать, менять и удалять файлы, а также запускать команды в терминале. Это его сила и его же опасность. По умолчанию он видит гораздо больше, чем один ваш проект: домашнюю папку, Рабочий стол, Документы, Загрузки.
+    </div>
+    <div class="info-block">
+      <strong>Что делает замок.</strong> Вы выбираете одну папку и объявляете её единственной разрешённой территорией. Любая попытка прочитать, изменить или удалить что-то за её пределами отклоняется. Не «спрашивается разрешение», а именно отклоняется.
+    </div>
+    <div class="note note--info"><span class="note__icon">💡</span><div>Аналогия: вы не запираете от помощника отдельные ящики. Вы выдаёте ему одну комнату и забираете ключи от остальной квартиры.</div></div>
+    <div class="note note--warn"><span class="note__icon">⚠️</span><div><strong>Это не отменяет резервные копии.</strong> Замок ограничивает территорию, но внутри разрешённой папки Claude Code по-прежнему может менять и удалять файлы. Важное держите в облаке или в git.</div></div>
+  </div>
+</div>
+
+<!-- 01 -->
+<div class="section">
+  <div class="section__header"><div class="section__num">01</div><div class="section__title">Выберите папку, в которой будете работать</div></div>
+  <div class="section__card">
+    <div class="info-block">
+      Заведите одну папку под все свои проекты и работайте только в ней. Название любое, но лучше без русских букв — так меньше сюрпризов с путями. В инструкции для примера используется папка <span class="mono">VIBE CODING</span> в домашней папке.
+    </div>
+    <div class="note note--alert"><span class="note__icon">🚫</span><div><strong>Не выбирайте домашнюю папку целиком</strong> и не выбирайте Рабочий стол, Документы или Загрузки. Смысл замка в том, чтобы разрешённая территория была узкой. Если разрешить всё — защищать нечего.</div></div>
+    <div class="item" data-key="pick-folder"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Папка выбрана, её точное название записано</div><div class="item__hint">Название понадобится дальше: его нужно будет вписать в один файл. Проверьте регистр букв и пробелы.</div></div></div>
+  </div>
+</div>
+
+<!-- 02 -->
+<div class="section">
+  <div class="section__header"><div class="section__num">02</div><div class="section__title">Скачайте архив под свою систему</div></div>
+  <div class="section__card">
+    <div class="info-block">
+      Внутри архива два рабочих файла и короткая памятка. Скачивайте только тот архив, который подходит вашему компьютеру.
+    </div>
+    <div class="info-block"><strong>Для Mac</strong><span class="os-tag os-tag--mac">macOS</span></div>
+    <a href="https://drive.google.com/uc?export=download&amp;id=1I3G_Er4TjZNRpsOFpfx09OOqc29LLkPt" target="_blank" class="btn-dl" onclick="event.stopPropagation()">⬇️ Скачать .zip</a>
+    <div class="info-block"><strong>Для Windows</strong><span class="os-tag os-tag--win">Windows</span></div>
+    <a href="https://drive.google.com/uc?export=download&amp;id=1WTkwi1J5Rjc9U-4-6vqDQqBXggk0t_bt" target="_blank" class="btn-dl" onclick="event.stopPropagation()">⬇️ Скачать .zip</a>
+    <div class="note note--info"><span class="note__icon">📦</span><div>Если браузер предупреждает, что не может проверить файл, это обычное поведение Google Drive для архивов. Файлы маленькие, около трёх килобайт: внутри только текст.</div></div>
+    <div class="item" data-key="download"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Архив скачан и распакован</div><div class="item__hint">Внутри должны оказаться <strong>два файла</strong> плюс <span class="mono">README.txt</span>. Если файл один, распаковка не завершилась.</div></div></div>
+  </div>
+</div>
+
+<div class="section-divider">
+  <div class="section-divider__line"></div>
+  <div class="section-divider__title">Установка · выберите свою систему</div>
+</div>
+
+<!-- 03 -->
+<div class="section">
+  <div class="section__header"><div class="section__num">03</div><div class="section__title">Установка на Mac<span class="os-tag os-tag--mac">macOS</span></div></div>
+  <div class="section__card">
+    <div class="info-block">
+      <strong>Шаг 1. Создайте служебные папки.</strong> Внутри своей рабочей папки нужно создать путь <span class="mono">.claude/hooks/</span>. Имя начинается с точки, поэтому в Finder такие папки спрятаны. Показать их можно сочетанием клавиш <span class="mono">Cmd + Shift + точка</span>.
+    </div>
+    <div class="info-block">
+      <strong>Шаг 2. Разложите файлы.</strong> Из архива:
+    </div>
+    <div class="code-block">
+      <span class="code-block__label">куда что положить</span>
+      <div class="code-block__scroll" id="mac-paths">settings.json    →   VIBE CODING/.claude/settings.json
+scope-guard.sh   →   VIBE CODING/.claude/hooks/scope-guard.sh</div>
+      <button class="btn-copy" onclick="copyBlock('mac-paths', this)">📋 Скопировать</button>
+    </div>
+    <div class="item" data-key="mac-copy"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Оба файла лежат на своих местах</div><div class="item__hint"><span class="mono">settings.json</span> внутри <span class="mono">.claude</span>, а <span class="mono">scope-guard.sh</span> внутри <span class="mono">.claude/hooks</span>. Это разные папки, не перепутайте.</div></div></div>
+    <div class="info-block">
+      <strong>Шаг 3. Впишите свою папку.</strong> Откройте <span class="mono">scope-guard.sh</span> в любом текстовом редакторе и найдите строку, которая начинается на <span class="mono">ROOT=</span>. Замените путь на свой.
+    </div>
+    <div class="code-block">
+      <span class="code-block__label">эта строка в scope-guard.sh</span>
+      <div class="code-block__scroll" id="mac-root">ROOT="$HOME/VIBE CODING"</div>
+      <button class="btn-copy" onclick="copyBlock('mac-root', this)">📋 Скопировать</button>
+    </div>
+    <div class="note note--warn"><span class="note__icon">⚠️</span><div><strong>Самая частая ошибка.</strong> Лишний слэш на конце или другой регистр букв. Путь должен совпадать с настоящим именем папки буква в букву, и без слэша в конце.</div></div>
+    <div class="item" data-key="mac-root"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Строка ROOT указывает на мою папку</div></div></div>
+    <div class="info-block">
+      <strong>Шаг 4. Разрешите запуск сторожа.</strong> Откройте Терминал и выполните команду. Она разрешает системе запускать наш файл-сторож. Путь в команде замените на свой.
+    </div>
+    <div class="cmd-copy">
+      <div class="cmd-copy__text" id="mac-chmod-cmd">chmod +x ~/"VIBE CODING/.claude/hooks/scope-guard.sh"</div>
+      <button class="btn-copy" onclick="copyBlock('mac-chmod-cmd', this)">📋 Скопировать</button>
+    </div>
+    <div class="note note--info"><span class="note__icon">💡</span><div>Команда ничего не выводит в ответ. Молчание здесь означает успех.</div></div>
+    <div class="item" data-key="mac-chmod"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Команда выполнена, ошибок не появилось</div><div class="item__hint">Если написано <span class="mono">No such file or directory</span>, значит путь указан неверно: проверьте название папки в команде.</div></div></div>
+  </div>
+</div>
+
+<!-- 04 -->
+<div class="section">
+  <div class="section__header"><div class="section__num">04</div><div class="section__title">Установка на Windows<span class="os-tag os-tag--win">Windows</span></div></div>
+  <div class="section__card">
+    <div class="info-block">
+      <strong>Шаг 1. Создайте служебные папки.</strong> Внутри своей рабочей папки создайте путь <span class="mono">.claude\hooks\</span>. Такие папки скрыты, включить их видимость можно так: <strong>Вид → Показать → Скрытые элементы</strong>.
+    </div>
+    <div class="note note--info"><span class="note__icon">💡</span><div>Проводник иногда не даёт создать папку, имя которой начинается с точки. Хитрость: при создании напишите имя с точкой на конце — <span class="mono">.claude.</span> — и Windows сама уберёт лишнюю точку.</div></div>
+    <div class="info-block">
+      <strong>Шаг 2. Разложите файлы.</strong> Из архива:
+    </div>
+    <div class="code-block">
+      <span class="code-block__label">куда что положить</span>
+      <div class="code-block__scroll" id="win-paths">settings.json     →   VIBE CODING\.claude\settings.json
+scope-guard.ps1   →   VIBE CODING\.claude\hooks\scope-guard.ps1</div>
+      <button class="btn-copy" onclick="copyBlock('win-paths', this)">📋 Скопировать</button>
+    </div>
+    <div class="item" data-key="win-copy"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Оба файла лежат на своих местах</div><div class="item__hint">Проверьте, что Windows не дописала расширение <span class="mono">.txt</span> к именам файлов. Полное имя должно быть <span class="mono">settings.json</span>, а не <span class="mono">settings.json.txt</span>.</div></div></div>
+    <div class="info-block">
+      <strong>Шаг 3. Впишите свою папку.</strong> Откройте <span class="mono">scope-guard.ps1</span> в Блокноте и найдите строку, которая начинается на <span class="mono">$Root</span>. Замените название папки на своё.
+    </div>
+    <div class="code-block">
+      <span class="code-block__label">эта строка в scope-guard.ps1</span>
+      <div class="code-block__scroll" id="win-root">$Root = Join-Path $env:USERPROFILE 'VIBE CODING'</div>
+      <button class="btn-copy" onclick="copyBlock('win-root', this)">📋 Скопировать</button>
+    </div>
+    <div class="note note--warn"><span class="note__icon">⚠️</span><div>Название папки должно остаться <strong>в одинарных кавычках</strong>, и без обратного слэша в конце.</div></div>
+    <div class="item" data-key="win-root"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Строка $Root указывает на мою папку</div></div></div>
+  </div>
+</div>
+
+<!-- 05 -->
+<div class="section">
+  <div class="section__header"><div class="section__num">05</div><div class="section__title">Как теперь запускать Claude Code</div></div>
+  <div class="section__card">
+    <div class="note note--alert"><span class="note__icon">🔑</span><div><strong>Это главное правило, и без него замок не работает.</strong> Настройки лежат внутри папки, поэтому Claude Code подхватывает их только тогда, когда запущен из этой папки. Запустили из другого места — защиты нет.</div></div>
+    <div class="info-block"><strong>Через терминал на Mac</strong></div>
+    <div class="cmd-copy">
+      <div class="cmd-copy__text" id="mac-launch">cd ~/"VIBE CODING" &amp;&amp; claude</div>
+      <button class="btn-copy" onclick="copyBlock('mac-launch', this)">📋 Скопировать</button>
+    </div>
+    <div class="info-block"><strong>Через PowerShell на Windows</strong></div>
+    <div class="cmd-copy">
+      <div class="cmd-copy__text" id="win-launch">cd "$env:USERPROFILE\VIBE CODING"
+claude</div>
+      <button class="btn-copy" onclick="copyBlock('win-launch', this)">📋 Скопировать</button>
+    </div>
+    <div class="info-block">
+      <strong>Через VS Code.</strong> Откройте папку командой <strong>File → Open Folder</strong> и выберите именно свою рабочую папку. Какая папка открыта, та и становится границей. Откроете папку уровнем выше — граница уедет вверх, и замок перестанет действовать.
+    </div>
+    <div class="item" data-key="launch"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Claude Code запущен из моей рабочей папки</div></div></div>
+  </div>
+</div>
+
+<!-- 06 -->
+<div class="section">
+  <div class="section__header"><div class="section__num">06</div><div class="section__title">Проверка, что замок закрылся</div></div>
+  <div class="section__card">
+    <div class="note note--green"><span class="note__icon">✅</span><div>Не пропускайте этот шаг. Незакрытый замок выглядит точно так же, как закрытый, пока его не проверишь.</div></div>
+    <div class="info-block"><strong>Тест 1. Попросите заглянуть за границу.</strong> Отправьте Claude Code такую просьбу:</div>
+    <div class="cmd-copy">
+      <div class="cmd-copy__text" id="test-out">прочитай файл ~/Desktop/test.txt</div>
+      <button class="btn-copy" onclick="copyBlock('test-out', this)">📋 Скопировать</button>
+    </div>
+    <div class="info-block">
+      <strong>Правильный результат:</strong> отказ с текстом «Доступ запрещён: путь вне разрешённой папки».<br>
+      <strong>Плохой результат:</strong> Claude Code читает файл или сообщает, что такого файла нет. И то и другое означает, что он туда дошёл, а значит замок не закрылся.
+    </div>
+    <div class="item" data-key="test-out"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Тест 1 пройден: доступ за границу закрыт</div></div></div>
+    <div class="info-block"><strong>Тест 2. Проверьте, что внутри всё работает.</strong> Замок, который блокирует вообще всё, тоже сломан. Отправьте:</div>
+    <div class="cmd-copy">
+      <div class="cmd-copy__text" id="test-in">покажи список файлов в текущей папке</div>
+      <button class="btn-copy" onclick="copyBlock('test-in', this)">📋 Скопировать</button>
+    </div>
+    <div class="info-block"><strong>Правильный результат:</strong> список файлов появился, никаких отказов нет.</div>
+    <div class="item" data-key="test-in"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 6"/></svg></span></div><div class="item__body"><div class="item__text">Тест 2 пройден: внутри папки работа не сломана</div></div></div>
+  </div>
+</div>
+
+<!-- 07 -->
+<div class="section">
+  <div class="section__header"><div class="section__num">07</div><div class="section__title">Если тест не прошёл</div></div>
+  <div class="section__card">
+    <table class="data-table">
+      <thead><tr><th>Что видно</th><th>Что делать</th></tr></thead>
+      <tbody>
+        <tr><td>Claude Code спокойно читает файлы за пределами папки</td><td>Скорее всего он запущен не из вашей папки. Закройте его и запустите заново командой из раздела 05.</td></tr>
+        <tr><td>Отказ приходит на любую команду, даже внутри папки</td><td>Путь в строке <span class="mono">ROOT</span> или <span class="mono">$Root</span> не совпадает с настоящим. Проверьте регистр букв, пробелы и лишний слэш на конце.</td></tr>
+        <tr><td>На Mac: <span class="mono">permission denied</span></td><td>Не выполнен шаг 4 в разделе 03. Запустите команду <span class="mono">chmod +x</span> ещё раз.</td></tr>
+        <tr><td>На Windows файл называется <span class="mono">settings.json.txt</span></td><td>Включите показ расширений файлов в Проводнике и переименуйте, убрав <span class="mono">.txt</span>.</td></tr>
+        <tr><td>Ничего не помогает</td><td>Скопируйте текст ошибки и отправьте прямо в Claude Code с просьбой разобраться. Он видит ваши файлы настроек и обычно находит причину сам.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="section-divider">
+  <div class="section-divider__line"></div>
+  <div class="section-divider__title">Для любопытных · что внутри</div>
+</div>
+
+<!-- 08 -->
+<div class="section">
+  <div class="section__header"><div class="section__num">08</div><div class="section__title">Что делают эти два файла</div></div>
+  <div class="section__card">
+    <div class="info-block">
+      <strong>settings.json</strong> — список запретов. Он прямо перечисляет места, куда ходить нельзя: ключи доступа, Рабочий стол, Документы, Загрузки. Плюс запрещает команды повышения прав.
+    </div>
+    <div class="info-block">
+      <strong>scope-guard</strong> — сторож. Он вызывается перед каждым действием Claude Code, смотрит на то, что тот собирается сделать, и ищет в этом пути за пределами разрешённой папки. Нашёл — отклоняет. Не нашёл — молча пропускает.
+    </div>
+    <div class="info-block">
+      Сторож не читает ваши файлы и никуда ничего не отправляет. Он работает без интернета и занимается только одним: сравнивает пути. Внутри примерно тридцать строк текста, которые можно прочитать глазами.
+    </div>
+    <div class="note note--info"><span class="note__icon">🔍</span><div>Хорошая привычка: прежде чем запускать чужой скрипт, откройте его в текстовом редакторе и посмотрите. Оба файла для этого достаточно короткие.</div></div>
+  </div>
+</div>
+
+<!-- 09 -->
+<div class="section">
+  <div class="section__header"><div class="section__num">09</div><div class="section__title">Честно о границах этой защиты</div></div>
+  <div class="section__card">
+    <div class="info-block">
+      <strong>Что замок делает надёжно.</strong> Блокирует обращения к абсолютным путям вне вашей папки: и в обычных файловых операциях, и внутри команд терминала. Отдельно закрывает ключи доступа и личные папки.
+    </div>
+    <div class="info-block">
+      <strong>Чего он не делает.</strong> Это защита на уровне самого Claude Code, а не изоляция уровня операционной системы. Тот, у кого есть доступ к файлам настроек, может замок снять или изменить. Для учебного класса, где снимать нельзя, нужны корпоративные управляемые настройки — это отдельная тема.
+    </div>
+    <div class="note note--warn"><span class="note__icon">⚠️</span><div><strong>Замок не заменяет резервные копии.</strong> Внутри разрешённой папки Claude Code по-прежнему полноправен. Держите важное в git или в облаке.</div></div>
+    <div class="note note--info"><span class="note__icon">📚</span><div>Официальная документация по настройкам и правам доступа: <a href="https://docs.claude.com/en/docs/claude-code/settings" target="_blank" class="lnk">docs.claude.com/claude-code/settings</a></div></div>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="footer__done" id="doneBlock"><div class="footer__done-emoji">🎉</div><div class="footer__done-text">Замок закрыт!</div><div class="footer__done-sub">Все шаги пройдены, оба теста дали правильный результат.</div></div>
+  <div class="footer__final"><div class="footer__final-emoji">🔒</div><div class="footer__final-text">Одна папка, и ни шагу дальше</div><div class="footer__final-sub">Теперь Claude Code работает только в границах вашей рабочей папки. Если что-то не получается — отправьте текст ошибки прямо в Claude Code, он поможет разобраться.</div></div>
+  <div class="footer__contact">Возникли проблемы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
+  <button class="btn-reset" onclick="resetProgress()">Сбросить прогресс</button>
+</div>
+
+</div>
+<script>
+const C=document.getElementById('confetti-canvas'),ctx=C.getContext('2d');
+let particles=[],confettiActive=false;
+function resizeCanvas(){C.width=window.innerWidth;C.height=window.innerHeight;}
+window.addEventListener('resize',resizeCanvas);resizeCanvas();
+const COLORS=['#7c5bf5','#9d7cff','#34d399','#6ee7b7','#fbbf24','#f87171','#fb7185','#38bdf8','#a78bfa','#4ade80'];
+function rand(a,b){return Math.random()*(b-a)+a;}
+function createBurst(x,y,count){for(let i=0;i<count;i++){const angle=rand(0,Math.PI*2),speed=rand(4,14),size=rand(4,10);particles.push({x,y,vx:Math.cos(angle)*speed+rand(-2,2),vy:Math.sin(angle)*speed*-0.8-rand(2,6),size,color:COLORS[Math.floor(Math.random()*COLORS.length)],rotation:rand(0,Math.PI*2),rotSpeed:rand(-0.2,0.2),gravity:rand(0.12,0.25),friction:rand(0.97,0.995),opacity:1,fadeSpeed:rand(0.005,0.015),shape:Math.random()>0.4?'rect':'circle'});}}
+function launchConfetti(){if(confettiActive)return;confettiActive=true;particles=[];const W=C.width,H=C.height;[[W*.5,H*.3,120],[W*.15,H*.2,80],[W*.85,H*.2,80],[W*.5,H*.1,100],[W*.3,H*.5,60],[W*.7,H*.5,60]].forEach(([x,y,c],i)=>{setTimeout(()=>createBurst(x,y,c),i*150)});animate();setTimeout(()=>{confettiActive=false},6000);}
+function animate(){ctx.clearRect(0,0,C.width,C.height);for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.vx*=p.friction;p.vy*=p.friction;p.vy+=p.gravity;p.x+=p.vx;p.y+=p.vy;p.rotation+=p.rotSpeed;p.opacity-=p.fadeSpeed;if(p.opacity<=0){particles.splice(i,1);continue}ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rotation);ctx.globalAlpha=p.opacity;ctx.fillStyle=p.color;if(p.shape==='rect'){ctx.fillRect(-p.size/2,-p.size/4,p.size,p.size/2)}else{ctx.beginPath();ctx.arc(0,0,p.size/2,0,Math.PI*2);ctx.fill()}ctx.restore();}if(particles.length>0||confettiActive){requestAnimationFrame(animate)}else{ctx.clearRect(0,0,C.width,C.height);}}
+function copyBlock(id,btn){const text=document.getElementById(id).textContent;navigator.clipboard.writeText(text).then(()=>{const orig=btn.innerHTML;btn.classList.add('copied');btn.innerHTML='✅ Скопировано!';setTimeout(()=>{btn.classList.remove('copied');btn.innerHTML=orig;},2000);});}
+const STORAGE_KEY='folder_lock_v1';
+const items=document.querySelectorAll('.item[data-key]');
+const totalCount=items.length;let wasComplete=false;
+function loadState(){try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');let c=0;items.forEach(it=>{const cb=it.querySelector('input');if(s[it.dataset.key]){cb.checked=true;it.classList.add('checked');c++}});wasComplete=c===totalCount}catch(e){}updateProgress(false);}
+function saveState(){const s={};items.forEach(it=>{s[it.dataset.key]=it.querySelector('input').checked});try{localStorage.setItem(STORAGE_KEY,JSON.stringify(s))}catch(e){}}
+function updateProgress(cc=true){let c=0;items.forEach(it=>{if(it.querySelector('input').checked)c++});document.getElementById('progressCount').textContent=c+' / '+totalCount;document.getElementById('progressFill').style.width=(totalCount>0?(c/totalCount)*100:0)+'%';const d=document.getElementById('doneBlock');if(c===totalCount&&totalCount>0){d.classList.add('visible');if(cc&&!wasComplete)launchConfetti();wasComplete=true}else{d.classList.remove('visible');wasComplete=false;}}
+items.forEach(it=>{const cb=it.querySelector('input');it.addEventListener('click',function(e){if(e.target.closest('a')||e.target.closest('.btn-copy'))return;if(e.target!==cb){cb.checked=!cb.checked;cb.dispatchEvent(new Event('change'));}});cb.addEventListener('change',function(){it.classList.toggle('checked',this.checked);saveState();updateProgress(true);});});
+function resetProgress(){if(!confirm('Сбросить весь прогресс?'))return;items.forEach(it=>{it.querySelector('input').checked=false;it.classList.remove('checked')});wasComplete=false;saveState();updateProgress(false);}
+loadState();
+</script>
+</body>
+</html>
