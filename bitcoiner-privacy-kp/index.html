@@ -70,7 +70,7 @@ h2{font-family:var(--display);font-size:clamp(28px,4vw,46px);font-weight:700;tex
 .core-card .ttl .dot{width:9px;height:9px;border-radius:50%;background:var(--accent)}
 .core-card ul{list-style:none}
 .core-card li{font-size:15px;color:var(--gray);padding:5px 0 5px 20px;position:relative}
-.core-card li::before{content:'·';position:absolute;left:6px;color:var(--accent);font-weight:800}
+.core-card li::before{content:'';position:absolute;left:4px;width:6px;height:6px;border-radius:50%;background:var(--accent);top:calc(5px + .8em - 3px)}
 .core-card li b{color:#fff;font-weight:600}
 .stage{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:26px 30px;margin-bottom:14px}
 .stage-top{margin-bottom:14px}
@@ -79,12 +79,12 @@ h2{font-family:var(--display);font-size:clamp(28px,4vw,46px);font-weight:700;tex
 .stage p{color:var(--gray);font-size:16px}
 .stage-list{list-style:none;display:flex;flex-direction:column;gap:9px}
 .stage-list li{color:var(--gray);font-size:16px;padding-left:24px;position:relative}
-.stage-list li::before{content:'';position:absolute;left:6px;top:11px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.stage-list li::before{content:'';position:absolute;left:6px;top:calc(.8em - 3px);width:6px;height:6px;border-radius:50%;background:var(--accent)}
 .stage-list li b{color:var(--ink);font-weight:600}
 .stage p b{color:var(--ink);font-weight:600}
 .bio-list{list-style:none;max-width:520px}
-.bio-list li{font-size:17px;color:var(--gray);padding:9px 0 9px 26px;position:relative}
-.bio-list li::before{content:'·';position:absolute;left:6px;color:var(--accent);font-weight:800;font-size:22px}
+.bio-list li{font-size:17px;color:var(--gray);padding:9px 0 9px 20px;position:relative}
+.bio-list li::before{content:'';position:absolute;left:4px;width:6px;height:6px;border-radius:50%;background:var(--accent);top:calc(9px + .8em - 3px)}
 .bio-list b{color:var(--ink);font-weight:600}
 .price-box{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:64px 40px;text-align:center;position:relative;overflow:hidden;color:var(--ink)}
 .price-box::before{content:'';position:absolute;left:-180px;bottom:-180px;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(247,147,26,.28) 0%,transparent 65%);pointer-events:none}
