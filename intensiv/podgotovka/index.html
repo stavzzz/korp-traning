@@ -255,10 +255,10 @@
     <div class="item" data-key="card-save"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Сохранить реквизиты карты и биллинг-адрес</div>
-        <div class="item__hint">Запишите и сохраните: <strong>номер карты</strong> (16 цифр), <strong>срок действия</strong> (MM/YY), <strong>CVV</strong> (3 цифры), <strong>биллинг-адрес</strong> — он указан прямо в боте после выпуска карты. Эти данные понадобятся на шагах 03, 10 и 11.</div>
+        <div class="item__hint">Запишите и сохраните: <strong>номер карты</strong> (16 цифр), <strong>срок действия</strong> (MM/YY), <strong>CVV</strong> (3 цифры), <strong>биллинг-адрес</strong> — он указан прямо в боте после выпуска карты. Эти данные понадобятся на шагах 03, 09 и 10.</div>
       </div>
     </div>
-    <div class="note note--green"><span class="note__icon">💰</span><span><strong>Сколько денег понадобится?</strong> Считайте две суммы отдельно.<br><br><strong>1. Выпуск самой карты</strong> — это плата за карту, на баланс она не идёт:<br>Точную сумму смотрите в самом боте перед выпуском карты.<br><br><strong>2. Деньги на баланс карты</strong> — под подписки. Зависит от выбора на шаге 11.<br>• <strong>Claude Max — $100/мес.</strong> Обязательно, без неё никуда.<br>• Плюс <strong>ChatGPT</strong> (оформите на шаге 11), тариф на выбор:<br>&nbsp;&nbsp;• Plus за <strong>$20/мес</strong>, либо<br>&nbsp;&nbsp;• Pro за <strong>$100/мес</strong>.<br><br>Пополняйте с запасом ~10% на комиссии:<br>• с ChatGPT Plus → <strong>~$135</strong><br>• с ChatGPT Pro → <strong>~$220</strong></span></div>
+    <div class="note note--green"><span class="note__icon">💰</span><span><strong>Сколько денег понадобится?</strong> Считайте две суммы отдельно.<br><br><strong>1. Выпуск самой карты</strong> — это плата за карту, на баланс она не идёт:<br>Точную сумму смотрите в самом боте перед выпуском карты.<br><br><strong>2. Деньги на баланс карты</strong> — под подписки. Зависит от выбора на шаге 10.<br>• <strong>Claude Max — $100/мес.</strong> Обязательно, без неё никуда.<br>• Плюс <strong>ChatGPT</strong> (оформите на шаге 10), тариф на выбор:<br>&nbsp;&nbsp;• Plus за <strong>$20/мес</strong>, либо<br>&nbsp;&nbsp;• Pro за <strong>$100/мес</strong>.<br><br>Пополняйте с запасом ~10% на комиссии:<br>• с ChatGPT Plus → <strong>~$135</strong><br>• с ChatGPT Pro → <strong>~$220</strong></span></div>
     <div class="note note--info"><span class="note__icon">💡</span><span><strong>Мини-приложения сервисов карт стоят на российских серверах</strong> и под VPN могут тормозить. Решения: на время операций с картой выключайте VPN, пользуйтесь сайтом сервиса вместо мини-приложения (у Заруба это zarub.io), либо настройте раздельное туннелирование из секции 04.</span></div>
   </div>
 </div>
@@ -269,7 +269,7 @@
   <div class="section__card">
     <div class="note note--info"><span class="note__icon">💡</span><span>VPS — это компьютер-сервер за рубежом (США или Европа), который работает круглосуточно. На нём настроим личный VPN, и интернет у вас будет работать как из выбранной страны. Это нужно, чтобы открывались Claude и ChatGPT и проходила оплата подписок.</span></div>
     <div class="note note--alert"><span class="note__icon">🚫</span><span><strong>Не берите российские хостинги</strong> (Aeza, Timeweb, Reg.ru и похожие). С российских серверов многие зарубежные сайты просто не открываются: Claude, ChatGPT, Google и почта часто блокируют такие адреса. VPN-то включится, но половина нужных сайтов работать не будет. Берите только зарубежную компанию из таблицы ниже.</span></div>
-    <div class="note note--green"><span class="note__icon">🧭</span><span><strong>Выберите одну страну — США или Европа — и держите её во всём:</strong> сервер, VPN и номер телефона должны быть одной страны. Рекомендуем США — проще, и всё совпадает. <strong>Карта — всегда США</strong>, даже если сервер европейский: зарубежные виртуальные карты выпускаются только с биллингом США. Это нормально.</span></div>
+    <div class="note note--green"><span class="note__icon">🧭</span><span><strong>Выберите одну страну — США или Европа — и держите её во всём:</strong> сервер и VPN должны быть одной страны. Рекомендуем США — проще, и всё совпадает. <strong>Карта — всегда США</strong>, даже если сервер европейский: зарубежные виртуальные карты выпускаются только с биллингом США. Это нормально.</span></div>
     <div class="note note--green"><span class="note__icon">👍</span><span><strong>Рекомендуем DigitalOcean.</strong> Самый понятный сайт для новичка, сервер выдаётся сразу после оплаты, и карта США из шага 02 на нём проходит — проверено нашим специалистом по доступу Алмазом. Если DigitalOcean почему-то не подойдёт, берите netcup или Hetzner из таблицы ниже.</span></div>
     <div class="item" data-key="vps-buy"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
@@ -295,7 +295,7 @@
     <div class="spoiler">
       <div class="spoiler__title">🧭 По каким критериям выбирать VPS</div>
       <div class="spoiler__content">
-        <p><strong>1. Страна сервера — США или Европа.</strong> Выберите одну и держите её же для VPN и номера. США проще — всё совпадает (у DigitalOcean это Нью-Йорк или Сан-Франциско). Главное — не Россия.</p>
+        <p><strong>1. Страна сервера — США или Европа.</strong> Выберите одну и держите её же для VPN. США проще — всё совпадает (у DigitalOcean это Нью-Йорк или Сан-Франциско). Главное — не Россия.</p>
         <p><strong>2. Только зарубежная компания.</strong> С российских серверов многие сайты не открываются. Берите из таблицы выше.</p>
         <p><strong>3. Чем платить.</strong> Картой США из шага 02 или криптовалютой. Карты РФ зарубежные компании обычно не принимают.</p>
         <p><strong>4. Размер.</strong> Минимум 2 ядра процессора и 4 ГБ оперативной памяти — этого хватит.</p>
@@ -383,75 +383,9 @@
   </div>
 </div>
 
-<!-- ====== 06 MOBILESMS ====== -->
+<!-- ====== 06 GMAIL ====== -->
 <div class="section">
-  <div class="section__header"><div class="section__num">06</div><div class="section__title">Зарубежный номер телефона для приёма SMS</div></div>
-  <div class="section__card">
-    <div class="note note--green"><span class="note__icon">✅</span><span><strong>Номер нужен только тем, кто создаёт новый Gmail.</strong> При регистрации нового Google-аккаунта приходит SMS с кодом, и российский номер тут не подойдёт.<br><br><strong>Если почта на gmail.com у вас уже есть — номер не нужен, пропустите этот шаг.</strong> Для регистрации в Claude телефон сейчас тоже не запрашивают: за последний месяц ни одного случая SMS-верификации.</span></div>
-    <div class="spoiler">
-      <div class="spoiler__title">📱 Если номер всё-таки попросят: три варианта</div>
-      <div class="spoiler__content">
-    <div class="note note--warn"><span class="note__icon">🌍</span><span><strong>Страна номера должна совпадать со страной вашего сервера.</strong> Сервер в США — берите номер США. Если сервер в Европе — берите европейский номер (удобнее всего через 5sim, Вариант Б). Anthropic сверяет данные: IP и номер из одной страны вызывают меньше подозрений, чем разнобой.</span></div>
-    <div class="note note--warn"><span class="note__icon">⚠</span><span><strong>Выберите один вариант ниже.</strong> Не уверены — для экономии начните с <strong>hero-sms</strong> (Вариант А).</span></div>
-    <div class="item">
-      <div class="item__body">
-        <div class="item__text">Получить зарубежный номер для SMS</div>
-        <div class="item__hint">Выберите вариант ниже и получите номер. Он понадобится при регистрации Gmail (шаг 07) и Claude (шаг 08).</div>
-      </div>
-    </div>
-    <div class="spoiler">
-      <div class="spoiler__title">💸 Вариант А — hero-sms (дешевле, разовые номера)</div>
-      <div class="spoiler__content">
-        <p>Кому подходит: <strong>кто хочет сэкономить</strong>. Это онлайн-номера для разового приёма SMS, не резидентские симки. Но для регистрации в Claude они обычно проходят.</p>
-        <p>1. Откройте <a href="https://hero-sms.com/" target="_blank" class="lnk">hero-sms.com</a> → зарегистрируйтесь → пополните баланс (нужно немного).</p>
-        <p>2. В поиске сервисов выберите нужный: <strong>Claude</strong> (или другой, который регистрируете).</p>
-        <p>3. Страна: <strong>США (USA)</strong>.</p>
-        <p>4. Купите номер → скопируйте его в форму регистрации на сайте сервиса.</p>
-        <p>5. Дождитесь SMS-кода в личном кабинете hero-sms → введите код.</p>
-        <a href="https://hero-sms.com/" target="_blank" class="lnk" style="display:block;margin-top:6px">📱 hero-sms.com — разовые номера для приёма SMS</a>
-        <p style="margin-top:8px;color:var(--text-muted);font-size:12px">💡 Номер разовый — на одну регистрацию. Для следующего сервиса берёте новый номер.</p>
-      </div>
-    </div>
-    <div class="spoiler">
-      <div class="spoiler__title">🌍 Вариант Б — 5sim.net (выбор страны, разовые номера)</div>
-      <div class="spoiler__content">
-        <p>Кому подходит: <strong>кто хочет сам выбрать страну номера</strong>. Разовые онлайн-номера, большой выбор стран США и Европы.</p>
-        <p>1. Откройте <a href="https://5sim.net/" target="_blank" class="lnk">5sim.net</a> → зарегистрируйтесь → пополните баланс.</p>
-        <p>2. <strong>Страна — как у вашего сервера:</strong> <strong>США</strong> или <strong>Европа</strong> (например Германия, Нидерланды). IP и номер из одной страны = меньше подозрений.</p>
-        <p>3. <strong>Сервис указывайте точно под продукт:</strong> для Claude — <strong>Anthropic / Claude AI</strong>, для ChatGPT — <strong>OpenAI / ChatGPT</strong>. Не берите «любой сервис» наугад — код может не прийти.</p>
-        <p>4. Купите номер → вставьте его в форму регистрации.</p>
-        <p>5. Дождитесь SMS-кода в личном кабинете 5sim → введите код.</p>
-        <a href="https://5sim.net/" target="_blank" class="lnk" style="display:block;margin-top:6px">📱 5sim.net — приём SMS с выбором страны и сервиса</a>
-        <p style="margin-top:8px;color:var(--text-muted);font-size:12px">💡 Номер разовый — на одну регистрацию. Для следующего сервиса берёте новый номер.</p>
-      </div>
-    </div>
-    <div class="spoiler">
-      <div class="spoiler__title">🛡 Вариант В — mobilesms.io (надёжнее, резидентский на месяц)</div>
-      <div class="spoiler__content">
-        <p>Кому подходит: <strong>кто хочет максимально надёжно</strong>. Резидентский (физический) номер закреплён за вами на месяц, один номер на все сервисы.</p>
-        <p>1. Откройте <a href="https://mobilesms.io/" target="_blank" class="lnk">mobilesms.io</a> → зарегистрируйтесь.</p>
-        <p>2. Перейдите в <strong>Long Term Rentals</strong> → <strong>USA</strong>.</p>
-        <p>3. Тип: строго <strong>Physical / Non-VoIP</strong> (резидентский).</p>
-        <p>4. Выберите сервис: <strong>Claude / Anthropic</strong> (или Universal).</p>
-        <p>5. Срок аренды: минимум <strong>1 месяц</strong>.</p>
-        <p>6. Оплатите и сохраните номер.</p>
-        <a href="https://mobilesms.io/" target="_blank" class="lnk" style="display:block;margin-top:6px">📱 mobilesms.io — аренда резидентских номеров США</a>
-      </div>
-    </div>
-    <div class="item">
-      <div class="item__body">
-        <div class="item__text">Сохранить номер и проверить приём SMS</div>
-        <div class="item__hint">Сохраните номер. SMS-коды приходят в личный кабинет того сервиса, где брали номер (hero-sms.com, 5sim.net или mobilesms.io). Никаких eSIM и Wi-Fi Calling не нужно — просто заходите на сайт и смотрите коды.</div>
-      </div>
-    </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ====== 07 GMAIL ====== -->
-<div class="section">
-  <div class="section__header"><div class="section__num">07</div><div class="section__title">Gmail</div></div>
+  <div class="section__header"><div class="section__num">06</div><div class="section__title">Gmail</div></div>
   <div class="section__card">
     <div class="note note--info"><span class="note__icon">💡</span><span>Google-аккаунт нужен для интеграций: Календарь, Диск, Таблицы — всё это подключим к OpenClaw.</span></div>
     <div class="note note--green"><span class="note__icon">✅</span><span><strong>Подойдёт любая ваша почта на gmail.com.</strong> Заводить новую под учёбу не нужно, используйте ту, что уже есть. Заходить в аккаунт при включённом VPN тоже нормально.</span></div>
@@ -462,7 +396,7 @@
         <div class="item">
       <div class="item__body">
         <div class="item__text">Создать новый Gmail в приложении на смартфоне</div>
-        <div class="item__hint">1. VPN включён и не выключается до конца регистрации. Если регистрируете с телефона, включите VPN и на нём: в Amnezia на компьютере иконка «Поделиться» → QR-код → отсканируйте его приложением AmneziaVPN на смартфоне<br>2. Откройте приложение <strong>Gmail</strong> → «Войти» → «Добавить аккаунт» → <strong>Google</strong><br>3. «Создать аккаунт» → «Для личного использования»<br>4. Заполните имя и дату рождения, адрес придумайте <strong>вручную</strong> (имя.фамилия@gmail.com), не берите предложенный автоматически<br>5. Номер телефона → нажмите <strong>«Пропустить»</strong>. Если кнопки нет, введите <strong>номер из шага 06</strong>, код придёт в кабинет сервиса<br>6. Сразу добавьте <strong>резервную почту</strong>: Настройки аккаунта → Безопасность. Без номера телефона это единственный способ вернуть доступ<br><br><strong>Через компьютер тоже можно:</strong> gmail.com → «Создать аккаунт», номер из шага 06. Но если Google попросит отправить SMS по QR-коду, возвращайтесь к способу через приложение</div>
+        <div class="item__hint">1. VPN включён и не выключается до конца регистрации. Если регистрируете с телефона, включите VPN и на нём: в Amnezia на компьютере иконка «Поделиться» → QR-код → отсканируйте его приложением AmneziaVPN на смартфоне<br>2. Откройте приложение <strong>Gmail</strong> → «Войти» → «Добавить аккаунт» → <strong>Google</strong><br>3. «Создать аккаунт» → «Для личного использования»<br>4. Заполните имя и дату рождения, адрес придумайте <strong>вручную</strong> (имя.фамилия@gmail.com), не берите предложенный автоматически<br>5. Номер телефона → нажмите <strong>«Пропустить»</strong>. Если кнопки нет, введите свой номер<br>6. Сразу добавьте <strong>резервную почту</strong>: Настройки аккаунта → Безопасность. Без номера телефона это единственный способ вернуть доступ<br><br><strong>Через компьютер тоже можно:</strong> gmail.com → «Создать аккаунт». Но если Google попросит отправить SMS по QR-коду, возвращайтесь к способу через приложение</div>
         <a href="https://gmail.com" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> gmail.com — создание почты Google</a>
       </div>
     </div>
@@ -483,22 +417,22 @@
   </div>
 </div>
 
-<!-- ====== 08 CHROME LOGIN ====== -->
+<!-- ====== 07 CHROME LOGIN ====== -->
 <div class="section">
-  <div class="section__header"><div class="section__num">08</div><div class="section__title">Войти в Chrome</div></div>
+  <div class="section__header"><div class="section__num">07</div><div class="section__title">Войти в Chrome</div></div>
   <div class="section__card">
     <div class="item" data-key="chrome-login"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Войти в Google-аккаунт в Chrome</div>
-        <div class="item__hint">На компьютере: Chrome → иконка профиля (правый верхний угол) → «Включить синхронизацию» → введите новый Gmail и пароль из шага 07.</div>
+        <div class="item__hint">На компьютере: Chrome → иконка профиля (правый верхний угол) → «Включить синхронизацию» → введите новый Gmail и пароль из шага 06.</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ====== 09 CLAUDE ====== -->
+<!-- ====== 08 CLAUDE ====== -->
 <div class="section">
-  <div class="section__header"><div class="section__num">09</div><div class="section__title">Claude</div></div>
+  <div class="section__header"><div class="section__num">08</div><div class="section__title">Claude</div></div>
   <div class="section__card">
     <div class="note note--info"><span class="note__icon">🧠</span><span>Claude — языковая модель от Anthropic. Именно Claude станет «мозгом» вашего ИИ-директора в OpenClaw.</span></div>
     <div class="item" data-key="claude-open"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
@@ -511,7 +445,7 @@
     <div class="item" data-key="claude-phone"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Подтвердить номер телефона, если попросят</div>
-        <div class="item__hint"><strong>Скорее всего, этого шага не будет:</strong> за последний месяц Claude ни разу не запрашивал SMS-верификацию. Если запрос всё-таки появится, введите <strong>номер из шага 06</strong>, код придёт в кабинет сервиса, где брали номер. Запроса не было — просто отметьте пункт.</div>
+        <div class="item__hint"><strong>Скорее всего, этого шага не будет:</strong> за последний месяц Claude ни разу не запрашивал SMS-верификацию. Если запрос всё-таки появится, введите свой номер телефона. Запроса не было — просто отметьте пункт.</div>
       </div>
     </div>
     <div class="item" data-key="claude-kyc"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
@@ -533,16 +467,16 @@
   </div>
 </div>
 
-<!-- ====== 10 CLAUDE MAX ====== -->
+<!-- ====== 09 CLAUDE MAX ====== -->
 <div class="section">
-  <div class="section__header"><div class="section__num">10</div><div class="section__title">Оплата Claude Max ($100/мес)</div></div>
+  <div class="section__header"><div class="section__num">09</div><div class="section__title">Оплата Claude Max ($100/мес)</div></div>
   <div class="section__card">
     <div class="note note--info"><span class="note__icon">💎</span><span>Claude Max — полный доступ ко всем моделям без ограничений. Именно на ней будет работать «мозг» вашего OpenClaw.</span></div>
     <div class="note note--alert"><span class="note__icon">🔴</span><span><strong>Это обязательная подписка — без неё никуда.</strong> Claude Max ($100/мес) нужен всем участникам интенсива. Без неё пройти курс и собрать рабочий OpenClaw не получится.</span></div>
     <div class="item" data-key="claude-pay"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Оформить подписку Claude Max ($100/мес)</div>
-        <div class="item__hint">1. VPN включён<br>2. В Claude: иконка профиля → <strong>Settings</strong> → <strong>Billing</strong> → <strong>Upgrade</strong><br>3. Выберите <strong>Max ($100)</strong> и оплатите. Оформлять Max можно сразу, «прогревать» аккаунт не нужно.<br>4. Карта: реквизиты <strong>карты США</strong> из шага 02 (номер, срок, CVV)<br>5. Номер телефона: <strong>из шага 06</strong><br>6. Адрес: <strong>биллинг-адрес карты США</strong> (шаг 02)</div>
+        <div class="item__hint">1. VPN включён<br>2. В Claude: иконка профиля → <strong>Settings</strong> → <strong>Billing</strong> → <strong>Upgrade</strong><br>3. Выберите <strong>Max ($100)</strong> и оплатите. Оформлять Max можно сразу, «прогревать» аккаунт не нужно.<br>4. Карта: реквизиты <strong>карты США</strong> из шага 02 (номер, срок, CVV)<br>5. Номер телефона: <strong>свой</strong><br>6. Адрес: <strong>биллинг-адрес карты США</strong> (шаг 02)</div>
       </div>
     </div>
     <div class="item" data-key="claude-verify"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
@@ -556,9 +490,9 @@
 
 <!-- ====== 12 SECOND AI ====== -->
 <div class="section">
-  <div class="section__header"><div class="section__num">11</div><div class="section__title">Второй ИИ: ChatGPT Plus или Pro</div></div>
+  <div class="section__header"><div class="section__num">10</div><div class="section__title">Второй ИИ: ChatGPT Plus или Pro</div></div>
   <div class="section__card">
-    <div class="note note--info"><span class="note__icon">🤖</span><span>Claude Max у вас уже есть (шаг 10) — это основа. Здесь подключаем <strong>второй ИИ</strong>: ChatGPT от OpenAI.</span></div>
+    <div class="note note--info"><span class="note__icon">🤖</span><span>Claude Max у вас уже есть (шаг 09) — это основа. Здесь подключаем <strong>второй ИИ</strong>: ChatGPT от OpenAI.</span></div>
     <div class="note note--warn"><span class="note__icon">⚠</span><span><strong>Выберите один из двух тарифов ChatGPT:</strong><br>• <strong>Plus за $20/мес</strong>: дешевле, для старта достаточно.<br>• <strong>Pro за $100/мес</strong>: максимум возможностей OpenAI, практически без лимитов.<br>Не уверены: начните с <strong>Plus</strong>, поднять тариф до Pro можно в любой момент.</span></div>
 
     <div class="item" data-key="second-ai"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
@@ -573,8 +507,8 @@
       <div class="spoiler__content">
         <p><strong>Регистрация:</strong></p>
         <p>1. VPN включён. Откройте <a href="https://chatgpt.com/" target="_blank" class="lnk">chatgpt.com</a> → «Sign up».</p>
-        <p>2. Введите Gmail из шага 07 (email + пароль).</p>
-        <p>3. Номер телефона → <strong>номер из шага 06</strong>. SMS-код придёт в кабинет сервиса, где брали номер.</p>
+        <p>2. Введите Gmail из шага 06 (email + пароль).</p>
+        <p>3. Номер телефона → <strong>свой номер</strong>, на него придёт SMS-код.</p>
         <p style="margin-top:10px"><strong>Оплата:</strong></p>
         <p>4. Иконка профиля → <strong>Settings</strong> → <strong>Subscription</strong> → <strong>Upgrade</strong>.</p>
         <p>5. Выберите тариф: <strong>Plus ($20)</strong> или <strong>Pro ($100)</strong>, и оплатите. Оформлять подписку можно сразу, «прогревать» аккаунт не нужно.</p>
