@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ИНТЕНСИВ ИИ-ВИЗАЦИЯ | ПОДГОТОВКА РАБОЧЕЙ СРЕДЫ</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #0a0a0f;
+    --bg-card: #12121a;
+    --bg-card-hover: #181825;
+    --border: #1e1e2e;
+    --border-accent: #2a2a3e;
+    --text-primary: #e8e6f0;
+    --text-secondary: #8b879e;
+    --text-muted: #5a5670;
+    --accent: #7c5bf5;
+    --accent-glow: #9d7cff;
+    --accent-soft: rgba(124, 91, 245, 0.12);
+    --green: #34d399;
+    --green-glow: #6ee7b7;
+    --green-soft: rgba(52, 211, 153, 0.1);
+    --amber: #fbbf24;
+    --amber-soft: rgba(251, 191, 36, 0.1);
+    --red-soft: rgba(248, 113, 113, 0.1);
+    --red: #f87171;
+    --radius: 14px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Onest', sans-serif; background: var(--bg-deep); color: var(--text-primary); line-height: 1.65; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+  body::before { content: ''; position: fixed; inset: 0; background-image: radial-gradient(circle at 20% 20%, rgba(124,91,245,0.04) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(52,211,153,0.03) 0%, transparent 50%); pointer-events: none; z-index: 0; }
+  .wrapper { position: relative; z-index: 1; max-width:850px; margin: 0 auto; padding: 40px 20px 80px; }
+  .header { text-align: center; margin-bottom: 26px; }
+  .header__badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size:14px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-glow); background: var(--accent-soft); border: 1px solid rgba(124,91,245,0.2); padding: 6px 16px; border-radius: 100px; margin-bottom: 24px; animation: fadeDown .6s ease both; }
+  .header__title { font-size:clamp(35px,6vw,50px); font-weight: 800; line-height: 1.15; letter-spacing: -0.5px; margin-bottom: 12px; animation: fadeDown .6s ease .1s both; }
+  .header__title span { background: linear-gradient(135deg, var(--accent-glow), var(--green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  
+  .header__topics { list-style:none; display:flex; flex-direction:column; gap:7px; max-width:575px; margin:16px auto 0; animation:fadeDown .6s ease .3s both; }
+  .header__topics li { font-size:17px; color:var(--text-secondary); display:flex; align-items:flex-start; gap:8px; text-align:left; }
+  .header__topics li::before { content:'→'; color:var(--accent); flex-shrink:0; font-family:'JetBrains Mono',monospace; font-size:14px; margin-top:3px; }
+
+  .header__subtitle { font-size:19px; color: var(--text-secondary); max-width:625px; margin: 0 auto; animation: fadeDown .6s ease .2s both; }
+  .progress-wrap { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 36px; position: sticky; top: 12px; z-index: 10; backdrop-filter: blur(16px); background: rgba(18,18,26,0.92); animation: fadeDown .6s ease .3s both; }
+  .progress-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .progress-label { font-size:16px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; font-family: 'JetBrains Mono', monospace; }
+  .progress-count { font-family: 'JetBrains Mono', monospace; font-size:17.5px; font-weight: 700; color: var(--accent-glow); }
+  .progress-bar { width: 100%; height: 8px; background: var(--border); border-radius: 100px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--green)); border-radius: 100px; transition: width .5s cubic-bezier(.34,1.56,.64,1); width: 0%; }
+  .section { margin-bottom: 28px; }
+  .section__header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; padding-left: 2px; }
+  .section__num { font-family: 'JetBrains Mono', monospace; font-size:15px; font-weight: 700; color: var(--accent); background: var(--accent-soft); width:40px; height:40px; display: flex; align-items: center; justify-content: center; border-radius: 8px; flex-shrink: 0; }
+  .section__title { font-size:21px; font-weight: 700; letter-spacing: -0.2px; }
+  .section__card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: border-color .3s; }
+  .section__card:hover { border-color: var(--border-accent); }
+  .item { display: flex; align-items: flex-start; gap: 14px; padding: 16px 20px; border-bottom: 1px solid var(--border); transition: background .2s; cursor: pointer; user-select: none; }
+  .item:last-child { border-bottom: none; }
+  .item:hover { background: var(--bg-card-hover); }
+  .item.checked .item__text { color: var(--text-muted); text-decoration: line-through; }
+  .item.checked .item__link { opacity: 0.4; }
+  .item__check { position: relative; width: 22px; height: 22px; flex-shrink: 0; margin-top: 1px; }
+  .item__check input { position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; z-index: 2; }
+  .item__check .cm { width: 22px; height: 22px; border: 2px solid var(--border-accent); border-radius: 6px; display: flex; align-items: center; justify-content: center; transition: all .25s cubic-bezier(.34,1.56,.64,1); }
+  .item__check .cm svg { width: 12px; height: 12px; opacity: 0; transform: scale(0); transition: all .25s cubic-bezier(.34,1.56,.64,1); }
+  .item__check input:checked + .cm { background: var(--green); border-color: var(--green); }
+  .item__check input:checked + .cm svg { opacity: 1; transform: scale(1); }
+  .item__body { flex: 1; min-width: 0; }
+  .item__text { font-size:18px; font-weight: 500; color: var(--text-primary); transition: all .3s; }
+  .item__hint { font-size:16px; color: var(--text-secondary); margin-top: 4px; line-height: 1.6; }
+  .item__hint a { color: var(--accent-glow); text-decoration: none; font-weight: 600; }
+  .item__hint a.tg { color: #2dd4bf; text-decoration: underline; text-decoration-color: rgba(45,212,191,0.4); text-underline-offset: 2px; }
+  .item__hint a.tg:hover { color: #5eead4; text-decoration-color: #5eead4; }
+  .item__hint a:hover { text-decoration: underline; }
+  .item__hint strong { color: var(--text-primary); }
+  .item__link { display: inline-flex; align-items: center; gap: 4px; font-size:16px; font-family: 'JetBrains Mono', monospace; color: var(--accent-glow); text-decoration: none; margin-top: 5px; transition: all .2s; word-break: break-all; }
+  .item__link:hover { color: #bba4ff; text-decoration: underline; }
+  .item__link svg { width: 13px; height: 13px; flex-shrink: 0; }
+  .lnk { display: inline-flex; align-items: center; gap: 4px; font-size:16px; font-family: 'JetBrains Mono', monospace; color: var(--accent-glow); text-decoration: none; word-break: break-all; }
+  .lnk:hover { color: #bba4ff; text-decoration: underline; }
+  .note { display: flex; align-items: flex-start; gap: 10px; padding: 14px 20px; font-size:16px; color: var(--text-secondary); line-height: 1.6; border-bottom: 1px solid var(--border); }
+  .note:last-child { border-bottom: none; }
+  .note--warn { background: var(--amber-soft); color: var(--amber); }
+  .note--info { background: var(--accent-soft); }
+  .note--alert { background: var(--red-soft); color: var(--red); }
+  .note--green { background: var(--green-soft); color: var(--green-glow); }
+  .note__icon { flex-shrink: 0; font-size:19px; }
+  .note a { color: var(--accent-glow); text-decoration: none; font-weight: 600; }
+  .note a:hover { text-decoration: underline; }
+  .note strong { color: inherit; }
+  .tg { color: #2dd4bf !important; font-weight: 700; text-decoration: underline; text-decoration-color: rgba(45,212,191,0.4); text-underline-offset: 2px; transition: all .2s; }
+  .tg:hover { color: #5eead4 !important; text-decoration-color: #5eead4; }
+  .spoiler { border-bottom: 1px solid var(--border); }
+  .spoiler:last-child { border-bottom: none; }
+  .spoiler summary { padding: 14px 20px; font-size:17px; font-weight: 600; color: var(--text-secondary); cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px; transition: color .2s; }
+  .spoiler summary:hover { color: var(--text-primary); }
+  .spoiler summary::before { content: '▸'; font-size:15px; transition: transform .2s; }
+  .spoiler[open] summary::before { transform: rotate(90deg); }
+  .spoiler__title { padding: 14px 20px 2px; font-size:17px; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 8px; }
+  .spoiler__content { padding: 0 20px 16px 34px; font-size:16px; color: var(--text-secondary); line-height: 1.7; }
+  .spoiler__content p { margin-bottom: 8px; }
+  .spoiler__content strong { color: var(--text-primary); font-weight: 600; }
+  .os-table { width: 100%; font-size:16px; border-collapse: collapse; margin: 8px 0; }
+  .os-table th { text-align: left; font-weight: 600; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size:14px; text-transform: uppercase; letter-spacing: 1px; padding: 6px 0; border-bottom: 1px solid var(--border); }
+  .os-table td { padding: 8px 0; border-bottom: 1px solid var(--border); color: var(--text-secondary); vertical-align: top; }
+  .os-table tr:last-child td { border-bottom: none; }
+  .os-table td:first-child { color: var(--text-primary); font-weight: 500; }
+  .footer { text-align: center; margin-top: 48px; }
+  .footer__done { display: none; background: var(--green-soft); border: 1px solid rgba(52,211,153,0.25); border-radius: var(--radius); padding: 32px 24px; margin-bottom: 24px; }
+  .footer__done.visible { display: block; animation: popIn .5s cubic-bezier(.34,1.56,.64,1) both; }
+  .footer__done-emoji { font-size:60px; margin-bottom: 10px; }
+  .footer__done-text { font-size:27.5px; font-weight: 800; color: var(--green); margin-bottom: 6px; }
+  .footer__done-sub { font-size:19px; color: var(--text-secondary); }
+  .footer__schedule { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 20px; font-size:17.5px; }
+  .footer__schedule-title { font-weight: 700; margin-bottom: 8px; font-size:19px; }
+  .footer__schedule-row { display: flex; justify-content: space-between; padding: 4px 0; color: var(--text-secondary); }
+  .footer__schedule-row span:first-child { color: var(--text-primary); font-weight: 500; }
+  .footer__contact { font-size:17.5px; color: var(--text-secondary); margin-bottom: 20px; }
+  .footer__contact a { color: #2dd4bf; text-decoration: underline; text-decoration-color: rgba(45,212,191,0.4); font-weight: 700; }
+  .btn-reset { background: none; border: 1px solid var(--border); color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size:15px; padding: 8px 20px; border-radius: 100px; cursor: pointer; transition: all .2s; }
+  .btn-reset:hover { border-color: var(--red); color: var(--red); }
+  #confetti-canvas { position: fixed; inset: 0; z-index: 9999; pointer-events: none; }
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+  @media (max-width: 480px) {
+    .wrapper { padding: 28px 14px 60px; }
+    .item { padding: 14px 16px; gap: 12px; }
+    .note { padding: 12px 16px; }
+    .spoiler summary { padding: 12px 16px; }
+    .spoiler__content { padding: 0 16px 14px 28px; }
+    .progress-wrap { padding: 16px 18px; top: 8px; }
+    .footer__schedule-row { flex-direction: column; gap: 2px; }
+  }
+
+  /* Checkbox: only circle triggers toggle, links still work */
+  .item { cursor: default; }
+  .item__body { pointer-events: none; user-select: text; }
+  .item__body a,
+  .item__body .item__link,
+  .item__body .lnk,
+  .item__body .tg { pointer-events: auto !important; cursor: pointer !important; }
+  .item__check { pointer-events: auto; cursor: pointer; }
+
+
+  /* Pointer cursor on checkbox hover */
+  .item__check:hover { cursor: pointer; }
+  .cm { cursor: pointer; }
+
+  /* Flexy support link — purple like other links */
+  .support-link {
+    color: var(--accent-glow) !important;
+    font-weight: 600;
+    pointer-events: auto !important;
+    display: inline-block;
+    margin-top: 6px;
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size:16px;
+    transition: color .2s;
+  }
+  .support-link:hover { color: #bba4ff !important; text-decoration: underline; }
+
+  .footer__final-part3 { background:linear-gradient(135deg,rgba(251,191,36,0.08),rgba(219,39,119,0.08)); border:1px solid rgba(251,191,36,0.25); border-radius:var(--radius); padding:34px 24px; margin-bottom:24px; text-align:center; position:relative; overflow:hidden; }
+  .footer__final-part3::before { content:''; position:absolute; inset:0; background:radial-gradient(circle at 20% 0%, rgba(251,191,36,0.12), transparent 50%), radial-gradient(circle at 80% 100%, rgba(219,39,119,0.12), transparent 50%); pointer-events:none; }
+  .footer__final-emoji { font-size:67.5px; margin-bottom:12px; line-height:1; position:relative; }
+  .footer__final-text { font-size:30px; font-weight:800; background:linear-gradient(90deg,#fbbf24,#db2777); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:10px; letter-spacing:-0.4px; position:relative; }
+  .footer__final-sub { font-size:19px; color:var(--text-secondary); line-height:1.6; max-width:700px; margin:0 auto; position:relative; }
+  .header__goal{max-width:640px;margin:18px auto 0;padding:16px 22px;background:var(--green-soft);border:1px solid rgba(52,211,153,0.25);border-radius:var(--radius);font-size:18px;color:var(--text-primary);line-height:1.55;animation:fadeDown .6s ease .25s both;}
+  .header__goal-label{display:block;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--green);margin-bottom:6px;}
+  .header__goal strong{color:var(--green-glow);}
+  .header__time{display:inline-flex;align-items:center;justify-content:center;margin-top:20px;font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1;color:var(--text-muted);border:1px solid var(--border);padding:10px 18px;border-radius:100px;animation:fadeDown .6s ease .35s both;}
+  .reveal{opacity:0;transform:translateY(16px);}
+  .reveal.is-in{opacity:1;transform:none;transition:opacity .55s ease,transform .55s ease;}
+  @media (prefers-reduced-motion:reduce){.reveal,.reveal.is-in{opacity:1;transform:none;transition:none;}}
+  @media print{.reveal{opacity:1;transform:none;}}
+</style>
+</head>
+<body>
+<canvas id="confetti-canvas"></canvas>
+<div class="wrapper">
+
+  <header class="header">
+    <div class="header__badge">ИНТЕНСИВ ИИ-ВИЗАЦИЯ</div>
+    <h1 class="header__title">Подготовка <span>рабочей среды</span></h1>
+    <div class="header__goal"><span class="header__goal-label">Что получите в итоге</span><strong>VPN со стабильным IP-адресом на собственном сервере</strong> — и доступ к Claude, ChatGPT и оплате их подписок из любой точки.</div>
+    <ul class="header__topics">
+      <li>Собственный сервер за рубежом и личный VPN на Amnezia</li>
+      <li>Виртуальная карта США для оплаты сервера и подписок</li>
+      <li>Зарубежный номер и Gmail для верификации</li>
+      <li>Регистрация в Claude и ChatGPT</li>
+      <li>Подписки: Claude Max + ChatGPT (Plus или Pro)</li>
+    </ul>
+    
+  <div class="header__time">⏳ Время прохождения: 3–4 часа</div>
+  </header>
+
+  <div class="progress-wrap">
+    <div class="progress-top">
+      <span class="progress-label">Прогресс</span>
+      <span class="progress-count" id="progressCount">0 / 0</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <div id="sections">
+
+<!-- ====== 01 CHROME ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">01</div><div class="section__title">Google Chrome</div></div>
+  <div class="section__card">
+    <div class="item" data-key="chrome-dl"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Скачать и установить Google Chrome</div>
+        <div class="item__hint">Если уже установлен — отметьте галочку и идите дальше.</div>
+        <a href="https://www.google.com/chrome/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> google.com/chrome — скачать браузер</a>
+      </div>
+    </div>
+    <div class="item" data-key="chrome-default"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Сделать Chrome браузером по умолчанию</div>
+        <div class="item__hint"><strong>macOS:</strong> Системные настройки → Рабочий стол и Dock → «Веб-браузер по умолчанию» → Google Chrome.<br><strong>Windows:</strong> Параметры → Приложения → Приложения по умолчанию → Google Chrome → «Использовать по умолчанию».</div>
+      </div>
+    </div>
+    <div class="item" data-key="chrome-profile"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Создать новый профиль в Chrome</div>
+        <div class="item__hint">Это важно! Новый профиль = чистые куки, нет старых данных, меньше риск блокировки.<br>Нажмите на иконку профиля (кружок в правом верхнем углу Chrome) → «Добавить» → введите любое имя → «Готово». Не входите в Google-аккаунт — это сделаем позже.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 02 CARD ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">02</div><div class="section__title">Виртуальная карта с биллингом США</div></div>
+  <div class="section__card">
+    <div class="note note--info"><span class="note__icon">💳</span><span>Виртуальная карта с биллинг-адресом США — ею оплатим VPS-сервер, Claude Max и подписку на ИИ. Оформляется через Telegram-бот, за пару минут. Делаем её <strong>первым шагом</strong>: сервер на шаге 03 оплачивается уже этой картой.<br><br>Ниже <strong>один проверенный вариант</strong> — им платит наш специалист по доступу Алмаз. <strong>Достаточно одной рабочей карты</strong>, других выпускать не надо.</span></div>
+    <div class="note note--warn"><span class="note__icon">💬</span><span><strong>Перед выпуском напишите в поддержку сервиса</strong> — <a href="https://t.me/zarub_help_bot" target="_blank" class="tg">@zarub_help_bot</a>. Условия со временем меняются, поэтому уточните три вещи:<br>1. Какой у карты биллинг-адрес и какая это страна.<br>2. Проходят ли оплаты Claude (claude.ai) и ChatGPT.<br>3. Какие комиссии: за выпуск карты, за пополнение и за каждую операцию.</span></div>
+
+    <div class="note note--green"><span class="note__icon">👍</span><span><strong>Берите карту у Заруба — <a href="https://t.me/zarub_robot" target="_blank" class="tg">@zarub_robot</a>.</strong> Наш специалист по доступу Алмаз платит ею постоянно, в том числе за сервер DigitalOcean, — проходит стабильно. Документы не нужны, баланс пополняется рублями через СБП или криптовалютой.</span></div>
+    <div class="item" data-key="card-zarub"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Оформить карту США через <a href="https://t.me/zarub_robot" target="_blank" class="tg" onclick="event.stopPropagation()">@zarub_robot</a></div>
+        <div class="item__hint">1. Откройте <a href="https://t.me/zarub_robot" target="_blank" class="tg" onclick="event.stopPropagation()">@zarub_robot</a> в Telegram → «Запустить»<br>2. Зарегистрируйтесь, документы не нужны<br>3. Пополните баланс рублями через СБП или криптовалютой<br>4. Выпустите виртуальную карту с биллинг-адресом США<br>5. Перепишите номер, срок действия, CVV и биллинг-адрес<br><br><strong>Инструкции у Заруба в видеоформате:</strong> <a href="https://www.youtube.com/watch?v=v-1nnkx9dBQ" target="_blank" onclick="event.stopPropagation()">выпуск карты и оплата ею</a> · <a href="https://www.youtube.com/watch?v=Wo31v1QaONs" target="_blank" onclick="event.stopPropagation()">оплата ChatGPT</a> · <a href="https://www.youtube.com/watch?v=WCR7D9Ve3l4" target="_blank" onclick="event.stopPropagation()">все способы оплаты</a>. Отдельного видео по Claude нет: оплата идёт так же, как в ролике про ChatGPT.<br><strong>Официальный сайт:</strong> <a href="https://zarub.io/" target="_blank" onclick="event.stopPropagation()">zarub.io</a> (вход в личный кабинет: <a href="https://zarub.io/login" target="_blank" onclick="event.stopPropagation()">zarub.io/login</a>) — всё то же самое, что в мини-приложении, работает в обычном браузере. Удобно, когда мини-приложение тормозит.<br><strong>Поддержка:</strong> <a href="https://t.me/zarub_help_bot" target="_blank" class="tg" onclick="event.stopPropagation()">@zarub_help_bot</a></div>
+        <a href="https://t.me/zarub_robot" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> @zarub_robot — выпуск виртуальной карты США (Telegram)</a>
+      </div>
+    </div>
+
+    <div class="item" data-key="card-save"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Сохранить реквизиты карты и биллинг-адрес</div>
+        <div class="item__hint">Запишите и сохраните: <strong>номер карты</strong> (16 цифр), <strong>срок действия</strong> (MM/YY), <strong>CVV</strong> (3 цифры), <strong>биллинг-адрес</strong> — он указан прямо в боте после выпуска карты. Эти данные понадобятся на шагах 03, 10 и 11.</div>
+      </div>
+    </div>
+    <div class="note note--green"><span class="note__icon">💰</span><span><strong>Сколько денег понадобится?</strong> Считайте две суммы отдельно.<br><br><strong>1. Выпуск самой карты</strong> — это плата за карту, на баланс она не идёт:<br>Точную сумму смотрите в самом боте перед выпуском карты.<br><br><strong>2. Деньги на баланс карты</strong> — под подписки. Зависит от выбора на шаге 11.<br>• <strong>Claude Max — $100/мес.</strong> Обязательно, без неё никуда.<br>• Плюс <strong>ChatGPT</strong> (оформите на шаге 11), тариф на выбор:<br>&nbsp;&nbsp;• Plus за <strong>$20/мес</strong>, либо<br>&nbsp;&nbsp;• Pro за <strong>$100/мес</strong>.<br><br>Пополняйте с запасом ~10% на комиссии:<br>• с ChatGPT Plus → <strong>~$135</strong><br>• с ChatGPT Pro → <strong>~$220</strong></span></div>
+    <div class="note note--info"><span class="note__icon">💡</span><span><strong>Мини-приложения сервисов карт стоят на российских серверах</strong> и под VPN могут тормозить. Решения: на время операций с картой выключайте VPN, пользуйтесь сайтом сервиса вместо мини-приложения (у Заруба это zarub.io), либо настройте раздельное туннелирование из секции 04.</span></div>
+  </div>
+</div>
+
+<!-- ====== 03 VPS ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">03</div><div class="section__title">VPS-сервер за рубежом — США или Европа</div></div>
+  <div class="section__card">
+    <div class="note note--info"><span class="note__icon">💡</span><span>VPS — это компьютер-сервер за рубежом (США или Европа), который работает круглосуточно. На нём настроим личный VPN, и интернет у вас будет работать как из выбранной страны. Это нужно, чтобы открывались Claude и ChatGPT и проходила оплата подписок.</span></div>
+    <div class="note note--alert"><span class="note__icon">🚫</span><span><strong>Не берите российские хостинги</strong> (Aeza, Timeweb, Reg.ru и похожие). С российских серверов многие зарубежные сайты просто не открываются: Claude, ChatGPT, Google и почта часто блокируют такие адреса. VPN-то включится, но половина нужных сайтов работать не будет. Берите только зарубежную компанию из таблицы ниже.</span></div>
+    <div class="note note--green"><span class="note__icon">🧭</span><span><strong>Выберите одну страну — США или Европа — и держите её во всём:</strong> сервер, VPN и номер телефона должны быть одной страны. Рекомендуем США — проще, и всё совпадает. <strong>Карта — всегда США</strong>, даже если сервер европейский: зарубежные виртуальные карты выпускаются только с биллингом США. Это нормально.</span></div>
+    <div class="note note--green"><span class="note__icon">👍</span><span><strong>Рекомендуем DigitalOcean.</strong> Самый понятный сайт для новичка, сервер выдаётся сразу после оплаты, и карта США из шага 02 на нём проходит — проверено нашим специалистом по доступу Алмазом. Если DigitalOcean почему-то не подойдёт, берите netcup или Hetzner из таблицы ниже.</span></div>
+    <div class="item" data-key="vps-buy"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Выбрать провайдера и купить VPS</div>
+        <div class="item__hint">Выберите компанию из таблицы ниже и купите сервер. Настройки при покупке для всех одинаковые:<br>• <strong>Страна сервера:</strong> США или Европа<br>• <strong>Размер:</strong> 2 ядра процессора, 4 ГБ оперативной памяти, 60 ГБ диска<br>• <strong>Система:</strong> Ubuntu 24.04<br>• <strong>Оплата:</strong> картой США из шага 02 или криптовалютой</div>
+      </div>
+    </div>
+    <div class="spoiler">
+      <div class="spoiler__title">📊 Проверенные провайдеры — выберите свой</div>
+      <div class="spoiler__content">
+        <table class="os-table">
+          <tr><th>Провайдер</th><th>Цена / мес</th><th>Чем хорош</th></tr>
+          <tr><td><strong>DigitalOcean</strong> ⭐<br><a href="https://www.digitalocean.com/" target="_blank" class="lnk">digitalocean.com</a></td><td>$6–12</td><td>Наш выбор для VPN. Самый понятный сайт, сервер выдаётся сразу после оплаты, карта США проходит стабильно. Серверы в США (Нью-Йорк, Сан-Франциско)</td></tr>
+          <tr><td><strong>netcup</strong><br><a href="https://www.netcup.com/" target="_blank" class="lnk">netcup.com</a></td><td>~€5</td><td>Дешевле всех. Надёжный, есть сервер в США (город Манассас)</td></tr>
+          <tr><td><strong>Hetzner</strong><br><a href="https://www.hetzner.com/cloud" target="_blank" class="lnk">hetzner.com</a></td><td>~€4–6</td><td>Дёшево и надёжно. Есть серверы в США</td></tr>
+          <tr><td><strong>Vultr</strong><br><a href="https://www.vultr.com/" target="_blank" class="lnk">vultr.com</a></td><td>от $6</td><td>Серверы во многих городах США</td></tr>
+          <tr><td><strong>Linode</strong><br><a href="https://www.linode.com/" target="_blank" class="lnk">linode.com</a></td><td>от $5</td><td>Крупный надёжный провайдер, есть серверы в США</td></tr>
+        </table>
+        <p style="margin-top:10px">Все эти компании зарубежные и надёжные, серверы есть и в США, и в Европе. Начинайте с <strong>DigitalOcean</strong>: сервер выдаётся сразу после оплаты, и проблем с ним не было. Дешевле всех — <strong>netcup</strong>, но сервер там выдают не мгновенно. При покупке выбирайте страну <strong>США или Европу</strong> (США проще).</p>
+      </div>
+    </div>
+    <div class="note note--warn"><span class="note__icon">💳</span><span><strong>Чем платить за сервер.</strong> Тем же способом, что и подписки: виртуальной картой из шага 02. Отдельных пошаговых инструкций по оплате хостинга у сервисов карт нет, но процесс обычный: вводите данные карты и биллинг-адрес, который выдал бот вместе с картой.<br><br>Если оплата не проходит, не повторяйте её несколько раз подряд. Напишите в поддержку своего сервиса карты, там видят причину отказа по своим выпискам и подскажут, что поправить.</span></div>
+    <div class="spoiler">
+      <div class="spoiler__title">🧭 По каким критериям выбирать VPS</div>
+      <div class="spoiler__content">
+        <p><strong>1. Страна сервера — США или Европа.</strong> Выберите одну и держите её же для VPN и номера. США проще — всё совпадает (у DigitalOcean это Нью-Йорк или Сан-Франциско). Главное — не Россия.</p>
+        <p><strong>2. Только зарубежная компания.</strong> С российских серверов многие сайты не открываются. Берите из таблицы выше.</p>
+        <p><strong>3. Чем платить.</strong> Картой США из шага 02 или криптовалютой. Карты РФ зарубежные компании обычно не принимают.</p>
+        <p><strong>4. Размер.</strong> Минимум 2 ядра процессора и 4 ГБ оперативной памяти — этого хватит.</p>
+      </div>
+    </div>
+    <div class="note note--warn"><span class="note__icon">🆘</span><span><strong>Если зарубежный сервер купить никак не выходит</strong> — нет подходящей карты, не проходит оплата — на крайний случай и на свой риск можно взять <a href="https://aeza.net/" target="_blank" class="lnk">aeza.net</a>, локация США или Европа. Учтите: Aeza — российский провайдер, поэтому часть западных моделей и сервисов может работать нестабильно или со временем заблокироваться. Это временное решение для старта, а не замена зарубежному серверу из таблицы выше.</span></div>
+    <div class="item" data-key="vps-creds"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Сохранить IP-адрес и root-пароль</div>
+        <div class="item__hint">После создания сервера скопируйте <strong>IP</strong> и <strong>root-пароль</strong> → сохраните в заметках. Часто провайдер присылает их на почту.</div>
+      </div>
+    </div>
+    <div class="note note--warn"><span class="note__icon">⚡</span><span><strong>Не теряйте эти данные!</strong> IP и пароль нужны для настройки VPN на следующем шаге.</span></div>
+  </div>
+</div>
+
+<!-- ====== 04 AMNEZIA COMPUTER ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">04</div><div class="section__title">Amnezia VPN на компьютер</div></div>
+  <div class="section__card">
+    <div class="note note--info"><span class="note__icon">💡</span><span>Amnezia — бесплатная программа, которая превращает ваш VPS в персональный VPN. Вводите IP и пароль — она сама всё настроит.</span></div>
+    <div class="item" data-key="amnezia-dl"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Скачать Amnezia VPN на компьютер</div>
+      </div>
+    </div>
+    <div class="spoiler">
+      <div class="spoiler__title">Файлы для скачивания — выберите свою ОС</div>
+      <div class="spoiler__content">
+        <table class="os-table">
+          <tr><th>Ваша ОС</th><th>Скачать</th></tr>
+          <tr><td><strong>macOS 13+</strong><br><span style="color:var(--text-muted)">Ventura, Sonoma, Sequoia, Tahoe</span></td><td><a href="https://drive.google.com/file/d/1Ej2g_9nIn0XnBGBrLe8ON1_uMCscxeBd/view?usp=drive_link" target="_blank" class="lnk">📦 скачать .pkg</a></td></tr>
+          <tr><td><strong>macOS 10.15–12</strong><br><span style="color:var(--text-muted)">Catalina → Monterey</span></td><td><a href="https://drive.google.com/file/d/1vW4QXp2xY3Z8BoltofoiETOO5PJiVpPz/view?usp=drive_link" target="_blank" class="lnk">📦 скачать .zip</a></td></tr>
+          <tr><td><strong>Windows 10/11</strong></td><td><a href="https://drive.google.com/file/d/1LvzA2T7T91AuOPjDro11-pPL0P-rS_ps/view?usp=drive_link" target="_blank" class="lnk">📦 скачать .exe</a></td></tr>
+        </table>
+        <p style="margin-top:10px"><strong>Не знаете версию macOS?</strong> Нажмите  → «Об этом Mac».<br><strong>Не знаете версию Windows?</strong> Win + I → «Система» → «О системе».</p>
+      </div>
+    </div>
+    <div class="note note--alert"><span class="note__icon">⚠</span><span>macOS 12 и ниже или Windows 8 — <strong>обновите систему</strong>. Старые ОС = проблемы с безопасностью.</span></div>
+    <div class="note note--info"><span class="note__icon">🐙</span><span><strong>Официальные свежие версии — только с GitHub.</strong> Все новые релизы программы на компьютер и приложений на телефон выкладывают здесь. Если ссылки выше устарели или нужна последняя версия — берите файл для своей системы отсюда:<br>
+      <a href="https://github.com/amnezia-vpn/amnezia-client/releases" target="_blank" class="lnk" style="display:block;margin-top:6px">🐙 github.com/amnezia-vpn/amnezia-client/releases — официальные релизы Amnezia</a>
+    </span></div>
+    <div class="item" data-key="amnezia-install"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Установить Amnezia</div>
+        <div class="item__hint"><strong>macOS:</strong> откройте .pkg → следуйте инструкциям → разрешите в «Системных настройках».<br><strong>Windows:</strong> откройте .exe → «Далее» → «Установить» → «Готово».</div>
+      </div>
+    </div>
+    <div class="item" data-key="amnezia-connect"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Подключить Amnezia к серверу</div>
+        <div class="item__hint">1. Откройте Amnezia → «Настроить свой сервер» (Self-hosted VPN)<br>2. Введите <strong>IP-адрес</strong> и <strong>root-пароль</strong> из шага 03<br>3. «Подключиться» → подождите 2–3 минуты<br>4. «Подключено» → VPN работает!</div>
+      </div>
+    </div>
+    <div class="spoiler">
+      <div class="spoiler__title">🛠 Ошибка 103: «Background service is not running»</div>
+      <div class="spoiler__content">
+        <p><strong>macOS:</strong> Системные настройки → Основные → Объекты входа и расширения → найдите <strong>Privacy Technologies OU</strong> → разрешите работу в фоне. Перезапустите Amnezia.</p>
+        <p><strong>Windows:</strong> Ctrl+Alt+Del → Диспетчер задач → вкладка «Службы» → найдите <strong>AmneziaVPN-service</strong> → правой кнопкой → «Запустить». Перезапустите Amnezia.</p>
+      </div>
+    </div>
+    <div class="note note--info"><span class="note__icon">🔗</span><span>Сайт Amnezia не открывается? Зеркала:<br>
+      <a href="https://m-b75ce44e5ba5-3w5hsuiikq-ez.a.run.app/ru" target="_blank" class="lnk" style="display:block;margin-top:6px;margin-bottom:4px">🌐 Зеркало сайта Amnezia (на русском)</a>
+      <a href="https://storage.googleapis.com/amnezia/amnezia.org" target="_blank" class="lnk" style="display:block">📚 Список актуальных зеркал Amnezia</a>
+    </span></div>
+    <div class="note note--warn"><span class="note__icon">⚙️</span><span><strong>Раздельное туннелирование: чтобы VPN не мешал российским сайтам.</strong> Российские сайты (учебная платформа mainroom, сервисы карт, банки) с включённым VPN тормозят: они видят ваш «американский» IP. Раздельное туннелирование решает это раз и навсегда: всё зарубежное идёт через VPN, российское напрямую.<br>1. Откройте приложение Amnezia → Настройки → <strong>Раздельное туннелирование</strong> (Split Tunneling)<br>2. Режим: <strong>«Все сайты через VPN, кроме списка»</strong><br>3. В исключения добавьте: <strong>mainroom.pro</strong> · <strong>zarub.io</strong> · <strong>wanttopay.net</strong> · сайты ваших банков<br>4. Готово: VPN держите включённым постоянно, ничего выключать больше не нужно<br></span></div>
+  </div>
+</div>
+
+<!-- ====== 05 CHECK VPN ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">05</div><div class="section__title">Проверка VPN</div></div>
+  <div class="section__card">
+    <div class="item" data-key="vpn-check"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить, что IP — нужной страны</div>
+        <div class="item__hint">1. VPN включён (в Amnezia — «Подключено»)<br>2. Откройте любой сайт ниже<br>3. Страна должна быть та, что вы выбрали для сервера — <strong>США или Европа</strong>, не Россия</div>
+        <div style="padding-top:6px">
+          <a href="https://2ip.ru/" target="_blank" class="item__link" onclick="event.stopPropagation()" style="display:block;margin-bottom:4px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> 2ip.ru — покажет IP и страну</a>
+          <a href="https://yandex.ru/internet/" target="_blank" class="item__link" onclick="event.stopPropagation()" style="display:block"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Яндекс Интернетометр — альтернативная проверка</a>
+        </div>
+      </div>
+    </div>
+    <div class="note note--warn"><span class="note__icon">🔒</span><span><strong>С этого момента VPN не выключаем!</strong> Все дальнейшие шаги — с включённым VPN.</span></div>
+  </div>
+</div>
+
+<!-- ====== 06 MOBILESMS ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">06</div><div class="section__title">Зарубежный номер телефона для приёма SMS</div></div>
+  <div class="section__card">
+    <div class="note note--green"><span class="note__icon">✅</span><span><strong>Номер нужен только тем, кто создаёт новый Gmail.</strong> При регистрации нового Google-аккаунта приходит SMS с кодом, и российский номер тут не подойдёт.<br><br><strong>Если почта на gmail.com у вас уже есть — номер не нужен, пропустите этот шаг.</strong> Для регистрации в Claude телефон сейчас тоже не запрашивают: за последний месяц ни одного случая SMS-верификации.</span></div>
+    <div class="spoiler">
+      <div class="spoiler__title">📱 Если номер всё-таки попросят: три варианта</div>
+      <div class="spoiler__content">
+    <div class="note note--warn"><span class="note__icon">🌍</span><span><strong>Страна номера должна совпадать со страной вашего сервера.</strong> Сервер в США — берите номер США. Если сервер в Европе — берите европейский номер (удобнее всего через 5sim, Вариант Б). Anthropic сверяет данные: IP и номер из одной страны вызывают меньше подозрений, чем разнобой.</span></div>
+    <div class="note note--warn"><span class="note__icon">⚠</span><span><strong>Выберите один вариант ниже.</strong> Не уверены — для экономии начните с <strong>hero-sms</strong> (Вариант А).</span></div>
+    <div class="item">
+      <div class="item__body">
+        <div class="item__text">Получить зарубежный номер для SMS</div>
+        <div class="item__hint">Выберите вариант ниже и получите номер. Он понадобится при регистрации Gmail (шаг 07) и Claude (шаг 08).</div>
+      </div>
+    </div>
+    <div class="spoiler">
+      <div class="spoiler__title">💸 Вариант А — hero-sms (дешевле, разовые номера)</div>
+      <div class="spoiler__content">
+        <p>Кому подходит: <strong>кто хочет сэкономить</strong>. Это онлайн-номера для разового приёма SMS, не резидентские симки. Но для регистрации в Claude они обычно проходят.</p>
+        <p>1. Откройте <a href="https://hero-sms.com/" target="_blank" class="lnk">hero-sms.com</a> → зарегистрируйтесь → пополните баланс (нужно немного).</p>
+        <p>2. В поиске сервисов выберите нужный: <strong>Claude</strong> (или другой, который регистрируете).</p>
+        <p>3. Страна: <strong>США (USA)</strong>.</p>
+        <p>4. Купите номер → скопируйте его в форму регистрации на сайте сервиса.</p>
+        <p>5. Дождитесь SMS-кода в личном кабинете hero-sms → введите код.</p>
+        <a href="https://hero-sms.com/" target="_blank" class="lnk" style="display:block;margin-top:6px">📱 hero-sms.com — разовые номера для приёма SMS</a>
+        <p style="margin-top:8px;color:var(--text-muted);font-size:12px">💡 Номер разовый — на одну регистрацию. Для следующего сервиса берёте новый номер.</p>
+      </div>
+    </div>
+    <div class="spoiler">
+      <div class="spoiler__title">🌍 Вариант Б — 5sim.net (выбор страны, разовые номера)</div>
+      <div class="spoiler__content">
+        <p>Кому подходит: <strong>кто хочет сам выбрать страну номера</strong>. Разовые онлайн-номера, большой выбор стран США и Европы.</p>
+        <p>1. Откройте <a href="https://5sim.net/" target="_blank" class="lnk">5sim.net</a> → зарегистрируйтесь → пополните баланс.</p>
+        <p>2. <strong>Страна — как у вашего сервера:</strong> <strong>США</strong> или <strong>Европа</strong> (например Германия, Нидерланды). IP и номер из одной страны = меньше подозрений.</p>
+        <p>3. <strong>Сервис указывайте точно под продукт:</strong> для Claude — <strong>Anthropic / Claude AI</strong>, для ChatGPT — <strong>OpenAI / ChatGPT</strong>. Не берите «любой сервис» наугад — код может не прийти.</p>
+        <p>4. Купите номер → вставьте его в форму регистрации.</p>
+        <p>5. Дождитесь SMS-кода в личном кабинете 5sim → введите код.</p>
+        <a href="https://5sim.net/" target="_blank" class="lnk" style="display:block;margin-top:6px">📱 5sim.net — приём SMS с выбором страны и сервиса</a>
+        <p style="margin-top:8px;color:var(--text-muted);font-size:12px">💡 Номер разовый — на одну регистрацию. Для следующего сервиса берёте новый номер.</p>
+      </div>
+    </div>
+    <div class="spoiler">
+      <div class="spoiler__title">🛡 Вариант В — mobilesms.io (надёжнее, резидентский на месяц)</div>
+      <div class="spoiler__content">
+        <p>Кому подходит: <strong>кто хочет максимально надёжно</strong>. Резидентский (физический) номер закреплён за вами на месяц, один номер на все сервисы.</p>
+        <p>1. Откройте <a href="https://mobilesms.io/" target="_blank" class="lnk">mobilesms.io</a> → зарегистрируйтесь.</p>
+        <p>2. Перейдите в <strong>Long Term Rentals</strong> → <strong>USA</strong>.</p>
+        <p>3. Тип: строго <strong>Physical / Non-VoIP</strong> (резидентский).</p>
+        <p>4. Выберите сервис: <strong>Claude / Anthropic</strong> (или Universal).</p>
+        <p>5. Срок аренды: минимум <strong>1 месяц</strong>.</p>
+        <p>6. Оплатите и сохраните номер.</p>
+        <a href="https://mobilesms.io/" target="_blank" class="lnk" style="display:block;margin-top:6px">📱 mobilesms.io — аренда резидентских номеров США</a>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item__body">
+        <div class="item__text">Сохранить номер и проверить приём SMS</div>
+        <div class="item__hint">Сохраните номер. SMS-коды приходят в личный кабинет того сервиса, где брали номер (hero-sms.com, 5sim.net или mobilesms.io). Никаких eSIM и Wi-Fi Calling не нужно — просто заходите на сайт и смотрите коды.</div>
+      </div>
+    </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 07 GMAIL ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">07</div><div class="section__title">Gmail</div></div>
+  <div class="section__card">
+    <div class="note note--info"><span class="note__icon">💡</span><span>Google-аккаунт нужен для интеграций: Календарь, Диск, Таблицы — всё это подключим к OpenClaw.</span></div>
+    <div class="note note--green"><span class="note__icon">✅</span><span><strong>Подойдёт любая ваша почта на gmail.com.</strong> Заводить новую под учёбу не нужно, используйте ту, что уже есть. Заходить в аккаунт при включённом VPN тоже нормально.</span></div>
+    <div class="spoiler">
+      <div class="spoiler__title">📧 Нужна отдельная почта под учёбу? Как создать новый Gmail</div>
+      <div class="spoiler__content">
+        <p><strong>Надёжнее всего создавать новый Gmail через приложение Gmail на смартфоне.</strong> При регистрации через компьютер Google часто требует отправить SMS с вашего реального номера по QR-коду, а с российских номеров такая SMS не уходит. В приложении этого шага нет, и номер телефона можно вовсе пропустить.</p>
+        <div class="item">
+      <div class="item__body">
+        <div class="item__text">Создать новый Gmail в приложении на смартфоне</div>
+        <div class="item__hint">1. VPN включён и не выключается до конца регистрации. Если регистрируете с телефона, включите VPN и на нём: в Amnezia на компьютере иконка «Поделиться» → QR-код → отсканируйте его приложением AmneziaVPN на смартфоне<br>2. Откройте приложение <strong>Gmail</strong> → «Войти» → «Добавить аккаунт» → <strong>Google</strong><br>3. «Создать аккаунт» → «Для личного использования»<br>4. Заполните имя и дату рождения, адрес придумайте <strong>вручную</strong> (имя.фамилия@gmail.com), не берите предложенный автоматически<br>5. Номер телефона → нажмите <strong>«Пропустить»</strong>. Если кнопки нет, введите <strong>номер из шага 06</strong>, код придёт в кабинет сервиса<br>6. Сразу добавьте <strong>резервную почту</strong>: Настройки аккаунта → Безопасность. Без номера телефона это единственный способ вернуть доступ<br><br><strong>Через компьютер тоже можно:</strong> gmail.com → «Создать аккаунт», номер из шага 06. Но если Google попросит отправить SMS по QR-коду, возвращайтесь к способу через приложение</div>
+        <a href="https://gmail.com" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> gmail.com — создание почты Google</a>
+      </div>
+    </div>
+        <p style="margin-top:10px"><strong>VPN на смартфон</strong> — нужен только для этого способа. iPhone, аккаунт РФ: <a href="https://apps.apple.com/ru/app/defaultvpn/id6744725017" target="_blank" class="lnk">DefaultVPN</a>; аккаунт не РФ: <a href="https://apps.apple.com/us/app/amneziavpn/id1600529900" target="_blank" class="lnk">AmneziaVPN</a>. Android, аккаунт РФ: <a href="https://drive.google.com/file/d/1FUq7gwelSP3VVAEsR_O4S_ujZcow7R-j/view?usp=drive_link" target="_blank" class="lnk">APK-файл</a> и <a href="https://storage.googleapis.com/amnezia/docs?m-path=/documentation/installing-apk-files-for-android" target="_blank" class="lnk">инструкция по установке</a>; аккаунт не РФ: <a href="https://play.google.com/store/apps/details?id=org.amnezia.vpn" target="_blank" class="lnk">Google Play</a>. Дальше в приложении: <strong>➕</strong> → «QR-код» → наведите камеру на QR-код из Amnezia на компьютере.</p>
+      </div>
+    </div>
+    <div class="item" data-key="gmail-2fa"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Включить двухфакторную аутентификацию (2FA)</div>
+        <div class="item__hint"><strong>Что это?</strong> Дополнительная защита — при входе кроме пароля нужен код из приложения.<br><br>1. Скачайте Google Authenticator:<br>
+        <a href="https://apps.apple.com/am/app/google-authenticator/id388497605" target="_blank" onclick="event.stopPropagation()" style="display:block;margin:4px 0">📦 Google Authenticator для iPhone (App Store)</a>
+        <a href="https://play.google.com/store/search?q=google+authenticator&c=apps" target="_blank" onclick="event.stopPropagation()" style="display:block;margin:4px 0">📦 Google Authenticator для Android (Google Play)</a>
+        2. В Gmail: профиль → «Управление аккаунтом Google» → «Безопасность» → «Двухэтапная аутентификация» → включите → отсканируйте QR</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 08 CHROME LOGIN ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">08</div><div class="section__title">Войти в Chrome</div></div>
+  <div class="section__card">
+    <div class="item" data-key="chrome-login"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Войти в Google-аккаунт в Chrome</div>
+        <div class="item__hint">На компьютере: Chrome → иконка профиля (правый верхний угол) → «Включить синхронизацию» → введите новый Gmail и пароль из шага 07.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 09 CLAUDE ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">09</div><div class="section__title">Claude</div></div>
+  <div class="section__card">
+    <div class="note note--info"><span class="note__icon">🧠</span><span>Claude — языковая модель от Anthropic. Именно Claude станет «мозгом» вашего ИИ-директора в OpenClaw.</span></div>
+    <div class="item" data-key="claude-open"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Зарегистрироваться в Claude</div>
+        <div class="item__hint">1. VPN включён!<br>2. Откройте <a href="https://claude.ai/" target="_blank" onclick="event.stopPropagation()">claude.ai</a> → «Sign up»<br>3. <strong>Введите Gmail вручную</strong> (НЕ нажимайте «Continue with Google» — вводите email и пароль отдельно, так безопаснее)<br>4. <strong>Важно:</strong> используйте почту с доменом .com (например, gmail.com). Почта на .ru-домене может вызвать проблемы</div>
+        <a href="https://claude.ai/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> claude.ai — сайт для регистрации и работы с Claude</a>
+      </div>
+    </div>
+    <div class="item" data-key="claude-phone"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Подтвердить номер телефона, если попросят</div>
+        <div class="item__hint"><strong>Скорее всего, этого шага не будет:</strong> за последний месяц Claude ни разу не запрашивал SMS-верификацию. Если запрос всё-таки появится, введите <strong>номер из шага 06</strong>, код придёт в кабинет сервиса, где брали номер. Запроса не было — просто отметьте пункт.</div>
+      </div>
+    </div>
+    <div class="item" data-key="claude-kyc"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Пройти верификацию личности, если попросят</div>
+        <div class="item__hint">У части пользователей Claude запрашивает подтверждение личности через сервис Persona: фото документа и селфи в реальном времени. Это официальная проверка Anthropic, занимает около 5 минут.<br>1. Подойдёт <strong>физический документ с фото: загранпаспорт</strong> (лучший вариант, данные продублированы латиницей) <strong>или водительские права</strong>. Скан, копия или фото с экрана не подойдут, документ держите в руках перед камерой<br>2. Проходите <strong>на компьютере с веб-камерой</strong> при включённом VPN. В Claude с телефона не заходим<br>3. Снимайте при хорошем освещении, документ целиком в кадре, без бликов<br>4. Не прошло с первой попытки: попробуйте ещё раз или другой документ. Попытки закончились: <a href="https://claude.com/form/identity-verification-help" target="_blank" onclick="event.stopPropagation()">форма поддержки Anthropic</a><br><br><strong>Запроса не было: просто отметьте пункт.</strong> Верификация есть не у всех.</div>
+      </div>
+    </div>
+    <div class="note note--warn"><span class="note__icon">⚠</span><span><strong>Не путайте две разные проверки.</strong> Если документы просят <strong>при оплате</strong>, после ввода карты: это проверка платёжного сервиса или банка вашей карты, пишите в поддержку сервиса карты. Верификация Anthropic приходит <strong>внутри claude.ai</strong> отдельным экраном Persona и к оплате не привязана.</span></div>
+    <div class="item" data-key="claude-test"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Отправить тестовое сообщение</div>
+        <div class="item__hint">Напишите «Привет! Расскажи о себе». Получили ответ — работает!</div>
+      </div>
+    </div>
+    <div class="note note--alert"><span class="note__icon">🚨</span><span><strong>НЕ экспериментируйте с аккаунтом!</strong> Anthropic может заблокировать, если вы:<br>• Часто меняете VPN и страны<br>• Привязываете разные карты<br>• Создаёте несколько аккаунтов<br><br><strong>Один VPN, одна карта, один аккаунт. Точка.</strong></span></div>
+    <div class="note note--alert"><span class="note__icon">📵</span><span><strong>В России НЕ заходите в Claude с телефона. Вообще никогда.</strong> Ни через приложение, ни через браузерную версию claude.ai. За вход со смартфона из РФ аккаунты банят, и вы потеряете оплаченную подписку. Работайте с Claude <strong>только с компьютера при включённом VPN</strong>. Это правило не обсуждается.</span></div>
+    <div class="note note--alert"><span class="note__icon">🔌</span><span><strong>Порядок всегда такой: сначала VPN, потом Claude.</strong> Открывайте claude.ai в браузере или приложение Claude Desktop только при уже включённом VPN. А выключать VPN можно только после того, как закрыли все вкладки Claude и само приложение. Если выключить VPN с открытым Claude, он продолжит слать запросы с российского IP: Anthropic увидит смену страны и может заблокировать аккаунт с оплаченной подпиской.</span></div>
+  </div>
+</div>
+
+<!-- ====== 10 CLAUDE MAX ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">10</div><div class="section__title">Оплата Claude Max ($100/мес)</div></div>
+  <div class="section__card">
+    <div class="note note--info"><span class="note__icon">💎</span><span>Claude Max — полный доступ ко всем моделям без ограничений. Именно на ней будет работать «мозг» вашего OpenClaw.</span></div>
+    <div class="note note--alert"><span class="note__icon">🔴</span><span><strong>Это обязательная подписка — без неё никуда.</strong> Claude Max ($100/мес) нужен всем участникам интенсива. Без неё пройти курс и собрать рабочий OpenClaw не получится.</span></div>
+    <div class="item" data-key="claude-pay"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Оформить подписку Claude Max ($100/мес)</div>
+        <div class="item__hint">1. VPN включён<br>2. В Claude: иконка профиля → <strong>Settings</strong> → <strong>Billing</strong> → <strong>Upgrade</strong><br>3. Выберите <strong>Max ($100)</strong> и оплатите. Оформлять Max можно сразу, «прогревать» аккаунт не нужно.<br>4. Карта: реквизиты <strong>карты США</strong> из шага 02 (номер, срок, CVV)<br>5. Номер телефона: <strong>из шага 06</strong><br>6. Адрес: <strong>биллинг-адрес карты США</strong> (шаг 02)</div>
+      </div>
+    </div>
+    <div class="item" data-key="claude-verify"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить подписку</div>
+        <div class="item__hint">Settings → Billing → должно быть написано <strong>«Max»</strong>.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 12 SECOND AI ====== -->
+<div class="section">
+  <div class="section__header"><div class="section__num">11</div><div class="section__title">Второй ИИ: ChatGPT (Plus или Pro)</div></div>
+  <div class="section__card">
+    <div class="note note--info"><span class="note__icon">🤖</span><span>Claude Max у вас уже есть (шаг 10) — это основа. Здесь подключаем <strong>второй ИИ</strong>: ChatGPT от OpenAI.</span></div>
+    <div class="note note--warn"><span class="note__icon">⚠</span><span><strong>Выберите один из двух тарифов ChatGPT:</strong><br>• <strong>Plus за $20/мес</strong>: дешевле, для старта достаточно.<br>• <strong>Pro за $100/мес</strong>: максимум возможностей OpenAI, практически без лимитов.<br>Не уверены: начните с <strong>Plus</strong>, поднять тариф до Pro можно в любой момент.</span></div>
+
+    <div class="item" data-key="second-ai"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Оформить подписку ChatGPT: Plus или Pro</div>
+        <div class="item__hint">Пройдите по инструкции ниже. VPN всегда включён.</div>
+      </div>
+    </div>
+
+    <div class="spoiler">
+      <div class="spoiler__title">🤖 Регистрация и оплата ChatGPT</div>
+      <div class="spoiler__content">
+        <p><strong>Регистрация:</strong></p>
+        <p>1. VPN включён. Откройте <a href="https://chatgpt.com/" target="_blank" class="lnk">chatgpt.com</a> → «Sign up».</p>
+        <p>2. Введите Gmail из шага 07 (email + пароль).</p>
+        <p>3. Номер телефона → <strong>номер из шага 06</strong>. SMS-код придёт в кабинет сервиса, где брали номер.</p>
+        <p style="margin-top:10px"><strong>Оплата:</strong></p>
+        <p>4. Иконка профиля → <strong>Settings</strong> → <strong>Subscription</strong> → <strong>Upgrade</strong>.</p>
+        <p>5. Выберите тариф: <strong>Plus ($20)</strong> или <strong>Pro ($100)</strong>, и оплатите. Оформлять подписку можно сразу, «прогревать» аккаунт не нужно.</p>
+        <p>6. Карта: реквизиты <strong>карты США</strong> из шага 02. Биллинг-адрес — тоже карты США (шаг 02).</p>
+        <p>7. Проверка: Settings → Subscription → активен выбранный тариф. ✅</p>
+      </div>
+    </div>
+
+
+    <div class="item" data-key="second-ai-verify"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить, что подписка активна</div>
+        <div class="item__hint">ChatGPT: Settings → Subscription, активен ваш тариф: Plus или Pro.</div>
+      </div>
+    </div>
+    <div class="note note--green">
+      <span class="note__icon">💡</span>
+      <span><strong>На будущее:</strong><br>• Для хранения паролей подойдёт Google Password Manager, встроенный в Google Chrome.<br>• Если ваш Google-аккаунт защищён двухфакторной аутентификацией, то это надёжный и бесплатный вариант.<br>• Складывайте туда каждый новый доступ сразу, дальше их будет много.<br>• Держите на виртуальной карте небольшой запас денег и включите автопродление, чтобы подписки не отключились в середине потока.<br>• Раз в пару недель проверяйте, что VPN и виртуальная карта живы, от этого зависит вся дальнейшая работа.<br>• <strong>ВАЖНО:</strong> порядок всегда один: сначала включили VPN, потом открыли Claude, ChatGPT и другие зарубежные сервисы. Перед отключением VPN сначала закройте их вкладки и приложения, иначе можно получить блокировку аккаунта.</span>
+    </div>
+  </div>
+</div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer__done" id="doneBlock">
+      <div class="footer__done-emoji">🎉</div>
+      <div class="footer__done-text">Всё готово! Вы — огонь!</div>
+      <div class="footer__done-sub">Полная готовность к интенсиву. Увидимся на онлайн-встрече!</div>
+    </div>
+    <div class="footer__final-part3">
+      <div class="footer__final-emoji">🧰</div>
+      <div class="footer__final-text">Подготовка завершена!</div>
+      <div class="footer__final-sub">Своя рабочая среда готова: сервер и VPN подняты, оформлена зарубежная виртуальная карта, почта Gmail под защитой 2FA, оплачены подписки Claude Max и ChatGPT (Plus или Pro). Теперь вы можете платить за любые AI-сервисы и пользоваться ими из любой точки.</div>
+    </div>
+    <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
+    <button class="btn-reset" onclick="resetProgress()">Сбросить прогресс</button>
+  </div>
+
+</div>
+
+<script>
+// ====== CONFETTI ======
+const C = document.getElementById('confetti-canvas');
+const ctx = C.getContext('2d');
+let particles = [];
+let confettiActive = false;
+function resizeCanvas() { C.width = window.innerWidth; C.height = window.innerHeight; }
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+const COLORS = ['#7c5bf5','#9d7cff','#34d399','#6ee7b7','#fbbf24','#f87171','#fb7185','#38bdf8','#facc15','#a78bfa','#f472b6','#4ade80'];
+function rand(a,b){ return Math.random()*(b-a)+a; }
+function createBurst(x, y, count) {
+  for(let i=0;i<count;i++){
+    const angle=rand(0,Math.PI*2),speed=rand(4,14),size=rand(4,10);
+    particles.push({x,y,vx:Math.cos(angle)*speed+rand(-2,2),vy:Math.sin(angle)*speed*-0.8-rand(2,6),size,color:COLORS[Math.floor(Math.random()*COLORS.length)],rotation:rand(0,Math.PI*2),rotSpeed:rand(-0.2,0.2),gravity:rand(0.12,0.25),friction:rand(0.97,0.995),opacity:1,fadeSpeed:rand(0.005,0.015),shape:Math.random()>0.4?'rect':'circle'});
+  }
+}
+function launchConfetti(){
+  if(confettiActive)return;confettiActive=true;particles=[];
+  const W=C.width,H=C.height;
+  [[W*0.5,H*0.3,120],[W*0.15,H*0.2,80],[W*0.85,H*0.2,80],[W*0.5,H*0.1,100],[W*0.3,H*0.5,60],[W*0.7,H*0.5,60],[0,H*0.6,50],[W,H*0.6,50],[W*0.5,H*0.6,80]].forEach(([x,y,c],i)=>{setTimeout(()=>createBurst(x,y,c),i*150)});
+  setTimeout(()=>{createBurst(W*0.2,H*0.15,90);createBurst(W*0.8,H*0.15,90);createBurst(W*0.5,H*0.05,100)},1500);
+  setTimeout(()=>{createBurst(W*0.5,H*0.25,120);createBurst(W*0.1,H*0.4,60);createBurst(W*0.9,H*0.4,60)},2500);
+  animate();setTimeout(()=>{confettiActive=false},8000);
+}
+function animate(){
+  ctx.clearRect(0,0,C.width,C.height);
+  for(let i=particles.length-1;i>=0;i--){
+    const p=particles[i];p.vx*=p.friction;p.vy*=p.friction;p.vy+=p.gravity;p.x+=p.vx;p.y+=p.vy;p.rotation+=p.rotSpeed;p.opacity-=p.fadeSpeed;
+    if(p.opacity<=0){particles.splice(i,1);continue}
+    ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rotation);ctx.globalAlpha=p.opacity;ctx.fillStyle=p.color;
+    if(p.shape==='rect'){ctx.fillRect(-p.size/2,-p.size/4,p.size,p.size/2)}else{ctx.beginPath();ctx.arc(0,0,p.size/2,0,Math.PI*2);ctx.fill()}
+    ctx.restore();
+  }
+  if(particles.length>0||confettiActive){requestAnimationFrame(animate)}else{ctx.clearRect(0,0,C.width,C.height)}
+}
+
+// ====== CHECKLIST ======
+const STORAGE_KEY='iivizaciya_intensiv_podgotovka_v1';
+const items=document.querySelectorAll('.item[data-key]');
+const totalCount=items.length;
+let wasComplete=false;
+function loadState(){
+  try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');let c=0;items.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');if(s[item.dataset.key]){cb.checked=true;item.classList.add('checked');c++}});wasComplete=c===totalCount}catch(e){}
+  updateProgress(false);
+}
+function saveState(){const s={};items.forEach(item=>{s[item.dataset.key]=item.querySelector('input[type="checkbox"]').checked});try{localStorage.setItem(STORAGE_KEY,JSON.stringify(s))}catch(e){}}
+function updateProgress(canCelebrate=true){
+  let c=0;items.forEach(item=>{if(item.querySelector('input[type="checkbox"]').checked)c++});
+  document.getElementById('progressCount').textContent=`${c} / ${totalCount}`;
+  document.getElementById('progressFill').style.width=(totalCount>0?(c/totalCount)*100:0)+'%';
+  const done=document.getElementById('doneBlock');
+  if(c===totalCount){done.classList.add('visible');if(canCelebrate&&!wasComplete){launchConfetti()}wasComplete=true}else{done.classList.remove('visible');wasComplete=false}
+}
+items.forEach(item=>{
+  const cb=item.querySelector('input[type="checkbox"]');
+  item.addEventListener('click',function(e){
+    if(e.target.closest('a'))return;
+    if(e.target!==cb){cb.checked=!cb.checked;cb.dispatchEvent(new Event('change'))}
+  });
+  cb.addEventListener('change',function(){item.classList.toggle('checked',this.checked);saveState();updateProgress(true)});
+});
+function resetProgress(){if(!confirm('Сбросить весь прогресс?'))return;items.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasComplete=false;saveState();updateProgress(false)}
+loadState();
+</script>
+
+<script>
+(function() {
+  document.querySelectorAll('.item').forEach(function(item) {
+    var check = item.querySelector('.item__check');
+    if (!check) return;
+    item.addEventListener('click', function(e) {
+      if (e.target.closest('a')) return;
+      if (check.contains(e.target)) return;
+      e.preventDefault();
+      e.stopPropagation();
+    }, true);
+  });
+})();
+</script>
+
+<script>
+// Плавное появление блоков по мере скролла. Класс вешает сам скрипт:
+// если JS отключён, страница обычная — прятать контент стилями нельзя.
+// Проверяем положение блока, а не события пересечения: при прыжке в конец
+// страницы (Cmd+End, ссылка-якорь) наблюдатель пропускал бы блоки, и они
+// остались бы невидимыми.
+(function(){
+  var sel='.section,.module,.event,.stage,.card,.footer';
+  var els=Array.prototype.slice.call(document.querySelectorAll(sel)).filter(function(el){
+    if(el.parentElement && el.parentElement.closest('.reveal')) return false;  // вложенные не прячем дважды
+    if(getComputedStyle(el).position!=='static') return false;                 // липкий прогресс-бар не трогаем
+    el.classList.add('reveal'); return true;
+  });
+  if(!els.length) return;
+  var ticking=false;
+  function sweep(){
+    ticking=false;
+    var edge=window.innerHeight-60;
+    for(var i=els.length-1;i>=0;i--){
+      if(els[i].getBoundingClientRect().top<edge){ els[i].classList.add('is-in'); els.splice(i,1); }
+    }
+    if(!els.length){ window.removeEventListener('scroll',onMove); window.removeEventListener('resize',onMove); }
+  }
+  function onMove(){ if(!ticking){ ticking=true; requestAnimationFrame(sweep); } }
+  window.addEventListener('scroll',onMove,{passive:true});
+  window.addEventListener('resize',onMove);
+  requestAnimationFrame(sweep);   // первый экран проявляется тоже плавно
+})();
+</script>
+</body>
+</html>
