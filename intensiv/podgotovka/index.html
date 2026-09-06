@@ -147,6 +147,11 @@
 
   /* Pointer cursor on checkbox hover */
   .item__check:hover { cursor: pointer; }
+  /* Текст чек-листа должен выделяться и копироваться: клик по пункту гасит
+     отдельный обработчик в конце страницы, поэтому pointer-events не нужен. */
+  .item { user-select: text; -webkit-user-select: text; }
+  .item__body { pointer-events: auto; user-select: text; -webkit-user-select: text; }
+  .item__check { user-select: none; -webkit-user-select: none; }
   .cm { cursor: pointer; }
 
   /* Flexy support link — purple like other links */
@@ -230,7 +235,7 @@
     <div class="item" data-key="chrome-profile"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Создать новый профиль в Chrome</div>
-        <div class="item__hint">Это важно! Новый профиль = чистые куки, нет старых данных, меньше риск блокировки.<br>Нажмите на иконку профиля (кружок в правом верхнем углу Chrome) → «Добавить» → введите любое имя → «Готово». Не входите в Google-аккаунт — это сделаем позже.</div>
+        <div class="item__hint">Новый профиль = чистые куки и никаких старых данных, меньше риск блокировки.<br>Нажмите на иконку профиля (кружок в правом верхнем углу Chrome) → «Добавить» → введите любое имя → «Готово». Не входите в Google-аккаунт — это сделаем позже.</div>
       </div>
     </div>
   </div>
@@ -240,10 +245,10 @@
 <div class="section">
   <div class="section__header"><div class="section__num">02</div><div class="section__title">Виртуальная карта с биллингом США</div></div>
   <div class="section__card">
-    <div class="note note--info"><span class="note__icon">💳</span><span>Виртуальная карта с биллинг-адресом США — ею оплатим VPS-сервер, Claude Max и подписку на ИИ. Оформляется через Telegram-бот, за пару минут. Делаем её <strong>первым шагом</strong>: сервер на шаге 03 оплачивается уже этой картой.<br><br>Ниже <strong>один проверенный вариант</strong> — им платит наш специалист по доступу Алмаз. <strong>Достаточно одной рабочей карты</strong>, других выпускать не надо.</span></div>
+    <div class="note note--info"><span class="note__icon">💳</span><span>Виртуальная карта с биллинг-адресом США — ею оплатим сервер и обе подписки, Claude Max и ChatGPT. Выпускается через Telegram-бот за пару минут. Оформляем её до сервера: на шаге 03 он оплачивается уже этой картой.<br><br>Ниже <strong>один проверенный вариант</strong>. <strong>Достаточно одной карты.</strong></span></div>
     <div class="note note--warn"><span class="note__icon">💬</span><span><strong>Перед выпуском напишите в поддержку сервиса</strong> — <a href="https://t.me/zarub_help_bot" target="_blank" class="tg">@zarub_help_bot</a>. Условия со временем меняются, поэтому уточните три вещи:<br>1. Какой у карты биллинг-адрес и какая это страна.<br>2. Проходят ли оплаты Claude (claude.ai) и ChatGPT.<br>3. Какие комиссии: за выпуск карты, за пополнение и за каждую операцию.</span></div>
 
-    <div class="note note--green"><span class="note__icon">👍</span><span><strong>Берите карту у Заруба — <a href="https://t.me/zarub_robot" target="_blank" class="tg">@zarub_robot</a>.</strong> Наш специалист по доступу Алмаз платит ею постоянно, в том числе за сервер DigitalOcean, — проходит стабильно. Документы не нужны, баланс пополняется рублями через СБП или криптовалютой.</span></div>
+    <div class="note note--green"><span class="note__icon">👍</span><span><strong>Берите карту у Заруба — <a href="https://t.me/zarub_robot" target="_blank" class="tg">@zarub_robot</a>.</strong> Наш специалист по доступу Алмаз платит ею постоянно, в том числе за сервер DigitalOcean: проходит стабильно. Документы не нужны, баланс пополняется рублями через СБП или криптовалютой.</span></div>
     <div class="item" data-key="card-zarub"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Оформить карту США через <a href="https://t.me/zarub_robot" target="_blank" class="tg" onclick="event.stopPropagation()">@zarub_robot</a></div>
@@ -258,8 +263,8 @@
         <div class="item__hint">Запишите и сохраните: <strong>номер карты</strong> (16 цифр), <strong>срок действия</strong> (MM/YY), <strong>CVV</strong> (3 цифры), <strong>биллинг-адрес</strong> — он указан прямо в боте после выпуска карты. Эти данные понадобятся на шагах 03, 09 и 10.</div>
       </div>
     </div>
-    <div class="note note--green"><span class="note__icon">💰</span><span><strong>Сколько денег понадобится?</strong> Считайте две суммы отдельно.<br><br><strong>1. Выпуск самой карты</strong> — это плата за карту, на баланс она не идёт:<br>Точную сумму смотрите в самом боте перед выпуском карты.<br><br><strong>2. Деньги на баланс карты</strong> — под подписки. Зависит от выбора на шаге 10.<br>• <strong>Claude Max — $100/мес.</strong> Обязательно, без неё никуда.<br>• Плюс <strong>ChatGPT</strong> (оформите на шаге 10), тариф на выбор:<br>&nbsp;&nbsp;• Plus за <strong>$20/мес</strong>, либо<br>&nbsp;&nbsp;• Pro за <strong>$100/мес</strong>.<br><br>Пополняйте с запасом ~10% на комиссии:<br>• с ChatGPT Plus → <strong>~$135</strong><br>• с ChatGPT Pro → <strong>~$220</strong></span></div>
-    <div class="note note--info"><span class="note__icon">💡</span><span><strong>Мини-приложения сервисов карт стоят на российских серверах</strong> и под VPN могут тормозить. Решения: на время операций с картой выключайте VPN, пользуйтесь сайтом сервиса вместо мини-приложения (у Заруба это zarub.io), либо настройте раздельное туннелирование из секции 04.</span></div>
+    <div class="note note--green"><span class="note__icon">💰</span><span><strong>Сколько денег понадобится?</strong> Считайте две суммы отдельно.<br><br><strong>1. Выпуск карты</strong> — разовый платёж сервису, на баланс он не идёт:<br>Точную сумму смотрите в боте перед выпуском.<br><br><strong>2. Деньги на баланс карты</strong> — под подписки. Зависит от выбора на шаге 10.<br>• <strong>Claude Max — $100/мес.</strong> Обязательно.<br>• Плюс <strong>ChatGPT</strong> (оформите на шаге 10), тариф на выбор:<br>&nbsp;&nbsp;• Plus за <strong>$20/мес</strong>, либо<br>&nbsp;&nbsp;• Pro за <strong>$100/мес</strong>.<br><br>Пополняйте с запасом ~10% на комиссии:<br>• с ChatGPT Plus → <strong>~$135</strong><br>• с ChatGPT Pro → <strong>~$220</strong></span></div>
+    <div class="note note--info"><span class="note__icon">💡</span><span><strong>Мини-приложение сервиса карт стоит на российских серверах</strong> и под VPN может тормозить. Что делать: на время операций с картой выключить VPN, работать на сайте zarub.io вместо мини-приложения или настроить раздельное туннелирование из секции 04.</span></div>
   </div>
 </div>
 
@@ -269,8 +274,8 @@
   <div class="section__card">
     <div class="note note--info"><span class="note__icon">💡</span><span>VPS — это компьютер-сервер за рубежом (США или Европа), который работает круглосуточно. На нём настроим личный VPN, и интернет у вас будет работать как из выбранной страны. Это нужно, чтобы открывались Claude и ChatGPT и проходила оплата подписок.</span></div>
     <div class="note note--alert"><span class="note__icon">🚫</span><span><strong>Не берите российские хостинги</strong> (Aeza, Timeweb, Reg.ru и похожие). С российских серверов многие зарубежные сайты просто не открываются: Claude, ChatGPT, Google и почта часто блокируют такие адреса. VPN-то включится, но половина нужных сайтов работать не будет. Берите только зарубежную компанию из таблицы ниже.</span></div>
-    <div class="note note--green"><span class="note__icon">🧭</span><span><strong>Выберите одну страну — США или Европа — и держите её во всём:</strong> сервер и VPN должны быть одной страны. Рекомендуем США — проще, и всё совпадает. <strong>Карта — всегда США</strong>, даже если сервер европейский: зарубежные виртуальные карты выпускаются только с биллингом США. Это нормально.</span></div>
-    <div class="note note--green"><span class="note__icon">👍</span><span><strong>Рекомендуем DigitalOcean.</strong> Самый понятный сайт для новичка, сервер выдаётся сразу после оплаты, и карта США из шага 02 на нём проходит — проверено нашим специалистом по доступу Алмазом. Если DigitalOcean почему-то не подойдёт, берите netcup или Hetzner из таблицы ниже.</span></div>
+    <div class="note note--green"><span class="note__icon">🧭</span><span><strong>Сервер и VPN держите в одной стране — США или Европа.</strong> Рекомендуем США. <strong>Карта — всегда США</strong>, даже если сервер европейский: зарубежные виртуальные карты выпускаются только с биллингом США.</span></div>
+    <div class="note note--green"><span class="note__icon">👍</span><span><strong>Рекомендуем DigitalOcean.</strong> Самый понятный сайт для новичка, сервер выдаётся сразу после оплаты, карта США из шага 02 на нём проходит. Если DigitalOcean не подойдёт, берите netcup или Hetzner из таблицы ниже.</span></div>
     <div class="item" data-key="vps-buy"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Выбрать провайдера и купить VPS</div>
@@ -282,20 +287,20 @@
       <div class="spoiler__content">
         <table class="os-table">
           <tr><th>Провайдер</th><th>Цена / мес</th><th>Чем хорош</th></tr>
-          <tr><td><strong>DigitalOcean</strong> ⭐<br><a href="https://www.digitalocean.com/" target="_blank" class="lnk">digitalocean.com</a></td><td>$6–12</td><td>Наш выбор для VPN. Самый понятный сайт, сервер выдаётся сразу после оплаты, карта США проходит стабильно. Серверы в США (Нью-Йорк, Сан-Франциско)</td></tr>
+          <tr><td><strong>DigitalOcean</strong> ⭐<br><a href="https://www.digitalocean.com/" target="_blank" class="lnk">digitalocean.com</a></td><td>$6–12</td><td>Наш выбор. Сервер выдаётся сразу после оплаты, карта США проходит стабильно. Серверы в США: Нью-Йорк и Сан-Франциско</td></tr>
           <tr><td><strong>netcup</strong><br><a href="https://www.netcup.com/" target="_blank" class="lnk">netcup.com</a></td><td>~€5</td><td>Дешевле всех. Надёжный, есть сервер в США (город Манассас)</td></tr>
           <tr><td><strong>Hetzner</strong><br><a href="https://www.hetzner.com/cloud" target="_blank" class="lnk">hetzner.com</a></td><td>~€4–6</td><td>Дёшево и надёжно. Есть серверы в США</td></tr>
           <tr><td><strong>Vultr</strong><br><a href="https://www.vultr.com/" target="_blank" class="lnk">vultr.com</a></td><td>от $6</td><td>Серверы во многих городах США</td></tr>
           <tr><td><strong>Linode</strong><br><a href="https://www.linode.com/" target="_blank" class="lnk">linode.com</a></td><td>от $5</td><td>Крупный надёжный провайдер, есть серверы в США</td></tr>
         </table>
-        <p style="margin-top:10px">Все эти компании зарубежные и надёжные, серверы есть и в США, и в Европе. Начинайте с <strong>DigitalOcean</strong>: сервер выдаётся сразу после оплаты, и проблем с ним не было. Дешевле всех — <strong>netcup</strong>, но сервер там выдают не мгновенно. При покупке выбирайте страну <strong>США или Европу</strong> (США проще).</p>
+        <p style="margin-top:10px">Все компании из таблицы зарубежные, серверы есть и в США, и в Европе. Начинайте с <strong>DigitalOcean</strong>. Дешевле всех <strong>netcup</strong>, но сервер там выдают не сразу. При покупке выбирайте страну <strong>США или Европу</strong>.</p>
       </div>
     </div>
-    <div class="note note--warn"><span class="note__icon">💳</span><span><strong>Чем платить за сервер.</strong> Тем же способом, что и подписки: виртуальной картой из шага 02. Отдельных пошаговых инструкций по оплате хостинга у сервисов карт нет, но процесс обычный: вводите данные карты и биллинг-адрес, который выдал бот вместе с картой.<br><br>Если оплата не проходит, не повторяйте её несколько раз подряд. Напишите в поддержку своего сервиса карты, там видят причину отказа по своим выпискам и подскажут, что поправить.</span></div>
+    <div class="note note--warn"><span class="note__icon">💳</span><span><strong>Чем платить за сервер.</strong> Тем же способом, что и подписки: виртуальной картой из шага 02. Пошаговой инструкции по оплате хостинга у сервиса карт нет, но процесс обычный: вводите данные карты и биллинг-адрес, который выдал бот.<br><br>Если оплата не проходит, не повторяйте её несколько раз подряд. Напишите в поддержку сервиса карты: там видят причину отказа и подскажут, что поправить.</span></div>
     <div class="spoiler">
       <div class="spoiler__title">🧭 По каким критериям выбирать VPS</div>
       <div class="spoiler__content">
-        <p><strong>1. Страна сервера — США или Европа.</strong> Выберите одну и держите её же для VPN. США проще — всё совпадает (у DigitalOcean это Нью-Йорк или Сан-Франциско). Главное — не Россия.</p>
+        <p><strong>1. Страна сервера — США или Европа.</strong> Держите её же для VPN. У DigitalOcean в США это Нью-Йорк или Сан-Франциско. Главное — не Россия.</p>
         <p><strong>2. Только зарубежная компания.</strong> С российских серверов многие сайты не открываются. Берите из таблицы выше.</p>
         <p><strong>3. Чем платить.</strong> Картой США из шага 02 или криптовалютой. Карты РФ зарубежные компании обычно не принимают.</p>
         <p><strong>4. Размер.</strong> Минимум 2 ядра процессора и 4 ГБ оперативной памяти — этого хватит.</p>
@@ -316,7 +321,7 @@
 <div class="section">
   <div class="section__header"><div class="section__num">04</div><div class="section__title">Amnezia VPN на компьютер</div></div>
   <div class="section__card">
-    <div class="note note--info"><span class="note__icon">💡</span><span>Amnezia — бесплатная программа, которая превращает ваш VPS в персональный VPN. Вводите IP и пароль — она сама всё настроит.</span></div>
+    <div class="note note--info"><span class="note__icon">💡</span><span>Amnezia — бесплатная программа: вводите IP и root-пароль сервера, и она поднимает на нём ваш личный VPN.</span></div>
     <div class="item" data-key="amnezia-dl"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Скачать Amnezia VPN на компьютер</div>
@@ -361,7 +366,7 @@
       <a href="https://m-b75ce44e5ba5-3w5hsuiikq-ez.a.run.app/ru" target="_blank" class="lnk" style="display:block;margin-top:6px;margin-bottom:4px">🌐 Зеркало сайта Amnezia (на русском)</a>
       <a href="https://storage.googleapis.com/amnezia/amnezia.org" target="_blank" class="lnk" style="display:block">📚 Список актуальных зеркал Amnezia</a>
     </span></div>
-    <div class="note note--warn"><span class="note__icon">⚙️</span><span><strong>Раздельное туннелирование: чтобы VPN не мешал российским сайтам.</strong> Российские сайты (учебная платформа mainroom, сервисы карт, банки) с включённым VPN тормозят: они видят ваш «американский» IP. Раздельное туннелирование решает это раз и навсегда: всё зарубежное идёт через VPN, российское напрямую.<br>1. Откройте приложение Amnezia → Настройки → <strong>Раздельное туннелирование</strong> (Split Tunneling)<br>2. Режим: <strong>«Все сайты через VPN, кроме списка»</strong><br>3. В исключения добавьте: <strong>mainroom.pro</strong> · <strong>zarub.io</strong> · <strong>wanttopay.net</strong> · сайты ваших банков<br>4. Готово: VPN держите включённым постоянно, ничего выключать больше не нужно<br></span></div>
+    <div class="note note--warn"><span class="note__icon">⚙️</span><span><strong>Раздельное туннелирование: чтобы VPN не мешал российским сайтам.</strong> Российские сайты (учебная платформа mainroom, сервисы карт, банки) с включённым VPN тормозят: они видят ваш «американский» IP. Раздельное туннелирование это чинит: зарубежные сайты идут через VPN, российские напрямую.<br>1. Откройте приложение Amnezia → Настройки → <strong>Раздельное туннелирование</strong> (Split Tunneling)<br>2. Режим: <strong>«Все сайты через VPN, кроме списка»</strong><br>3. В исключения добавьте: <strong>mainroom.pro</strong> · <strong>zarub.io</strong> · <strong>wanttopay.net</strong> · сайты ваших банков<br>4. Готово: VPN держите включённым постоянно, ничего выключать больше не нужно<br></span></div>
   </div>
 </div>
 
@@ -388,7 +393,7 @@
   <div class="section__header"><div class="section__num">06</div><div class="section__title">Gmail</div></div>
   <div class="section__card">
     <div class="note note--info"><span class="note__icon">💡</span><span>Google-аккаунт нужен для интеграций: Календарь, Диск, Таблицы — всё это подключим к OpenClaw.</span></div>
-    <div class="note note--green"><span class="note__icon">✅</span><span><strong>Подойдёт любая ваша почта на gmail.com.</strong> Заводить новую под учёбу не нужно, используйте ту, что уже есть. Заходить в аккаунт при включённом VPN тоже нормально.</span></div>
+    <div class="note note--green"><span class="note__icon">✅</span><span><strong>Подойдёт любая ваша почта на gmail.com</strong>, заводить новую не нужно. Заходить в аккаунт при включённом VPN нормально.</span></div>
     <div class="spoiler">
       <div class="spoiler__title">📧 Нужна отдельная почта под учёбу? Как создать новый Gmail</div>
       <div class="spoiler__content">
@@ -396,7 +401,7 @@
         <div class="item">
       <div class="item__body">
         <div class="item__text">Создать новый Gmail в приложении на смартфоне</div>
-        <div class="item__hint">1. VPN включён и не выключается до конца регистрации. Если регистрируете с телефона, включите VPN и на нём: в Amnezia на компьютере иконка «Поделиться» → QR-код → отсканируйте его приложением AmneziaVPN на смартфоне<br>2. Откройте приложение <strong>Gmail</strong> → «Войти» → «Добавить аккаунт» → <strong>Google</strong><br>3. «Создать аккаунт» → «Для личного использования»<br>4. Заполните имя и дату рождения, адрес придумайте <strong>вручную</strong> (имя.фамилия@gmail.com), не берите предложенный автоматически<br>5. Номер телефона → нажмите <strong>«Пропустить»</strong>. Если кнопки нет, введите свой номер<br>6. Сразу добавьте <strong>резервную почту</strong>: Настройки аккаунта → Безопасность. Без номера телефона это единственный способ вернуть доступ<br><br><strong>Через компьютер тоже можно:</strong> gmail.com → «Создать аккаунт». Но если Google попросит отправить SMS по QR-коду, возвращайтесь к способу через приложение</div>
+        <div class="item__hint">1. VPN включён и не выключается до конца регистрации. Если регистрируете с телефона, включите VPN и на нём: в Amnezia на компьютере иконка «Поделиться» → QR-код → отсканируйте его приложением AmneziaVPN на смартфоне<br>2. Откройте приложение <strong>Gmail</strong> → «Войти» → «Добавить аккаунт» → <strong>Google</strong><br>3. «Создать аккаунт» → «Для личного использования»<br>4. Заполните имя и дату рождения, адрес придумайте <strong>вручную</strong> (имя.фамилия@gmail.com), не берите предложенный автоматически<br>5. Номер телефона → нажмите <strong>«Пропустить»</strong>. Если кнопки нет, введите ваш обычный номер<br>6. Сразу добавьте <strong>резервную почту</strong>: Настройки аккаунта → Безопасность. Без номера телефона это единственный способ вернуть доступ<br><br><strong>Через компьютер тоже можно:</strong> gmail.com → «Создать аккаунт». Но если Google попросит отправить SMS по QR-коду, возвращайтесь к способу через приложение</div>
         <a href="https://gmail.com" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> gmail.com — создание почты Google</a>
       </div>
     </div>
@@ -408,7 +413,7 @@
     <div class="item" data-key="gmail-2fa"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Включить двухфакторную аутентификацию (2FA)</div>
-        <div class="item__hint"><strong>Что это?</strong> Дополнительная защита — при входе кроме пароля нужен код из приложения.<br><br>1. Скачайте Google Authenticator:<br>
+        <div class="item__hint">Дополнительная защита: при входе кроме пароля нужен код из приложения.<br><br>1. Скачайте Google Authenticator:<br>
         <a href="https://apps.apple.com/am/app/google-authenticator/id388497605" target="_blank" onclick="event.stopPropagation()" style="display:block;margin:4px 0">📦 Google Authenticator для iPhone (App Store)</a>
         <a href="https://play.google.com/store/search?q=google+authenticator&c=apps" target="_blank" onclick="event.stopPropagation()" style="display:block;margin:4px 0">📦 Google Authenticator для Android (Google Play)</a>
         2. В Gmail: профиль → «Управление аккаунтом Google» → «Безопасность» → «Двухэтапная аутентификация» → включите → отсканируйте QR</div>
@@ -434,7 +439,7 @@
 <div class="section">
   <div class="section__header"><div class="section__num">08</div><div class="section__title">Claude</div></div>
   <div class="section__card">
-    <div class="note note--info"><span class="note__icon">🧠</span><span>Claude — языковая модель от Anthropic. Именно Claude станет «мозгом» вашего ИИ-директора в OpenClaw.</span></div>
+    <div class="note note--info"><span class="note__icon">🧠</span><span>Claude — языковая модель от Anthropic. На ней работает ваш ИИ-директор в OpenClaw.</span></div>
     <div class="item" data-key="claude-open"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Зарегистрироваться в Claude</div>
@@ -445,7 +450,7 @@
     <div class="item" data-key="claude-phone"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Подтвердить номер телефона, если попросят</div>
-        <div class="item__hint"><strong>Скорее всего, этого шага не будет:</strong> за последний месяц Claude ни разу не запрашивал SMS-верификацию. Если запрос всё-таки появится, введите свой номер телефона. Запроса не было — просто отметьте пункт.</div>
+        <div class="item__hint"><strong>Скорее всего, этого шага не будет:</strong> за последний месяц Claude ни разу не запрашивал SMS-верификацию. Если запрос всё-таки появится, введите ваш обычный номер. Запроса не было — просто отметьте пункт.</div>
       </div>
     </div>
     <div class="item" data-key="claude-kyc"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
@@ -461,8 +466,8 @@
         <div class="item__hint">Напишите «Привет! Расскажи о себе». Получили ответ — работает!</div>
       </div>
     </div>
-    <div class="note note--alert"><span class="note__icon">🚨</span><span><strong>НЕ экспериментируйте с аккаунтом!</strong> Anthropic может заблокировать, если вы:<br>• Часто меняете VPN и страны<br>• Привязываете разные карты<br>• Создаёте несколько аккаунтов<br><br><strong>Один VPN, одна карта, один аккаунт. Точка.</strong></span></div>
-    <div class="note note--alert"><span class="note__icon">📵</span><span><strong>В России НЕ заходите в Claude с телефона. Вообще никогда.</strong> Ни через приложение, ни через браузерную версию claude.ai. За вход со смартфона из РФ аккаунты банят, и вы потеряете оплаченную подписку. Работайте с Claude <strong>только с компьютера при включённом VPN</strong>. Это правило не обсуждается.</span></div>
+    <div class="note note--alert"><span class="note__icon">🚨</span><span><strong>НЕ экспериментируйте с аккаунтом!</strong> Anthropic может заблокировать, если вы:<br>• Часто меняете VPN и страны<br>• Привязываете разные карты<br>• Создаёте несколько аккаунтов<br><br><strong>Один VPN, одна карта, один аккаунт.</strong></span></div>
+    <div class="note note--alert"><span class="note__icon">📵</span><span><strong>В России НЕ заходите в Claude с телефона. Вообще никогда.</strong> Ни через приложение, ни через браузерную версию claude.ai. За вход со смартфона из РФ аккаунты банят, и вы потеряете оплаченную подписку. Работайте с Claude <strong>только с компьютера при включённом VPN</strong>.</span></div>
     <div class="note note--alert"><span class="note__icon">🔌</span><span><strong>Порядок всегда такой: сначала VPN, потом Claude.</strong> Открывайте claude.ai в браузере или приложение Claude Desktop только при уже включённом VPN. А выключать VPN можно только после того, как закрыли все вкладки Claude и само приложение. Если выключить VPN с открытым Claude, он продолжит слать запросы с российского IP: Anthropic увидит смену страны и может заблокировать аккаунт с оплаченной подпиской.</span></div>
   </div>
 </div>
@@ -471,12 +476,12 @@
 <div class="section">
   <div class="section__header"><div class="section__num">09</div><div class="section__title">Оплата Claude Max ($100/мес)</div></div>
   <div class="section__card">
-    <div class="note note--info"><span class="note__icon">💎</span><span>Claude Max — полный доступ ко всем моделям без ограничений. Именно на ней будет работать «мозг» вашего OpenClaw.</span></div>
-    <div class="note note--alert"><span class="note__icon">🔴</span><span><strong>Это обязательная подписка — без неё никуда.</strong> Claude Max ($100/мес) нужен всем участникам интенсива. Без неё пройти курс и собрать рабочий OpenClaw не получится.</span></div>
+    <div class="note note--info"><span class="note__icon">💎</span><span>Claude Max — старший тариф Claude. На этой подписке работает ваш OpenClaw.</span></div>
+    <div class="note note--alert"><span class="note__icon">🔴</span><span><strong>Claude Max ($100/мес) — обязательная подписка.</strong> Без неё не собрать рабочий OpenClaw и не пройти интенсив.</span></div>
     <div class="item" data-key="claude-pay"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Оформить подписку Claude Max ($100/мес)</div>
-        <div class="item__hint">1. VPN включён<br>2. В Claude: иконка профиля → <strong>Settings</strong> → <strong>Billing</strong> → <strong>Upgrade</strong><br>3. Выберите <strong>Max ($100)</strong> и оплатите. Оформлять Max можно сразу, «прогревать» аккаунт не нужно.<br>4. Карта: реквизиты <strong>карты США</strong> из шага 02 (номер, срок, CVV)<br>5. Номер телефона: <strong>свой</strong><br>6. Адрес: <strong>биллинг-адрес карты США</strong> (шаг 02)</div>
+        <div class="item__hint">1. VPN включён<br>2. В Claude: иконка профиля → <strong>Settings</strong> → <strong>Billing</strong> → <strong>Upgrade</strong><br>3. Выберите <strong>Max ($100)</strong> и оплатите. Оформлять Max можно сразу, «прогревать» аккаунт не нужно.<br>4. Карта: реквизиты <strong>карты США</strong> из шага 02 (номер, срок, CVV)<br>5. Номер телефона: <strong>ваш обычный номер</strong><br>6. Адрес: <strong>биллинг-адрес карты США</strong> (шаг 02)</div>
       </div>
     </div>
     <div class="item" data-key="claude-verify"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
@@ -508,7 +513,7 @@
         <p><strong>Регистрация:</strong></p>
         <p>1. VPN включён. Откройте <a href="https://chatgpt.com/" target="_blank" class="lnk">chatgpt.com</a> → «Sign up».</p>
         <p>2. Введите Gmail из шага 06 (email + пароль).</p>
-        <p>3. Номер телефона → <strong>свой номер</strong>, на него придёт SMS-код.</p>
+        <p>3. Номер телефона: <strong>ваш обычный номер</strong>, на него придёт SMS-код.</p>
         <p style="margin-top:10px"><strong>Оплата:</strong></p>
         <p>4. Иконка профиля → <strong>Settings</strong> → <strong>Subscription</strong> → <strong>Upgrade</strong>.</p>
         <p>5. Выберите тариф: <strong>Plus ($20)</strong> или <strong>Pro ($100)</strong>, и оплатите. Оформлять подписку можно сразу, «прогревать» аккаунт не нужно.</p>
@@ -526,7 +531,7 @@
     </div>
     <div class="note note--green">
       <span class="note__icon">💡</span>
-      <span><strong>На будущее:</strong><br>• Для хранения паролей подойдёт Google Password Manager, встроенный в Google Chrome.<br>• Если ваш Google-аккаунт защищён двухфакторной аутентификацией, то это надёжный и бесплатный вариант.<br>• Складывайте туда каждый новый доступ сразу, дальше их будет много.<br>• Держите на виртуальной карте небольшой запас денег и включите автопродление, чтобы подписки не отключились в середине потока.<br>• Раз в пару недель проверяйте, что VPN и виртуальная карта живы, от этого зависит вся дальнейшая работа.<br>• <strong>ВАЖНО:</strong> порядок всегда один: сначала включили VPN, потом открыли Claude, ChatGPT и другие зарубежные сервисы. Перед отключением VPN сначала закройте их вкладки и приложения, иначе можно получить блокировку аккаунта.</span>
+      <span><strong>На будущее:</strong><br>• Для хранения паролей подойдёт Google Password Manager, встроенный в Google Chrome.<br>• С включённой двухфакторной аутентификацией это надёжно и бесплатно.<br>• Складывайте туда каждый новый доступ сразу, дальше их будет много.<br>• Держите на виртуальной карте небольшой запас денег и включите автопродление, чтобы подписки не отключились в середине потока.<br>• Раз в пару недель проверяйте, что VPN и виртуальная карта живы, от этого зависит вся дальнейшая работа.<br>• <strong>ВАЖНО:</strong> порядок всегда один: сначала включили VPN, потом открыли Claude, ChatGPT и другие зарубежные сервисы. Перед отключением VPN сначала закройте их вкладки и приложения, иначе можно получить блокировку аккаунта.</span>
     </div>
   </div>
 </div>
@@ -543,7 +548,7 @@
     <div class="footer__final-part3">
       <div class="footer__final-emoji">🧰</div>
       <div class="footer__final-text">Подготовка завершена!</div>
-      <div class="footer__final-sub">Своя рабочая среда готова: сервер и VPN подняты, оформлена зарубежная виртуальная карта, почта Gmail под защитой 2FA, оплачены подписки Claude Max и ChatGPT Plus или Pro. Теперь вы можете платить за любые AI-сервисы и пользоваться ими из любой точки.</div>
+      <div class="footer__final-sub">Своя рабочая среда готова: сервер и VPN подняты, оформлена зарубежная виртуальная карта, почта Gmail под защитой 2FA, оплачены подписки Claude Max и ChatGPT Plus или Pro. Теперь вы можете оплачивать зарубежные ИИ-сервисы и работать с ними.</div>
     </div>
     <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
     <button class="btn-reset" onclick="resetProgress()">Сбросить прогресс</button>
