@@ -279,9 +279,10 @@
     <div class="item" data-key="vps-buy"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Выбрать провайдера и купить VPS</div>
-        <div class="item__hint">Выберите компанию из таблицы ниже и купите сервер. Настройки при покупке для всех одинаковые:<br>• <strong>Страна сервера:</strong> США или Европа<br>• <strong>Размер:</strong> 2 ядра процессора, 4 ГБ оперативной памяти, 60 ГБ диска<br>• <strong>Система:</strong> Ubuntu 24.04<br>• <strong>Оплата:</strong> картой США из шага 02 или криптовалютой</div>
+        <div class="item__hint">Выберите компанию из таблицы ниже и купите сервер. Настройки при покупке для всех одинаковые:<br>• <strong>Страна сервера:</strong> США или Европа<br>• <strong>Размер:</strong> 2 ядра процессора, 4 ГБ оперативной памяти, 60 ГБ диска<br>• <strong>Система:</strong> Ubuntu 24.04<br>• <strong>Виртуализация:</strong> KVM. Контейнерная OpenVZ или LXC не подойдёт<br>• <strong>Адрес:</strong> публичный IPv4, процессор x86-64<br>• <strong>Оплата:</strong> картой США из шага 02 или криптовалютой</div>
       </div>
     </div>
+    <div class="note note--info"><span class="note__icon">📐</span><span><strong>Откуда такой размер.</strong> Самому VPN хватает минимума из <a href="https://docs.amnezia.org/ru/documentation/supported-linux-os-for-vps" target="_blank">требований Amnezia к VPS</a>: 1 ядро, 1 ГБ памяти, 10 ГБ диска, виртуализация KVM, публичный IPv4 и процессор x86-64. Мы берём 2 ядра и 4 ГБ на вырост: на этом же сервере дальше встанут OpenClaw и боты связок, им нужно от 2 ГБ памяти.<br><br>Если сервер нужен только под VPN и ничего больше — минимального плана хватит.</span></div>
     <div class="spoiler">
       <div class="spoiler__title">📊 Проверенные провайдеры — выберите свой</div>
       <div class="spoiler__content">
@@ -303,7 +304,7 @@
         <p><strong>1. Страна сервера — США или Европа.</strong> Держите её же для VPN. У DigitalOcean в США это Нью-Йорк или Сан-Франциско. Главное — не Россия.</p>
         <p><strong>2. Только зарубежная компания.</strong> С российских серверов многие сайты не открываются. Берите из таблицы выше.</p>
         <p><strong>3. Чем платить.</strong> Картой США из шага 02 или криптовалютой. Карты РФ зарубежные компании обычно не принимают.</p>
-        <p><strong>4. Размер.</strong> Минимум 2 ядра процессора и 4 ГБ оперативной памяти — этого хватит.</p>
+        <p><strong>4. Размер.</strong> 2 ядра процессора и 4 ГБ оперативной памяти. Самому VPN хватило бы 1 ядра и 1 ГБ, но на этом сервере дальше поедут OpenClaw и боты связок: им нужно от 2 ГБ.</p>
       </div>
     </div>
     <div class="note note--warn"><span class="note__icon">🆘</span><span><strong>Если зарубежный сервер купить никак не выходит</strong> — нет подходящей карты, не проходит оплата — на крайний случай и на свой риск можно взять <a href="https://aeza.net/" target="_blank" class="lnk">aeza.net</a>, локация США или Европа. Учтите: Aeza — российский провайдер, поэтому часть западных моделей и сервисов может работать нестабильно или со временем заблокироваться. Это временное решение для старта, а не замена зарубежному серверу из таблицы выше.</span></div>
@@ -381,6 +382,7 @@
         <div style="padding-top:6px">
           <a href="https://2ip.ru/" target="_blank" class="item__link" onclick="event.stopPropagation()" style="display:block;margin-bottom:4px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> 2ip.ru — покажет IP и страну</a>
           <a href="https://yandex.ru/internet/" target="_blank" class="item__link" onclick="event.stopPropagation()" style="display:block"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Яндекс Интернетометр — альтернативная проверка</a>
+          <a href="https://whoer.net/" target="_blank" class="item__link" onclick="event.stopPropagation()" style="display:block;margin-top:4px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> whoer.net — страна, IP и утечки DNS</a>
         </div>
       </div>
     </div>
