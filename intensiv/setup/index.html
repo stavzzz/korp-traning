@@ -263,7 +263,9 @@
       </div>
     </div>
 
-    <div class="note note--info"><span class="note__icon">⌨️</span><span><strong>Что такое терминал.</strong> Окно, куда команды пишут текстом, вместо того чтобы нажимать кнопки мышкой. Почти всё за вас будет делать Claude Code, но пару раз терминал понадобится открыть самому — например, при настройке OpenClaw.<br><br><strong>Как открыть на macOS:</strong> нажмите Cmd + пробел, наберите «Терминал» и запустите его.<br><strong>Как открыть на Windows:</strong> нажмите «Пуск», наберите «Терминал» или «PowerShell» и запустите.<br><br>Внутри редактора терминал тоже есть — это та самая панель снизу. Разницы никакой, команды одинаковые.</span></div>
+    <div class="note note--info"><span class="note__icon">⌨️</span><span><strong>Что такое терминал.</strong> Окно, куда команды пишут текстом, вместо того чтобы нажимать кнопки мышкой. Почти всё за вас будет делать Claude Code, но пару раз терминал понадобится открыть самому, например при настройке OpenClaw.<br><br><strong>На macOS:</strong> нажмите Cmd и пробел, наберите «Терминал», запустите.<br><strong>На Windows:</strong> откройте «Пуск», наберите «Терминал» или «PowerShell», запустите.<br><br>Внутри редактора терминал тоже есть, это та самая панель снизу. Команды одинаковые, разницы нет.</span></div>
+
+    <div class="note note--info"><span class="note__icon">🧩</span><span><strong>CLI, или командная строка.</strong> Command Line Interface. Так называют способ управлять программой не кнопками, а текстовыми командами: вы пишете строку, программа отвечает текстом.<br><br>Именно поэтому языковые модели так хорошо работают с CLI. Текст для них родная среда: агент сам составляет команду, сам читает ответ программы и по нему понимает, получилось или нет. Кликать мышкой по чужому интерфейсу он не умеет, а писать команды и разбирать вывод умеет отлично.<br><br>Отсюда и весь дальнейший курс: вы говорите задачу словами, а команды пишет и разбирает агент.</span></div>
 
     <div class="item" data-key="cc-extension"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
@@ -830,7 +832,7 @@ Docker сейчас не ставь — он для установки OpenClaw 
       </div>
     </div>
 
-    <div class="note note--warn"><span class="note__icon">⏱</span><span><strong>Лимиты подписки.</strong> ChatGPT Plus — около 5 часов активной работы бота в неделю. ChatGPT Pro — практически без ограничений.<br>Поэтому OpenClaw и ставит по умолчанию низкий уровень размышления: чтобы обычные вопросы не съедали недельный лимит.</span></div>
+    <div class="note note--warn"><span class="note__icon">⏱</span><span><strong>Лимиты подписки.</strong> На тарифе Plus бот активно работает около 5 часов в неделю. На Pro лимит заметно выше, но он тоже есть.<br>Поэтому OpenClaw и ставит по умолчанию низкий уровень размышления: чтобы обычные вопросы не съедали недельный запас.</span></div>
 
     <div class="item" data-key="llm-check"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
@@ -843,7 +845,160 @@ Docker сейчас не ставь — он для установки OpenClaw 
   </div>
 </div>
 
-<div class="note note--info" style="margin-top:28px;border-radius:14px;border:1px solid var(--border);"><span class="note__icon">🚧</span><span><strong>Части 9–10 появятся здесь по мере записи видео:</strong> Telegram и голосовые через Groq · финальная проверка.</span></div>
+<!-- ====== 09 TELEGRAM И ГОЛОС ====== -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">09</div>
+    <div class="section__title">Telegram и голосовые</div>
+    <span class="part-tag">видео 9</span>
+  </div>
+  <div class="section__card">
+    <div class="note note--green"><span class="note__icon">🎯</span><span><strong>Что получите в этой части:</strong> своего бота в Telegram, который отвечает на текст и понимает голосовые сообщения.</span></div>
+
+    <div class="item" data-key="tg-newbot"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Создать бота в @BotFather</div>
+        <div class="item__hint">Откройте Telegram и найдите @BotFather. Напишите ему <strong>/newbot</strong>, придумайте имя и username, который заканчивается на «bot». В ответ придёт HTTP API токен, скопируйте и сохраните его.</div>
+        <a href="https://t.me/BotFather" target="_blank" class="item__link tg" onclick="event.stopPropagation()">@BotFather в Telegram</a>
+      </div>
+    </div>
+
+    <div class="note note--alert"><span class="note__icon">⚠️</span><span><strong>Проверьте синюю галочку у @BotFather.</strong> Существуют мошеннические клоны с похожими именами. Они крадут токены и получают доступ к вашему серверу.</span></div>
+
+    <div class="item" data-key="tg-token"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Вставить токен в панель управления</div>
+        <div class="item__hint">Откройте панель из части 7, найдите раздел с интеграциями и вставьте туда токен от BotFather.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="tg-pairing"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Привязать свой аккаунт к боту</div>
+        <div class="item__hint">Так система поймёт, что администратор бота именно вы, а не случайный человек, который его нашёл. Панель выдаст код подтверждения или ссылку: отправьте код своему боту в Telegram либо перейдите по ссылке.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="tg-test"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Написать боту первое сообщение</div>
+        <div class="item__hint">Откройте своего бота, нажмите Start и напишите: «Привет, ты на связи?». Ответил — Telegram подключён.</div>
+      </div>
+    </div>
+
+    <div class="note note--info"><span class="note__icon">🎙️</span><span><strong>Теперь голос.</strong> Чтобы бот понимал голосовые, ему нужна модель, которая переводит речь в текст. Берём бесплатную от Groq, её хватает почти всем.</span></div>
+
+    <div class="item" data-key="groq-key"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Получить бесплатный ключ Groq</div>
+        <div class="item__hint">Зарегистрируйтесь, откройте раздел API Keys и нажмите Create API Key. Ключ начинается с <strong>gsk_</strong>, скопируйте и сохраните его.</div>
+        <a href="https://console.groq.com/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> console.groq.com — регистрация и ключ</a>
+      </div>
+    </div>
+
+    <div class="cmd-copy">
+      <span class="cmd-copy__text" id="promptVoice">Подключись к моему серверу по SSH (алиас my-server) и включи распознавание голосовых сообщений через бесплатный Groq Whisper. Сверяйся со скиллом openclaw-docs, ничего не выдумывай.
+
+1. Спроси у меня ключ Groq и добавь его в переменные окружения OpenClaw.
+2. Включи распознавание аудио и оставь единственным провайдером groq с моделью whisper-large-v3.
+3. Перезапусти шлюз, проверь логи и подтверди, что ошибок нет.
+
+Объясняй шаги простыми словами. Ключ никуда не выводи и не показывай в ответах.</span>
+      <button class="btn-copy" onclick="copyBlock('promptVoice',this)">📋 Копировать промпт</button>
+    </div>
+
+    <div class="item" data-key="voice-on"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Включить голос промптом</div>
+        <div class="item__hint">Отправьте промпт выше в Claude Code. Он спросит ключ, настроит распознавание и перезапустит бота.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="voice-test"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Записать боту голосовое</div>
+        <div class="item__hint">Зажмите микрофон в чате с ботом и скажите что-нибудь простое, например «Привет, какая сегодня погода?». В ответ должна прийти расшифровка и ответ бота.</div>
+      </div>
+    </div>
+
+    <details class="spoiler">
+      <summary>Если Groq не справился с голосом</summary>
+      <div class="spoiler__content">
+        <p>Бывает, что распознавание не заработало или разбирает речь плохо. Тогда добавьте платный OpenAI Whisper вторым вариантом, а Groq оставьте основным.</p>
+        <p>Нужен ключ с платформы OpenAI (создаётся под тем же логином, что и ChatGPT) и баланс хотя бы на 10 долларов. Дальше попросите Claude Code добавить openai с моделью whisper-1 вторым провайдером распознавания и перезапустить шлюз.</p>
+        <p>Если Groq устраивает, этот шаг можно пропустить.</p>
+      </div>
+    </details>
+
+    <div class="note note--green"><span class="note__icon">✅</span><span><strong>Часть 9 пройдена, если:</strong> бот отвечает на текст в Telegram и присылает расшифровку вашего голосового.</span></div>
+  </div>
+</div>
+
+<!-- ====== 10 ФИНАЛЬНАЯ ПРОВЕРКА ====== -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">10</div>
+    <div class="section__title">Всё работает?</div>
+    <span class="part-tag">видео 10</span>
+  </div>
+  <div class="section__card">
+    <div class="note note--green"><span class="note__icon">🎯</span><span><strong>Что получите в этой части:</strong> уверенность, что контур собран целиком и готов к связкам, плюс понимание, что делать, когда бот замолчал.</span></div>
+
+    <div class="note note--info"><span class="note__icon">🤝</span><span><strong>Самый простой способ починки.</strong> Не помните команду или что-то сломалось: опишите проблему словами в Claude Code. У него стоит скилл openclaw-docs с полной документацией, он сам подберёт команду, подключится к серверу и починит.<br>Таблица ниже нужна тем, кто хочет разобраться руками.</span></div>
+
+    <div class="item" data-key="diag-commands"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Посмотреть команды диагностики</div>
+        <div class="item__hint">Выполняются на сервере, сначала подключитесь к нему командой ssh my-server.
+          <table class="os-table">
+            <tr><th>Команда</th><th>Что делает</th></tr>
+            <tr><td>openclaw doctor --fix</td><td>Проверяет настройки и чинит частые проблемы. Запускать первой</td></tr>
+            <tr><td>openclaw status</td><td>Общий статус: что включено, какие модели подключены</td></tr>
+            <tr><td>openclaw logs --follow</td><td>Что бот делает прямо сейчас и где ошибка. Выход по Ctrl+C</td></tr>
+            <tr><td>openclaw models status</td><td>Какие модели авторизованы и сколько осталось лимитов</td></tr>
+            <tr><td>openclaw gateway restart</td><td>Перезапуск. Помогает, когда бот завис или молчит</td></tr>
+            <tr><td>openclaw health</td><td>Быстрая проверка, жив ли бот прямо сейчас</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="note note--warn"><span class="note__icon">🔧</span><span><strong>Бот молчит.</strong> Выполните по порядку: ssh my-server, затем openclaw doctor --fix, затем openclaw gateway restart, в конце openclaw status. Это лечит большинство случаев. Не помогло — опишите проблему в Claude Code и пришлите ему то, что показал status.</span></div>
+
+    <div class="note note--info"><span class="note__icon">🏁</span><span><strong>Финальная проверка контура.</strong> Отметьте десять пунктов ниже. Если все зелёные, инфраструктура готова и к связкам можно приступать.</span></div>
+
+    <div class="item" data-key="final-1"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body"><div class="item__text">Редактор открывается, Claude Code отвечает</div></div>
+    </div>
+    <div class="item" data-key="final-2"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body"><div class="item__text">Папка Vibe Coding создана, проект открыт из неё</div></div>
+    </div>
+    <div class="item" data-key="final-3"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body"><div class="item__text">Node.js стоит, DCG установлен и проверен</div></div>
+    </div>
+    <div class="item" data-key="final-4"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body"><div class="item__text">CLAUDE.md лежит в папке проекта</div></div>
+    </div>
+    <div class="item" data-key="final-5"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body"><div class="item__text">GitHub подключён, Playwright подключён, Superpowers стоит</div></div>
+    </div>
+    <div class="item" data-key="final-6"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body"><div class="item__text">Сервер куплен, система Ubuntu 24.04</div></div>
+    </div>
+    <div class="item" data-key="final-7"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body"><div class="item__text">Вход на сервер работает без пароля</div></div>
+    </div>
+    <div class="item" data-key="final-8"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body"><div class="item__text">OpenClaw установлен, панель открывается</div></div>
+    </div>
+    <div class="item" data-key="final-9"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body"><div class="item__text">Подписка ChatGPT подключена, бот отвечает</div></div>
+    </div>
+    <div class="item" data-key="final-10"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body"><div class="item__text">Telegram-бот отвечает на текст и голосовые</div></div>
+    </div>
+  </div>
+</div>
 
   </div>
 
@@ -851,8 +1006,8 @@ Docker сейчас не ставь — он для установки OpenClaw 
   <div class="footer">
     <div class="footer__done" id="doneBlock">
       <div class="footer__done-emoji">🎉</div>
-      <div class="footer__done-text">Части 1–8 закрыты!</div>
-      <div class="footer__done-sub">Сервер, OpenClaw и модель на месте. Дальше — Telegram и голос.</div>
+      <div class="footer__done-text">Инфраструктура готова!</div>
+      <div class="footer__done-sub">Контур собран целиком: редактор, защита, сервер, OpenClaw и бот в Telegram. Можно браться за связки.</div>
     </div>
     <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
     <button class="btn-reset" onclick="resetProgress()">Сбросить прогресс</button>
