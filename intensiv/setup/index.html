@@ -563,7 +563,9 @@
   <div class="section__card">
     <div class="note note--green"><span class="note__icon">🎯</span><span><strong>Что получите в этой части:</strong> отдельный сервер под OpenClaw, его IP-адрес и пароль. На этом сервере дальше будут работать все ваши боты.</span></div>
 
-    <div class="note note--alert"><span class="note__icon">🚨</span><span><strong>Это второй сервер, а не тот, что из подготовки.</strong> На первом стоит VPN — его не трогаем. OpenClaw ставится на отдельный чистый сервер: без VPN, без других сервисов.<br>Аккаунт хостинга можно взять тот же — просто создайте в нём ещё один сервер.</span></div>
+    <div class="note note--alert"><span class="note__icon">🚨</span><span><strong>Обычно это второй сервер, а не тот, что из подготовки.</strong> На первом стоит VPN. OpenClaw ставится на отдельный чистый сервер: без лишних сервисов.<br>Аккаунт хостинга можно взять тот же — просто создайте в нём ещё один сервер.</span></div>
+
+    <div class="note note--green"><span class="note__icon">💰</span><span><strong>Если в подготовке вы взяли мощный сервер — второй покупать не нужно.</strong> Когда на нём 4 ядра и 8 ГБ памяти, VPN и OpenClaw спокойно живут вместе. Проверьте параметры своего сервера в личном кабинете хостинга: подходят под таблицу ниже — работайте на нём.</span></div>
 
     <div class="note note--alert"><span class="note__icon">🚫</span><span><strong>Сервер не должен принадлежать российской компании.</strong> Дело не в том, где физически стоит железо: IP у вас будет зарубежный. Дело в том, чьей компании принадлежат стойки и этот IP.<br>Российские хостеры (Aeza, Timeweb, Reg.ru и подобные) сдают зарубежные локации, но владелец — российское юрлицо, и его диапазоны IP известны. OpenAI, Anthropic и Google такие диапазоны часто режут по гео или блокируют.<br>Итог: модели то работают, то нет, бот молчит, а причину не видно.</span></div>
 
@@ -573,15 +575,14 @@
         <div class="item__hint">
           <table class="os-table">
             <tr><th>Провайдер</th><th>Цена/мес</th><th>Чем хорош</th></tr>
-            <tr><td>netcup ⭐</td><td>~€5</td><td>Лучшая цена и качество, надёжный, есть сервер в США</td></tr>
-            <tr><td>Hetzner ⭐</td><td>~€4–6</td><td>Дёшево и надёжно, есть серверы в США</td></tr>
-            <tr><td>DigitalOcean</td><td>$6–12</td><td>Самый понятный сайт для новичка</td></tr>
-            <tr><td>Vultr</td><td>от $6</td><td>Серверы во многих городах США</td></tr>
-            <tr><td>Linode</td><td>от $5</td><td>Крупный надёжный провайдер</td></tr>
+            <tr><td><a href="https://www.netcup.com/" target="_blank">netcup ⭐</a></td><td>~€5</td><td>Лучшая цена и качество, надёжный, есть сервер в США</td></tr>
+            <tr><td><a href="https://www.hetzner.com/" target="_blank">Hetzner ⭐</a></td><td>~€4–6</td><td>Дёшево и надёжно, есть серверы в США</td></tr>
+            <tr><td><a href="https://www.digitalocean.com/" target="_blank">DigitalOcean</a></td><td>$6–12</td><td>Самый понятный сайт для новичка</td></tr>
+            <tr><td><a href="https://www.vultr.com/" target="_blank">Vultr</a></td><td>от $6</td><td>Серверы во многих городах США</td></tr>
+            <tr><td><a href="https://www.linode.com/" target="_blank">Linode</a></td><td>от $5</td><td>Крупный надёжный провайдер</td></tr>
           </table>
           Новичку проще всего netcup или Hetzner. Цены в таблице — за минимальные тарифы; рабочий сервер под OpenClaw будет дороже, параметры ниже.
         </div>
-        <a href="https://www.netcup.com/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> netcup.com</a>
       </div>
     </div>
 
@@ -603,6 +604,8 @@
         </div>
       </div>
     </div>
+
+    <div class="note note--warn"><span class="note__icon">⚠️</span><span><strong>Про 2 ядра и 4 ГБ.</strong> Формально на таком сервере запуститься можно, и кто-то так делает — но на свой страх и риск. К концу интенсива на сервере работают шесть связок одновременно: агент начнёт тормозить, а боты — падать без понятной причины. Лучше не экономить на этом шаге.</span></div>
 
     <div class="item" data-key="vps-pay"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
@@ -687,7 +690,147 @@
   </div>
 </div>
 
-<div class="note note--info" style="margin-top:28px;border-radius:14px;border:1px solid var(--border);"><span class="note__icon">🚧</span><span><strong>Части 7–10 появятся здесь по мере записи видео:</strong> установка OpenClaw · подключение ChatGPT · Telegram и голос · финальная проверка.</span></div>
+<!-- ====== 07 СТАВИМ OPENCLAW ====== -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">07</div>
+    <div class="section__title">Ставим OpenClaw</div>
+    <span class="part-tag">видео 7</span>
+  </div>
+  <div class="section__card">
+    <div class="note note--green"><span class="note__icon">🎯</span><span><strong>Что получите в этой части:</strong> OpenClaw на вашем сервере и панель управления в браузере.</span></div>
+
+    <div class="note note--info"><span class="note__icon">📦</span><span><strong>Куда ставится OpenClaw.</strong> Прямо на сервер. Docker при этом тоже ставится, но нужен он не для самого OpenClaw, а для песочницы: в ней бот выполняет команды, не трогая сервер. Управляют OpenClaw командами вида <strong>openclaw doctor</strong>.</span></div>
+
+    <div class="item" data-key="skill-openclaw-docs"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Скачать скилл openclaw-docs и перенести в проект</div>
+        <div class="item__hint">Это полная документация OpenClaw внутри Claude Code. С ней агент не выдумывает команды и параметры, а ставит всё строго по официальной доке.<br>1. Скачайте архив и распакуйте двойным кликом — получится папка <strong>openclaw-docs</strong>.<br>2. Перетащите её в проект, открытый в Claude Code.</div>
+        <a href="https://drive.google.com/file/d/1W8bvMo-s3vxUlO1tt2ity-URxdpdsNmL/view?usp=sharing" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Скачать openclaw-docs.zip</a>
+      </div>
+    </div>
+
+    <div class="cmd-copy">
+      <span class="cmd-copy__text" id="promptSkillDocs">В папке моего проекта появилась папка openclaw-docs — это скилл с документацией OpenClaw. Установи его как скилл для Claude Code, чтобы он работал у меня всегда. Потом проверь, что всё на месте, и напомни мне перезапустить Claude Code.</span>
+      <button class="btn-copy" onclick="copyBlock('promptSkillDocs',this)">📋 Копировать промпт</button>
+    </div>
+
+    <div class="item" data-key="skill-docs-install"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Установить скилл и перезапустить Claude Code</div>
+        <div class="item__hint">После перезапуска скилл активен. Вызывать его вручную не нужно: агент подхватывает документацию сам, когда речь про OpenClaw.</div>
+      </div>
+    </div>
+
+    <div class="cmd-copy">
+      <span class="cmd-copy__text" id="promptInstallOc">Подключись к моему серверу по SSH — я настроил ключ и алиас, подключайся командой: ssh my-server
+Если алиас не сработает — спроси у меня IP и root-пароль.
+
+Используй скилл openclaw-docs как источник истины по OpenClaw — команды и параметры не выдумывай, сверяйся с ним.
+
+Выполни на сервере строго по порядку:
+1. Обнови пакеты системы.
+2. Установи Docker и зависимости (docker-ce, docker-ce-cli, containerd.io, docker-compose-plugin) и убедись, что docker запускается.
+3. Установи OpenClaw: curl -fsSL --proto '=https' --tlsv1.2 https://openclaw.ai/install.sh | bash -s -- --no-onboard
+4. Проверь, что всё встало: openclaw --version и openclaw doctor.
+
+Если команда openclaw не находится (command not found) — это PATH после установки, а НЕ ошибка установки: открой новый терминал или выполни hash -r и повтори, НЕ переустанавливай.
+Ничего интерактивного не запускай — просто отчитайся об успехе и покажи вывод.</span>
+      <button class="btn-copy" onclick="copyBlock('promptInstallOc',this)">📋 Копировать промпт</button>
+    </div>
+
+    <div class="item" data-key="oc-install"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Установить OpenClaw на сервер</div>
+        <div class="item__hint">Агент подключится сам, обновит систему, поставит Docker и OpenClaw, затем покажет версию и результат проверки.</div>
+      </div>
+    </div>
+
+    <div class="note note--warn"><span class="note__icon">🖐</span><span><strong>Следующий шаг делаем руками.</strong> Мастер настройки — меню со стрелочками, агенты с ним справляются плохо. Откройте обычный терминал, не чат с агентом.</span></div>
+
+    <div class="item" data-key="oc-onboard"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Пройти мастер настройки вручную</div>
+        <div class="item__hint">1. В обычном терминале подключитесь: <strong>ssh my-server</strong><br>2. Запустите мастер: <strong>openclaw onboard</strong><br>3. В меню: <strong>Security → Yes</strong>, <strong>Mode → QuickStart</strong><br>4. Дойдёте до выбора модели — остановитесь здесь, это часть 8.</div>
+      </div>
+    </div>
+
+    <div class="note note--info"><span class="note__icon">🖥️</span><span><strong>Панель управления и защищённый туннель.</strong> Панель живёт на сервере и наружу закрыта, чтобы её не открыл кто-то чужой. Туннель — зашифрованный канал между вашим компьютером и сервером: пока окно открыто, панель доступна в браузере; закрыли — канал закрылся.</span></div>
+
+    <div class="cmd-copy">
+      <span class="cmd-copy__text" id="promptWebui">Помоги мне открыть веб-панель (Web UI) моего OpenClaw в браузере. Сверяйся с документацией OpenClaw (скилл openclaw-docs), ничего не выдумывай. Сделай по шагам и объясняй простыми словами:
+1. Подключись к моему серверу по SSH (алиас my-server; если не сработает — спроси у меня IP и пароль).
+2. Узнай токен доступа к панели из конфига OpenClaw.
+3. Подними защищённый SSH-туннель с сервера на мой компьютер (порт 18789; если он занят — выбери свободный и скажи какой). Туннель оставь запущенным.
+4. Собери готовую ссылку для входа вида http://localhost:ПОРТ/#token=ТОКЕН и пришли её мне.
+5. Коротко объясни, что ты сделал, и дай мне команду, которой я смогу сам снова открыть туннель, если панель перестанет отвечать.
+Мой токен никуда не выводи, кроме этой ссылки для меня.</span>
+      <button class="btn-copy" onclick="copyBlock('promptWebui',this)">📋 Копировать промпт</button>
+    </div>
+
+    <div class="item" data-key="oc-webui"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Открыть панель управления в браузере</div>
+        <div class="item__hint">Агент поднимет туннель и пришлёт готовую ссылку. Перейдите по ней — откроется панель.<br>Панель перестала открываться — значит отвалился туннель. Попросите агента открыть его снова или выполните команду, которую он дал. Данные при этом не теряются.</div>
+      </div>
+    </div>
+
+    <div class="note note--green"><span class="note__icon">✅</span><span><strong>Часть 7 пройдена, если:</strong> команда openclaw doctor отработала без ошибок, мастер настройки пройден до выбора модели, панель открывается в браузере.</span></div>
+  </div>
+</div>
+
+<!-- ====== 08 ПОДКЛЮЧАЕМ CHATGPT ====== -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">08</div>
+    <div class="section__title">Подключаем ChatGPT</div>
+    <span class="part-tag">видео 8</span>
+  </div>
+  <div class="section__card">
+    <div class="note note--green"><span class="note__icon">🎯</span><span><strong>Что получите в этой части:</strong> подключённую модель — бот начинает отвечать. Работает на вашей подписке ChatGPT из подготовки, отдельно за токены платить не нужно.</span></div>
+
+    <div class="note note--info"><span class="note__icon">🧠</span><span><strong>Модель у бота одна.</strong> Берём ChatGPT: OpenAI официально разрешает использовать подписку в OpenClaw. Подойдёт и Plus, и Pro.</span></div>
+
+    <div class="item" data-key="llm-connect"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Выбрать провайдера и авторизоваться</div>
+        <div class="item__hint">Продолжаем мастер настройки с того места, где остановились:<br>1. Выберите провайдера <strong>openai</strong> — Codex подключится автоматически<br>2. В терминале появится ссылка на авторизацию<br>3. Откройте её в браузере и войдите в аккаунт ChatGPT<br>4. Дождитесь подтверждения в терминале</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="llm-effort"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Включить глубокий режим размышления</div>
+        <div class="item__hint">Чтобы бот давал более точные ответы. Команда выполняется на сервере.<br>Если модель в вашей версии называется иначе — попросите Claude Code свериться со скиллом openclaw-docs и подставить актуальную.</div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <span class="code-block__label">режим high — рекомендуется</span>
+      <div class="code-block__scroll" id="cmdEffortHigh">openclaw config set agents.defaults.models."openai/gpt-5.5".params.reasoning.effort "high"</div>
+      <button class="btn-copy" onclick="copyBlock('cmdEffortHigh',this)">📋 Копировать команду</button>
+    </div>
+
+    <div class="code-block">
+      <span class="code-block__label">режим xhigh — думает дольше, отвечает глубже</span>
+      <div class="code-block__scroll" id="cmdEffortXhigh">openclaw config set agents.defaults.models."openai/gpt-5.5".params.reasoning.effort "xhigh"</div>
+      <button class="btn-copy" onclick="copyBlock('cmdEffortXhigh',this)">📋 Копировать команду</button>
+    </div>
+
+    <div class="note note--warn"><span class="note__icon">⏱</span><span><strong>Лимиты подписки.</strong> ChatGPT Plus — около 5 часов активной работы бота в неделю. ChatGPT Pro — практически без ограничений.</span></div>
+
+    <div class="item" data-key="llm-check"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Проверить, что бот отвечает</div>
+        <div class="item__hint">Задайте боту любой вопрос через панель управления из части 7. Ответ пришёл — модель подключена.</div>
+      </div>
+    </div>
+
+    <div class="note note--green"><span class="note__icon">✅</span><span><strong>Часть 8 пройдена, если:</strong> авторизация ChatGPT завершена, режим размышления выставлен, бот отвечает на вопрос.</span></div>
+  </div>
+</div>
+
+<div class="note note--info" style="margin-top:28px;border-radius:14px;border:1px solid var(--border);"><span class="note__icon">🚧</span><span><strong>Части 9–10 появятся здесь по мере записи видео:</strong> Telegram и голосовые через Groq · финальная проверка.</span></div>
 
   </div>
 
@@ -695,8 +838,8 @@
   <div class="footer">
     <div class="footer__done" id="doneBlock">
       <div class="footer__done-emoji">🎉</div>
-      <div class="footer__done-text">Части 1–6 закрыты!</div>
-      <div class="footer__done-sub">Редактор, защита, подключённые сервисы и свой сервер на месте. Дальше — OpenClaw.</div>
+      <div class="footer__done-text">Части 1–8 закрыты!</div>
+      <div class="footer__done-sub">Сервер, OpenClaw и модель на месте. Дальше — Telegram и голос.</div>
     </div>
     <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
     <button class="btn-reset" onclick="resetProgress()">Сбросить прогресс</button>
