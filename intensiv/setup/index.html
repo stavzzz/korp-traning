@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ИНТЕНСИВ ИИ-ВИЗАЦИЯ | ИНФРАСТРУКТУРА И ВАЙБ-КОДИНГ</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #0a0a0f;
+    --bg-card: #12121a;
+    --bg-card-hover: #181825;
+    --border: #1e1e2e;
+    --border-accent: #2a2a3e;
+    --text-primary: #e8e6f0;
+    --text-secondary: #8b879e;
+    --text-muted: #5a5670;
+    --accent: #7c5bf5;
+    --accent-glow: #9d7cff;
+    --accent-soft: rgba(124, 91, 245, 0.12);
+    --green: #34d399;
+    --green-glow: #6ee7b7;
+    --green-soft: rgba(52, 211, 153, 0.1);
+    --amber: #fbbf24;
+    --amber-soft: rgba(251, 191, 36, 0.1);
+    --red-soft: rgba(248, 113, 113, 0.1);
+    --red: #f87171;
+    --radius: 14px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Onest', sans-serif; background: var(--bg-deep); color: var(--text-primary); line-height: 1.65; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+  body::before { content: ''; position: fixed; inset: 0; background-image: radial-gradient(circle at 20% 20%, rgba(124,91,245,0.04) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(52,211,153,0.03) 0%, transparent 50%); pointer-events: none; z-index: 0; }
+  .wrapper { position: relative; z-index: 1; max-width:850px; margin: 0 auto; padding: 40px 20px 80px; }
+  .header { text-align: center; margin-bottom: 26px; }
+  .header__badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size:14px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-glow); background: var(--accent-soft); border: 1px solid rgba(124,91,245,0.2); padding: 6px 16px; border-radius: 100px; margin-bottom: 24px; animation: fadeDown .6s ease both; }
+  .header__title { font-size:clamp(35px,6vw,50px); font-weight: 800; line-height: 1.15; letter-spacing: -0.5px; margin-bottom: 12px; animation: fadeDown .6s ease .1s both; }
+  .header__title span { background: linear-gradient(135deg, var(--accent-glow), var(--green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  
+  .header__topics { list-style:none; display:flex; flex-direction:column; gap:7px; max-width:575px; margin:16px auto 0; animation:fadeDown .6s ease .3s both; }
+  .header__topics li { font-size:17px; color:var(--text-secondary); display:flex; align-items:flex-start; gap:8px; text-align:left; }
+  .header__topics li::before { content:'→'; color:var(--accent); flex-shrink:0; font-family:'JetBrains Mono',monospace; font-size:14px; margin-top:3px; }
+
+  .header__subtitle { font-size:19px; color: var(--text-secondary); max-width:625px; margin: 0 auto; animation: fadeDown .6s ease .2s both; }
+  .progress-wrap { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 36px; position: sticky; top: 12px; z-index: 10; backdrop-filter: blur(16px); background: rgba(18,18,26,0.92); animation: fadeDown .6s ease .3s both; }
+  .progress-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .progress-label { font-size:16px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; font-family: 'JetBrains Mono', monospace; }
+  .progress-count { font-family: 'JetBrains Mono', monospace; font-size:17.5px; font-weight: 700; color: var(--accent-glow); }
+  .progress-bar { width: 100%; height: 8px; background: var(--border); border-radius: 100px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--green)); border-radius: 100px; transition: width .5s cubic-bezier(.34,1.56,.64,1); width: 0%; }
+  .section { margin-bottom: 28px; }
+  .section__header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; padding-left: 2px; }
+  .section__num { font-family: 'JetBrains Mono', monospace; font-size:15px; font-weight: 700; color: var(--accent); background: var(--accent-soft); width:40px; height:40px; display: flex; align-items: center; justify-content: center; border-radius: 8px; flex-shrink: 0; }
+  .section__title { font-size:21px; font-weight: 700; letter-spacing: -0.2px; }
+  .section__card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: border-color .3s; }
+  .section__card:hover { border-color: var(--border-accent); }
+  .item { display: flex; align-items: flex-start; gap: 14px; padding: 16px 20px; border-bottom: 1px solid var(--border); transition: background .2s; cursor: pointer; user-select: none; }
+  .item:last-child { border-bottom: none; }
+  .item:hover { background: var(--bg-card-hover); }
+  .item.checked .item__text { color: var(--text-muted); text-decoration: line-through; }
+  .item.checked .item__link { opacity: 0.4; }
+  .item__check { position: relative; width: 22px; height: 22px; flex-shrink: 0; margin-top: 1px; }
+  .item__check input { position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; z-index: 2; }
+  .item__check .cm { width: 22px; height: 22px; border: 2px solid var(--border-accent); border-radius: 6px; display: flex; align-items: center; justify-content: center; transition: all .25s cubic-bezier(.34,1.56,.64,1); }
+  .item__check .cm svg { width: 12px; height: 12px; opacity: 0; transform: scale(0); transition: all .25s cubic-bezier(.34,1.56,.64,1); }
+  .item__check input:checked + .cm { background: var(--green); border-color: var(--green); }
+  .item__check input:checked + .cm svg { opacity: 1; transform: scale(1); }
+  .item__body { flex: 1; min-width: 0; }
+  .item__text { font-size:18px; font-weight: 500; color: var(--text-primary); transition: all .3s; }
+  .item__hint { font-size:16px; color: var(--text-secondary); margin-top: 4px; line-height: 1.6; }
+  .item__hint a { color: var(--accent-glow); text-decoration: none; font-weight: 600; }
+  .item__hint a.tg { color: #2dd4bf; text-decoration: underline; text-decoration-color: rgba(45,212,191,0.4); text-underline-offset: 2px; }
+  .item__hint a.tg:hover { color: #5eead4; text-decoration-color: #5eead4; }
+  .item__hint a:hover { text-decoration: underline; }
+  .item__hint strong { color: var(--text-primary); }
+  .item__link { display: inline-flex; align-items: center; gap: 4px; font-size:16px; font-family: 'JetBrains Mono', monospace; color: var(--accent-glow); text-decoration: none; margin-top: 5px; transition: all .2s; word-break: break-all; }
+  .item__link:hover { color: #bba4ff; text-decoration: underline; }
+  .item__link svg { width: 13px; height: 13px; flex-shrink: 0; }
+  .lnk { display: inline-flex; align-items: center; gap: 4px; font-size:16px; font-family: 'JetBrains Mono', monospace; color: var(--accent-glow); text-decoration: none; word-break: break-all; }
+  .lnk:hover { color: #bba4ff; text-decoration: underline; }
+  .note { display: flex; align-items: flex-start; gap: 10px; padding: 14px 20px; font-size:16px; color: var(--text-secondary); line-height: 1.6; border-bottom: 1px solid var(--border); }
+  .note:last-child { border-bottom: none; }
+  .note--warn { background: var(--amber-soft); color: var(--amber); }
+  .note--info { background: var(--accent-soft); }
+  .note--alert { background: var(--red-soft); color: var(--red); }
+  .note--green { background: var(--green-soft); color: var(--green-glow); }
+  .note__icon { flex-shrink: 0; font-size:19px; }
+  .note a { color: var(--accent-glow); text-decoration: none; font-weight: 600; }
+  .note a:hover { text-decoration: underline; }
+  .note strong { color: inherit; }
+  .tg { color: #2dd4bf !important; font-weight: 700; text-decoration: underline; text-decoration-color: rgba(45,212,191,0.4); text-underline-offset: 2px; transition: all .2s; }
+  .tg:hover { color: #5eead4 !important; text-decoration-color: #5eead4; }
+  .spoiler { border-bottom: 1px solid var(--border); }
+  .spoiler:last-child { border-bottom: none; }
+  .spoiler summary { padding: 14px 20px; font-size:17px; font-weight: 600; color: var(--text-secondary); cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px; transition: color .2s; }
+  .spoiler summary:hover { color: var(--text-primary); }
+  .spoiler summary::before { content: '▸'; font-size:15px; transition: transform .2s; }
+  .spoiler[open] summary::before { transform: rotate(90deg); }
+  .spoiler__title { padding: 14px 20px 2px; font-size:17px; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 8px; }
+  .spoiler__content { padding: 0 20px 16px 34px; font-size:16px; color: var(--text-secondary); line-height: 1.7; }
+  .spoiler__content p { margin-bottom: 8px; }
+  .spoiler__content strong { color: var(--text-primary); font-weight: 600; }
+  .os-table { width: 100%; font-size:16px; border-collapse: collapse; margin: 8px 0; }
+  .os-table th { text-align: left; font-weight: 600; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size:14px; text-transform: uppercase; letter-spacing: 1px; padding: 6px 0; border-bottom: 1px solid var(--border); }
+  .os-table td { padding: 8px 0; border-bottom: 1px solid var(--border); color: var(--text-secondary); vertical-align: top; }
+  .os-table tr:last-child td { border-bottom: none; }
+  .os-table td:first-child { color: var(--text-primary); font-weight: 500; }
+  .footer { text-align: center; margin-top: 48px; }
+  .footer__done { display: none; background: var(--green-soft); border: 1px solid rgba(52,211,153,0.25); border-radius: var(--radius); padding: 32px 24px; margin-bottom: 24px; }
+  .footer__done.visible { display: block; animation: popIn .5s cubic-bezier(.34,1.56,.64,1) both; }
+  .footer__done-emoji { font-size:60px; margin-bottom: 10px; }
+  .footer__done-text { font-size:27.5px; font-weight: 800; color: var(--green); margin-bottom: 6px; }
+  .footer__done-sub { font-size:19px; color: var(--text-secondary); }
+  .footer__schedule { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 20px; font-size:17.5px; }
+  .footer__schedule-title { font-weight: 700; margin-bottom: 8px; font-size:19px; }
+  .footer__schedule-row { display: flex; justify-content: space-between; padding: 4px 0; color: var(--text-secondary); }
+  .footer__schedule-row span:first-child { color: var(--text-primary); font-weight: 500; }
+  .footer__contact { font-size:17.5px; color: var(--text-secondary); margin-bottom: 20px; }
+  .footer__contact a { color: #2dd4bf; text-decoration: underline; text-decoration-color: rgba(45,212,191,0.4); font-weight: 700; }
+  .btn-reset { background: none; border: 1px solid var(--border); color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size:15px; padding: 8px 20px; border-radius: 100px; cursor: pointer; transition: all .2s; }
+  .btn-reset:hover { border-color: var(--red); color: var(--red); }
+  #confetti-canvas { position: fixed; inset: 0; z-index: 9999; pointer-events: none; }
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+  @media (max-width: 480px) {
+    .wrapper { padding: 28px 14px 60px; }
+    .item { padding: 14px 16px; gap: 12px; }
+    .note { padding: 12px 16px; }
+    .spoiler summary { padding: 12px 16px; }
+    .spoiler__content { padding: 0 16px 14px 28px; }
+    .progress-wrap { padding: 16px 18px; top: 8px; }
+    .footer__schedule-row { flex-direction: column; gap: 2px; }
+  }
+
+  /* Checkbox: only circle triggers toggle, links still work */
+  .item { cursor: default; }
+  .item__body { pointer-events: none; user-select: text; }
+  .item__body a,
+  .item__body .item__link,
+  .item__body .lnk,
+  .item__body .tg { pointer-events: auto !important; cursor: pointer !important; }
+  .item__check { pointer-events: auto; cursor: pointer; }
+
+
+  /* Pointer cursor on checkbox hover */
+  .item__check:hover { cursor: pointer; }
+  /* Текст чек-листа должен выделяться и копироваться: клик по пункту гасит
+     отдельный обработчик в конце страницы, поэтому pointer-events не нужен. */
+  .item { user-select: text; -webkit-user-select: text; }
+  .item__body { pointer-events: auto; user-select: text; -webkit-user-select: text; }
+  .item__check { user-select: none; -webkit-user-select: none; }
+  .cm { cursor: pointer; }
+
+  /* Flexy support link — purple like other links */
+  .support-link {
+    color: var(--accent-glow) !important;
+    font-weight: 600;
+    pointer-events: auto !important;
+    display: inline-block;
+    margin-top: 6px;
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size:16px;
+    transition: color .2s;
+  }
+  .support-link:hover { color: #bba4ff !important; text-decoration: underline; }
+
+  .footer__final-part3 { background:linear-gradient(135deg,rgba(251,191,36,0.08),rgba(219,39,119,0.08)); border:1px solid rgba(251,191,36,0.25); border-radius:var(--radius); padding:34px 24px; margin-bottom:24px; text-align:center; position:relative; overflow:hidden; }
+  .footer__final-part3::before { content:''; position:absolute; inset:0; background:radial-gradient(circle at 20% 0%, rgba(251,191,36,0.12), transparent 50%), radial-gradient(circle at 80% 100%, rgba(219,39,119,0.12), transparent 50%); pointer-events:none; }
+  .footer__final-emoji { font-size:67.5px; margin-bottom:12px; line-height:1; position:relative; }
+  .footer__final-text { font-size:30px; font-weight:800; background:linear-gradient(90deg,#fbbf24,#db2777); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:10px; letter-spacing:-0.4px; position:relative; }
+  .footer__final-sub { font-size:19px; color:var(--text-secondary); line-height:1.6; max-width:700px; margin:0 auto; position:relative; }
+  .header__goal{max-width:640px;margin:20px auto 0;padding:18px 24px;background:var(--green-soft);border:1px solid rgba(52,211,153,0.25);border-radius:var(--radius);text-align:left;animation:fadeDown .6s ease .25s both;}
+  .header__goal-label{display:block;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--green);margin-bottom:10px;}
+  .header__goal-list{list-style:none;display:flex;flex-direction:column;gap:7px;}
+  .header__goal-list li{font-size:17px;color:var(--text-primary);line-height:1.5;display:flex;align-items:flex-start;gap:9px;}
+  .header__goal-list li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;line-height:1.5;}
+  .header__time{display:inline-flex;align-items:center;justify-content:center;margin-top:20px;font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1;color:var(--text-muted);border:1px solid var(--border);padding:10px 18px;border-radius:100px;animation:fadeDown .6s ease .35s both;}
+  .reveal{opacity:0;transform:translateY(16px);}
+  .reveal.is-in{opacity:1;transform:none;transition:opacity .55s ease,transform .55s ease;}
+  @media (prefers-reduced-motion:reduce){.reveal,.reveal.is-in{opacity:1;transform:none;transition:none;}}
+  @media print{.reveal{opacity:1;transform:none;}}
+
+  /* --- добавлено для урока «Инфраструктура и вайб-кодинг» --- */
+  .part-tag{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent-glow);background:var(--accent-soft);border:1px solid rgba(124,91,245,0.2);padding:5px 12px;border-radius:100px;flex-shrink:0;}
+  .btn-copy,.item__body .cmd-copy{pointer-events:auto;}
+  .cmd-copy{background:rgba(0,0,0,0.35);border:1px solid var(--border-accent);border-radius:8px;padding:14px 16px;margin:12px 20px;display:flex;flex-direction:column;align-items:flex-start;gap:12px;}
+  .cmd-copy__text{font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--green-glow);line-height:1.6;flex:1;white-space:pre-wrap;}
+  .btn-copy{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:600;color:var(--accent-glow);background:var(--accent-soft);border:1px solid rgba(124,91,245,0.3);padding:8px 16px;border-radius:8px;cursor:pointer;transition:all .2s;text-transform:uppercase;letter-spacing:1px;}
+  .btn-copy:hover{background:rgba(124,91,245,0.2);border-color:var(--accent);}
+  .btn-copy.copied{color:var(--green);background:var(--green-soft);border-color:rgba(52,211,153,0.3);}
+  @media (max-width:480px){ .part-tag{display:none;} .cmd-copy{margin:12px 16px;} }
+</style>
+
+<body>
+<canvas id="confetti-canvas"></canvas>
+<div class="wrapper">
+
+  <header class="header">
+    <div class="header__badge">ИНТЕНСИВ ИИ-ВИЗАЦИЯ</div>
+    <h1 class="header__title">Инфраструктура <span>и вайб-кодинг</span></h1>
+    <div class="header__goal">
+      <span class="header__goal-label">Что получите в итоге</span>
+      <ul class="header__goal-list">
+        <li>Claude Code внутри редактора — им дальше собираются все семь связок</li>
+        <li>Защиту, которая не даёт агенту тронуть ничего за пределами рабочей папки</li>
+        <li>Рабочий сервер с&nbsp;OpenClaw — на нём будут жить ваши боты</li>
+        <li>Telegram-бота с&nbsp;голосовым управлением</li>
+        <li>Готовый контур: 14 сентября садитесь сразу за первую связку</li>
+      </ul>
+    </div>
+    <div class="header__time">⏳ Время прохождения: 4–6 часов · 10 коротких видео</div>
+  </header>
+
+  <div class="progress-wrap">
+    <div class="progress-top">
+      <span class="progress-label">Прогресс</span>
+      <span class="progress-count" id="progressCount">0 / 0</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <div id="sections">
+
+<!-- ====== 01 VS CODE + CLAUDE CODE ====== -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">01</div>
+    <div class="section__title">Редактор и Claude Code</div>
+    <span class="part-tag">видео 1</span>
+  </div>
+  <div class="section__card">
+    <div class="note note--green"><span class="note__icon">🎯</span><span><strong>Что получите в этой части:</strong> установленный редактор Visual Studio Code и работающий внутри него Claude Code. После этой части вы уже можете давать агенту задачи голосом и текстом.</span></div>
+
+    <div class="item" data-key="vscode-install"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Скачать и установить Visual Studio Code</div>
+        <div class="item__hint">Бесплатный редактор от Microsoft. Сайт сам определит вашу систему — просто нажмите большую синюю кнопку.<br><strong>macOS:</strong> распакуйте архив и перетащите приложение в «Программы».<br><strong>Windows:</strong> запустите установщик, галочки оставьте по умолчанию.</div>
+        <a href="https://code.visualstudio.com/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> code.visualstudio.com — скачать редактор</a>
+      </div>
+    </div>
+
+    <div class="item" data-key="vscode-tour"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Запустить редактор и найти три вещи</div>
+        <div class="item__hint">Больше в интерфейсе пока ничего не нужно:<br>• <strong>Explorer</strong> — список файлов, самая верхняя иконка слева<br>• <strong>Extensions</strong> — расширения, иконка с квадратиками<br>• <strong>Терминал</strong> — панель снизу, открывается через меню Terminal → New Terminal</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="cc-extension"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Установить расширение Claude Code</div>
+        <div class="item__hint">Откройте <strong>Extensions</strong> → в поиске наберите <strong>claude code</strong> → у расширения от Anthropic нажмите <strong>Install</strong>.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="cc-login"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Войти в свою подписку Claude</div>
+        <div class="item__hint">Запустите Claude Code и выполните вход командой <strong>/login</strong> — откроется браузер, подтвердите вход тем аккаунтом, на который оформлена подписка Claude Max.</div>
+      </div>
+    </div>
+
+    <div class="note note--info"><span class="note__icon">💡</span><span><strong>VPN должен быть включён.</strong> Порядок всегда один: сначала VPN, потом вход в Claude. Тот же порядок, что и в подготовке.</span></div>
+
+    <div class="item" data-key="cc-first-prompt"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Отправить первый запрос и убедиться, что агент отвечает</div>
+        <div class="item__hint">Напишите ему что-нибудь простое, например: «расскажи, что ты умеешь делать на моём компьютере». Ответ пришёл — значит связка редактор + агент работает.</div>
+      </div>
+    </div>
+
+    <details class="spoiler">
+      <summary>Если пойдёте по пути Codex вместо Claude Code</summary>
+      <div class="spoiler__content">
+        <p><strong>Codex</strong> — такой же агент, только от OpenAI и по подписке ChatGPT. Он ставится рядом и не мешает Claude Code.</p>
+        <p>Берите его, если основная подписка у вас ChatGPT, а не Claude. Дальше по урокам всё то же самое: команды и логика работы совпадают.</p>
+        <p>На интенсиве мы ведём основную линию через Claude Code — примеры и промпты в связках написаны под него.</p>
+      </div>
+    </details>
+
+    <div class="note note--green"><span class="note__icon">✅</span><span><strong>Часть 1 пройдена, если:</strong> редактор открывается, Claude Code внутри него отвечает на ваш вопрос.</span></div>
+  </div>
+</div>
+
+<!-- ====== 02 ОКРУЖЕНИЕ И ЗАЩИТА ====== -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">02</div>
+    <div class="section__title">Окружение и защита</div>
+    <span class="part-tag">видео 2</span>
+  </div>
+  <div class="section__card">
+    <div class="note note--green"><span class="note__icon">🎯</span><span><strong>Что получите в этой части:</strong> рабочую папку под проект, установленное окружение и защиту, при которой агент физически не может тронуть файлы за пределами вашей папки и снести что-то нужное.</span></div>
+
+    <div class="item" data-key="work-folder"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Создать рабочую папку и открыть её как проект</div>
+        <div class="item__hint">Создайте папку в «Документах» — например, <strong>AI-office</strong>. Название запишите: оно понадобится на шаге с замком.<br>В редакторе: <strong>File → Open Folder</strong> → выберите эту папку. Всё, что делает агент, будет происходить внутри неё.</div>
+      </div>
+    </div>
+
+    <div class="note note--warn"><span class="note__icon">⚠️</span><span><strong>Одна папка на весь интенсив.</strong> Не разбрасывайте связки по разным местам: защита из этой части настраивается ровно на одну папку.</span></div>
+
+    <div class="item" data-key="env-install"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Установить окружение: Homebrew и Node.js</div>
+        <div class="item__hint">Это «моторчики», на которых работают программы связок. Ставятся один раз и дальше не трогаются.<br><strong>macOS:</strong> сначала Homebrew, потом Node.js.<br><strong>Windows:</strong> только Node.js.<br>Проще всего попросить Claude Code — он поставит сам и проверит.</div>
+        <a href="https://stavzzz.github.io/open-sites/vibe-coding-initial-setup/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Подробная инструкция по окружению</a>
+      </div>
+    </div>
+
+    <div class="note note--alert"><span class="note__icon">🚫</span><span><strong>Зачем вообще защита.</strong> Claude Code выполняет команды на вашем компьютере по-настоящему. Он может ошибиться и удалить нужные файлы. Дальше — два пути на выбор: простой и основательный.</span></div>
+
+    <div class="spoiler__title">🟢 Простой путь — поставить DCG</div>
+    <div class="note note--info"><span class="note__icon">🛡</span><span><strong>DCG</strong> — бесплатная программа-сторож. Она стоит между агентом и вашим компьютером и блокирует опасные команды <strong>до того, как они выполнятся</strong>.<br><br><strong>Что ловит:</strong> удаление файлов и папок целиком · откат и затирание истории проекта · опасные команды с базами и серверами.<br><strong>Чего не ловит:</strong> действия злоумышленника, правку файлов напрямую, команды, спрятанные внутри скриптов.<br><br>Ставится одним промптом: скопируйте текст ниже и вставьте в Claude Code.</span></div>
+
+    <div class="cmd-copy">
+      <span class="cmd-copy__text" id="promptDcg">Установи и настрой мне DCG — защиту от опасных команд для Claude Code, из репозитория https://github.com/Dicklesworthstone/destructive_command_guard. Я новичок — веди по шагам простыми словами, подключи защиту как положено и в конце проверь, что она работает.</span>
+      <button class="btn-copy" onclick="copyBlock('promptDcg',this)">📋 Копировать промпт</button>
+    </div>
+
+    <div class="item" data-key="dcg-install"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Установить DCG и проверить, что он работает</div>
+        <div class="item__hint">Отправьте промпт выше в Claude Code и пройдите по шагам, которые он подскажет. В конце он сам проверит защиту.</div>
+        <a href="https://github.com/Dicklesworthstone/destructive_command_guard" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> github.com/Dicklesworthstone/destructive_command_guard</a>
+      </div>
+    </div>
+
+    <div class="spoiler__title">🟣 Основательный путь — замок на папку и броня</div>
+    <div class="note note--info"><span class="note__icon">🔒</span><span>Два отдельных чек-листа. <strong>Замок</strong> закрывает агента внутри вашей папки: за её пределы он не выйдет, даже если очень захочет. <strong>Броня</strong> — это уже настройки самого Claude Code плюс бэкапы на случай, когда всё-таки что-то пошло не так.<br><br>Проходить их лучше в таком порядке: сначала замок, потом броня. Каждый чек-лист заканчивается тестом, который показывает, что защита реально закрылась.</span></div>
+
+    <div class="item" data-key="folder-lock"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Пройти чек-лист «Замок на папку»</div>
+        <div class="item__hint">Работает одинаково на macOS и Windows — в чек-листе есть оба варианта. В конце два теста: за пределы папки хода нет, внутри всё работает как раньше.</div>
+        <a href="https://stavzzz.github.io/open-sites/claude-code-folder-lock/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Чек-лист «Замок на папку» — macOS и Windows</a>
+      </div>
+    </div>
+
+    <div class="item" data-key="armor-mac"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Пройти чек-лист «Броня» под свою систему</div>
+        <div class="item__hint">Выберите свой вариант — они разные, не перепутайте.</div>
+        <a href="https://stavzzz.github.io/open-sites/claude-code-armor-mac/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Броня для macOS</a>
+        <a href="https://stavzzz.github.io/open-sites/claude-code-armor-windows/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Броня для Windows</a>
+      </div>
+    </div>
+
+    <div class="item" data-key="backup-ready"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Включить бэкап компьютера</div>
+        <div class="item__hint">Последняя страховка, если что-то всё-таки удалилось.<br><strong>macOS:</strong> Time Machine на внешний диск.<br><strong>Windows:</strong> «История файлов» или резервное копирование на внешний диск.</div>
+      </div>
+    </div>
+
+    <div class="note note--green"><span class="note__icon">✅</span><span><strong>Часть 2 пройдена, если:</strong> рабочая папка открыта как проект, окружение стоит, защита включена и проверена тестом.</span></div>
+  </div>
+</div>
+
+<div class="note note--info" style="margin-top:28px;border-radius:14px;border:1px solid var(--border);"><span class="note__icon">🚧</span><span><strong>Части 3–10 появятся здесь по мере записи видео:</strong> обзор интерфейса · GitHub и Superpowers · покупка рабочего сервера · вход по ключу без пароля · установка OpenClaw · подключение ChatGPT · Telegram и голос · финальная проверка.</span></div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer__done" id="doneBlock">
+      <div class="footer__done-emoji">🎉</div>
+      <div class="footer__done-text">Части 1 и 2 закрыты!</div>
+      <div class="footer__done-sub">Редактор, агент и защита на месте. Дальше — сервер.</div>
+    </div>
+    <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
+    <button class="btn-reset" onclick="resetProgress()">Сбросить прогресс</button>
+  </div>
+
+</div>
+
+
+<script>
+// Копирование промпта в буфер обмена.
+function copyBlock(id, btn) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  var text = el.innerText;
+  var done = function () {
+    var old = btn.textContent;
+    btn.textContent = '✅ Скопировано';
+    btn.classList.add('copied');
+    setTimeout(function () { btn.textContent = old; btn.classList.remove('copied'); }, 1800);
+  };
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(done);
+  } else {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+}
+</script>
+
+<script>
+// ====== CONFETTI ======
+const C = document.getElementById('confetti-canvas');
+const ctx = C.getContext('2d');
+let particles = [];
+let confettiActive = false;
+function resizeCanvas() { C.width = window.innerWidth; C.height = window.innerHeight; }
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+const COLORS = ['#7c5bf5','#9d7cff','#34d399','#6ee7b7','#fbbf24','#f87171','#fb7185','#38bdf8','#facc15','#a78bfa','#f472b6','#4ade80'];
+function rand(a,b){ return Math.random()*(b-a)+a; }
+function createBurst(x, y, count) {
+  for(let i=0;i<count;i++){
+    const angle=rand(0,Math.PI*2),speed=rand(4,14),size=rand(4,10);
+    particles.push({x,y,vx:Math.cos(angle)*speed+rand(-2,2),vy:Math.sin(angle)*speed*-0.8-rand(2,6),size,color:COLORS[Math.floor(Math.random()*COLORS.length)],rotation:rand(0,Math.PI*2),rotSpeed:rand(-0.2,0.2),gravity:rand(0.12,0.25),friction:rand(0.97,0.995),opacity:1,fadeSpeed:rand(0.005,0.015),shape:Math.random()>0.4?'rect':'circle'});
+  }
+}
+function launchConfetti(){
+  if(confettiActive)return;confettiActive=true;particles=[];
+  const W=C.width,H=C.height;
+  [[W*0.5,H*0.3,120],[W*0.15,H*0.2,80],[W*0.85,H*0.2,80],[W*0.5,H*0.1,100],[W*0.3,H*0.5,60],[W*0.7,H*0.5,60],[0,H*0.6,50],[W,H*0.6,50],[W*0.5,H*0.6,80]].forEach(([x,y,c],i)=>{setTimeout(()=>createBurst(x,y,c),i*150)});
+  setTimeout(()=>{createBurst(W*0.2,H*0.15,90);createBurst(W*0.8,H*0.15,90);createBurst(W*0.5,H*0.05,100)},1500);
+  setTimeout(()=>{createBurst(W*0.5,H*0.25,120);createBurst(W*0.1,H*0.4,60);createBurst(W*0.9,H*0.4,60)},2500);
+  animate();setTimeout(()=>{confettiActive=false},8000);
+}
+function animate(){
+  ctx.clearRect(0,0,C.width,C.height);
+  for(let i=particles.length-1;i>=0;i--){
+    const p=particles[i];p.vx*=p.friction;p.vy*=p.friction;p.vy+=p.gravity;p.x+=p.vx;p.y+=p.vy;p.rotation+=p.rotSpeed;p.opacity-=p.fadeSpeed;
+    if(p.opacity<=0){particles.splice(i,1);continue}
+    ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rotation);ctx.globalAlpha=p.opacity;ctx.fillStyle=p.color;
+    if(p.shape==='rect'){ctx.fillRect(-p.size/2,-p.size/4,p.size,p.size/2)}else{ctx.beginPath();ctx.arc(0,0,p.size/2,0,Math.PI*2);ctx.fill()}
+    ctx.restore();
+  }
+  if(particles.length>0||confettiActive){requestAnimationFrame(animate)}else{ctx.clearRect(0,0,C.width,C.height)}
+}
+
+// ====== CHECKLIST ======
+const STORAGE_KEY='iivizaciya_intensiv_setup_v1';
+const items=document.querySelectorAll('.item[data-key]');
+const totalCount=items.length;
+let wasComplete=false;
+function loadState(){
+  try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');let c=0;items.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');if(s[item.dataset.key]){cb.checked=true;item.classList.add('checked');c++}});wasComplete=c===totalCount}catch(e){}
+  updateProgress(false);
+}
+function saveState(){const s={};items.forEach(item=>{s[item.dataset.key]=item.querySelector('input[type="checkbox"]').checked});try{localStorage.setItem(STORAGE_KEY,JSON.stringify(s))}catch(e){}}
+function updateProgress(canCelebrate=true){
+  let c=0;items.forEach(item=>{if(item.querySelector('input[type="checkbox"]').checked)c++});
+  document.getElementById('progressCount').textContent=`${c} / ${totalCount}`;
+  document.getElementById('progressFill').style.width=(totalCount>0?(c/totalCount)*100:0)+'%';
+  const done=document.getElementById('doneBlock');
+  if(c===totalCount){done.classList.add('visible');if(canCelebrate&&!wasComplete){launchConfetti()}wasComplete=true}else{done.classList.remove('visible');wasComplete=false}
+}
+items.forEach(item=>{
+  const cb=item.querySelector('input[type="checkbox"]');
+  item.addEventListener('click',function(e){
+    if(e.target.closest('a'))return;
+    if(e.target!==cb){cb.checked=!cb.checked;cb.dispatchEvent(new Event('change'))}
+  });
+  cb.addEventListener('change',function(){item.classList.toggle('checked',this.checked);saveState();updateProgress(true)});
+});
+function resetProgress(){if(!confirm('Сбросить весь прогресс?'))return;items.forEach(item=>{const cb=item.querySelector('input[type="checkbox"]');cb.checked=false;item.classList.remove('checked')});wasComplete=false;saveState();updateProgress(false)}
+loadState();
+</script>
+
+<script>
+(function() {
+  document.querySelectorAll('.item').forEach(function(item) {
+    var check = item.querySelector('.item__check');
+    if (!check) return;
+    item.addEventListener('click', function(e) {
+      if (e.target.closest('a')) return;
+      if (check.contains(e.target)) return;
+      e.preventDefault();
+      e.stopPropagation();
+    }, true);
+  });
+})();
+</script>
+
+<script>
+// Плавное появление блоков по мере скролла. Класс вешает сам скрипт:
+// если JS отключён, страница обычная — прятать контент стилями нельзя.
+// Проверяем положение блока, а не события пересечения: при прыжке в конец
+// страницы (Cmd+End, ссылка-якорь) наблюдатель пропускал бы блоки, и они
+// остались бы невидимыми.
+(function(){
+  var sel='.section,.module,.event,.stage,.card,.footer';
+  var els=Array.prototype.slice.call(document.querySelectorAll(sel)).filter(function(el){
+    if(el.parentElement && el.parentElement.closest('.reveal')) return false;  // вложенные не прячем дважды
+    if(getComputedStyle(el).position!=='static') return false;                 // липкий прогресс-бар не трогаем
+    el.classList.add('reveal'); return true;
+  });
+  if(!els.length) return;
+  var ticking=false;
+  function sweep(){
+    ticking=false;
+    var edge=window.innerHeight-60;
+    for(var i=els.length-1;i>=0;i--){
+      if(els[i].getBoundingClientRect().top<edge){ els[i].classList.add('is-in'); els.splice(i,1); }
+    }
+    if(!els.length){ window.removeEventListener('scroll',onMove); window.removeEventListener('resize',onMove); }
+  }
+  function onMove(){ if(!ticking){ ticking=true; requestAnimationFrame(sweep); } }
+  window.addEventListener('scroll',onMove,{passive:true});
+  window.addEventListener('resize',onMove);
+  requestAnimationFrame(sweep);   // первый экран проявляется тоже плавно
+})();
+</script>
+</body>
+</html>
