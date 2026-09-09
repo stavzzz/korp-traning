@@ -263,6 +263,8 @@
       </div>
     </div>
 
+    <div class="note note--info"><span class="note__icon">⌨️</span><span><strong>Что такое терминал.</strong> Окно, куда команды пишут текстом, вместо того чтобы нажимать кнопки мышкой. Почти всё за вас будет делать Claude Code, но пару раз терминал понадобится открыть самому — например, при настройке OpenClaw.<br><br><strong>Как открыть на macOS:</strong> нажмите Cmd + пробел, наберите «Терминал» и запустите его.<br><strong>Как открыть на Windows:</strong> нажмите «Пуск», наберите «Терминал» или «PowerShell» и запустите.<br><br>Внутри редактора терминал тоже есть — это та самая панель снизу. Разницы никакой, команды одинаковые.</span></div>
+
     <div class="item" data-key="cc-extension"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Установить расширение Claude Code</div>
@@ -700,7 +702,7 @@
   <div class="section__card">
     <div class="note note--green"><span class="note__icon">🎯</span><span><strong>Что получите в этой части:</strong> OpenClaw на вашем сервере и панель управления в браузере.</span></div>
 
-    <div class="note note--info"><span class="note__icon">📦</span><span><strong>Куда ставится OpenClaw.</strong> Прямо на сервер. Docker при этом тоже ставится, но нужен он не для самого OpenClaw, а для песочницы: в ней бот выполняет команды, не трогая сервер. Управляют OpenClaw командами вида <strong>openclaw doctor</strong>.</span></div>
+    <div class="note note--info"><span class="note__icon">📦</span><span><strong>Куда ставится OpenClaw.</strong> Прямо на сервер, одной командой. По официальной документации Docker для этого <strong>не нужен</strong> — он там помечен как необязательный. Ставить его сейчас не будем: понадобится позже, на связках, и тогда Claude Code поставит его сам.</span></div>
 
     <div class="item" data-key="skill-openclaw-docs"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
@@ -730,9 +732,9 @@
 
 Выполни на сервере строго по порядку:
 1. Обнови пакеты системы.
-2. Установи Docker и зависимости (docker-ce, docker-ce-cli, containerd.io, docker-compose-plugin) и убедись, что docker запускается.
-3. Установи OpenClaw: curl -fsSL --proto '=https' --tlsv1.2 https://openclaw.ai/install.sh | bash -s -- --no-onboard
-4. Проверь, что всё встало: openclaw --version и openclaw doctor.
+2. Установи OpenClaw: curl -fsSL --proto '=https' --tlsv1.2 https://openclaw.ai/install.sh | bash -s -- --no-onboard
+3. Проверь, что всё встало: openclaw --version и openclaw doctor.
+Docker сейчас не ставь — он для установки OpenClaw не нужен.
 
 Если команда openclaw не находится (command not found) — это PATH после установки, а НЕ ошибка установки: открой новый терминал или выполни hash -r и повтори, НЕ переустанавливай.
 Ничего интерактивного не запускай — просто отчитайся об успехе и покажи вывод.</span>
@@ -742,7 +744,7 @@
     <div class="item" data-key="oc-install"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Установить OpenClaw на сервер</div>
-        <div class="item__hint">Агент подключится сам, обновит систему, поставит Docker и OpenClaw, затем покажет версию и результат проверки.</div>
+        <div class="item__hint">Агент подключится сам, обновит систему, поставит OpenClaw и покажет версию с результатом проверки.</div>
       </div>
     </div>
 
@@ -789,35 +791,46 @@
   <div class="section__card">
     <div class="note note--green"><span class="note__icon">🎯</span><span><strong>Что получите в этой части:</strong> подключённую модель — бот начинает отвечать. Работает на вашей подписке ChatGPT из подготовки, отдельно за токены платить не нужно.</span></div>
 
-    <div class="note note--info"><span class="note__icon">🧠</span><span><strong>Модель у бота одна.</strong> Берём ChatGPT: OpenAI официально разрешает использовать подписку в OpenClaw. Подойдёт и Plus, и Pro.</span></div>
+    <div class="note note--info"><span class="note__icon">🧠</span><span><strong>Модель у бота одна.</strong> Берём ChatGPT: OpenAI официально разрешает использовать подписку в OpenClaw. Подойдёт и Plus, и Pro.<br>Актуальная модель — <strong>GPT-6 Astra</strong>. Доступ к ней открывают аккаунтам постепенно, поэтому у части людей её пока может не быть: тогда агент подберёт другую доступную модель.</span></div>
+
+    <div class="note note--green"><span class="note__icon">🤖</span><span><strong>Команды в терминал вводить не нужно.</strong> Всё подключает Claude Code: копируете промпт, вставляете в чат, отвечаете на его вопросы.</span></div>
+
+    <div class="cmd-copy">
+      <span class="cmd-copy__text" id="promptLlm">Подключи модель к моему OpenClaw на сервере. Сверяйся со скиллом openclaw-docs, ничего не выдумывай.
+
+1. Подключись к серверу по SSH (алиас my-server; если не сработает — спроси у меня IP).
+2. Помоги авторизоваться через мою подписку ChatGPT: дай ссылку, я войду в браузере, дождись подтверждения.
+3. Проверь, доступна ли моему аккаунту модель openai/gpt-6-astra. Если доступна — выбери её. Если нет — покажи список доступных моделей OpenAI и предложи лучшую, объясни выбор простыми словами.
+4. Выставь уровень размышления high и объясни, чем он отличается от low, который стоит по умолчанию.
+5. Проверь, что бот отвечает, и покажи мне результат.
+
+Объясняй каждый шаг простыми словами и дожидайся моего подтверждения перед следующим.</span>
+      <button class="btn-copy" onclick="copyBlock('promptLlm',this)">📋 Копировать промпт</button>
+    </div>
 
     <div class="item" data-key="llm-connect"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Выбрать провайдера и авторизоваться</div>
-        <div class="item__hint">Продолжаем мастер настройки с того места, где остановились:<br>1. Выберите провайдера <strong>openai</strong> — Codex подключится автоматически<br>2. В терминале появится ссылка на авторизацию<br>3. Откройте её в браузере и войдите в аккаунт ChatGPT<br>4. Дождитесь подтверждения в терминале</div>
+        <div class="item__text">Подключить подписку ChatGPT</div>
+        <div class="item__hint">Отправьте промпт выше. Агент даст ссылку на авторизацию — войдите в браузере в аккаунт ChatGPT и вернитесь в чат.</div>
       </div>
     </div>
 
     <div class="item" data-key="llm-effort"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Включить глубокий режим размышления</div>
-        <div class="item__hint">Чтобы бот давал более точные ответы. Команда выполняется на сервере.<br>Если модель в вашей версии называется иначе — попросите Claude Code свериться со скиллом openclaw-docs и подставить актуальную.</div>
+        <div class="item__text">Выставить уровень размышления</div>
+        <div class="item__hint">Чем выше уровень, тем глубже бот думает — и тем быстрее расходуется лимит подписки.<br>
+          <table class="os-table">
+            <tr><th>Уровень</th><th>Когда брать</th></tr>
+            <tr><td>low</td><td>Стоит по умолчанию. Экономит лимит, годится для простых задач</td></tr>
+            <tr><td>medium</td><td>Середина</td></tr>
+            <tr><td>high</td><td>Рабочий выбор для связок: ответы заметно точнее</td></tr>
+            <tr><td>xhigh · max</td><td>Самые тяжёлые задачи. Долго и расходует лимит быстрее всего</td></tr>
+          </table>
+        </div>
       </div>
     </div>
 
-    <div class="code-block">
-      <span class="code-block__label">режим high — рекомендуется</span>
-      <div class="code-block__scroll" id="cmdEffortHigh">openclaw config set agents.defaults.models."openai/gpt-5.5".params.reasoning.effort "high"</div>
-      <button class="btn-copy" onclick="copyBlock('cmdEffortHigh',this)">📋 Копировать команду</button>
-    </div>
-
-    <div class="code-block">
-      <span class="code-block__label">режим xhigh — думает дольше, отвечает глубже</span>
-      <div class="code-block__scroll" id="cmdEffortXhigh">openclaw config set agents.defaults.models."openai/gpt-5.5".params.reasoning.effort "xhigh"</div>
-      <button class="btn-copy" onclick="copyBlock('cmdEffortXhigh',this)">📋 Копировать команду</button>
-    </div>
-
-    <div class="note note--warn"><span class="note__icon">⏱</span><span><strong>Лимиты подписки.</strong> ChatGPT Plus — около 5 часов активной работы бота в неделю. ChatGPT Pro — практически без ограничений.</span></div>
+    <div class="note note--warn"><span class="note__icon">⏱</span><span><strong>Лимиты подписки.</strong> ChatGPT Plus — около 5 часов активной работы бота в неделю. ChatGPT Pro — практически без ограничений.<br>Поэтому OpenClaw и ставит по умолчанию низкий уровень размышления: чтобы обычные вопросы не съедали недельный лимит.</span></div>
 
     <div class="item" data-key="llm-check"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
@@ -826,7 +839,7 @@
       </div>
     </div>
 
-    <div class="note note--green"><span class="note__icon">✅</span><span><strong>Часть 8 пройдена, если:</strong> авторизация ChatGPT завершена, режим размышления выставлен, бот отвечает на вопрос.</span></div>
+    <div class="note note--green"><span class="note__icon">✅</span><span><strong>Часть 8 пройдена, если:</strong> подписка ChatGPT авторизована, модель выбрана, уровень размышления выставлен, бот отвечает на вопрос.</span></div>
   </div>
 </div>
 
