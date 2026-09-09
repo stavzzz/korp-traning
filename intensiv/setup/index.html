@@ -192,7 +192,13 @@
   .btn-copy{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:600;color:var(--accent-glow);background:var(--accent-soft);border:1px solid rgba(124,91,245,0.3);padding:8px 16px;border-radius:8px;cursor:pointer;transition:all .2s;text-transform:uppercase;letter-spacing:1px;}
   .btn-copy:hover{background:rgba(124,91,245,0.2);border-color:var(--accent);}
   .btn-copy.copied{color:var(--green);background:var(--green-soft);border-color:rgba(52,211,153,0.3);}
-  @media (max-width:480px){ .part-tag{display:none;} .cmd-copy{margin:12px 16px;} }
+  .code-block{background:rgba(0,0,0,0.4);border:1px solid var(--border-accent);border-radius:10px;padding:16px 20px;margin:12px 20px;}
+  .code-block__label{font-size:12.5px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;display:block;font-family:'JetBrains Mono',monospace;}
+  .code-block__scroll{max-height:320px;overflow-y:auto;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:14.5px;color:var(--green-glow);line-height:1.7;white-space:pre-wrap;word-break:break-word;}
+  .code-block__scroll::-webkit-scrollbar{width:9px;height:9px;}
+  .code-block__scroll::-webkit-scrollbar-thumb{background:var(--border-accent);border-radius:9px;}
+  .code-block .btn-copy{margin-top:12px;}
+  @media (max-width:480px){ .part-tag{display:none;} .cmd-copy{margin:12px 16px;} .code-block{margin:12px 16px;padding:14px 16px;} }
 </style>
 
 <body>
@@ -205,7 +211,7 @@
     <div class="header__goal">
       <span class="header__goal-label">Что получите в итоге</span>
       <ul class="header__goal-list">
-        <li>Claude Code внутри редактора: им вы собираете все семь связок</li>
+        <li>Настроенный Claude Code внутри редактора: им вы собираете все семь связок</li>
         <li>Защиту, при которой агент не меняет файлы за пределами рабочей папки</li>
         <li>Аккаунт GitHub, набор скиллов и два подключённых сервиса</li>
         <li>Рабочий сервер с&nbsp;OpenClaw — на нём работают ваши боты</li>
@@ -240,6 +246,13 @@
         <div class="item__text">Скачать и установить Visual Studio Code</div>
         <div class="item__hint">Бесплатный редактор от Microsoft. Сайт определит вашу систему сам — нажмите синюю кнопку.<br><strong>macOS:</strong> распакуйте архив и перетащите приложение в «Программы».<br><strong>Windows:</strong> запустите установщик, галочки оставьте по умолчанию.</div>
         <a href="https://code.visualstudio.com/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> code.visualstudio.com — скачать редактор</a>
+      </div>
+    </div>
+
+    <div class="item" data-key="root-folder"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Создать общую папку «Vibe Coding»</div>
+        <div class="item__hint">На рабочем столе или в «Документах» создайте папку и назовите её <strong>Vibe Coding</strong>. В ней будут лежать все ваши проекты.<br>Внутри — по отдельной папке на каждый проект: <strong>отдельная папка — отдельный проект</strong>. Диалоги Claude Code привязаны к папке: открыли папку проекта — агент видит её файлы и помнит прошлые сессии по ней.</div>
       </div>
     </div>
 
@@ -282,7 +295,7 @@
       </div>
     </details>
 
-    <div class="note note--green"><span class="note__icon">✅</span><span><strong>Часть 1 пройдена, если:</strong> редактор открывается, Claude Code внутри него отвечает на ваш вопрос.</span></div>
+    <div class="note note--green"><span class="note__icon">✅</span><span><strong>Часть 1 пройдена, если:</strong> папка Vibe Coding создана, редактор открывается, Claude Code внутри него отвечает на ваш вопрос.</span></div>
   </div>
 </div>
 
@@ -299,24 +312,34 @@
     <div class="item" data-key="work-folder"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Создать рабочую папку и открыть её как проект</div>
-        <div class="item__hint">Создайте папку в «Документах» — например, <strong>AI-office</strong>. Название запишите: оно понадобится на шаге с замком.<br>В редакторе: <strong>File → Open Folder</strong> → выберите эту папку. Агент работает внутри неё.</div>
+        <div class="item__hint">Внутри «Vibe Coding» создайте папку проекта — например, <strong>AI-office</strong>. Название запишите: оно понадобится на шаге с замком.<br>В редакторе: <strong>File → Open Folder</strong> → выберите эту папку. Агент работает внутри неё.</div>
       </div>
     </div>
 
     <div class="note note--warn"><span class="note__icon">⚠️</span><span><strong>Одна папка на весь интенсив.</strong> Не раскладывайте связки по разным местам: защита настраивается ровно на одну папку.</span></div>
 
+    <div class="note note--info"><span class="note__icon">⚙️</span><span><strong>Окружение</strong> — программы, без которых код связок не запустится. Ставятся один раз. Команды руками не набираете: копируете промпт под свою систему и вставляете в чат Claude Code.</span></div>
+
+    <div class="cmd-copy">
+      <span class="cmd-copy__text" id="promptEnvMac">macOS. Установи мне Homebrew, затем Node.js последней LTS-версии. Я новичок — веди по шагам простыми словами. В конце выполни node -v и npm -v и покажи мне версии.</span>
+      <button class="btn-copy" onclick="copyBlock('promptEnvMac',this)">📋 Копировать промпт для macOS</button>
+    </div>
+
+    <div class="cmd-copy">
+      <span class="cmd-copy__text" id="promptEnvWin">Windows. Установи мне Node.js последней LTS-версии. Я новичок — веди по шагам простыми словами. В конце выполни node -v и npm -v и покажи мне версии.</span>
+      <button class="btn-copy" onclick="copyBlock('promptEnvWin',this)">📋 Копировать промпт для Windows</button>
+    </div>
+
     <div class="item" data-key="env-install"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Установить окружение: Homebrew и Node.js</div>
-        <div class="item__hint">Без них программы связок не запустятся. Ставятся один раз.<br><strong>macOS:</strong> сначала Homebrew, потом Node.js.<br><strong>Windows:</strong> только Node.js.<br>Проще попросить Claude Code — он поставит и проверит версию.</div>
-        <a href="https://stavzzz.github.io/open-sites/vibe-coding-initial-setup/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Подробная инструкция по окружению</a>
+        <div class="item__text">Установить окружение и увидеть версии</div>
+        <div class="item__hint">Отправьте промпт под свою систему. Готово, когда агент показал две версии: <strong>node</strong> и <strong>npm</strong>.<br>На macOS ставится Homebrew и Node.js, на Windows — только Node.js.</div>
       </div>
     </div>
 
-    <div class="note note--alert"><span class="note__icon">🚫</span><span><strong>Зачем защита.</strong> Claude Code выполняет команды на вашем компьютере по-настоящему. При ошибке он может удалить нужные файлы. Дальше два пути на выбор: быстрый и основательный.</span></div>
+    <div class="note note--alert"><span class="note__icon">🚫</span><span><strong>Зачем защита.</strong> Claude Code выполняет команды на вашем компьютере по-настоящему. При ошибке он может удалить нужные файлы. Ставим сторожа, который проверяет команду до запуска.</span></div>
 
-    <div class="spoiler__title">🟢 Быстрый путь — поставить DCG</div>
-    <div class="note note--info"><span class="note__icon">🛡</span><span><strong>DCG</strong> — бесплатная программа-сторож. Она проверяет команду до запуска и блокирует опасную.<br><br><strong>Что ловит:</strong> удаление файлов и папок целиком · откат и затирание истории проекта · опасные команды с базами и серверами.<br><strong>Чего не ловит:</strong> действия злоумышленника, правку файлов напрямую, команды внутри скриптов.<br><br>Ставится одним промптом: скопируйте текст ниже и вставьте в Claude Code.</span></div>
+    <div class="note note--info"><span class="note__icon">🛡</span><span><strong>DCG</strong> — бесплатная программа-сторож. Проверяет команду до запуска и блокирует опасную.<br><br><strong>Что ловит:</strong> удаление файлов и папок целиком · откат и затирание истории проекта · опасные команды с базами и серверами.<br><strong>Чего не ловит:</strong> действия злоумышленника, правку файлов напрямую, команды внутри скриптов.</span></div>
 
     <div class="cmd-copy">
       <span class="cmd-copy__text" id="promptDcg">Установи и настрой мне DCG — защиту от опасных команд для Claude Code, из репозитория https://github.com/Dicklesworthstone/destructive_command_guard. Я новичок — веди по шагам простыми словами, подключи защиту как положено и в конце проверь, что она работает.</span>
@@ -326,39 +349,22 @@
     <div class="item" data-key="dcg-install"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Установить DCG и проверить, что он работает</div>
-        <div class="item__hint">Отправьте промпт выше в Claude Code и пройдите по шагам, которые он подскажет. Проверку он выполнит сам.</div>
+        <div class="item__hint">Отправьте промпт выше и пройдите по шагам, которые подскажет агент. Проверку он выполнит сам.</div>
         <a href="https://github.com/Dicklesworthstone/destructive_command_guard" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> github.com/Dicklesworthstone/destructive_command_guard</a>
       </div>
     </div>
 
-    <div class="spoiler__title">🟣 Основательный путь — замок на папку и броня</div>
-    <div class="note note--info"><span class="note__icon">🔒</span><span>Два отдельных чек-листа. <strong>Замок</strong> закрывает агенту доступ за пределы вашей папки. <strong>Броня</strong> — настройки самого Claude Code и бэкапы на случай, когда что-то всё-таки удалилось.<br><br>Порядок: сначала замок, потом броня. Каждый чек-лист заканчивается тестом, который показывает, что защита закрылась.</span></div>
-
-    <div class="item" data-key="folder-lock"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Пройти чек-лист «Замок на папку»</div>
-        <div class="item__hint">В чек-листе есть вариант для macOS и для Windows. В конце два теста: за пределы папки хода нет, внутри работа не сломана.</div>
-        <a href="https://stavzzz.github.io/open-sites/claude-code-folder-lock/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Чек-лист «Замок на папку» — macOS и Windows</a>
+    <details class="spoiler">
+      <summary>Дополнительно: замок на папку и броня</summary>
+      <div class="spoiler__content">
+        <p>Два отдельных чек-листа для тех, кто хочет закрыть агента жёстче. В основной путь интенсива они не входят — разбираем их отдельно.</p>
+        <p><strong>Замок</strong> закрывает агенту доступ за пределы вашей папки: <a href="https://stavzzz.github.io/open-sites/claude-code-folder-lock/" target="_blank">чек-лист «Замок на папку»</a>, есть вариант для macOS и для Windows.</p>
+        <p><strong>Броня</strong> — настройки самого Claude Code и резервные копии: <a href="https://stavzzz.github.io/open-sites/claude-code-armor-mac/" target="_blank">для macOS</a> · <a href="https://stavzzz.github.io/open-sites/claude-code-armor-windows/" target="_blank">для Windows</a>.</p>
+        <p>Порядок: сначала замок, потом броня. Каждый чек-лист заканчивается тестом, который показывает, что защита закрылась.</p>
       </div>
-    </div>
+    </details>
 
-    <div class="item" data-key="armor-os"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Пройти чек-лист «Броня» под свою систему</div>
-        <div class="item__hint">Чек-листы разные — откройте свой.</div>
-        <a href="https://stavzzz.github.io/open-sites/claude-code-armor-mac/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Броня для macOS</a>
-        <a href="https://stavzzz.github.io/open-sites/claude-code-armor-windows/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> Броня для Windows</a>
-      </div>
-    </div>
-
-    <div class="item" data-key="backup-ready"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-      <div class="item__body">
-        <div class="item__text">Включить резервное копирование компьютера</div>
-        <div class="item__hint">Последняя страховка, если файл всё-таки удалился.<br><strong>macOS:</strong> Time Machine на внешний диск.<br><strong>Windows:</strong> «История файлов» или резервное копирование на внешний диск.</div>
-      </div>
-    </div>
-
-    <div class="note note--green"><span class="note__icon">✅</span><span><strong>Часть 2 пройдена, если:</strong> рабочая папка открыта как проект, окружение стоит, защита включена и проверена тестом.</span></div>
+    <div class="note note--green"><span class="note__icon">✅</span><span><strong>Часть 2 пройдена, если:</strong> папка проекта открыта в редакторе, версии node и npm показаны, DCG установлен и проверен.</span></div>
   </div>
 </div>
 
@@ -366,25 +372,26 @@
 <div class="section">
   <div class="section__header">
     <div class="section__num">03</div>
-    <div class="section__title">Управление агентом</div>
+    <div class="section__title">Управление агентом Claude Code</div>
     <span class="part-tag">видео 3</span>
   </div>
   <div class="section__card">
-    <div class="note note--green"><span class="note__icon">🎯</span><span><strong>Что получите в этой части:</strong> шесть команд, которыми вы управляете агентом каждый день, и файл с правилами, который он читает перед работой.</span></div>
+    <div class="note note--green"><span class="note__icon">🎯</span><span><strong>Что получите в этой части:</strong> команды, которыми вы управляете агентом каждый день, разобранный интерфейс и файл с правилами, который агент читает перед работой.</span></div>
 
     <div class="note note--info"><span class="note__icon">⌨️</span><span>Команды — короткие указания для Claude Code. Пишутся в чате и начинаются со слэша <strong>/</strong>. Наберёте слэш — Claude покажет меню со списком.</span></div>
 
     <div class="item" data-key="cmd-basic"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Разобрать шесть команд и попробовать каждую</div>
+        <div class="item__text">Разобрать команды и попробовать каждую</div>
         <div class="item__hint">
           <table class="os-table">
             <tr><th>Команда</th><th>Зачем нужна</th></tr>
-            <tr><td>/context</td><td>Показывает, насколько заполнена память текущего диалога</td></tr>
-            <tr><td>/compact</td><td>Сжимает диалог, когда память почти кончилась, работа продолжается</td></tr>
+            <tr><td>/context</td><td>Показывает, сколько памяти диалога занято и сколько осталось</td></tr>
+            <tr><td>/compact</td><td>Сжимает диалог, когда память кончается: работа продолжается, начало не теряется</td></tr>
             <tr><td>/clear</td><td>Очищает диалог и начинает с чистого листа</td></tr>
             <tr><td>/model</td><td>Выбор модели: Opus — для сложного, Haiku — для простого и быстрого</td></tr>
             <tr><td>/effort</td><td>Насколько глубоко Claude думает: глубже — точнее, но дольше и дороже</td></tr>
+            <tr><td>/doctor</td><td>Проверяет, что Claude Code установлен правильно; показывает, что сломано</td></tr>
             <tr><td>/rewind</td><td>Откат на шаг назад, если что-то пошло не так</td></tr>
           </table>
         </div>
@@ -393,25 +400,79 @@
 
     <div class="note note--warn"><span class="note__icon">💬</span><span><strong>Одна задача — один диалог.</strong> Память диалога ограничена. Чем длиннее переписка, тем дороже каждый следующий ответ и тем чаще агент теряет начало. Закончили задачу — <strong>/clear</strong> и начинайте следующую заново.</span></div>
 
-    <div class="item" data-key="claude-md"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+    <div class="item" data-key="ui-tour"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Создать файл CLAUDE.md в рабочей папке</div>
-        <div class="item__hint"><strong>CLAUDE.md</strong> — файл с постоянными правилами. Claude Code читает его первым и держит в памяти всё время работы.<br>Что туда пишут: чем вы занимаетесь, на каком языке отвечать, что запрещено трогать, где лежат важные файлы.<br>Написать его можно тем же промптом — попросите Claude Code задать вам вопросы и собрать файл из ответов.</div>
+        <div class="item__text">Разобраться в интерфейсе: шесть мест, куда вы будете смотреть</div>
+        <div class="item__hint">
+          • <strong>Открыть другой проект</strong> — File → Open Folder, выбираете нужную папку внутри «Vibe Coding»<br>
+          • <strong>Выбор модели</strong> — переключается в интерфейсе или командой /model<br>
+          • <strong>Режим размышления</strong> — Thinking и /effort: чем глубже, тем дольше и дороже ответ<br>
+          • <strong>Остаток памяти диалога</strong> — виден в интерфейсе и по команде /context<br>
+          • <strong>Список сессий</strong> — панель слева: прошлые диалоги по этой папке, к любому можно вернуться<br>
+          • <strong>Аккаунт и лимиты</strong> — сколько запросов израсходовано по подписке
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-key="tag-file"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Указать агенту конкретный файл через собаку</div>
+        <div class="item__hint">Наберите в чате <strong>@</strong> — появится список файлов проекта. Выберите нужный, и агент будет работать именно с ним, а не искать по всей папке.<br>Так же добавляют картинки и документы: <strong>@отчёт.pdf</strong>, <strong>@скриншот.png</strong>.</div>
       </div>
     </div>
 
     <div class="item" data-key="permissions-mode"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
-        <div class="item__text">Посмотреть режимы разрешений и включить нужный</div>
-        <div class="item__hint">По умолчанию Claude Code спрашивает разрешение перед каждым действием. В режиме <strong>Bypass Permissions</strong> он перестаёт спрашивать и работает без остановок.<br>Режим удобен на длинных задачах, но включайте его только после части 2: замок и защита уже стоят и ограничивают агента вашей папкой.</div>
+        <div class="item__text">Найти режимы разрешений и включить Bypass Permissions</div>
+        <div class="item__hint">По умолчанию Claude Code спрашивает разрешение перед каждым действием. В режиме <strong>Bypass Permissions</strong> он перестаёт спрашивать и работает без остановок.<br>Режим экономит время на длинных задачах. Включайте его после части 2: DCG уже проверяет команды.</div>
       </div>
     </div>
 
-    <div class="note note--green"><span class="note__icon">✅</span><span><strong>Часть 3 пройдена, если:</strong> вы вызвали каждую из шести команд, CLAUDE.md лежит в рабочей папке, режим разрешений выбран осознанно.</span></div>
+    <div class="note note--info"><span class="note__icon">📄</span><span><strong>CLAUDE.md</strong> — файл с постоянными правилами. Claude Code читает его первым и держит в памяти всё время работы. Лежит в корне папки проекта.<br>Ниже — образец. Скопируйте, замените текст под себя и сохраните как <strong>CLAUDE.md</strong>.</span></div>
+
+    <div class="code-block">
+      <span class="code-block__label">образец CLAUDE.md</span>
+      <div class="code-block__scroll" id="claudeMdSample"># Кто я
+Владелец студии интерьерного дизайна, в команде 6 человек. Не программист.
+
+# Что за проект
+Внутренние ИИ-помощники студии: бот-секретарь, учёт расходов, база знаний по услугам.
+
+# Как отвечать
+- По-русски, коротко, без лишней теории.
+- Сначала результат, потом объяснение.
+- Незнакомый термин объяснять одной строкой при первом упоминании.
+- Перед изменением файлов показывать план и ждать моего подтверждения.
+
+# Что не трогать
+- Файл .env и любые ключи, токены, пароли.
+- Папку archive.
+- Ничего за пределами этой папки.
+
+# Где что лежит
+- docs/ — инструкции и регламенты студии
+- bots/ — код ботов
+- README.md — общее описание проекта</div>
+      <button class="btn-copy" onclick="copyBlock('claudeMdSample',this)">📋 Копировать образец</button>
+    </div>
+
+    <div class="item" data-key="claude-md"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Создать свой CLAUDE.md в папке проекта</div>
+        <div class="item__hint">Можно править образец руками, а можно собрать файл разговором — вставьте промпт ниже.</div>
+      </div>
+    </div>
+
+    <div class="cmd-copy">
+      <span class="cmd-copy__text" id="promptClaudeMd">Собери мне файл CLAUDE.md для этого проекта. Задай мне по одному вопросу за раз: кто я, чем занимается мой бизнес, как ты должен со мной разговаривать, что тебе запрещено трогать, где что лежит в папке. Из моих ответов составь файл и сохрани его в корне проекта.</span>
+      <button class="btn-copy" onclick="copyBlock('promptClaudeMd',this)">📋 Копировать промпт</button>
+    </div>
+
+    <div class="note note--green"><span class="note__icon">✅</span><span><strong>Часть 3 пройдена, если:</strong> вы вызвали каждую команду из таблицы, нашли в интерфейсе выбор модели, список сессий и остаток памяти, указали файл через @, и в папке проекта лежит ваш CLAUDE.md.</span></div>
   </div>
 </div>
 
-<!-- ====== 04 GITHUB, СКИЛЛЫ И MCP ====== -->
+<!-- ====== 04 GITHUB И MCP ====== -->
 <div class="section">
   <div class="section__header">
     <div class="section__num">04</div>
@@ -456,7 +517,7 @@
     <div class="item" data-key="mcp-github"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Подключить GitHub — статус Connected</div>
-        <div class="item__hint">Вставьте промпт выше. Агент спросит токен и подключит сервис, затем покажет статус.</div>
+        <div class="item__hint">Вставьте промпт выше. Агент спросит токен, подключит сервис и покажет статус.</div>
       </div>
     </div>
 
@@ -469,7 +530,7 @@
     <div class="item" data-key="mcp-playwright"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
       <div class="item__body">
         <div class="item__text">Подключить Playwright — статус Connected</div>
-        <div class="item__hint">Playwright даёт агенту браузер: он открывает сайты, делает скриншоты, кликает и заполняет формы. Пригодится, когда будете проверять свои страницы и разбирать чужие.</div>
+        <div class="item__hint">Playwright даёт агенту браузер: он открывает сайты, делает скриншоты, кликает и заполняет формы. Пригодится, когда будете проверять свои страницы.</div>
       </div>
     </div>
 
