@@ -553,7 +553,141 @@
   </div>
 </div>
 
-<div class="note note--info" style="margin-top:28px;border-radius:14px;border:1px solid var(--border);"><span class="note__icon">🚧</span><span><strong>Части 5–10 появятся здесь по мере записи видео:</strong> покупка рабочего сервера · вход по ключу без пароля · установка OpenClaw · подключение ChatGPT · Telegram и голос · финальная проверка.</span></div>
+<!-- ====== 05 ПОКУПКА РАБОЧЕГО СЕРВЕРА ====== -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">05</div>
+    <div class="section__title">Покупка рабочего сервера</div>
+    <span class="part-tag">видео 5</span>
+  </div>
+  <div class="section__card">
+    <div class="note note--green"><span class="note__icon">🎯</span><span><strong>Что получите в этой части:</strong> отдельный сервер под OpenClaw, его IP-адрес и пароль. На этом сервере дальше будут работать все ваши боты.</span></div>
+
+    <div class="note note--alert"><span class="note__icon">🚨</span><span><strong>Это второй сервер, а не тот, что из подготовки.</strong> На первом стоит VPN — его не трогаем. OpenClaw ставится на отдельный чистый сервер: без VPN, без других сервисов.<br>Аккаунт хостинга можно взять тот же — просто создайте в нём ещё один сервер.</span></div>
+
+    <div class="note note--alert"><span class="note__icon">🚫</span><span><strong>Сервер не должен принадлежать российской компании.</strong> Дело не в том, где физически стоит железо: IP у вас будет зарубежный. Дело в том, чьей компании принадлежат стойки и этот IP.<br>Российские хостеры (Aeza, Timeweb, Reg.ru и подобные) сдают зарубежные локации, но владелец — российское юрлицо, и его диапазоны IP известны. OpenAI, Anthropic и Google такие диапазоны часто режут по гео или блокируют.<br>Итог: модели то работают, то нет, бот молчит, а причину не видно.</span></div>
+
+    <div class="item" data-key="vps-provider"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Выбрать зарубежного провайдера</div>
+        <div class="item__hint">
+          <table class="os-table">
+            <tr><th>Провайдер</th><th>Цена/мес</th><th>Чем хорош</th></tr>
+            <tr><td>netcup ⭐</td><td>~€5</td><td>Лучшая цена и качество, надёжный, есть сервер в США</td></tr>
+            <tr><td>Hetzner ⭐</td><td>~€4–6</td><td>Дёшево и надёжно, есть серверы в США</td></tr>
+            <tr><td>DigitalOcean</td><td>$6–12</td><td>Самый понятный сайт для новичка</td></tr>
+            <tr><td>Vultr</td><td>от $6</td><td>Серверы во многих городах США</td></tr>
+            <tr><td>Linode</td><td>от $5</td><td>Крупный надёжный провайдер</td></tr>
+          </table>
+          Новичку проще всего netcup или Hetzner. Цены в таблице — за минимальные тарифы; рабочий сервер под OpenClaw будет дороже, параметры ниже.
+        </div>
+        <a href="https://www.netcup.com/" target="_blank" class="item__link" onclick="event.stopPropagation()"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v2.69a.75.75 0 0 0 1.5 0V3a.75.75 0 0 0-.75-.75H9a.75.75 0 0 0 0 1.5h2.69L6.22 8.72Z"/><path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z"/></svg> netcup.com</a>
+      </div>
+    </div>
+
+    <div class="note note--info"><span class="note__icon">📞</span><span><strong>netcup при регистрации просит телефон, но SMS не приходит.</strong> Зарубежный номер для покупки сервера не нужен.</span></div>
+
+    <div class="item" data-key="vps-order"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Заказать сервер с нужными параметрами</div>
+        <div class="item__hint">Меньше брать нельзя: на 2 ядрах и 4 ГБ агент тормозит и падает. Больше — можно.
+          <table class="os-table">
+            <tr><th>Параметр</th><th>Минимум</th></tr>
+            <tr><td>Процессор</td><td>4 ядра</td></tr>
+            <tr><td>Память</td><td>8 ГБ</td></tr>
+            <tr><td>Диск</td><td>120 ГБ NVMe</td></tr>
+            <tr><td>Система</td><td>Ubuntu 24.04</td></tr>
+            <tr><td>Цена</td><td>около €20 в месяц</td></tr>
+          </table>
+          Локация — США или Европа. Ближе к вам — меньше задержка.
+        </div>
+      </div>
+    </div>
+
+    <div class="item" data-key="vps-pay"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Оплатить сервер картой из подготовки</div>
+        <div class="item__hint">Той же виртуальной картой, которой оплачивали подписки. Списание будет каждый месяц, пока сервер работает.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="vps-credentials"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Сохранить IP-адрес и root-пароль</div>
+        <div class="item__hint">После активации хостинг покажет IP и пароль root. Скопируйте их в менеджер паролей: они понадобятся на каждом следующем шаге.</div>
+      </div>
+    </div>
+
+    <div class="note note--green"><span class="note__icon">✅</span><span><strong>Часть 5 пройдена, если:</strong> сервер активен, у вас на руках его IP-адрес и root-пароль, система — Ubuntu 24.04.</span></div>
+  </div>
+</div>
+
+<!-- ====== 06 ВХОД НА СЕРВЕР ПО КЛЮЧУ ====== -->
+<div class="section">
+  <div class="section__header">
+    <div class="section__num">06</div>
+    <div class="section__title">Вход на сервер по ключу</div>
+    <span class="part-tag">видео 6</span>
+  </div>
+  <div class="section__card">
+    <div class="note note--green"><span class="note__icon">🎯</span><span><strong>Что получите в этой части:</strong> вход на сервер одной короткой командой, без пароля. Дальше Claude Code сам подключается к серверу и ставит на него OpenClaw.</span></div>
+
+    <div class="note note--info"><span class="note__icon">🔑</span><span><strong>Подключение по ключу.</strong> Вместо пароля ваш компьютер предъявляет серверу криптографический ключ. Это быстрее и безопаснее: пароль к такому серверу подобрать нельзя.<br><br><strong>Алиас</strong> — короткое имя сервера. Вместо длинной команды с IP и вводом пароля каждый раз получается одна: <strong>ssh my-server</strong>.</span></div>
+
+    <div class="note note--warn"><span class="note__icon">📋</span><span><strong>Порядок действий:</strong><br>1. Скопируйте промпт ниже.<br>2. Впишите в него реальный IP вашего сервера вместо подсказки в скобках.<br>3. Откройте новую сессию Claude Code.<br>4. Включите режим Bypass Permissions.<br>5. Отправьте промпт и выполняйте указания агента.<br><br>Что-то непонятно — спрашивайте прямо там же, присылайте скриншоты и текст из терминала.</span></div>
+
+    <div class="cmd-copy">
+      <span class="cmd-copy__text" id="promptSsh">Привет! Я только что получил доступ к новому серверу. Его IP-адрес: (ВПИШИТЕ СЮДА IP ВАШЕГО СЕРВЕРА)
+
+Помоги мне настроить подключение к этому серверу по SSH-ключу без пароля. Дай пошаговый план и проведи меня по нему, учитывая что:
+— я новичок и, скорее всего, SSH-ключа у меня ещё нет — нужно будет его сгенерировать;
+— файла ~/.ssh/config у меня тоже может не быть — его нужно создать или дополнить;
+— мне нужно, чтобы подключение работало и здесь, в Claude Code, и из любого терминала на моём устройстве — одной короткой командой, например ssh my-server.
+
+План должен покрывать:
+— Проверку, есть ли уже SSH-ключ на моём компьютере (в папке ~/.ssh/).
+— Генерацию нового ключа (ed25519), если ключа нет — с понятным объяснением, что такое приватный и публичный ключ и зачем passphrase.
+— Копирование публичного ключа на сервер командой ssh-copy-id — с одним вводом пароля root.
+— Добавление алиаса в ~/.ssh/config (Host, HostName, User, IdentityFile), чтобы подключаться коротко.
+— Проверку, что подключение работает без пароля.
+— Отключение парольного входа в /etc/ssh/sshd_config, чтобы сервер нельзя было брутфорсить — со страховкой «второй открытый терминал на случай, если что-то пойдёт не так».
+
+ВАЖНО:
+— Объясняй каждый шаг простыми словами — что мы делаем и зачем.
+— После каждого шага дождись моего подтверждения, прежде чем переходить к следующему.
+— Если я где-то ошибусь, например вставлю команду не туда — поправь и объясни, в чём была ошибка.
+Отвечай на русском, на «ты».</span>
+      <button class="btn-copy" onclick="copyBlock('promptSsh',this)">📋 Копировать промпт</button>
+    </div>
+
+    <div class="item" data-key="ssh-key"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Создать SSH-ключ и положить его на сервер</div>
+        <div class="item__hint">Агент проверит, есть ли ключ, создаст новый при необходимости и скопирует публичную часть на сервер. Пароль root вы введёте один раз — последний.</div>
+      </div>
+    </div>
+
+    <div class="item" data-key="ssh-alias"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Настроить короткое имя и зайти без пароля</div>
+        <div class="item__hint">Проверка простая: выполните <strong>ssh my-server</strong> — вы должны попасть на сервер, и пароль не спросят.<br>Команда работает в любом терминале, включая встроенный в Visual Studio Code.</div>
+      </div>
+    </div>
+
+    <div class="note note--alert"><span class="note__icon">⚠️</span><span><strong>Второй терминал держите открытым.</strong> Перед отключением парольного входа откройте вторую сессию к серверу и не закрывайте её. Если в настройках окажется ошибка, вы почините её из этого окна, а не потеряете доступ к серверу.</span></div>
+
+    <div class="item" data-key="ssh-hardening"><div class="item__check"><input type="checkbox"><span class="cm"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.5 9L10 3" stroke="#0a0a0f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      <div class="item__body">
+        <div class="item__text">Отключить вход по паролю</div>
+        <div class="item__hint">После этого на сервер пускает только ваш ключ. Подобрать пароль перебором станет невозможно.</div>
+      </div>
+    </div>
+
+    <div class="note note--green"><span class="note__icon">✅</span><span><strong>Часть 6 пройдена, если:</strong> команда <strong>ssh my-server</strong> открывает сервер без пароля, вход по паролю отключён, доступ проверен во втором терминале.</span></div>
+  </div>
+</div>
+
+<div class="note note--info" style="margin-top:28px;border-radius:14px;border:1px solid var(--border);"><span class="note__icon">🚧</span><span><strong>Части 7–10 появятся здесь по мере записи видео:</strong> установка OpenClaw · подключение ChatGPT · Telegram и голос · финальная проверка.</span></div>
 
   </div>
 
@@ -561,8 +695,8 @@
   <div class="footer">
     <div class="footer__done" id="doneBlock">
       <div class="footer__done-emoji">🎉</div>
-      <div class="footer__done-text">Части 1–4 закрыты!</div>
-      <div class="footer__done-sub">Редактор, защита, управление и подключённые сервисы на месте. Дальше — сервер.</div>
+      <div class="footer__done-text">Части 1–6 закрыты!</div>
+      <div class="footer__done-sub">Редактор, защита, подключённые сервисы и свой сервер на месте. Дальше — OpenClaw.</div>
     </div>
     <div class="footer__contact">Возникли вопросы? Напишите <a href="https://t.me/stavzzz" target="_blank" class="tg">@stavzzz</a> в&nbsp;Telegram</div>
     <button class="btn-reset" onclick="resetProgress()">Сбросить прогресс</button>
